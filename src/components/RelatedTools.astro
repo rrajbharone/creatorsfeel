@@ -1,0 +1,87 @@
+---
+interface Props {
+  excludeToolName?: string;
+}
+
+const { excludeToolName } = Astro.props;
+
+const allTools = [
+  { name: 'Instagram Engagement Calculator', href: '/tools/instagram-engagement-calculator', desc: 'Audit average interactions and profile tiers.' },
+  { name: 'Influencer Rate Calculator', href: '/tools/influencer-rate-calculator', desc: 'Estimate sponsorship rates and export brand pitches.' },
+  { name: 'YouTube Title Checker', href: '/tools/youtube-title-length-checker', desc: 'Scan titles for length, score, and power words.' }
+];
+
+const filteredTools = excludeToolName 
+  ? allTools.filter(t => t.name !== excludeToolName) 
+  : allTools;
+---
+
+<div class="sidebar-box glass">
+  <h3 class="sidebar-title">Other Creator Tools</h3>
+  <div class="related-list">
+    {filteredTools.map(t => (
+      <a href={t.href} class="related-card">
+        <h4 class="related-name">{t.name}</h4>
+        <p class="related-desc text-muted">{t.desc}</p>
+      </a>
+    ))}
+  </div>
+  <a href="/tools" class="view-all-link">View All Tools &rarr;</a>
+</div>
+
+<style>
+  .sidebar-box {
+    padding: 1.75rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .sidebar-title {
+    font-size: 1.2rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .related-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .related-card {
+    display: block;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    transition: all var(--transition-normal);
+  }
+
+  .related-card:hover {
+    border-color: var(--color-brand);
+    background: var(--color-bg-card-hover);
+    transform: translateY(-2px);
+  }
+
+  .related-name {
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+    color: var(--color-text);
+  }
+
+  .related-desc {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .view-all-link {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-brand);
+    transition: transform var(--transition-fast);
+  }
+
+  .view-all-link:hover {
+    transform: translateX(4px);
+  }
+</style>

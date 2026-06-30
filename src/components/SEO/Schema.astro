@@ -1,0 +1,84 @@
+---
+interface Props {
+  type: 'organization' | 'website' | 'breadcrumb' | 'faq' | 'all';
+  breadcrumbs?: { name: string; item: string }[];
+  faqs?: { question: string; answer: string }[];
+}
+
+const { type, breadcrumbs = [], faqs = [] } = Astro.props;
+
+const origin = Astro.url.origin;
+
+// 1. Organization Schema
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${origin}/#organization`,
+  "name": "CreatorsFeel",
+  "url": origin,
+  "logo": {
+    "@type": "ImageObject",
+    "url": `${origin}/favicon.svg`,
+    "width": "112",
+    "height": "112"
+  },
+  "sameAs": [
+    "https://twitter.com/creatorsfeel",
+    "https://www.instagram.com/creatorsfeel"
+  ]
+};
+
+// 2. WebSite Schema
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${origin}/#website`,
+  "name": "CreatorsFeel",
+  "url": origin,
+  "description": "Premium Free Creator Tools & Analytics",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${origin}/tools?q={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
+// 3. Breadcrumb Schema
+const breadcrumbSchema = breadcrumbs.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbs.map((crumb, idx) => ({
+    "@type": "ListItem",
+    "position": idx + 1,
+    "name": crumb.name,
+    "item": crumb.item.startsWith('http') ? crumb.item : `${origin}${crumb.item}`
+  }))
+} : null;
+
+// 4. FAQ Schema
+const faqSchema = faqs.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+} : null;
+
+const schemasToRender = [];
+if (type === 'organization' || type === 'all') schemasToRender.push(orgSchema);
+if (type === 'website' || type === 'all') schemasToRender.push(websiteSchema);
+if ((type === 'breadcrumb' || type === 'all') && breadcrumbSchema) schemasToRender.push(breadcrumbSchema);
+if ((type === 'faq' || type === 'all') && faqSchema) schemasToRender.push(faqSchema);
+---
+
+{schemasToRender.map(schema => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

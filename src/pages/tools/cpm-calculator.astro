@@ -1,0 +1,825 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What does CPM stand for?",
+    answer: "CPM stands for 'Cost Per Mille'. 'Mille' is the Latin word for thousand, so CPM translates directly to Cost Per Thousand. In digital advertising, it represents the price an advertiser pays for every 1,000 impressions (views) of an advertisement."
+  },
+  {
+    question: "How do you calculate CPM?",
+    answer: "To calculate CPM, divide the total campaign budget (cost) by the total number of impressions, then multiply the result by 1,000. The mathematical formula is: CPM = (Cost / Impressions) * 1,000."
+  },
+  {
+    question: "What is the difference between CPM and CPC?",
+    answer: "CPM (Cost Per Thousand Impressions) charges advertisers based on how many times an ad is displayed, regardless of whether anyone clicks it. CPC (Cost Per Click) only charges advertisers when a viewer actively clicks on the advertisement. CPM is typically used for brand awareness campaigns, while CPC is focused on direct conversions and traffic."
+  },
+  {
+    question: "How does CPM differ from RPM?",
+    answer: "CPM is an advertiser-side metric measuring the cost to buy 1,000 views. RPM (Revenue Per Mille) is a publisher-side metric measuring the earnings generated per 1,000 page views or ad requests. Publishers use RPM to gauge their overall site monetization efficiency."
+  },
+  {
+    question: "What factors influence CPM rates?",
+    answer: "CPM rates vary widely based on geographic targeting (Tier 1 countries like the US see higher CPMs), audience demographics, industry niche (finance and tech command premium rates), ad placement, seasonality (Q4 holiday shopping peak), and ad viewability."
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'CPM Calculator', item: '/tools/cpm-calculator' }
+];
+
+const canonicalUrl = "https://creatorsfeel.com/tools/cpm-calculator";
+---
+
+<ToolLayout
+  title="CPM Calculator - Calculate Campaign Cost & Impressions"
+  description="Free online CPM (Cost Per Mille) calculator. Easily calculate advertising campaign cost, impressions, or CPM rates. Compare ad rates with instant benchmarks."
+  toolName="CPM Calculator"
+  toolDescription="Analyze ad campaign metrics. Toggle between calculating CPM, total cost, or total impressions instantly with advanced audience breakdowns."
+  category="Calculators"
+  faqs={faqs}
+>
+  <!-- Schema Graphs -->
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://creatorsfeel.com/tools/cpm-calculator/#application",
+        "name": "CPM Calculator",
+        "url": "https://creatorsfeel.com/tools/cpm-calculator",
+        "operatingSystem": "All",
+        "applicationCategory": "BusinessApplication",
+        "description": "Calculate Cost Per Mille (CPM), campaign budgets, or impressions instantly with our free online marketing tool.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0.00",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://creatorsfeel.com/tools/cpm-calculator/#faq",
+        "mainEntity": faqs.map(faq => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+          }
+        }))
+      }
+    ]
+  })} />
+
+  <!-- Interactive Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    <!-- Mode selector tabs -->
+    <div class="calculator-mode-selector" role="tablist" aria-label="Calculator Mode">
+      <button type="button" class="mode-tab active" data-mode="cpm" role="tab" aria-selected="true" aria-controls="calc-form-container">
+        <span class="tab-long">Calculate CPM</span>
+        <span class="tab-short">CPM</span>
+      </button>
+      <button type="button" class="mode-tab" data-mode="cost" role="tab" aria-selected="false" aria-controls="calc-form-container">
+        <span class="tab-long">Calculate Cost</span>
+        <span class="tab-short">Cost</span>
+      </button>
+      <button type="button" class="mode-tab" data-mode="impressions" role="tab" aria-selected="false" aria-controls="calc-form-container">
+        <span class="tab-long">Calculate Impressions</span>
+        <span class="tab-short">Impressions</span>
+      </button>
+    </div>
+
+    <div class="calc-grid" id="calc-form-container">
+      <!-- Inputs Form -->
+      <form class="calc-form" id="cpm-form" onsubmit="return false;">
+        <input type="hidden" id="active-mode" value="cpm" />
+
+        <div class="form-group" id="cost-group">
+          <label for="campaign-cost">Total Campaign Cost ($)</label>
+          <input type="number" id="campaign-cost" class="form-input" placeholder="e.g., 500" min="0.01" step="0.01" required />
+          <span class="input-helper">The total budget allocated or spent on the advertising campaign.</span>
+        </div>
+
+        <div class="form-group" id="impressions-group">
+          <label for="total-impressions">Total Impressions (Views)</label>
+          <input type="number" id="total-impressions" class="form-input" placeholder="e.g., 50000" min="1" step="1" required />
+          <span class="input-helper">The total number of times the ad was displayed to users.</span>
+        </div>
+
+        <div class="form-group hidden" id="cpm-group">
+          <label for="cpm-rate">CPM Rate ($)</label>
+          <input type="number" id="cpm-rate" class="form-input" placeholder="e.g., 10.00" min="0.01" step="0.01" />
+          <span class="input-helper">The cost per 1,000 ad impressions (Cost Per Mille).</span>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="calc-submit-btn" class="calc-btn">Calculate Metrics</button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- Results Display -->
+      <div class="calc-results" id="results-wrapper">
+        <!-- Waiting state -->
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0h.5m-.5 0h-9.5m0 0h-.5" />
+          </svg>
+          <h3>Awaiting Calculation</h3>
+          <p class="text-muted">Select your calculation target, enter the required campaign metrics, and click Calculate.</p>
+        </div>
+
+        <!-- Output display -->
+        <div class="results-active hidden" id="res-active-box">
+          <div class="rate-range-box">
+            <h4 class="rate-label" id="res-primary-label">Calculated CPM</h4>
+            <div class="rate-range" id="res-primary-val">$0.00</div>
+            <div class="grade-badge" id="res-benchmark-badge">-</div>
+          </div>
+
+          <!-- Campaign breakdowns -->
+          <div class="breakdown-box">
+            <h4 class="breakdown-title">Cost Per Impression Breakdowns</h4>
+            <div class="breakdown-list">
+              <div class="breakdown-item">
+                <span class="breakdown-label">Cost per 1 Impression:</span>
+                <span class="breakdown-val" id="breakdown-1">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Cost per 100 Impressions:</span>
+                <span class="breakdown-val" id="breakdown-100">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Cost per 1,000 Impressions (CPM):</span>
+                <span class="breakdown-val" id="breakdown-1000">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Cost per 10,000 Impressions:</span>
+                <span class="breakdown-val" id="breakdown-10000">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Cost per 100,000 Impressions:</span>
+                <span class="breakdown-val" id="breakdown-100000">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Insight Box -->
+          <div class="insight-box glass">
+            <h4 class="insight-title" id="res-insight-title">Ad Strategy Insights</h4>
+            <p id="res-insight-desc" class="insight-desc">Based on the calculations, we have analyzed the campaign spend and impression weight.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Educational SEO Content -->
+  <div slot="about">
+    <h2>What is CPM (Cost Per Mille)?</h2>
+    <p>
+      In digital marketing, **CPM** stands for **Cost Per Mille**. "Mille" is the Latin word for thousand, meaning CPM represents the **cost per thousand ad impressions**. It is a baseline payment model used by advertising platforms (like Google AdSense, Meta Ads, and YouTube Partner Program) to price display advertising spaces.
+    </p>
+    <p>
+      An **impression** is counted every time an ad is rendered on a user's screen. The advertiser is charged for the ad display itself, regardless of whether a viewer clicks, interacts, or buys anything from the advertisement.
+    </p>
+
+    <h2>The CPM Formula and Calculations</h2>
+    <p>
+      Understanding the relationship between cost, impressions, and CPM allows advertisers and publishers to balance campaigns efficiently. The three core formulas are:
+    </p>
+
+    <h3>1. Formula for Cost Per Mille (CPM)</h3>
+    <p>
+      When you want to evaluate the price efficiency of an ad placement:
+    </p>
+    <div class="formula-box">
+      CPM = (Total Campaign Cost / Total Impressions) × 1,000
+    </div>
+
+    <h3>2. Formula for Campaign Cost (Budget)</h3>
+    <p>
+      When you have a target CPM and want to find the budget required to get a certain volume of views:
+    </p>
+    <div class="formula-box">
+      Cost = (Total Impressions × CPM) / 1,000
+    </div>
+
+    <h3>3. Formula for Total Impressions (Views)</h3>
+    <p>
+      When you want to know how many views your current budget will yield based on a known CPM rate:
+    </p>
+    <div class="formula-box">
+      Impressions = (Total Campaign Cost / CPM) × 1,000
+    </div>
+
+    <h2>Step-by-Step CPM Examples</h2>
+    <p>
+      Let's walk through concrete examples showing how to calculate CPM:
+    </p>
+    <ul>
+      <li><strong>Example 1: Finding CPM</strong><br />An agency runs an ad campaign on Instagram that costs **$500** and generates **125,000 impressions**. What is the CPM?<br />
+      <code>CPM = ($500 / 125,000) × 1,000 = $4.00</code><br />
+      The advertiser pays **$4.00** for every 1,000 views.</li>
+
+      <li><strong>Example 2: Finding Campaign Budget</strong><br />A YouTuber has a sponsorship placement with a fixed CPM of **$15.00**. A brand wants to buy a placement that will guarantee **250,000 views**. What is the campaign cost?<br />
+      <code>Cost = (250,000 × $15.00) / 1,000 = $3,750.00</code><br />
+      The brand must allocate a budget of **$3,750.00**.</li>
+    </ul>
+
+    <h2>CPM vs CPC vs CPA: Ad Bidding Models Compared</h2>
+    <p>
+      Choosing the correct bidding model determines campaign ROI and spend distribution:
+    </p>
+    <div class="table-responsive">
+      <table style="width: 100%; min-width: 550px; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--color-border); background: var(--color-bg-alt);">
+            <th style="padding: 0.75rem;">Model</th>
+            <th style="padding: 0.75rem;">Charged By</th>
+            <th style="padding: 0.75rem;">Best For</th>
+            <th style="padding: 0.75rem;">Risk Focus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">CPM (Cost Per Mille)</td>
+            <td style="padding: 0.75rem;">1,000 Impressions</td>
+            <td style="padding: 0.75rem;">Brand Awareness & Reach</td>
+            <td style="padding: 0.75rem; color: var(--color-danger);">High (Pay regardless of action)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">CPC (Cost Per Click)</td>
+            <td style="padding: 0.75rem;">Single User Click</td>
+            <td style="padding: 0.75rem;">Website Traffic & Lead Gen</td>
+            <td style="padding: 0.75rem; color: var(--color-warning);">Medium (Only pay when clicked)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">CPA (Cost Per Acquisition)</td>
+            <td style="padding: 0.75rem;">Specific Action (Sale/Sign-up)</td>
+            <td style="padding: 0.75rem;">Direct Sales & E-commerce</td>
+            <td style="padding: 0.75rem; color: var(--color-success);">Low (Only pay when sale converts)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>CPM vs RPM: What's the Difference?</h2>
+    <p>
+      While CPM and RPM sound identical, they describe opposite sides of the ad transaction:
+    </p>
+    <ul>
+      <li><strong>CPM (Cost Per Mille)</strong> is the **advertiser's cost**. It represents how much money the advertiser spends to buy 1,000 impressions.</li>
+      <li><strong>RPM (Revenue Per Mille)</strong> is the **publisher's revenue**. It represents how much money a website creator earns per 1,000 page views or ad requests. Because ad platforms take a revenue share cut, a publisher's RPM is typically lower than the advertiser's average CPM.</li>
+    </ul>
+
+    <h2>Best Practices to Optimize Campaign CPM</h2>
+    <p>
+      High CPMs can drain budgets without delivering conversions. Lower your CPM rates using these tips:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Refine Audience Targeting:</strong> Extremely narrow targeting increases bid competition. Broaden your targeting metrics slightly to lower bidding friction.</li>
+      <li><strong>Improve Ad Quality & Relevance:</strong> Ad networks reward high-quality, engaging ad assets. Better Click-Through Rates (CTR) score higher relevancy points, reducing average auction CPMs.</li>
+      <li><strong>Cap Frequency Audits:</strong> Displaying the same ad repeatedly to the same user causes ad fatigue, lowering click rates and driving up auction costs. Place frequency caps to limit post exposures per user.</li>
+    </ol>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Calculator Selector CSS */
+  .calculator-mode-selector {
+    display: flex;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 0.25rem;
+    border-radius: var(--radius-lg);
+    margin-bottom: 1.5rem;
+    gap: 0.25rem;
+  }
+
+  .mode-tab {
+    flex: 1;
+    height: 40px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mode-tab:hover {
+    color: var(--color-text);
+    background: var(--color-bg-card);
+  }
+
+  .mode-tab.active {
+    color: var(--color-brand);
+    background: var(--color-bg-card);
+    box-shadow: 0 2px 8px var(--color-shadow-hover);
+  }
+
+  .tab-short {
+    display: inline;
+  }
+
+  .tab-long {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .tab-short {
+      display: none;
+    }
+
+    .tab-long {
+      display: inline;
+    }
+  }
+
+  /* Formula and Table responsiveness fixes */
+  .formula-box {
+    background: var(--color-bg-alt);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    margin: 1.25rem 0;
+    font-family: monospace;
+    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+    text-align: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .table-responsive {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1.5rem 0;
+    box-sizing: border-box;
+  }
+
+  code {
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .calc-card {
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: opacity var(--transition-fast) ease;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+  }
+
+  .form-input:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .input-helper {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    color: var(--color-text);
+    border-color: var(--color-brand);
+    background: var(--color-bg-card);
+  }
+
+  /* Results styling */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 350px;
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .rate-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .rate-range {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 800;
+    color: var(--color-text);
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-full);
+    background: var(--gradient-glow);
+    border: 1px solid var(--glass-border);
+    color: var(--color-brand);
+  }
+
+  /* Breakdown Table styling */
+  .breakdown-box {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+  }
+
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .breakdown-val {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* Insight styling */
+  .insight-box {
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .insight-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+    color: var(--color-text);
+  }
+
+  .insight-desc {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Rules */
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+    }
+    
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+    }
+  }
+</style>
+
+<script>
+  const setupCpmCalculator = () => {
+    // DOM selectors
+    const tabs = document.querySelectorAll('.mode-tab');
+    const costGroup = document.getElementById('cost-group');
+    const impressionsGroup = document.getElementById('impressions-group');
+    const cpmGroup = document.getElementById('cpm-group');
+    const activeModeInput = document.getElementById('active-mode') as HTMLInputElement;
+
+    const costInput = document.getElementById('campaign-cost') as HTMLInputElement;
+    const impressionsInput = document.getElementById('total-impressions') as HTMLInputElement;
+    const cpmInput = document.getElementById('cpm-rate') as HTMLInputElement;
+
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+
+    const resPrimaryLabel = document.getElementById('res-primary-label');
+    const resPrimaryVal = document.getElementById('res-primary-val');
+    const resBenchmarkBadge = document.getElementById('res-benchmark-badge');
+
+    const breakdown1 = document.getElementById('breakdown-1');
+    const breakdown100 = document.getElementById('breakdown-100');
+    const breakdown1000 = document.getElementById('breakdown-1000');
+    const breakdown10000 = document.getElementById('breakdown-10000');
+    const breakdown100000 = document.getElementById('breakdown-100000');
+
+    const resInsightTitle = document.getElementById('res-insight-title');
+    const resInsightDesc = document.getElementById('res-insight-desc');
+
+    if (!submitBtn || !resetBtn) return;
+
+    // Toggle Modes
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+
+        const mode = tab.getAttribute('data-mode') || 'cpm';
+        if (activeModeInput) activeModeInput.value = mode;
+
+        // Reset display states
+        costGroup?.classList.remove('hidden');
+        impressionsGroup?.classList.remove('hidden');
+        cpmGroup?.classList.remove('hidden');
+
+        // Required updates
+        if (costInput) costInput.required = false;
+        if (impressionsInput) impressionsInput.required = false;
+        if (cpmInput) cpmInput.required = false;
+
+        if (mode === 'cpm') {
+          cpmGroup?.classList.add('hidden');
+          if (costInput) costInput.required = true;
+          if (impressionsInput) impressionsInput.required = true;
+        } else if (mode === 'cost') {
+          costGroup?.classList.add('hidden');
+          if (cpmInput) cpmInput.required = true;
+          if (impressionsInput) impressionsInput.required = true;
+        } else if (mode === 'impressions') {
+          impressionsGroup?.classList.add('hidden');
+          if (costInput) costInput.required = true;
+          if (cpmInput) cpmInput.required = true;
+        }
+
+        // Hide old results
+        activeBox?.classList.add('hidden');
+        emptyBox?.classList.remove('hidden');
+      });
+    });
+
+    // Reset Form
+    resetBtn.addEventListener('click', () => {
+      if (costInput) costInput.value = '';
+      if (impressionsInput) impressionsInput.value = '';
+      if (cpmInput) cpmInput.value = '';
+      activeBox?.classList.add('hidden');
+      emptyBox?.classList.remove('hidden');
+    });
+
+    // Perform Calculations
+    const runCalculation = (showErrors = true) => {
+      const mode = activeModeInput ? activeModeInput.value : 'cpm';
+      
+      const cost = parseFloat(costInput?.value || '0');
+      const impressions = parseInt(impressionsInput?.value || '0', 10);
+      const cpm = parseFloat(cpmInput?.value || '0');
+
+      let computedCpm = 0;
+      let computedCost = 0;
+      let computedImpressions = 0;
+
+      if (mode === 'cpm') {
+        if (!cost || !impressions || impressions <= 0) {
+          if (showErrors) alert('Please enter a valid campaign cost and positive impressions.');
+          return;
+        }
+        computedCpm = (cost / impressions) * 1000;
+        computedCost = cost;
+        computedImpressions = impressions;
+
+        if (resPrimaryLabel) resPrimaryLabel.textContent = 'Calculated CPM';
+        if (resPrimaryVal) resPrimaryVal.textContent = `$${computedCpm.toFixed(2)}`;
+      } else if (mode === 'cost') {
+        if (!cpm || !impressions || impressions <= 0 || cpm <= 0) {
+          if (showErrors) alert('Please enter a valid CPM rate and positive impressions.');
+          return;
+        }
+        computedCost = (impressions * cpm) / 1000;
+        computedCpm = cpm;
+        computedImpressions = impressions;
+
+        if (resPrimaryLabel) resPrimaryLabel.textContent = 'Estimated Cost';
+        if (resPrimaryVal) resPrimaryVal.textContent = `$${computedCost.toFixed(2)}`;
+      } else if (mode === 'impressions') {
+        if (!cost || !cpm || cost <= 0 || cpm <= 0) {
+          if (showErrors) alert('Please enter a valid campaign budget and CPM rate.');
+          return;
+        }
+        computedImpressions = Math.round((cost / cpm) * 1000);
+        computedCpm = cpm;
+        computedCost = cost;
+
+        if (resPrimaryLabel) resPrimaryLabel.textContent = 'Calculated Impressions';
+        if (resPrimaryVal) resPrimaryVal.textContent = computedImpressions.toLocaleString();
+      }
+
+      // 1. Benchmark rating for CPM
+      if (resBenchmarkBadge) {
+        if (computedCpm < 5.00) {
+          resBenchmarkBadge.textContent = 'Low CPM';
+          resBenchmarkBadge.style.color = 'var(--color-success)';
+        } else if (computedCpm >= 5.00 && computedCpm <= 15.00) {
+          resBenchmarkBadge.textContent = 'Average CPM';
+          resBenchmarkBadge.style.color = 'var(--color-brand)';
+        } else {
+          resBenchmarkBadge.textContent = 'High CPM';
+          resBenchmarkBadge.style.color = 'var(--color-warning)';
+        }
+      }
+
+      // 2. Breakdown calculations
+      const costPerImpression = computedCost / computedImpressions;
+      if (breakdown1) breakdown1.textContent = `$${costPerImpression.toFixed(4)}`;
+      if (breakdown100) breakdown100.textContent = `$${(costPerImpression * 100).toFixed(4)}`;
+      if (breakdown1000) breakdown1000.textContent = `$${computedCpm.toFixed(2)}`;
+      if (breakdown10000) breakdown10000.textContent = `$${(computedCpm * 10).toFixed(2)}`;
+      if (breakdown100000) breakdown100000.textContent = `$${(computedCpm * 100).toFixed(2)}`;
+
+      // 3. Update Analyst Insights
+      if (resInsightTitle && resInsightDesc) {
+        resInsightTitle.textContent = 'CreatorsFeel Ad Analyst Insights';
+        
+        let insight = '';
+        if (computedCpm < 5) {
+          insight = `A CPM of $${computedCpm.toFixed(2)} is highly cost-efficient. This is typical for broad-interest Facebook/Instagram campaigns targeting Tier 2 or Tier 3 countries. To maintain this, focus on optimizing your click-through rate (CTR).`;
+        } else if (computedCpm >= 5 && computedCpm <= 15) {
+          insight = `A CPM of $${computedCpm.toFixed(2)} falls within the standard global average. This rate is healthy for targeted demographic advertising on YouTube or standard B2C interest channels.`;
+        } else {
+          insight = `A CPM of $${computedCpm.toFixed(2)} is premium. This is common in finance, business software (SaaS), healthcare, or micro-targeted campaigns. Ensure your landing pages are optimized to capture leads and justify this cost.`;
+        }
+        resInsightDesc.textContent = insight;
+      }
+
+      // Swap views
+      emptyBox?.classList.add('hidden');
+      activeBox?.classList.remove('hidden');
+    };
+
+    // Calculate on submit click
+    submitBtn.addEventListener('click', () => {
+      runCalculation(true);
+      setTimeout(() => {
+        const resultsBox = document.getElementById('results-wrapper');
+        if (resultsBox && !resultsBox.classList.contains('hidden')) {
+          const headerOffset = 90;
+          const elementPosition = resultsBox.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 50);
+    });
+
+    // Calculate on real-time typing inputs
+    [costInput, impressionsInput, cpmInput].forEach(input => {
+      input?.addEventListener('input', () => runCalculation(false));
+    });
+  };
+
+  setupCpmCalculator();
+  document.addEventListener('astro:after-swap', setupCpmCalculator);
+</script>

@@ -1,0 +1,254 @@
+---
+const currentYear = new Date().getFullYear();
+
+const footerLinks = [
+  {
+    title: 'Popular Tools',
+    links: [
+      { label: 'Instagram Engagement Calculator', href: '/tools/instagram-engagement-calculator' },
+      { label: 'Influencer Rate Calculator', href: '/tools/influencer-rate-calculator' },
+      { label: 'YouTube Title Checker', href: '/tools/youtube-title-length-checker' }
+    ]
+  },
+  {
+    title: 'Resources',
+    links: [
+      { label: 'Tools Directory', href: '/tools' },
+      { label: 'Blog & Insights', href: '/blog' },
+      { label: 'About Us', href: '/about' },
+      { label: 'Contact Us', href: '/contact' }
+    ]
+  },
+  {
+    title: 'Legal',
+    links: [
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms of Service', href: '/terms' },
+      { label: 'Disclaimer', href: '/disclaimer' }
+    ]
+  }
+];
+---
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-brand-column">
+      <a href="/" class="footer-logo" aria-label="CreatorsFeel Home">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" class="logo-icon" aria-hidden="true">
+          <defs>
+            <linearGradient id="footer-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="var(--color-brand)" />
+              <stop offset="100%" stop-color="#a855f7" />
+            </linearGradient>
+          </defs>
+          <path d="M4 16h4l2-6 3 12 2-8 2 2h3" stroke="url(#footer-logo-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M20 11v10l8-5-8-5z" fill="url(#footer-logo-grad)" stroke="url(#footer-logo-grad)" stroke-width="1.5" stroke-linejoin="round" />
+        </svg>
+        <span class="logo-accent">Creators</span><span>Feel</span>
+      </a>
+      <p class="brand-desc text-muted">
+        Premium analytics and marketing tools for modern creators. Optimize your engagement, check titles, estimate pricing, and scale your brand.
+      </p>
+      <div class="social-links">
+        <a href="https://twitter.com/creatorsfeel" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+        </a>
+        <a href="https://instagram.com/creatorsfeel" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </div>
+    </div>
+
+    {footerLinks.map(column => (
+      <div class="footer-column">
+        <h4 class="footer-column-title">{column.title}</h4>
+        <nav class="footer-links-list" aria-label={`${column.title} links`}>
+          {column.links.map(link => (
+            <a href={link.href} class="footer-link">{link.label}</a>
+          ))}
+        </nav>
+      </div>
+    ))}
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom-container">
+      <p class="copyright text-muted">&copy; {currentYear} CreatorsFeel. Built for the next generation of social media professionals.</p>
+      <p class="disclosure text-muted">Disclaimer: CreatorsFeel is an independent platform and is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Instagram, YouTube, TikTok, or Meta.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-xl);
+    margin-top: auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-bottom: var(--space-xl);
+  }
+
+  .footer-brand-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .logo-accent {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .brand-desc {
+    max-width: 360px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    justify-content: center;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    transition: all var(--transition-normal);
+  }
+
+  .social-link:hover {
+    color: var(--color-brand);
+    border-color: var(--color-brand);
+    background: var(--color-bg-card);
+    transform: translateY(-2px);
+  }
+
+  .social-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .footer-column {
+    text-align: center;
+  }
+
+  .footer-column-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .footer-links-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .footer-link {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .footer-link:hover {
+    color: var(--color-text);
+    transform: translateX(2px);
+  }
+
+  .footer-bottom {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-md);
+    background: var(--color-bg);
+  }
+
+  .footer-bottom-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .copyright {
+    font-size: 0.85rem;
+  }
+
+  .disclosure {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  /* Responsive Rules */
+  @media (min-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .footer-brand-column {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .social-links {
+      justify-content: flex-start;
+    }
+
+    .footer-column {
+      text-align: left;
+    }
+
+    .footer-links-list {
+      align-items: flex-start;
+    }
+
+    .footer-bottom-container {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .disclosure {
+      text-align: justify;
+    }
+  }
+</style>

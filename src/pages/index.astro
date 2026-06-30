@@ -1,17 +1,454 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/Card.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import { getCollection } from 'astro:content';
 
+// Fetch latest blog posts (sorted by date, limit to 3)
+let blogPosts = [];
+try {
+  const allPosts = await getCollection('blog');
+  blogPosts = allPosts
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .slice(0, 3);
+} catch (e) {
+  // Fallback in case collections are not yet populated
+  blogPosts = [];
+}
+
+const featuredTools = [
+  {
+    title: 'Instagram Engagement Calculator',
+    description: 'Audit your Instagram profile health. Compute engagement rates, like-to-comment ratios, and performance tiers.',
+    href: '/tools/instagram-engagement-calculator',
+    badge: 'Popular',
+    badgeType: 'success' as const,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" /></svg>`
+  },
+  {
+    title: 'Influencer Rate Calculator',
+    description: 'Estimate your sponsored post rates based on followers, engagement, format, and niche. Export brand pitch templates.',
+    href: '/tools/influencer-rate-calculator',
+    badge: 'Trending',
+    badgeType: 'brand' as const,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>`
+  },
+  {
+    title: 'YouTube Title Checker',
+    description: 'Check your titles for optimal character counts. Preview YouTube search layouts and scan for power keywords.',
+    href: '/tools/youtube-title-length-checker',
+    badge: 'New',
+    badgeType: 'info' as const,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" /></svg>`
+  }
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+  <!-- Hero Section -->
+  <section class="hero-section text-center">
+    <div class="container hero-container">
+      <span class="hero-tagline">100% Free Creator Marketing Tools</span>
+      <h1 class="hero-title">Create Better. Analyze Faster. <span class="text-gradient">Grow Smarter.</span></h1>
+      <p class="hero-desc text-muted">
+        Unlock premium, ad-free analytics tools designed to audit engagement, estimate sponsored rates, and optimize titles for maximum reach. Built for creators, influencers, and digital marketers.
+      </p>
+      <div class="hero-actions">
+        <a href="/tools" class="hero-btn-primary">Explore All Tools</a>
+        <a href="#why-choose-us" class="hero-btn-secondary">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Tools Section -->
+  <section class="featured-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title">Featured Creator Tools</h2>
+        <p class="section-subtitle text-muted">Try our core tools built for instant social media optimization.</p>
+      </div>
+
+      <div class="tools-grid">
+        {featuredTools.map(tool => (
+          <Card 
+            title={tool.title} 
+            description={tool.description} 
+            href={tool.href}
+            badge={tool.badge}
+            badgeType={tool.badgeType}
+            icon={tool.icon}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Browse by Category Section -->
+  <section class="categories-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title">Explore Creator Directories</h2>
+        <p class="section-subtitle text-muted">Find the right specialized utility to audit performance and audit layouts.</p>
+      </div>
+
+      <div class="categories-grid">
+        <CategoryCard 
+          title="Calculators & Analytics"
+          description="Audit interaction statistics, calculate engagement rates, evaluate post-earnings, and map sponsored campaign CPMs."
+          icon={`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" /></svg>`}
+          count={3}
+          href="/tools?cat=Calculators"
+        />
+        <CategoryCard 
+          title="Writing & SEO Tools"
+          description="Scan titles for character limit thresholds, capitalization guidelines, power trigger words, and layout crop warnings."
+          icon={`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" /></svg>`}
+          count={2}
+          href="/tools?cat=Writing%20Tools"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="why-us-section" id="why-choose-us">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title">Why Creators Choose Us</h2>
+        <p class="section-subtitle text-muted">A premium toolset built around privacy, speed, and clean metrics.</p>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-card glass">
+          <div class="why-icon-box" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="why-icon"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+          </div>
+          <h3>Instant Calculations</h3>
+          <p class="text-muted">No loading states or page refreshes. Get your metrics in real-time as you enter your figures.</p>
+        </div>
+        <div class="why-card glass">
+          <div class="why-icon-box" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="why-icon"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+          </div>
+          <h3>100% Privacy Focused</h3>
+          <p class="text-muted">We process all calculations locally in your browser. We never store, log, or resell your profile statistics.</p>
+        </div>
+        <div class="why-card glass">
+          <div class="why-icon-box" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="why-icon"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+          </div>
+          <h3>Premium & Ad-Free</h3>
+          <p class="text-muted">A clean, dark-mode friendly user interface optimized for maximum readability. No paywalls or annoying ads.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Blog Posts Section -->
+  {blogPosts.length > 0 && (
+    <section class="latest-blog-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <h2 class="section-title">Latest Creator Insights</h2>
+          <p class="section-subtitle text-muted">Practical strategies, platform updates, and copywriting templates.</p>
+        </div>
+
+        <div class="blog-grid">
+          {blogPosts.map(post => (
+            <article class="blog-card glass">
+              {post.data.image && (
+                <img src={post.data.image} alt={post.data.title} class="blog-card-img" loading="lazy" />
+              )}
+              <div class="blog-card-content">
+                <div class="blog-card-meta">
+                  <time datetime={post.data.pubDate.toISOString()}>
+                    {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </time>
+                  <span>&bull;</span>
+                  <span>By {post.data.author}</span>
+                </div>
+                <h3 class="blog-card-title"><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
+                <p class="blog-card-desc text-muted">{post.data.description}</p>
+                <a href={`/blog/${post.id}`} class="blog-read-more">Read Article &rarr;</a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Call to Action Section -->
+  <section class="cta-section text-center">
+    <div class="container cta-container glass">
+      <h2 class="cta-title">Ready to Optimize Your Content?</h2>
+      <p class="cta-desc text-muted">
+        Stop guessing your sponsorship rates or video titles. Access all our calculators and checklists now.
+      </p>
+      <a href="/tools" class="cta-btn">Get Started Now &rarr;</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero Section */
+  .hero-section {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-container {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .hero-tagline {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--gradient-glow);
+    padding: 0.35rem 1rem;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--glass-border);
+    color: var(--color-brand);
+  }
+
+  .hero-title {
+    line-height: 1.1;
+  }
+
+  .text-gradient {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-desc {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    max-width: 650px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .hero-btn-primary {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    transition: all var(--transition-normal);
+  }
+
+  .hero-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  .hero-btn-secondary {
+    height: 48px;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    background: var(--color-bg-card);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    transition: all var(--transition-normal);
+  }
+
+  .hero-btn-secondary:hover {
+    border-color: var(--color-brand);
+    background: var(--color-bg-card-hover);
+  }
+
+  /* Section Headers */
+  .featured-section, .categories-section, .why-us-section, .latest-blog-section, .cta-section {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+  }
+
+  .section-header {
+    margin-bottom: var(--space-lg);
+  }
+
+  .section-title {
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem;
+  }
+
+  /* Grids */
+  .tools-grid, .categories-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  /* Why Us Grid */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .why-card {
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .why-icon-box {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: var(--gradient-glow);
+    border: 1px solid var(--glass-border);
+    color: var(--color-brand);
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+  }
+
+  .why-icon-box :global(svg) {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Blog Cards */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .blog-card {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .blog-card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .blog-card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex-grow: 1;
+  }
+
+  .blog-card-meta {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .blog-card-title {
+    font-size: 1.2rem;
+  }
+
+  .blog-card-desc {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+
+  .blog-read-more {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-brand);
+    align-self: flex-start;
+  }
+
+  /* CTA Section */
+  .cta-container {
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    max-width: 900px;
+  }
+
+  .cta-title {
+    letter-spacing: -0.01em;
+  }
+
+  .cta-desc {
+    max-width: 550px;
+    font-size: 1.05rem;
+  }
+
+  .cta-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    transition: all var(--transition-normal);
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  /* Responsive Rules */
+  @media (min-width: 480px) {
+    .hero-actions {
+      flex-direction: row;
+      justify-content: center;
+    }
+    
+    .hero-btn-primary, .hero-btn-secondary {
+      width: auto;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .tools-grid, .why-grid, .blog-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .categories-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

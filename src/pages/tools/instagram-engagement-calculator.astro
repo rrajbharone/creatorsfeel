@@ -1,0 +1,415 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is a good engagement rate on Instagram?",
+    answer: "For most accounts, an engagement rate between 3% and 6% is considered good. Higher than 6% is excellent, while rates below 1.5% may suggest you need to work on content relevance, hashtags, or clearing out inactive accounts."
+  },
+  {
+    question: "How is the Instagram engagement rate calculated?",
+    answer: "We use the standard industry formula: (Average Likes + Average Comments per post) divided by total Follower Count, multiplied by 100. This measures how active your actual audience is relative to your total size."
+  },
+  {
+    question: "Why does my engagement rate drop as my account grows?",
+    answer: "This is a natural platform trend. As follower size grows, Instagram's algorithm distributes content to a broader audience, which often leads to lower relative engagement percentages. Micro-creators (under 10k followers) typically have the highest engagement rates."
+  }
+];
+---
+
+<ToolLayout
+  title="Instagram Engagement Calculator - Audit Profile Health"
+  description="Calculate your Instagram engagement rate. Analyze account health, get personalized feedback grades, and discover actionable strategies to grow."
+  toolName="Instagram Engagement Calculator"
+  toolDescription="Analyze your average post likes, comments, and followers to calculate your real audience engagement rate."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <div class="calc-grid">
+      <!-- Inputs Form -->
+      <form class="calc-form" id="engagement-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="followers">Total Followers</label>
+          <input type="number" id="followers" class="form-input" placeholder="e.g., 15000" min="10" required />
+        </div>
+
+        <div class="form-group">
+          <label for="likes">Average Likes (Last 12 posts)</label>
+          <input type="number" id="likes" class="form-input" placeholder="e.g., 450" min="0" required />
+          <span class="input-helper">Find the sum of likes on your last 12 posts and divide by 12.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="comments">Average Comments (Last 12 posts)</label>
+          <input type="number" id="comments" class="form-input" placeholder="e.g., 30" min="0" required />
+          <span class="input-helper">Find the sum of comments on your last 12 posts and divide by 12.</span>
+        </div>
+
+        <button type="button" id="calc-submit" class="calc-btn">Analyze Engagement Health</button>
+      </form>
+
+      <!-- Results Display -->
+      <div class="calc-results" id="results-container">
+        <div class="empty-state text-center" id="results-empty">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+          </svg>
+          <h3>Audit Awaiting Input</h3>
+          <p class="text-muted">Enter your Instagram follower counts and average post metrics to run the engagement audit.</p>
+        </div>
+
+        <div class="results-active hidden" id="results-content">
+          <div class="rate-range-box">
+            <h4 class="rate-label">Engagement Rate</h4>
+            <div class="rate-range" id="res-rate">0.00%</div>
+            <div class="grade-badge" id="res-grade-badge">Average</div>
+          </div>
+
+          <div class="metrics-subgrid">
+            <div class="metric-card glass">
+              <span class="metric-title">Interactions / Post</span>
+              <span class="metric-value" id="res-total-interactions">0</span>
+            </div>
+            <div class="metric-card glass">
+              <span class="metric-title">Like-to-Comment Ratio</span>
+              <span class="metric-value" id="res-ratio">0:0</span>
+            </div>
+          </div>
+
+          <!-- Insight Box -->
+          <div class="insight-box glass">
+            <h4 class="insight-title">CreatorsFeel Analyst Insights</h4>
+            <p id="res-insight" class="insight-desc">-</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>Why Instagram Engagement is More Important Than Followers</h2>
+    <p>
+      For years, follower count was the gold standard metric. However, brands and algorithms have evolved. Today, engagement rate is the single most important indicator of a creator's influence:
+    </p>
+    <ul>
+      <li><strong>Algorithmic Reach:</strong> Instagram's feed algorithm prioritizes content that users actively comment on, share, and save. High initial engagement triggers wider distribution on the Explore page and Reel feeds.</li>
+      <li><strong>Real Brand ROI:</strong> A creator with 10,000 followers and a 6% engagement rate (600 active users) is often more valuable to a brand than a creator with 100,000 followers and a 0.5% engagement rate (500 active users) because active audiences convert at higher rates.</li>
+      <li><strong>Audience Authenticity:</strong> Low engagement rates often signal inactive followers, bot accounts, or mismatched target audience demographics.</li>
+    </ul>
+
+    <h2>How to Improve Your Instagram Engagement Rate</h2>
+    <p>
+      If your engagement audit grade is "Average" or "Poor", don't panic. You can take immediate, structural steps to boost interactions:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Optimize Your Call-to-Actions (CTAs):</strong> Don't just post content; invite responses. Ask specific questions, run polls, or prompt users to tag friends in the comment section.</li>
+      <li><strong>Reply Promptly to Comments:</strong> The algorithm rewards rapid-fire conversations. Replying within the first 60 minutes of posting boosts feed prominence.</li>
+      <li><strong>Prioritize Saves and Shares:</strong> Design educational carousels, infographics, or relatable reels. Users share items that resonate and save items they want to reference later, which strongly weights algorithm rankings.</li>
+    </ol>
+  </div>
+</ToolLayout>
+
+<style>
+  .calc-card {
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+  }
+
+  .form-input:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .input-helper {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  /* Results styling */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 350px;
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .rate-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .rate-range {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 800;
+    color: var(--color-text);
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-full);
+  }
+
+  .badge-success { background: rgba(16, 185, 129, 0.1); color: var(--color-success); border: 1px solid rgba(16, 185, 129, 0.2); }
+  .badge-brand { background: rgba(99, 102, 241, 0.1); color: var(--color-brand); border: 1px solid rgba(99, 102, 241, 0.2); }
+  .badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--color-warning); border: 1px solid rgba(245, 158, 11, 0.2); }
+  .badge-danger { background: rgba(239, 68, 68, 0.1); color: var(--color-danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+
+  .metrics-subgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .metric-card {
+    padding: 1rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .metric-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .metric-value {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .insight-box {
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+  }
+
+  .insight-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .insight-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Rules */
+  @media (min-width: 768px) {
+    .calc-grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+</style>
+
+<script>
+  const setupEngagementCalculator = () => {
+    const submitBtn = document.getElementById('calc-submit');
+    if (!submitBtn) return;
+
+    const emptyState = document.getElementById('results-empty');
+    const contentState = document.getElementById('results-content');
+
+    // Outputs
+    const resRate = document.getElementById('res-rate');
+    const resGradeBadge = document.getElementById('res-grade-badge');
+    const resTotal = document.getElementById('res-total-interactions');
+    const resRatio = document.getElementById('res-ratio');
+    const resInsight = document.getElementById('res-insight');
+
+    submitBtn.addEventListener('click', () => {
+      // Inputs
+      const followersInput = document.getElementById('followers') as HTMLInputElement;
+      const likesInput = document.getElementById('likes') as HTMLInputElement;
+      const commentsInput = document.getElementById('comments') as HTMLInputElement;
+
+      const followers = parseFloat(followersInput.value);
+      const likes = parseFloat(likesInput.value);
+      const comments = parseFloat(commentsInput.value);
+
+      if (!followers || isNaN(likes) || isNaN(comments)) {
+        alert("Please enter valid figures for Followers, Likes, and Comments.");
+        return;
+      }
+
+      // Calculations
+      const totalInteractions = likes + comments;
+      const rate = followers > 0 ? (totalInteractions / followers) * 100 : 0;
+      
+      // Calculate ratio
+      let ratioText = "N/A";
+      if (comments > 0) {
+        const ratio = likes / comments;
+        ratioText = `${Math.round(ratio)}:1`;
+      } else if (likes > 0) {
+        ratioText = "Likes Only";
+      }
+
+      // Grade classification
+      let grade = "";
+      let badgeClass = "";
+      let insightText = "";
+
+      if (rate >= 6.0) {
+        grade = "Excellent";
+        badgeClass = "badge-success";
+        insightText = "Exceptional performance! Your audience is highly engaged and highly active. Brands love partnering with accounts that achieve over 6% engagement because it drives excellent ROI and conversion numbers.";
+      } else if (rate >= 3.0) {
+        grade = "Good";
+        badgeClass = "badge-brand";
+        insightText = "Healthy account stats! Your engagement rate lies comfortably within the industry-standard healthy sweet spot. Continue to engage with your followers in comments and run weekly polls on stories to nudge this rate higher.";
+      } else if (rate >= 1.5) {
+        grade = "Average";
+        badgeClass = "badge-warning";
+        insightText = "Moderate engagement. Your posts attract a basic level of attention, but there is room for improvement. Focus on creating more shareable and saveable carousel guides, and try to reply to comments within the first hour of posting.";
+      } else {
+        grade = "Poor";
+        badgeClass = "badge-danger";
+        insightText = "Below average. Your audience is mostly passive. Consider cleaning out inactive followers or bots, adjusting your content niche to better match what your active followers enjoy, and using stronger calls-to-action.";
+      }
+
+      // Update UI
+      if (resRate) resRate.textContent = `${rate.toFixed(2)}%`;
+      if (resTotal) resTotal.textContent = totalInteractions.toLocaleString();
+      if (resRatio) resRatio.textContent = ratioText;
+      
+      if (resGradeBadge) {
+        resGradeBadge.textContent = grade;
+        resGradeBadge.className = `grade-badge ${badgeClass}`;
+      }
+
+      if (resInsight) resInsight.textContent = insightText;
+
+      // Swap States
+      if (emptyState) emptyState.classList.add('hidden');
+      if (contentState) contentState.classList.remove('hidden');
+
+      // Scroll to Results
+      setTimeout(() => {
+        const resultsBox = document.getElementById('results-container');
+        if (resultsBox) {
+          const headerOffset = 90;
+          const elementPosition = resultsBox.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 50);
+    });
+  };
+
+  setupEngagementCalculator();
+  document.addEventListener('astro:after-swap', setupEngagementCalculator);
+</script>

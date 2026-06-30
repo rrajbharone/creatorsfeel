@@ -1,0 +1,218 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import RelatedTools from '../components/RelatedTools.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  toolName: string;
+  toolDescription: string;
+  category: string;
+  faqs?: { question: string; answer: string }[];
+}
+
+const { title, description, toolName, toolDescription, category, faqs = [] } = Astro.props;
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: toolName, item: Astro.url.pathname }
+];
+---
+
+<BaseLayout 
+  title={title} 
+  description={description} 
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+>
+  <article class="tool-page-container container">
+    <!-- Reusable Breadcrumbs Navigation -->
+    <Breadcrumbs items={breadcrumbs} />
+
+    <!-- Tool Header -->
+    <header class="tool-header text-center">
+      <span class="tool-badge">{category}</span>
+      <h1 class="tool-title">{toolName}</h1>
+      <p class="tool-desc text-muted">{toolDescription}</p>
+    </header>
+
+    <!-- Main Tool Calculator Slot -->
+    <section class="tool-calculator-section" aria-label="Tool Calculator">
+      <slot name="calculator" />
+    </section>
+
+    <!-- Tool Editorial & SEO Information -->
+    <div class="tool-content-grid">
+      <section class="tool-editorial" aria-label="About this tool">
+        <slot name="about" />
+        
+        {faqs.length > 0 && (
+          <section class="tool-faqs" aria-label="Frequently Asked Questions">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+              {faqs.map(faq => (
+                <details class="faq-item">
+                  <summary class="faq-question">{faq.question}</summary>
+                  <div class="faq-answer">
+                    <p>{faq.answer}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
+      </section>
+
+      <!-- Sidebar with other tools -->
+      <aside class="tool-sidebar" aria-label="Related tools sidebar">
+        <div class="sticky-sidebar-container">
+          <RelatedTools excludeToolName={toolName} />
+        </div>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .tool-page-container {
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-xl);
+  }
+
+  /* Tool Header */
+  .tool-header {
+    margin-bottom: var(--space-lg);
+  }
+
+  .tool-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--gradient-glow);
+    border: 1px solid var(--glass-border);
+    color: var(--color-brand);
+    border-radius: var(--radius-full);
+    margin-bottom: 0.75rem;
+  }
+
+  .tool-title {
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .tool-desc {
+    max-width: var(--max-width-text);
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.1rem;
+  }
+
+  /* Calculator Slot Wrapper */
+  .tool-calculator-section {
+    margin-bottom: var(--space-xl);
+  }
+
+  /* Editorial & Sidebar Layout */
+  .tool-content-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-xl);
+  }
+
+  .tool-editorial {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  /* HTML styling in slotted content */
+  .tool-editorial :global(h2) {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.75rem;
+  }
+
+  .tool-editorial :global(p) {
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
+  }
+
+  .tool-editorial :global(ul) {
+    margin-left: 1.5rem;
+    margin-bottom: 1.25rem;
+    color: var(--color-text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* FAQs Accordion */
+  .tool-faqs {
+    margin-top: 2rem;
+  }
+
+  .section-title {
+    margin-bottom: 1.5rem;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .faq-item {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .faq-question {
+    padding: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--transition-fast);
+  }
+
+  .faq-question:hover {
+    background: var(--color-bg-card-hover);
+  }
+
+  .faq-answer {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+    border-top: 1px solid transparent;
+  }
+
+  .faq-item[open] .faq-answer {
+    border-top-color: var(--color-border);
+    padding-top: 1.25rem;
+  }
+
+  /* Sidebar styling */
+  .tool-sidebar {
+    position: relative;
+  }
+
+  .sticky-sidebar-container {
+    position: sticky;
+    top: 96px;
+  }
+
+  /* Responsive Rules */
+  @media (min-width: 1024px) {
+    .tool-content-grid {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+</style>

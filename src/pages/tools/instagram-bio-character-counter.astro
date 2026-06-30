@@ -1,0 +1,997 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the character limit for an Instagram bio?",
+    answer: "The official character limit for an Instagram bio is exactly 150 characters. This limit includes letters, numbers, spaces, punctuation, and emojis. Exceeding this limit will prevent you from saving your profile edits."
+  },
+  {
+    question: "Do spaces and emojis count toward the character limit?",
+    answer: "Yes, spaces count as one character. Emojis also count, but be aware that some complex emojis (such as skin tone variations or family groups) utilize multiple Unicode code points and may count as 2 to 4 characters in Instagram's system."
+  },
+  {
+    question: "How do you add line breaks to an Instagram bio?",
+    answer: "You can write your bio with line breaks directly inside our tool and copy it. Instagram allows up to 5-6 line breaks in a bio on mobile screens before truncating it with a 'more' button. Ensure your lines are short so they do not wrap automatically."
+  },
+  {
+    question: "Can you use different fonts in your Instagram bio?",
+    answer: "Yes, you can use stylized fonts using our built-in Unicode Font Generator. Because these characters are mathematical symbols in Unicode, they copy-paste directly into Instagram's profile fields. Use them sparingly (e.g. for keywords or your name) to ensure readability."
+  },
+  {
+    question: "Do hashtags and profile links count in the 150 limit?",
+    answer: "Yes, any `@username` or `#hashtag` links you place in your bio count toward the 150-character limit. However, the single website link field (the clickable URL) has its own separate input and does not count toward the 150 characters."
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'Instagram Bio Character Counter', item: '/tools/instagram-bio-character-counter' }
+];
+
+const canonicalUrl = "https://creatorsfeel.com/tools/instagram-bio-character-counter";
+---
+
+<ToolLayout
+  title="Instagram Bio Character Counter - Text Limit Auditor"
+  description="Count characters for your Instagram bio in real-time. Style your bio with bold or italic fonts, verify line break limits, and optimize profile CTAs."
+  toolName="Instagram Bio Character Counter"
+  toolDescription="Format and audit your Instagram profile bio. Verify the 150-character limit, count lines/emojis, and generate copy-pasteable custom fonts."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Schema Graphs -->
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://creatorsfeel.com/tools/instagram-bio-character-counter/#application",
+        "name": "Instagram Bio Character Counter",
+        "url": "https://creatorsfeel.com/tools/instagram-bio-character-counter",
+        "operatingSystem": "All",
+        "applicationCategory": "WritingApplication",
+        "description": "Count characters in your Instagram bio in real-time, audit formatting, and convert text into copy-pasteable stylized fonts.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0.00",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://creatorsfeel.com/tools/instagram-bio-character-counter/#faq",
+        "mainEntity": faqs.map(faq => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+          }
+        }))
+      }
+    ]
+  })} />
+
+  <!-- Interactive Counter Interface -->
+  <div slot="calculator" class="calc-card glass">
+    <div class="calc-grid">
+      <!-- Input Panel -->
+      <div class="counter-input-section">
+        <div class="form-group">
+          <label for="bio-textarea">Write or Paste Your Bio</label>
+          <div class="textarea-wrapper">
+            <textarea 
+              id="bio-textarea" 
+              class="form-textarea" 
+              placeholder="Type your Instagram bio here... e.g. 👇
+🚀 Helping creators build profitable brands
+💡 Daily tips on digital analytics
+🔗 Grab my monetization kits below!"
+              maxlength="300"
+              rows="6"
+            ></textarea>
+            <div class="textarea-actions">
+              <button type="button" id="btn-uppercase" class="text-action-btn">UPPER</button>
+              <button type="button" id="btn-lowercase" class="text-action-btn">lower</button>
+              <button type="button" id="btn-clear" class="text-action-btn-danger">Clear</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="calc-submit-btn" class="calc-btn">Audit Bio Quality</button>
+          <button type="button" id="btn-copy-main" class="calc-btn-secondary">Copy Bio</button>
+        </div>
+
+        <!-- Font Generator Panel -->
+        <div class="font-generator-box">
+          <h4 class="font-box-title">Fancy Unicode Fonts Generator</h4>
+          <p class="font-box-helper text-muted">Click any variation below to copy it directly to your clipboard:</p>
+          
+          <div class="fonts-list">
+            <div class="font-item" data-font-type="bold" role="button" tabindex="0" title="Click to copy Bold text">
+              <span class="font-label">Bold Sans:</span>
+              <span class="font-preview" id="font-preview-bold">-</span>
+            </div>
+            <div class="font-item" data-font-type="italic" role="button" tabindex="0" title="Click to copy Italic text">
+              <span class="font-label">Italic Sans:</span>
+              <span class="font-preview" id="font-preview-italic">-</span>
+            </div>
+            <div class="font-item" data-font-type="monospace" role="button" tabindex="0" title="Click to copy Monospace text">
+              <span class="font-label">Monospace:</span>
+              <span class="font-preview" id="font-preview-monospace">-</span>
+            </div>
+            <div class="font-item" data-font-type="doubleStruck" role="button" tabindex="0" title="Click to copy Double-Struck text">
+              <span class="font-label">Double-Struck:</span>
+              <span class="font-preview" id="font-preview-double">-</span>
+            </div>
+            <div class="font-item" data-font-type="gothic" role="button" tabindex="0" title="Click to copy Gothic text">
+              <span class="font-label">Fraktur/Gothic:</span>
+              <span class="font-preview" id="font-preview-gothic">-</span>
+            </div>
+          </div>
+          <div class="toast-notification hidden" id="font-toast">Copied styled font to clipboard!</div>
+        </div>
+      </div>
+
+      <!-- Results & Metrics Audit Panel -->
+      <div class="calc-results" id="results-wrapper">
+        <div class="rate-range-box" id="progress-card">
+          <h4 class="rate-label">Characters Used</h4>
+          <div class="rate-range" id="res-char-count">0 / 150</div>
+          
+          <!-- Visual progress bar -->
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="char-progress-bar" style="width: 0%;"></div>
+          </div>
+          <div class="grade-badge" id="res-char-status">150 Remaining</div>
+        </div>
+
+        <!-- Metrics Audit list -->
+        <div class="breakdown-box">
+          <h4 class="breakdown-title">Instagram Bio Guidelines Audit</h4>
+          <div class="breakdown-list">
+            <!-- Line breaks check -->
+            <div class="audit-item" id="audit-line-breaks">
+              <div class="audit-meta">
+                <span class="audit-icon" id="icon-line-breaks">⚪</span>
+                <span class="audit-label">Line Count:</span>
+              </div>
+              <span class="audit-value" id="val-line-breaks">0 / 5 lines</span>
+            </div>
+
+            <!-- Emojis count -->
+            <div class="audit-item" id="audit-emojis">
+              <div class="audit-meta">
+                <span class="audit-icon" id="icon-emojis">⚪</span>
+                <span class="audit-label">Emojis Count:</span>
+              </div>
+              <span class="audit-value" id="val-emojis">0 used</span>
+            </div>
+
+            <!-- CTA hook check -->
+            <div class="audit-item" id="audit-cta">
+              <div class="audit-meta">
+                <span class="audit-icon" id="icon-cta">⚪</span>
+                <span class="audit-label">Call-to-Action (CTA):</span>
+              </div>
+              <span class="audit-value" id="val-cta">No CTA detected</span>
+            </div>
+
+            <!-- Mentions & handles check -->
+            <div class="audit-item" id="audit-mentions">
+              <div class="audit-meta">
+                <span class="audit-icon" id="icon-mentions">⚪</span>
+                <span class="audit-label">Mentions & Tags:</span>
+              </div>
+              <span class="audit-value" id="val-mentions">0 tags</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analyst Insights -->
+        <div class="insight-box glass">
+          <h4 class="insight-title">Bio Conversion Insights</h4>
+          <p id="res-insight-desc" class="insight-desc">Type your bio details in the input block to review profile quality suggestions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Educational SEO Content -->
+  <div slot="about">
+    <h2>What is the Instagram Bio Character Limit?</h2>
+    <p>
+      An Instagram profile bio is your digital elevator pitch. It has a strict limit of **150 characters**. This length constraint forces creators, influencers, and brands to pack maximum value, brand message, and conversion links into a concise statement.
+    </p>
+    <p>
+      This character limit includes letters, numbers, spaces, punctuation marks, line breaks, and emojis.
+    </p>
+
+    <h2>Why Spacing and Emojis Matter</h2>
+    <ul>
+      <li><strong>Spaces Count:</strong> Just like letters, empty spaces count as characters. When organizing your bio, avoid placing extra spaces to pad or align text.</li>
+      <li><strong>Line Breaks Count:</strong> Every time you hit "Enter" to create a new line, it counts as 1 character in Instagram's limit calculations.</li>
+      <li><strong>Emoji Codes:</strong> Emojis are essential visual elements. However, in Unicode, standard emojis might take up 1-2 character spaces, while complex emojis (like flags, skin tones, or groups) can require up to 4 character slots.</li>
+    </ul>
+
+    <h2>Formula for a High-Converting Bio</h2>
+    <p>
+      An optimized bio doesn't just describe what you do; it drives action. The standard formula used by leading social media agencies is:
+    </p>
+    <div class="formula-box">
+      Bio = (Value Hook) + (Social Proof/Authority) + (Call to Action pointing 👇)
+    </div>
+
+    <h3>Step-by-Step Breakdown:</h3>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>The Hook:</strong> Clear statement answering who you are and what you do. E.g. <em>"Helping B2B SaaS brands scale organically."</em></li>
+      <li><strong>The Authority:</strong> Why should people follow you? E.g. <em>"7+ Years in Growth Marketing"</em> or <em>"Featured in Forbes."</em></li>
+      <li><strong>The CTA:</strong> Tell users exactly what to do. E.g. <em>"Grab the free templates below 👇"</em>.</li>
+    </ol>
+
+    <h2>Instagram Bio Checklist and Rules</h2>
+    <p>
+      To prevent your bio from getting cut off or looking cluttered on mobile screens, keep these guidelines in mind:
+    </p>
+    <div class="table-responsive">
+      <table style="width: 100%; min-width: 550px; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--color-border); background: var(--color-bg-alt);">
+            <th style="padding: 0.75rem;">Metric</th>
+            <th style="padding: 0.75rem;">Recommended Limit</th>
+            <th style="padding: 0.75rem;">Why it Matters</th>
+            <th style="padding: 0.75rem;">Risk of Exceeding</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">Characters Used</td>
+            <td style="padding: 0.75rem;">130 - 150 characters</td>
+            <td style="padding: 0.75rem;">Maximizes descriptive keyword space.</td>
+            <td style="padding: 0.75rem; color: var(--color-danger);">Cannot save profile modifications.</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">Line Count</td>
+            <td style="padding: 0.75rem;">4 - 5 lines max</td>
+            <td style="padding: 0.75rem;">Keeps layout structured on mobile screens.</td>
+            <td style="padding: 0.75rem; color: var(--color-warning);">Truncates bio with a "more" button.</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">Emojis Used</td>
+            <td style="padding: 0.75rem;">2 - 4 emojis</td>
+            <td style="padding: 0.75rem;">Breaks up text visually, drawing interest.</td>
+            <td style="padding: 0.75rem; color: var(--color-text-muted);">Too many emojis feel cluttered/unprofessional.</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">CTA Mentions</td>
+            <td style="padding: 0.75rem;">At least 1 pointer (👇)</td>
+            <td style="padding: 0.75rem;">Guides audience eyes directly to the URL link.</td>
+            <td style="padding: 0.75rem; color: var(--color-danger);">Lower click-through rates on landing page links.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>How to Style Fonts in Instagram Bios</h2>
+    <p>
+      Using bold or italic fonts can draw attention to your brand's name or core value hooks. You can type your name inside our Unicode Font Generator, copy the stylized text, and paste it into the name or bio fields on Instagram.
+    </p>
+    <p>
+      <strong>Pro Tip:</strong> Use styled fonts selectively (only 1 or 2 words). Some screen readers for visually impaired users cannot translate Unicode mathematical characters, meaning excessive usage will make your bio inaccessible to parts of your audience.
+    </p>
+  </div>
+</ToolLayout>
+
+<style>
+  .calc-card {
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+    max-width: 100%;
+  }
+
+  .counter-input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .textarea-wrapper {
+    position: relative;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all var(--transition-fast);
+  }
+
+  .textarea-wrapper:focus-within {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .form-textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 1rem;
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+    outline: none;
+    line-height: 1.5;
+  }
+
+  .textarea-actions {
+    display: flex;
+    justify-content: flex-end;
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+    padding: 0.35rem 0.5rem;
+    gap: 0.35rem;
+  }
+
+  .text-action-btn {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+  }
+
+  .text-action-btn:hover {
+    color: var(--color-text);
+    border-color: var(--color-brand);
+  }
+
+  .text-action-btn-danger {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-danger);
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+  }
+
+  .text-action-btn-danger:hover {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.2);
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    color: var(--color-text);
+    border-color: var(--color-brand);
+    background: var(--color-bg-card);
+  }
+
+  /* Font Generator Panel CSS */
+  .font-generator-box {
+    margin-top: 1.5rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    position: relative;
+  }
+
+  .font-box-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--color-text);
+  }
+
+  .font-box-helper {
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .fonts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .font-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    gap: 0.25rem;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .font-item:hover {
+    border-color: var(--color-brand);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px var(--color-shadow-hover);
+  }
+
+  .font-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .font-preview {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Toast Notification */
+  .toast-notification {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-full);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    pointer-events: none;
+    transition: opacity var(--transition-fast) ease;
+  }
+
+  /* Results dashboard */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 350px;
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    max-width: 100%;
+    box-sizing: border-box;
+    gap: 1.5rem;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .rate-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .rate-range {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 800;
+    color: var(--color-text);
+  }
+
+  /* Progress Bar CSS */
+  .progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gradient-brand);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-normal) ease;
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-full);
+    background: var(--gradient-glow);
+    border: 1px solid var(--glass-border);
+    color: var(--color-brand);
+  }
+
+  .breakdown-box {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+  }
+
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .audit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    border-bottom: 1px dashed var(--color-border);
+    padding-bottom: 0.5rem;
+  }
+
+  .audit-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .audit-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .audit-icon {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .audit-label {
+    font-weight: 500;
+  }
+
+  .audit-value {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* Insight Box Styling */
+  .insight-box {
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .insight-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+    color: var(--color-text);
+  }
+
+  .insight-desc {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Rules */
+  .tab-short {
+    display: inline;
+  }
+
+  .tab-long {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .tab-short {
+      display: none;
+    }
+
+    .tab-long {
+      display: inline;
+    }
+
+    .form-actions {
+      flex-direction: row;
+    }
+
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+  }
+
+  /* Formula and Table responsiveness fixes */
+  .formula-box {
+    background: var(--color-bg-alt);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    margin: 1.25rem 0;
+    font-family: monospace;
+    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+    text-align: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .table-responsive {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1.5rem 0;
+    box-sizing: border-box;
+  }
+
+  code {
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+</style>
+
+<script>
+  const setupBioCounter = () => {
+    // Selectors
+    const textarea = document.getElementById('bio-textarea') as HTMLTextAreaElement;
+    
+    // Actions
+    const btnUpper = document.getElementById('btn-uppercase');
+    const btnLower = document.getElementById('btn-lowercase');
+    const btnClear = document.getElementById('btn-clear');
+    const btnSubmit = document.getElementById('calc-submit-btn');
+    const btnCopyMain = document.getElementById('btn-copy-main');
+
+    // Outputs
+    const resCharCount = document.getElementById('res-char-count');
+    const charProgressBar = document.getElementById('char-progress-bar');
+    const resCharStatus = document.getElementById('res-char-status');
+
+    // Audit checklist outputs
+    const valLineBreaks = document.getElementById('val-line-breaks');
+    const valEmojis = document.getElementById('val-emojis');
+    const valCta = document.getElementById('val-cta');
+    const valMentions = document.getElementById('val-mentions');
+
+    const iconLineBreaks = document.getElementById('icon-line-breaks');
+    const iconEmojis = document.getElementById('icon-emojis');
+    const iconCta = document.getElementById('icon-cta');
+    const iconMentions = document.getElementById('icon-mentions');
+
+    const resInsightDesc = document.getElementById('res-insight-desc');
+
+    // Font Previews
+    const previewBold = document.getElementById('font-preview-bold');
+    const previewItalic = document.getElementById('font-preview-italic');
+    const previewMonospace = document.getElementById('font-preview-monospace');
+    const previewDouble = document.getElementById('font-preview-double');
+    const previewGothic = document.getElementById('font-preview-gothic');
+    const toast = document.getElementById('font-toast');
+    const fontItems = document.querySelectorAll('.font-item');
+
+    if (!textarea) return;
+
+    // Unicode mapping offset constants
+    const mapUnicode = (text: string, type: string): string => {
+      const charCodes: Record<string, { A: number; a: number; '0'?: number }> = {
+        bold: { A: 120276, a: 120302, '0': 120812 },
+        italic: { A: 120328, a: 120354 },
+        doubleStruck: { A: 120120, a: 120146, '0': 120782 },
+        gothic: { A: 120068, a: 120094 },
+        monospace: { A: 120432, a: 120458, '0': 120822 }
+      };
+
+      const map = charCodes[type];
+      if (!map) return text;
+
+      return Array.from(text).map(char => {
+        const code = char.charCodeAt(0);
+        if (code >= 65 && code <= 90) { // A-Z
+          return String.fromCodePoint(map.A + (code - 65));
+        } else if (code >= 97 && code <= 122) { // a-z
+          return String.fromCodePoint(map.a + (code - 97));
+        } else if (code >= 48 && code <= 57 && map['0'] !== undefined) { // 0-9
+          return String.fromCodePoint(map['0'] + (code - 48));
+        }
+        return char;
+      }).join('');
+    };
+
+    // Emojis regex matcher
+    const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\u261D|\u270C|[\u2700-\u27BF]|[\u2600-\u26FF]|[\u2190-\u21FF]/g;
+
+    // Perform audit
+    const updateAudit = () => {
+      const text = textarea.value || '';
+      const charLen = text.length;
+
+      // 1. Character count display & progress bar
+      if (resCharCount) resCharCount.textContent = `${charLen} / 150`;
+      
+      const pct = Math.min(100, (charLen / 150) * 100);
+      if (charProgressBar) {
+        charProgressBar.style.width = `${pct}%`;
+        if (charLen > 150) {
+          charProgressBar.style.background = 'var(--color-danger)';
+        } else if (charLen > 130) {
+          charProgressBar.style.background = 'var(--color-warning)';
+        } else {
+          charProgressBar.style.background = 'var(--gradient-brand)';
+        }
+      }
+
+      if (resCharStatus) {
+        if (charLen > 150) {
+          resCharStatus.textContent = `${charLen - 150} Over Limit`;
+          resCharStatus.style.color = 'var(--color-danger)';
+        } else {
+          resCharStatus.textContent = `${150 - charLen} Remaining`;
+          resCharStatus.style.color = 'var(--color-brand)';
+        }
+      }
+
+      // 2. Lines break audit (instagram bio limit is recommended <= 5 lines)
+      const lines = text.split('\n');
+      const linesCount = text === '' ? 0 : lines.length;
+      if (valLineBreaks) valLineBreaks.textContent = `${linesCount} / 5 lines`;
+      if (iconLineBreaks) {
+        if (linesCount > 5) {
+          iconLineBreaks.textContent = '⚠️';
+          iconLineBreaks.style.color = 'var(--color-warning)';
+        } else if (linesCount > 0) {
+          iconLineBreaks.textContent = '✅';
+          iconLineBreaks.style.color = 'var(--color-success)';
+        } else {
+          iconLineBreaks.textContent = '⚪';
+        }
+      }
+
+      // 3. Emojis Count
+      const emojiMatches = text.match(emojiRegex) || [];
+      const emojiCount = emojiMatches.length;
+      if (valEmojis) valEmojis.textContent = `${emojiCount} emojis`;
+      if (iconEmojis) {
+        if (emojiCount > 6) {
+          iconEmojis.textContent = '⚠️';
+        } else if (emojiCount > 0) {
+          iconEmojis.textContent = '✅';
+        } else {
+          iconEmojis.textContent = '⚪';
+        }
+      }
+
+      // 4. CTA auditor (checking for link pointer phrases or pointing down/right icons)
+      const hasCta = /👇|⬇️|👇🏻|👇🏼|👇🏽|👇🏾|👇🏿|link|below|website|click|grab|get|shop|here/i.test(text);
+      if (valCta) valCta.textContent = hasCta ? 'CTA Hook Active' : 'No CTA pointer';
+      if (iconCta) {
+        if (hasCta) {
+          iconCta.textContent = '✅';
+          iconCta.style.color = 'var(--color-success)';
+        } else if (text !== '') {
+          iconCta.textContent = '⚠️';
+          iconCta.style.color = 'var(--color-warning)';
+        } else {
+          iconCta.textContent = '⚪';
+        }
+      }
+
+      // 5. Handles/Mentions count
+      const mentionMatches = text.match(/@\w+|#\w+/g) || [];
+      const mentionCount = mentionMatches.length;
+      if (valMentions) valMentions.textContent = `${mentionCount} tags / links`;
+      if (iconMentions) {
+        if (mentionCount > 3) {
+          iconMentions.textContent = '⚠️';
+        } else if (mentionCount > 0) {
+          iconMentions.textContent = '✅';
+        } else {
+          iconMentions.textContent = '⚪';
+        }
+      }
+
+      // 6. Font Generator Preview Updates
+      const sampleText = text.trim() === '' ? 'Preview Font' : text.slice(0, 40) + (text.length > 40 ? '...' : '');
+      if (previewBold) previewBold.textContent = mapUnicode(sampleText, 'bold');
+      if (previewItalic) previewItalic.textContent = mapUnicode(sampleText, 'italic');
+      if (previewMonospace) previewMonospace.textContent = mapUnicode(sampleText, 'monospace');
+      if (previewDouble) previewDouble.textContent = mapUnicode(sampleText, 'doubleStruck');
+      if (previewGothic) previewGothic.textContent = mapUnicode(sampleText, 'gothic');
+
+      // 7. Update Analyst Insights
+      if (resInsightDesc) {
+        if (text === '') {
+          resInsightDesc.textContent = 'Type your bio details in the input block to review profile quality suggestions.';
+        } else if (charLen > 150) {
+          resInsightDesc.textContent = `Your bio exceeds the limit by ${charLen - 150} characters. Instagram will reject edits. Try removing extra filler words or replacing word sentences with compact emojis.`;
+        } else if (linesCount > 5) {
+          resInsightDesc.textContent = 'Warning: You have used more than 5 lines. Instagram might truncate your bio on smaller phone screens. Condense lines to fit within 5 lines total.';
+        } else if (!hasCta) {
+          resInsightDesc.textContent = 'Insight: You are missing a clear call-to-action (CTA). Add a phrase like "Check link 👇" before your profile link to encourage click-through conversions.';
+        } else {
+          resInsightDesc.textContent = 'Excellent! Your bio fits under the character threshold, uses a clean line layout, and contains an active CTA hook. Ready to copy-paste to Instagram!';
+        }
+      }
+    };
+
+    // Text modifiers
+    btnUpper?.addEventListener('click', () => {
+      textarea.value = textarea.value.toUpperCase();
+      updateAudit();
+    });
+
+    btnLower?.addEventListener('click', () => {
+      textarea.value = textarea.value.toLowerCase();
+      updateAudit();
+    });
+
+    btnClear?.addEventListener('click', () => {
+      textarea.value = '';
+      updateAudit();
+    });
+
+    // Copy original bio
+    btnCopyMain?.addEventListener('click', () => {
+      if (textarea.value.trim() === '') {
+        alert('Please enter bio text first.');
+        return;
+      }
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value);
+      alert('Copied bio to clipboard!');
+    });
+
+    // Audit and Scroll down to results
+    btnSubmit?.addEventListener('click', () => {
+      updateAudit();
+      setTimeout(() => {
+        const resultsBox = document.getElementById('results-wrapper');
+        if (resultsBox) {
+          const headerOffset = 90;
+          const elementPosition = resultsBox.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 50);
+    });
+
+    // Real-time audit triggers on typing
+    textarea.addEventListener('input', updateAudit);
+
+    // Font Items copy handler
+    fontItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const fontType = item.getAttribute('data-font-type') || 'bold';
+        const rawText = textarea.value.trim() === '' ? 'CreatorsFeel' : textarea.value;
+        const styledText = mapUnicode(rawText, fontType);
+
+        navigator.clipboard.writeText(styledText).then(() => {
+          if (toast) {
+            toast.textContent = `Copied ${fontType.toUpperCase()} styled text!`;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+              toast.classList.add('hidden');
+            }, 1500);
+          }
+        });
+      });
+    });
+
+    // Initial load run
+    updateAudit();
+  };
+
+  setupBioCounter();
+  document.addEventListener('astro:after-swap', setupBioCounter);
+</script>

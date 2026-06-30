@@ -1,0 +1,555 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "How does the Influencer Rate Calculator estimate earnings?",
+    answer: "Our calculator uses industry-standard benchmarks based on follower count, average engagement/views, social platform, creator niche, and content type. It calculates a baseline rate and adjusts it using multipliers for high-value niches (like finance or tech) and engagement health."
+  },
+  {
+    question: "Which niches pay the highest influencer rates?",
+    answer: "Finance, technology, business, and software-as-a-service (SaaS) niches command the highest CPMs (Cost Per Mille) due to higher customer lifetime value. Lifestyle, gaming, and entertainment niches generally have lower CPMs but higher audience volumes."
+  },
+  {
+    question: "What is a media kit and why do I need one?",
+    answer: "A media kit is a resume for creators. It showcases your stats (followers, engagement rate, audience demographics), past partnerships, and rates. You can copy the generated brand pitch from this calculator to start pitching sponsors."
+  }
+];
+---
+
+<ToolLayout
+  title="Influencer Rate Calculator - Estimate Sponsorship Pricing"
+  description="Calculate your estimated sponsorship rates for Instagram, YouTube, and TikTok. Get CPM projections and export a ready-to-use brand pitch template."
+  toolName="Influencer Rate Calculator"
+  toolDescription="Input your metrics to estimate your earnings per post, calculate CPM, and generate a copy-paste brand outreach pitch."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <div class="calc-grid">
+      <!-- Inputs Form -->
+      <form class="calc-form" id="rate-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="platform">Social Media Platform</label>
+          <select id="platform" class="form-input" required>
+            <option value="instagram">Instagram</option>
+            <option value="youtube">YouTube</option>
+            <option value="tiktok">TikTok</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="followers">Follower Count</label>
+          <input type="number" id="followers" class="form-input" placeholder="e.g., 25000" min="100" required />
+        </div>
+
+        <div class="form-group">
+          <label for="engagement">Avg. Views / Post Engagement</label>
+          <input type="number" id="engagement" class="form-input" placeholder="e.g., 5000" min="10" required />
+          <span class="input-helper">For Instagram/TikTok: enter average likes + comments. For YouTube: enter average views.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="niche">Niche / Category</label>
+          <select id="niche" class="form-input" required>
+            <option value="lifestyle">Lifestyle & Fashion (1.0x)</option>
+            <option value="tech">Tech & Gadgets (1.6x)</option>
+            <option value="finance">Finance & Investing (1.8x)</option>
+            <option value="fitness">Fitness & Health (1.2x)</option>
+            <option value="gaming">Gaming & Esports (0.9x)</option>
+            <option value="travel">Travel & Adventure (1.3x)</option>
+            <option value="business">Business & Marketing (1.5x)</option>
+            <option value="beauty">Beauty & Makeup (1.1x)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="format">Content Format</label>
+          <select id="format" class="form-input" required>
+            <option value="post">Feed Post / Photo (1.0x)</option>
+            <option value="story">Story with Link (0.5x)</option>
+            <option value="reel">Reel / Short Video (1.4x)</option>
+            <option value="dedicated">Dedicated Video / Integration (2.2x)</option>
+          </select>
+        </div>
+
+        <button type="button" id="calc-submit" class="calc-btn">Calculate Estimated Rate</button>
+      </form>
+
+      <!-- Results Display -->
+      <div class="calc-results" id="results-container">
+        <div class="empty-state text-center" id="results-empty">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          <h3>Estimate Awaiting Input</h3>
+          <p class="text-muted">Enter your social media stats and niche parameters on the left to generate estimated rates.</p>
+        </div>
+
+        <div class="results-active hidden" id="results-content">
+          <div class="rate-range-box">
+            <h4 class="rate-label">Estimated Sponsorship Value</h4>
+            <div class="rate-range" id="res-range">$0 - $0</div>
+            <p class="rate-note text-muted">Suggested Starting Rate: <strong id="res-median" class="high-contrast-text">$0</strong> per post</p>
+          </div>
+
+          <div class="metrics-subgrid">
+            <div class="metric-card glass">
+              <span class="metric-title">Projected CPM</span>
+              <span class="metric-value" id="res-cpm">$0</span>
+            </div>
+            <div class="metric-card glass">
+              <span class="metric-title">Pricing Tier</span>
+              <span class="metric-value" id="res-tier">-</span>
+            </div>
+          </div>
+
+          <!-- Pitch Template Box -->
+          <div class="pitch-box">
+            <div class="pitch-header">
+              <span class="pitch-title">Outreach Brand Pitch Template</span>
+              <button class="copy-btn" id="copy-pitch-btn">Copy Pitch</button>
+            </div>
+            <textarea id="res-pitch" class="pitch-textarea" readonly aria-label="Generated brand pitch template"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>How Influencer Sponsorship Pricing Works</h2>
+    <p>
+      Influencer pricing is no longer a guessing game. Brands evaluate creators based on their projected conversions and target reach. The primary metrics that dictate how much you can charge are:
+    </p>
+    <ul>
+      <li><strong>Follower Demographics and Niche:</strong> Highly specialized niches (like finance or enterprise tech) attract business audiences, which commands high CPMs. General entertainment niches have larger follower numbers but lower relative advertiser payouts.</li>
+      <li><strong>Engagement Quality:</strong> High engagement rates signal that your followers trust your recommendations. If you have 50,000 followers but only get 100 views per post, brands will negotiate your rates down.</li>
+      <li><strong>Content Creation Effort:</strong> A quick Instagram Story with a link takes less time than scripting, editing, and uploading a 15-minute dedicated YouTube review. Accordingly, dedicated videos fetch up to 2.2x our base rates.</li>
+    </ul>
+
+    <h2>Negotiation Strategy for Creators</h2>
+    <p>
+      Use the rates generated here as a starting baseline. When pitching brands, focus on the value you deliver rather than just raw numbers:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Highlight your core statistics:</strong> Share your average engagement rate if it beats the platform average.</li>
+      <li><strong>Bundle formats:</strong> Brands love multi-platform packages. Offer a dedicated YouTube video + an Instagram Reel package to command premium deals.</li>
+      <li><strong>Create a dedicated Media Kit:</strong> Keep your pricing transparent, neat, and highly professional to set yourself apart from amateur accounts.</li>
+    </ol>
+  </div>
+</ToolLayout>
+
+<style>
+  .calc-card {
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+  }
+
+  .form-input:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234b5563' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 2.5rem;
+  }
+
+  .input-helper {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  /* Results styling */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 350px;
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+  }
+
+  .rate-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .rate-range {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 800;
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+
+  .rate-note {
+    font-size: 0.95rem;
+  }
+
+  .high-contrast-text {
+    color: var(--color-text);
+  }
+
+  .metrics-subgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .metric-card {
+    padding: 1rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .metric-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .metric-value {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .pitch-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .pitch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .pitch-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .copy-btn {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-inverse);
+    background: var(--color-brand);
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .copy-btn:hover {
+    background: var(--color-brand-hover);
+  }
+
+  .pitch-textarea {
+    width: 100%;
+    height: 140px;
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    resize: none;
+    line-height: 1.5;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Rules */
+  @media (min-width: 768px) {
+    .calc-grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+</style>
+
+<script>
+  const setupCalculator = () => {
+    const submitBtn = document.getElementById('calc-submit');
+    if (!submitBtn) return;
+
+    const emptyState = document.getElementById('results-empty');
+    const contentState = document.getElementById('results-content');
+    
+    // Outputs
+    const resRange = document.getElementById('res-range');
+    const resMedian = document.getElementById('res-median');
+    const resCpm = document.getElementById('res-cpm');
+    const resTier = document.getElementById('res-tier');
+    const resPitch = document.getElementById('res-pitch') as HTMLTextAreaElement;
+    const copyBtn = document.getElementById('copy-pitch-btn');
+
+    // Niche multipliers
+    const nicheMultipliers: Record<string, number> = {
+      lifestyle: 1.0,
+      tech: 1.6,
+      finance: 1.8,
+      fitness: 1.2,
+      gaming: 0.9,
+      travel: 1.3,
+      business: 1.5,
+      beauty: 1.1
+    };
+
+    // Format multipliers
+    const formatMultipliers: Record<string, number> = {
+      post: 1.0,
+      story: 0.5,
+      reel: 1.4,
+      dedicated: 2.2
+    };
+
+    submitBtn.addEventListener('click', () => {
+      // Inputs
+      const platformSelect = document.getElementById('platform') as HTMLSelectElement;
+      const followersInput = document.getElementById('followers') as HTMLInputElement;
+      const engagementInput = document.getElementById('engagement') as HTMLInputElement;
+      const nicheSelect = document.getElementById('niche') as HTMLSelectElement;
+      const formatSelect = document.getElementById('format') as HTMLSelectElement;
+
+      const platform = platformSelect.value;
+      const followers = parseFloat(followersInput.value);
+      const engagement = parseFloat(engagementInput.value);
+      const niche = nicheSelect.value;
+      const format = formatSelect.value;
+
+      if (!followers || !engagement) {
+        alert("Please fill out follower counts and post engagement values.");
+        return;
+      }
+
+      // Base Rates calculation
+      let baseRate = 0;
+      if (platform === 'instagram') {
+        // IG base: roughly $10 per 1k followers
+        baseRate = followers * 0.01;
+      } else if (platform === 'tiktok') {
+        // TikTok base: roughly $6 per 1k followers
+        baseRate = followers * 0.006;
+      } else if (platform === 'youtube') {
+        // YT base is highly view-dependent, base on views: $25 per 1k views
+        baseRate = engagement * 0.025;
+      }
+
+      // Adjust based on multipliers
+      const nMult = nicheMultipliers[niche] || 1.0;
+      const fMult = formatMultipliers[format] || 1.0;
+
+      // Engagement adjustments
+      let eMult = 1.0;
+      if (platform === 'instagram' || platform === 'tiktok') {
+        // calculate engagement percentage
+        const engRate = (engagement / followers) * 100;
+        const avgEng = platform === 'instagram' ? 2.5 : 4.0;
+        
+        if (engRate > avgEng) {
+          eMult = Math.min(1.5, 1.0 + (engRate - avgEng) * 0.1);
+        } else {
+          eMult = Math.max(0.6, 1.0 - (avgEng - engRate) * 0.15);
+        }
+      } else {
+        // YouTube: view/follower health
+        const viewRatio = engagement / followers;
+        if (viewRatio > 0.15) {
+          eMult = Math.min(1.5, 1.0 + (viewRatio - 0.15) * 2);
+        } else {
+          eMult = Math.max(0.6, 1.0 - (0.15 - viewRatio) * 3);
+        }
+      }
+
+      // Calculate final rate
+      const finalRate = baseRate * nMult * fMult * eMult;
+      
+      const lowRange = Math.round(finalRate * 0.8);
+      const highRange = Math.round(finalRate * 1.25);
+      const medianRate = Math.round(finalRate);
+
+      // Tier detection
+      let tier = "Nano";
+      if (followers >= 1000000) tier = "Mega / Elite";
+      else if (followers >= 100000) tier = "Macro";
+      else if (followers >= 50000) tier = "Mid-tier";
+      else if (followers >= 10000) tier = "Micro";
+
+      // CPM calculation (rate per 1k views or followers)
+      const denominator = platform === 'youtube' ? engagement : followers;
+      const cpm = denominator > 0 ? (medianRate / denominator) * 1000 : 0;
+
+      // Update UI
+      if (resRange) resRange.textContent = `$${lowRange.toLocaleString()} - $${highRange.toLocaleString()}`;
+      if (resMedian) resMedian.textContent = `$${medianRate.toLocaleString()}`;
+      if (resCpm) resCpm.textContent = `$${cpm.toFixed(2)}`;
+      if (resTier) resTier.textContent = tier;
+
+      // Pitch Template Generation
+      const nicheName = nicheSelect.options[nicheSelect.selectedIndex].text.split('(')[0].trim();
+      const formatName = formatSelect.options[formatSelect.selectedIndex].text.split('(')[0].trim();
+      
+      let pitchText = `Hi [Brand Manager Name],
+
+I hope you're having a great week!
+
+My name is [Your Name], and I'm a content creator in the ${nicheName} space on ${platform.charAt(0).toUpperCase() + platform.slice(1)}, where I have built a dedicated community of ${followers.toLocaleString()} followers.
+
+I've been following [Brand Name] and love your recent campaign for [Product/Event]. My audience is highly engaged with topics regarding ${nicheName.toLowerCase()}, and I see a perfect fit for a collaboration. For reference, my posts average ${engagement.toLocaleString()} ${platform === 'youtube' ? 'views' : 'engagements'} per piece, yielding high-impact conversions.
+
+I would love to pitch a collaboration featuring a ${formatName.toLowerCase()} on my channel.
+
+Let me know if you would like me to send over my complete media kit. Looking forward to discussing how we can work together!
+
+Best regards,
+[Your Name]
+[Your Social Link]`;
+
+      if (resPitch) resPitch.value = pitchText;
+
+      // Show Results
+      if (emptyState) emptyState.classList.add('hidden');
+      if (contentState) contentState.classList.remove('hidden');
+
+      // Scroll to Results
+      setTimeout(() => {
+        const resultsBox = document.getElementById('results-container');
+        if (resultsBox) {
+          const headerOffset = 90;
+          const elementPosition = resultsBox.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 50);
+    });
+
+    if (copyBtn && resPitch) {
+      copyBtn.addEventListener('click', () => {
+        resPitch.select();
+        navigator.clipboard.writeText(resPitch.value)
+          .then(() => {
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = "Copied!";
+            copyBtn.style.backgroundColor = "var(--color-success)";
+            setTimeout(() => {
+              copyBtn.textContent = originalText;
+              copyBtn.style.backgroundColor = "";
+            }, 2000);
+          })
+          .catch(() => {
+            alert("Failed to copy text. Please select and copy manually.");
+          });
+      });
+    }
+  };
+
+  setupCalculator();
+  document.addEventListener('astro:after-swap', setupCalculator);
+</script>

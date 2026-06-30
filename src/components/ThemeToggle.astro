@@ -1,0 +1,85 @@
+---
+---
+
+<button class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+  <!-- Sun Icon (visible in Dark Mode) -->
+  <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+  <!-- Moon Icon (visible in Light Mode) -->
+  <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+  </svg>
+</button>
+
+<style>
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    color: var(--color-text);
+    transition: all var(--transition-normal);
+  }
+
+  .theme-toggle:hover {
+    background: var(--color-bg-card-hover);
+    border-color: var(--color-brand);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px var(--color-shadow-hover);
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+    transition: transform var(--transition-normal);
+  }
+
+  /* SVG toggling logic based on HTML data-theme attribute */
+  :global([data-theme="light"]) .sun-icon {
+    display: none;
+  }
+  :global([data-theme="light"]) .moon-icon {
+    display: block;
+    transform: rotate(0deg);
+  }
+
+  :global([data-theme="dark"]) .sun-icon {
+    display: block;
+    transform: rotate(45deg);
+  }
+  :global([data-theme="dark"]) .moon-icon {
+    display: none;
+  }
+</style>
+
+<script>
+  const handleToggle = () => {
+    const themeToggles = document.querySelectorAll('.theme-toggle');
+    
+    themeToggles.forEach(toggle => {
+      // Prevent adding duplicate event listeners on Astro swaps
+      if (toggle.getAttribute('data-has-listener')) return;
+      toggle.setAttribute('data-has-listener', 'true');
+
+      toggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+      });
+    });
+  };
+
+  // Run on page load
+  handleToggle();
+
+  // Support Astro View Transitions (if used in future)
+  document.addEventListener('astro:after-swap', handleToggle);
+</script>

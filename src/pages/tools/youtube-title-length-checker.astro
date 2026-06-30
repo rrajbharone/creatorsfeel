@@ -1,0 +1,669 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the perfect length for a YouTube video title?",
+    answer: "The optimal length is between 50 and 60 characters. This length ensures your title does not get cut off (truncated) on search result lists, recommendations, or mobile device feeds."
+  },
+  {
+    question: "What are Power Words in YouTube copywriting?",
+    answer: "Power words are trigger words that evoke emotion, curiosity, or urgency. Examples include: Ultimate, Secrets, Shocking, Best, Revealed, Stop, Why, and Step-by-Step. Using 1-2 power words per title can significantly increase click-through rate (CTR)."
+  },
+  {
+    question: "Will a title longer than 70 characters hurt my search rankings?",
+    answer: "Not directly. YouTube's indexer reads the entire title for search keywords. However, it hurts your click-through rate (CTR) because viewers cannot read the full context in recommended grids where the tail is truncated, which ultimately drops your algorithmic reach."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube Title Length Checker - Optimize CTR & Search Previews"
+  description="Analyze your YouTube video titles in real-time. Preview desktop and mobile search snippets, scan for power words, and get an instant SEO optimization score."
+  toolName="YouTube Title Checker"
+  toolDescription="Type your YouTube title to get real-time previews for desktop/mobile layouts, character checklists, and search optimization suggestions."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <div class="title-checker-container">
+      <div class="checker-input-area">
+        <div class="form-group">
+          <label for="title-input" class="large-label">Enter Video Title</label>
+          <div class="textarea-wrapper">
+            <textarea 
+              id="title-input" 
+              class="title-textarea" 
+              placeholder="e.g., How to Grow Your YouTube Channel in 2026 (The Ultimate Guide)"
+              maxlength="100"
+              rows="3"
+            ></textarea>
+            <div class="char-counter" id="char-counter">0 / 100 characters</div>
+          </div>
+        </div>
+
+        <!-- Real-time Audits checklist -->
+        <div class="audit-checklist-box glass">
+          <h3 class="checklist-title">Optimization Checklist</h3>
+          <ul class="checklist-items">
+            <li class="check-item" id="chk-char">
+              <span class="check-icon">
+                <span class="chk-dash">-</span>
+                <svg class="chk-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                <svg class="chk-warning" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                <svg class="chk-danger" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </span>
+              <span class="check-text">Character Length (Optimal: 50-60 characters)</span>
+            </li>
+            <li class="check-item" id="chk-word">
+              <span class="check-icon">
+                <span class="chk-dash">-</span>
+                <svg class="chk-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                <svg class="chk-warning" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                <svg class="chk-danger" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </span>
+              <span class="check-text">Word Count (Optimal: 5-10 words)</span>
+            </li>
+            <li class="check-item" id="chk-power">
+              <span class="check-icon">
+                <span class="chk-dash">-</span>
+                <svg class="chk-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                <svg class="chk-warning" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                <svg class="chk-danger" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </span>
+              <span class="check-text">Power Words (Uses at least 1 emotional trigger)</span>
+            </li>
+            <li class="check-item" id="chk-case">
+              <span class="check-icon">
+                <span class="chk-dash">-</span>
+                <svg class="chk-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                <svg class="chk-warning" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                <svg class="chk-danger" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </span>
+              <span class="check-text">Capitalization (Avoid all-caps or all-lowercase)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Real-time Previews & Scores -->
+      <div class="checker-preview-area">
+        <!-- Score Circle -->
+        <div class="score-card glass">
+          <div class="score-circle-container">
+            <svg class="score-svg" viewBox="0 0 100 100">
+              <circle class="score-bg-ring" cx="50" cy="50" r="40"></circle>
+              <circle class="score-fill-ring" id="score-ring" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+            </svg>
+            <div class="score-text">
+              <span class="score-number" id="score-val">0</span>
+              <span class="score-label">Title Score</span>
+            </div>
+          </div>
+          <div class="score-feedback" id="score-feedback">Enter a title to begin...</div>
+        </div>
+
+        <!-- Visual Snippet Mockups -->
+        <div class="mockups-card">
+          <h4 class="mockup-header">YouTube Layout Previews</h4>
+          
+          <!-- Desktop Mockup -->
+          <div class="mockup-item">
+            <span class="mockup-label">Desktop Search & Recommendations</span>
+            <div class="youtube-desktop-mockup glass">
+              <div class="yt-mock-thumb">
+                <span class="yt-time">12:34</span>
+              </div>
+              <div class="yt-mock-details">
+                <h5 class="yt-mock-title" id="mock-desktop-title">Your Video Title Will Display Here...</h5>
+                <p class="yt-mock-channel">Creator Channel Name</p>
+                <p class="yt-mock-stats">1.2M views &bull; 2 days ago</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Mockup -->
+          <div class="mockup-item">
+            <span class="mockup-label">Mobile Feed & App Preview</span>
+            <div class="youtube-mobile-mockup glass">
+              <div class="yt-mobile-thumb">
+                <span class="yt-time">12:34</span>
+              </div>
+              <div class="yt-mobile-details">
+                <div class="yt-mobile-avatar"></div>
+                <div class="yt-mobile-text">
+                  <h5 class="yt-mobile-title" id="mock-mobile-title">Your Video Title Will Display Here...</h5>
+                  <p class="yt-mobile-sub">Creator Channel Name &bull; 1.2M views &bull; 2 days ago</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>Why YouTube Titles Make or Break Your Views</h2>
+    <p>
+      Your thumbnail and title are the packaging of your video. Together, they dictate your click-through rate (CTR), which is a massive ranking factor in YouTube's recommendation algorithm. Even if your video is high-quality, poor packaging means nobody will click to discover it:
+    </p>
+    <ul>
+      <li><strong>Truncation issues:</strong> When YouTube lists your video in recommended columns, search feeds, or mobile lists, it has limited screen space. If your title is 90 characters long, viewers only see the first 50-60 characters, cutting off the crucial hook at the end.</li>
+      <li><strong>Mobile optimization:</strong> Over 70% of YouTube traffic originates from mobile devices. Mobile titles truncate faster than desktop titles, making it imperative to front-load your primary keywords.</li>
+      <li><strong>Algorithmic Context:</strong> YouTube's AI reads your title to categorize your video and find your seed audience. Place your target keywords at the beginning of the title.</li>
+    </ul>
+
+    <h2>YouTube Copywriting Frameworks that Work</h2>
+    <p>
+      Try these proven title structures used by elite YouTubers to trigger curiosity and clicks:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>The Curiosity Gap:</strong> <em>"I Built a $10,000 PC... Using Trash"</em> - Creates a mystery that can only be solved by clicking.</li>
+      <li><strong>Negative Framing (Fear of Missing Out):</strong> <em>"Stop Using [Tool] in 2026"</em> or <em>"5 Mistakes YouTubers Always Make"</em> - Warns viewers about threats, driving high interest.</li>
+      <li><strong>The Step-by-Step Blueprint:</strong> <em>"How I Edit Videos (Fast & Easy)"</em> - Promises direct value and efficiency.</li>
+    </ol>
+  </div>
+</ToolLayout>
+
+<style>
+  .title-checker-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .large-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .textarea-wrapper {
+    position: relative;
+  }
+
+  .title-textarea {
+    width: 100%;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    font-size: 1.05rem;
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    line-height: 1.5;
+  }
+
+  .title-textarea:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .char-counter {
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
+  }
+
+  /* Checklist box */
+  .audit-checklist-box {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .checklist-title {
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .checklist-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+  }
+
+  .check-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    position: relative;
+  }
+
+  .check-icon svg {
+    display: none;
+    width: 16px;
+    height: 16px;
+  }
+
+  .check-icon .chk-dash {
+    display: inline;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .check-item.success { color: var(--color-text); }
+  .check-item.success .check-icon { color: var(--color-success); }
+  .check-item.success .check-icon .chk-success { display: inline-block; }
+  .check-item.success .check-icon .chk-dash { display: none; }
+
+  .check-item.warning .check-icon { color: var(--color-warning); }
+  .check-item.warning .check-icon .chk-warning { display: inline-block; }
+  .check-item.warning .check-icon .chk-dash { display: none; }
+
+  .check-item.danger .check-icon { color: var(--color-danger); }
+  .check-item.danger .check-icon .chk-danger { display: inline-block; }
+  .check-item.danger .check-icon .chk-dash { display: none; }
+
+  /* Right column scores & mockups */
+  .checker-preview-area {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .score-card {
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .score-circle-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+
+  .score-svg {
+    width: 120px;
+    height: 120px;
+    transform: rotate(-90deg);
+  }
+
+  .score-bg-ring {
+    fill: none;
+    stroke: var(--color-border);
+    stroke-width: 8;
+  }
+
+  .score-fill-ring {
+    fill: none;
+    stroke: var(--color-brand);
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.35s ease, stroke var(--transition-normal);
+  }
+
+  .score-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .score-number {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-text);
+  }
+
+  .score-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .score-feedback {
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  /* Mockup Items */
+  .mockups-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .mockup-header {
+    font-size: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+  }
+
+  .mockup-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .mockup-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  /* Desktop Mockup Details */
+  .youtube-desktop-mockup {
+    display: flex;
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    gap: 1rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+  }
+
+  .yt-mock-thumb {
+    width: 120px;
+    height: 68px;
+    border-radius: 6px;
+    background: #1f2937;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .yt-time {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .yt-mock-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.2rem;
+    min-width: 0; /* allows text truncation */
+  }
+
+  .yt-mock-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.3;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .yt-mock-channel {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .yt-mock-stats {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Mobile Mockup Details */
+  .youtube-mobile-mockup {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .yt-mobile-thumb {
+    width: 100%;
+    height: 140px;
+    background: #1f2937;
+    position: relative;
+  }
+
+  .yt-mobile-details {
+    display: flex;
+    padding: 0.75rem;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .yt-mobile-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background: #374151;
+    flex-shrink: 0;
+  }
+
+  .yt-mobile-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .yt-mobile-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-text);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .yt-mobile-sub {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Responsive Rules */
+  @media (min-width: 768px) {
+    .title-checker-container {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+    }
+  }
+</style>
+
+<script>
+  const setupTitleChecker = () => {
+    const input = document.getElementById('title-input') as HTMLTextAreaElement;
+    if (!input) return;
+
+    const charCounter = document.getElementById('char-counter');
+    const scoreVal = document.getElementById('score-val');
+    const scoreRing = document.getElementById('score-ring');
+    const scoreFeedback = document.getElementById('score-feedback');
+
+    // Checklist Elements
+    const chkChar = document.getElementById('chk-char');
+    const chkWord = document.getElementById('chk-word');
+    const chkPower = document.getElementById('chk-power');
+    const chkCase = document.getElementById('chk-case');
+
+    // Snippet Mockups
+    const mockDesktop = document.getElementById('mock-desktop-title');
+    const mockMobile = document.getElementById('mock-mobile-title');
+
+    // List of typical power words/triggers
+    const powerWordsList = [
+      'ultimate', 'secret', 'secrets', 'shocking', 'best', 'revealed', 'stop', 'why', 'how to',
+      'blueprint', 'easy', 'fast', 'free', 'crazy', 'insane', 'proven', 'mistake', 'mistakes',
+      'never', 'always', 'guaranteed', 'hacks', 'hack', 'genius', 'unusual', 'surprising'
+    ];
+
+    const runAnalysis = () => {
+      const text = input.value.trim();
+      const length = text.length;
+
+      // Update counters
+      if (charCounter) charCounter.textContent = `${length} / 100 characters`;
+
+      // Previews with truncation simulation
+      if (mockDesktop) {
+        if (length === 0) {
+          mockDesktop.textContent = "Your Video Title Will Display Here...";
+        } else {
+          mockDesktop.textContent = length > 65 ? text.substring(0, 62) + "..." : text;
+        }
+      }
+      if (mockMobile) {
+        if (length === 0) {
+          mockMobile.textContent = "Your Video Title Will Display Here...";
+        } else {
+          mockMobile.textContent = length > 50 ? text.substring(0, 47) + "..." : text;
+        }
+      }
+
+      if (length === 0) {
+        // Reset state
+        if (scoreVal) scoreVal.textContent = "0";
+        if (scoreRing) {
+          scoreRing.style.strokeDashoffset = "251.2";
+          scoreRing.style.stroke = "var(--color-brand)";
+        }
+        if (scoreFeedback) scoreFeedback.textContent = "Enter a title to begin...";
+        
+        // Reset checklist
+        [chkChar, chkWord, chkPower, chkCase].forEach(el => {
+          if (el) {
+            el.className = "check-item";
+          }
+        });
+        return;
+      }
+
+      // 1. Check Character Length (Optimal: 50-60)
+      let charScore = 0;
+      let charStatus = "";
+      if (length >= 50 && length <= 60) {
+        charScore = 30;
+        charStatus = "success";
+      } else if ((length >= 40 && length < 50) || (length > 60 && length <= 70)) {
+        charScore = 20;
+        charStatus = "warning";
+      } else {
+        charScore = 5;
+        charStatus = "danger";
+      }
+
+      // 2. Check Word Count (Optimal: 5-10 words)
+      const words = text.split(/\s+/).filter(w => w.length > 0);
+      const wordCount = words.length;
+      let wordScore = 0;
+      let wordStatus = "";
+      if (wordCount >= 5 && wordCount <= 10) {
+        wordScore = 25;
+        wordStatus = "success";
+      } else if (wordCount > 0 && (wordCount < 5 || wordCount <= 13)) {
+        wordScore = 15;
+        wordStatus = "warning";
+      } else {
+        wordScore = 5;
+        wordStatus = "danger";
+      }
+
+      // 3. Check Capitalization
+      let caseScore = 0;
+      let caseStatus = "";
+      const isAllUpper = text === text.toUpperCase() && /[A-Z]/.test(text);
+      const isAllLower = text === text.toLowerCase() && /[a-z]/.test(text);
+      
+      if (!isAllUpper && !isAllLower && words.some(w => /[A-Z]/.test(w))) {
+        caseScore = 20;
+        caseStatus = "success";
+      } else {
+        caseScore = 5;
+        caseStatus = "warning";
+      }
+
+      // 4. Power Words Check
+      let powerScore = 0;
+      let powerStatus = "";
+      const foundPowerWord = words.some(word => 
+        powerWordsList.includes(word.toLowerCase().replace(/[^a-z]/g, ''))
+      );
+      
+      if (foundPowerWord) {
+        powerScore = 25;
+        powerStatus = "success";
+      } else {
+        powerScore = 0;
+        powerStatus = "warning";
+      }
+
+      // Update Checklist Icons & Classes
+      const setCheckState = (el: HTMLElement | null, status: string) => {
+        if (!el) return;
+        el.className = `check-item ${status}`;
+      };
+
+      setCheckState(chkChar, charStatus);
+      setCheckState(chkWord, wordStatus);
+      setCheckState(chkCase, caseStatus);
+      setCheckState(chkPower, powerStatus);
+
+      // Sum final score
+      const totalScore = charScore + wordScore + caseScore + powerScore;
+
+      // Update Circle progress
+      if (scoreVal) scoreVal.textContent = totalScore.toString();
+      if (scoreRing) {
+        // Circumference is 251.2
+        const offset = 251.2 - (251.2 * totalScore) / 100;
+        scoreRing.style.strokeDashoffset = offset.toString();
+        
+        if (totalScore >= 80) scoreRing.style.stroke = "var(--color-success)";
+        else if (totalScore >= 50) scoreRing.style.stroke = "var(--color-warning)";
+        else scoreRing.style.stroke = "var(--color-danger)";
+      }
+
+      // Feedback Text
+      if (scoreFeedback) {
+        if (totalScore >= 85) {
+          scoreFeedback.textContent = "Excellent Title! Perfect click hook.";
+          scoreFeedback.style.color = "var(--color-success)";
+        } else if (totalScore >= 60) {
+          scoreFeedback.textContent = "Good title, but small improvements possible.";
+          scoreFeedback.style.color = "var(--color-warning)";
+        } else {
+          scoreFeedback.textContent = "Low score. Optimize using the checklist.";
+          scoreFeedback.style.color = "var(--color-danger)";
+        }
+      }
+    };
+
+    input.addEventListener('input', runAnalysis);
+    // run initial validation on focus/re-render
+    runAnalysis();
+  };
+
+  setupTitleChecker();
+  document.addEventListener('astro:after-swap', setupTitleChecker);
+</script>

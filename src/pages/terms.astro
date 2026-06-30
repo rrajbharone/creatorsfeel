@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Terms of Service', item: '/terms' }
+];
+---
+
+<BaseLayout 
+  title="Terms of Service - CreatorsFeel"
+  description="Read the Terms of Service for CreatorsFeel. Learn about conditions of website use, licenses, limitations of liability, and privacy agreements."
+  breadcrumbs={breadcrumbs}
+>
+  <article class="legal-page container">
+    <header class="legal-header text-center">
+      <h1 class="legal-title">Terms of Service</h1>
+      <p class="legal-date text-muted">Last Updated: June 30, 2026</p>
+    </header>
+
+    <div class="legal-content">
+      <h2>1. Agreement to Terms</h2>
+      <p>
+        By accessing creatorsfeel.com, you are agreeing to be bound by these website Terms of Service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site.
+      </p>
+
+      <h2>2. Use License</h2>
+      <p>
+        Permission is granted to temporarily utilize the tools, calculators, and materials on CreatorsFeel's website for personal or commercial audience analytics purposes. Under this license, you may not:
+      </p>
+      <ul>
+        <li>Modify or copy the codebase or materials.</li>
+        <li>Attempt to decompile, reverse-engineer, or extract the algorithms of any tool on CreatorsFeel.</li>
+        <li>Remove any copyright or other proprietary notations from the materials.</li>
+        <li>Transfer the materials to another person or "mirror" the materials on any other server.</li>
+      </ul>
+      <p>
+        This license shall automatically terminate if you violate any of these restrictions and may be terminated by CreatorsFeel at any time.
+      </p>
+
+      <h2>3. Disclaimer</h2>
+      <p>
+        The tools and materials on CreatorsFeel's website are provided on an 'as is' basis. CreatorsFeel makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+      </p>
+      <p>
+        Further, CreatorsFeel does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its website or otherwise relating to such materials or on any sites linked to this site.
+      </p>
+
+      <h2>4. Limitations of Liability</h2>
+      <p>
+        In no event shall CreatorsFeel or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the tools or materials on CreatorsFeel's website, even if CreatorsFeel or an authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.
+      </p>
+
+      <h2>5. Accuracy of Materials</h2>
+      <p>
+        The materials appearing on CreatorsFeel's website could include technical, typographical, or photographic errors. CreatorsFeel does not warrant that any of the materials on its website are accurate, complete, or current. CreatorsFeel may make changes to the materials contained on its website at any time without notice. However, CreatorsFeel does not make any commitment to update the materials.
+      </p>
+
+      <h2>6. Links</h2>
+      <p>
+        CreatorsFeel has not reviewed all of the sites linked to its website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by CreatorsFeel of the site. Use of any such linked website is at the user's own risk.
+      </p>
+
+      <h2>7. Modifications</h2>
+      <p>
+        CreatorsFeel may revise these Terms of Service for its website at any time without notice. By using this website, you are agreeing to be bound by the then-current version of these Terms of Service.
+      </p>
+
+      <h2>8. Governing Law</h2>
+      <p>
+        These terms and conditions are governed by and construed in accordance with international laws, and you irrevocably submit to the exclusive jurisdiction of the competent courts.
+      </p>
+
+      <h2>9. Contact Us</h2>
+      <p>
+        If you have any questions or queries regarding these Terms of Service, please contact us at support@creatorsfeel.com.
+      </p>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    max-width: var(--max-width-text);
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-xl);
+  }
+
+  .legal-header {
+    margin-bottom: var(--space-lg);
+  }
+
+  .legal-title {
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-date {
+    font-size: 0.9rem;
+  }
+
+  .legal-content {
+    line-height: 1.8;
+    font-size: 1.05rem;
+  }
+
+  .legal-content h2 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .legal-content p {
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .legal-content ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+  }
+</style>

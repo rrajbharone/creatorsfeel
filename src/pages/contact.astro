@@ -1,0 +1,271 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Contact Us', item: '/contact' }
+];
+---
+
+<BaseLayout 
+  title="Contact Us - CreatorsFeel"
+  description="Contact the CreatorsFeel team. Get in touch for feature suggestions, brand partnerships, support, or privacy inquiries."
+  breadcrumbs={breadcrumbs}
+>
+  <div class="contact-page container">
+    <header class="contact-header text-center">
+      <h1 class="contact-title">Contact Us</h1>
+      <p class="contact-subtitle text-muted">Have a tool suggestion, partnership query, or privacy request? Let's connect.</p>
+    </header>
+
+    <div class="contact-grid">
+      <!-- Contact Info Details -->
+      <section class="contact-info glass" aria-label="Support contacts">
+        <h2 class="info-box-title">Get In Touch</h2>
+        <p class="info-box-desc text-muted">
+          Our team is dedicated to providing high-quality tools for creators. Drop us a line and we will get back to you within 24-48 business hours.
+        </p>
+
+        <div class="contact-channels">
+          <div class="channel-card">
+            <span class="channel-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            </span>
+            <div class="channel-text">
+              <h4>Email Support</h4>
+              <p><a href="mailto:support@creatorsfeel.com" class="channel-link">support@creatorsfeel.com</a></p>
+            </div>
+          </div>
+          <div class="channel-card">
+            <span class="channel-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+            </span>
+            <div class="channel-text">
+              <h4>Brand & Partners</h4>
+              <p><a href="mailto:partners@creatorsfeel.com" class="channel-link">partners@creatorsfeel.com</a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Form -->
+      <section class="contact-form-box glass" aria-label="Contact form">
+        <form class="calc-form" id="contact-form" onsubmit="return false;">
+          <div class="form-group">
+            <label for="contact-name">Full Name</label>
+            <input type="text" id="contact-name" class="form-input" placeholder="e.g., Jane Doe" required />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-email">Email Address</label>
+            <input type="email" id="contact-email" class="form-input" placeholder="e.g., jane@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-subject">Subject</label>
+            <input type="text" id="contact-subject" class="form-input" placeholder="e.g., Tool Suggestion" required />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message">Message</label>
+            <textarea 
+              id="contact-message" 
+              class="form-input message-textarea" 
+              placeholder="Type your message here..." 
+              rows="5" 
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="calc-btn" id="contact-submit-btn">Send Message</button>
+        </form>
+
+        <!-- Feedback Messages -->
+        <div class="form-feedback hidden text-center" id="form-feedback-box">
+          <span class="feedback-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+          </span>
+          <h3>Message Sent!</h3>
+          <p class="text-muted">Thank you for reaching out. We have received your message and will be in touch shortly.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-page {
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-xl);
+  }
+
+  .contact-header {
+    margin-bottom: var(--space-lg);
+  }
+
+  .contact-title {
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-subtitle {
+    font-size: 1.15rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .contact-info, .contact-form-box {
+    padding: 2.25rem 1.75rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .info-box-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .info-box-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+  }
+
+  .contact-channels {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .channel-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .channel-icon {
+    background: var(--gradient-glow);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--glass-border);
+    flex-shrink: 0;
+  }
+
+  .channel-icon svg {
+    width: 20px;
+    height: 20px;
+    color: var(--color-brand);
+  }
+
+  .channel-text h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+  }
+
+  .channel-text p {
+    font-size: 0.9rem;
+  }
+
+  .channel-link {
+    color: var(--color-brand);
+    font-weight: 600;
+  }
+
+  .channel-link:hover {
+    text-decoration: underline;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .message-textarea {
+    height: auto;
+    padding-top: 0.75rem;
+    resize: none;
+  }
+
+  /* Form Feedback Box */
+  .form-feedback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem 0;
+  }
+
+  .feedback-icon {
+    background: rgba(16, 185, 129, 0.1);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+
+  .feedback-icon svg {
+    width: 28px;
+    height: 28px;
+    color: var(--color-success);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Rules */
+  @media (min-width: 768px) {
+    .contact-grid {
+      grid-template-columns: 1fr 1.2fr;
+      align-items: start;
+    }
+  }
+</style>
+
+<script>
+  const setupContactForm = () => {
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    if (!form) return;
+
+    const feedbackBox = document.getElementById('form-feedback-box');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Since it's a static site, we simulate dynamic submission.
+      // Gather inputs
+      const name = (document.getElementById('contact-name') as HTMLInputElement).value;
+      const email = (document.getElementById('contact-email') as HTMLInputElement).value;
+      const subject = (document.getElementById('contact-subject') as HTMLInputElement).value;
+      const message = (document.getElementById('contact-message') as HTMLTextAreaElement).value;
+
+      if (!name || !email || !subject || !message) {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      // Hide form and show success box
+      form.classList.add('hidden');
+      if (feedbackBox) feedbackBox.classList.remove('hidden');
+    });
+  };
+
+  setupContactForm();
+  document.addEventListener('astro:after-swap', setupContactForm);
+</script>

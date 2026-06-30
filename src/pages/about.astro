@@ -1,0 +1,194 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'About Us', item: '/about' }
+];
+---
+
+<BaseLayout 
+  title="About Us - CreatorsFeel"
+  description="Discover the mission behind CreatorsFeel. Learn why we build premium, free, privacy-first marketing and analytics tools for social media creators."
+  breadcrumbs={breadcrumbs}
+>
+  <article class="info-page container">
+    <header class="info-header text-center">
+      <h1 class="info-title">About CreatorsFeel</h1>
+      <p class="info-subtitle text-muted">Building the ultimate optimization engine for digital content creators.</p>
+    </header>
+
+    <div class="info-content glass">
+      <h2>Our Mission</h2>
+      <p>
+        CreatorsFeel was founded with a single, clear objective: **to democratize creator metrics**. Navigating sponsorship negotiations, audience engagement formulas, and title SEO copywriting can be intimidating for creators starting out.
+      </p>
+      <p>
+        Most marketing dashboards are hidden behind expensive subscriptions, bloated ads, or data-collection tracking. We built CreatorsFeel to deliver **premium, 100% free, and privacy-first analytics tools** that load instantly.
+      </p>
+
+      <h2>Our Core Values</h2>
+      <div class="values-grid">
+        <div class="value-item">
+          <span class="value-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+          </span>
+          <h3>Performance First</h3>
+          <p class="text-muted">No lag, loaders, or loading screens. Our tools compile to static assets and run calculations instantly inside your browser.</p>
+        </div>
+        <div class="value-item">
+          <span class="value-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+          </span>
+          <h3>Uncompromised Privacy</h3>
+          <p class="text-muted">We do not store, log, or sell your account figures. All calculator metrics are processed locally. Your account data stays yours.</p>
+        </div>
+        <div class="value-item">
+          <span class="value-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+          </span>
+          <h3>Premium Quality</h3>
+          <p class="text-muted">AdSense-friendly, clean layouts optimized for both light and dark systems. We avoid distracting banners and invasive grids.</p>
+        </div>
+      </div>
+
+      <h2>Our Current Suite</h2>
+      <p>
+        We launched with three primary optimization tools designed to solve daily creator bottlenecks:
+      </p>
+      <ul class="tools-list">
+        <li><strong>Influencer Rate Calculator:</strong> Estimate sponsored post rate baselines and export customized copy-paste pitch templates.</li>
+        <li><strong>Instagram Engagement Calculator:</strong> Audit followers, comment ratios, and evaluate account interaction tiers.</li>
+        <li><strong>YouTube Title Checker:</strong> Run real-time character limit counts, scan for emotional power words, and preview layouts.</li>
+      </ul>
+
+      <h2>A Future-Proof Platform</h2>
+      <p>
+        This is just the beginning. Our architecture is designed to scale to **hundreds of specialized creator tools** covering TikTok algorithms, Twitch viewer analytics, podcast layouts, script templates, and invoice generators. 
+      </p>
+      <p>
+        Have ideas or feedback? Let us know on our <a href="/contact" class="info-link">Contact Page</a>!
+      </p>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .info-page {
+    max-width: 800px;
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-xl);
+  }
+
+  .info-header {
+    margin-bottom: var(--space-lg);
+  }
+
+  .info-title {
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .info-subtitle {
+    font-size: 1.15rem;
+  }
+
+  .info-content {
+    padding: 2.5rem 2rem;
+    border-radius: var(--radius-lg);
+    line-height: 1.8;
+  }
+
+  .info-content h2 {
+    font-size: 1.6rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+  }
+
+  .info-content h2:first-of-type {
+    margin-top: 0;
+  }
+
+  .info-content p {
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+    font-size: 1.05rem;
+  }
+
+  .tools-list {
+    margin-left: 1.5rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+  }
+
+  .tools-list strong {
+    color: var(--color-text);
+  }
+
+  /* Values grid */
+  .values-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .value-item {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .value-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    background: var(--gradient-glow);
+    border: 1px solid var(--glass-border);
+    color: var(--color-brand);
+    margin-bottom: 0.25rem;
+  }
+
+  .value-icon :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .value-item h3 {
+    font-size: 1.1rem;
+    color: var(--color-text);
+  }
+
+  .value-item p {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+  }
+
+  .info-link {
+    color: var(--color-brand);
+    font-weight: 500;
+  }
+
+  .info-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Responsive Rules */
+  @media (min-width: 640px) {
+    .values-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

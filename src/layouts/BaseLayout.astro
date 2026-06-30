@@ -1,0 +1,72 @@
+---
+import '../styles/global.css';
+import MetaTags from '../components/SEO/MetaTags.astro';
+import Schema from '../components/SEO/Schema.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  canonicalUrl?: string;
+  breadcrumbs?: { name: string; item: string }[];
+  faqs?: { question: string; answer: string }[];
+}
+
+const {
+  title,
+  description,
+  image,
+  type = 'website',
+  canonicalUrl,
+  breadcrumbs = [],
+  faqs = []
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- SEO & Metadata -->
+    <MetaTags 
+      title={title} 
+      description={description} 
+      image={image} 
+      type={type} 
+      canonicalUrl={canonicalUrl} 
+    />
+    
+    <!-- Schema Structured Data -->
+    <Schema 
+      type="all" 
+      breadcrumbs={breadcrumbs} 
+      faqs={faqs} 
+    />
+
+    <!-- Theme Initialization Script (Prevents FOUC) -->
+    <script is:inline>
+      const getTheme = () => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      };
+      
+      const theme = getTheme();
+      document.documentElement.setAttribute('data-theme', theme);
+    </script>
+  </head>
+  <body>
+    <div class="glow-bg"></div>
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

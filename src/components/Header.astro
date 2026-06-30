@@ -1,0 +1,276 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const navItems = [
+  { label: 'All Tools', href: '/tools' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Why Us', href: '/#why-choose-us' }
+];
+---
+
+<header class="header glass" id="main-header">
+  <div class="container header-container">
+    <a href="/" class="logo" aria-label="CreatorsFeel Home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" class="logo-icon" aria-hidden="true">
+        <defs>
+          <linearGradient id="header-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--color-brand)" />
+            <stop offset="100%" stop-color="#a855f7" />
+          </linearGradient>
+        </defs>
+        <path d="M4 16h4l2-6 3 12 2-8 2 2h3" stroke="url(#header-logo-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M20 11v10l8-5-8-5z" fill="url(#header-logo-grad)" stroke="url(#header-logo-grad)" stroke-width="1.5" stroke-linejoin="round" />
+      </svg>
+      <span class="logo-accent">Creators</span><span>Feel</span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav" aria-label="Desktop navigation">
+      {navItems.map(item => (
+        <a href={item.href} class="nav-link">{item.label}</a>
+      ))}
+      <ThemeToggle />
+    </nav>
+
+    <!-- Mobile Navigation Control -->
+    <div class="mobile-actions">
+      <ThemeToggle />
+      <button 
+        class="hamburger-btn" 
+        id="mobile-menu-toggle" 
+        aria-label="Open navigation menu" 
+        aria-expanded="false"
+        aria-controls="mobile-nav-drawer"
+      >
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobile-nav-drawer" aria-hidden="true">
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      {navItems.map(item => (
+        <a href={item.href} class="mobile-nav-link">{item.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    transition: background var(--transition-normal), border var(--transition-normal);
+  }
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .logo-accent {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .desktop-nav {
+    display: none;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    position: relative;
+    padding: 0.5rem 0;
+  }
+
+  .nav-link:hover {
+    color: var(--color-text);
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--gradient-brand);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--transition-normal);
+  }
+
+  .nav-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .mobile-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* Hamburger Icon */
+  .hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 44px;
+    height: 44px;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    transition: background var(--transition-normal);
+  }
+
+  .hamburger-btn:hover {
+    background: var(--color-border);
+  }
+
+  .hamburger-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-text);
+    border-radius: var(--radius-full);
+    transition: transform var(--transition-normal), opacity var(--transition-normal);
+  }
+
+  /* Hamburger Animation when Expanded */
+  .hamburger-btn[aria-expanded="true"] .hamburger-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .hamburger-btn[aria-expanded="true"] .hamburger-bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger-btn[aria-expanded="true"] .hamburger-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Mobile Drawer */
+  .mobile-drawer {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 72px);
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 99;
+    transition: transform var(--transition-slow), opacity var(--transition-slow), visibility var(--transition-slow);
+  }
+
+  .mobile-drawer[aria-hidden="false"] {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem var(--space-md);
+    gap: 1.5rem;
+  }
+
+  .mobile-nav-link {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .mobile-nav-link:hover {
+    color: var(--color-brand);
+    padding-left: 0.5rem;
+  }
+
+  /* Responsive Rules */
+  @media (min-width: 768px) {
+    .desktop-nav {
+      display: flex;
+    }
+
+    .mobile-actions {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const setupMobileMenu = () => {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const drawer = document.getElementById('mobile-nav-drawer');
+    
+    if (!toggleBtn || !drawer) return;
+
+    const toggleMenu = () => {
+      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', (!isExpanded).toString());
+      drawer.setAttribute('aria-hidden', isExpanded.toString());
+      
+      // Prevent scrolling when drawer is open
+      if (!isExpanded) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    };
+
+    toggleBtn.addEventListener('click', toggleMenu);
+
+    // Close menu when a link is clicked
+    const links = drawer.querySelectorAll('a');
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      });
+    });
+  };
+
+  setupMobileMenu();
+  document.addEventListener('astro:after-swap', setupMobileMenu);
+</script>
