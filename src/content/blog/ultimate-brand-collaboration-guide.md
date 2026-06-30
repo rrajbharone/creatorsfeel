@@ -2,8 +2,8 @@
 title: "The Ultimate Brand Collaboration Guide for Creators (How to Pitch & Partner)"
 description: "Learn how to secure brand collaborations as a creator. Read our step-by-step guide on pitching to brands, writing media kits, negotiating rates, and closing partnerships."
 pubDate: 2026-06-30
-author: "Rohan Raj"
-image: "/blog-brand-collaboration.jpg"
+author: "Ramu Rajbhar"
+image: "/images/blog/brand-collaboration-guide-for-creators.webp"
 tags: ["Sponsorships", "Marketing", "Monetization", "Creators"]
 ---
 

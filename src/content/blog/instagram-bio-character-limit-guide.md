@@ -2,8 +2,8 @@
 title: "Instagram Bio Character Limit: The Ultimate Profile Optimization Guide"
 description: "Learn how to make the most of Instagram's 150-character bio limit. Discover spacing hacks, line break formatting tricks, unicode fonts, and CTA hooks."
 pubDate: 2026-06-30
-author: "Rohan Raj"
-image: "/blog-instagram-bio-limit.jpg"
+author: "Ramu Rajbhar"
+image: "/images/blog/instagram-bio-character-limit.webp"
 tags: ["Instagram", "Bio", "Analytics", "Growth"]
 ---
 

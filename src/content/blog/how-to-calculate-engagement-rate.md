@@ -2,8 +2,8 @@
 title: "How to Calculate Instagram Engagement Rate (The Right Way)"
 description: "Confused about your true reach on Instagram? Learn how to calculate your engagement rate using standard industry formulas and how to boost interactions."
 pubDate: 2026-06-30
-author: "Rohan Raj"
-image: "/blog-instagram-engagement.jpg"
+author: "Ramu Rajbhar"
+image: "/images/blog/how-to-calculate-instagram-engagement-rate.webp"
 tags: ["Instagram", "Engagement", "Analytics", "Growth"]
 ---
 

@@ -2,8 +2,8 @@
 title: "What is CPM and How Do You Calculate It? (The Ultimate Ad Bidding Guide)"
 description: "Understand CPM (Cost Per Mille) advertising bidding models. Learn how to calculate CPM with step-by-step formulas, compare CPM vs CPC/RPM, and optimize ad campaigns."
 pubDate: 2026-06-30
-author: "Rohan Raj"
-image: "/blog-cpm-calculator.jpg"
+author: "Ramu Rajbhar"
+image: "/images/blog/what-is-cpm-and-how-do-you-calculate-it.webp"
 tags: ["CPM", "Advertising", "Marketing", "Calculators"]
 ---
 
