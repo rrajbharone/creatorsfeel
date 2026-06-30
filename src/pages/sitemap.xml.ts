@@ -13,6 +13,7 @@ export const GET: APIRoute = async (context) => {
     '/tools/youtube-title-length-checker',
     '/tools/cpm-calculator',
     '/tools/instagram-bio-character-counter',
+    '/tools/instagram-caption-character-counter',
     '/blog',
     '/privacy',
     '/terms',

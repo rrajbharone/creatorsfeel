@@ -1,0 +1,1260 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the Instagram caption character limit?",
+    answer: "The official character limit for an Instagram caption is 2,200 characters. This is a generous limit, but for optimal engagement, it is recommended to keep your core message concise and place important hooks in the first 125 characters."
+  },
+  {
+    question: "How many hashtags can you put in an Instagram caption?",
+    answer: "Instagram has recently updated its systems to recommend and limit posts to a maximum of 5 hashtags. Using more than 5 hashtags is ignored or flagged by the algorithm to combat hashtag spam and optimize search results. Keep your hashtags at 5 or fewer."
+  },
+  {
+    question: "What is the 125-character crop rule on Instagram?",
+    answer: "In a user's mobile feed, Instagram truncates your caption after the first 125 characters, adding a grey '... more' link. Your first 125 characters must contain an engaging hook or curiosity gap to convince users to click and read the rest."
+  },
+  {
+    question: "Do emojis count toward the caption character limit?",
+    answer: "Yes, emojis count as characters. While standard emojis count as 1 character, some complex emojis (like flags, couples, or those with skin tone variations) count as 2 to 4 characters in Instagram's database."
+  },
+  {
+    question: "How do you add line breaks in Instagram captions?",
+    answer: "You can type or paste your caption directly inside our counter tool with empty lines, then copy the result. Our tool formats clean line spacing that posts directly to Instagram without needing dots or dash dividers."
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'Instagram Caption Character Counter', item: '/tools/instagram-caption-character-counter' }
+];
+
+const canonicalUrl = "https://creatorsfeel.com/tools/instagram-caption-character-counter";
+---
+
+<ToolLayout
+  title="Instagram Caption Character Counter - Feed Preview Mockup"
+  description="Count characters for your Instagram caption in real-time. Verify the 2,200 character limit, track hashtag counts, and check the 125-character crop preview."
+  toolName="Instagram Caption Character Counter"
+  toolDescription="Audit caption length boundaries, count hashtags/mentions, preview feed crop truncation, and style text with fancy custom fonts."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Schema Graphs -->
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://creatorsfeel.com/tools/instagram-caption-character-counter/#application",
+        "name": "Instagram Caption Character Counter",
+        "url": "https://creatorsfeel.com/tools/instagram-caption-character-counter",
+        "operatingSystem": "All",
+        "applicationCategory": "WritingApplication",
+        "description": "Count characters in your Instagram caption, audit hashtags limits, and preview the 125-character mobile feed crop in real-time.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0.00",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://creatorsfeel.com/tools/instagram-caption-character-counter/#faq",
+        "mainEntity": faqs.map(faq => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+          }
+        }))
+      }
+    ]
+  })} />
+
+  <!-- Interactive Counter Interface -->
+  <div slot="calculator" class="calc-card glass">
+    <div class="calc-grid">
+      <!-- Input Panel -->
+      <div class="counter-input-section">
+        <div class="form-group">
+          <label for="caption-textarea">Write or Paste Your Caption</label>
+          <div class="textarea-wrapper">
+            <textarea 
+              id="caption-textarea" 
+              class="form-textarea" 
+              placeholder="Type your Instagram caption here... e.g. 👇
+🚀 Want to build a high-converting creator brand?
+Here are 3 simple steps to optimize your profile rates...
+
+#ContentCreator #SocialMediaMarketing #CreatorsFeel"
+              maxlength="3000"
+              rows="8"
+            ></textarea>
+            <div class="textarea-actions">
+              <button type="button" id="btn-uppercase" class="text-action-btn">UPPER</button>
+              <button type="button" id="btn-lowercase" class="text-action-btn">lower</button>
+              <button type="button" id="btn-sentence" class="text-action-btn">Sentence</button>
+              <button type="button" id="btn-extract-tags" class="text-action-btn-accent">Extract #Tags</button>
+              <button type="button" id="btn-clear" class="text-action-btn-danger">Clear</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Extracted Hashtags Input -->
+        <div class="form-group hidden" id="extracted-tags-container">
+          <label for="extracted-tags-input">Extracted Hashtags</label>
+          <div class="input-copy-group">
+            <input type="text" id="extracted-tags-input" readonly class="form-input" />
+            <button type="button" id="btn-copy-extracted" class="copy-input-btn">Copy Tags</button>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="calc-submit-btn" class="calc-btn">Audit Caption Quality</button>
+          <button type="button" id="btn-copy-main" class="calc-btn-secondary">Copy Caption</button>
+        </div>
+
+        <!-- Font Generator Panel -->
+        <div class="font-generator-box">
+          <h4 class="font-box-title">Fancy Unicode Fonts Generator</h4>
+          <p class="font-box-helper text-muted">Click any variation below to copy it directly to your clipboard:</p>
+          
+          <div class="fonts-list">
+            <div class="font-item" data-font-type="bold" role="button" tabindex="0" title="Click to copy Bold text">
+              <span class="font-label">Bold Sans:</span>
+              <span class="font-preview" id="font-preview-bold">-</span>
+            </div>
+            <div class="font-item" data-font-type="italic" role="button" tabindex="0" title="Click to copy Italic text">
+              <span class="font-label">Italic Sans:</span>
+              <span class="font-preview" id="font-preview-italic">-</span>
+            </div>
+            <div class="font-item" data-font-type="monospace" role="button" tabindex="0" title="Click to copy Monospace text">
+              <span class="font-label">Monospace:</span>
+              <span class="font-preview" id="font-preview-monospace">-</span>
+            </div>
+            <div class="font-item" data-font-type="doubleStruck" role="button" tabindex="0" title="Click to copy Double-Struck text">
+              <span class="font-label">Double-Struck:</span>
+              <span class="font-preview" id="font-preview-double">-</span>
+            </div>
+            <div class="font-item" data-font-type="gothic" role="button" tabindex="0" title="Click to copy Gothic text">
+              <span class="font-label">Fraktur/Gothic:</span>
+              <span class="font-preview" id="font-preview-gothic">-</span>
+            </div>
+          </div>
+          <div class="toast-notification hidden" id="font-toast">Copied styled font to clipboard!</div>
+        </div>
+      </div>
+
+      <!-- Results & Metrics Audit Panel -->
+      <div class="calc-results" id="results-wrapper">
+        <!-- Instagram Live Feed Mockup -->
+        <div class="instagram-mockup glass">
+          <div class="mockup-header">
+            <div class="mockup-avatar"></div>
+            <div class="mockup-username">
+              <span class="username-text">yourname</span>
+              <span class="location-text">Sponsored</span>
+            </div>
+            <div class="mockup-menu">•••</div>
+          </div>
+          <div class="mockup-media">
+            <!-- Pulsing logo graphic representing photo area -->
+            <div class="mockup-media-graphic">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mockup-media-icon">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+              <span class="mockup-media-tag">creatorsfeel.com</span>
+            </div>
+          </div>
+          <div class="mockup-actions">
+            <div class="actions-left">
+              <span>❤️</span>
+              <span>💬</span>
+              <span>✈️</span>
+            </div>
+            <div class="actions-right">
+              <span>🔖</span>
+            </div>
+          </div>
+          <div class="mockup-likes">1,245 likes</div>
+          <div class="mockup-caption-box">
+            <span class="mockup-bold-user">yourname</span>
+            <span id="mockup-caption-text" class="mockup-caption-text">Type your caption in the editor to preview layout...</span>
+            <span id="mockup-more-btn" class="mockup-more-link hidden">more</span>
+          </div>
+        </div>
+
+        <div class="rate-range-box" id="progress-card">
+          <h4 class="rate-label">Caption Characters</h4>
+          <div class="rate-range" id="res-char-count">0 / 2,200</div>
+          
+          <!-- Visual progress bar -->
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="char-progress-bar" style="width: 0%;"></div>
+          </div>
+          <div class="grade-badge" id="res-char-status">2,200 Remaining</div>
+        </div>
+
+        <!-- Metrics Audit list -->
+        <div class="breakdown-box">
+          <h4 class="breakdown-title">Instagram Caption Guidelines Audit</h4>
+          <div class="breakdown-list">
+            <!-- Hashtags Limit -->
+            <div class="audit-item" id="audit-hashtags">
+              <div class="audit-meta">
+                <span class="audit-icon" id="icon-hashtags">⚪</span>
+                <span class="audit-label">Hashtags Count:</span>
+              </div>
+              <span class="audit-value" id="val-hashtags">0 / 5 tags</span>
+            </div>
+
+            <!-- Mentions limit -->
+            <div class="audit-item" id="audit-mentions">
+              <div class="audit-meta">
+                <span class="audit-icon" id="icon-mentions">⚪</span>
+                <span class="audit-label">Profile Mentions:</span>
+              </div>
+              <span class="audit-value" id="val-mentions">0 handles</span>
+            </div>
+
+            <!-- Hook crop quality checker -->
+            <div class="audit-item" id="audit-hook">
+              <div class="audit-meta">
+                <span class="audit-icon" id="icon-hook">⚪</span>
+                <span class="audit-label">First 125 Characters Hook:</span>
+              </div>
+              <span class="audit-value" id="val-hook">No hook text</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analyst Insights -->
+        <div class="insight-box glass">
+          <h4 class="insight-title">Caption Optimization Insight</h4>
+          <p id="res-insight-desc" class="insight-desc">Type your copy details in the editor to review feed quality suggestions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Educational SEO Content -->
+  <div slot="about">
+    <h2>What is the Instagram Caption Character Limit?</h2>
+    <p>
+      The official limit for an Instagram caption is **2,200 characters**. While this allows for long-form blogging and detailed storytelling, you must keep in mind that Instagram is a visual-first app. Your captions should be structured with line breaks, paragraphs, and engaging hooks.
+    </p>
+    <p>
+      This character limit includes standard letters, numbers, spaces, punctuation, line breaks, and emojis.
+    </p>
+
+    <h2>The 125-Character Mobile Crop Rule</h2>
+    <p>
+      When users scroll through their Instagram feed, they only see the first **125 characters** of your caption. The remaining text is cropped behind a light grey **"... more"** link. 
+    </p>
+    <p>
+      If your first 125 characters do not hook the reader, they will not click "... more" to read your caption, which hurts your post's click-through rates and overall engagement index.
+    </p>
+
+    <div class="formula-box">
+      Hook (First 125 Chars) = Curiosity Gap / Intriguing Statement + Call to action 👇
+    </div>
+
+    <h2>The 5-Hashtag Limit Update</h2>
+    <p>
+      Instagram has updated its platform guidelines to restrict posts to a maximum of **5 hashtags** per post.
+    </p>
+    <p>
+      <strong>Caution:</strong> If you include more than 5 hashtags inside your caption, the algorithm will flag it as tag spam, reducing your organic search visibility. To maintain optimal reach, keep your hashtags within the 1-5 range.
+    </p>
+
+    <h2>Instagram Caption Guidelines and Rules</h2>
+    <p>
+      Below is a guide to budgeting characters, hashtags, and formatting hooks for maximum reach:
+    </p>
+    <div class="table-responsive">
+      <table style="width: 100%; min-width: 550px; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--color-border); background: var(--color-bg-alt);">
+            <th style="padding: 0.75rem;">Metric</th>
+            <th style="padding: 0.75rem;">Recommended Limit</th>
+            <th style="padding: 0.75rem;">Why it Matters</th>
+            <th style="padding: 0.75rem;">Risk of Exceeding</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">Characters Used</td>
+            <td style="padding: 0.75rem;">150 - 500 characters</td>
+            <td style="padding: 0.75rem;">Optimal density for quick readability.</td>
+            <td style="padding: 0.75rem; color: var(--color-danger);">Over 2,200 prevents publishing the post.</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">First Crop Hook</td>
+            <td style="padding: 0.75rem;">First 125 characters</td>
+            <td style="padding: 0.75rem;">Determines feed view click-through rate.</td>
+            <td style="padding: 0.75rem; color: var(--color-warning);">If boring, users skip the post without reading.</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">Hashtag Count</td>
+            <td style="padding: 0.75rem;">1 - 5 hashtags</td>
+            <td style="padding: 0.75rem;">Classifies your post in the algorithm.</td>
+            <td style="padding: 0.75rem; color: var(--color-danger);">6+ tags are flagged as spam or ignored.</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">Line Spacing</td>
+            <td style="padding: 0.75rem;">Empty space between paragraphs</td>
+            <td style="padding: 0.75rem;">Breaks up text blocks, improving readability.</td>
+            <td style="padding: 0.75rem; color: var(--color-text-muted);">Dense walls of text are hard to read.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>How to Write Better Instagram Captions</h2>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Write a Strong First Line:</strong> Ask a question, share a contrarian opinion, or use numbers (e.g. <em>"3 mistakes costing you followers..."</em>).</li>
+      <li><strong>Use Micro-Blogging Structure:</strong> Write short paragraphs of 1-2 sentences. Use emojis as bullet points.</li>
+      <li><strong>Place Emojis Strategically:</strong> Emojis add color, but too many emojis look unprofessional. Use them as line breaks or lists.</li>
+      <li><strong>Hide Your Hashtags:</strong> Separate your main hashtags from your caption text by placing 4-5 line breaks at the bottom of your caption. E.g. placing a period on each line to hide the hashtags block.</li>
+    </ol>
+  </div>
+</ToolLayout>
+
+<style>
+  .calc-card {
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+    max-width: 100%;
+  }
+
+  .counter-input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .textarea-wrapper {
+    position: relative;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all var(--transition-fast);
+  }
+
+  .textarea-wrapper:focus-within {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .form-textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 1rem;
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+    outline: none;
+    line-height: 1.5;
+  }
+
+  .textarea-actions {
+    display: flex;
+    justify-content: flex-end;
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+    padding: 0.35rem 0.5rem;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  .text-action-btn, .text-action-btn-accent {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+  }
+
+  .text-action-btn:hover {
+    color: var(--color-text);
+    border-color: var(--color-brand);
+  }
+
+  .text-action-btn-accent {
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--color-brand);
+    border-color: rgba(99, 102, 241, 0.2);
+  }
+
+  .text-action-btn-accent:hover {
+    background: var(--color-brand);
+    color: var(--color-text-inverse);
+  }
+
+  .text-action-btn-danger {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-danger);
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+  }
+
+  .text-action-btn-danger:hover {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.2);
+  }
+
+  /* Extracted Tags inputs */
+  .input-copy-group {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .form-input {
+    flex: 1;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 0.75rem 1rem;
+    color: var(--color-text);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    outline: none;
+  }
+
+  .copy-input-btn {
+    padding: 0 1rem;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all var(--transition-fast);
+  }
+
+  .copy-input-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    color: var(--color-text);
+    border-color: var(--color-brand);
+    background: var(--color-bg-card);
+  }
+
+  /* Font Generator Panel CSS */
+  .font-generator-box {
+    margin-top: 1.5rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    position: relative;
+  }
+
+  .font-box-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--color-text);
+  }
+
+  .font-box-helper {
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .fonts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .font-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    gap: 0.25rem;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .font-item:hover {
+    border-color: var(--color-brand);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px var(--color-shadow-hover);
+  }
+
+  .font-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .font-preview {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Toast Notification */
+  .toast-notification {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-full);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    pointer-events: none;
+    transition: opacity var(--transition-fast) ease;
+  }
+
+  /* Results dashboard */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 350px;
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Instagram Feed Mockup */
+  .instagram-mockup {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .mockup-header {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .mockup-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--gradient-brand);
+  }
+
+  .mockup-username {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .username-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .location-text {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+
+  .mockup-menu {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+  }
+
+  .mockup-media {
+    background: var(--color-bg-alt);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .mockup-media-graphic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-text-muted);
+    opacity: 0.65;
+  }
+
+  .mockup-media-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .mockup-media-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .mockup-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1rem 0.5rem;
+    font-size: 1.1rem;
+  }
+
+  .actions-left {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .mockup-likes {
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0 1rem 0.25rem;
+    color: var(--color-text);
+  }
+
+  .mockup-caption-box {
+    padding: 0 1rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    word-break: break-word;
+    color: var(--color-text);
+  }
+
+  .mockup-bold-user {
+    font-weight: 700;
+    margin-right: 0.35rem;
+  }
+
+  .mockup-caption-text {
+    white-space: pre-wrap;
+  }
+
+  .mockup-more-link {
+    color: var(--color-text-muted);
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 0.25rem;
+  }
+
+  .mockup-more-link:hover {
+    color: var(--color-brand);
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .rate-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .rate-range {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 800;
+    color: var(--color-text);
+  }
+
+  /* Progress Bar CSS */
+  .progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gradient-brand);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-normal) ease;
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-full);
+    background: var(--gradient-glow);
+    border: 1px solid var(--glass-border);
+    color: var(--color-brand);
+  }
+
+  .breakdown-box {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+  }
+
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .audit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    border-bottom: 1px dashed var(--color-border);
+    padding-bottom: 0.5rem;
+  }
+
+  .audit-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .audit-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .audit-icon {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .audit-label {
+    font-weight: 500;
+  }
+
+  .audit-value {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* Insight Box Styling */
+  .insight-box {
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .insight-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+    color: var(--color-text);
+  }
+
+  .insight-desc {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+    }
+
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+  }
+
+  /* Formula and Table responsiveness fixes */
+  .formula-box {
+    background: var(--color-bg-alt);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    margin: 1.25rem 0;
+    font-family: monospace;
+    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+    text-align: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .table-responsive {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1.5rem 0;
+    box-sizing: border-box;
+  }
+
+  code {
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+    }
+  }
+</style>
+
+<script>
+  const setupCaptionCounter = () => {
+    // Selectors
+    const textarea = document.getElementById('caption-textarea') as HTMLTextAreaElement;
+    
+    // Actions
+    const btnUpper = document.getElementById('btn-uppercase');
+    const btnLower = document.getElementById('btn-lowercase');
+    const btnSentence = document.getElementById('btn-sentence');
+    const btnExtractTags = document.getElementById('btn-extract-tags');
+    const btnClear = document.getElementById('btn-clear');
+    const btnSubmit = document.getElementById('calc-submit-btn');
+    const btnCopyMain = document.getElementById('btn-copy-main');
+    const btnCopyExtracted = document.getElementById('btn-copy-extracted');
+
+    // Outputs
+    const resCharCount = document.getElementById('res-char-count');
+    const charProgressBar = document.getElementById('char-progress-bar');
+    const resCharStatus = document.getElementById('res-char-status');
+
+    // Extracted tags
+    const extractedTagsContainer = document.getElementById('extracted-tags-container');
+    const extractedTagsInput = document.getElementById('extracted-tags-input') as HTMLInputElement;
+
+    // Audit checklist outputs
+    const valHashtags = document.getElementById('val-hashtags');
+    const valMentions = document.getElementById('val-mentions');
+    const valHook = document.getElementById('val-hook');
+
+    const iconHashtags = document.getElementById('icon-hashtags');
+    const iconMentions = document.getElementById('icon-mentions');
+    const iconHook = document.getElementById('icon-hook');
+
+    const resInsightDesc = document.getElementById('res-insight-desc');
+
+    // Font Previews
+    const previewBold = document.getElementById('font-preview-bold');
+    const previewItalic = document.getElementById('font-preview-italic');
+    const previewMonospace = document.getElementById('font-preview-monospace');
+    const previewDouble = document.getElementById('font-preview-double');
+    const previewGothic = document.getElementById('font-preview-gothic');
+    const toast = document.getElementById('font-toast');
+    const fontItems = document.querySelectorAll('.font-item');
+
+    // Mockup Feed Outputs
+    const mockupCaptionText = document.getElementById('mockup-caption-text');
+    const mockupMoreBtn = document.getElementById('mockup-more-btn');
+
+    if (!textarea) return;
+
+    // Unicode mapping offset constants
+    const mapUnicode = (text: string, type: string): string => {
+      const charCodes: Record<string, { A: number; a: number; '0'?: number }> = {
+        bold: { A: 120276, a: 120302, '0': 120812 },
+        italic: { A: 120328, a: 120354 },
+        doubleStruck: { A: 120120, a: 120146, '0': 120782 },
+        gothic: { A: 120068, a: 120094 },
+        monospace: { A: 120432, a: 120458, '0': 120822 }
+      };
+
+      const map = charCodes[type];
+      if (!map) return text;
+
+      return Array.from(text).map(char => {
+        const code = char.charCodeAt(0);
+        if (code >= 65 && code <= 90) { // A-Z
+          return String.fromCodePoint(map.A + (code - 65));
+        } else if (code >= 97 && code <= 122) { // a-z
+          return String.fromCodePoint(map.a + (code - 97));
+        } else if (code >= 48 && code <= 57 && map['0'] !== undefined) { // 0-9
+          return String.fromCodePoint(map['0'] + (code - 48));
+        }
+        return char;
+      }).join('');
+    };
+
+    let isExpanded = false;
+
+    // Perform audit
+    const updateAudit = () => {
+      const text = textarea.value || '';
+      const charLen = text.length;
+
+      // 1. Character count display & progress bar
+      if (resCharCount) resCharCount.textContent = `${charLen.toLocaleString()} / 2,200`;
+      
+      const pct = Math.min(100, (charLen / 2,200) * 100);
+      if (charProgressBar) {
+        charProgressBar.style.width = `${pct}%`;
+        if (charLen > 2200) {
+          charProgressBar.style.background = 'var(--color-danger)';
+        } else if (charLen > 2000) {
+          charProgressBar.style.background = 'var(--color-warning)';
+        } else {
+          charProgressBar.style.background = 'var(--gradient-brand)';
+        }
+      }
+
+      if (resCharStatus) {
+        if (charLen > 2200) {
+          resCharStatus.textContent = `${(charLen - 2200).toLocaleString()} Over Limit`;
+          resCharStatus.style.color = 'var(--color-danger)';
+        } else {
+          resCharStatus.textContent = `${(2200 - charLen).toLocaleString()} Remaining`;
+          resCharStatus.style.color = 'var(--color-brand)';
+        }
+      }
+
+      // 2. Hashtags Count (Instagram limit is max 5)
+      const hashtags = text.match(/#[\w\d]+/g) || [];
+      const hashtagCount = hashtags.length;
+      if (valHashtags) valHashtags.textContent = `${hashtagCount} / 5 tags`;
+      if (iconHashtags) {
+        if (hashtagCount > 5) {
+          iconHashtags.textContent = '❌';
+          iconHashtags.style.color = 'var(--color-danger)';
+        } else if (hashtagCount > 0) {
+          iconHashtags.textContent = '✅';
+          iconHashtags.style.color = 'var(--color-success)';
+        } else {
+          iconHashtags.textContent = '⚪';
+        }
+      }
+
+      // 3. Profile Mentions
+      const mentions = text.match(/@[\w\d_]+/g) || [];
+      const mentionCount = mentions.length;
+      if (valMentions) valMentions.textContent = `${mentionCount} tags`;
+      if (iconMentions) {
+        if (mentionCount > 10) {
+          iconMentions.textContent = '⚠️';
+          iconMentions.style.color = 'var(--color-warning)';
+        } else if (mentionCount > 0) {
+          iconMentions.textContent = '✅';
+          iconMentions.style.color = 'var(--color-success)';
+        } else {
+          iconMentions.textContent = '⚪';
+        }
+      }
+
+      // 4. Hook crop quality checker (first 125 characters)
+      const firstLine = text.slice(0, 125);
+      const firstLineTrimmed = firstLine.trim();
+      
+      if (valHook) {
+        if (text === '') {
+          valHook.textContent = 'No hook text';
+        } else {
+          valHook.textContent = `${Math.min(125, firstLineTrimmed.length)} chars`;
+        }
+      }
+
+      if (iconHook) {
+        if (text === '') {
+          iconHook.textContent = '⚪';
+        } else if (firstLineTrimmed.length < 30) {
+          iconHook.textContent = '⚠️';
+          iconHook.style.color = 'var(--color-warning)';
+        } else {
+          iconHook.textContent = '✅';
+          iconHook.style.color = 'var(--color-success)';
+        }
+      }
+
+      // 5. Mockup Live Feed Rendering with Crop more/less toggle
+      if (mockupCaptionText) {
+        if (text.trim() === '') {
+          mockupCaptionText.textContent = 'Type your caption in the editor to preview layout...';
+          mockupMoreBtn?.classList.add('hidden');
+        } else {
+          if (charLen > 125) {
+            mockupMoreBtn?.classList.remove('hidden');
+            if (isExpanded) {
+              mockupCaptionText.textContent = text;
+              if (mockupMoreBtn) mockupMoreBtn.textContent = 'less';
+            } else {
+              mockupCaptionText.textContent = text.slice(0, 125) + '...';
+              if (mockupMoreBtn) mockupMoreBtn.textContent = 'more';
+            }
+          } else {
+            mockupCaptionText.textContent = text;
+            mockupMoreBtn?.classList.add('hidden');
+          }
+        }
+      }
+
+      // 6. Font Generator Preview Updates
+      const sampleText = text.trim() === '' ? 'Preview Font' : text.slice(0, 40) + (text.length > 40 ? '...' : '');
+      if (previewBold) previewBold.textContent = mapUnicode(sampleText, 'bold');
+      if (previewItalic) previewItalic.textContent = mapUnicode(sampleText, 'italic');
+      if (previewMonospace) previewMonospace.textContent = mapUnicode(sampleText, 'monospace');
+      if (previewDouble) previewDouble.textContent = mapUnicode(sampleText, 'doubleStruck');
+      if (previewGothic) previewGothic.textContent = mapUnicode(sampleText, 'gothic');
+
+      // 7. Update Analyst Insights
+      if (resInsightDesc) {
+        if (text === '') {
+          resInsightDesc.textContent = 'Type your caption details in the editor to review feed quality suggestions.';
+        } else if (charLen > 2200) {
+          resInsightDesc.textContent = `Warning: Your caption exceeds the 2,200 limit by ${charLen - 2200} characters. Instagram will reject publishing this post. Condense your text.`;
+        } else if (hashtagCount > 5) {
+          resInsightDesc.textContent = `Alert: You have used ${hashtagCount} hashtags (limit is 5). Instagram now limits posts to just 5 hashtags. Please remove at least ${hashtagCount - 5} hashtags immediately.`;
+        } else if (firstLineTrimmed.length > 0 && firstLineTrimmed.length < 50) {
+          resInsightDesc.textContent = 'Insight: Your first line is too short. Try to write an attention-grabbing statement or curiosity hook in the first 125 characters to drive clicks.';
+        } else {
+          resInsightDesc.textContent = 'Excellent! Your caption is within bounds, respects hashtag limits, and has a formatted preview. Ready to copy-paste directly to Instagram!';
+        }
+      }
+    };
+
+    // Toggle more/less in Instagram Mockup
+    mockupMoreBtn?.addEventListener('click', () => {
+      isExpanded = !isExpanded;
+      updateAudit();
+    });
+
+    // Text modifiers
+    btnUpper?.addEventListener('click', () => {
+      textarea.value = textarea.value.toUpperCase();
+      updateAudit();
+    });
+
+    btnLower?.addEventListener('click', () => {
+      textarea.value = textarea.value.toLowerCase();
+      updateAudit();
+    });
+
+    // Sentence case (Capitalize first letter of sentences)
+    btnSentence?.addEventListener('click', () => {
+      const text = textarea.value;
+      const sentenceCased = text.replace(/(^\s*|[.!?]\s+)([a-z])/g, (m, g1, g2) => g1 + g2.toUpperCase());
+      textarea.value = sentenceCased;
+      updateAudit();
+    });
+
+    // Extract Hashtags
+    btnExtractTags?.addEventListener('click', () => {
+      const text = textarea.value || '';
+      const tags = text.match(/#[\w\d]+/g) || [];
+      if (tags.length === 0) {
+        alert('No hashtags found in the caption.');
+        return;
+      }
+      
+      if (extractedTagsContainer && extractedTagsInput) {
+        extractedTagsInput.value = tags.join(' ');
+        extractedTagsContainer.classList.remove('hidden');
+        // Scroll to container
+        extractedTagsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+
+    btnClear?.addEventListener('click', () => {
+      textarea.value = '';
+      if (extractedTagsContainer) extractedTagsContainer.classList.add('hidden');
+      updateAudit();
+    });
+
+    // Copy original bio
+    btnCopyMain?.addEventListener('click', () => {
+      if (textarea.value.trim() === '') {
+        alert('Please enter caption text first.');
+        return;
+      }
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value);
+      alert('Copied caption to clipboard!');
+    });
+
+    // Copy Extracted Tags
+    btnCopyExtracted?.addEventListener('click', () => {
+      if (extractedTagsInput) {
+        extractedTagsInput.select();
+        navigator.clipboard.writeText(extractedTagsInput.value);
+        alert('Copied hashtags list!');
+      }
+    });
+
+    // Audit and Scroll down to results
+    btnSubmit?.addEventListener('click', () => {
+      updateAudit();
+      setTimeout(() => {
+        const resultsBox = document.getElementById('results-wrapper');
+        if (resultsBox) {
+          const headerOffset = 90;
+          const elementPosition = resultsBox.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 50);
+    });
+
+    // Real-time audit triggers on typing
+    textarea.addEventListener('input', updateAudit);
+
+    // Font Items copy handler
+    fontItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const fontType = item.getAttribute('data-font-type') || 'bold';
+        const rawText = textarea.value.trim() === '' ? 'CreatorsFeel' : textarea.value;
+        const styledText = mapUnicode(rawText, fontType);
+
+        navigator.clipboard.writeText(styledText).then(() => {
+          if (toast) {
+            toast.textContent = `Copied ${fontType.toUpperCase()} styled text!`;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+              toast.classList.add('hidden');
+            }, 1500);
+          }
+        });
+      });
+    });
+
+    // Initial load run
+    updateAudit();
+  };
+
+  setupCaptionCounter();
+  document.addEventListener('astro:after-swap', setupCaptionCounter);
+</script>
