@@ -55,16 +55,16 @@
   --color-bg-alt: #ffffff;
   --color-bg-card: rgba(255, 255, 255, 0.8);
   --color-bg-card-hover: rgba(255, 255, 255, 0.95);
-  --color-bg-nav: rgba(249, 250, 251, 0.8);
+  --color-bg-nav: rgba(249, 250, 251, 0.85);
   --color-text: #111827;
   --color-text-muted: #374151; /* Darkened slate-700 for high accessibility contrast (WCAG AA compliant) */
   --color-text-inverse: #ffffff;
-  --color-border: #e5e7eb;
-  --color-border-hover: #d1d5db;
-  --color-shadow: rgba(0, 0, 0, 0.04);
-  --color-shadow-hover: rgba(99, 102, 241, 0.08);
-  --glass-bg: rgba(255, 255, 255, 0.4);
-  --glass-border: rgba(255, 255, 255, 0.6);
+  --color-border: #cbd5e1; /* Darker border from #e5e7eb to make sections pop */
+  --color-border-hover: #94a3b8; /* Darker border hover */
+  --color-shadow: rgba(0, 0, 0, 0.06);
+  --color-shadow-hover: rgba(99, 102, 241, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(15, 23, 42, 0.12); /* Semi-transparent slate border instead of light white */
   --glow-opacity: 0.05;
 }
 
@@ -72,18 +72,18 @@
 [data-theme="dark"] {
   --color-bg: #030712;
   --color-bg-alt: #0b0f19;
-  --color-bg-card: rgba(17, 24, 39, 0.6);
+  --color-bg-card: rgba(17, 24, 39, 0.65);
   --color-bg-card-hover: rgba(31, 41, 55, 0.85);
-  --color-bg-nav: rgba(3, 7, 18, 0.8);
+  --color-bg-nav: rgba(3, 7, 18, 0.85);
   --color-text: #f9fafb;
   --color-text-muted: #cbd5e1; /* Lightened slate-300 for high accessibility contrast */
   --color-text-inverse: #111827;
-  --color-border: #1f2937;
-  --color-border-hover: #374151;
-  --color-shadow: rgba(0, 0, 0, 0.3);
-  --color-shadow-hover: rgba(99, 102, 241, 0.15);
-  --glass-bg: rgba(17, 24, 39, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.06);
+  --color-border: #374151; /* Lighter/clearer border in dark mode from #1f2937 */
+  --color-border-hover: #4b5563;
+  --color-shadow: rgba(0, 0, 0, 0.4);
+  --color-shadow-hover: rgba(99, 102, 241, 0.2);
+  --glass-bg: rgba(17, 24, 39, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.14); /* Brighter glowing border in dark mode */
   --glow-opacity: 0.15;
 }
 
@@ -180,6 +180,46 @@ img, svg {
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid var(--glass-border);
+}
+
+/* Premium 3D Bevel & Shadow Border for Interactive Tools */
+.calc-card {
+  position: relative;
+  background: var(--color-bg-alt) !important;
+  border: 1.5px solid var(--color-border) !important;
+  border-bottom: 5px solid var(--color-border-hover) !important;
+  box-shadow: 
+    0 25px 50px -12px var(--color-shadow),
+    0 10px 20px -10px rgba(99, 102, 241, 0.08),
+    inset 0 1.5px 0 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.08) !important;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+[data-theme="dark"] .calc-card {
+  border-bottom-color: var(--color-brand) !important;
+  box-shadow: 
+    0 30px 60px -15px rgba(0, 0, 0, 0.7),
+    0 15px 30px -10px rgba(99, 102, 241, 0.15),
+    inset 0 1.5px 0 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.4) !important;
+}
+
+.calc-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 35px 70px -20px var(--color-shadow),
+    0 20px 40px -15px rgba(99, 102, 241, 0.15),
+    inset 0 1.5px 0 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="dark"] .calc-card:hover {
+  box-shadow: 
+    0 40px 80px -20px rgba(0, 0, 0, 0.8),
+    0 20px 40px -15px rgba(99, 102, 241, 0.22),
+    inset 0 1.5px 0 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.5) !important;
 }
 
 /* Premium Glow Grid Background */
