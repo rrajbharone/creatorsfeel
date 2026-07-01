@@ -303,6 +303,54 @@ const faqs = [
     display: none !important;
   }
 
+  /* Mobile styling overrides to remove nested borders and make results high-contrast & responsive */
+  @media (max-width: 767px) {
+    .calc-results {
+      padding: 1.25rem !important;
+      background: var(--color-bg-alt) !important;
+      border: 1.5px solid var(--color-border) !important;
+    }
+
+    .results-active {
+      gap: 1rem !important;
+    }
+
+    .rate-range-box, 
+    .metric-card, 
+    .insight-box {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border-radius: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    .rate-range-box {
+      text-align: center !important;
+      padding-bottom: 0.75rem !important;
+      border-bottom: 1px dashed var(--color-border) !important;
+    }
+
+    .metrics-subgrid {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 0.75rem !important;
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 0.75rem !important;
+    }
+
+    .metric-card {
+      text-align: center !important;
+      padding: 0.25rem 0 !important;
+    }
+
+    .insight-box {
+      padding: 0.5rem 0 0 !important;
+    }
+  }
+
   /* Responsive Rules */
   @media (min-width: 768px) {
     .calc-grid {
