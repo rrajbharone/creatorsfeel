@@ -88,6 +88,15 @@ const breadcrumbs = [
           <h3>Message Sent!</h3>
           <p class="text-muted">Thank you for reaching out. We have received your message and will be in touch shortly.</p>
         </div>
+
+        <div class="form-feedback hidden text-center" id="form-error-box">
+          <span class="feedback-icon-error" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+          </span>
+          <h3>Sending Failed</h3>
+          <p class="text-muted" id="error-message-text">Something went wrong. Please check your connection and try again.</p>
+          <button type="button" class="calc-btn-secondary" id="btn-retry-contact" style="margin-top: 1rem; width: 100%;">Try Again</button>
+        </div>
       </section>
     </div>
   </div>
@@ -229,6 +238,29 @@ const breadcrumbs = [
     display: none !important;
   }
 
+  .feedback-icon-error {
+    background: rgba(239, 68, 68, 0.1);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+
+  .feedback-icon-error svg {
+    width: 28px;
+    height: 28px;
+    color: var(--color-danger);
+  }
+
+  .calc-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: var(--color-border-hover) !important;
+  }
+
   /* Responsive Rules */
   @media (min-width: 768px) {
     .contact-grid {
@@ -244,25 +276,77 @@ const breadcrumbs = [
     if (!form) return;
 
     const feedbackBox = document.getElementById('form-feedback-box');
+    const errorBox = document.getElementById('form-error-box');
+    const errorMessageText = document.getElementById('error-message-text');
+    const submitBtn = document.getElementById('contact-submit-btn') as HTMLButtonElement;
+    const retryBtn = document.getElementById('btn-retry-contact');
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      // Since it's a static site, we simulate dynamic submission.
-      // Gather inputs
-      const name = (document.getElementById('contact-name') as HTMLInputElement).value;
-      const email = (document.getElementById('contact-email') as HTMLInputElement).value;
-      const subject = (document.getElementById('contact-subject') as HTMLInputElement).value;
-      const message = (document.getElementById('contact-message') as HTMLTextAreaElement).value;
+      const name = (document.getElementById('contact-name') as HTMLInputElement).value.trim();
+      const email = (document.getElementById('contact-email') as HTMLInputElement).value.trim();
+      const subject = (document.getElementById('contact-subject') as HTMLInputElement).value.trim();
+      const message = (document.getElementById('contact-message') as HTMLTextAreaElement).value.trim();
 
       if (!name || !email || !subject || !message) {
         alert("Please fill out all fields.");
         return;
       }
 
-      // Hide form and show success box
-      form.classList.add('hidden');
-      if (feedbackBox) feedbackBox.classList.remove('hidden');
+      // 1. Loading State
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending...";
+      }
+      if (errorBox) errorBox.classList.add('hidden');
+      if (feedbackBox) feedbackBox.classList.add('hidden');
+
+      try {
+        // 2. Fetch Submission
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, subject, message })
+        });
+
+        const result = await response.json().catch(() => ({}));
+
+        if (response.ok && result.success) {
+          // 3. Success State
+          form.classList.add('hidden');
+          if (feedbackBox) feedbackBox.classList.remove('hidden');
+          form.reset();
+        } else {
+          // 4. Error State from API response
+          form.classList.add('hidden');
+          if (errorBox) errorBox.classList.remove('hidden');
+          if (errorMessageText) {
+            errorMessageText.textContent = result.error || "Failed to send message. Please verify your details and try again.";
+          }
+        }
+      } catch (error) {
+        // 5. Connection Error State
+        form.classList.add('hidden');
+        if (errorBox) errorBox.classList.remove('hidden');
+        if (errorMessageText) {
+          errorMessageText.textContent = "Connection error. Please check your network and try again.";
+        }
+      } finally {
+        // 6. Reset submit button state
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send Message";
+        }
+      }
+    });
+
+    // 7. Retry Button Action
+    retryBtn?.addEventListener('click', () => {
+      if (errorBox) errorBox.classList.add('hidden');
+      form.classList.remove('hidden');
     });
   };
 
