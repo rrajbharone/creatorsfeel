@@ -1,13 +1,13 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
 
 const breadcrumbs = [
-  { name: 'Home', item: '/' },
-  { name: 'Contact Us', item: '/contact' }
+  { name: "Home", item: "/" },
+  { name: "Contact Us", item: "/contact" },
 ];
 ---
 
-<BaseLayout 
+<BaseLayout
   title="Contact Us - CreatorsFeel"
   description="Contact the CreatorsFeel team. Get in touch for feature suggestions, brand partnerships, support, or privacy inquiries."
   breadcrumbs={breadcrumbs}
@@ -15,7 +15,10 @@ const breadcrumbs = [
   <div class="contact-page container">
     <header class="contact-header text-center">
       <h1 class="contact-title">Contact Us</h1>
-      <p class="contact-subtitle text-muted">Have a tool suggestion, partnership query, or privacy request? Let's connect.</p>
+      <p class="contact-subtitle text-muted">
+        Have a tool suggestion, partnership query, or privacy request? Let's
+        connect.
+      </p>
     </header>
 
     <div class="contact-grid">
@@ -23,26 +26,56 @@ const breadcrumbs = [
       <section class="contact-info glass" aria-label="Support contacts">
         <h2 class="info-box-title">Get In Touch</h2>
         <p class="info-box-desc text-muted">
-          Our team is dedicated to providing high-quality tools for creators. Drop us a line and we will get back to you within 24-48 business hours.
+          Our team is dedicated to providing high-quality tools for creators.
+          Drop us a line and we will get back to you within 24-48 business
+          hours.
         </p>
 
         <div class="contact-channels">
           <div class="channel-card">
             <span class="channel-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                ></path></svg
+              >
             </span>
             <div class="channel-text">
               <h4>Email Support</h4>
-              <p><a href="mailto:support@creatorsfeel.com" class="channel-link">support@creatorsfeel.com</a></p>
+              <p>
+                <a href="mailto:business.rajbhar@gmail.com" class="channel-link"
+                  >business.rajbhar@gmail.com</a>
+              </p>
             </div>
           </div>
           <div class="channel-card">
             <span class="channel-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                ></path></svg
+              >
             </span>
             <div class="channel-text">
               <h4>Brand & Partners</h4>
-              <p><a href="mailto:partners@creatorsfeel.com" class="channel-link">partners@creatorsfeel.com</a></p>
+              <p>
+                <a href="mailto:business.rajbhar@gmail.com" class="channel-link"
+                  >business.rajbhar@gmail.com</a>
+              </p>
             </div>
           </div>
         </div>
@@ -53,49 +86,98 @@ const breadcrumbs = [
         <form class="calc-form" id="contact-form" onsubmit="return false;">
           <div class="form-group">
             <label for="contact-name">Full Name</label>
-            <input type="text" id="contact-name" class="form-input" placeholder="e.g., Jane Doe" required />
+            <input
+              type="text"
+              id="contact-name"
+              class="form-input"
+              placeholder="e.g., Jane Doe"
+              required
+            />
           </div>
 
           <div class="form-group">
             <label for="contact-email">Email Address</label>
-            <input type="email" id="contact-email" class="form-input" placeholder="e.g., jane@example.com" required />
+            <input
+              type="email"
+              id="contact-email"
+              class="form-input"
+              placeholder="e.g., jane@example.com"
+              required
+            />
           </div>
 
           <div class="form-group">
             <label for="contact-subject">Subject</label>
-            <input type="text" id="contact-subject" class="form-input" placeholder="e.g., Tool Suggestion" required />
+            <input
+              type="text"
+              id="contact-subject"
+              class="form-input"
+              placeholder="e.g., Tool Suggestion"
+              required
+            />
           </div>
 
           <div class="form-group">
             <label for="contact-message">Message</label>
-            <textarea 
-              id="contact-message" 
-              class="form-input message-textarea" 
-              placeholder="Type your message here..." 
-              rows="5" 
-              required
-            ></textarea>
+            <textarea
+              id="contact-message"
+              class="form-input message-textarea"
+              placeholder="Type your message here..."
+              rows="5"
+              required></textarea>
           </div>
 
-          <button type="submit" class="calc-btn" id="contact-submit-btn">Send Message</button>
+          <button type="submit" class="calc-btn" id="contact-submit-btn"
+            >Send Message</button
+          >
         </form>
 
         <!-- Feedback Messages -->
         <div class="form-feedback hidden text-center" id="form-feedback-box">
           <span class="feedback-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="3"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 13l4 4L19 7"></path></svg
+            >
           </span>
           <h3>Message Sent!</h3>
-          <p class="text-muted">Thank you for reaching out. We have received your message and will be in touch shortly.</p>
+          <p class="text-muted">
+            Thank you for reaching out. We have received your message and will
+            be in touch shortly.
+          </p>
         </div>
 
         <div class="form-feedback hidden text-center" id="form-error-box">
           <span class="feedback-icon-error" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="3"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"></path></svg
+            >
           </span>
           <h3>Sending Failed</h3>
-          <p class="text-muted" id="error-message-text">Something went wrong. Please check your connection and try again.</p>
-          <button type="button" class="calc-btn-secondary" id="btn-retry-contact" style="margin-top: 1rem; width: 100%;">Try Again</button>
+          <p class="text-muted" id="error-message-text">
+            Something went wrong. Please check your connection and try again.
+          </p>
+          <button
+            type="button"
+            class="calc-btn-secondary"
+            id="btn-retry-contact"
+            style="margin-top: 1rem; width: 100%;">Try Again</button
+          >
         </div>
       </section>
     </div>
@@ -130,7 +212,8 @@ const breadcrumbs = [
     gap: 2rem;
   }
 
-  .contact-info, .contact-form-box {
+  .contact-info,
+  .contact-form-box {
     padding: 2.25rem 1.75rem;
     border-radius: var(--radius-lg);
   }
@@ -272,22 +355,32 @@ const breadcrumbs = [
 
 <script>
   const setupContactForm = () => {
-    const form = document.getElementById('contact-form') as HTMLFormElement;
+    const form = document.getElementById("contact-form") as HTMLFormElement;
     if (!form) return;
 
-    const feedbackBox = document.getElementById('form-feedback-box');
-    const errorBox = document.getElementById('form-error-box');
-    const errorMessageText = document.getElementById('error-message-text');
-    const submitBtn = document.getElementById('contact-submit-btn') as HTMLButtonElement;
-    const retryBtn = document.getElementById('btn-retry-contact');
+    const feedbackBox = document.getElementById("form-feedback-box");
+    const errorBox = document.getElementById("form-error-box");
+    const errorMessageText = document.getElementById("error-message-text");
+    const submitBtn = document.getElementById(
+      "contact-submit-btn",
+    ) as HTMLButtonElement;
+    const retryBtn = document.getElementById("btn-retry-contact");
 
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      
-      const name = (document.getElementById('contact-name') as HTMLInputElement).value.trim();
-      const email = (document.getElementById('contact-email') as HTMLInputElement).value.trim();
-      const subject = (document.getElementById('contact-subject') as HTMLInputElement).value.trim();
-      const message = (document.getElementById('contact-message') as HTMLTextAreaElement).value.trim();
+
+      const name = (
+        document.getElementById("contact-name") as HTMLInputElement
+      ).value.trim();
+      const email = (
+        document.getElementById("contact-email") as HTMLInputElement
+      ).value.trim();
+      const subject = (
+        document.getElementById("contact-subject") as HTMLInputElement
+      ).value.trim();
+      const message = (
+        document.getElementById("contact-message") as HTMLTextAreaElement
+      ).value.trim();
 
       if (!name || !email || !subject || !message) {
         alert("Please fill out all fields.");
@@ -299,40 +392,43 @@ const breadcrumbs = [
         submitBtn.disabled = true;
         submitBtn.textContent = "Sending...";
       }
-      if (errorBox) errorBox.classList.add('hidden');
-      if (feedbackBox) feedbackBox.classList.add('hidden');
+      if (errorBox) errorBox.classList.add("hidden");
+      if (feedbackBox) feedbackBox.classList.add("hidden");
 
       try {
         // 2. Fetch Submission
-        const response = await fetch('/api/contact', {
-          method: 'POST',
+        const response = await fetch("/api/contact", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ name, email, subject, message })
+          body: JSON.stringify({ name, email, subject, message }),
         });
 
         const result = await response.json().catch(() => ({}));
 
         if (response.ok && result.success) {
           // 3. Success State
-          form.classList.add('hidden');
-          if (feedbackBox) feedbackBox.classList.remove('hidden');
+          form.classList.add("hidden");
+          if (feedbackBox) feedbackBox.classList.remove("hidden");
           form.reset();
         } else {
           // 4. Error State from API response
-          form.classList.add('hidden');
-          if (errorBox) errorBox.classList.remove('hidden');
+          form.classList.add("hidden");
+          if (errorBox) errorBox.classList.remove("hidden");
           if (errorMessageText) {
-            errorMessageText.textContent = result.error || "Failed to send message. Please verify your details and try again.";
+            errorMessageText.textContent =
+              result.error ||
+              "Failed to send message. Please verify your details and try again.";
           }
         }
       } catch (error) {
         // 5. Connection Error State
-        form.classList.add('hidden');
-        if (errorBox) errorBox.classList.remove('hidden');
+        form.classList.add("hidden");
+        if (errorBox) errorBox.classList.remove("hidden");
         if (errorMessageText) {
-          errorMessageText.textContent = "Connection error. Please check your network and try again.";
+          errorMessageText.textContent =
+            "Connection error. Please check your network and try again.";
         }
       } finally {
         // 6. Reset submit button state
@@ -344,12 +440,12 @@ const breadcrumbs = [
     });
 
     // 7. Retry Button Action
-    retryBtn?.addEventListener('click', () => {
-      if (errorBox) errorBox.classList.add('hidden');
-      form.classList.remove('hidden');
+    retryBtn?.addEventListener("click", () => {
+      if (errorBox) errorBox.classList.add("hidden");
+      form.classList.remove("hidden");
     });
   };
 
   setupContactForm();
-  document.addEventListener('astro:after-swap', setupContactForm);
+  document.addEventListener("astro:after-swap", setupContactForm);
 </script>
