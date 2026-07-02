@@ -1,0 +1,940 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is Cost Per Engagement (CPE) in marketing?",
+    answer: "Cost Per Engagement (CPE) is a digital marketing pricing model where advertisers only pay when a user actively engages with an ad or social post. Engagements can include likes, comments, shares, link clicks, retweets, saves, or video views, rather than simple passive impressions."
+  },
+  {
+    question: "How do you calculate Cost Per Engagement (CPE)?",
+    answer: "To calculate CPE, divide the total cost of the campaign by the total number of engagements recorded. The mathematical formula is: CPE = Total Budget / Total Engagements."
+  },
+  {
+    question: "What is a good benchmark for Cost Per Engagement?",
+    answer: "CPE benchmarks vary significantly by platform, industry, and ad type. Generally, a CPE between $0.10 and $0.50 is considered average, while highly optimized campaigns or organic posts can see rates below $0.05. B2B campaigns on LinkedIn typically have higher CPE rates ($1.00 - $3.00) due to niche targeting."
+  },
+  {
+    question: "What is the difference between CPC and CPE?",
+    answer: "CPC (Cost Per Click) only counts link clicks that direct users to an external website or landing page. CPE (Cost Per Engagement) counts all types of interactive touchpoints, including social signals (likes, reactions, comments, retweets) and media interactions (expands, video pauses) alongside link clicks."
+  },
+  {
+    question: "Why should a campaign focus on CPE?",
+    answer: "A CPE bidding model ensures your advertising spend goes toward interested users who actively engage with your content. It is ideal for brand awareness, community building, viral content promotion, and boosting organic algorithm metrics on social platforms."
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'CPE Calculator', item: '/tools/cost-per-engagement-calculator' }
+];
+---
+
+<ToolLayout
+  title="Cost Per Engagement (CPE) Calculator - Audit Social Ad Campaign ROI"
+  description="Free online Cost Per Engagement (CPE) calculator. Calculate marketing budget, total engagements, or campaign CPE rate instantly. Audit FB promos, Instagram ads, and social media ROI."
+  toolName="Cost Per Engagement Calculator"
+  toolDescription="Analyze ad performance metrics. Toggle between calculating CPE, campaign budget, or total engagements instantly with optional engagement breakdowns."
+  category="Calculators"
+  faqs={faqs}
+>
+  <!-- Schema Graph -->
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://creatorsfeel.com/tools/cost-per-engagement-calculator/#application",
+        "name": "Cost Per Engagement Calculator",
+        "url": "https://creatorsfeel.com/tools/cost-per-engagement-calculator",
+        "operatingSystem": "All",
+        "applicationCategory": "BusinessApplication",
+        "description": "Calculate Cost Per Engagement (CPE), campaign budgets, or total engagements instantly with our free online marketing tool.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0.00",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://creatorsfeel.com/tools/cost-per-engagement-calculator/#faq",
+        "mainEntity": faqs.map(faq => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+          }
+        }))
+      }
+    ]
+  })} />
+
+  <!-- Interactive Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    <!-- Mode selector tabs -->
+    <div class="calculator-mode-selector" role="tablist" aria-label="Calculator Mode">
+      <button type="button" class="mode-tab active" data-mode="cpe" role="tab" aria-selected="true" aria-controls="calc-form-container">
+        <span class="tab-long">Calculate CPE</span>
+        <span class="tab-short">CPE</span>
+      </button>
+      <button type="button" class="mode-tab" data-mode="cost" role="tab" aria-selected="false" aria-controls="calc-form-container">
+        <span class="tab-long">Calculate Budget</span>
+        <span class="tab-short">Budget</span>
+      </button>
+      <button type="button" class="mode-tab" data-mode="engagements" role="tab" aria-selected="false" aria-controls="calc-form-container">
+        <span class="tab-long">Calculate Engagements</span>
+        <span class="tab-short">Engagements</span>
+      </button>
+    </div>
+
+    <div class="calc-grid" id="calc-form-container">
+      <!-- Inputs Form -->
+      <form class="calc-form" id="cpe-form" onsubmit="return false;">
+        <input type="hidden" id="active-mode" value="cpe" />
+
+        <div class="form-group" id="cost-group">
+          <div class="label-header">
+            <label for="campaign-cost" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              Total Campaign Spend ($)
+            </label>
+          </div>
+          <input type="number" id="campaign-cost" class="form-input" placeholder="e.g., 250" min="0.01" step="0.01" required />
+          <span class="input-helper">The total budget allocated or spent on the ad campaign or promotion.</span>
+        </div>
+
+        <div class="form-group" id="cpe-group" class="hidden" style="display: none;">
+          <div class="label-header">
+            <label for="cpe-rate" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+              </svg>
+              Target CPE ($)
+            </label>
+          </div>
+          <input type="number" id="cpe-rate" class="form-input" placeholder="e.g., 0.25" min="0.001" step="0.001" />
+          <span class="input-helper">The cost per engagement (CPE) rate you want to pay or analyze.</span>
+        </div>
+
+        <div class="form-group" id="engagements-wrapper-group">
+          <!-- Input Type Toggle (Simple vs Breakdown) -->
+          <div class="label-header">
+            <label for="input-method" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+              </svg>
+              Engagement Input Mode
+            </label>
+          </div>
+          <select id="input-method" class="form-input">
+            <option value="simple">Simple Total Input</option>
+            <option value="breakdown">Detailed Breakdown</option>
+          </select>
+        </div>
+
+        <!-- Simple input element -->
+        <div class="form-group" id="simple-engagements-group">
+          <div class="label-header">
+            <label for="total-engagements" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94-3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+              </svg>
+              Total Engagements
+            </label>
+          </div>
+          <input type="number" id="total-engagements" class="form-input" placeholder="e.g., 2000" min="1" step="1" required />
+          <span class="input-helper">The aggregate interactions recorded across posts or ads.</span>
+        </div>
+
+        <!-- Breakdown input panel -->
+        <div id="breakdown-inputs-group" class="hidden" style="display: none; flex-direction: column; gap: 1.25rem;">
+          <div class="form-group">
+            <label for="breakdown-likes" class="icon-label">👍 Likes / Reactions</label>
+            <input type="number" id="breakdown-likes" class="form-input" placeholder="e.g., 1000" min="0" value="0" />
+          </div>
+          <div class="form-group">
+            <label for="breakdown-comments" class="icon-label">💬 Comments</label>
+            <input type="number" id="breakdown-comments" class="form-input" placeholder="e.g., 200" min="0" value="0" />
+          </div>
+          <div class="form-group">
+            <label for="breakdown-shares" class="icon-label">🔗 Shares / Retweets</label>
+            <input type="number" id="breakdown-shares" class="form-input" placeholder="e.g., 150" min="0" value="0" />
+          </div>
+          <div class="form-group">
+            <label for="breakdown-clicks" class="icon-label">🖱️ Link Clicks</label>
+            <input type="number" id="breakdown-clicks" class="form-input" placeholder="e.g., 500" min="0" value="0" />
+          </div>
+          <div class="form-group">
+            <label for="breakdown-saves" class="icon-label">💾 Saves / Bookmarks</label>
+            <input type="number" id="breakdown-saves" class="form-input" placeholder="e.g., 150" min="0" value="0" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l8.932-8.931m-8.932 8.931a3 3 0 1 1-4.243-4.243l8.932-8.93m9.9 9.913a3 3 0 1 1-4.243-4.243l8.932-8.931m-8.932 8.931a3 3 0 1 1-4.243-4.243l8.932-8.93" />
+            </svg>
+            Calculate Metrics
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- Results Display -->
+      <div class="calc-results" id="results-wrapper">
+        <!-- Waiting state -->
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0h.5m-.5 0h-9.5m0 0h-.5" />
+          </svg>
+          <h3>Awaiting Calculation</h3>
+          <p class="text-muted">Select your calculation target, enter the required metrics, and click Calculate.</p>
+        </div>
+
+        <!-- Output display -->
+        <div class="results-active hidden" id="res-active-box">
+          <div class="rate-range-box">
+            <h4 class="rate-label" id="res-primary-label">Calculated CPE</h4>
+            <div class="rate-range" id="res-primary-val">$0.00</div>
+            <div class="grade-badge" id="res-benchmark-badge">-</div>
+          </div>
+
+          <!-- Campaign breakdowns -->
+          <div class="breakdown-box">
+            <h4 class="breakdown-title">Campaign Efficiency Breakdowns</h4>
+            <div class="breakdown-list">
+              <div class="breakdown-item">
+                <span class="breakdown-label" id="res-metric1-label">Total Spend:</span>
+                <span class="breakdown-val" id="res-metric1-val">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label" id="res-metric2-label">Total Engagements:</span>
+                <span class="breakdown-val" id="res-metric2-val">-</span>
+              </div>
+              <div class="breakdown-item" id="breakdown-likes-row" style="display: none;">
+                <span class="breakdown-label">Likes / Comments / Shares:</span>
+                <span class="breakdown-val" id="breakdown-likes-val">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Cost per 1,000 Engagements:</span>
+                <span class="breakdown-val" id="breakdown-k-val">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rating description -->
+          <div class="rating-explanation glass" id="benchmark-rating-box">
+            <h5 class="rating-title" id="rating-title-text">Campaign Assessment</h5>
+            <p class="rating-desc" id="rating-desc-text">Calculated rates will yield insights here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Editorial slot -->
+  <div slot="about" class="seo-content-section">
+    <h2>Complete Guide to Cost Per Engagement (CPE) Marketing Optimization</h2>
+    <p>
+      In social media campaigns and digital promotions, tracking how audiences engage with your posts is key to evaluating investment efficiency. The **Cost Per Engagement Calculator** offers a streamlined interface to calculate the true cost of every interaction. Whether auditing standard Facebook promotions, checking media shares, or verifying Instagram ad returns, this utility helps you spend efficiently.
+    </p>
+    <p>
+      By shifting attention from broad impressions (views) to active engagements (likes, comments, clicks, and saves), marketers ensure that budgets map to tangible audience interactions rather than simple layout exposure.
+    </p>
+
+    <div class="formula-box">
+      CPE = Total Campaign Cost / Total Engagements 📊
+    </div>
+
+    <h2>How to Calculate Cost Per Engagement</h2>
+    <p>
+      To find your campaign's CPE, divide your total spend by the number of interactions recorded:
+    </p>
+    <ul>
+      <li><strong>Total Campaign Spend:</strong> The overall budget used.</li>
+      <li><strong>Total Engagements:</strong> The total sum of social actions (Likes + Comments + Shares + Link Clicks + Saves).</li>
+    </ul>
+    <p>
+      For example, if you run a Facebook promotion with a budget of $100 and generate 500 likes, comments, and clicks combined, your calculation is:
+      <br />
+      <code>$100 / 500 = $0.20 CPE</code>
+    </p>
+
+    <h2>Benchmark CPE Rates Across Social Media Channels</h2>
+    <div class="table-responsive">
+      <table style="width: 100%; min-width: 550px; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--color-border); background: var(--color-bg-alt);">
+            <th style="padding: 0.75rem;">Social Media Platform</th>
+            <th style="padding: 0.75rem;">Average CPE Benchmarks</th>
+            <th style="padding: 0.75rem;">Primary Engagement Formats</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">Facebook Ads</td>
+            <td style="padding: 0.75rem;">$0.12 - $0.35</td>
+            <td style="padding: 0.75rem;">Reactions, Comments, Shares, Link clicks</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">Instagram Ads</td>
+            <td style="padding: 0.75rem;">$0.15 - $0.45</td>
+            <td style="padding: 0.75rem;">Likes, Comments, Shares, Saves, Story clicks</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">LinkedIn Ads</td>
+            <td style="padding: 0.75rem;">$1.20 - $2.80</td>
+            <td style="padding: 0.75rem;">Reactions, Document downloads, Link clicks</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.75rem; font-weight: 600;">TikTok Promos</td>
+            <td style="padding: 0.75rem;">$0.04 - $0.15</td>
+            <td style="padding: 0.75rem;">Hearts, Comments, Video views (3s/6s), Shares</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calculator-mode-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    background: var(--color-bg-alt);
+    padding: 0.35rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+  }
+
+  .mode-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mode-tab:hover {
+    color: var(--color-text);
+  }
+
+  .mode-tab.active {
+    background: var(--color-bg);
+    color: var(--color-brand);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .tab-short {
+    display: none;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  /* Custom dropdown arrow for select elements */
+  select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 2.5rem !important;
+    cursor: pointer;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Active outputs styling */
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .rate-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .rate-range {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 800;
+    color: var(--color-brand);
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+  }
+
+  .grade-low {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--color-success);
+  }
+
+  .grade-medium {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--color-warning);
+  }
+
+  .grade-high {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-error);
+  }
+
+  .breakdown-box {
+    width: 100%;
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  .breakdown-label {
+    color: var(--color-text-muted);
+  }
+
+  .breakdown-val {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .rating-explanation {
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+  }
+
+  .rating-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .rating-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Editorial formulas block */
+  .formula-box {
+    background: var(--color-bg-alt);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    margin: 1.25rem 0;
+    font-family: monospace;
+    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+    text-align: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .table-responsive {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1.5rem 0;
+    box-sizing: border-box;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .tab-long {
+      display: none;
+    }
+
+    .tab-short {
+      display: inline;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+
+    .breakdown-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+    }
+
+    .rate-range-box,
+    .rating-explanation {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+    }
+
+    .rate-range-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+      align-items: center !important;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  const setupCpeCalculator = () => {
+    // Mode selectors
+    const modeTabs = document.querySelectorAll('.mode-tab');
+    const activeModeInput = document.getElementById('active-mode') as HTMLInputElement;
+
+    // Form inputs
+    const costGroup = document.getElementById('cost-group');
+    const cpeGroup = document.getElementById('cpe-group');
+    const engagementsWrapperGroup = document.getElementById('engagements-wrapper-group');
+    const simpleEngagementsGroup = document.getElementById('simple-engagements-group');
+    const breakdownInputsGroup = document.getElementById('breakdown-inputs-group');
+
+    const inputMethodSelect = document.getElementById('input-method') as HTMLSelectElement;
+
+    // Field elements
+    const campaignCostField = document.getElementById('campaign-cost') as HTMLInputElement;
+    const cpeRateField = document.getElementById('cpe-rate') as HTMLInputElement;
+    const totalEngagementsField = document.getElementById('total-engagements') as HTMLInputElement;
+
+    // Breakdown elements
+    const breakLikes = document.getElementById('breakdown-likes') as HTMLInputElement;
+    const breakComments = document.getElementById('breakdown-comments') as HTMLInputElement;
+    const breakShares = document.getElementById('breakdown-shares') as HTMLInputElement;
+    const breakClicks = document.getElementById('breakdown-clicks') as HTMLInputElement;
+    const breakSaves = document.getElementById('breakdown-saves') as HTMLInputElement;
+
+    // Buttons
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Outputs
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+    
+    const primaryLabel = document.getElementById('res-primary-label');
+    const primaryVal = document.getElementById('res-primary-val');
+    const benchmarkBadge = document.getElementById('res-benchmark-badge');
+
+    const metric1Label = document.getElementById('res-metric1-label');
+    const metric1Val = document.getElementById('res-metric1-val');
+    const metric2Label = document.getElementById('res-metric2-label');
+    const metric2Val = document.getElementById('res-metric2-val');
+
+    const breakdownLikesRow = document.getElementById('breakdown-likes-row');
+    const breakdownLikesVal = document.getElementById('breakdown-likes-val');
+    const breakdownKVal = document.getElementById('breakdown-k-val');
+
+    const ratingTitleText = document.getElementById('rating-title-text');
+    const ratingDescText = document.getElementById('rating-desc-text');
+
+    // Switch Calculator Mode
+    modeTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        modeTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const mode = tab.getAttribute('data-mode') || 'cpe';
+        if (activeModeInput) activeModeInput.value = mode;
+
+        // Reset display toggles
+        if (costGroup) costGroup.style.display = 'flex';
+        if (cpeGroup) cpeGroup.style.display = 'flex';
+        if (engagementsWrapperGroup) engagementsWrapperGroup.style.display = 'flex';
+
+        // Adjust input fields visibility depending on mode
+        if (mode === 'cpe') {
+          if (cpeGroup) cpeGroup.style.display = 'none';
+        } else if (mode === 'cost') {
+          if (costGroup) costGroup.style.display = 'none';
+        } else if (mode === 'engagements') {
+          if (engagementsWrapperGroup) engagementsWrapperGroup.style.display = 'none';
+          if (simpleEngagementsGroup) simpleEngagementsGroup.style.display = 'none';
+          if (breakdownInputsGroup) breakdownInputsGroup.style.display = 'none';
+          if (cpeGroup) cpeGroup.style.display = 'flex';
+        }
+
+        // Restore simple/breakdown inputs for cpe & cost mode
+        if (mode !== 'engagements') {
+          toggleEngagementInputMethod();
+        }
+
+        resetCalculator(false);
+      });
+    });
+
+    // Toggle Input Method (Simple vs Breakdown)
+    const toggleEngagementInputMethod = () => {
+      const isBreakdown = inputMethodSelect?.value === 'breakdown';
+      const mode = activeModeInput?.value || 'cpe';
+
+      if (mode === 'engagements') return; // Not applicable
+
+      if (isBreakdown) {
+        if (simpleEngagementsGroup) simpleEngagementsGroup.style.display = 'none';
+        if (breakdownInputsGroup) breakdownInputsGroup.style.display = 'flex';
+      } else {
+        if (simpleEngagementsGroup) simpleEngagementsGroup.style.display = 'flex';
+        if (breakdownInputsGroup) breakdownInputsGroup.style.display = 'none';
+      }
+    };
+
+    inputMethodSelect?.addEventListener('change', toggleEngagementInputMethod);
+
+    // Sum breakdown engagements
+    const getSummedEngagements = () => {
+      const likes = parseFloat(breakLikes?.value) || 0;
+      const comments = parseFloat(breakComments?.value) || 0;
+      const shares = parseFloat(breakShares?.value) || 0;
+      const clicks = parseFloat(breakClicks?.value) || 0;
+      const saves = parseFloat(breakSaves?.value) || 0;
+      return likes + comments + shares + clicks + saves;
+    };
+
+    // Calculate CPE
+    const calculateCpe = () => {
+      const mode = activeModeInput?.value || 'cpe';
+      let cost = parseFloat(campaignCostField?.value) || 0;
+      let cpe = parseFloat(cpeRateField?.value) || 0;
+      let engagements = 0;
+
+      const isBreakdown = inputMethodSelect?.value === 'breakdown' && mode !== 'engagements';
+
+      if (isBreakdown) {
+        engagements = getSummedEngagements();
+      } else {
+        engagements = parseFloat(totalEngagementsField?.value) || 0;
+      }
+
+      // Validations
+      if (mode === 'cpe') {
+        if (cost <= 0 || engagements <= 0) return alert("Please enter valid Spend and Engagement values.");
+      } else if (mode === 'cost') {
+        if (cpe <= 0 || engagements <= 0) return alert("Please enter valid Target CPE and Engagement values.");
+      } else if (mode === 'engagements') {
+        if (cost <= 0 || cpe <= 0) return alert("Please enter valid Spend and Target CPE values.");
+      }
+
+      // Calculations
+      if (mode === 'cpe') {
+        cpe = cost / engagements;
+      } else if (mode === 'cost') {
+        cost = cpe * engagements;
+      } else if (mode === 'engagements') {
+        engagements = Math.round(cost / cpe);
+      }
+
+      // Render Outputs
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) {
+        activeBox.classList.remove('hidden');
+      }
+
+      if (mode === 'cpe') {
+        if (primaryLabel) primaryLabel.textContent = "Calculated CPE";
+        if (primaryVal) primaryVal.textContent = `$${cpe.toFixed(3)}`;
+
+        // Benchmark assessment
+        if (benchmarkBadge) {
+          benchmarkBadge.className = 'grade-badge';
+          if (cpe <= 0.10) {
+            benchmarkBadge.textContent = "Highly Efficient";
+            benchmarkBadge.classList.add('grade-low');
+          } else if (cpe <= 0.50) {
+            benchmarkBadge.textContent = "Average ROI";
+            benchmarkBadge.classList.add('grade-medium');
+          } else {
+            benchmarkBadge.textContent = "High Cost";
+            benchmarkBadge.classList.add('grade-high');
+          }
+        }
+
+        if (metric1Label) metric1Label.textContent = "Campaign Spend:";
+        if (metric1Val) metric1Val.textContent = `$${cost.toFixed(2)}`;
+        if (metric2Label) metric2Label.textContent = "Total Engagements:";
+        if (metric2Val) metric2Val.textContent = engagements.toLocaleString();
+
+        if (ratingTitleText) ratingTitleText.textContent = "CPE Campaign Assessment";
+        if (ratingDescText) {
+          if (cpe <= 0.10) {
+            ratingDescText.textContent = "Excellent performance! Your cost per engagement is below $0.10, indicating highly targeted creative assets, strong audience relevance, or organic social virality.";
+          } else if (cpe <= 0.50) {
+            ratingDescText.textContent = "Solid engagement metrics. A cost between $0.10 and $0.50 aligns with standard Facebook promotions and Instagram ad campaigns.";
+          } else {
+            ratingDescText.textContent = "Your cost per engagement is above $0.50. Consider refining your audience targeting parameters, swapping creative ad variants, or focusing on high-intent click formats.";
+          }
+        }
+
+      } else if (mode === 'cost') {
+        if (primaryLabel) primaryLabel.textContent = "Estimated Budget";
+        if (primaryVal) primaryVal.textContent = `$${cost.toFixed(2)}`;
+        if (benchmarkBadge) {
+          benchmarkBadge.className = 'grade-badge grade-low';
+          benchmarkBadge.textContent = "Budget Planned";
+        }
+
+        if (metric1Label) metric1Label.textContent = "Target CPE:";
+        if (metric1Val) metric1Val.textContent = `$${cpe.toFixed(2)}`;
+        if (metric2Label) metric2Label.textContent = "Total Engagements:";
+        if (metric2Val) metric2Val.textContent = engagements.toLocaleString();
+
+        if (ratingTitleText) ratingTitleText.textContent = "Budget Valuation";
+        if (ratingDescText) {
+          ratingDescText.textContent = `To generate ${engagements.toLocaleString()} engagements at a target Cost Per Engagement of $${cpe.toFixed(2)}, you will need to allocate an estimated marketing spend of $${cost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}.`;
+        }
+
+      } else if (mode === 'engagements') {
+        if (primaryLabel) primaryLabel.textContent = "Est. Engagements";
+        if (primaryVal) primaryVal.textContent = engagements.toLocaleString();
+        if (benchmarkBadge) {
+          benchmarkBadge.className = 'grade-badge grade-low';
+          benchmarkBadge.textContent = "Target Met";
+        }
+
+        if (metric1Label) metric1Label.textContent = "Campaign Spend:";
+        if (metric1Val) metric1Val.textContent = `$${cost.toFixed(2)}`;
+        if (metric2Label) metric2Label.textContent = "Target CPE:";
+        if (metric2Val) metric2Val.textContent = `$${cpe.toFixed(2)}`;
+
+        if (ratingTitleText) ratingTitleText.textContent = "Interaction Expectation";
+        if (ratingDescText) {
+          ratingDescText.textContent = `A budget of $${cost.toFixed(2)} with a target Cost Per Engagement of $${cpe.toFixed(2)} is expected to generate approximately ${engagements.toLocaleString()} active interactions across social posts.`;
+        }
+      }
+
+      // Detailed breakdown list
+      if (isBreakdown) {
+        if (breakdownLikesRow) {
+          breakdownLikesRow.style.display = 'flex';
+          const likes = parseFloat(breakLikes?.value) || 0;
+          const comments = parseFloat(breakComments?.value) || 0;
+          const shares = parseFloat(breakShares?.value) || 0;
+          if (breakdownLikesVal) {
+            breakdownLikesVal.textContent = `${likes.toLocaleString()} L / ${comments.toLocaleString()} C / ${shares.toLocaleString()} S`;
+          }
+        }
+      } else {
+        if (breakdownLikesRow) breakdownLikesRow.style.display = 'none';
+      }
+
+      if (breakdownKVal) {
+        const costPerK = cpe * 1000;
+        breakdownKVal.textContent = `$${costPerK.toFixed(2)}`;
+      }
+    };
+
+    // Reset Form
+    const resetCalculator = (clearInputs = true) => {
+      if (clearInputs) {
+        if (campaignCostField) campaignCostField.value = '';
+        if (cpeRateField) cpeRateField.value = '';
+        if (totalEngagementsField) totalEngagementsField.value = '';
+
+        if (breakLikes) breakLikes.value = '0';
+        if (breakComments) breakComments.value = '0';
+        if (breakShares) breakShares.value = '0';
+        if (breakClicks) breakClicks.value = '0';
+        if (breakSaves) breakSaves.value = '0';
+      }
+
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) {
+        activeBox.classList.add('hidden');
+      }
+    };
+
+    submitBtn?.addEventListener('click', calculateCpe);
+    resetBtn?.addEventListener('click', () => resetCalculator(true));
+  };
+
+  setupCpeCalculator();
+  document.addEventListener('astro:after-swap', setupCpeCalculator);
+</script>

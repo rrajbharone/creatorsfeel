@@ -15,6 +15,7 @@ export const GET: APIRoute = async (context) => {
     '/tools/instagram-bio-character-counter',
     '/tools/instagram-caption-character-counter',
     '/tools/linkedin-headline-generator',
+    '/tools/cost-per-engagement-calculator',
     '/blog',
     '/privacy',
     '/terms',
