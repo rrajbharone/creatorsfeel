@@ -7,7 +7,7 @@ interface Props {
 
 const { type, breadcrumbs = [], faqs = [] } = Astro.props;
 
-const origin = Astro.url.origin;
+const origin = Astro.site ? Astro.site.origin : "https://creatorsfeel.com";
 
 // 1. Organization Schema
 const orgSchema = {

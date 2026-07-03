@@ -41,38 +41,7 @@ const canonicalUrl = "https://creatorsfeel.com/tools/instagram-caption-character
   category="Writing Tools"
   faqs={faqs}
 >
-  <!-- Schema Graphs -->
-  <script type="application/ld+json" slot="meta" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "SoftwareApplication",
-        "@id": "https://creatorsfeel.com/tools/instagram-caption-character-counter/#application",
-        "name": "Instagram Caption Character Counter",
-        "url": "https://creatorsfeel.com/tools/instagram-caption-character-counter",
-        "operatingSystem": "All",
-        "applicationCategory": "WritingApplication",
-        "description": "Count characters in your Instagram caption, audit hashtags limits, and preview the 125-character mobile feed crop in real-time.",
-        "offers": {
-          "@type": "Offer",
-          "price": "0.00",
-          "priceCurrency": "USD"
-        }
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://creatorsfeel.com/tools/instagram-caption-character-counter/#faq",
-        "mainEntity": faqs.map(faq => ({
-          "@type": "Question",
-          "name": faq.question,
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": faq.answer
-          }
-        }))
-      }
-    ]
-  })} />
+
 
   <!-- Interactive Counter Interface -->
   <div slot="calculator" class="calc-card glass">

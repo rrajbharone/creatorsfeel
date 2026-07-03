@@ -14,10 +14,12 @@ const {
   description = "Free premium tools for creators, YouTubers, Instagram influencers, TikTokers, and agencies. Calculate engagement, estimate earnings, check titles and grow your brand.",
   image = "/og-image.jpg", // We will generate or reference a default social image
   type = "website",
-  canonicalUrl = Astro.url.href,
   pubDate,
   author
 } = Astro.props;
+
+const origin = Astro.site ? Astro.site.origin : "https://creatorsfeel.com";
+const canonical = Astro.props.canonicalUrl || new URL(Astro.url.pathname, origin).href;
 
 const siteName = "CreatorsFeel";
 const formattedTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
@@ -27,22 +29,22 @@ const formattedTitle = title.includes(siteName) ? title : `${title} | ${siteName
 <title>{formattedTitle}</title>
 <meta name="title" content={formattedTitle} />
 <meta name="description" content={description} />
-<link rel="canonical" href={canonicalUrl} />
+<link rel="canonical" href={canonical} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
-<meta property="og:url" content={canonicalUrl} />
+<meta property="og:url" content={canonical} />
 <meta property="og:title" content={formattedTitle} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url.origin)} />
+<meta property="og:image" content={new URL(image, origin).href} />
 <meta property="og:site_name" content={siteName} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonicalUrl} />
+<meta property="twitter:url" content={canonical} />
 <meta property="twitter:title" content={formattedTitle} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url.origin)} />
+<meta property="twitter:image" content={new URL(image, origin).href} />
 
 <!-- Article Metadata (Conditional) -->
 {type === 'article' && pubDate && (

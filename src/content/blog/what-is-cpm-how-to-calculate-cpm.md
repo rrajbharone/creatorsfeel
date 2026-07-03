@@ -5,6 +5,13 @@ pubDate: 2026-06-30
 author: "Ramu Rajbhar"
 image: "/images/blog/what-is-cpm-and-how-do-you-calculate-it.webp"
 tags: ["CPM", "Advertising", "Marketing", "Calculators"]
+faqs:
+  - question: "What is a good CPM rate?"
+    answer: "A \"good\" CPM is highly subjective. For general social media branding campaigns in Tier 1 countries, an average CPM between **$5.00 and $15.00** is standard. In highly competitive niches like finance, CPMs exceeding **$30.00** are normal."
+  - question: "Does CPM count unique viewers?"
+    answer: "No. CPM measures **impressions**, not unique reach. If one person views your ad five times, that counts as five impressions. To track unique users, look at the **Reach** and **Frequency** metrics in your reporting dashboard."
+  - question: "Why is my CPM calculator returning NaN or Infinity?"
+    answer: "If you run calculations manually and divide by zero impressions, you will get an invalid math result. Ensure that impressions are always a positive integer greater than zero when calculating CPM. Or simply use our online [CPM Calculator](file:///c:/Users/rrajb/Downloads/creatorsfeel.com/src/pages/tools/cpm-calculator.astro) which automatically handles data validation."
 ---
 
 In the modern digital advertising ecosystem, businesses allocate billions of dollars annually to place advertisements in front of target audiences. Whether you are a brand manager aiming to launch a new product, a media buyer mapping out programmatic campaigns, or a content creator looking to monetize a YouTube channel or blog, you must navigate key advertising metrics.

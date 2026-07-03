@@ -41,38 +41,7 @@ const canonicalUrl = "https://creatorsfeel.com/tools/cpm-calculator";
   category="Calculators"
   faqs={faqs}
 >
-  <!-- Schema Graphs -->
-  <script type="application/ld+json" slot="meta" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "SoftwareApplication",
-        "@id": "https://creatorsfeel.com/tools/cpm-calculator/#application",
-        "name": "CPM Calculator",
-        "url": "https://creatorsfeel.com/tools/cpm-calculator",
-        "operatingSystem": "All",
-        "applicationCategory": "BusinessApplication",
-        "description": "Calculate Cost Per Mille (CPM), campaign budgets, or impressions instantly with our free online marketing tool.",
-        "offers": {
-          "@type": "Offer",
-          "price": "0.00",
-          "priceCurrency": "USD"
-        }
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://creatorsfeel.com/tools/cpm-calculator/#faq",
-        "mainEntity": faqs.map(faq => ({
-          "@type": "Question",
-          "name": faq.question,
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": faq.answer
-          }
-        }))
-      }
-    ]
-  })} />
+
 
   <!-- Interactive Calculator Interface -->
   <div slot="calculator" class="calc-card glass">

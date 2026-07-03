@@ -9,9 +9,10 @@ interface Props {
   author: string;
   image?: string;
   tags?: string[];
+  faqs?: { question: string; answer: string }[];
 }
 
-const { title, description, pubDate, author, image = '/blog/default.jpg', tags = [] } = Astro.props;
+const { title, description, pubDate, author, image = '/blog/default.jpg', tags = [], faqs = [] } = Astro.props;
 
 const formattedDate = pubDate.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -24,6 +25,52 @@ const breadcrumbs = [
   { name: 'Blog', item: '/blog' },
   { name: title, item: Astro.url.pathname }
 ];
+
+const origin = Astro.site ? Astro.site.origin : "https://creatorsfeel.com";
+const canonicalUrl = new URL(Astro.url.pathname, origin).href;
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": `${canonicalUrl}#article`,
+      "headline": title,
+      "description": description,
+      "image": [new URL(image, origin).href],
+      "datePublished": pubDate.toISOString(),
+      "author": [{
+        "@type": "Person",
+        "name": author,
+        "url": `${origin}/about`
+      }],
+      "publisher": {
+        "@type": "Organization",
+        "name": "CreatorsFeel",
+        "logo": {
+          "@type": "ImageObject",
+          "url": `${origin}/favicon.svg`
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": canonicalUrl
+      }
+    },
+    ...(faqs && faqs.length > 0 ? [{
+      "@type": "FAQPage",
+      "@id": `${canonicalUrl}#faq`,
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    }] : [])
+  ]
+};
 ---
 
 <BaseLayout 
@@ -32,6 +79,11 @@ const breadcrumbs = [
   type="article"
   breadcrumbs={breadcrumbs}
 >
+  <!-- Schema structured markup injected in head -->
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify(articleSchema)} />
+  <!-- Forward meta slot to BaseLayout head -->
+  <slot name="meta" slot="meta" />
+  
   <article class="blog-post-container container">
     <!-- Reusable Breadcrumbs Navigation -->
     <Breadcrumbs items={breadcrumbs} />

@@ -5,6 +5,13 @@ pubDate: 2026-06-30
 author: "Ramu Rajbhar"
 image: "/images/blog/instagram-bio-character-limit.webp"
 tags: ["Instagram", "Bio", "Analytics", "Growth"]
+faqs:
+  - question: "Can I include hashtags in my Instagram bio?"
+    answer: "Yes, hashtags (like `#ContentCreator`) are clickable inside your bio. However, unless you are promoting a custom branded hashtag (like `#MyBrandCampaign`), it is usually a bad idea. Clicking a hashtag takes visitors *away* from your profile to a global hashtag feed, lowering the chance of them clicking your website link or hitting follow."
+  - question: "Can I link to another profile in my bio?"
+    answer: "Yes, tagging another account (like `@MyOtherBusiness`) is clickable and great for cross-promotion. Keep in mind that these tags count toward your 150-character limit."
+  - question: "Does the clickable website link count in the 150 characters?"
+    answer: "No. Instagram provides a dedicated \"Website\" or \"Links\" field in the profile edit settings. The URL you input there does not count toward the 150-character limit."
 ---
 
 When a user visits your Instagram profile for the first time, you have less than three seconds to capture their attention. Within those few seconds, they look at three primary elements: your profile picture, your follower counts, and your **Instagram Bio**.

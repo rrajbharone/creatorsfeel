@@ -45,6 +45,9 @@ const {
       faqs={faqs} 
     />
 
+    <!-- Custom meta tags / scripts injection slot -->
+    <slot name="meta" />
+
     <!-- Theme Initialization Script (Prevents FOUC) -->
     <script is:inline>
       const getTheme = () => {

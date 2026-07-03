@@ -19,6 +19,43 @@ const breadcrumbs = [
   { name: 'Tools', item: '/tools' },
   { name: toolName, item: Astro.url.pathname }
 ];
+
+const origin = Astro.site ? Astro.site.origin : "https://creatorsfeel.com";
+const canonicalUrl = new URL(Astro.url.pathname, origin).href;
+
+const appCategory = category === "Calculators" ? "BusinessApplication" : "WritingApplication";
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${canonicalUrl}#application`,
+      "name": toolName,
+      "url": canonicalUrl,
+      "operatingSystem": "All",
+      "applicationCategory": appCategory,
+      "description": toolDescription || description,
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      }
+    },
+    ...(faqs && faqs.length > 0 ? [{
+      "@type": "FAQPage",
+      "@id": `${canonicalUrl}#faq`,
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    }] : [])
+  ]
+};
 ---
 
 <BaseLayout 
@@ -27,6 +64,11 @@ const breadcrumbs = [
   breadcrumbs={breadcrumbs}
   faqs={faqs}
 >
+  <!-- Schema structured markup injected in head -->
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify(softwareSchema)} />
+  <!-- Forward meta slot from tool page to BaseLayout head -->
+  <slot name="meta" slot="meta" />
+  
   <article class="tool-page-container container">
     <!-- Reusable Breadcrumbs Navigation -->
     <Breadcrumbs items={breadcrumbs} />
