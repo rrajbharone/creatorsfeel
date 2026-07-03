@@ -878,6 +878,12 @@ const breadcrumbs = [
         const costPerK = cpe * 1000;
         breakdownKVal.textContent = `$${costPerK.toFixed(2)}`;
       }
+
+      // Smooth scroll to the results section for better mobile accessibility
+      const resultsWrapper = document.getElementById('results-wrapper');
+      if (resultsWrapper) {
+        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     };
 
     // Reset Form

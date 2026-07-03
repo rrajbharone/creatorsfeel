@@ -167,10 +167,20 @@ const faqs = [
 </ToolLayout>
 
 <style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
   .title-checker-container {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .large-label {
@@ -274,6 +284,8 @@ const faqs = [
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .score-card {
@@ -285,6 +297,8 @@ const faqs = [
     justify-content: center;
     text-align: center;
     gap: 1rem;
+    box-sizing: border-box;
+    width: 100%;
   }
 
   .score-circle-container {
@@ -347,6 +361,8 @@ const faqs = [
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .mockup-header {
@@ -359,6 +375,8 @@ const faqs = [
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .mockup-label {
@@ -375,6 +393,8 @@ const faqs = [
     gap: 1rem;
     background: var(--color-bg-alt);
     border: 1px solid var(--color-border);
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .yt-mock-thumb {
@@ -435,6 +455,8 @@ const faqs = [
     background: var(--color-bg-alt);
     border: 1px solid var(--color-border);
     overflow: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .yt-mobile-thumb {
@@ -449,6 +471,7 @@ const faqs = [
     padding: 0.75rem;
     gap: 0.75rem;
     align-items: flex-start;
+    box-sizing: border-box;
   }
 
   .yt-mobile-avatar {
@@ -483,10 +506,37 @@ const faqs = [
   }
 
   /* Responsive Rules */
-  @media (min-width: 768px) {
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .audit-checklist-box {
+      padding: 1rem;
+    }
+
+    .checker-preview-area {
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .yt-mock-thumb {
+      width: 90px;
+      height: 51px;
+    }
+    .youtube-desktop-mockup {
+      gap: 0.75rem;
+      padding: 0.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
     .title-checker-container {
       grid-template-columns: 1.2fr 1fr;
       align-items: start;
+      gap: 3rem;
     }
   }
 </style>
