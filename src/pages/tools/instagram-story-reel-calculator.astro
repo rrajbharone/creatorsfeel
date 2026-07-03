@@ -1,0 +1,792 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "How are Instagram Story and Reel rates calculated?",
+    answer: "Sponsorship rates are primarily calculated using a Cost Per Mille (CPM) or Cost Per View (CPV) model. Reels command a higher CPM ($30 - $60) because they have viral potential and remain on your profile forever. Stories have a lower CPM ($15 - $35) because they disappear after 24 hours. Pricing is further adjusted by follower count, average views, engagement rate, and niche value."
+  },
+  {
+    question: "What is a normal views-to-followers ratio on Instagram?",
+    answer: "For Instagram Stories, a normal ratio is between 2% and 8% of your total follower count. For Instagram Reels, views are highly variable due to the algorithmic feed, but typically range from 10% to 30% of your follower count, occasionally exceeding it during viral spikes."
+  },
+  {
+    question: "Why does my niche affect my pricing?",
+    answer: "Advertisers are willing to pay a premium to target audiences in high-revenue niches. E-commerce, finance, technology, and business-focused creators command CPM rates 1.5x - 2x higher than lifestyle, entertainment, or gaming creators due to higher customer lifetime values (LTV)."
+  },
+  {
+    question: "Do I need to charge less if my engagement rate is low?",
+    answer: "Yes. Brands evaluate engagement (likes, comments, shares, saves) because it indicates active interest. An engagement rate below 1.5% will usually result in lower offers, whereas an engagement rate above 4% gives you strong leverage to negotiate higher rates."
+  },
+  {
+    question: "Should I charge the same for a Story and a Reel?",
+    answer: "No. A Reel requires significantly more effort to script, shoot, edit, and optimize, and it has long-term shelf life. A Story is brief, unedited, and disappears in 24 hours. Reels should typically be priced 2x to 3x higher than Stories."
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'Instagram Story & Reel Rate Calculator', item: '/tools/instagram-story-reel-calculator' }
+];
+---
+
+<ToolLayout
+  title="Instagram Story & Reel Rate Calculator - Sponsorship Pricing Tool"
+  description="Calculate how much to charge for Instagram Stories and Reels. Free online pricing calculator for influencer sponsorship rates, CPM campaigns, and brand pitches."
+  toolName="Instagram Story & Reel Rate Calculator"
+  toolDescription="Estimate your sponsored content rates. Choose between Stories or Reels, enter your metrics, and generate custom brand pitches instantly."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Mode selector tabs -->
+    <div class="calculator-mode-selector" role="tablist" aria-label="Content Format">
+      <button type="button" class="mode-tab active" data-mode="story" role="tab" aria-selected="true" aria-controls="calc-form-container">
+        <span class="tab-long">Instagram Story Rate</span>
+        <span class="tab-short">Story Rate</span>
+      </button>
+      <button type="button" class="mode-tab" data-mode="reel" role="tab" aria-selected="false" aria-controls="calc-form-container">
+        <span class="tab-long">Instagram Reel Rate</span>
+        <span class="tab-short">Reel Rate</span>
+      </button>
+    </div>
+
+    <div class="calc-grid" id="calc-form-container">
+      <!-- Inputs Form -->
+      <form class="calc-form" id="rate-form" onsubmit="return false;">
+        <input type="hidden" id="active-format" value="story" />
+
+        <div class="form-group">
+          <div class="label-header">
+            <label for="followers-count" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg>
+              Follower Count
+            </label>
+          </div>
+          <input type="number" id="followers-count" class="form-input" placeholder="e.g., 25000" min="100" step="1" required />
+          <span class="input-helper">Your total number of Instagram followers.</span>
+        </div>
+
+        <div class="form-group">
+          <div class="label-header">
+            <label for="avg-views" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+              Average Views
+            </label>
+          </div>
+          <input type="number" id="avg-views" class="form-input" placeholder="e.g., 2000 (leave blank to estimate)" min="1" step="1" />
+          <span class="input-helper" id="views-helper">The typical number of views per Story (defaults to 5% of followers if blank).</span>
+        </div>
+
+        <div class="form-group">
+          <div class="label-header">
+            <label for="niche-category" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.125 1.125 0 0 0 1.591 0l4.318-4.318a1.125 1.125 0 0 0 0-1.591L9.568 3.659A2.25 2.25 0 0 0 7.977 3Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h.008v.008H6V7.5Z" />
+              </svg>
+              Content Niche / Category
+            </label>
+          </div>
+          <select id="niche-category" class="form-input">
+            <option value="lifestyle" selected>Lifestyle, Fashion, & Beauty (Standard)</option>
+            <option value="business">Business, Finance, & Tech (Premium)</option>
+            <option value="fitness">Health, Fitness, & Food (Mid-Tier)</option>
+            <option value="entertainment">Gaming & Entertainment (Low-CPM)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <div class="label-header">
+            <label for="engagement-rate" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.34 18.062 18 21m-2.66-2.938a7.478 7.478 0 0 0 1.256-4.242A7.472 7.472 0 0 0 9 6.25a7.472 7.472 0 0 0-7.592 7.57 7.461 7.461 0 0 0 1.256 4.242L0 21m15.34-2.938A7.476 7.476 0 0 0 16.5 13.75c0-4.14-3.36-7.5-7.5-7.5h-.012c-4.137 0-7.488 3.353-7.488 7.47a7.473 7.473 0 0 0 1.156 3.968l1.455-1.597a5.525 5.525 0 0 1-.611-2.371c0-3.053 2.477-5.529 5.525-5.529h.012c3.048 0 5.525 2.476 5.525 5.53a5.523 5.523 0 0 1-.611 2.37l1.455 1.598Z" />
+              </svg>
+              Engagement Rate (%)
+            </label>
+          </div>
+          <input type="number" id="engagement-rate" class="form-input" placeholder="e.g., 2.5" min="0.1" max="50" step="0.1" value="2.5" required />
+          <span class="input-helper">Your average post engagement rate (standard is 1.5% - 3.5%).</span>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Calculate Sponsorship Rate
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- Results Display -->
+      <div class="calc-results" id="results-wrapper">
+        <!-- Awaiting State -->
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          <h3>Awaiting Rates Calculation</h3>
+          <p class="text-muted">Enter your Instagram follower counts and click Calculate to formulate estimated pricing ranges.</p>
+        </div>
+
+        <!-- Output display -->
+        <div class="results-active hidden" id="res-active-box">
+          <div class="rate-range-box">
+            <h4 class="rate-label" id="res-primary-label">Estimated Story Rate</h4>
+            <div class="rate-range" id="res-rate-range">$0 - $0</div>
+            <div class="grade-badge grade-low" id="res-tier-badge">Micro-Influencer</div>
+          </div>
+
+          <div class="breakdown-box">
+            <h4 class="breakdown-title">Pricing Benchmarks Breakdown</h4>
+            <div class="breakdown-list">
+              <div class="breakdown-item">
+                <span class="breakdown-label">Estimated Views:</span>
+                <span class="breakdown-val" id="res-views-val">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Suggested Cost Per View (CPV):</span>
+                <span class="breakdown-val" id="res-cpv-val">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Effective CPM Rate:</span>
+                <span class="breakdown-val" id="res-cpm-val">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brand Pitch Email Generation -->
+          <div class="pitch-container glass">
+            <div class="pitch-header">
+              <h5 class="pitch-title">Generated Brand Pitch Template</h5>
+              <button type="button" class="copy-pitch-btn" id="copy-pitch-btn" title="Copy template text">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H5.25M16.5 5.25h.008v.008H16.5V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25ZM9 10.5c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v10.5c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V10.5Z" />
+                </svg>
+                Copy Pitch
+              </button>
+            </div>
+            <textarea class="pitch-textbox" id="pitch-output" readonly rows="7"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>Understanding Instagram Sponsorship Pricing Models</h2>
+    <p>
+      In social media marketing, pricing your content can be highly challenging. Influencers often undercharge or overcharge, leading to missed deals. Our <strong>instagram story rate calculator</strong> and <strong>instagram reel rate calculator</strong> are designed around real industry standards, helping you audit your rates effectively.
+    </p>
+    <p>
+      Pricing formulas are calculated using two primary models:
+    </p>
+    <ul>
+      <li><strong>Follower-Based Pricing:</strong> A traditional starting point of $10 per 1,000 followers ($10 CPM). While simple, this is often outdated as it ignores actual content reach.</li>
+      <li><strong>View-Based Bidding (Recommended):</strong> Pricing based on your average Story views or Reel views using a fixed Cost Per View (CPV). A dedicated Instagram Reel delivers higher value due to organic search feed discovery, while an Instagram Story disappears after 24 hours.</li>
+    </ul>
+
+    <div class="formula-box">
+      Story Pricing = Average Story Views * $0.02 - $0.04 CPV 📈
+      <br />
+      Reel Pricing = Average Reel Views * $0.04 - $0.08 CPV 🚀
+    </div>
+
+    <h2>How to Calculate Your Instagram Sponsorship Value</h2>
+    <p>
+      To find an authentic pricing tier, our calculator weights four metrics:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Format selection:</strong> Reels have a higher base CPM ($40) compared to Stories ($25) because they require video production, editing, and offer long-tail organic views.</li>
+      <li><strong>View baseline:</strong> If you leave average views blank, the tool defaults to a conservative view-to-follower ratio (5% for Stories, 15% for Reels).</li>
+      <li><strong>Niche Multipliers:</strong> High-ticket categories like Business, Tech, and Finance yield a 1.5x premium, whereas Entertainment and Gaming are calculated with a 0.8x discount.</li>
+      <li><strong>Engagement Rate Weights:</strong> High engagement rates (>4%) scale your pricing up by 20%, proving to brands that your followers are active and responsive.</li>
+    </ol>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calculator-mode-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    background: var(--color-bg-alt);
+    padding: 0.35rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+  }
+
+  .mode-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mode-tab:hover {
+    color: var(--color-text);
+  }
+
+  .mode-tab.active {
+    background: var(--color-bg);
+    color: var(--color-brand);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .tab-short {
+    display: none;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  /* Custom dropdown arrow for select elements */
+  select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 2.5rem !important;
+    cursor: pointer;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  /* Active outputs styling */
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .rate-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .rate-range {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-weight: 800;
+    color: var(--color-brand);
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+  }
+
+  .grade-low {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+  }
+
+  .breakdown-box {
+    width: 100%;
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  .breakdown-label {
+    color: var(--color-text-muted);
+  }
+
+  .breakdown-val {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* Pitch box styling */
+  .pitch-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .pitch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .pitch-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .copy-pitch-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: opacity var(--transition-fast);
+  }
+
+  .copy-pitch-btn:hover {
+    opacity: 0.8;
+  }
+
+  .pitch-textbox {
+    width: 100%;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    line-height: 1.5;
+    color: var(--color-text);
+    resize: none;
+    box-sizing: border-box;
+  }
+
+  .formula-box {
+    background: var(--color-bg-alt);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    margin: 1.25rem 0;
+    font-family: monospace;
+    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+    text-align: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .tab-long {
+      display: none;
+    }
+
+    .tab-short {
+      display: inline;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+
+    .breakdown-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+    }
+
+    .rate-range-box,
+    .pitch-container {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+    }
+
+    .rate-range-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+      align-items: center !important;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  const setupStoryReelCalculator = () => {
+    // Mode selectors
+    const modeTabs = document.querySelectorAll('.mode-tab');
+    const activeFormatInput = document.getElementById('active-format') as HTMLInputElement;
+
+    // Elements
+    const followersField = document.getElementById('followers-count') as HTMLInputElement;
+    const viewsField = document.getElementById('avg-views') as HTMLInputElement;
+    const nicheSelect = document.getElementById('niche-category') as HTMLSelectElement;
+    const engagementField = document.getElementById('engagement-rate') as HTMLInputElement;
+
+    const viewsHelper = document.getElementById('views-helper');
+
+    // Buttons
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+    const copyPitchBtn = document.getElementById('copy-pitch-btn');
+
+    // Display Boxes
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+
+    // Outputs
+    const primaryLabel = document.getElementById('res-primary-label');
+    const rateRangeVal = document.getElementById('res-rate-range');
+    const tierBadge = document.getElementById('res-tier-badge');
+
+    const viewsVal = document.getElementById('res-views-val');
+    const cpvVal = document.getElementById('res-cpv-val');
+    const cpmVal = document.getElementById('res-cpm-val');
+    const pitchTextbox = document.getElementById('pitch-output') as HTMLTextAreaElement;
+
+    // Switch Format Mode (Story vs Reel)
+    modeTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        modeTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const mode = tab.getAttribute('data-mode') || 'story';
+        if (activeFormatInput) activeFormatInput.value = mode;
+
+        // Update helpers based on mode
+        if (viewsHelper) {
+          viewsHelper.textContent = mode === 'story' 
+            ? "The typical number of views per Story (defaults to 5% of followers if blank)."
+            : "The typical number of views per Reel (defaults to 15% of followers if blank).";
+        }
+
+        resetCalculator(false);
+      });
+    });
+
+    const calculateRates = () => {
+      const mode = activeFormatInput?.value || 'story';
+      const followers = parseFloat(followersField?.value) || 0;
+      let views = parseFloat(viewsField?.value) || 0;
+      const niche = nicheSelect?.value || 'lifestyle';
+      const engagement = parseFloat(engagementField?.value) || 2.5;
+
+      if (followers < 100) {
+        return alert("Please enter a valid follower count (minimum 100 followers).");
+      }
+
+      // Default views if left blank
+      if (!views || views <= 0) {
+        views = mode === 'story' 
+          ? Math.round(followers * 0.05) 
+          : Math.round(followers * 0.15);
+      }
+
+      // Base CPM parameters
+      const baseCpm = mode === 'story' ? 25 : 40;
+
+      // Niche multipliers
+      let nicheMultiplier = 1.0;
+      let nicheName = "Lifestyle";
+      if (niche === 'business') {
+        nicheMultiplier = 1.5;
+        nicheName = "Business & Tech";
+      } else if (niche === 'fitness') {
+        nicheMultiplier = 1.2;
+        nicheName = "Health & Fitness";
+      } else if (niche === 'entertainment') {
+        nicheMultiplier = 0.8;
+        nicheName = "Gaming & Entertainment";
+      }
+
+      // Engagement multipliers
+      let engagementMultiplier = 1.0;
+      if (engagement < 1.5) {
+        engagementMultiplier = 0.85;
+      } else if (engagement > 4.0) {
+        engagementMultiplier = 1.2;
+      }
+
+      // Calculate CPM & CPV
+      const calculatedCpm = baseCpm * nicheMultiplier * engagementMultiplier;
+      const calculatedCpv = calculatedCpm / 1000;
+
+      // Calculate Estimated Prices
+      const midPointPrice = (views * calculatedCpm) / 1000;
+      const lowEstimate = Math.max(10, Math.round(midPointPrice * 0.85));
+      const highEstimate = Math.max(15, Math.round(midPointPrice * 1.15));
+
+      // Influencer Tier Badge
+      let tierName = "Micro-Influencer";
+      if (followers >= 500000) tierName = "Mega-Influencer";
+      else if (followers >= 100000) tierName = "Macro-Influencer";
+      else if (followers >= 10000) tierName = "Mid-Tier Influencer";
+      else if (followers < 1000) tierName = "Nano-Influencer";
+
+      // Render Outputs
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      if (primaryLabel) {
+        primaryLabel.textContent = mode === 'story' 
+          ? "Estimated Story Rate" 
+          : "Estimated Reel Rate";
+      }
+      if (rateRangeVal) rateRangeVal.textContent = `$${lowEstimate} - $${highEstimate}`;
+      if (tierBadge) {
+        tierBadge.textContent = tierName;
+        tierBadge.className = 'grade-badge grade-low';
+      }
+
+      if (viewsVal) viewsVal.textContent = views.toLocaleString();
+      if (cpvVal) cpvVal.textContent = `$${calculatedCpv.toFixed(3)}`;
+      if (cpmVal) cpmVal.textContent = `$${calculatedCpm.toFixed(2)}`;
+
+      // GenerateBrand Pitch Email Template
+      const formatLabel = mode === 'story' ? 'Instagram Story' : 'Instagram Reel';
+      const pitchText = `Subject: Collaboration Proposal: @YourHandle x [Brand Name]
+
+Hi [Brand Name] Team,
+
+I've been following your recent campaigns and love your product line! I'm a content creator in the ${nicheName} niche on Instagram. I have built a dedicated community of ${followers.toLocaleString()} followers with an average engagement rate of ${engagement.toFixed(1)}%.
+
+I'd love to partner with you to create dedicated content. Based on my average of ${views.toLocaleString()} views per ${mode === 'story' ? 'Story' : 'Reel'}, my baseline sponsorship rate for one ${formatLabel} is $${lowEstimate} - $${highEstimate}.
+
+Here is a summary of my metrics:
+- Followers: ${followers.toLocaleString()}
+- Average ${mode === 'story' ? 'Story' : 'Reel'} Views: ${views.toLocaleString()}
+- Engagement Rate: ${engagement.toFixed(1)}%
+
+Let me know if you would like me to send over my full media kit to discuss potential collaboration packages!
+
+Best regards,
+[Your Name]
+@YourHandle`;
+
+      if (pitchTextbox) pitchTextbox.value = pitchText;
+
+      // Smooth scroll to the results section
+      const resultsWrapper = document.getElementById('results-wrapper');
+      if (resultsWrapper) {
+        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    const resetCalculator = (clearInputs = true) => {
+      if (clearInputs) {
+        if (followersField) followersField.value = '';
+        if (viewsField) viewsField.value = '';
+        if (nicheSelect) nicheSelect.selectedIndex = 0;
+        if (engagementField) engagementField.value = '2.5';
+      }
+
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) activeBox.classList.add('hidden');
+    };
+
+    // Copy to clipboard
+    const copyPitchToClipboard = () => {
+      if (!pitchTextbox) return;
+      pitchTextbox.select();
+      pitchTextbox.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(pitchTextbox.value).then(() => {
+        const originalText = copyPitchBtn ? copyPitchBtn.innerHTML : '';
+        if (copyPitchBtn) {
+          copyPitchBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="var(--color-success)" style="width: 16px; height: 16px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
+            <span style="color: var(--color-success)">Copied!</span>
+          `;
+          setTimeout(() => {
+            copyPitchBtn.innerHTML = originalText;
+          }, 2000);
+        }
+      });
+    };
+
+    submitBtn?.addEventListener('click', calculateRates);
+    resetBtn?.addEventListener('click', () => resetCalculator(true));
+    copyPitchBtn?.addEventListener('click', copyPitchToClipboard);
+  };
+
+  setupStoryReelCalculator();
+  document.addEventListener('astro:after-swap', setupStoryReelCalculator);
+</script>
