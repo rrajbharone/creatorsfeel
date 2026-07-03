@@ -34,9 +34,9 @@ export async function onRequestPost(context) {
     const resendApiKey = env.RESEND_API_KEY;
     if (!resendApiKey) {
       return new Response(
-        JSON.stringify({ 
-          success: false, 
-          error: "Resend API key is not configured in Cloudflare environment bindings." 
+        JSON.stringify({
+          success: false,
+          error: "Resend API key is not configured in Cloudflare environment bindings."
         }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
@@ -50,7 +50,7 @@ export async function onRequestPost(context) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        from: "CreatorsFeel Contact <onboarding@resend.dev>",
+        from: "CreatorsFeel <contact@creatorsfeel.com>",
         to: ["business.rajbhar@gmail.com"],
         reply_to: email,
         subject: `[Contact Form] ${subject}`,
@@ -79,9 +79,9 @@ export async function onRequestPost(context) {
     } else {
       const errorData = await resendResponse.json().catch(() => ({}));
       return new Response(
-        JSON.stringify({ 
-          success: false, 
-          error: errorData.message || "Failed to send email via Resend API. Please check your setup." 
+        JSON.stringify({
+          success: false,
+          error: errorData.message || "Failed to send email via Resend API. Please check your setup."
         }),
         { status: resendResponse.status, headers: { "Content-Type": "application/json" } }
       );
