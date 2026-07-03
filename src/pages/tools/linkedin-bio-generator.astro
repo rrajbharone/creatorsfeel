@@ -1,0 +1,811 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What makes a LinkedIn bio (About summary) stand out?",
+    answer: "A great LinkedIn bio hooks the reader in the first two lines, clearly explains the value you deliver, lists your core skills and major achievements, and ends with a clear Call to Action (CTA) like an email address or link."
+  },
+  {
+    question: "How long should my LinkedIn About summary be?",
+    answer: "LinkedIn allows up to 2,600 characters in the 'About' section. However, the sweet spot is between 1,000 and 1,500 characters. Keeping it structured with bullet points ensures it remains highly scannable on mobile devices."
+  },
+  {
+    question: "How do I format my bio to avoid large walls of text?",
+    answer: "Use short 2-3 sentence paragraphs, separate sections with blank lines, and use bullet points (using simple symbols like '•' or '✔') to list your core achievements or technical skills."
+  },
+  {
+    question: "Should I write my LinkedIn bio in the first or third person?",
+    answer: "Always write in the first person ('I am', 'I build', 'My passion is'). It feels more authentic, conversational, and approachable. Third-person summaries ('David is a seasoned manager...') can feel distant and corporate."
+  }
+];
+---
+
+<ToolLayout
+  title="Free LinkedIn Bio Generator - High-Converting Summaries"
+  description="Generate professional LinkedIn bio summaries instantly. Free AI bio generator for LinkedIn with templates for students, software engineers, doctors, and founders."
+  toolName="LinkedIn Bio Generator"
+  toolDescription="Create high-converting, recruiter-approved LinkedIn summaries. Select a pre-built template, customize your background, and output three distinct layout options."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Template Quick-Select Options -->
+    <div class="template-selector-box">
+      <span class="template-selector-label">Load Pre-Built Template:</span>
+      <div class="template-tabs">
+        <button type="button" class="template-tab-btn" data-template="student">🎓 Student</button>
+        <button type="button" class="template-tab-btn" data-template="engineer">💻 Engineer</button>
+        <button type="button" class="template-tab-btn" data-template="doctor">🩺 Doctor</button>
+        <button type="button" class="template-tab-btn" data-template="businessman">💼 Businessperson</button>
+      </div>
+    </div>
+
+    <div class="calc-grid" id="calc-form-container">
+      <!-- Input fields -->
+      <form class="calc-form" id="bio-form" onsubmit="return false;">
+        <div class="form-row-2">
+          <div class="form-group">
+            <div class="label-header">
+              <label for="user-name" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+                Your Name
+              </label>
+            </div>
+            <input type="text" id="user-name" class="form-input" placeholder="e.g., Alex Miller" required />
+          </div>
+
+          <div class="form-group">
+            <div class="label-header">
+              <label for="job-title" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 .621-.504 1.125-1.125 1.125H4.875A1.125 1.125 0 0 1 3.75 18.4V14.15m16.5 0c0-1.22-.836-2.258-2.012-2.547l-4.423-1.09c-.443-.11-.903-.11-1.346 0l-4.423 1.09c-1.176.29-2.012 1.328-2.012 2.547m16.5 0a1.5 1.5 0 1 1-3 0m-13.5 0a1.5 1.5 0 1 1-3 0m13.5 0v-3.06c0-1.09-.75-2.02-1.802-2.197l-3.011-.502a3 3 0 0 0-1.153 0l-3.011.502A2.188 2.188 0 0 0 4.876 8.53v3.06m11.25 0h-9" />
+                </svg>
+                Current Role / Title
+              </label>
+            </div>
+            <input type="text" id="job-title" class="form-input" placeholder="e.g., Computer Science Student" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="label-header">
+            <label for="user-skills" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m6.75 7.5 3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0 0 21 18V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v12a2.25 2.25 0 0 0 2.25 2.25Z" />
+              </svg>
+              Core Skills & Tools (comma separated)
+            </label>
+          </div>
+          <input type="text" id="user-skills" class="form-input" placeholder="e.g., Python, SQL, Web Development" required />
+        </div>
+
+        <div class="form-group">
+          <div class="label-header">
+            <label for="user-achievements" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1-3-3V3.75m3 15a3 3 0 0 0 3-3V3.75m-15 15a3 3 0 0 0 3-3V3.75m0 15a3 3 0 0 1-3-3V3.75m3 0h12M9 3.75h6m-6 0a3 3 0 0 1 3-3h0a3 3 0 0 1 3 3m-6 0V6.75m6-3V6.75M9 6.75h6" />
+              </svg>
+              Key Achievements / Projects (one per line)
+            </label>
+          </div>
+          <textarea id="user-achievements" class="form-input" rows="3" placeholder="e.g., Won 1st place in Hackathon&#10;Built an AI chat application&#10;Maintained a 3.9 GPA" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <div class="label-header">
+            <label for="user-hook" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 9.152c.582.448 1.148.89 1.676 1.345m-8.364-.347c-.528-.456-1.094-.898-1.676-1.345M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+              Professional Hook / Passion Statement
+            </label>
+          </div>
+          <input type="text" id="user-hook" class="form-input" placeholder="e.g., Passionate about building robust systems that solve user problems." required />
+        </div>
+
+        <div class="form-group">
+          <div class="label-header">
+            <label for="user-cta" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+              </svg>
+              Call to Action (CTA)
+            </label>
+          </div>
+          <input type="text" id="user-cta" class="form-input" placeholder="e.g., Looking for internship opportunities. Connect with me or email: name@email.com" required />
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="bio-tone" class="icon-label">Tone</label>
+            <select id="bio-tone" class="form-input">
+              <option value="professional" selected>Professional & Authoritative</option>
+              <option value="conversational">Friendly & Conversational</option>
+              <option value="bold">Bold & Disruption-focused</option>
+              <option value="creative">Creative & Storyteller</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="justify-content: center;">
+            <span class="icon-label">Format Controls</span>
+            <div class="toggle-group" style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+              <label class="checkbox-container">
+                <input type="checkbox" id="include-emojis" checked />
+                <span class="checkbox-label">Include Emojis</span>
+              </label>
+              <label class="checkbox-container">
+                <input type="checkbox" id="include-bullets" checked />
+                <span class="checkbox-label">Include Bullets</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l5.096-.813a2 2 0 0 0 .973-.526L21 13.543a2 2 0 0 0 0-2.828l-2.828-2.828a2 2 0 0 0-2.828 0L9.288 13.93a2 2 0 0 0-.526.973l-.813 5.096z" />
+            </svg>
+            Generate LinkedIn Bio
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display -->
+      <div class="calc-results" id="results-wrapper">
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+          </svg>
+          <h3>Awaiting Summary Input</h3>
+          <p class="text-muted">Select a template or fill in your details, then click Generate to create copyable profile bios.</p>
+        </div>
+
+        <div class="results-active hidden" id="res-active-box">
+          <!-- Option Tabs selector inside results -->
+          <div class="results-tabs" role="tablist">
+            <button type="button" class="res-tab active" data-option="modern" role="tab" aria-selected="true" aria-controls="bio-textbox-container">Modern</button>
+            <button type="button" class="res-tab" data-option="story" role="tab" aria-selected="false" aria-controls="bio-textbox-container">Storyteller</button>
+            <button type="button" class="res-tab" data-option="achievements" role="tab" aria-selected="false" aria-controls="bio-textbox-container">Bulleted</button>
+          </div>
+
+          <div class="pitch-container" id="bio-textbox-container">
+            <div class="pitch-header">
+              <h5 class="pitch-title" id="option-title-label">Modern Professional Layout</h5>
+              <button type="button" class="copy-pitch-btn" id="copy-bio-btn" title="Copy summary text">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H5.25M16.5 5.25h.008v.008H16.5V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25ZM9 10.5c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v10.5c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V10.5Z" />
+                </svg>
+                Copy Summary
+              </button>
+            </div>
+            <textarea class="pitch-textbox" id="bio-output" readonly rows="12"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>Why an Optimized LinkedIn Bio is Critical for Your Career</h2>
+    <p>
+      Your LinkedIn 'About' section is the most read part of your profile. When recruiters, potential business partners, or employers land on your page, they evaluate your summary within seconds. A blank or poorly formatted bio can cause you to miss key job leads. 
+    </p>
+    <p>
+      Using an <strong>ai linkedin bio generator</strong> or an <strong>ai bio generator for linkedin</strong> establishes a structured layout:
+    </p>
+    <ul>
+      <li><strong>Hook:</strong> An attention-grabbing opening statement detailing what drives you professionally.</li>
+      <li><strong>Core Value:</strong> Explaining the specific business or technical problems you solve.</li>
+      <li><strong>Key Skills:</strong> List target keywords naturally so your profile ranks in recruiter search indexes.</li>
+      <li><strong>Achievements:</strong> Quantify your accomplishments (e.g. project metrics, fundings, residency positions).</li>
+      <li><strong>CTA:</strong> Make it easy for people to reach out by including contact info.</li>
+    </ul>
+
+    <h2>LinkedIn Summaries for Key Professions</h2>
+    <p>
+      Different professions require unique hooks:
+    </p>
+    <ul>
+      <li><strong>Software Engineers:</strong> Focus on tech stacks (languages/frameworks), system scale, and architectural problem-solving.</li>
+      <li><strong>Students:</strong> Emphasize academic projects, leadership, internships, and hunger to learn.</li>
+      <li><strong>Healthcare Professionals:</strong> Focus on medical specialties, clinical care certifications, and patient outcomes.</li>
+      <li><strong>Entrepreneurs / Founders:</strong> Emphasize funding raised, teams led, SaaS products launched, and strategic scaling milestones.</li>
+    </ul>
+
+    <p>
+      Our interactive [LinkedIn Bio Generator](file:///c:/Users/rrajb/Downloads/creatorsfeel.com/src/pages/tools/linkedin-bio-generator.astro) will compile these options dynamically. Use it as an <strong>ai linkedin summary bio generator</strong> to draft multiple layouts.
+    </p>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .template-selector-box {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .template-selector-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .template-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .template-tab-btn {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .template-tab-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+    background: var(--gradient-glow);
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 2.5rem !important;
+    cursor: pointer;
+  }
+
+  /* Checkbox controls */
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .checkbox-container input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-brand);
+  }
+
+  .checkbox-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .results-tabs {
+    display: flex;
+    gap: 0.35rem;
+    background: var(--color-bg);
+    padding: 0.3rem;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+  }
+
+  .res-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .res-tab:hover {
+    color: var(--color-text);
+  }
+
+  .res-tab.active {
+    background: var(--color-bg-alt);
+    color: var(--color-brand);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .pitch-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .pitch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .pitch-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .copy-pitch-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: opacity var(--transition-fast);
+  }
+
+  .copy-pitch-btn:hover {
+    opacity: 0.8;
+  }
+
+  .pitch-textbox {
+    width: 100%;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    line-height: 1.6;
+    color: var(--color-text);
+    resize: none;
+    box-sizing: border-box;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+
+    .pitch-container {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .form-row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Template data definitions
+  const templatesMap: Record<string, {
+    name: string;
+    title: string;
+    skills: string;
+    achievements: string;
+    hook: string;
+    cta: string;
+  }> = {
+    student: {
+      name: "Alex Miller",
+      title: "Computer Science Student at Stanford",
+      skills: "Python, Java, TypeScript, SQL, Git",
+      achievements: "Dean's list 4 semesters running\nWon 1st place in university-wide Hackathon\nBuilt 3 open-source web applications using React",
+      hook: "Aspiring software engineer passionate about solving complex real-world problems through clean, readable code.",
+      cta: "Actively seeking summer 2027 internship opportunities. Let's connect or email me at alex@example.com!"
+    },
+    engineer: {
+      name: "David Chen",
+      title: "Senior Full-Stack Engineer at TechScale",
+      skills: "Node.js, TypeScript, React, AWS, Docker, Kubernetes",
+      achievements: "Led migration to microservices architecture, saving 35% on AWS bills\nScaled API pipeline to handle 10M daily transactions\nMentored 5 junior developers on engineering best practices",
+      hook: "Building scalable backend microservices and seamless web apps that deliver real business impact.",
+      cta: "Always open to speaking events, technical advising, or networking. Reach me at david@example.com!"
+    },
+    doctor: {
+      name: "Dr. Sarah Patel",
+      title: "Pediatric Cardiologist at Children's Health Clinic",
+      skills: "Pediatric Cardiology, Patient Care, Diagnostics, Medical Research",
+      achievements: "Directed a clinical residency program for 12 pediatric graduates\nPublished 5 research papers on congenital heart diagnostics\nOrganized a community outreach program screening 500 children",
+      hook: "Dedicated to providing empathetic, evidence-based pediatric healthcare to improve outcomes.",
+      cta: "Open to clinical research partnerships, professional speaking requests, or medical advising."
+    },
+    businessman: {
+      name: "Marcus Sterling",
+      title: "Founder & CEO at Sterling Growth Capital",
+      skills: "SaaS Scaling, Venture Finance, Mergers & Acquisitions, Strategic Partnerships",
+      achievements: "Raised $15M in venture funding for internal portfolio startups\nScaled SaaS startup from $0 to $8M Annual Recurring Revenue (ARR)\nManaged a remote team of 45 professionals across 6 time zones",
+      hook: "Empowering software founders to achieve sustainable scale and unlock repeatable growth loops.",
+      cta: "Founders: I back early-stage B2B SaaS startups. Pitch me at marcus@example.com!"
+    }
+  };
+
+  const setupLinkedInGenerator = () => {
+    // Buttons and tabs
+    const templateBtns = document.querySelectorAll('.template-tab-btn');
+    const optionTabs = document.querySelectorAll('.res-tab');
+
+    // Input fields
+    const nameField = document.getElementById('user-name') as HTMLInputElement;
+    const titleField = document.getElementById('job-title') as HTMLInputElement;
+    const skillsField = document.getElementById('user-skills') as HTMLInputElement;
+    const achievementsField = document.getElementById('user-achievements') as HTMLTextAreaElement;
+    const hookField = document.getElementById('user-hook') as HTMLInputElement;
+    const ctaField = document.getElementById('user-cta') as HTMLInputElement;
+
+    // Control selectors
+    const toneSelect = document.getElementById('bio-tone') as HTMLSelectElement;
+    const emojisCheckbox = document.getElementById('include-emojis') as HTMLInputElement;
+    const bulletsCheckbox = document.getElementById('include-bullets') as HTMLInputElement;
+
+    // Action buttons
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+    const copyBioBtn = document.getElementById('copy-bio-btn');
+
+    // Result boxes
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+
+    // Output views
+    const outputTitle = document.getElementById('option-title-label');
+    const outputTextbox = document.getElementById('bio-output') as HTMLTextAreaElement;
+
+    // Current generated configurations cache
+    let generatedOptions: Record<string, string> = {
+      modern: "",
+      story: "",
+      achievements: ""
+    };
+
+    // Load templates on click
+    templateBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const type = btn.getAttribute('data-template') || 'student';
+        const data = templatesMap[type];
+        if (!data) return;
+
+        if (nameField) nameField.value = data.name;
+        if (titleField) titleField.value = data.title;
+        if (skillsField) skillsField.value = data.skills;
+        if (achievementsField) achievementsField.value = data.achievements;
+        if (hookField) hookField.value = data.hook;
+        if (ctaField) ctaField.value = data.cta;
+
+        resetOutputsOnly();
+      });
+    });
+
+    // Option tabs switching
+    optionTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        optionTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const option = tab.getAttribute('data-option') || 'modern';
+        renderActiveOption(option);
+      });
+    });
+
+    const renderActiveOption = (option: string) => {
+      if (!outputTextbox) return;
+      
+      if (option === 'modern') {
+        if (outputTitle) outputTitle.textContent = "Modern Professional Layout";
+        outputTextbox.value = generatedOptions.modern;
+      } else if (option === 'story') {
+        if (outputTitle) outputTitle.textContent = "Narrative Storyteller Layout";
+        outputTextbox.value = generatedOptions.story;
+      } else {
+        if (outputTitle) outputTitle.textContent = "Bullet-Point Achievements Layout";
+        outputTextbox.value = generatedOptions.achievements;
+      }
+    };
+
+    const generateBios = () => {
+      const name = nameField?.value.trim() || '';
+      const title = titleField?.value.trim() || '';
+      const skillsRaw = skillsField?.value.trim() || '';
+      const achievementsRaw = achievementsField?.value.trim() || '';
+      const hook = hookField?.value.trim() || '';
+      const cta = ctaField?.value.trim() || '';
+
+      if (!name || !title || !skillsRaw || !achievementsRaw || !hook || !cta) {
+        return alert("Please fill in all details before generating summaries.");
+      }
+
+      const skillsArray = skillsRaw.split(',').map(s => s.trim()).filter(Boolean);
+      const achievementsArray = achievementsRaw.split('\n').map(a => a.trim()).filter(Boolean);
+      const tone = toneSelect?.value || 'professional';
+      const useEmojis = emojisCheckbox?.checked;
+      const useBullets = bulletsCheckbox?.checked;
+
+      // Emojis dictionary
+      const emojiMap = {
+        star: useEmojis ? "⭐ " : "",
+        sparkle: useEmojis ? "✨ " : "",
+        bullet: useEmojis ? "✔ " : (useBullets ? "• " : ""),
+        rocket: useEmojis ? "🚀 " : "",
+        skills: useEmojis ? "🛠 " : "",
+        cta: useEmojis ? "✉ " : "",
+        briefcase: useEmojis ? "💼 " : ""
+      };
+
+      // Construct formats
+      const skillsFormatted = skillsArray.join(' | ');
+      const bulletSymbol = useBullets ? (useEmojis ? "⚡ " : "• ") : "";
+      const achievementsFormatted = achievementsArray.map(a => `${bulletSymbol}${a}`).join('\n');
+
+      // 1. Option Modern
+      generatedOptions.modern = `Hi there! I'm ${name}, a ${title}.
+
+${emojiMap.rocket}${hook}
+
+I specialize in aligning technical skillsets with business goals, leveraging core strengths to build collaborative solutions.
+
+${emojiMap.skills}Core Skills & Competencies:
+${skillsFormatted}
+
+${emojiMap.star}Featured Achievements:
+${achievementsFormatted}
+
+${emojiMap.cta}Let's connect! ${cta}`;
+
+      // 2. Option Storyteller
+      generatedOptions.story = `Since I started my journey as a ${title.split(' at ')[0]}, my primary focus has always been simple: ${hook.replace(/^[A-Z]/, c => c.toLowerCase())}
+
+Throughout my career, I've had the opportunity to dive deep into complex environments. These challenges have taught me that growth happens when you combine execution with technical depth.
+
+${emojiMap.sparkle}Some notable highlights from my journey:
+${achievementsFormatted}
+
+When I'm not writing code or strategizing solutions, you'll find me learning new systems and exploring topics in ${skillsArray.slice(0, 3).join(', ')}.
+
+${emojiMap.cta}Reach out to collaborate or chat: ${cta}`;
+
+      // 3. Option Achievements-First
+      generatedOptions.achievements = `${emojiMap.briefcase}${title.toUpperCase()} | Key Results Driven Developer
+
+${emojiMap.star}${hook}
+
+Here is a summary of the core results I deliver:
+${achievementsFormatted}
+
+${emojiMap.skills}Areas of Expertise:
+${skillsArray.map(s => `${bulletSymbol}${s}`).join('\n')}
+
+${emojiMap.cta}Interested in working together or networking?
+${cta}`;
+
+      // Activate box display
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      // Make sure the active tab aligns and displays the layout
+      const activeTab = document.querySelector('.res-tab.active');
+      const activeOption = activeTab?.getAttribute('data-option') || 'modern';
+      renderActiveOption(activeOption);
+
+      // Smooth scroll to the results section
+      const resultsWrapper = document.getElementById('results-wrapper');
+      if (resultsWrapper) {
+        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    const resetCalculator = () => {
+      if (nameField) nameField.value = '';
+      if (titleField) titleField.value = '';
+      if (skillsField) skillsField.value = '';
+      if (achievementsField) achievementsField.value = '';
+      if (hookField) hookField.value = '';
+      if (ctaField) ctaField.value = '';
+      if (toneSelect) toneSelect.selectedIndex = 0;
+      if (emojisCheckbox) emojisCheckbox.checked = true;
+      if (bulletsCheckbox) bulletsCheckbox.checked = true;
+
+      resetOutputsOnly();
+    };
+
+    const resetOutputsOnly = () => {
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) activeBox.classList.add('hidden');
+      generatedOptions = { modern: "", story: "", achievements: "" };
+    };
+
+    const copyBioToClipboard = () => {
+      if (!outputTextbox) return;
+      outputTextbox.select();
+      outputTextbox.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(outputTextbox.value).then(() => {
+        const originalText = copyBioBtn ? copyBioBtn.innerHTML : '';
+        if (copyBioBtn) {
+          copyBioBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="var(--color-success)" style="width: 16px; height: 16px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
+            <span style="color: var(--color-success)">Copied!</span>
+          `;
+          setTimeout(() => {
+            copyBioBtn.innerHTML = originalText;
+          }, 2000);
+        }
+      });
+    };
+
+    submitBtn?.addEventListener('click', generateBios);
+    resetBtn?.addEventListener('click', resetCalculator);
+    copyBioBtn?.addEventListener('click', copyBioToClipboard);
+  };
+
+  setupLinkedInGenerator();
+  document.addEventListener('astro:after-swap', setupLinkedInGenerator);
+</script>
