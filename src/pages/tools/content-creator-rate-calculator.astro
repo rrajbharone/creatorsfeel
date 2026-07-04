@@ -1,0 +1,890 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is a Content Creator Rate Calculator?",
+    answer: "A Content Creator Rate Calculator is an interactive tool that helps freelance creators, copywriters, video editors, and influencers calculate their project or package pricing. It offers hourly labor pricing or deliverable package pricing models."
+  },
+  {
+    question: "How do I calculate my hourly rate as a creator?",
+    answer: "To calculate your hourly rate, sum your target monthly salary and monthly business expenses (software, gear, insurance), divide that by your target billable hours per month, and add a tax markup (usually 20-30%)."
+  },
+  {
+    question: "Why should I charge for revision rounds?",
+    answer: "Including one or two revision rounds in your base rate is standard. However, client feedback loops can easily derail a project. Charging a fee for extra revision rounds protects your time and encourages clients to consolidate feedback."
+  },
+  {
+    question: "Should I offer bulk discounts on creator deliverables?",
+    answer: "Yes. Bundling multiple assets (e.g. 5 photos instead of 1) during a single production batch saves you setup and prep time. Offering a 10% to 20% volume discount incentivizes clients to purchase larger campaign packages."
+  }
+];
+---
+
+<ToolLayout
+  title="Content Creator Rate Calculator - Freelance Pricing Estimator"
+  description="Calculate your freelance content creator rates and project quotes. Free online calculator for hourly labor pricing or deliverables package quotes."
+  toolName="Content Creator Rate Calculator"
+  toolDescription="Generate custom content creator pricing. Toggle between Hourly/Project labor calculations or Deliverables Package structures to build professional quotes."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Calculator Mode selector tabs -->
+    <div class="calculator-mode-selector" role="tablist" aria-label="Pricing Model">
+      <button type="button" class="mode-tab active" data-mode="hourly" role="tab" aria-selected="true" aria-controls="calc-form-container">
+        <span>Hourly / Project Rate</span>
+      </button>
+      <button type="button" class="mode-tab" data-mode="package" role="tab" aria-selected="false" aria-controls="calc-form-container">
+        <span>Deliverables Package</span>
+      </button>
+    </div>
+
+    <div class="calc-grid" id="calc-form-container">
+      <!-- Input fields -->
+      <form class="calc-form" id="creator-rate-form" onsubmit="return false;">
+        <input type="hidden" id="active-mode" value="hourly" />
+
+        <!-- Hourly Mode Inputs -->
+        <div id="inputs-hourly-box" class="inputs-group">
+          <div class="form-row-2">
+            <div class="form-group">
+              <div class="label-header">
+                <label for="hourly-rate" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                  Target Hourly Rate ($)
+                </label>
+              </div>
+              <input type="number" id="hourly-rate" class="form-input" placeholder="e.g., 50" min="10" step="1" required />
+            </div>
+
+            <div class="form-group">
+              <div class="label-header">
+                <label for="hours-pre" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                  </svg>
+                  Pre-Prod Hours (Scripting, Prep)
+                </label>
+              </div>
+              <input type="number" id="hours-pre" class="form-input" placeholder="e.g., 2" min="0" step="0.5" value="1" />
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <div class="label-header">
+                <label for="hours-production" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316A2.192 2.192 0 0 0 14.53 4H9.47c-.527 0-1.026.262-1.332.712l-.822 1.316Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z" />
+                  </svg>
+                  Production Hours (Filming, Shooting)
+                </label>
+              </div>
+              <input type="number" id="hours-production" class="form-input" placeholder="e.g., 4" min="0" step="0.5" value="2" />
+            </div>
+
+            <div class="form-group">
+              <div class="label-header">
+                <label for="hours-post" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+                  </svg>
+                  Post-Prod Hours (Editing, Audio)
+                </label>
+              </div>
+              <input type="number" id="hours-post" class="form-input" placeholder="e.g., 3" min="0" step="0.5" value="2" />
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <div class="label-header">
+                <label for="project-expenses" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5h16.5M4.5 19.5h15M12 6.75v10.5m-3.75-3h7.5" />
+                  </svg>
+                  Direct Expenses ($) (Props, Travel)
+                </label>
+              </div>
+              <input type="number" id="project-expenses" class="form-input" placeholder="e.g., 50" min="0" step="1" value="0" />
+            </div>
+
+            <div class="form-group">
+              <div class="label-header">
+                <label for="revision-rounds" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                  </svg>
+                  Total Revisions (First 1 Free)
+                </label>
+              </div>
+              <input type="number" id="revision-rounds" class="form-input" placeholder="e.g., 2" min="1" step="1" value="1" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Deliverables Package Mode Inputs (Hidden by default) -->
+        <div id="inputs-package-box" class="inputs-group hidden">
+          <div class="form-row-2">
+            <div class="form-group">
+              <div class="label-header">
+                <label for="package-videos" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+                  </svg>
+                  Number of Videos
+                </label>
+              </div>
+              <input type="number" id="package-videos" class="form-input" placeholder="e.g., 2" min="0" step="1" value="0" />
+            </div>
+
+            <div class="form-group">
+              <div class="label-header">
+                <label for="package-photos" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316A2.192 2.192 0 0 0 14.53 4H9.47c-.527 0-1.026.262-1.332.712l-.822 1.316Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z" />
+                  </svg>
+                  Number of Photos
+                </label>
+              </div>
+              <input type="number" id="package-photos" class="form-input" placeholder="e.g., 5" min="0" step="1" value="0" />
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <div class="label-header">
+                <label for="package-copy" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                  </svg>
+                  Number of Articles/Copy
+                </label>
+              </div>
+              <input type="number" id="package-copy" class="form-input" placeholder="e.g., 1" min="0" step="1" value="0" />
+            </div>
+
+            <div class="form-group">
+              <div class="label-header">
+                <label for="package-usage" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                  </svg>
+                  Usage Rights Licensing
+                </label>
+              </div>
+              <select id="package-usage" class="form-input">
+                <option value="none" selected>Organic Usage Only (Free)</option>
+                <option value="ad_30">30-Day Paid Ad Rights (+20%)</option>
+                <option value="ad_90">90-Day Paid Ad Rights (+40%)</option>
+                <option value="ad_365">365-Day Paid Ad Rights (+75%)</option>
+                <option value="ad_perpetual">Perpetual Ad Rights (+150%)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Base Rate configuration overrides -->
+          <div class="toggle-group" style="margin-top: 1rem; border-top: 1px dashed var(--color-border); padding-top: 1rem;">
+            <label class="checkbox-container">
+              <input type="checkbox" id="toggle-custom-rates" />
+              <span class="checkbox-label">Override Default Asset Rates</span>
+            </label>
+          </div>
+
+          <div id="custom-rates-box" class="form-row-2 hidden" style="margin-top: 1rem;">
+            <div class="form-group">
+              <label for="custom-video-rate" class="checkbox-label">Video Base ($)</label>
+              <input type="number" id="custom-video-rate" class="form-input" placeholder="Default 150" min="10" />
+            </div>
+            <div class="form-group">
+              <label for="custom-photo-rate" class="checkbox-label">Photo Base ($)</label>
+              <input type="number" id="custom-photo-rate" class="form-input" placeholder="Default 75" min="10" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Calculate Creator Rate
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display -->
+      <div class="calc-results" id="results-wrapper">
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 11.708 1.32l-.042.02a.75.75 0 01-.707-1.32zm0-4.5l.041-.02a.75.75 0 11.708 1.32l-.042.02a.75.75 0 01-.707-1.32zM12 6.75v10.5M8.25 18.75h7.5" />
+          </svg>
+          <h3>Awaiting Price Parameters</h3>
+          <p class="text-muted">Select your calculation model, input hours or deliverables, then click Calculate to review quotes.</p>
+        </div>
+
+        <div class="results-active hidden" id="res-active-box">
+          <div class="rate-range-box">
+            <h4 class="rate-label">Estimated Rate Quote</h4>
+            <div class="rate-range" id="res-total-val">$0.00</div>
+            <div class="grade-badge grade-low" id="res-range-val">$0 - $0 range</div>
+          </div>
+
+          <div class="breakdown-box">
+            <h4 class="breakdown-title">Itemized Price Breakdown</h4>
+            <div class="breakdown-list" id="res-breakdown-container">
+              <!-- Rendered dynamically via JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>How to Use the Content Creator Rate Calculator</h2>
+    <p>
+      Figuring out **how much to charge as a content creator** is one of the hardest parts of freelancing. If you set rates too low, you undercharge for your labor; if you quote too high, you risk losing projects. This interactive **content creator rate calculator** gives you a logical pricing baseline by supporting two pricing methodologies:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Choose Your Pricing Model</h3>
+        <p>Select the tabs at the top of the calculator. Choose <strong>Hourly / Project Rate</strong> for consulting, custom video editing, or copy tasks. Choose <strong>Deliverables Package</strong> for visual deliverables (like videos, photo sets, or sponsored social posts).</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Enter Labor or Quantity Metrics</h3>
+        <p>Depending on your chosen model, input the core parameters:</p>
+        <ul>
+          <li><strong>Hourly Mode:</strong> Enter your target hourly rate, estimated pre-production hours (research/scripting), production hours (filming), and post-production hours (editing).</li>
+          <li><strong>Package Mode:</strong> Enter the quantities of videos, photos, or written articles requested by the brand.</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Define Expenses & Revisions</h3>
+        <p>In Hourly mode, enter direct expenses (props, travel, software licenses) and target revision rounds. Revisions beyond the first free round automatically calculate a premium (+$50 per extra round) to protect your schedule.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Configure Usage Rights</h3>
+        <p>In Package mode, define the usage licensing terms. If the client plans to run your deliverables as whitelisted social advertisements, select the period (e.g. 90-day paid usage adds +40%) to ensure licensing is compensated.</p>
+      </div>
+    </div>
+
+    <h2>Key Calculator Features</h2>
+    <p>
+      This **content creator hourly rate calculator** is built around real-world creator marketing campaigns:
+    </p>
+    <ul>
+      <li><strong>Automatic Volume Discounts:</strong> In Deliverables Package mode, batch quantity discounts are automatically calculated: 10% for 2-3 items, 15% for 4-5 items, and 20% for 6+ items.</li>
+      <li><strong>Custom Asset Rate Overrides:</strong> Creator rate templates default to baseline benchmarks ($150 for video, $75 for photos), but you can toggle overrides to input your custom pricing sheet values.</li>
+      <li><strong>Itemized Billing Invoices:</strong> Generates a full line-item invoice list detailing labor subtotals, licensing premiums, bulk savings, and revision fees.</li>
+    </ul>
+
+    <h2>Benefits of Pricing Structurally</h2>
+    <p>
+      Auditing your content packages using a **freelance content creator rates** model provides:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Undercharging Prevention:</strong> Ensures every hour of scripting, pre-production prep, and editing is accounted for before giving clients a quote.</li>
+      <li><strong>Negotiating Levers:</strong> If a client claims your package pricing is too high, you can negotiate by removing specific components (like raw footage or usage rights) instead of dropping your base rates.</li>
+      <li><strong>Professional Invoicing:</strong> Simplifies importing quotes directly into billing software like Freshbooks or Stripe.</li>
+    </ol>
+
+    <h2>Link to Detailed Optimization Guide</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to learn how to pitch brands?</strong> Read our comprehensive guide on <a href="/blog/content-creator-rate-calculator-guide" style="color: var(--color-brand); text-decoration: underline;">Content Creator Pricing Guides & Campaign Negotiation Strategies</a> to learn how to build media kits, charge for whitelisting, and design high-ticket retainer packages.
+      </p>
+    </div>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calculator-mode-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    background: var(--color-bg-alt);
+    padding: 0.35rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+  }
+
+  .mode-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mode-tab:hover {
+    color: var(--color-text);
+  }
+
+  .mode-tab.active {
+    background: var(--color-bg);
+    color: var(--color-brand);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 2.5rem !important;
+    cursor: pointer;
+  }
+
+  /* Checkbox controls */
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .checkbox-container input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-brand);
+  }
+
+  .checkbox-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .rate-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .rate-range {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-weight: 800;
+    color: var(--color-brand);
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+  }
+
+  .grade-low {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+  }
+
+  .breakdown-box {
+    width: 100%;
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  .breakdown-label {
+    color: var(--color-text-muted);
+  }
+
+  .breakdown-val {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* Step guide styling */
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.1rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+
+    .breakdown-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+    }
+
+    .rate-range-box {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+      align-items: center !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .form-row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  const setupCreatorCalculator = () => {
+    // Mode selector tabs
+    const modeTabs = document.querySelectorAll('.mode-tab');
+    const activeModeInput = document.getElementById('active-mode') as HTMLInputElement;
+
+    // Inputs groups references
+    const hourlyGroup = document.getElementById('inputs-hourly-box');
+    const packageGroup = document.getElementById('inputs-package-box');
+
+    // Hourly Fields
+    const hourlyRateInput = document.getElementById('hourly-rate') as HTMLInputElement;
+    const preHoursInput = document.getElementById('hours-pre') as HTMLInputElement;
+    const prodHoursInput = document.getElementById('hours-production') as HTMLInputElement;
+    const postHoursInput = document.getElementById('hours-post') as HTMLInputElement;
+    const expensesInput = document.getElementById('project-expenses') as HTMLInputElement;
+    const revisionsInput = document.getElementById('revision-rounds') as HTMLInputElement;
+
+    // Package Fields
+    const videosInput = document.getElementById('package-videos') as HTMLInputElement;
+    const photosInput = document.getElementById('package-photos') as HTMLInputElement;
+    const copyInput = document.getElementById('package-copy') as HTMLInputElement;
+    const usageSelect = document.getElementById('package-usage') as HTMLSelectElement;
+
+    // Custom asset rates toggler
+    const toggleCustomRates = document.getElementById('toggle-custom-rates') as HTMLInputElement;
+    const customRatesBox = document.getElementById('custom-rates-box');
+    const customVideoInput = document.getElementById('custom-video-rate') as HTMLInputElement;
+    const customPhotoInput = document.getElementById('custom-photo-rate') as HTMLInputElement;
+
+    // Buttons
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Outputs
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+
+    const totalVal = document.getElementById('res-total-val');
+    const rangeVal = document.getElementById('res-range-val');
+    const breakdownContainer = document.getElementById('res-breakdown-container');
+
+    // Mode tab toggle logic
+    modeTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        modeTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const mode = tab.getAttribute('data-mode') || 'hourly';
+        if (activeModeInput) activeModeInput.value = mode;
+
+        if (mode === 'hourly') {
+          hourlyGroup?.classList.remove('hidden');
+          packageGroup?.classList.add('hidden');
+        } else {
+          hourlyGroup?.classList.add('hidden');
+          packageGroup?.classList.remove('hidden');
+        }
+
+        resetCalculator(false);
+      });
+    });
+
+    // Custom asset rates box visibility toggler
+    toggleCustomRates?.addEventListener('change', () => {
+      if (toggleCustomRates.checked) {
+        customRatesBox?.classList.remove('hidden');
+      } else {
+        customRatesBox?.classList.add('hidden');
+        if (customVideoInput) customVideoInput.value = '';
+        if (customPhotoInput) customPhotoInput.value = '';
+      }
+    });
+
+    const calculateCreatorRate = () => {
+      const mode = activeModeInput?.value || 'hourly';
+      let totalCost = 0;
+      let breakdownHtml = "";
+
+      if (mode === 'hourly') {
+        const rate = parseFloat(hourlyRateInput?.value) || 0;
+        const preHrs = parseFloat(preHoursInput?.value) || 0;
+        const prodHrs = parseFloat(prodHoursInput?.value) || 0;
+        const postHrs = parseFloat(postHoursInput?.value) || 0;
+        const expenses = parseFloat(expensesInput?.value) || 0;
+        const revisions = parseInt(revisionsInput?.value) || 1;
+
+        if (rate <= 0) {
+          return alert("Please enter a target hourly rate.");
+        }
+
+        const totalHrs = preHrs + prodHrs + postHrs;
+        const laborCost = totalHrs * rate;
+
+        // Revision surcharge rules: First round free, extra rounds are $50/round
+        const revisionFee = Math.max(0, revisions - 1) * 50;
+
+        totalCost = laborCost + expenses + revisionFee;
+
+        breakdownHtml = `
+          <div class="breakdown-item">
+            <span class="breakdown-label">Pre-Production Prep (${preHrs} hrs):</span>
+            <span class="breakdown-val">$${(preHrs * rate).toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="breakdown-label">Production labor (${prodHrs} hrs):</span>
+            <span class="breakdown-val">$${(prodHrs * rate).toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="breakdown-label">Post-Production Labor (${postHrs} hrs):</span>
+            <span class="breakdown-val">$${(postHrs * rate).toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="breakdown-label">Direct Project Expenses:</span>
+            <span class="breakdown-val">$${expenses.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="breakdown-label">Revision Surcharges (${revisions} rounds):</span>
+            <span class="breakdown-val">$${revisionFee.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
+          </div>
+        `;
+      } else {
+        const qtyVids = parseInt(videosInput?.value) || 0;
+        const qtyPhotos = parseInt(photosInput?.value) || 0;
+        const qtyCopy = parseInt(copyInput?.value) || 0;
+        const usageMode = usageSelect?.value || 'none';
+
+        if (qtyVids === 0 && qtyPhotos === 0 && qtyCopy === 0) {
+          return alert("Please enter at least one deliverable item quantity.");
+        }
+
+        // Base values
+        const defaultVidRate = 150;
+        const defaultPhotoRate = 75;
+        const defaultCopyRate = 100;
+
+        const baseVidRate = (toggleCustomRates?.checked && parseFloat(customVideoInput?.value) > 0) 
+          ? parseFloat(customVideoInput?.value) : defaultVidRate;
+        const basePhotoRate = (toggleCustomRates?.checked && parseFloat(customPhotoInput?.value) > 0)
+          ? parseFloat(customPhotoInput?.value) : defaultPhotoRate;
+
+        const rawSubtotal = (qtyVids * baseVidRate) + (qtyPhotos * basePhotoRate) + (qtyCopy * defaultCopyRate);
+
+        // Volume discounts rules:
+        const totalQty = qtyVids + qtyPhotos + qtyCopy;
+        let discountRate = 0;
+        if (totalQty >= 6) discountRate = 0.20;
+        else if (totalQty >= 4) discountRate = 0.15;
+        else if (totalQty >= 2) discountRate = 0.10;
+
+        const discountAmount = rawSubtotal * discountRate;
+        const discountedSubtotal = rawSubtotal - discountAmount;
+
+        // Licensing Rights modifier rules:
+        let usageRate = 0;
+        if (usageMode === 'ad_30') usageRate = 0.20;
+        else if (usageMode === 'ad_90') usageRate = 0.40;
+        else if (usageMode === 'ad_365') usageRate = 0.75;
+        else if (usageMode === 'ad_perpetual') usageRate = 1.50;
+
+        const usageFee = discountedSubtotal * usageRate;
+        totalCost = discountedSubtotal + usageFee;
+
+        breakdownHtml = `
+          <div class="breakdown-item">
+            <span class="breakdown-label">Deliverables Subtotal:</span>
+            <span class="breakdown-val">$${rawSubtotal.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="breakdown-label">Quantity Bundle Savings:</span>
+            <span class="breakdown-val" style="color: var(--color-success)">-${discountRate > 0 ? `-$${discountAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} (${discountRate * 100}%)` : '$0.00'}</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="breakdown-label">Paid Ads Usage Licensing:</span>
+            <span class="breakdown-val">+$${usageFee.toLocaleString(undefined, {minimumFractionDigits: 2})} (${usageRate * 100}%)</span>
+          </div>
+        `;
+      }
+
+      const lowRange = Math.round(totalCost * 0.9);
+      const highRange = Math.round(totalCost * 1.1);
+
+      // Render Outputs
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      if (totalVal) totalVal.textContent = `$${Math.round(totalCost).toLocaleString()}`;
+      if (rangeVal) rangeVal.textContent = `$${lowRange.toLocaleString()} - $${highRange.toLocaleString()} project range`;
+      if (breakdownContainer) breakdownContainer.innerHTML = breakdownHtml;
+
+      // Smooth scroll to the results section
+      const resultsWrapper = document.getElementById('results-wrapper');
+      if (resultsWrapper) {
+        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    const resetCalculator = (clearInputs = true) => {
+      if (clearInputs) {
+        if (hourlyRateInput) hourlyRateInput.value = '';
+        if (preHoursInput) preHoursInput.value = '1';
+        if (prodHoursInput) prodHoursInput.value = '2';
+        if (postHoursInput) postHoursInput.value = '2';
+        if (expensesInput) expensesInput.value = '0';
+        if (revisionsInput) revisionsInput.value = '1';
+
+        if (videosInput) videosInput.value = '0';
+        if (photosInput) photosInput.value = '0';
+        if (copyInput) copyInput.value = '0';
+        if (usageSelect) usageSelect.selectedIndex = 0;
+
+        if (toggleCustomRates) toggleCustomRates.checked = false;
+        customRatesBox?.classList.add('hidden');
+        if (customVideoInput) customVideoInput.value = '';
+        if (customPhotoInput) customPhotoInput.value = '';
+      }
+
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) activeBox.classList.add('hidden');
+    };
+
+    submitBtn?.addEventListener('click', calculateCreatorRate);
+    resetBtn?.addEventListener('click', () => resetCalculator(true));
+  };
+
+  setupCreatorCalculator();
+  document.addEventListener('astro:after-swap', setupCreatorCalculator);
+</script>

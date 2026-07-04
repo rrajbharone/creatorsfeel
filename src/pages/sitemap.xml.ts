@@ -23,6 +23,7 @@ export const GET: APIRoute = async (context) => {
     '/tools/ugc-pricing-calculator',
     '/tools/amazon-affiliate-calculator',
     '/tools/instagram-money-calculator',
+    '/tools/content-creator-rate-calculator',
     '/blog',
     '/privacy',
     '/terms',
