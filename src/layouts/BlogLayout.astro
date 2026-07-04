@@ -228,6 +228,17 @@ const articleSchema = {
     color: var(--color-text-muted);
   }
 
+  .post-body :global(a) {
+    color: var(--color-brand);
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color var(--transition-fast);
+  }
+
+  .post-body :global(a:hover) {
+    color: var(--color-brand-hover);
+  }
+
   .post-body :global(blockquote) {
     border-left: 4px solid var(--color-brand);
     padding-left: 1.25rem;

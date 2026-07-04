@@ -55,8 +55,6 @@ Amazon groups products into fixed categories, each with its own commission rate.
 *   **Tablets, Kindle devices, Ring devices, Physical Video Games:** 1.00%
 *   **Gift Cards, Alcoholic Beverages:** 0.00%
 
-To evaluate these percentages dynamically, you can use our free [Amazon Affiliate Earnings Calculator](/tools/amazon-affiliate-calculator) to review estimates instantly.
-
 ---
 
 ## Step-by-Step Income Calculation Example
@@ -84,7 +82,7 @@ $$\text{Monthly Commission} = \$16,000 \times 0.045 = \$720\text{ per month}$$
 
 $$\text{Yearly Commission} = \$720 \times 12 = \$8,640\text{ per year}$$
 
-By driving 8,000 clicks to Amazon in the kitchen niche, you generate $720 in monthly passive income. To test how changes in traffic or category tiers adjust these numbers, use our interactive [Amazon Affiliate Calculator](/tools/amazon-affiliate-calculator).
+By driving 8,000 clicks to Amazon in the kitchen niche, you generate $720 in monthly passive income.
 
 ---
 

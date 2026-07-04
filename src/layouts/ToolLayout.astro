@@ -187,6 +187,17 @@ const softwareSchema = {
     line-height: 1.7;
   }
 
+  .tool-editorial :global(a) {
+    color: var(--color-brand);
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color var(--transition-fast);
+  }
+
+  .tool-editorial :global(a:hover) {
+    color: var(--color-brand-hover);
+  }
+
   .tool-editorial :global(ul) {
     margin-left: 1.5rem;
     margin-bottom: 1.25rem;
