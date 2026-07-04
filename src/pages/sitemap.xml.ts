@@ -20,6 +20,7 @@ export const GET: APIRoute = async (context) => {
     '/tools/brand-deal-calculator',
     '/tools/linkedin-bio-generator',
     '/tools/brand-collaboration-roi-calculator',
+    '/tools/ugc-pricing-calculator',
     '/blog',
     '/privacy',
     '/terms',

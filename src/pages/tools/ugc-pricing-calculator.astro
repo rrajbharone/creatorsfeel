@@ -1,0 +1,809 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is UGC and how does it differ from influencer marketing?",
+    answer: "UGC (User Generated Content) is content created by freelance creators for brands to post on the brand's own social media accounts or run as paid advertisements. Influencer marketing involves posting sponsored content on the creator's own profile to reach their followers."
+  },
+  {
+    question: "Why doesn't follower count affect UGC pricing?",
+    answer: "Follower count doesn't matter for UGC because the content is not posted on the creator's profile. Instead, brands buy the usage rights of the high-quality photos or videos to boost their own organic reach or run conversion ads."
+  },
+  {
+    question: "How do quantity discounts apply to UGC packages?",
+    answer: "Creating multiple assets (like 3 or 5 videos) during a single production batch saves the creator setup time, allowing them to pass savings to the brand. Standard volume discounts range from 10% (for 2-3 items) up to 20% (for 5+ items)."
+  },
+  {
+    question: "What are paid ad usage rights?",
+    answer: "When you create content for a brand, the base rate only covers organic posting on their feed. If the brand plans to run the content as a paid social media advertisement (e.g. Meta Ads, TikTok Spark Ads), they must purchase licensing usage rights (usually calculated as a percentage of the base price)."
+  }
+];
+---
+
+<ToolLayout
+  title="UGC Pricing Calculator - User Generated Content Rates"
+  description="Calculate your freelance UGC creator rates and invoice quotes. Free online user generated content pricing calculator with bulk discounts and paid ad usage rights licensing."
+  toolName="UGC Pricing Calculator"
+  toolDescription="Generate custom user generated content quotes. Select your content type, deliverables quantity, usage terms, and add-ons to build professional pricing ranges."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <div class="calc-grid" id="calc-form-container">
+      <!-- Input fields -->
+      <form class="calc-form" id="ugc-form" onsubmit="return false;">
+        <div class="form-row-2">
+          <div class="form-group">
+            <div class="label-header">
+              <label for="deliverable-type" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+                </svg>
+                Content Format
+              </label>
+            </div>
+            <select id="deliverable-type" class="form-input">
+              <option value="video" selected>Short-Form Video (TikTok/Reel) - Base $150</option>
+              <option value="photo">Aesthetic Photos (Product Shots) - Base $75</option>
+              <option value="hook">Ad Hook Variations (3 Hook videos) - Base $120</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div class="label-header">
+              <label for="custom-base-rate" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Base Rate ($ / item)
+              </label>
+            </div>
+            <input type="number" id="custom-base-rate" class="form-input" placeholder="Leave blank to use default" min="1" step="1" />
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <div class="label-header">
+              <label for="deliverable-qty" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Deliverables Quantity
+              </label>
+            </div>
+            <input type="number" id="deliverable-qty" class="form-input" placeholder="e.g., 3" min="1" max="100" step="1" value="1" required />
+            <span class="input-helper">Bulk discount automatically applies: 2-3 items: 10%, 4-5 items: 15%, 6+: 20%.</span>
+          </div>
+
+          <div class="form-group">
+            <div class="label-header">
+              <label for="usage-rights" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                </svg>
+                Paid Ad Usage Rights
+              </label>
+            </div>
+            <select id="usage-rights" class="form-input">
+              <option value="organic" selected>Organic Usage Only (Free)</option>
+              <option value="ad_30">30-Day Paid Ad Rights (+20%)</option>
+              <option value="ad_90">90-Day Paid Ad Rights (+40%)</option>
+              <option value="ad_365">365-Day Paid Ad Rights (+75%)</option>
+              <option value="ad_perpetual">Perpetual Ad Rights (+150%)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <span class="icon-label">Creator Add-ons</span>
+          <div class="toggle-group" style="display: grid; grid-template-columns: 1fr; gap: 0.75rem; margin-top: 0.5rem;">
+            <label class="checkbox-container">
+              <input type="checkbox" id="add-raw-footage" />
+              <span class="checkbox-label">Deliver Raw Footage (+25% of subtotal)</span>
+            </label>
+            <label class="checkbox-container">
+              <input type="checkbox" id="add-fast-turnaround" />
+              <span class="checkbox-label">Express Delivery under 48 hours (+$50 flat)</span>
+            </label>
+            <label class="checkbox-container">
+              <input type="checkbox" id="add-hook-variants" />
+              <span class="checkbox-label">Include 3 Hook Variations (+$75 flat)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Calculate UGC Quote
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display -->
+      <div class="calc-results" id="results-wrapper">
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+          </svg>
+          <h3>Awaiting Quote Inputs</h3>
+          <p class="text-muted">Select your UGC deliverables and click Calculate to compile an itemized invoice proposal.</p>
+        </div>
+
+        <div class="results-active hidden" id="res-active-box">
+          <div class="rate-range-box">
+            <h4 class="rate-label">Estimated Invoice Quote</h4>
+            <div class="rate-range" id="res-total-val">$0</div>
+            <div class="grade-badge grade-low" id="res-range-val">$0 - $0 range</div>
+          </div>
+
+          <div class="breakdown-box">
+            <h4 class="breakdown-title">Itemized Invoice Breakdown</h4>
+            <div class="breakdown-list">
+              <div class="breakdown-item">
+                <span class="breakdown-label">Base Deliverables:</span>
+                <span class="breakdown-val" id="res-base-val">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Volume Discount:</span>
+                <span class="breakdown-val" id="res-discount-val">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Usage Rights Fee:</span>
+                <span class="breakdown-val" id="res-usage-val">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Add-ons Subtotal:</span>
+                <span class="breakdown-val" id="res-addons-val">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brand pitch email copy -->
+          <div class="pitch-container glass">
+            <div class="pitch-header">
+              <h5 class="pitch-title">Custom Brand Pitch Proposal</h5>
+              <button type="button" class="copy-pitch-btn" id="copy-pitch-btn" title="Copy template text">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H5.25M16.5 5.25h.008v.008H16.5V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25ZM9 10.5c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v10.5c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V10.5Z" />
+                </svg>
+                Copy Proposal
+              </button>
+            </div>
+            <textarea class="pitch-textbox" id="pitch-output" readonly rows="7"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>How to Use This UGC Pricing Calculator</h2>
+    <p>
+      Creating a sustainable rate sheet is crucial for freelance creators. Since follower count does not dictate pricing, this **ugc pricing calculator** models rates around deliverables volume, marketing licensing terms, and creative add-ons.
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Choose Your Content Format</h3>
+        <p>Pick your baseline content style from the dropdown (Short-form video, Aesthetic photos, or Ad hooks). If you have custom baseline rates, input them in the <strong>Base Rate</strong> field to override defaults.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Enter Deliverables Quantity</h3>
+        <p>Specify the number of assets. The **ugc rate calculator** automatically factors in batch discounts: 10% for 2-3 items, 15% for 4-5 items, and 20% for 6+ items.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Pick Paid Ad Usage Rights</h3>
+        <p>If the brand plans to run your content as a sponsored ad on TikTok or Instagram, choose the licensing period. We apply industry percentage rates (+20% for 30 days, up to +150% for perpetual rights).</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Check Creative Add-ons</h3>
+        <p>Tick checkboxes for raw footage files (+25% of subtotal), express turnaround delivery under 48 hours (+$50 flat), or extra hooks variants (+$75 flat).</p>
+      </div>
+    </div>
+
+    <h2>Features & Capabilities</h2>
+    <p>
+      This **user generated content pricing calculator** is equipped with advanced features:
+    </p>
+    <ul>
+      <li><strong>Automatic Quantity Tier Discounts:</strong> Saves setup overhead calculations by discounting batch creations.</li>
+      <li><strong>Dynamic Invoice Itemization:</strong> Generates a full line-by-item breakdown so you can copy rates directly to your invoicing tools.</li>
+      <li><strong>Brands Pitch Proposal Generator:</strong> Automatically generates custom brand outreach pitch template copy detailing your deliverables package and rates.</li>
+    </ul>
+
+    <h2>Benefits for Creators & Brand Managers</h2>
+    <p>
+      Using a structured pricing tool provides:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Undercharging Prevention:</strong> Encourages creators to charge for usage rights and raw files, which brands typically pay premium rates for.</li>
+      <li><strong>Transparent Negotiations:</strong> Creators can explain exactly how their invoice totals are structured using standard rates.</li>
+      <li><strong>Consistent Budget Audits:</strong> Brand marketing managers can verify creator quotes against typical influencer benchmarks.</li>
+    </ol>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 2.5rem !important;
+    cursor: pointer;
+  }
+
+  /* Checkbox controls */
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .checkbox-container input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-brand);
+  }
+
+  .checkbox-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .rate-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .rate-range {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-weight: 800;
+    color: var(--color-brand);
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+  }
+
+  .grade-low {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+  }
+
+  .breakdown-box {
+    width: 100%;
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  .breakdown-label {
+    color: var(--color-text-muted);
+  }
+
+  .breakdown-val {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* Step guide styling */
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.1rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  /* Pitch box styling */
+  .pitch-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .pitch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .pitch-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .copy-pitch-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: opacity var(--transition-fast);
+  }
+
+  .copy-pitch-btn:hover {
+    opacity: 0.8;
+  }
+
+  .pitch-textbox {
+    width: 100%;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    line-height: 1.5;
+    color: var(--color-text);
+    resize: none;
+    box-sizing: border-box;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+
+    .breakdown-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+    }
+
+    .rate-range-box,
+    .pitch-container {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+    }
+
+    .rate-range-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+      align-items: center !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .form-row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  const setupUgcCalculator = () => {
+    // Inputs elements references
+    const formatSelect = document.getElementById('deliverable-type') as HTMLSelectElement;
+    const customBaseRateInput = document.getElementById('custom-base-rate') as HTMLInputElement;
+    const qtyInput = document.getElementById('deliverable-qty') as HTMLInputElement;
+    const usageSelect = document.getElementById('usage-rights') as HTMLSelectElement;
+
+    // Checkboxes add-ons
+    const rawFootageCheckbox = document.getElementById('add-raw-footage') as HTMLInputElement;
+    const fastTurnaroundCheckbox = document.getElementById('add-fast-turnaround') as HTMLInputElement;
+    const hooksCheckbox = document.getElementById('add-hook-variants') as HTMLInputElement;
+
+    // Action buttons
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+    const copyPitchBtn = document.getElementById('copy-pitch-btn');
+
+    // Outputs
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+
+    const totalVal = document.getElementById('res-total-val');
+    const rangeVal = document.getElementById('res-range-val');
+
+    const baseBreakdown = document.getElementById('res-base-val');
+    const discountBreakdown = document.getElementById('res-discount-val');
+    const usageBreakdown = document.getElementById('res-usage-val');
+    const addonsBreakdown = document.getElementById('res-addons-val');
+    const pitchTextbox = document.getElementById('pitch-output') as HTMLTextAreaElement;
+
+    const calculateUgcQuote = () => {
+      const format = formatSelect?.value || 'video';
+      const customBase = parseFloat(customBaseRateInput?.value) || 0;
+      const qty = parseInt(qtyInput?.value) || 1;
+      const usageMode = usageSelect?.value || 'organic';
+
+      if (qty < 1) {
+        return alert("Please enter a valid deliverables quantity (minimum 1).");
+      }
+
+      // Default baseline values
+      let defaultBase = 150;
+      let formatLabel = "UGC Videos";
+      if (format === 'photo') {
+        defaultBase = 75;
+        formatLabel = "Aesthetic Photos";
+      } else if (format === 'hook') {
+        defaultBase = 120;
+        formatLabel = "Ad Hook Variations";
+      }
+
+      // Apply base override if set
+      const baseRate = customBase > 0 ? customBase : defaultBase;
+
+      // Subtotal before bulk discounts
+      const rawSubtotal = baseRate * qty;
+
+      // Tiered bulk discounts math
+      let discountRate = 0;
+      if (qty >= 6) discountRate = 0.20;
+      else if (qty >= 4) discountRate = 0.15;
+      else if (qty >= 2) discountRate = 0.10;
+
+      const discountAmount = rawSubtotal * discountRate;
+      const baseSubtotalAfterDiscount = rawSubtotal - discountAmount;
+
+      // Usage Rights percentage math
+      let usageRate = 0;
+      let usageLabel = "Organic Usage Only";
+      if (usageMode === 'ad_30') {
+        usageRate = 0.20;
+        usageLabel = "30-Day Paid Ads Licensing";
+      } else if (usageMode === 'ad_90') {
+        usageRate = 0.40;
+        usageLabel = "90-Day Paid Ads Licensing";
+      } else if (usageMode === 'ad_365') {
+        usageRate = 0.75;
+        usageLabel = "365-Day Paid Ads Licensing";
+      } else if (usageMode === 'ad_perpetual') {
+        usageRate = 1.50;
+        usageLabel = "Perpetual Ads Licensing";
+      }
+
+      const usageFee = baseSubtotalAfterDiscount * usageRate;
+
+      // Add-on parameters math
+      const rawFootageFee = rawFootageCheckbox?.checked ? baseSubtotalAfterDiscount * 0.25 : 0;
+      const fastTurnaroundFee = fastTurnaroundCheckbox?.checked ? 50 : 0;
+      const hooksFee = hooksCheckbox?.checked ? 75 : 0;
+
+      const totalAddons = rawFootageFee + fastTurnaroundFee + hooksFee;
+
+      // Grand Total calculation
+      const grandTotal = baseSubtotalAfterDiscount + usageFee + totalAddons;
+      const lowRange = Math.round(grandTotal * 0.9);
+      const highRange = Math.round(grandTotal * 1.1);
+
+      // Render Outputs
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      if (totalVal) totalVal.textContent = `$${Math.round(grandTotal).toLocaleString()}`;
+      if (rangeVal) rangeVal.textContent = `$${lowRange.toLocaleString()} - $${highRange.toLocaleString()} range`;
+
+      if (baseBreakdown) baseBreakdown.textContent = `$${rawSubtotal.toLocaleString()} (${qty} x $${baseRate})`;
+      if (discountBreakdown) {
+        discountBreakdown.textContent = discountAmount > 0 
+          ? `-$${Math.round(discountAmount).toLocaleString()} (${discountRate * 100}% off)`
+          : "$0";
+        discountBreakdown.style.color = discountAmount > 0 ? "var(--color-success)" : "var(--color-text)";
+      }
+      if (usageBreakdown) {
+        usageBreakdown.textContent = usageFee > 0 
+          ? `+$${Math.round(usageFee).toLocaleString()} (${usageRate * 100}%)`
+          : "$0 (Organic)";
+      }
+      if (addonsBreakdown) {
+        addonsBreakdown.textContent = totalAddons > 0 
+          ? `+$${Math.round(totalAddons).toLocaleString()}`
+          : "$0";
+      }
+
+      // Generate Pitch template copy
+      let pitchText = `UGC Deliverables Package Proposal:
+
+Hey [Brand Name] Team,
+
+I'd love to partner with you to create high-converting UGC content for your channels. Based on your goals, here is my custom package proposal:
+
+Deliverables:
+- ${qty}x ${formatLabel} (Customized for your audience hooks)
+${rawFootageCheckbox?.checked ? '- Raw Footage files delivery included\n' : ''}${hooksCheckbox?.checked ? '- 3x Ad Hook variants included\n' : ''}${fastTurnaroundCheckbox?.checked ? '- Express Delivery turnaround (<48 hours) included\n' : ''}
+Usage Rights:
+- ${usageLabel}
+
+Itemized Invoice Value:
+- Base Subtotal: $${baseSubtotalAfterDiscount.toLocaleString()} (Bulk discount applied)
+${usageFee > 0 ? `- Paid Ad Usage Licensing Fee: $${Math.round(usageFee).toLocaleString()}\n` : ''}${totalAddons > 0 ? `- Add-ons Total: $${Math.round(totalAddons).toLocaleString()}\n` : ''}
+Grand Total Quote: $${Math.round(grandTotal).toLocaleString()}
+
+Let me know if you would like me to adjust the deliverables quantity or licensing terms!
+
+Best,
+[Your Name]
+UGC Content Creator`;
+
+      if (pitchTextbox) pitchTextbox.value = pitchText;
+
+      // Smooth scroll to the results section
+      const resultsWrapper = document.getElementById('results-wrapper');
+      if (resultsWrapper) {
+        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    const resetCalculator = (clearInputs = true) => {
+      if (clearInputs) {
+        if (formatSelect) formatSelect.selectedIndex = 0;
+        if (customBaseRateInput) customBaseRateInput.value = '';
+        if (qtyInput) qtyInput.value = '1';
+        if (usageSelect) usageSelect.selectedIndex = 0;
+        if (rawFootageCheckbox) rawFootageCheckbox.checked = false;
+        if (fastTurnaroundCheckbox) fastTurnaroundCheckbox.checked = false;
+        if (hooksCheckbox) hooksCheckbox.checked = false;
+      }
+
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) activeBox.classList.add('hidden');
+    };
+
+    const copyPitchToClipboard = () => {
+      if (!pitchTextbox) return;
+      pitchTextbox.select();
+      pitchTextbox.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(pitchTextbox.value).then(() => {
+        const originalText = copyPitchBtn ? copyPitchBtn.innerHTML : '';
+        if (copyPitchBtn) {
+          copyPitchBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="var(--color-success)" style="width: 16px; height: 16px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
+            <span style="color: var(--color-success)">Copied!</span>
+          `;
+          setTimeout(() => {
+            copyPitchBtn.innerHTML = originalText;
+          }, 2000);
+        }
+      });
+    };
+
+    submitBtn?.addEventListener('click', calculateUgcQuote);
+    resetBtn?.addEventListener('click', () => resetCalculator(true));
+    copyPitchBtn?.addEventListener('click', copyPitchToClipboard);
+  };
+
+  setupUgcCalculator();
+  document.addEventListener('astro:after-swap', setupUgcCalculator);
+</script>
