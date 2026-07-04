@@ -1,0 +1,631 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the Amazon Associates program?",
+    answer: "Amazon Associates is Amazon's affiliate marketing program. It allows website owners, bloggers, and content creators to monetize their traffic by placing affiliate tracking links that earn commission whenever a reader makes a purchase."
+  },
+  {
+    question: "How do product categories affect my commission rates?",
+    answer: "Amazon uses fixed commission rates based on the category of the item purchased. E.g., Luxury Beauty offers a high 10% rate; Books, Kitchen, and Automotive offer 4.5%; whereas PC/Electronics offer 2.5%, and Kindle/Tablets offer 1%."
+  },
+  {
+    question: "What is a typical Amazon affiliate conversion rate?",
+    answer: "Because Amazon is a highly trusted marketplace with Prime shipping benefits, conversion rates are generally high compared to standard e-commerce, typically averaging between 3% and 8% depending on audience search intent."
+  },
+  {
+    question: "What is the Amazon 24-hour cookie window?",
+    answer: "When a reader clicks your Amazon affiliate link, a tracking cookie is placed in their browser. You earn a commission on any products they add to their cart within 24 hours. The cookie expires once they submit their order or after 24 hours."
+  }
+];
+---
+
+<ToolLayout
+  title="Amazon Affiliate Earnings Calculator - Commission Estimator"
+  description="Calculate your Amazon Associates affiliate earnings. Free online commission calculator with official Amazon category rates, clicks, and conversion inputs."
+  toolName="Amazon Affiliate Calculator"
+  toolDescription="Estimate your Amazon Associates income. Input your traffic clicks, choose product categories to auto-fill official commission rates, and review yearly earnings projections."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <div class="calc-grid" id="calc-form-container">
+      <!-- Input fields -->
+      <form class="calc-form" id="amazon-form" onsubmit="return false;">
+        <div class="form-row-2">
+          <div class="form-group">
+            <div class="label-header">
+              <label for="monthly-clicks" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 9.152c.582.448 1.148.89 1.676 1.345m-8.364-.347c-.528-.456-1.094-.898-1.676-1.345M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+                Monthly Link Clicks
+              </label>
+            </div>
+            <input type="number" id="monthly-clicks" class="form-input" placeholder="e.g., 5000" min="1" step="1" required />
+          </div>
+
+          <div class="form-group">
+            <div class="label-header">
+              <label for="item-price" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Average Item Price ($)
+              </label>
+            </div>
+            <input type="number" id="item-price" class="form-input" placeholder="e.g., 35" min="1" step="0.01" required />
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <div class="label-header">
+              <label for="product-category" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.125 1.125 0 0 0 1.591 0l4.318-4.318a1.125 1.125 0 0 0 0-1.591L9.568 3.659A2.25 2.25 0 0 0 7.977 3Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h.008v.008H6V7.5Z" />
+                </svg>
+                Product Category
+              </label>
+            </div>
+            <select id="product-category" class="form-input">
+              <option value="4.5" selected>Books, Kitchen, Automotive (4.50%)</option>
+              <option value="10.0">Luxury Beauty, Luxury Stores (10.00%)</option>
+              <option value="5.0">Digital Music, Digital Video, Handmade (5.00%)</option>
+              <option value="4.0">Apparel, Shoes, Jewelry, Luggage (4.00%)</option>
+              <option value="3.0">Home, Lawn & Garden, Pets, Toys (3.00%)</option>
+              <option value="2.5">PC, PC Components, DVD, Blu-Ray (2.50%)</option>
+              <option value="2.0">Televisions, Digital Video Games (2.00%)</option>
+              <option value="1.0">Tablets, Kindle, Ring, Video Games (1.00%)</option>
+              <option value="custom">Custom Commission Rate Override...</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="custom-rate-box" style="display: none;">
+            <div class="label-header">
+              <label for="custom-commission" class="icon-label">Custom Commission (%)</label>
+            </div>
+            <input type="number" id="custom-commission" class="form-input" placeholder="e.g., 4.5" min="0.1" max="50" step="0.1" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="label-header">
+            <label for="conversion-rate" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.34 18.062 18 21m-2.66-2.938a7.478 7.478 0 0 0 1.256-4.242A7.472 7.472 0 0 0 9 6.25a7.472 7.472 0 0 0-7.592 7.57 7.461 7.461 0 0 0 1.256 4.242L0 21m15.34-2.938A7.476 7.476 0 0 0 16.5 13.75c0-4.14-3.36-7.5-7.5-7.5h-.012c-4.137 0-7.488 3.353-7.488 7.47a7.473 7.473 0 0 0 1.156 3.968l1.455-1.597a5.525 5.525 0 0 1-.611-2.371c0-3.053 2.477-5.529 5.525-5.529h.012c3.048 0 5.525 2.476 5.525 5.53a5.523 5.523 0 0 1-.611 2.37l1.455 1.598Z" />
+              </svg>
+              Conversion Rate (%)
+            </label>
+          </div>
+          <input type="number" id="conversion-rate" class="form-input" placeholder="e.g., 5" min="0.1" max="50" step="0.1" value="5.0" required />
+          <span class="input-helper">The percentage of link clicks that buy (Amazon Associate average is 3% - 8%).</span>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Calculate Affiliate Earnings
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display -->
+      <div class="calc-results" id="results-wrapper">
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+          </svg>
+          <h3>Awaiting Click Metrics</h3>
+          <p class="text-muted">Enter your monthly affiliate link traffic to calculate commission distributions.</p>
+        </div>
+
+        <div class="results-active hidden" id="res-active-box">
+          <div class="rate-range-box">
+            <h4 class="rate-label">Est. Monthly Earnings</h4>
+            <div class="rate-range" id="res-earnings-val">$0.00</div>
+            <div class="grade-badge grade-low" id="res-range-val">$0 - $0 range</div>
+          </div>
+
+          <div class="breakdown-box">
+            <h4 class="breakdown-title">Commission Metrics Audit</h4>
+            <div class="breakdown-list">
+              <div class="breakdown-item">
+                <span class="breakdown-label">Total Monthly Clicks:</span>
+                <span class="breakdown-val" id="res-clicks-val">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Calculated Items Sold:</span>
+                <span class="breakdown-val" id="res-items-val">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Gross Sales volume:</span>
+                <span class="breakdown-val" id="res-gross-val">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Projected Yearly Income:</span>
+                <span class="breakdown-val" id="res-yearly-val" style="color: var(--color-brand); font-weight: 700;">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>How to Use This Amazon Affiliate Calculator</h2>
+    <p>
+      Monetizing a blog or niche site through Amazon Associates requires calculating click values. Since Amazon commissions are structured strictly by category, this **amazon associate calculator** streamlines rate projections.
+    </p>
+
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want a detailed breakdown of commission rules?</strong> Read our comprehensive guide on <a href="/blog/amazon-affiliate-calculator-guide" style="color: var(--color-brand); text-decoration: underline;">Amazon Affiliate Commission Rates & Calculation Strategies</a> to learn cookie window rules, conversion optimizations, and category payouts.
+      </p>
+    </div>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Enter Monthly Link Clicks</h3>
+        <p>Input the number of clicks your affiliate links generate per month. You can extract this from your Google Analytics or the Amazon Associates reporting dashboard.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Choose Product Category</h3>
+        <p>Select your product category from the dropdown to auto-fill the corresponding commission rate. If you promote custom bounty offers or have special contract terms, select <strong>Custom Commission</strong> to override.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Define Average Selling Price (ASP)</h3>
+        <p>Enter the average price of the items purchased by your readers. If you write review articles for budget kitchen gadgets, this might be $25. For high-end PC hardware, this could be $200.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Pick a Conversion Rate</h3>
+        <p>Enter your conversion rate. A standard starting baseline is 5%. If your review articles target users with high purchasing intent (e.g. 'best kitchen knives' reviews), your conversion rate may range from 8% to 12%.</p>
+      </div>
+    </div>
+
+    <h2>Features & Projections</h2>
+    <p>
+      The **amazon affiliate income calculator** is equipped with several features:
+    </p>
+    <ul>
+      <li><strong>Official Category Rate Mapping:</strong> Automatically applies official Amazon Associates commission percentages based on your selections.</li>
+      <li><strong>Gross Volume Valuation:</strong> Tracks the total sales volume ($) you generate for Amazon's e-commerce ecosystem.</li>
+      <li><strong>Yearly Income Projections:</strong> Multiplies monthly commissions by 12 to provide long-term income forecasting.</li>
+    </ul>
+
+    <h2>Benefits of Projecting Affiliate Earnings</h2>
+    <p>
+      Auditing your traffic value provides key operational benefits:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Auditing Niche Viability:</strong> Calculates earnings *before* you invest months into launching a new website, letting you identify high-paying product categories.</li>
+      <li><strong>Establishing Conversion Targets:</strong> Helps you model how small increases in conversion rate or Average Selling Price (ASP) impact monthly revenue.</li>
+      <li><strong>Optimizing Monetization:</strong> If click earnings are low, it can help you evaluate switching from Amazon Associates to high-paying direct brand sponsorships.</li>
+    </ol>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 2.5rem !important;
+    cursor: pointer;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .rate-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .rate-range {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-weight: 800;
+    color: var(--color-brand);
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+  }
+
+  .grade-low {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+  }
+
+  .breakdown-box {
+    width: 100%;
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  .breakdown-label {
+    color: var(--color-text-muted);
+  }
+
+  .breakdown-val {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* Step guide styling */
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.1rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .formula-box {
+    background: var(--color-bg-alt);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    margin: 1.25rem 0;
+    font-family: monospace;
+    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+    text-align: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+
+    .breakdown-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+    }
+
+    .rate-range-box {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+      align-items: center !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .form-row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  const setupAmazonCalculator = () => {
+    const clicksInput = document.getElementById('monthly-clicks') as HTMLInputElement;
+    const priceInput = document.getElementById('item-price') as HTMLInputElement;
+    const categorySelect = document.getElementById('product-category') as HTMLSelectElement;
+    const customRateBox = document.getElementById('custom-rate-box');
+    const customCommissionInput = document.getElementById('custom-commission') as HTMLInputElement;
+    const convInput = document.getElementById('conversion-rate') as HTMLInputElement;
+
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+
+    const earningsVal = document.getElementById('res-earnings-val');
+    const rangeVal = document.getElementById('res-range-val');
+    const clicksVal = document.getElementById('res-clicks-val');
+    const itemsVal = document.getElementById('res-items-val');
+    const grossVal = document.getElementById('res-gross-val');
+    const yearlyVal = document.getElementById('res-yearly-val');
+
+    // Toggle custom commission input field
+    categorySelect?.addEventListener('change', () => {
+      if (categorySelect.value === 'custom') {
+        if (customRateBox) customRateBox.style.display = 'flex';
+      } else {
+        if (customRateBox) customRateBox.style.display = 'none';
+        if (customCommissionInput) customCommissionInput.value = '';
+      }
+    });
+
+    const calculateEarnings = () => {
+      const clicks = parseFloat(clicksInput?.value) || 0;
+      const price = parseFloat(priceInput?.value) || 0;
+      const conv = parseFloat(convInput?.value) || 5.0;
+
+      if (clicks <= 0 || price <= 0) {
+        return alert("Please enter valid monthly clicks and average item price.");
+      }
+
+      // Settle commission percentage rate
+      let rate = 0;
+      if (categorySelect?.value === 'custom') {
+        rate = parseFloat(customCommissionInput?.value) || 0;
+        if (rate <= 0) {
+          return alert("Please enter your custom commission percentage.");
+        }
+      } else {
+        rate = parseFloat(categorySelect?.value) || 4.5;
+      }
+
+      // Calculations math
+      const itemsSold = Math.round(clicks * (conv / 100));
+      const grossSales = itemsSold * price;
+      const monthlyCommission = grossSales * (rate / 100);
+      const yearlyCommission = monthlyCommission * 12;
+
+      const lowRange = Math.round(monthlyCommission * 0.9);
+      const highRange = Math.round(monthlyCommission * 1.1);
+
+      // Render Outputs
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      if (earningsVal) earningsVal.textContent = `$${monthlyCommission.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      if (rangeVal) rangeVal.textContent = `$${lowRange} - $${highRange} monthly range`;
+
+      if (clicksVal) clicksVal.textContent = clicks.toLocaleString();
+      if (itemsVal) itemsVal.textContent = itemsSold.toLocaleString();
+      if (grossVal) grossVal.textContent = `$${grossSales.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      if (yearlyVal) yearlyVal.textContent = `$${yearlyCommission.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+      // Smooth scroll to the results section
+      const resultsWrapper = document.getElementById('results-wrapper');
+      if (resultsWrapper) {
+        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    const resetCalculator = () => {
+      if (clicksInput) clicksInput.value = '';
+      if (priceInput) priceInput.value = '';
+      if (categorySelect) categorySelect.selectedIndex = 0;
+      if (customRateBox) customRateBox.style.display = 'none';
+      if (customCommissionInput) customCommissionInput.value = '';
+      if (convInput) convInput.value = '5.0';
+
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) activeBox.classList.add('hidden');
+    };
+
+    submitBtn?.addEventListener('click', calculateEarnings);
+    resetBtn?.addEventListener('click', resetCalculator);
+  };
+
+  setupAmazonCalculator();
+  document.addEventListener('astro:after-swap', setupAmazonCalculator);
+</script>
