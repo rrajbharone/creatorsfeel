@@ -1,0 +1,810 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is Brand Collaboration ROI?",
+    answer: "Brand Collaboration ROI (Return on Investment) measures the financial return generated from an influencer sponsorship compared to the total cost of the campaign. It is calculated by subtracting campaign costs from revenue (or Earned Media Value) and dividing by the total cost."
+  },
+  {
+    question: "What is Earned Media Value (EMV)?",
+    answer: "Earned Media Value is a marketing metric used to assign a monetary value to organic or sponsored social media reach. It translates impressions, likes, comments, and clicks into their paid advertising cost equivalents (e.g., using CPM, CPE, and CPC averages)."
+  },
+  {
+    question: "What is a healthy ROI for an influencer campaign?",
+    answer: "A healthy direct-response ROI (Sales-focused) is typically 200% to 400% (a 2x to 4x return on spend). For brand awareness campaigns (using EMV metrics), a healthy ROI is between 150% and 300%."
+  },
+  {
+    question: "Should I include product gifting costs in my campaign spend?",
+    answer: "Yes. You must calculate the retail value or Cost of Goods Sold (COGS) of any products gifted to the creator, along with shipping and packaging fees, to arrive at an accurate campaign expenditure figure."
+  }
+];
+---
+
+<ToolLayout
+  title="Brand Collaboration ROI Calculator - Influencer Campaign Return"
+  description="Calculate the Return on Investment (ROI) of your brand collaborations and influencer sponsorships. Free online calculator for Sales Conversions or Earned Media Value (EMV)."
+  toolName="Brand Collaboration ROI Calculator"
+  toolDescription="Measure campaign profitability. Toggle between Sales-focused or Brand Awareness (EMV) models, input cost and performance data, and review dynamic ROI scores."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Campaign Mode selector tabs -->
+    <div class="calculator-mode-selector" role="tablist" aria-label="Campaign Goal">
+      <button type="button" class="mode-tab active" data-mode="sales" role="tab" aria-selected="true" aria-controls="calc-form-container">
+        <span>Sales & Conversions</span>
+      </button>
+      <button type="button" class="mode-tab" data-mode="awareness" role="tab" aria-selected="false" aria-controls="calc-form-container">
+        <span>Brand Awareness (EMV)</span>
+      </button>
+    </div>
+
+    <div class="calc-grid" id="calc-form-container">
+      <!-- Input fields -->
+      <form class="calc-form" id="roi-form" onsubmit="return false;">
+        <input type="hidden" id="active-mode" value="sales" />
+
+        <!-- Common Cost Inputs -->
+        <div class="form-row-2">
+          <div class="form-group">
+            <div class="label-header">
+              <label for="influencer-fee" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Influencer Fee ($)
+              </label>
+            </div>
+            <input type="number" id="influencer-fee" class="form-input" placeholder="e.g., 500" min="0" step="1" required />
+          </div>
+
+          <div class="form-group">
+            <div class="label-header">
+              <label for="additional-costs" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5h16.5M4.5 19.5h15M12 6.75v10.5m-3.75-3h7.5" />
+                </svg>
+                Additional Costs ($)
+              </label>
+            </div>
+            <input type="number" id="additional-costs" class="form-input" placeholder="e.g., 100" min="0" step="1" value="0" />
+          </div>
+        </div>
+
+        <!-- Sales Mode Inputs (Visible by default) -->
+        <div id="inputs-sales-box" class="inputs-group">
+          <div class="form-row-2">
+            <div class="form-group">
+              <div class="label-header">
+                <label for="conversions-count" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                  </svg>
+                  Total Sales (Conversions)
+                </label>
+              </div>
+              <input type="number" id="conversions-count" class="form-input" placeholder="e.g., 45" min="0" step="1" />
+            </div>
+
+            <div class="form-group">
+              <div class="label-header">
+                <label for="avg-order-value" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                  </svg>
+                  Average Order Value ($)
+                </label>
+              </div>
+              <input type="number" id="avg-order-value" class="form-input" placeholder="e.g., 40" min="1" step="0.01" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Awareness Mode Inputs (Hidden by default) -->
+        <div id="inputs-awareness-box" class="inputs-group hidden">
+          <div class="form-row-2">
+            <div class="form-group">
+              <div class="label-header">
+                <label for="impressions-count" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  </svg>
+                  Total Impressions
+                </label>
+              </div>
+              <input type="number" id="impressions-count" class="form-input" placeholder="e.g., 25000" min="0" step="1" />
+            </div>
+
+            <div class="form-group">
+              <div class="label-header">
+                <label for="engagements-count" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.25c.896 0 1.7.393 2.287 1.026.549-.752 1.442-1.242 2.453-1.242 1.162 0 2.161.64 2.685 1.587l.006-.003c.524-.947 1.523-1.584 2.685-1.584 1.734 0 3.14 1.406 3.14 3.14 0 4.19-8.462 8.583-8.5 8.602a.498.498 0 0 1-.57 0c-.038-.019-8.5-4.412-8.5-8.602 0-1.734 1.406-3.14 3.14-3.14ZM6.47 5.61a.75.75 0 0 1 1.06-.02l3.47 3.28 3.47-3.28a.75.75 0 1 1 1.04 1.08l-4 3.78a.75.75 0 0 1-1.04 0l-4-3.78a.75.75 0 0 1-.02-1.06Z" />
+                  </svg>
+                  Total Engagements
+                </label>
+              </div>
+              <input type="number" id="engagements-count" class="form-input" placeholder="e.g., 1800" min="0" step="1" />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 1.25rem;">
+            <div class="label-header">
+              <label for="clicks-count" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                </svg>
+                Total Link Clicks
+              </label>
+            </div>
+            <input type="number" id="clicks-count" class="form-input" placeholder="e.g., 350" min="0" step="1" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+            </svg>
+            Calculate Campaign ROI
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display -->
+      <div class="calc-results" id="results-wrapper">
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+          </svg>
+          <h3>Awaiting ROI Metrics</h3>
+          <p class="text-muted">Fill out your campaign expenditure and performance parameters, then click Calculate.</p>
+        </div>
+
+        <div class="results-active hidden" id="res-active-box">
+          <div class="rate-range-box">
+            <h4 class="rate-label">Return on Investment (ROI)</h4>
+            <div class="rate-range" id="res-roi-val">+0.00%</div>
+            <div class="grade-badge grade-low" id="res-status-badge">Break-Even</div>
+          </div>
+
+          <div class="breakdown-box">
+            <h4 class="breakdown-title">Campaign Financial Breakdown</h4>
+            <div class="breakdown-list">
+              <div class="breakdown-item">
+                <span class="breakdown-label">Total Spend:</span>
+                <span class="breakdown-val" id="res-spend-val">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label" id="res-return-label">Total Revenue Generated:</span>
+                <span class="breakdown-val" id="res-return-val">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Net Profit / Loss:</span>
+                <span class="breakdown-val" id="res-profit-val">-</span>
+              </div>
+              <div class="breakdown-item" id="res-helper-row">
+                <span class="breakdown-label" id="res-helper-label">Customer Acquisition Cost:</span>
+                <span class="breakdown-val" id="res-helper-val">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>How to Use This ROI Calculator: A Step-by-Step Guide</h2>
+    <p>
+      Calculating your return on investment is key to evaluating whether a brand collaboration is financially viable. This tool supports two campaign goals: **Sales & Conversions** (ideal for tracking promotional codes and affiliate links) and **Brand Awareness (EMV)** (ideal for valuing top-of-funnel reach).
+    </p>
+    <p>
+      Follow this step-by-step tutorial to get accurate results:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Choose Your Campaign Focus</h3>
+        <p>Pick the tabs at the top of the calculator. Choose <strong>Sales & Conversions</strong> if you want to track financial transactions. Select <strong>Brand Awareness (EMV)</strong> if you want to calculate the value of brand views, engagement, and link clicks.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Enter Campaign Expenditure</h3>
+        <p>Input the **Influencer Fee** (sponsorship payment) and **Additional Costs** (sample shipping, product gifting value, agency commissions, paid ad boosts).</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Sourcing Campaign Performance Insights</h3>
+        <p>Extract performance metrics from your dashboard:</p>
+        <ul>
+          <li><strong>Sales Mode:</strong> Input the conversions (total transactions tracked via affiliate dashboard) and Average Order Value (AOV).</li>
+          <li><strong>Awareness Mode:</strong> Input total impressions, engagements (likes, comments, shares), and link clicks from your post metrics.</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Analyze Your ROI Results</h3>
+        <p>Review the calculated metrics. A positive ROI indicates profitable campaigns, whereas a negative ROI means target CPA boundaries were exceeded. The tool computes Customer Acquisition Cost (CAC) to help audit conversion pricing models.</p>
+      </div>
+    </div>
+
+    <h2>Formulas Driving the Calculations</h2>
+    <p>
+      Calculations utilize standard marketing frameworks:
+    </p>
+    <div class="formula-box">
+      Total Cost = Influencer Fee + Additional Campaign Spend
+      <br />
+      Sales Revenue = Sales Count * Average Order Value (AOV)
+      <br />
+      Earned Media Value (EMV) = (Impressions * $0.015) + (Engagements * $0.15) + (Clicks * $1.00)
+      <br />
+      ROI (%) = ((Revenue or EMV - Total Cost) / Total Cost) * 100
+    </div>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calculator-mode-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    background: var(--color-bg-alt);
+    padding: 0.35rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+  }
+
+  .mode-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mode-tab:hover {
+    color: var(--color-text);
+  }
+
+  .mode-tab.active {
+    background: var(--color-bg);
+    color: var(--color-brand);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .rate-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .rate-range {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-weight: 800;
+    color: var(--color-brand);
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+  }
+
+  .grade-low {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+  }
+
+  .grade-medium {
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+  }
+
+  .grade-high {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+  }
+
+  .breakdown-box {
+    width: 100%;
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  .breakdown-label {
+    color: var(--color-text-muted);
+  }
+
+  .breakdown-val {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* Step guide styling */
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.1rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .formula-box {
+    background: var(--color-bg-alt);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    margin: 1.25rem 0;
+    font-family: monospace;
+    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+    text-align: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+
+    .breakdown-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+    }
+
+    .rate-range-box {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+      align-items: center !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .form-row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  const setupRoiCalculator = () => {
+    // Mode selectors
+    const modeTabs = document.querySelectorAll('.mode-tab');
+    const activeModeInput = document.getElementById('active-mode') as HTMLInputElement;
+
+    // Inputs groups box references
+    const salesGroup = document.getElementById('inputs-sales-box');
+    const awarenessGroup = document.getElementById('inputs-awareness-box');
+
+    // Cost Fields
+    const feeField = document.getElementById('influencer-fee') as HTMLInputElement;
+    const additionalCostsField = document.getElementById('additional-costs') as HTMLInputElement;
+
+    // Sales Fields
+    const conversionsField = document.getElementById('conversions-count') as HTMLInputElement;
+    const aovField = document.getElementById('avg-order-value') as HTMLInputElement;
+
+    // Awareness Fields
+    const impressionsField = document.getElementById('impressions-count') as HTMLInputElement;
+    const engagementsField = document.getElementById('engagements-count') as HTMLInputElement;
+    const clicksField = document.getElementById('clicks-count') as HTMLInputElement;
+
+    // Buttons
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Output views
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+
+    const roiVal = document.getElementById('res-roi-val');
+    const statusBadge = document.getElementById('res-status-badge');
+    const spendVal = document.getElementById('res-spend-val');
+    const returnLabel = document.getElementById('res-return-label');
+    const returnVal = document.getElementById('res-return-val');
+    const profitVal = document.getElementById('res-profit-val');
+
+    // Dynamic helper rows
+    const helperRow = document.getElementById('res-helper-row');
+    const helperLabel = document.getElementById('res-helper-label');
+    const helperVal = document.getElementById('res-helper-val');
+
+    // Mode tab toggle logic
+    modeTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        modeTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const mode = tab.getAttribute('data-mode') || 'sales';
+        if (activeModeInput) activeModeInput.value = mode;
+
+        if (mode === 'sales') {
+          salesGroup?.classList.remove('hidden');
+          awarenessGroup?.classList.add('hidden');
+        } else {
+          salesGroup?.classList.add('hidden');
+          awarenessGroup?.classList.remove('hidden');
+        }
+
+        resetCalculator(false);
+      });
+    });
+
+    const calculateRoi = () => {
+      const mode = activeModeInput?.value || 'sales';
+      const fee = parseFloat(feeField?.value) || 0;
+      const additional = parseFloat(additionalCostsField?.value) || 0;
+      const totalCost = fee + additional;
+
+      if (fee <= 0 && additional <= 0) {
+        return alert("Please enter your campaign fee or additional costs.");
+      }
+
+      let revenue = 0;
+      let helperText = "";
+      let helperResultVal = "";
+      let showHelper = false;
+
+      if (mode === 'sales') {
+        const convs = parseFloat(conversionsField?.value) || 0;
+        const aov = parseFloat(aovField?.value) || 0;
+
+        if (convs < 0 || aov < 0) {
+          return alert("Please enter valid conversions and order values.");
+        }
+
+        revenue = convs * aov;
+        showHelper = convs > 0;
+        helperText = "Customer Acquisition Cost (CAC):";
+        helperResultVal = `$${(totalCost / convs).toFixed(2)}`;
+
+      } else {
+        const imps = parseFloat(impressionsField?.value) || 0;
+        const engs = parseFloat(engagementsField?.value) || 0;
+        const clicks = parseFloat(clicksField?.value) || 0;
+
+        if (imps < 0 || engs < 0 || clicks < 0) {
+          return alert("Please enter valid impressions, engagements, and clicks.");
+        }
+
+        // EMV formulation standard
+        // Impressions at $15 CPM ($0.015 each), Engagements at $0.15 CPE each, Clicks at $1.00 CPC each
+        revenue = (imps * 0.015) + (engs * 0.15) + (clicks * 1.0);
+        showHelper = clicks > 0;
+        helperText = "Effective Cost Per Click (eCPC):";
+        helperResultVal = `$${(totalCost / clicks).toFixed(2)}`;
+      }
+
+      const profit = revenue - totalCost;
+      let roiPercent = 0;
+      if (totalCost > 0) {
+        roiPercent = (profit / totalCost) * 100;
+      } else {
+        roiPercent = revenue > 0 ? 100 : 0;
+      }
+
+      // Activate box displays
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      // Update basic fields
+      if (spendVal) spendVal.textContent = `$${totalCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      
+      if (returnLabel) {
+        returnLabel.textContent = mode === 'sales' ? "Total Revenue:" : "Earned Media Value (EMV):";
+      }
+      if (returnVal) {
+        returnVal.textContent = `$${revenue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      }
+
+      // Update Profit Value
+      if (profitVal) {
+        if (profit >= 0) {
+          profitVal.textContent = `$${profit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+          profitVal.style.color = "var(--color-success)";
+        } else {
+          profitVal.textContent = `-$${Math.abs(profit).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+          profitVal.style.color = "var(--color-danger)";
+        }
+      }
+
+      // Update ROI display
+      if (roiVal) {
+        const sign = roiPercent >= 0 ? "+" : "";
+        roiVal.textContent = `${sign}${roiPercent.toFixed(2)}%`;
+        if (roiPercent > 10) {
+          roiVal.style.color = "var(--color-success)";
+        } else if (roiPercent >= -10) {
+          roiVal.style.color = "var(--color-warning)";
+        } else {
+          roiVal.style.color = "var(--color-danger)";
+        }
+      }
+
+      // ROI Status Badge
+      if (statusBadge) {
+        statusBadge.className = 'grade-badge';
+        if (roiPercent > 20) {
+          statusBadge.textContent = "High ROI";
+          statusBadge.classList.add('grade-high');
+        } else if (roiPercent >= -10) {
+          statusBadge.textContent = "Break-Even / Healthy";
+          statusBadge.classList.add('grade-medium');
+        } else {
+          statusBadge.textContent = "Negative ROI";
+          statusBadge.classList.add('grade-low');
+        }
+      }
+
+      // Dynamic helpers CAC/CPC row
+      if (helperRow) {
+        if (showHelper) {
+          helperRow.style.display = 'flex';
+          if (helperLabel) helperLabel.textContent = helperText;
+          if (helperVal) helperVal.textContent = helperResultVal;
+        } else {
+          helperRow.style.display = 'none';
+        }
+      }
+
+      // Smooth scroll to the results section
+      const resultsWrapper = document.getElementById('results-wrapper');
+      if (resultsWrapper) {
+        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    const resetCalculator = (clearInputs = true) => {
+      if (clearInputs) {
+        if (feeField) feeField.value = '';
+        if (additionalCostsField) additionalCostsField.value = '0';
+        if (conversionsField) conversionsField.value = '';
+        if (aovField) aovField.value = '';
+        if (impressionsField) impressionsField.value = '';
+        if (engagementsField) engagementsField.value = '';
+        if (clicksField) clicksField.value = '';
+      }
+
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) activeBox.classList.add('hidden');
+    };
+
+    submitBtn?.addEventListener('click', calculateRoi);
+    resetBtn?.addEventListener('click', () => resetCalculator(true));
+  };
+
+  setupRoiCalculator();
+  document.addEventListener('astro:after-swap', setupRoiCalculator);
+</script>
