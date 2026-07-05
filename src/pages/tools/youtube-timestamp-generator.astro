@@ -1,0 +1,802 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is a YouTube Timestamp Generator?",
+    answer: "A YouTube Timestamp Generator is an online tool that helps creators generate formatted timestamp lists (chapters) for video descriptions or create shareable deep links that play a video from a specific second."
+  },
+  {
+    question: "What are the rules for YouTube Video Chapters to work?",
+    answer: "For YouTube to recognize your timestamps as interactive chapters, your list must meet three criteria: 1) The first chapter must start exactly at 00:00; 2) Chapters must be listed in chronological order; 3) The video must contain at least 3 chapters, with each chapter being at least 10 seconds long."
+  },
+  {
+    question: "How do I share a YouTube video starting at a specific time?",
+    answer: "You append a time parameter to the video URL. For standard links (youtube.com), add '&t=X' where X is the total number of seconds (or e.g. '&t=1m30s'). For short links (youtu.be), add '?t=X'."
+  },
+  {
+    question: "Do timestamps improve search ranking?",
+    answer: "Yes. YouTube displays chapters directly in Google Search results as key moments. This increases your video's search footprint and improves click-through rates by letting users jump directly to relevant sections."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube Timestamp Generator - Video Chapters & Share Link Creator"
+  description="Generate YouTube video chapters for descriptions or create shareable links that start at a specific timestamp. Free online YouTube timestamp generator tool."
+  toolName="YouTube Timestamp Generator"
+  toolDescription="Format video description chapters or build deep-linking sharing URLs instantly. Checks for YouTube chapter format compliance automatically."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Tab Selector -->
+    <div class="calculator-mode-selector" role="tablist" aria-label="Timestamp Mode">
+      <button type="button" class="mode-tab active" data-mode="chapters" role="tab" aria-selected="true" aria-controls="calc-form-container">
+        <span>Video Chapters (Description)</span>
+      </button>
+      <button type="button" class="mode-tab" data-mode="link" role="tab" aria-selected="false" aria-controls="calc-form-container">
+        <span>Share Link with Timestamp</span>
+      </button>
+    </div>
+
+    <div class="calc-grid" id="calc-form-container">
+      <form class="calc-form" id="timestamp-form" onsubmit="return false;">
+        <input type="hidden" id="active-mode" value="chapters" />
+
+        <!-- Chapters Generator Tab -->
+        <div id="inputs-chapters-box" class="inputs-group">
+          <div class="chapters-header">
+            <h4 class="breakdown-title" style="margin: 0;">Add Video Chapters</h4>
+            <button type="button" id="add-row-btn" class="calc-btn-secondary" style="height: 36px; padding: 0 0.75rem; font-size: 0.85rem; display: flex; align-items: center; gap: 0.25rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 14px; height: 14px;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+              Add Row
+            </button>
+          </div>
+
+          <div id="chapters-rows-container" class="chapters-rows-list">
+            <!-- Dynamic rows populated by script -->
+          </div>
+        </div>
+
+        <!-- Share Link Generator Tab (Hidden by Default) -->
+        <div id="inputs-link-box" class="inputs-group hidden">
+          <div class="form-group">
+            <div class="label-header">
+              <label for="video-url" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                </svg>
+                YouTube Video URL
+              </label>
+            </div>
+            <input type="url" id="video-url" class="form-input" placeholder="e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+          </div>
+
+          <div class="form-row-3" style="margin-top: 1rem;">
+            <div class="form-group">
+              <label for="link-hours" class="checkbox-label">Hours</label>
+              <input type="number" id="link-hours" class="form-input" min="0" placeholder="0" value="0" />
+            </div>
+            <div class="form-group">
+              <label for="link-minutes" class="checkbox-label">Minutes</label>
+              <input type="number" id="link-minutes" class="form-input" min="0" max="59" placeholder="0" value="0" />
+            </div>
+            <div class="form-group">
+              <label for="link-seconds" class="checkbox-label">Seconds</label>
+              <input type="number" id="link-seconds" class="form-input" min="0" max="59" placeholder="0" value="0" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions" style="margin-top: 1.5rem;">
+          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Generate Timestamp Metadata
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display -->
+      <div class="calc-results" id="results-wrapper">
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          <h3>Awaiting Timestamps</h3>
+          <p class="text-muted">Enter your chapter titles or share target times, then click generate to compile output.</p>
+        </div>
+
+        <div class="results-active hidden" id="res-active-box">
+          <div class="rate-range-box">
+            <h4 class="rate-label">Validation Status</h4>
+            <div class="rate-range" id="res-status-title" style="font-size: 1.5rem; margin-bottom: 0.25rem;">Valid Chapters</div>
+            <div class="grade-badge grade-low" id="res-status-desc">Chapters formatted successfully</div>
+          </div>
+
+          <div class="breakdown-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <h4 class="breakdown-title" style="margin: 0;" id="res-output-title">Metadata Chapters list:</h4>
+              <button type="button" id="copy-output-btn" class="copy-pitch-btn" style="color: var(--color-brand); font-weight: 700; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; gap: 0.25rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H5.25M16.5 5.25h.008v.008H16.5V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25ZM9 10.5c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v10.5c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V10.5Z" />
+                </svg>
+                Copy Content
+              </button>
+            </div>
+            <textarea id="res-text-output" class="form-input" style="width: 100%; min-height: 180px; font-family: monospace; font-size: 0.88rem; resize: vertical;" readonly></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>what is a youtube video timestamp generator</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to optimize your channel SEO?</strong> Read our comprehensive guide on <a href="/blog/youtube-timestamp-generator-guide" style="color: var(--color-brand); text-decoration: underline;">YouTube Video Chapters & Timestamp Strategies</a> to learn how to structure descriptions, audit index moments, and drive CTR from search results.
+      </p>
+    </div>
+    
+    <p>
+      A **youtube video timestamp generator** or **timestamp generator youtube** is a free utility that structures metadata for video uploads. Content creators use it to construct clean, ascending chapter lists that comply with YouTube player regulations, or build links that jump directly to specific parts.
+    </p>
+
+    <h2>how to generate timestamps for youtube videos</h2>
+    <p>
+      To **generate timestamps for youtube video** listings, follow these guidelines:
+    </p>
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Choose Your Tool Mode</h3>
+        <p>Use the tabs at the top. Select **Video Chapters** if you are formatting video descriptions. Select **Share Link** if you are deep-linking to share a specific scene.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Input Times & Titles</h3>
+        <p>In Chapters mode, enter the minutes, seconds, and descriptive name for each segment. Make sure your first chapter starts exactly at <code>00:00</code> (e.g. 00:00 Introduction).</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Validate Chronological Order</h3>
+        <p>Ensure that subsequent timestamps increase sequentially. Our **free youtube timestamp generator** automatically checks for order compliance and validates your formatting.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Copy to YouTube Studio</h3>
+        <p>Click the generate button. If validation passes, copy the list and paste it into your video's description. The player will automatically segment the play bar into interactive chapters.</p>
+      </div>
+    </div>
+
+    <h2>Key Generator Features</h2>
+    <p>
+      Our tool provides critical functionalities for channel administrators:
+    </p>
+    <ul>
+      <li><strong>Chronological Sorting Warning:</strong> Flags chapters that are out of order, which usually disables YouTube's chapter indexing.</li>
+      <li><strong>00:00 Anchor Verification:</strong> Automatically checks for the required zero-second start time.</li>
+      <li><strong>Flexible Time Inputs:</strong> Supports both standard minute-second formats (MM:SS) and hours (HH:MM:SS) for longer live streams.</li>
+      <li><strong>Short/Long URL support:</strong> Parses standard desktop URLs, shorts URLs, and mobile sharing links seamlessly.</li>
+    </ul>
+
+    <h2>Benefits of Interactive Video Chapters</h2>
+    <p>
+      Structuring your descriptions with chapters offers several benefits:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Improves Audience Retention:</strong> Users can skip straight to the answer they need, decreasing immediate bounces on long videos.</li>
+      <li><strong>Google Search Visibility:</strong> Google displays video chapters directly inside search result pages, giving you double the search page visibility.</li>
+      <li><strong>Accessibility Compliance:</strong> Helps screen-reader users navigate long-form tutorials.</li>
+    </ol>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calculator-mode-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    background: var(--color-bg-alt);
+    padding: 0.35rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+  }
+
+  .mode-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mode-tab:hover {
+    color: var(--color-text);
+  }
+
+  .mode-tab.active {
+    background: var(--color-bg);
+    color: var(--color-brand);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .chapters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .chapters-rows-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+  }
+
+  .chapter-row {
+    display: grid;
+    grid-template-columns: 70px 70px 1fr auto;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .row-input {
+    width: 100%;
+    padding: 0.5rem !important;
+    height: 38px !important;
+  }
+
+  .delete-row-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: all var(--transition-fast);
+  }
+
+  .delete-row-btn:hover {
+    color: var(--color-danger);
+    background: rgba(220, 38, 38, 0.05);
+  }
+
+  .form-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .checkbox-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .rate-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .rate-range {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-weight: 800;
+    color: var(--color-brand);
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+  }
+
+  .grade-low {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+  }
+
+  .breakdown-box {
+    width: 100%;
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .copy-pitch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+  }
+
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.1rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+
+    .breakdown-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+    }
+
+    .rate-range-box {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+      align-items: center !important;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  const setupTimestampGenerator = () => {
+    const activeModeInput = document.getElementById('active-mode') as HTMLInputElement;
+    const modeTabs = document.querySelectorAll('.mode-tab');
+
+    // Tab sections refs
+    const chaptersBox = document.getElementById('inputs-chapters-box');
+    const linkBox = document.getElementById('inputs-link-box');
+    const rowsContainer = document.getElementById('chapters-rows-container');
+
+    const addRowBtn = document.getElementById('add-row-btn');
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+    const copyBtn = document.getElementById('copy-output-btn');
+
+    // Outputs refs
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+    const statusTitleVal = document.getElementById('res-status-title');
+    const statusDescVal = document.getElementById('res-status-desc');
+    const outputTitleVal = document.getElementById('res-output-title');
+    const textOutputVal = document.getElementById('res-text-output') as HTMLTextAreaElement;
+
+    // Link tab specific inputs
+    const linkUrlInput = document.getElementById('video-url') as HTMLInputElement;
+    const linkHoursInput = document.getElementById('link-hours') as HTMLInputElement;
+    const linkMinutesInput = document.getElementById('link-minutes') as HTMLInputElement;
+    const linkSecondsInput = document.getElementById('link-seconds') as HTMLInputElement;
+
+    // Add a single chapter row UI helper
+    const createRowElement = (minutes = '', seconds = '', title = '') => {
+      const div = document.createElement('div');
+      div.className = 'chapter-row';
+      div.innerHTML = `
+        <input type="number" class="form-input row-input row-min" placeholder="Min" min="0" value="${minutes}" required />
+        <input type="number" class="form-input row-input row-sec" placeholder="Sec" min="0" max="59" value="${seconds}" required />
+        <input type="text" class="form-input row-input row-title" placeholder="e.g., Intro" value="${title}" required />
+        <button type="button" class="delete-row-btn">&times;</button>
+      `;
+
+      // Handle delete button
+      div.querySelector('.delete-row-btn')?.addEventListener('click', () => {
+        div.remove();
+        // If empty, add a default row
+        if (rowsContainer && rowsContainer.children.length === 0) {
+          addRowUI();
+        }
+      });
+
+      return div;
+    };
+
+    const addRowUI = (min = '', sec = '', title = '') => {
+      if (rowsContainer) {
+        rowsContainer.appendChild(createRowElement(min, sec, title));
+      }
+    };
+
+    // Mode tab toggle logic
+    modeTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        modeTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const mode = tab.getAttribute('data-mode') || 'chapters';
+        if (activeModeInput) activeModeInput.value = mode;
+
+        if (mode === 'chapters') {
+          chaptersBox?.classList.remove('hidden');
+          linkBox?.classList.add('hidden');
+        } else {
+          chaptersBox?.classList.add('hidden');
+          linkBox?.classList.remove('hidden');
+        }
+
+        resetCalculator(false);
+      });
+    });
+
+    addRowBtn?.addEventListener('click', () => addRowUI());
+
+    const resetCalculator = (clearInputs = true) => {
+      if (clearInputs) {
+        if (rowsContainer) rowsContainer.innerHTML = '';
+        addRowUI('0', '00', 'Introduction');
+        addRowUI('1', '30', 'Main Topic');
+        addRowUI('3', '00', 'Outro');
+
+        if (linkUrlInput) linkUrlInput.value = '';
+        if (linkHoursInput) linkHoursInput.value = '0';
+        if (linkMinutesInput) linkMinutesInput.value = '0';
+        if (linkSecondsInput) linkSecondsInput.value = '0';
+      }
+
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) activeBox.classList.add('hidden');
+    };
+
+    const generateOutput = () => {
+      const mode = activeModeInput?.value || 'chapters';
+
+      if (mode === 'chapters') {
+        // Collect rows
+        const rows = document.querySelectorAll('.chapter-row');
+        const chaptersList: { seconds: number; text: string }[] = [];
+        let formatError = false;
+
+        rows.forEach(row => {
+          const minVal = parseInt((row.querySelector('.row-min') as HTMLInputElement)?.value) || 0;
+          const secVal = parseInt((row.querySelector('.row-sec') as HTMLInputElement)?.value) || 0;
+          const titleText = (row.querySelector('.row-title') as HTMLInputElement)?.value.trim() || '';
+
+          if (!titleText) {
+            formatError = true;
+            return;
+          }
+
+          const totalSeconds = (minVal * 60) + secVal;
+          const formattedTime = `${minVal.toString().padStart(2, '0')}:${secVal.toString().padStart(2, '0')}`;
+          
+          chaptersList.push({
+            seconds: totalSeconds,
+            text: `${formattedTime} ${titleText}`
+          });
+        });
+
+        if (formatError || chaptersList.length === 0) {
+          return alert("Please fill in all chapter titles and time fields.");
+        }
+
+        // Validate rules
+        let isValid = true;
+        let warningDesc = "All checks passed. Chapters are chronological.";
+
+        // Sort chapters check
+        for (let i = 1; i < chaptersList.length; i++) {
+          if (chaptersList[i].seconds <= chaptersList[i - 1].seconds) {
+            isValid = false;
+            warningDesc = "Error: Chapters must be listed in chronological order.";
+            break;
+          }
+        }
+
+        // 00:00 check
+        const hasZeroAnchor = chaptersList.some(ch => ch.seconds === 0);
+        if (!hasZeroAnchor) {
+          isValid = false;
+          warningDesc = "Warning: First chapter must start at 00:00 for YouTube player compatibility.";
+        }
+
+        // Render Outputs
+        if (emptyBox) emptyBox.classList.add('hidden');
+        if (activeBox) activeBox.classList.remove('hidden');
+
+        if (statusTitleVal) statusTitleVal.textContent = isValid ? "Pass" : "Warning";
+        if (statusDescVal) {
+          statusDescVal.textContent = warningDesc;
+          statusDescVal.className = isValid ? "grade-badge grade-low" : "grade-badge";
+          statusDescVal.style.color = isValid ? "" : "var(--color-danger)";
+          statusDescVal.style.background = isValid ? "" : "rgba(220, 38, 38, 0.1)";
+        }
+
+        if (outputTitleVal) outputTitleVal.textContent = "Formatted Description Chapters:";
+        if (textOutputVal) {
+          textOutputVal.value = chaptersList.map(ch => ch.text).join('\n');
+        }
+      } else {
+        // Link mode URL parsing
+        const rawUrl = linkUrlInput?.value.trim() || '';
+        if (!rawUrl) {
+          return alert("Please enter a valid YouTube video URL.");
+        }
+
+        const hrs = parseInt(linkHoursInput?.value) || 0;
+        const mins = parseInt(linkMinutesInput?.value) || 0;
+        const secs = parseInt(linkSecondsInput?.value) || 0;
+
+        const totalSecs = (hrs * 3600) + (mins * 60) + secs;
+        if (totalSecs <= 0) {
+          return alert("Please enter a target time greater than 0 seconds.");
+        }
+
+        // Simple video ID extractor regex
+        // Handles youtube.com/watch?v=ID, youtu.be/ID, youtube.com/shorts/ID
+        let videoId = '';
+        const match = rawUrl.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i);
+        if (match && match[1]) {
+          videoId = match[1];
+        } else {
+          return alert("Invalid YouTube URL. Please use standard video link share structures.");
+        }
+
+        const isShortDomain = rawUrl.includes('youtu.be/');
+        let finalShareUrl = "";
+
+        if (isShortDomain) {
+          finalShareUrl = `https://youtu.be/${videoId}?t=${totalSecs}`;
+        } else {
+          finalShareUrl = `https://www.youtube.com/watch?v=${videoId}&t=${totalSecs}s`;
+        }
+
+        // Render Outputs
+        if (emptyBox) emptyBox.classList.add('hidden');
+        if (activeBox) activeBox.classList.remove('hidden');
+
+        if (statusTitleVal) statusTitleVal.textContent = "URL Generated";
+        if (statusDescVal) {
+          statusDescVal.textContent = `Target time: ${hrs > 0 ? hrs + 'h ' : ''}${mins}m ${secs}s`;
+          statusDescVal.className = "grade-badge grade-low";
+          statusDescVal.style.color = "";
+          statusDescVal.style.background = "";
+        }
+
+        if (outputTitleVal) outputTitleVal.textContent = "Share Link with Timestamp Parameter:";
+        if (textOutputVal) {
+          textOutputVal.value = finalShareUrl;
+        }
+      }
+
+      // Smooth scroll to the results section
+      const resultsWrapper = document.getElementById('results-wrapper');
+      if (resultsWrapper) {
+        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    const copyOutputToClipboard = () => {
+      if (!textOutputVal || !textOutputVal.value) return;
+      
+      navigator.clipboard.writeText(textOutputVal.value).then(() => {
+        const originalHTML = copyBtn ? copyBtn.innerHTML : '';
+        if (copyBtn) {
+          copyBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="var(--color-success)" style="width: 16px; height: 16px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
+            <span style="color: var(--color-success)">Copied!</span>
+          `;
+          setTimeout(() => {
+            copyBtn.innerHTML = originalHTML;
+          }, 2000);
+        }
+      });
+    };
+
+    // Initialize with 3 default rows
+    resetCalculator(true);
+
+    submitBtn?.addEventListener('click', generateOutput);
+    resetBtn?.addEventListener('click', () => resetCalculator(true));
+    copyBtn?.addEventListener('click', copyOutputToClipboard);
+  };
+
+  setupTimestampGenerator();
+  document.addEventListener('astro:after-swap', setupTimestampGenerator);
+</script>
