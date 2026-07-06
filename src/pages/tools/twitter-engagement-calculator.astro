@@ -1,0 +1,712 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is a Twitter Engagement Calculator?",
+    answer: "A Twitter Engagement Calculator is an online tool that helps creators, brands, and marketers calculate their engagement rate on X (formerly Twitter). It supports followers-based calculations (for competitor auditing) and impressions-based calculations (for self-account analysis)."
+  },
+  {
+    question: "How does X/Twitter calculate engagement rate in Twitter Analytics?",
+    answer: "Twitter Analytics uses the impressions-based formula. It takes the total number of interactions (likes, replies, reposts, clicks, detailed views, profile visits) and divides them by the total views (impressions) the tweet received, multiplying the result by 100."
+  },
+  {
+    question: "What is a good engagement rate on Twitter?",
+    answer: "For followers-based calculations, a rate between 0.5% and 1.5% is standard. For impressions-based calculations (views), a rate between 1.0% and 3.0% is considered good, as it factors in click-throughs and detailed views."
+  },
+  {
+    question: "Do bookmarks count toward Twitter engagement?",
+    answer: "Yes. Under X's current algorithm, bookmarks are treated as a strong positive signal. Saving a tweet indicates high-value content, which helps push it to more feeds on the 'For You' page."
+  }
+];
+---
+
+<ToolLayout
+  title="Twitter Engagement Calculator - Calculate X Engagement Rate"
+  description="Calculate your X/Twitter engagement rate. Free online Twitter engagement calculator supporting followers-based and impressions-based calculations."
+  toolName="Twitter Engagement Calculator"
+  toolDescription="Audit your performance on X. Toggle between followers-based or impressions-based metrics to analyze community interaction rates."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Tab Selector -->
+    <div class="calculator-mode-selector" role="tablist" aria-label="Calculation Mode">
+      <button type="button" class="mode-tab active" data-mode="followers" role="tab" aria-selected="true" aria-controls="calc-form-container">
+        <span>Followers-based Rate</span>
+      </button>
+      <button type="button" class="mode-tab" data-mode="impressions" role="tab" aria-selected="false" aria-controls="calc-form-container">
+        <span>Impressions-based (Views)</span>
+      </button>
+    </div>
+
+    <div class="calc-grid" id="calc-form-container">
+      <form class="calc-form" id="twitter-form" onsubmit="return false;">
+        <input type="hidden" id="active-mode" value="followers" />
+
+        <!-- Followers-based Inputs -->
+        <div id="inputs-followers-box" class="inputs-group">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="followers-count" class="icon-label">Total Followers</label>
+              <input type="number" id="followers-count" class="form-input" placeholder="e.g., 25000" min="10" step="1" required />
+            </div>
+            <div class="form-group">
+              <label for="likes-followers" class="checkbox-label">Total Likes</label>
+              <input type="number" id="likes-followers" class="form-input" placeholder="0" min="0" value="0" />
+            </div>
+          </div>
+
+          <div class="form-row-3" style="margin-top: 1rem;">
+            <div class="form-group">
+              <label for="reposts-followers" class="checkbox-label">Reposts</label>
+              <input type="number" id="reposts-followers" class="form-input" placeholder="0" min="0" value="0" />
+            </div>
+            <div class="form-group">
+              <label for="replies-followers" class="checkbox-label">Replies</label>
+              <input type="number" id="replies-followers" class="form-input" placeholder="0" min="0" value="0" />
+            </div>
+            <div class="form-group">
+              <label for="bookmarks-followers" class="checkbox-label">Bookmarks</label>
+              <input type="number" id="bookmarks-followers" class="form-input" placeholder="0" min="0" value="0" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Impressions-based Inputs (Hidden by default) -->
+        <div id="inputs-impressions-box" class="inputs-group hidden">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="impressions-count" class="icon-label">Post Impressions (Views)</label>
+              <input type="number" id="impressions-count" class="form-input" placeholder="e.g., 5000" min="10" step="1" />
+            </div>
+            <div class="form-group">
+              <label for="likes-impressions" class="checkbox-label">Total Likes</label>
+              <input type="number" id="likes-impressions" class="form-input" placeholder="0" min="0" value="0" />
+            </div>
+          </div>
+
+          <div class="form-row-3" style="margin-top: 1rem;">
+            <div class="form-group">
+              <label for="reposts-impressions" class="checkbox-label">Reposts</label>
+              <input type="number" id="reposts-impressions" class="form-input" placeholder="0" min="0" value="0" />
+            </div>
+            <div class="form-group">
+              <label for="replies-impressions" class="checkbox-label">Replies</label>
+              <input type="number" id="replies-impressions" class="form-input" placeholder="0" min="0" value="0" />
+            </div>
+            <div class="form-group">
+              <label for="bookmarks-impressions" class="checkbox-label">Bookmarks</label>
+              <input type="number" id="bookmarks-impressions" class="form-input" placeholder="0" min="0" value="0" />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 1rem;">
+            <label for="clicks-impressions" class="checkbox-label">Link Clicks & Detail Expansions</label>
+            <input type="number" id="clicks-impressions" class="form-input" placeholder="0" min="0" value="0" />
+          </div>
+        </div>
+
+        <div class="form-actions" style="margin-top: 1.5rem;">
+          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+            </svg>
+            Calculate Engagement Rate
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display -->
+      <div class="calc-results" id="results-wrapper">
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+          </svg>
+          <h3>Awaiting Account Metrics</h3>
+          <p class="text-muted">Enter your follower counts or impression views alongside interaction values, then click Calculate.</p>
+        </div>
+
+        <div class="results-active hidden" id="res-active-box">
+          <div class="rate-range-box">
+            <h4 class="rate-label">Estimated Engagement Rate</h4>
+            <div class="rate-range" id="res-rate-val">0.00%</div>
+            <div class="grade-badge grade-low" id="res-tier-val">-</div>
+          </div>
+
+          <div class="breakdown-box">
+            <h4 class="breakdown-title">Interactions Summary</h4>
+            <div class="breakdown-list">
+              <div class="breakdown-item">
+                <span class="breakdown-label">Total Engagements:</span>
+                <span class="breakdown-val" id="res-total-eng">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Interactions Per 1k Views:</span>
+                <span class="breakdown-val" id="res-ratio-val">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>Twitter Engagement Calculator: How to Audit Your Performance on X</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to optimize your content on X?</strong> Read our comprehensive guide on <a href="/blog/twitter-engagement-calculator-guide" style="color: var(--color-brand); text-decoration: underline;">Twitter Engagement Metrics & Channel Auditing Strategies</a> to learn how to write hooks, formatting rules, and timing guides that drive higher interactions.
+      </p>
+    </div>
+    
+    <p>
+      Succeeding on X (formerly Twitter) requires more than just publishing posts regularly. With millions of posts published every day, standing out in the feed requires active engagement from your audience. To track your performance, you must understand **how to calculate engagement rate on twitter** using structured calculations. This **twitter engagement calculator** provides creators and social media managers with a free tool to audit their metrics.
+    </p>
+
+    <h2>How to Use the Twitter Engagement Calculator</h2>
+    <p>
+      To calculate your engagement rate, follow these instructions:
+    </p>
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Select Your Calculation Method</h3>
+        <p>Choose the tabs at the top of the calculator. Select <strong>Followers-based Rate</strong> to audit competitor profiles (where view counts are secondary). Select <strong>Impressions-based (Views)</strong> to audit your own posts using data from Twitter Analytics.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Enter Base Audience Metrics</h3>
+        <p>Type either your total follower count (in Followers mode) or your post impressions count (in Impressions mode).</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Enter Interaction Details</h3>
+        <p>Input the total interactions received during the target period. This includes likes, reposts, replies, and bookmarks. In Impressions mode, you can also add link clicks and detail expansions.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Analyze Your Engagement Rating</h3>
+        <p>Click the calculate button. The calculator instantly generates your engagement rate percentage and displays a performance rating (Low, Good, High, Premium) based on industry averages.</p>
+      </div>
+    </div>
+
+    <h2>Key Calculator Features</h2>
+    <p>
+      Our interactive calculation tool features several helpful components:
+    </p>
+    <ul>
+      <li><strong>Dual Calculation Models:</strong> Supports both followers-based calculations (ideal for competitive benchmarking) and impressions-based calculations (ideal for self-auditing).</li>
+      <li><strong>Bookmark Integration:</strong> Factors in saved bookmarks, which X's current algorithm treats as a strong positive signal.</li>
+      <li><strong>Visual Performance Rating:</strong> Compares your rate against industry benchmarks (Low: &lt;0.5%, Average: 0.5%-1.5%, High: 1.5%-3.5%, Premium: &gt;3.5%) to help you evaluate performance.</li>
+    </ul>
+
+    <h2>Benefits of Auditing Your Engagement Rate on X</h2>
+    <p>
+      Using a **twitter engagement rate calculator** regularly helps you:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Optimize Content Formats:</strong> Compare engagement rates between text posts, image posts, and video posts to see what your audience prefers.</li>
+      <li><strong>Audit Competitor Performance:</strong> Calculate the engagement rates of other creators in your niche to establish benchmarks for your own channel.</li>
+      <li><strong>Prepare for Brand Sponsorships:</strong> Brands look for active engagement rather than just high follower counts. Having a verified high engagement rate helps you secure sponsorships.</li>
+    </ol>
+
+    <h2>The Twitter Engagement Rate Formula</h2>
+    <p>
+      To **calculate twitter engagement rate** manually, you can use the standard followers-based equation:
+    </p>
+    <p style="background: var(--color-bg-alt); padding: 1rem; border-radius: var(--radius-md); font-family: monospace; text-align: center; border: 1px solid var(--color-border); font-weight: 700; color: var(--color-brand);">
+      Engagement Rate = ((Likes + Reposts + Replies + Bookmarks) / Followers) * 100
+    </p>
+    <p>
+      For example, if a post has received 150 total interactions and the account has 10,000 followers:
+    </p>
+    <p style="font-family: monospace; margin-left: 1.5rem; color: var(--color-text-muted);">
+      Engagement Rate = (150 / 10,000) * 100 = 1.50%
+    </p>
+    <p>
+      Using our automated calculator simplifies this process, letting you quickly evaluate your channel's performance.
+    </p>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calculator-mode-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    background: var(--color-bg-alt);
+    padding: 0.35rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+  }
+
+  .mode-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mode-tab:hover {
+    color: var(--color-text);
+  }
+
+  .mode-tab.active {
+    background: var(--color-bg);
+    color: var(--color-brand);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .icon-label {
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .checkbox-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .rate-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .rate-range {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-weight: 800;
+    color: var(--color-brand);
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+  }
+
+  .grade-low {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+  }
+
+  .breakdown-box {
+    width: 100%;
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  .breakdown-label {
+    color: var(--color-text-muted);
+  }
+
+  .breakdown-val {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.1rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+
+    .breakdown-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+    }
+
+    .rate-range-box {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+      align-items: center !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .form-row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  const setupTwitterCalculator = () => {
+    const activeModeInput = document.getElementById('active-mode') as HTMLInputElement;
+    const modeTabs = document.querySelectorAll('.mode-tab');
+
+    // Tab sections references
+    const followersBox = document.getElementById('inputs-followers-box');
+    const impressionsBox = document.getElementById('inputs-impressions-box');
+
+    // Followers Mode inputs
+    const followersInput = document.getElementById('followers-count') as HTMLInputElement;
+    const likesFollowers = document.getElementById('likes-followers') as HTMLInputElement;
+    const repostsFollowers = document.getElementById('reposts-followers') as HTMLInputElement;
+    const repliesFollowers = document.getElementById('replies-followers') as HTMLInputElement;
+    const bookmarksFollowers = document.getElementById('bookmarks-followers') as HTMLInputElement;
+
+    // Impressions Mode inputs
+    const impressionsInput = document.getElementById('impressions-count') as HTMLInputElement;
+    const likesImpressions = document.getElementById('likes-impressions') as HTMLInputElement;
+    const repostsImpressions = document.getElementById('reposts-impressions') as HTMLInputElement;
+    const repliesImpressions = document.getElementById('replies-impressions') as HTMLInputElement;
+    const bookmarksImpressions = document.getElementById('bookmarks-impressions') as HTMLInputElement;
+    const clicksImpressions = document.getElementById('clicks-impressions') as HTMLInputElement;
+
+    // Outputs references
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+
+    const rateVal = document.getElementById('res-rate-val');
+    const tierVal = document.getElementById('res-tier-val');
+    const totalEngVal = document.getElementById('res-total-eng');
+    const ratioVal = document.getElementById('res-ratio-val');
+
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Mode tab toggle logic
+    modeTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        modeTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const mode = tab.getAttribute('data-mode') || 'followers';
+        if (activeModeInput) activeModeInput.value = mode;
+
+        if (mode === 'followers') {
+          followersBox?.classList.remove('hidden');
+          impressionsBox?.classList.add('hidden');
+        } else {
+          followersBox?.classList.add('hidden');
+          impressionsBox?.classList.remove('hidden');
+        }
+
+        resetCalculator(false);
+      });
+    });
+
+    const resetCalculator = (clearInputs = true) => {
+      if (clearInputs) {
+        if (followersInput) followersInput.value = '';
+        if (likesFollowers) likesFollowers.value = '0';
+        if (repostsFollowers) repostsFollowers.value = '0';
+        if (repliesFollowers) repliesFollowers.value = '0';
+        if (bookmarksFollowers) bookmarksFollowers.value = '0';
+
+        if (impressionsInput) impressionsInput.value = '';
+        if (likesImpressions) likesImpressions.value = '0';
+        if (repostsImpressions) repostsImpressions.value = '0';
+        if (repliesImpressions) repliesImpressions.value = '0';
+        if (bookmarksImpressions) bookmarksImpressions.value = '0';
+        if (clicksImpressions) clicksImpressions.value = '0';
+      }
+
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) activeBox.classList.add('hidden');
+    };
+
+    const calculateEngagement = () => {
+      const mode = activeModeInput?.value || 'followers';
+      let totalInteractions = 0;
+      let baseCount = 0;
+      let rate = 0;
+
+      if (mode === 'followers') {
+        baseCount = parseFloat(followersInput?.value) || 0;
+        const l = parseFloat(likesFollowers?.value) || 0;
+        const rep = parseFloat(repostsFollowers?.value) || 0;
+        const repl = parseFloat(repliesFollowers?.value) || 0;
+        const b = parseFloat(bookmarksFollowers?.value) || 0;
+
+        totalInteractions = l + rep + repl + b;
+
+        if (baseCount < 10) {
+          return alert("Please enter a valid followers count (minimum 10).");
+        }
+      } else {
+        baseCount = parseFloat(impressionsInput?.value) || 0;
+        const l = parseFloat(likesImpressions?.value) || 0;
+        const rep = parseFloat(repostsImpressions?.value) || 0;
+        const repl = parseFloat(repliesImpressions?.value) || 0;
+        const b = parseFloat(bookmarksImpressions?.value) || 0;
+        const c = parseFloat(clicksImpressions?.value) || 0;
+
+        totalInteractions = l + rep + repl + b + c;
+
+        if (baseCount < 10) {
+          return alert("Please enter a valid impressions count (minimum 10).");
+        }
+      }
+
+      rate = (totalInteractions / baseCount) * 100;
+
+      // Rate Classification benchmarks
+      let tierLabel = "Average Engagement";
+      if (mode === 'followers') {
+        if (rate < 0.5) {
+          tierLabel = "Low Engagement (Competitor Benchmarks)";
+        } else if (rate >= 0.5 && rate < 1.5) {
+          tierLabel = "Good Engagement (Competitor Benchmarks)";
+        } else if (rate >= 1.5 && rate < 3.5) {
+          tierLabel = "High Engagement (Competitor Benchmarks)";
+        } else {
+          tierLabel = "Premium Engagement (Competitor Benchmarks)";
+        }
+      } else {
+        if (rate < 0.2) {
+          tierLabel = "Low Engagement (Self Tweet Views)";
+        } else if (rate >= 0.2 && rate < 1.0) {
+          tierLabel = "Good Engagement (Self Tweet Views)";
+        } else if (rate >= 1.0 && rate < 2.5) {
+          tierLabel = "High Engagement (Self Tweet Views)";
+        } else {
+          tierLabel = "Premium Engagement (Self Tweet Views)";
+        }
+      }
+
+      // Render Outputs
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      if (rateVal) rateVal.textContent = `${rate.toFixed(2)}%`;
+      if (tierVal) tierVal.textContent = tierLabel;
+      if (totalEngVal) totalEngVal.textContent = totalInteractions.toLocaleString();
+
+      if (ratioVal) {
+        const ratio = (totalInteractions / baseCount) * 1000;
+        ratioVal.textContent = `${Math.round(ratio)} Interactions`;
+      }
+
+      // Smooth scroll to the results section
+      const resultsWrapper = document.getElementById('results-wrapper');
+      if (resultsWrapper) {
+        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    submitBtn?.addEventListener('click', calculateEngagement);
+    resetBtn?.addEventListener('click', () => resetCalculator(true));
+  };
+
+  setupTwitterCalculator();
+  document.addEventListener('astro:after-swap', setupTwitterCalculator);
+</script>

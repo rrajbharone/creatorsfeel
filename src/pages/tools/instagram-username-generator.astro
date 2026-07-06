@@ -1,0 +1,666 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What are the rules for an Instagram username?",
+    answer: "Instagram usernames must be 30 characters or fewer. They can contain only letters, numbers, periods (.), and underscores (_). You cannot use spaces or other special characters, and the name must be unique (not already taken)."
+  },
+  {
+    question: "How do I choose an awesome username for Instagram?",
+    answer: "A good username should be: 1) Memorability: easy to spell and pronounce; 2) Brand alignment: related to your content or name; 3) Clean formatting: avoid excessive numbers or consecutive underscores; 4) Availability: check that it is free on other social networks too."
+  },
+  {
+    question: "What is the difference between your Name and Username on Instagram?",
+    answer: "Your username (handle) is your unique identifier used to log in, search, and link to your profile (e.g. @yourname). Your name is the display name shown on your bio (e.g., Ramu Rajbhar), which can contain spaces, emojis, capital letters, and does not need to be unique."
+  },
+  {
+    question: "How do I check if a username is available?",
+    answer: "The easiest way is to type the username directly into Instagram's search bar or try updating it in your account edit profile settings. If it is already taken, you can use periods or underscores to create a variation."
+  }
+];
+---
+
+<ToolLayout
+  title="Instagram Username Generator - Generate Cool IG Handles"
+  description="Generate awesome username ideas for your Instagram profile. Free online IG username generator supporting cool, aesthetic, creative, and professional styles."
+  toolName="Instagram Username Generator"
+  toolDescription="Create unique and memorable Instagram handles. Input a keyword, select your profile style, and generate copy-pasteable username ideas instantly."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <div class="calc-grid" id="calc-form-container">
+      <!-- Input fields -->
+      <form class="calc-form" id="username-form" onsubmit="return false;">
+        <div class="form-group">
+          <div class="label-header">
+            <label for="username-keyword" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg>
+              Focus Keyword or Name
+            </label>
+          </div>
+          <input type="text" id="username-keyword" class="form-input" placeholder="e.g., cooking, travel, alex" required />
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <div class="label-header">
+              <label for="username-style" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.125 1.125 0 0 0 1.591 0l4.318-4.318a1.125 1.125 0 0 0 0-1.591L9.568 3.659A2.25 2.25 0 0 0 7.977 3Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h.008v.008H6V7.5Z" />
+                </svg>
+                Handle Style
+              </label>
+            </div>
+            <select id="username-style" class="form-input">
+              <option value="aesthetic">Aesthetic & Cool</option>
+              <option value="cute">Cute & Soft</option>
+              <option value="creative">Creative & Wordplay</option>
+              <option value="professional" selected>Professional & Creator</option>
+              <option value="random">Random & Abstract</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="justify-content: center; margin-top: 1rem;">
+            <div style="display: flex; gap: 1rem; align-items: center;">
+              <label class="checkbox-container">
+                <input type="checkbox" id="allow-dots" checked />
+                <span class="checkbox-label">Include Dots (.)</span>
+              </label>
+              <label class="checkbox-container">
+                <input type="checkbox" id="allow-underscores" checked />
+                <span class="checkbox-label">Include Underscores (_)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions" style="margin-top: 1rem;">
+          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l8.982-8.982M18 13.636l.764-5.097L9.82 17.5M9.813 15.904L9 21l8.982-8.982" />
+            </svg>
+            Generate Usernames
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display -->
+      <div class="calc-results" id="results-wrapper">
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+          </svg>
+          <h3>Awaiting Brand Keywords</h3>
+          <p class="text-muted">Enter your name or topic keyword, select your style, and click Generate to see unique handle ideas.</p>
+        </div>
+
+        <div class="results-active hidden" id="res-active-box">
+          <div class="rate-range-box">
+            <h4 class="rate-label">Generated Handles Count</h4>
+            <div class="rate-range" id="res-username-count">0 Suggestions</div>
+            <div class="grade-badge grade-low" style="text-transform: none;">Click any username to copy it to your clipboard</div>
+          </div>
+
+          <div class="breakdown-box">
+            <div id="username-chips-wrapper" class="tags-chips-container">
+              <!-- Slotted username dynamic chips -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>Instagram Username Generator: Find the Perfect Social Media Handle</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to grow your personal brand?</strong> Read our comprehensive guide on <a href="/blog/instagram-username-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Instagram Username Optimization & Profile Branding Strategies</a> to learn how to structure handles for search visibility, capture competitor traffic, and secure cross-platform matching handles.
+      </p>
+    </div>
+    
+    <p>
+      Creating a memorable online presence starts with your handle. If you are starting a new account or rebranding an existing profile, finding available and **awesome username for instagram** can be challenging. This **ig username generator** and **random username generator** provides creators, business owners, and influencers with a free tool to generate tailored **instagram username ideas**.
+    </p>
+
+    <h2>How to Use the Instagram Username Generator</h2>
+    <p>
+      To generate your custom username list, follow these instructions:
+    </p>
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Enter Your Core Brand Keyword</h3>
+        <p>Type your name, niche topic (e.g., photography, fitness, writing), or business name into the input field. This keyword acts as the anchor for the username recommendations.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Choose Your Profile Style</h3>
+        <p>Select your target style dropdown. Choose <strong>Aesthetic & Cool</strong> for minimal styles, <strong>Cute & Soft</strong> for personal vlogs, <strong>Creative</strong> for design portfolios, or <strong>Professional</strong> for business profiles.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Choose Formatting Options</h3>
+        <p>Tick the dot or underscore checkboxes if you want to include punctuation formatting. Punctuation helps separate words to make them more readable if your base handle is already taken.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Click to Copy Your Handle</h3>
+        <p>Click the generate button. The tool displays a list of recommendations. Click on any username chip to copy it directly to your clipboard.</p>
+      </div>
+    </div>
+
+    <h2>Key Generator Features</h2>
+    <p>
+      Our interactive generator features several helpful components:
+    </p>
+    <ul>
+      <li><strong>Style-Specific Vocabularies:</strong> Uses curated lists of prefixes and suffixes that match different brand profiles.</li>
+      <li><strong>Automatic Formatting Compliance:</strong> Cleans up your input keywords, removing spaces and unsupported characters to ensure recommendations comply with Instagram's username rules.</li>
+      <li><strong>Clean Character Length Control:</strong> Automatically prunes suggestions that exceed Instagram's 30-character limit, ensuring all suggestions are valid.</li>
+      <li><strong>Fast Copy Interface:</strong> One-click copying with visual feedback speeds up your onboarding check.</li>
+    </ul>
+
+    <h2>Benefits of Having a Premium Instagram Username</h2>
+    <p>
+      Utilizing a **cool username generator** and choosing a clean handle helps you:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Improve Memorability:</strong> A short, clean handle is easier for users to recall and share offline.</li>
+      <li><strong>Boost Search Discovery:</strong> Having your primary niche keyword inside your handle helps your profile appear in search results when users search for that topic.</li>
+      <li><strong>Build Brand Consistency:</strong> A clean username looks professional on business cards, media kits, and cross-platform profiles.</li>
+    </ol>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 2.5rem !important;
+    cursor: pointer;
+  }
+
+  /* Checkbox controls */
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .checkbox-container input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-brand);
+  }
+
+  .checkbox-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .rate-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .rate-range {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-weight: 800;
+    color: var(--color-brand);
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+  }
+
+  .grade-low {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+  }
+
+  .breakdown-box {
+    width: 100%;
+  }
+
+  /* Usernames Chips list wrapper styling */
+  .tags-chips-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    min-height: 150px;
+  }
+
+  .username-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 0.6rem 0.85rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+    font-family: monospace;
+    font-weight: 600;
+    color: var(--color-text);
+    cursor: pointer;
+    user-select: none;
+    transition: all var(--transition-fast);
+  }
+
+  .username-chip:hover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.05);
+    transform: translateY(-1px);
+  }
+
+  .username-chip-icon {
+    font-size: 0.8rem;
+    opacity: 0.4;
+    transition: all var(--transition-fast);
+  }
+
+  .username-chip:hover .username-chip-icon {
+    opacity: 1;
+    color: var(--color-brand);
+  }
+
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.1rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+
+    .breakdown-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+    }
+
+    .rate-range-box {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+      align-items: center !important;
+    }
+
+    .tags-chips-container {
+      grid-template-columns: 1fr;
+      padding: 0.75rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .form-row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  const setupUsernameGenerator = () => {
+    const keywordInput = document.getElementById('username-keyword') as HTMLInputElement;
+    const styleSelect = document.getElementById('username-style') as HTMLSelectElement;
+    const dotsCheckbox = document.getElementById('allow-dots') as HTMLInputElement;
+    const underscoresCheckbox = document.getElementById('allow-underscores') as HTMLInputElement;
+
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+
+    const suggestionCountVal = document.getElementById('res-username-count');
+    const chipsWrapper = document.getElementById('username-chips-wrapper');
+
+    const generateUsernamesList = () => {
+      let rawKeyword = keywordInput?.value.trim() || '';
+      // Clean up keyword: lowercase, remove spaces and non-word chars
+      rawKeyword = rawKeyword.toLowerCase().replace(/[^\w]/g, '');
+
+      if (!rawKeyword) {
+        // Pick a default niche keyword
+        const fallbacks = ['vibe', 'pixel', 'studio', 'nova', 'space', 'bloom', 'shine', 'glow', 'mood', 'wild', 'bold', 'flow'];
+        rawKeyword = fallbacks[Math.floor(Math.random() * fallbacks.length)];
+      }
+
+      const style = styleSelect?.value || 'professional';
+      const useDots = dotsCheckbox?.checked || false;
+      const useUnderscores = underscoresCheckbox?.checked || false;
+
+      // Prefixes/Suffixes templates
+      const templates: Record<string, { prefixes: string[], suffixes: string[] }> = {
+        aesthetic: {
+          prefixes: ['the', 'studio', 'simply', 'its', 'minimal', 'retro', 'curated', 'raw'],
+          suffixes: ['aesthetic', 'vintage', 'mood', 'journal', 'co', 'studios', 'minimal', 'design']
+        },
+        cute: {
+          prefixes: ['dear', 'hello', 'honey', 'sweet', 'little', 'soft', 'baby', 'tiny'],
+          suffixes: ['vibes', 'honey', 'cozy', 'cloud', 'blossom', 'dream', 'petals', 'soft']
+        },
+        creative: {
+          prefixes: ['art', 'make', 'design', 'find', 'pixels', 'craft', 'visuals', 'lens'],
+          suffixes: ['verse', 'ology', 'lab', 'craft', 'canvas', 'concept', 'society', 'project']
+        },
+        professional: {
+          prefixes: ['official', 'iam', 'daily', 'mr', 'ms', 'coach', 'the', 'real'],
+          suffixes: ['hq', 'creator', 'media', 'hub', 'collective', 'biz', 'consulting', 'global']
+        },
+        random: {
+          prefixes: ['nova', 'luna', 'stellar', 'orbit', 'drift', 'apex', 'pulse', 'echo'],
+          suffixes: ['zone', 'nexus', 'wave', 'flux', 'grid', 'spark', 'vent', 'glow']
+        }
+      };
+
+      const selected = templates[style] || templates.professional;
+      const suggestionsSet = new Set<string>();
+
+      const joinChars: string[] = [];
+      if (useDots) joinChars.push('.');
+      if (useUnderscores) joinChars.push('_');
+      // If neither checked, use no joins (empty string)
+      const getSeparator = () => joinChars.length > 0 ? joinChars[Math.floor(Math.random() * joinChars.length)] : '';
+
+      // Build suggestions list
+      // 1. Raw keyword
+      suggestionsSet.add(rawKeyword);
+
+      // 2. Prefixes + Keyword
+      selected.prefixes.forEach(prefix => {
+        const sep = getSeparator();
+        suggestionsSet.add(`${prefix}${sep}${rawKeyword}`);
+      });
+
+      // 3. Keyword + Suffixes
+      selected.suffixes.forEach(suffix => {
+        const sep = getSeparator();
+        suggestionsSet.add(`${rawKeyword}${sep}${suffix}`);
+      });
+
+      // 4. Double additions
+      for (let i = 0; i < 4; i++) {
+        const pre = selected.prefixes[Math.floor(Math.random() * selected.prefixes.length)];
+        const suf = selected.suffixes[Math.floor(Math.random() * selected.suffixes.length)];
+        const sep1 = getSeparator();
+        const sep2 = getSeparator();
+        suggestionsSet.add(`${pre}${sep1}${rawKeyword}${sep2}${suf}`);
+      }
+
+      // Convert to array and filter character length compliance (<30 characters)
+      const suggestions = Array.from(suggestionsSet)
+        .filter(name => name.length >= 3 && name.length <= 30)
+        .slice(0, 15);
+
+      if (suggestionCountVal) {
+        suggestionCountVal.textContent = `${suggestions.length} Suggestions`;
+      }
+
+      if (chipsWrapper) {
+        chipsWrapper.innerHTML = suggestions.map(name => `
+          <div class="username-chip" data-name="${name}">
+            <span>${name}</span>
+            <span class="username-chip-icon">📄</span>
+          </div>
+        `).join('');
+
+        // Handle copying click action on chips
+        const chips = chipsWrapper.querySelectorAll('.username-chip');
+        chips.forEach(chip => {
+          chip.addEventListener('click', () => {
+            const name = chip.getAttribute('data-name') || '';
+            navigator.clipboard.writeText(name).then(() => {
+              const originalHTML = chip.innerHTML;
+              chip.innerHTML = `
+                <span style="color: var(--color-success)">${name}</span>
+                <span style="color: var(--color-success)">✓</span>
+              `;
+              setTimeout(() => {
+                chip.innerHTML = originalHTML;
+              }, 1500);
+            });
+          });
+        });
+      }
+
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      // Smooth scroll to the results section
+      const resultsWrapper = document.getElementById('results-wrapper');
+      if (resultsWrapper) {
+        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    const resetGenerator = () => {
+      if (keywordInput) keywordInput.value = '';
+      if (styleSelect) styleSelect.selectedIndex = 3; // Professional
+      if (dotsCheckbox) dotsCheckbox.checked = true;
+      if (underscoresCheckbox) underscoresCheckbox.checked = true;
+
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) activeBox.classList.add('hidden');
+    };
+
+    submitBtn?.addEventListener('click', generateUsernamesList);
+    resetBtn?.addEventListener('click', resetGenerator);
+  };
+
+  setupUsernameGenerator();
+  document.addEventListener('astro:after-swap', setupUsernameGenerator);
+</script>

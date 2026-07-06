@@ -1,0 +1,713 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is RPM on YouTube?",
+    answer: "RPM (Revenue Per Mille) represents how much net revenue a creator earns per 1,000 video views. It is a critical metric because it accounts for YouTube's 45% ad revenue cut, and includes all revenue sources such as memberships, premium payouts, and super chats."
+  },
+  {
+    question: "What is the difference between CPM and RPM?",
+    answer: "CPM (Cost Per Mille) is the cost an advertiser pays to show 1,000 ads on your video. RPM is what you actually earn per 1,000 views. RPM is always lower than CPM because it subtracts YouTube's share and spreads earnings across all views (including monetized and non-monetized views)."
+  },
+  {
+    question: "What is a good RPM on YouTube?",
+    answer: "A good RPM depends entirely on your content niche and audience location. Gaming and comedy channels often see RPMs between $0.50 and $2.00. Personal finance, real estate, and B2B SaaS channels regularly see RPMs between $10.00 and $30.00+ due to high advertiser competition."
+  },
+  {
+    question: "How do I increase my YouTube RPM?",
+    answer: "To increase your RPM, you can: 1) Make videos in high-paying niches like finance, business, or technology; 2) Target audiences in tier-1 countries (US, UK, Canada, Australia) with higher ad CPMs; 3) Structure longer videos (over 8 minutes) to insert mid-roll ads; 4) Diversify income with memberships and supers."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube RPM Calculator - Estimate Revenue Per 1,000 Views"
+  description="Calculate your YouTube RPM (Revenue Per Mille) and forecast your channel earnings. Free online YouTube RPM calculator with simple and detailed modes."
+  toolName="YouTube RPM Calculator"
+  toolDescription="Analyze your actual YouTube earnings per thousand views. Input your views and revenue streams to audit your true RPM performance."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Tab Selector -->
+    <div class="calculator-mode-selector" role="tablist" aria-label="Calculation Mode">
+      <button type="button" class="mode-tab active" data-mode="simple" role="tab" aria-selected="true" aria-controls="calc-form-container">
+        <span>Simple Calculation</span>
+      </button>
+      <button type="button" class="mode-tab" data-mode="detailed" role="tab" aria-selected="false" aria-controls="calc-form-container">
+        <span>Detailed Stream Breakdown</span>
+      </button>
+    </div>
+
+    <div class="calc-grid" id="calc-form-container">
+      <form class="calc-form" id="rpm-form" onsubmit="return false;">
+        <input type="hidden" id="active-mode" value="simple" />
+
+        <!-- Simple Mode Inputs -->
+        <div id="inputs-simple-box" class="inputs-group">
+          <div class="form-row-2">
+            <div class="form-group">
+              <div class="label-header">
+                <label for="views-simple" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  </svg>
+                  Total Video Views
+                </label>
+              </div>
+              <input type="number" id="views-simple" class="form-input" placeholder="e.g., 50000" min="100" step="1" required />
+            </div>
+
+            <div class="form-group">
+              <div class="label-header">
+                <label for="earnings-simple" class="icon-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                  Estimated Net Revenue ($)
+                </label>
+              </div>
+              <input type="number" id="earnings-simple" class="form-input" placeholder="e.g., 250" min="0.01" step="0.01" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Mode Inputs (Hidden by default) -->
+        <div id="inputs-detailed-box" class="inputs-group hidden">
+          <div class="form-group">
+            <div class="label-header">
+              <label for="views-detailed" class="icon-label">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+                Total Video Views
+              </label>
+            </div>
+            <input type="number" id="views-detailed" class="form-input" placeholder="e.g., 100000" min="100" step="1" />
+          </div>
+
+          <div class="form-row-3" style="margin-top: 1rem;">
+            <div class="form-group">
+              <label for="earnings-ads" class="checkbox-label">Ad Revenue ($)</label>
+              <input type="number" id="earnings-ads" class="form-input" placeholder="0" min="0" step="0.01" value="0" />
+            </div>
+            <div class="form-group">
+              <label for="earnings-premium" class="checkbox-label">YouTube Premium ($)</label>
+              <input type="number" id="earnings-premium" class="form-input" placeholder="0" min="0" step="0.01" value="0" />
+            </div>
+            <div class="form-group">
+              <label for="earnings-supers" class="checkbox-label">Memberships & Supers ($)</label>
+              <input type="number" id="earnings-supers" class="form-input" placeholder="0" min="0" step="0.01" value="0" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions" style="margin-top: 1.5rem;">
+          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Calculate RPM
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display -->
+      <div class="calc-results" id="results-wrapper">
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          <h3>Awaiting Revenue Metrics</h3>
+          <p class="text-muted">Enter your video view counts and estimated payout values, then click Calculate to review your RPM benchmarks.</p>
+        </div>
+
+        <div class="results-active hidden" id="res-active-box">
+          <div class="rate-range-box">
+            <h4 class="rate-label">Estimated Video RPM</h4>
+            <div class="rate-range" id="res-rpm-val">$0.00</div>
+            <div class="grade-badge grade-low" id="res-tier-val">-</div>
+          </div>
+
+          <div class="breakdown-box">
+            <h4 class="breakdown-title">View Milestones Earnings Projections</h4>
+            <div class="breakdown-list">
+              <div class="breakdown-item">
+                <span class="breakdown-label">10,000 views:</span>
+                <span class="breakdown-val" id="proj-10k">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">50,000 views:</span>
+                <span class="breakdown-val" id="proj-50k">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">100,000 views:</span>
+                <span class="breakdown-val" id="proj-100k">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">500,000 views:</span>
+                <span class="breakdown-val" id="proj-500k">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">1,000,000 views:</span>
+                <span class="breakdown-val" id="proj-1m" style="color: var(--color-brand); font-weight: 700;">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about">
+    <h2>YouTube RPM Calculator: How to Estimate Your True Channel Revenue</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to scale your channel's payouts?</strong> Read our comprehensive guide on <a href="/blog/youtube-rpm-calculator-guide" style="color: var(--color-brand); text-decoration: underline;">YouTube RPM Formulas & Revenue Optimization Strategies</a> to learn how advertiser demographics, video lengths, and niches drive your RPM values higher.
+      </p>
+    </div>
+    
+    <p>
+      Managing a YouTube channel requires monitoring financial analytics. While YouTube Studio provides complex analytics, calculating your actual earnings per views can be difficult. This **youtube rpm calculator** simplifies this process, providing creators with a free tool to calculate their actual earnings per thousand views.
+    </p>
+
+    <h2>How to Use the YouTube RPM Calculator</h2>
+    <p>
+      To calculate your actual earnings, follow these instructions:
+    </p>
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Choose Your Calculation Model</h3>
+        <p>Toggle the tabs at the top. Select <strong>Simple Calculation</strong> if you only have your total views and estimated net earnings. Select <strong>Detailed Stream Breakdown</strong> if you want to sum different revenue sources (AdSense, memberships, Premium payouts) to evaluate performance.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Enter Video Views</h3>
+        <p>Type the total number of views your video or channel received during the target period. This acts as the baseline scale metric.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Input Earnings Parameters</h3>
+        <p>Depending on the tab selected, input your earnings:</p>
+        <ul>
+          <li><strong>Simple Mode:</strong> Input the estimated net revenue displayed in your dashboard.</li>
+          <li><strong>Detailed Mode:</strong> Input separate AdSense earnings, YouTube Premium payouts, and memberships/supers.</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Analyze RPM & Earnings Projections</h3>
+        <p>Click the calculate button. The calculator instantly generates your RPM and projects your future earnings at this rate for view milestones up to 1,000,000 views.</p>
+      </div>
+    </div>
+
+    <h2>Key Features of the Calculator</h2>
+    <p>
+      This financial audit tool features several helpful components:
+    </p>
+    <ul>
+      <li><strong>Flexible Income Entry:</strong> Calculates earnings by separating AdSense from fan funding streams, helping you see where your channel's value is generated.</li>
+      <li><strong>Industry Tier Feedback:</strong> Evaluates your calculated RPM against average benchmarks (Low, Average, High, Premium) so you can compare performance against other channels.</li>
+      <li><strong>Chronological Income Scaling:</strong> Displays estimated payouts at your current RPM for view thresholds up to 1 million views.</li>
+    </ul>
+
+    <h2>Benefits of Understanding Your YouTube RPM</h2>
+    <p>
+      Monitoring **how to calculate youtube rpm** and evaluating performance helps you:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Benchmark Content Performance:</strong> Lets you identify which videos generate the highest returns per view so you can focus on high-paying topics.</li>
+      <li><strong>Budget Production Costs:</strong> Use your historical RPM to forecast earnings, helping you determine how much to spend on video production.</li>
+      <li><strong>Track Non-Ad Revenue:</strong> Factors in premium views and memberships, giving you a complete view of your channel's monetization health.</li>
+    </ol>
+
+    <h2>How to Calculate Your Own RPM manually</h2>
+    <p>
+      If you want to know **how to calculate your own rpm youtube** manually, you can use the standard formula. Divide your total estimated earnings by the total number of views received, then multiply the result by 1,000:
+    </p>
+    <p style="background: var(--color-bg-alt); padding: 1rem; border-radius: var(--radius-md); font-family: monospace; text-align: center; border: 1px solid var(--color-border); font-weight: 700; color: var(--color-brand);">
+      RPM = (Total Net Earnings / Total Video Views) * 1,000
+    </p>
+    <p>
+      For example, if a video has earned $150 and has received 30,000 views, the calculation is:
+    </p>
+    <p style="font-family: monospace; margin-left: 1.5rem; color: var(--color-text-muted);">
+      RPM = ($150 / 30,000) * 1,000 = $5.00
+    </p>
+    <p>
+      This means you earn $5.00 for every 1,000 views that video receives. Using our automated calculator simplifies this process, letting you quickly evaluate your channel's financial health.
+    </p>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calculator-mode-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    background: var(--color-bg-alt);
+    padding: 0.35rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+  }
+
+  .mode-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mode-tab:hover {
+    color: var(--color-text);
+  }
+
+  .mode-tab.active {
+    background: var(--color-bg);
+    color: var(--color-brand);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .checkbox-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .rate-range-box {
+    text-align: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .rate-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .rate-range {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-weight: 800;
+    color: var(--color-brand);
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  .grade-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+  }
+
+  .grade-low {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+  }
+
+  .breakdown-box {
+    width: 100%;
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  .breakdown-label {
+    color: var(--color-text-muted);
+  }
+
+  .breakdown-val {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.1rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+
+    .breakdown-box {
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+    }
+
+    .rate-range-box {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      border-bottom: 1px dashed var(--color-border) !important;
+      padding-bottom: 1rem !important;
+      align-items: center !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .form-row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  const setupRpmCalculator = () => {
+    const activeModeInput = document.getElementById('active-mode') as HTMLInputElement;
+    const modeTabs = document.querySelectorAll('.mode-tab');
+
+    // Tab sections references
+    const simpleBox = document.getElementById('inputs-simple-box');
+    const detailedBox = document.getElementById('inputs-detailed-box');
+
+    // Simple Mode inputs
+    const viewsSimpleInput = document.getElementById('views-simple') as HTMLInputElement;
+    const earningsSimpleInput = document.getElementById('earnings-simple') as HTMLInputElement;
+
+    // Detailed Mode inputs
+    const viewsDetailedInput = document.getElementById('views-detailed') as HTMLInputElement;
+    const earningsAdsInput = document.getElementById('earnings-ads') as HTMLInputElement;
+    const earningsPremiumInput = document.getElementById('earnings-premium') as HTMLInputElement;
+    const earningsSupersInput = document.getElementById('earnings-supers') as HTMLInputElement;
+
+    // Outputs references
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+
+    const rpmVal = document.getElementById('res-rpm-val');
+    const tierVal = document.getElementById('res-tier-val');
+
+    const proj10k = document.getElementById('proj-10k');
+    const proj50k = document.getElementById('proj-50k');
+    const proj100k = document.getElementById('proj-100k');
+    const proj500k = document.getElementById('proj-500k');
+    const proj1m = document.getElementById('proj-1m');
+
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Mode tab toggle logic
+    modeTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        modeTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const mode = tab.getAttribute('data-mode') || 'simple';
+        if (activeModeInput) activeModeInput.value = mode;
+
+        if (mode === 'simple') {
+          simpleBox?.classList.remove('hidden');
+          detailedBox?.classList.add('hidden');
+        } else {
+          simpleBox?.classList.add('hidden');
+          detailedBox?.classList.remove('hidden');
+        }
+
+        resetCalculator(false);
+      });
+    });
+
+    const resetCalculator = (clearInputs = true) => {
+      if (clearInputs) {
+        if (viewsSimpleInput) viewsSimpleInput.value = '';
+        if (earningsSimpleInput) earningsSimpleInput.value = '';
+        if (viewsDetailedInput) viewsDetailedInput.value = '';
+        if (earningsAdsInput) earningsAdsInput.value = '0';
+        if (earningsPremiumInput) earningsPremiumInput.value = '0';
+        if (earningsSupersInput) earningsSupersInput.value = '0';
+      }
+
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) activeBox.classList.add('hidden');
+    };
+
+    const calculateRpm = () => {
+      const mode = activeModeInput?.value || 'simple';
+      let views = 0;
+      let netRevenue = 0;
+
+      if (mode === 'simple') {
+        views = parseFloat(viewsSimpleInput?.value) || 0;
+        netRevenue = parseFloat(earningsSimpleInput?.value) || 0;
+      } else {
+        views = parseFloat(viewsDetailedInput?.value) || 0;
+        const ads = parseFloat(earningsAdsInput?.value) || 0;
+        const premium = parseFloat(earningsPremiumInput?.value) || 0;
+        const supers = parseFloat(earningsSupersInput?.value) || 0;
+        netRevenue = ads + premium + supers;
+      }
+
+      if (views < 100) {
+        return alert("Please enter a valid views count (minimum 100).");
+      }
+      if (netRevenue < 0) {
+        return alert("Please enter positive earnings metrics.");
+      }
+
+      // Calculate RPM
+      const rpm = (netRevenue / views) * 1000;
+
+      // Classify RPM Tier
+      let tierLabel = "Average RPM";
+      if (rpm < 1.50) {
+        tierLabel = "Low RPM (Shorts/Gaming/Comedy)";
+      } else if (rpm >= 1.50 && rpm < 5.00) {
+        tierLabel = "Average RPM (Lifestyle/Vlogs/Food)";
+      } else if (rpm >= 5.00 && rpm < 12.00) {
+        tierLabel = "High RPM (Tech/Fitness/Tutorials)";
+      } else {
+        tierLabel = "Premium RPM (Finance/SaaS/Business)";
+      }
+
+      // Render Outputs
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      if (rpmVal) rpmVal.textContent = `$${rpm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      if (tierVal) tierVal.textContent = tierLabel;
+
+      // Project Milestones
+      if (proj10k) proj10k.textContent = `$${Math.round((rpm * 10000) / 1000).toLocaleString()}`;
+      if (proj50k) proj50k.textContent = `$${Math.round((rpm * 50000) / 1000).toLocaleString()}`;
+      if (proj100k) proj100k.textContent = `$${Math.round((rpm * 100000) / 1000).toLocaleString()}`;
+      if (proj500k) proj500k.textContent = `$${Math.round((rpm * 500000) / 1000).toLocaleString()}`;
+      if (proj1m) proj1m.textContent = `$${Math.round((rpm * 1000000) / 1000).toLocaleString()}`;
+
+      // Smooth scroll to the results section
+      const resultsWrapper = document.getElementById('results-wrapper');
+      if (resultsWrapper) {
+        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    submitBtn?.addEventListener('click', calculateRpm);
+    resetBtn?.addEventListener('click', () => resetCalculator(true));
+  };
+
+  setupRpmCalculator();
+  document.addEventListener('astro:after-swap', setupRpmCalculator);
+</script>
