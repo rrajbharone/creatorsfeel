@@ -387,8 +387,14 @@ Maintained a 3.9 GPA"
     </div>
   </div>
 
-  <div slot="about">
+  <div slot="about" class="editorial-content">
     <h2>Why an Optimized LinkedIn Bio is Critical for Your Career</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to optimize your metrics?</strong> Read our comprehensive guide on <a href="/blog/linkedin-bio-generator-guide" style="color: var(--color-brand); text-decoration: underline;">LinkedIn Bio Copywriting & Recruiter Search Discoverability</a> to learn how to write summaries, optimize profile SEO, and structure experience.
+      </p>
+    </div>
+
     <p>
       Your LinkedIn 'About' section is the most read part of your profile. When
       recruiters, potential business partners, or employers land on your page,
@@ -764,6 +770,14 @@ Maintained a 3.9 GPA"
       align-items: start;
       gap: 2.5rem;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 

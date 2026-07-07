@@ -219,7 +219,7 @@ const faqs = [
     </div>
   </div>
 
-  <div slot="about">
+  <div slot="about" class="editorial-content">
     <h2>How to Generate Tags for Youtube Videos</h2>
     <div
       style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);"
@@ -237,7 +237,7 @@ const faqs = [
 
     <p>
       Optimizing video metadata is critical to ranking in search feeds and
-      suggested sidebar columns. This **free youtube tag generator tool**
+      suggested sidebar columns. This <strong>free youtube tag generator tool</strong>
       automates tag harvesting. Sourcing highly relevant terms from user inputs
       and filtering them within character thresholds ensures your listings
       remain compliant.
@@ -247,8 +247,8 @@ const faqs = [
       <div class="step-item">
         <h3>Step 1: Enter Video Topic or Focus Keyword</h3>
         <p>
-          Type your primary title in the input box. Our **ai youtube video tag
-          generator** will extract the core nouns and long-tail topics.
+          Type your primary title in the input box. Our <strong>ai youtube video tag
+          generator</strong> will extract the core nouns and long-tail topics.
         </p>
       </div>
 
@@ -264,8 +264,8 @@ const faqs = [
       <div class="step-item">
         <h3>Step 3: Toggle Shorts Filters</h3>
         <p>
-          If you are uploading a short video, tick the **tags for youtube shorts
-          generator** checkbox to append trending short-form tags (#Shorts,
+          If you are uploading a short video, tick the <strong>tags for youtube shorts
+          generator</strong> checkbox to append trending short-form tags (#Shorts,
           shorts feed).
         </p>
       </div>
@@ -274,7 +274,7 @@ const faqs = [
         <h3>Step 4: Prune and Copy Tags</h3>
         <p>
           Click generate. You can click on any generated tag chip to delete it
-          if it is irrelevant. Then click **Copy Tags** to copy the
+          if it is irrelevant. Then click <strong>Copy Tags</strong> to copy the
           comma-separated string straight to YouTube Studio.
         </p>
       </div>
@@ -282,7 +282,7 @@ const faqs = [
 
     <h2>Generate Best Tags for Youtube Videos</h2>
     <p>
-      Using a structured **seo tags generator for youtube** provides key
+      Using a structured <strong>seo tags generator for youtube</strong> provides key
       technical features:
     </p>
     <ul>
@@ -306,8 +306,8 @@ const faqs = [
 
     <h2>Benefits of Using the Best Free YouTube Tag Generator</h2>
     <p>
-      Leveraging this **free ai youtube tag generator** and **ai tags generator
-      for youtube** offers several benefits:
+      Leveraging this <strong>free ai youtube tag generator</strong> and <strong>ai tags generator
+      for youtube</strong> offers several benefits:
     </p>
     <ol
       style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);"
@@ -672,6 +672,14 @@ const faqs = [
       align-items: start;
       gap: 2.5rem;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 

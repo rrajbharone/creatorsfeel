@@ -268,8 +268,14 @@ const faqs = [
   <div class="toast hidden" id="toast-notify">Headline copied to clipboard!</div>
 
   <!-- Editorial Info block -->
-  <div slot="about" class="seo-content-section">
+  <div slot="about" class="editorial-content" class="seo-content-section">
     <h2>Complete Guide to Optimizing Your Profile with the LinkedIn Headline Generator</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to optimize your metrics?</strong> Read our comprehensive guide on <a href="/blog/linkedin-headline-generator-guide" style="color: var(--color-brand); text-decoration: underline;">LinkedIn Headline Optimization & Profile Branding Rules</a> to learn how to write hooks, target keywords, and stand out in search results.
+      </p>
+    </div>
+
     <p>
       In today's digital job market, your social media presence is your virtual resume. Among all professional networking platforms, LinkedIn stands as the gold standard. To stand out to hiring managers and recruiters, you need more than just a list of past jobs—you need an optimized profile header. This is where our <strong>linkedin headline generator</strong> comes into play. By combining artificial intelligence with search engine optimization (SEO) principles, this tool helps you formulate headlines that capture attention and rank high in searches.
     </p>
@@ -803,6 +809,14 @@ const faqs = [
       align-items: start;
       gap: 2.5rem;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 

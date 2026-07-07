@@ -212,10 +212,16 @@ Here are 3 simple steps to optimize your profile rates...
   </div>
 
   <!-- Educational SEO Content -->
-  <div slot="about">
+  <div slot="about" class="editorial-content">
     <h2>What is the Instagram Caption Character Limit?</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to optimize your metrics?</strong> Read our comprehensive guide on <a href="/blog/instagram-caption-character-limit-guide" style="color: var(--color-brand); text-decoration: underline;">Instagram Caption Limits & Mobile Feed Optimization Rules</a> to learn how to write hooks, manage character limits, and separate hashtags.
+      </p>
+    </div>
+
     <p>
-      The official limit for an Instagram caption is **2,200 characters**. While this allows for long-form blogging and detailed storytelling, you must keep in mind that Instagram is a visual-first app. Your captions should be structured with line breaks, paragraphs, and engaging hooks.
+      The official limit for an Instagram caption is <strong>2,200 characters</strong>. While this allows for long-form blogging and detailed storytelling, you must keep in mind that Instagram is a visual-first app. Your captions should be structured with line breaks, paragraphs, and engaging hooks.
     </p>
     <p>
       This character limit includes standard letters, numbers, spaces, punctuation, line breaks, and emojis.
@@ -223,7 +229,7 @@ Here are 3 simple steps to optimize your profile rates...
 
     <h2>The 125-Character Mobile Crop Rule</h2>
     <p>
-      When users scroll through their Instagram feed, they only see the first **125 characters** of your caption. The remaining text is cropped behind a light grey **"... more"** link. 
+      When users scroll through their Instagram feed, they only see the first <strong>125 characters</strong> of your caption. The remaining text is cropped behind a light grey <strong>"... more"</strong> link. 
     </p>
     <p>
       If your first 125 characters do not hook the reader, they will not click "... more" to read your caption, which hurts your post's click-through rates and overall engagement index.
@@ -235,7 +241,7 @@ Here are 3 simple steps to optimize your profile rates...
 
     <h2>The 5-Hashtag Limit Update</h2>
     <p>
-      Instagram has updated its platform guidelines to restrict posts to a maximum of **5 hashtags** per post.
+      Instagram has updated its platform guidelines to restrict posts to a maximum of <strong>5 hashtags</strong> per post.
     </p>
     <p>
       <strong>Caution:</strong> If you include more than 5 hashtags inside your caption, the algorithm will flag it as tag spam, reducing your organic search visibility. To maintain optimal reach, keep your hashtags within the 1-5 range.
@@ -961,6 +967,14 @@ Here are 3 simple steps to optimize your profile rates...
       grid-template-columns: 1.2fr 1fr;
       align-items: start;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 

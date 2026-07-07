@@ -29,6 +29,8 @@ export const GET: APIRoute = async (context) => {
     '/tools/youtube-rpm-calculator',
     '/tools/twitter-engagement-calculator',
     '/tools/instagram-username-generator',
+    '/tools/instagram-hashtag-counter',
+    '/tools/linkedin-post-formatter',
     '/blog',
     '/privacy',
     '/terms',

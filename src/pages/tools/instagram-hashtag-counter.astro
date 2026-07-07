@@ -1,0 +1,622 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the hashtag limit on Instagram?",
+    answer: "Instagram allows a maximum of 5 hashtags per post or reel under its latest guidelines. If you exceed this limit, Instagram will post your image or video with no caption at all (silently stripping the text) or fail to upload the post completely."
+  },
+  {
+    question: "How many hashtags should I use on Instagram?",
+    answer: "Under Instagram's new rules, the technical limit is strictly set to 5 hashtags per post or reel. Using between 3 and 5 highly relevant hashtags provides the best balance of context indexing and algorithmic visibility."
+  },
+  {
+    question: "Does placing hashtags in the comments work?",
+    answer: "Yes, hashtags work in both the caption and the first comment. However, placing them in the caption is recommended for immediate indexing, as search algorithms scan captions faster than comments."
+  },
+  {
+    question: "What are duplicate hashtags and do they hurt reach?",
+    answer: "Duplicate hashtags occur when you repeat the exact same tag in your caption. Repeating hashtags doesn't help your reach, wastes space within the new 5-tag limit, and makes your caption look unprofessional."
+  }
+];
+---
+
+<ToolLayout
+  title="Instagram Hashtag Counter - Count IG Caption Tags"
+  description="Audit your Instagram hashtags in real-time. Free online Instagram hashtag counter with duplicate tag detection and character limits checks."
+  toolName="Instagram Hashtag Counter"
+  toolDescription="Analyze your Instagram caption metadata. Input your caption to extract, count, and clean hashtags, and verify platform limits."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <div class="calc-grid" id="calc-form-container">
+      <form class="calc-form" id="hashtag-form" onsubmit="return false;">
+        <!-- Input Text Area -->
+        <div class="form-group">
+          <div class="label-header">
+            <label for="caption-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501c1.153-.086 2.294-.213 3.423-.379 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v5.78Z" />
+              </svg>
+              Instagram Caption or Hashtag List
+            </label>
+          </div>
+          <textarea id="caption-input" class="form-input" style="height: 160px; resize: vertical; font-family: inherit; line-height: 1.5;" placeholder="Paste your caption or list of hashtags here. e.g., #cooking #travel vibes! #cooking"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Extract & Audit Tags
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display -->
+      <div class="calc-results" id="results-wrapper">
+        <div class="empty-state text-center" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501c1.153-.086 2.294-.213 3.423-.379 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v5.78Z" />
+          </svg>
+          <h3>Awaiting Caption Input</h3>
+          <p class="text-muted">Paste your draft caption or list of tags above, then click Extract & Audit to verify limits and clean duplicates.</p>
+        </div>
+
+        <div class="results-active hidden" id="res-active-box">
+          <!-- Warnings Block -->
+          <div id="duplicate-warning" class="warning-alert hidden" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.88rem; font-weight: 600; margin-bottom: 1rem;">
+            ⚠️ Duplicate hashtags detected! Use 'Copy Clean Caption' to strip duplicates automatically.
+          </div>
+          <div id="limit-warning" class="warning-alert hidden" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.88rem; font-weight: 600; margin-bottom: 1rem;">
+            ❌ Danger: You have exceeded the new 5-hashtag limit! Instagram will discard your caption.
+          </div>
+
+          <!-- Counter grids -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-num" id="res-hashtag-count">0 / 5</span>
+              <span class="metric-name">Hashtags Count</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-num" id="res-char-count">0 / 2200</span>
+              <span class="metric-name">Characters Used</span>
+            </div>
+          </div>
+
+          <!-- Extracted List -->
+          <div class="breakdown-box" style="margin-top: 1rem;">
+            <h4 class="breakdown-title">Extracted Hashtags</h4>
+            <div id="tags-chips-wrapper" class="tags-chips-container">
+              <!-- Dynamically populated chips -->
+            </div>
+          </div>
+
+          <!-- Action buttons -->
+          <div class="action-buttons-group" style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.25rem;">
+            <button type="button" id="copy-clean-tags-btn" class="calc-btn-secondary" style="width: 100%;">Copy Unique Tags Only</button>
+            <button type="button" id="copy-clean-caption-btn" class="calc-btn" style="width: 100%;">Copy Full Clean Caption</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Instagram Hashtag Counter: Optimize Your Post Metadata & Visibility</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to maximize your hashtag strategy?</strong> Read our comprehensive guide on <a href="/blog/instagram-hashtag-counter-guide" style="color: var(--color-brand); text-decoration: underline;">Instagram Hashtag Optimization & Algorithmic Indexing Strategies</a> to learn how search indexing works, density rules, and hashtag selection.
+      </p>
+    </div>
+    
+    <p>
+      Hashtags remain a primary tool for content discovery on Instagram. By categorizing your posts, you help the algorithm deliver your content to interested users. However, managing character limits and counting hashtags manually can lead to errors. This <strong>instagram hashtag counter</strong> is a free tool designed to simplify caption optimization.
+    </p>
+
+    <h2>How to Use the Instagram Hashtag Counter</h2>
+    <p>
+      To check your captions, follow these instructions:
+    </p>
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Paste Your Caption or Hashtags</h3>
+        <p>Type or paste your drafted text directly into the input textarea. The tool accepts captions containing emojis, links, and paragraphs.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Click Extract & Audit</h3>
+        <p>Click the calculate button. The tool immediately extracts all hashtags, counts characters, and identifies any duplicates.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Check Limits & Warnings</h3>
+        <p>Review the metrics cards and warning banners. If you exceed the new <strong>instagram hashtag limit</strong> of 5, the tool will alert you in red to prevent upload issues.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Copy Clean Text</h3>
+        <p>Use the action buttons below to copy your optimized metadata:
+          <ul>
+            <li><strong>Copy Unique Tags Only:</strong> Copies a clean list of unique hashtags separated by spaces.</li>
+            <li><strong>Copy Full Clean Caption:</strong> Copies your complete caption text with all duplicate hashtags removed.</li>
+          </ul>
+        </p>
+      </div>
+    </div>
+
+    <h2>Key Calculator Features</h2>
+    <p>
+      This metadata audit tool features several helpful components:
+    </p>
+    <ul>
+      <li><strong>Regex Extraction Engine:</strong> Extracts hashtags from any block of text, even if they are embedded in paragraphs or comments.</li>
+      <li><strong>Duplicate Detection:</strong> Highlights repeated hashtags to help you avoid cluttering your caption.</li>
+      <li><strong>Dual Limit Checks:</strong> Tracks both the new 5-hashtag limit and the 2,200-character limit simultaneously.</li>
+      <li><strong>Dynamic Optimal Range Tiers:</strong> Evaluates your hashtag count against recommended ranges (3 to 5 hashtags) for target reach.</li>
+    </ul>
+
+    <h2>Benefits of Auditing Your Hashtags</h2>
+    <p>
+      Using a <strong>free instagram hashtag counter</strong> helps creators and brands:
+    </p>
+    <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
+      <li><strong>Avoid Silenced Captions:</strong> If you exceed the new 5-hashtag limit, Instagram will discard your entire caption, leaving your post with no text. Auditing beforehand prevents this.</li>
+      <li><strong>Clean Up Spacing:</strong> Strips out extra spaces and formats hashtags cleanly for better readability.</li>
+      <li><strong>Refine Hashtag Density:</strong> Keeps your tag count within the optimal range for algorithmic distribution.</li>
+    </ol>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .metric-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .metric-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-brand);
+  }
+
+  .metric-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .breakdown-box {
+    width: 100%;
+  }
+
+  .breakdown-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+
+  /* Extracted chips container */
+  .tags-chips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    min-height: 80px;
+    align-content: flex-start;
+  }
+
+  .tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-family: monospace;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .tag-chip.duplicate {
+    border-color: rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.05);
+    color: #ef4444;
+  }
+
+  .dup-badge {
+    background: #ef4444;
+    color: #fff;
+    font-size: 0.65rem;
+    padding: 0.1rem 0.3rem;
+    border-radius: 4px;
+    font-family: sans-serif;
+  }
+
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.1rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+
+    .metrics-grid {
+      grid-template-columns: 1fr !important;
+      gap: 0.75rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+</style>
+
+<script>
+  const setupHashtagCounter = () => {
+    const captionInput = document.getElementById('caption-input') as HTMLTextAreaElement;
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+
+    const dupWarning = document.getElementById('duplicate-warning');
+    const limitWarning = document.getElementById('limit-warning');
+
+    const hashtagCountVal = document.getElementById('res-hashtag-count');
+    const charCountVal = document.getElementById('res-char-count');
+    const tagsWrapper = document.getElementById('tags-chips-wrapper');
+
+    const copyTagsBtn = document.getElementById('copy-clean-tags-btn');
+    const copyCaptionBtn = document.getElementById('copy-clean-caption-btn');
+
+    let extractedTagsList: string[] = [];
+    let uniqueTagsList: string[] = [];
+
+    const analyzeCaption = () => {
+      const text = captionInput?.value || '';
+      const charCount = text.length;
+
+      // Extract hashtags using regex matching letters, digits, and underscores
+      const regex = /#[\p{L}\p{N}_]+/gu;
+      const matches = text.match(regex) || [];
+      extractedTagsList = matches.map(tag => tag.toLowerCase());
+
+      // Detect duplicates
+      const seen = new Set<string>();
+      const duplicatesList = new Set<string>();
+      
+      extractedTagsList.forEach(tag => {
+        if (seen.has(tag)) {
+          duplicatesList.add(tag);
+        }
+        seen.add(tag);
+      });
+
+      uniqueTagsList = Array.from(seen);
+
+      // Render Outputs
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      // Update counters
+      if (charCountVal) {
+        charCountVal.textContent = `${charCount} / 2200`;
+        charCountVal.style.color = charCount > 2200 ? '#ef4444' : '';
+      }
+
+      if (hashtagCountVal) {
+        hashtagCountVal.textContent = `${extractedTagsList.length} / 5`;
+        if (extractedTagsList.length > 5) {
+          hashtagCountVal.style.color = '#ef4444';
+        } else if (extractedTagsList.length >= 3 && extractedTagsList.length <= 5) {
+          hashtagCountVal.style.color = 'var(--color-success)';
+        } else {
+          hashtagCountVal.style.color = '';
+        }
+      }
+
+      // Display warning flags
+      if (dupWarning) {
+        if (duplicatesList.size > 0) dupWarning.classList.remove('hidden');
+        else dupWarning.classList.add('hidden');
+      }
+
+      if (limitWarning) {
+        if (extractedTagsList.length > 5) limitWarning.classList.remove('hidden');
+        else limitWarning.classList.add('hidden');
+      }
+
+      // Populate tags grid
+      if (tagsWrapper) {
+        if (extractedTagsList.length === 0) {
+          tagsWrapper.innerHTML = `<span class="text-muted" style="font-size: 0.88rem;">No hashtags found in text.</span>`;
+        } else {
+          // Render tags showing duplicate badges
+          const tagsSeen = new Set<string>();
+          tagsWrapper.innerHTML = extractedTagsList.map(tag => {
+            const isDup = tagsSeen.has(tag);
+            tagsSeen.add(tag);
+            return `
+              <span class="tag-chip ${isDup ? 'duplicate' : ''}">
+                <span>${tag}</span>
+                ${isDup ? '<span class="dup-badge">DUP</span>' : ''}
+              </span>
+            `;
+          }).join('');
+        }
+      }
+
+      // Smooth scroll to the results section
+      const resultsWrapper = document.getElementById('results-wrapper');
+      if (resultsWrapper) {
+        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    const copyTagsOnly = () => {
+      if (uniqueTagsList.length === 0) return alert("No hashtags found to copy.");
+      const tagsText = uniqueTagsList.join(' ');
+      navigator.clipboard.writeText(tagsText).then(() => {
+        if (copyTagsBtn) {
+          const originalText = copyTagsBtn.textContent;
+          copyTagsBtn.textContent = 'Copied unique tags! ✓';
+          setTimeout(() => {
+            copyTagsBtn.textContent = originalText;
+          }, 1500);
+        }
+      });
+    };
+
+    const copyCleanCaption = () => {
+      const text = captionInput?.value || '';
+      if (!text) return alert("Please enter caption text.");
+
+      // Split words and strip out duplicates
+      // To preserve layout but strip duplicate hashtags:
+      // We look at each word starting with '#' and filter duplicates
+      const seen = new Set<string>();
+      const words = text.split(/(\s+)/); // Keep whitespace delimiters
+      const cleanWords = words.map(word => {
+        if (word.startsWith('#')) {
+          const cleaned = word.toLowerCase().trim();
+          if (seen.has(cleaned)) {
+            return ''; // strip out repeated tag
+          }
+          seen.add(cleaned);
+        }
+        return word;
+      });
+
+      // Join and clean double spacing caused by stripped tags
+      let cleanText = cleanWords.join('');
+      // Clean up multiple trailing empty spaces or empty brackets
+      cleanText = cleanText.replace(/[ \t]{2,}/g, ' ').trim();
+
+      navigator.clipboard.writeText(cleanText).then(() => {
+        if (copyCaptionBtn) {
+          const originalText = copyCaptionBtn.textContent;
+          copyCaptionBtn.textContent = 'Copied clean caption! ✓';
+          setTimeout(() => {
+            copyCaptionBtn.textContent = originalText;
+          }, 1500);
+        }
+      });
+    };
+
+    const resetForm = () => {
+      if (captionInput) captionInput.value = '';
+      extractedTagsList = [];
+      uniqueTagsList = [];
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) activeBox.classList.add('hidden');
+    };
+
+    submitBtn?.addEventListener('click', analyzeCaption);
+    resetBtn?.addEventListener('click', resetForm);
+    copyTagsBtn?.addEventListener('click', copyTagsOnly);
+    copyCaptionBtn?.addEventListener('click', copyCleanCaption);
+  };
+
+  setupHashtagCounter();
+  document.addEventListener('astro:after-swap', setupHashtagCounter);
+</script>

@@ -245,10 +245,10 @@ const faqs = [
     </div>
   </div>
 
-  <div slot="about">
+  <div slot="about" class="editorial-content">
     <h2>How to Use the Content Creator Rate Calculator</h2>
     <p>
-      Figuring out **how much to charge as a content creator** is one of the hardest parts of freelancing. If you set rates too low, you undercharge for your labor; if you quote too high, you risk losing projects. This interactive **content creator rate calculator** gives you a logical pricing baseline by supporting two pricing methodologies:
+      Figuring out <strong>how much to charge as a content creator</strong> is one of the hardest parts of freelancing. If you set rates too low, you undercharge for your labor; if you quote too high, you risk losing projects. This interactive <strong>content creator rate calculator</strong> gives you a logical pricing baseline by supporting two pricing methodologies:
     </p>
 
     <div class="step-guide">
@@ -279,7 +279,7 @@ const faqs = [
 
     <h2>Key Calculator Features</h2>
     <p>
-      This **content creator hourly rate calculator** is built around real-world creator marketing campaigns:
+      This <strong>content creator hourly rate calculator</strong> is built around real-world creator marketing campaigns:
     </p>
     <ul>
       <li><strong>Automatic Volume Discounts:</strong> In Deliverables Package mode, batch quantity discounts are automatically calculated: 10% for 2-3 items, 15% for 4-5 items, and 20% for 6+ items.</li>
@@ -289,7 +289,7 @@ const faqs = [
 
     <h2>Benefits of Pricing Structurally</h2>
     <p>
-      Auditing your content packages using a **freelance content creator rates** model provides:
+      Auditing your content packages using a <strong>freelance content creator rates</strong> model provides:
     </p>
     <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
       <li><strong>Undercharging Prevention:</strong> Ensures every hour of scripting, pre-production prep, and editing is accounted for before giving clients a quote.</li>
@@ -657,6 +657,14 @@ const faqs = [
       align-items: start;
       gap: 2.5rem;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 

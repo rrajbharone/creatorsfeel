@@ -181,8 +181,14 @@ const breadcrumbs = [
     </div>
   </div>
 
-  <div slot="about">
+  <div slot="about" class="editorial-content">
     <h2>Understanding Instagram Sponsorship Pricing Models</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to optimize your metrics?</strong> Read our comprehensive guide on <a href="/blog/instagram-story-reel-rates-guide" style="color: var(--color-brand); text-decoration: underline;">Instagram Story & Reel Rates & Influencer Pricing Benchmarks</a> to learn how to package stories, reels, and posts to negotiate higher rates.
+      </p>
+    </div>
+
     <p>
       In social media marketing, pricing your content can be highly challenging. Influencers often undercharge or overcharge, leading to missed deals. Our <strong>instagram story rate calculator</strong> and <strong>instagram reel rate calculator</strong> are designed around real industry standards, helping you audit your rates effectively.
     </p>
@@ -585,6 +591,14 @@ const breadcrumbs = [
       align-items: start;
       gap: 2.5rem;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 

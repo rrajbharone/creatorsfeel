@@ -208,10 +208,16 @@ const breadcrumbs = [
   </div>
 
   <!-- Editorial slot -->
-  <div slot="about" class="seo-content-section">
+  <div slot="about" class="editorial-content" class="seo-content-section">
     <h2>Complete Guide to Cost Per Engagement (CPE) Marketing Optimization</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to optimize your metrics?</strong> Read our comprehensive guide on <a href="/blog/cost-per-engagement-calculator-guide" style="color: var(--color-brand); text-decoration: underline;">Cost Per Engagement Metrics & Campaign ROI Optimizations</a> to learn how to track cost per click, interaction ratios, and paid amplification efficiency.
+      </p>
+    </div>
+
     <p>
-      In social media campaigns and digital promotions, tracking how audiences engage with your posts is key to evaluating investment efficiency. The **Cost Per Engagement Calculator** offers a streamlined interface to calculate the true cost of every interaction. Whether auditing standard Facebook promotions, checking media shares, or verifying Instagram ad returns, this utility helps you spend efficiently.
+      In social media campaigns and digital promotions, tracking how audiences engage with your posts is key to evaluating investment efficiency. The <strong>Cost Per Engagement Calculator</strong> offers a streamlined interface to calculate the true cost of every interaction. Whether auditing standard Facebook promotions, checking media shares, or verifying Instagram ad returns, this utility helps you spend efficiently.
     </p>
     <p>
       By shifting attention from broad impressions (views) to active engagements (likes, comments, clicks, and saves), marketers ensure that budgets map to tangible audience interactions rather than simple layout exposure.
@@ -631,6 +637,14 @@ const breadcrumbs = [
       align-items: start;
       gap: 2.5rem;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 

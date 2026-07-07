@@ -136,7 +136,7 @@ const faqs = [
     </div>
   </div>
 
-  <div slot="about">
+  <div slot="about" class="editorial-content">
     <h2>what is a youtube video timestamp generator</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
@@ -145,17 +145,17 @@ const faqs = [
     </div>
     
     <p>
-      A **youtube video timestamp generator** or **timestamp generator youtube** is a free utility that structures metadata for video uploads. Content creators use it to construct clean, ascending chapter lists that comply with YouTube player regulations, or build links that jump directly to specific parts.
+      A <strong>youtube video timestamp generator</strong> or <strong>timestamp generator youtube</strong> is a free utility that structures metadata for video uploads. Content creators use it to construct clean, ascending chapter lists that comply with YouTube player regulations, or build links that jump directly to specific parts.
     </p>
 
     <h2>how to generate timestamps for youtube videos</h2>
     <p>
-      To **generate timestamps for youtube video** listings, follow these guidelines:
+      To <strong>generate timestamps for youtube video</strong> listings, follow these guidelines:
     </p>
     <div class="step-guide">
       <div class="step-item">
         <h3>Step 1: Choose Your Tool Mode</h3>
-        <p>Use the tabs at the top. Select **Video Chapters** if you are formatting video descriptions. Select **Share Link** if you are deep-linking to share a specific scene.</p>
+        <p>Use the tabs at the top. Select <strong>Video Chapters</strong> if you are formatting video descriptions. Select <strong>Share Link</strong> if you are deep-linking to share a specific scene.</p>
       </div>
 
       <div class="step-item">
@@ -165,7 +165,7 @@ const faqs = [
 
       <div class="step-item">
         <h3>Step 3: Validate Chronological Order</h3>
-        <p>Ensure that subsequent timestamps increase sequentially. Our **free youtube timestamp generator** automatically checks for order compliance and validates your formatting.</p>
+        <p>Ensure that subsequent timestamps increase sequentially. Our <strong>free youtube timestamp generator</strong> automatically checks for order compliance and validates your formatting.</p>
       </div>
 
       <div class="step-item">
@@ -541,6 +541,14 @@ const faqs = [
       align-items: start;
       gap: 2.5rem;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 

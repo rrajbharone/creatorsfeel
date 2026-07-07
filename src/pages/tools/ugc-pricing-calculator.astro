@@ -182,10 +182,16 @@ const faqs = [
     </div>
   </div>
 
-  <div slot="about">
+  <div slot="about" class="editorial-content">
     <h2>How to Use This UGC Pricing Calculator</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to optimize your metrics?</strong> Read our comprehensive guide on <a href="/blog/ugc-pricing-calculator-guide" style="color: var(--color-brand); text-decoration: underline;">UGC Pricing Guidelines & Freelance Licensing Negotiations</a> to learn how to charge for usage rights, deliverables packs, and fast turnaround fees.
+      </p>
+    </div>
+
     <p>
-      Creating a sustainable rate sheet is crucial for freelance creators. Since follower count does not dictate pricing, this **ugc pricing calculator** models rates around deliverables volume, marketing licensing terms, and creative add-ons.
+      Creating a sustainable rate sheet is crucial for freelance creators. Since follower count does not dictate pricing, this <strong>ugc pricing calculator</strong> models rates around deliverables volume, marketing licensing terms, and creative add-ons.
     </p>
 
     <div class="step-guide">
@@ -196,7 +202,7 @@ const faqs = [
 
       <div class="step-item">
         <h3>Step 2: Enter Deliverables Quantity</h3>
-        <p>Specify the number of assets. The **ugc rate calculator** automatically factors in batch discounts: 10% for 2-3 items, 15% for 4-5 items, and 20% for 6+ items.</p>
+        <p>Specify the number of assets. The <strong>ugc rate calculator</strong> automatically factors in batch discounts: 10% for 2-3 items, 15% for 4-5 items, and 20% for 6+ items.</p>
       </div>
 
       <div class="step-item">
@@ -212,7 +218,7 @@ const faqs = [
 
     <h2>Features & Capabilities</h2>
     <p>
-      This **user generated content pricing calculator** is equipped with advanced features:
+      This <strong>user generated content pricing calculator</strong> is equipped with advanced features:
     </p>
     <ul>
       <li><strong>Automatic Quantity Tier Discounts:</strong> Saves setup overhead calculations by discounting batch creations.</li>
@@ -605,6 +611,14 @@ const faqs = [
       align-items: start;
       gap: 2.5rem;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 

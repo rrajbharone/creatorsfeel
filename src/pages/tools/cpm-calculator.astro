@@ -147,13 +147,19 @@ const canonicalUrl = "https://creatorsfeel.com/tools/cpm-calculator";
   </div>
 
   <!-- Educational SEO Content -->
-  <div slot="about">
+  <div slot="about" class="editorial-content">
     <h2>What is CPM (Cost Per Mille)?</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to optimize your metrics?</strong> Read our comprehensive guide on <a href="/blog/what-is-cpm-how-to-calculate-cpm" style="color: var(--color-brand); text-decoration: underline;">What is CPM & How to Calculate Ad Impressions Payouts</a> to learn how platforms calculate cost per mille, ad share payouts, and inventory bidding.
+      </p>
+    </div>
+
     <p>
-      In digital marketing, **CPM** stands for **Cost Per Mille**. "Mille" is the Latin word for thousand, meaning CPM represents the **cost per thousand ad impressions**. It is a baseline payment model used by advertising platforms (like Google AdSense, Meta Ads, and YouTube Partner Program) to price display advertising spaces.
+      In digital marketing, <strong>CPM</strong> stands for <strong>Cost Per Mille</strong>. "Mille" is the Latin word for thousand, meaning CPM represents the <strong>cost per thousand ad impressions</strong>. It is a baseline payment model used by advertising platforms (like Google AdSense, Meta Ads, and YouTube Partner Program) to price display advertising spaces.
     </p>
     <p>
-      An **impression** is counted every time an ad is rendered on a user's screen. The advertiser is charged for the ad display itself, regardless of whether a viewer clicks, interacts, or buys anything from the advertisement.
+      An <strong>impression</strong> is counted every time an ad is rendered on a user's screen. The advertiser is charged for the ad display itself, regardless of whether a viewer clicks, interacts, or buys anything from the advertisement.
     </p>
 
     <h2>The CPM Formula and Calculations</h2>
@@ -190,13 +196,13 @@ const canonicalUrl = "https://creatorsfeel.com/tools/cpm-calculator";
       Let's walk through concrete examples showing how to calculate CPM:
     </p>
     <ul>
-      <li><strong>Example 1: Finding CPM</strong><br />An agency runs an ad campaign on Instagram that costs **$500** and generates **125,000 impressions**. What is the CPM?<br />
+      <li><strong>Example 1: Finding CPM</strong><br />An agency runs an ad campaign on Instagram that costs <strong>$500</strong> and generates <strong>125,000 impressions</strong>. What is the CPM?<br />
       <code>CPM = ($500 / 125,000) × 1,000 = $4.00</code><br />
-      The advertiser pays **$4.00** for every 1,000 views.</li>
+      The advertiser pays <strong>$4.00</strong> for every 1,000 views.</li>
 
-      <li><strong>Example 2: Finding Campaign Budget</strong><br />A YouTuber has a sponsorship placement with a fixed CPM of **$15.00**. A brand wants to buy a placement that will guarantee **250,000 views**. What is the campaign cost?<br />
+      <li><strong>Example 2: Finding Campaign Budget</strong><br />A YouTuber has a sponsorship placement with a fixed CPM of <strong>$15.00</strong>. A brand wants to buy a placement that will guarantee <strong>250,000 views</strong>. What is the campaign cost?<br />
       <code>Cost = (250,000 × $15.00) / 1,000 = $3,750.00</code><br />
-      The brand must allocate a budget of **$3,750.00**.</li>
+      The brand must allocate a budget of <strong>$3,750.00</strong>.</li>
     </ul>
 
     <h2>CPM vs CPC vs CPA: Ad Bidding Models Compared</h2>
@@ -241,8 +247,8 @@ const canonicalUrl = "https://creatorsfeel.com/tools/cpm-calculator";
       While CPM and RPM sound identical, they describe opposite sides of the ad transaction:
     </p>
     <ul>
-      <li><strong>CPM (Cost Per Mille)</strong> is the **advertiser's cost**. It represents how much money the advertiser spends to buy 1,000 impressions.</li>
-      <li><strong>RPM (Revenue Per Mille)</strong> is the **publisher's revenue**. It represents how much money a website creator earns per 1,000 page views or ad requests. Because ad platforms take a revenue share cut, a publisher's RPM is typically lower than the advertiser's average CPM.</li>
+      <li><strong>CPM (Cost Per Mille)</strong> is the <strong>advertiser's cost</strong>. It represents how much money the advertiser spends to buy 1,000 impressions.</li>
+      <li><strong>RPM (Revenue Per Mille)</strong> is the <strong>publisher's revenue</strong>. It represents how much money a website creator earns per 1,000 page views or ad requests. Because ad platforms take a revenue share cut, a publisher's RPM is typically lower than the advertiser's average CPM.</li>
     </ul>
 
     <h2>Best Practices to Optimize Campaign CPM</h2>
@@ -636,6 +642,14 @@ const canonicalUrl = "https://creatorsfeel.com/tools/cpm-calculator";
       grid-template-columns: 1.2fr 1fr;
       align-items: start;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 

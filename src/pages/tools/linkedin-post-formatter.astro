@@ -1,0 +1,584 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "Does LinkedIn support native bold and italic text?",
+    answer: "No, LinkedIn does not have native formatting buttons for bold or italic text. To style your text, you must use Unicode mathematical characters (like Sans-serif Bold or Italics), which our formatter generates automatically."
+  },
+  {
+    question: "Do bold Unicode fonts hurt LinkedIn SEO?",
+    answer: "Yes, if overused. Screen readers and search indexers read Unicode styling as mathematical symbols rather than standard text. It is recommended to use bold formatting only for key phrases, hooks, or highlights, keeping your main body text in standard characters."
+  },
+  {
+    question: "What is the character limit for a LinkedIn post?",
+    answer: "LinkedIn posts are limited to 3,000 characters. For LinkedIn articles, the limit is much higher (up to 110,000 characters)."
+  },
+  {
+    question: "Why is line spacing important on LinkedIn?",
+    answer: "LinkedIn's mobile feed squashes text lines together. Adding double line breaks between paragraphs makes your post easier to scan and read, which improves read-through rates."
+  },
+  {
+    question: "Where is the 'see more' fold on LinkedIn?",
+    answer: "On mobile devices, LinkedIn crops your post after approximately 140 characters, displaying a '...see more' button. To capture attention, keep your hook within this 140-character limit."
+  }
+];
+---
+
+<ToolLayout
+  title="LinkedIn Post Formatter - Style Your LinkedIn Posts"
+  description="Format your LinkedIn posts for peak engagement. Free online LinkedIn text formatter to bold text, insert bullet emojis, and preview the mobile fold crop."
+  toolName="LinkedIn Post Formatter"
+  toolDescription="Style your LinkedIn captions. Convert text to bold or italic Unicode fonts, insert bullet points, and check your mobile fold hook in real-time."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Stylizer tool header panel -->
+    <div class="stylizer-bar" style="margin-bottom: 1.5rem; background: var(--color-bg-alt); padding: 1.25rem; border-radius: 16px; border: 1px solid var(--color-border);">
+      <h4 style="margin: 0 0 0.75rem 0; font-size: 0.9rem; font-weight: 700; color: var(--color-brand); text-transform: uppercase; letter-spacing: 0.05em;">Quick Unicode Stylizer</h4>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+        <input type="text" id="stylize-input" class="form-input" style="height: 40px; font-size: 0.85rem;" placeholder="Type phrase to style..." />
+        <select id="stylize-mode" class="form-input" style="height: 40px; font-size: 0.85rem; padding-right: 2rem;">
+          <option value="bold-sans">Bold Sans-Serif</option>
+          <option value="bold-serif">Bold Serif</option>
+          <option value="italic-sans">Italic Sans-Serif</option>
+          <option value="italic-serif">Italic Serif</option>
+          <option value="monospace">Monospace</option>
+        </select>
+      </div>
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <input type="text" id="stylize-output" class="form-input" style="height: 40px; font-size: 0.85rem; font-family: monospace; flex: 1; background: var(--color-bg);" readonly placeholder="Styled output..." />
+        <button type="button" id="copy-stylized-btn" class="calc-btn" style="height: 40px; font-size: 0.8rem; padding: 0 1rem; flex-shrink: 0;">Copy</button>
+      </div>
+    </div>
+
+    <!-- Main Editor Grid -->
+    <div class="calc-grid" id="calc-form-container">
+      <form class="calc-form" id="formatter-form" onsubmit="return false;">
+        <div class="form-group">
+          <div class="label-header">
+            <label for="post-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+              </svg>
+              LinkedIn Post Content
+            </label>
+            <span class="text-muted" style="font-size: 0.8rem;" id="res-char-count">0 / 3000</span>
+          </div>
+          <textarea id="post-input" class="form-input" style="height: 220px; resize: vertical; font-family: inherit; line-height: 1.5; font-size: 0.95rem;" placeholder="Write your post draft here. Paste Unicode styles or use the formatting buttons below..."></textarea>
+        </div>
+
+        <!-- Formatting quick buttons -->
+        <div class="bullet-inserters-panel" style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border);">
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 0.5rem; text-transform: uppercase;">Insert Bullet Point Emoji</span>
+          <div class="bullets-row" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <button type="button" class="bullet-btn" data-bullet="✔ ">✔</button>
+            <button type="button" class="bullet-btn" data-bullet="✦ ">✦</button>
+            <button type="button" class="bullet-btn" data-bullet="• ">•</button>
+            <button type="button" class="bullet-btn" data-bullet="▪ ">▪</button>
+            <button type="button" class="bullet-btn" data-bullet="🚀 ">🚀</button>
+            <button type="button" class="bullet-btn" data-bullet="👉 ">👉</button>
+            <button type="button" class="bullet-btn" data-bullet="💡 ">💡</button>
+            <button type="button" class="bullet-btn" data-bullet="📌 ">📌</button>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="double-space-btn" class="calc-btn-secondary" style="width: 100%;">Fix Line Spacing</button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display / Feed Mockup Preview -->
+      <div class="calc-results" id="results-wrapper">
+        <h4 style="margin: 0 0 1rem 0; font-size: 0.9rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">LinkedIn Feed Preview</h4>
+        
+        <div class="feed-mockup-card glass" style="background: var(--color-bg); border: 1px solid var(--color-border); padding: 1.25rem; border-radius: 12px; display: flex; flex-direction: column; gap: 0.75rem; box-sizing: border-box; width: 100%;">
+          <!-- Header user meta -->
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-bg-alt); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; border: 1px solid var(--color-border);">👤</div>
+            <div style="display: flex; flex-direction: column;">
+              <span style="font-size: 0.88rem; font-weight: 700; color: var(--color-text);">Content Creator</span>
+              <span style="font-size: 0.75rem; color: var(--color-text-muted);">LinkedIn Professional • Just now</span>
+            </div>
+          </div>
+          
+          <!-- Post body content with mobile crop preview -->
+          <div class="post-preview-body" style="font-size: 0.88rem; line-height: 1.5; color: var(--color-text); word-break: break-word;">
+            <div id="preview-text-visible" style="display: inline;"></div>
+            <span id="preview-text-more" style="color: var(--color-brand); font-weight: 600; cursor: pointer; display: none;">...see more</span>
+            <div id="preview-text-hidden" style="display: none; margin-top: 0.5rem;"></div>
+          </div>
+        </div>
+
+        <button type="button" id="copy-formatted-btn" class="calc-btn" style="width: 100%;">Copy Formatted Post</button>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>LinkedIn Post Formatter: Write and Style Captions for Peak Reach</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to write high-converting professional updates?</strong> Read our comprehensive guide on <a href="/blog/linkedin-post-formatter-guide" style="color: var(--color-brand); text-decoration: underline;">LinkedIn Post Formatting & Profile Growth Strategies</a> to learn how to structure hooks, balance Unicode accessibility, and capture feed dwell time.
+      </p>
+    </div>
+    
+    <h3>Short Introduction</h3>
+    <p>
+      Succeeding on professional platforms like LinkedIn requires more than just sharing information. With millions of updates published daily, catching attention in the feed is essential. This <strong>linkedin post formatter</strong> is a free tool designed to style captions, format spacing, and preview your posts before you hit publish.
+    </p>
+
+    <h3>What is LinkedIn Post Formatter?</h3>
+    <p>
+      A <strong>linkedin post formatting tool</strong> or <strong>linkedin text formatter</strong> is an online utility that helps creators, recruiters, and marketers design structured captions. LinkedIn's native editor does not offer bold, italic, or monospace options. Our tool uses Unicode conversions to style your text, making it easy to create bold hooks, italic highlights, and clean spacing.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To format your post, follow these instructions:
+    </p>
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Write or Paste Your Draft</h3>
+        <p>Type your post directly into the editor text area, or paste a draft from your documents.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Generate Bold or Italic Text</h3>
+        <p>To style specific terms (like "PRO TIP" or "WARNING"), type them into the <strong>Quick Unicode Stylizer</strong> input box, select your style (such as Bold Sans-Serif), click copy, and paste them into the main editor.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Structure with Bullet Emojis</h3>
+        <p>Click on any of the emoji bullet buttons (like ✔, ✦, or 🚀) to insert them at your cursor position, helping you structure lists and key takeaways.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Check the Mobile Feed Preview</h3>
+        <p>Review the LinkedIn Feed Preview card. If your hook is longer than 140 characters, the tool will display the "...see more" crop point, showing you exactly where the text will cut off on mobile devices.</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 5: Copy Your Formatted Post</h3>
+        <p>Click the <strong>Copy Formatted Post</strong> button to copy the styled text, ready to paste directly into LinkedIn.</p>
+      </div>
+    </div>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The tool uses two core formatting systems:
+    </p>
+    <ul>
+      <li><strong>Unicode Style Mapping:</strong> Standard letters (like A-Z) are mapped to math alphanumeric Unicode symbols. When copied, these symbols display as bold or italic on platforms like LinkedIn, TikTok, and Twitter.</li>
+      <li><strong>Mobile Fold Simulation:</strong> Counts the characters in your text. Once the text exceeds 140 characters, the preview card splits the text and adds a "...see more" link, simulating LinkedIn's mobile layout.</li>
+    </ul>
+
+    <h3>Example Calculation (Formatting Walkthrough)</h3>
+    <p>
+      Let's look at an example of how raw text is converted into formatted text:
+    </p>
+    <p>
+      <strong>Raw input text:</strong><br />
+      "Three tips to scale your business: 1. Audit your funnel. 2. Write hooks. 3. Check your ROI."
+    </p>
+    <p>
+      <strong>Formatted output text:</strong><br />
+      "𝗧𝗵𝗿𝗲𝗲 𝘁𝗶𝗽𝘀 𝘁𝗼 𝘀𝗰𝗮𝗹𝗲 𝘆𝗼𝘂𝗿 𝗯𝘂𝘀𝗶𝗻𝗲𝘀𝘀:<br />
+      ✦ Audit your funnel.<br />
+      ✦ Write hooks.<br />
+      ✦ Check your ROI."
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      Our <strong>linkedin post formatter</strong> is designed for:
+    </p>
+    <ul>
+      <li><strong>Content Creators:</strong> Building their brand on LinkedIn.</li>
+      <li><strong>Recruiters & HR Teams:</strong> Formatting clean job listings.</li>
+      <li><strong>B2B Founders & Execs:</strong> Designing professional updates.</li>
+      <li><strong>Social Media Managers:</strong> Reviewing hook placements before publishing.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .bullet-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .bullet-btn:hover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.05);
+    transform: translateY(-1px);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.1rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .form-row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+</style>
+
+<script>
+  const setupLinkedinFormatter = () => {
+    const postInput = document.getElementById('post-input') as HTMLTextAreaElement;
+    const charCountVal = document.getElementById('res-char-count');
+
+    // Unicode stylizer inputs
+    const stylizeInput = document.getElementById('stylize-input') as HTMLInputElement;
+    const stylizeMode = document.getElementById('stylize-mode') as HTMLSelectElement;
+    const stylizeOutput = document.getElementById('stylize-output') as HTMLInputElement;
+    const copyStylizedBtn = document.getElementById('copy-stylized-btn');
+
+    // Bullet points Quick action buttons
+    const bulletButtons = document.querySelectorAll('.bullet-btn');
+    const doubleSpaceBtn = document.getElementById('double-space-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // LinkedIn mockup preview elements
+    const visiblePreview = document.getElementById('preview-text-visible');
+    const hiddenPreview = document.getElementById('preview-text-hidden');
+    const seeMoreSpan = document.getElementById('preview-text-more');
+    const copyFormattedBtn = document.getElementById('copy-formatted-btn');
+
+    // Unicode mapping tables
+    const unicodeMap = (text: string, mode: string) => {
+      const maps: Record<string, { startA: number, starta: number }> = {
+        'bold-sans': { startA: 0x1D5EA, starta: 0x1D604 },
+        'bold-serif': { startA: 0x1D400, starta: 0x1D41A },
+        'italic-sans': { startA: 0x1D670, starta: 0x1D68A },
+        'italic-serif': { startA: 0x1D434, starta: 0x1D44E },
+        'monospace': { startA: 0x1D670, starta: 0x1D68A } // fallback placeholder
+      };
+
+      if (mode === 'monospace') {
+        // Monospace mapping
+        return text.split('').map(char => {
+          const code = char.charCodeAt(0);
+          if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D670 + (code - 65));
+          if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D68A + (code - 97));
+          if (code >= 48 && code <= 57) return String.fromCodePoint(0x1D7F6 + (code - 48));
+          return char;
+        }).join('');
+      }
+
+      const cfg = maps[mode] || maps['bold-sans'];
+      return text.split('').map(char => {
+        const code = char.charCodeAt(0);
+        if (code >= 65 && code <= 90) {
+          return String.fromCodePoint(cfg.startA + (code - 65));
+        }
+        if (code >= 97 && code <= 122) {
+          return String.fromCodePoint(cfg.starta + (code - 97));
+        }
+        return char;
+      }).join('');
+    };
+
+    // Update Stylizer Output dynamically
+    const updateStylizer = () => {
+      const phrase = stylizeInput?.value || '';
+      const mode = stylizeMode?.value || 'bold-sans';
+      if (stylizeOutput) {
+        stylizeOutput.value = phrase ? unicodeMap(phrase, mode) : '';
+      }
+    };
+
+    stylizeInput?.addEventListener('input', updateStylizer);
+    stylizeMode?.addEventListener('change', updateStylizer);
+
+    // Copy Stylized phrase
+    copyStylizedBtn?.addEventListener('click', () => {
+      const styled = stylizeOutput?.value || '';
+      if (!styled) return alert("Please type a phrase to stylize.");
+      navigator.clipboard.writeText(styled).then(() => {
+        const originalText = copyStylizedBtn.textContent;
+        copyStylizedBtn.textContent = 'Copied! ✓';
+        setTimeout(() => {
+          copyStylizedBtn.textContent = originalText;
+        }, 1500);
+      });
+    });
+
+    // Cursor position helper for bullet point insertions
+    const insertAtCursor = (textarea: HTMLTextAreaElement, value: string) => {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = textarea.value;
+      textarea.value = text.substring(0, start) + value + text.substring(end);
+      textarea.selectionStart = textarea.selectionEnd = start + value.length;
+      textarea.focus();
+    };
+
+    bulletButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const bullet = btn.getAttribute('data-bullet') || '';
+        if (postInput) {
+          insertAtCursor(postInput, bullet);
+          updatePreview();
+        }
+      });
+    });
+
+    // Double Space line breaks
+    doubleSpaceBtn?.addEventListener('click', () => {
+      if (!postInput) return;
+      const val = postInput.value;
+      // Replace single linebreaks that aren't already double linebreaks with double linebreaks
+      const cleaned = val.replace(/([^\n])\n([^\n])/g, '$1\n\n$2');
+      postInput.value = cleaned;
+      updatePreview();
+    });
+
+    const updatePreview = () => {
+      const val = postInput?.value || '';
+      const charCount = val.length;
+
+      // Update Character limits
+      if (charCountVal) {
+        charCountVal.textContent = `${charCount} / 3000`;
+        charCountVal.style.color = charCount > 3000 ? '#ef4444' : '';
+      }
+
+      // LinkedIn mockup see more layout logic (140 characters mobile fold)
+      if (visiblePreview && hiddenPreview && seeMoreSpan) {
+        if (val.length === 0) {
+          visiblePreview.textContent = 'Your formatted post will preview here in real-time...';
+          seeMoreSpan.style.display = 'none';
+          hiddenPreview.style.display = 'none';
+        } else if (val.length <= 140) {
+          visiblePreview.textContent = val;
+          seeMoreSpan.style.display = 'none';
+          hiddenPreview.style.display = 'none';
+        } else {
+          visiblePreview.textContent = val.substring(0, 140);
+          seeMoreSpan.style.display = 'inline';
+          hiddenPreview.textContent = val.substring(140);
+        }
+      }
+    };
+
+    // Toggle expand mockup see more click
+    seeMoreSpan?.addEventListener('click', () => {
+      if (hiddenPreview && seeMoreSpan) {
+        hiddenPreview.style.display = 'inline';
+        seeMoreSpan.style.display = 'none';
+      }
+    });
+
+    postInput?.addEventListener('input', updatePreview);
+
+    // Copy formatted full text
+    copyFormattedBtn?.addEventListener('click', () => {
+      const text = postInput?.value || '';
+      if (!text) return alert("Please enter some text in the post box first.");
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = copyFormattedBtn.textContent;
+        copyFormattedBtn.textContent = 'Post Copied! ✓';
+        setTimeout(() => {
+          copyFormattedBtn.textContent = originalText;
+        }, 1500);
+      });
+    });
+
+    // Reset Form
+    resetBtn?.addEventListener('click', () => {
+      if (postInput) postInput.value = '';
+      if (stylizeInput) stylizeInput.value = '';
+      if (stylizeOutput) stylizeOutput.value = '';
+      updatePreview();
+    });
+
+    updatePreview();
+  };
+
+  setupLinkedinFormatter();
+  document.addEventListener('astro:after-swap', setupLinkedinFormatter);
+</script>

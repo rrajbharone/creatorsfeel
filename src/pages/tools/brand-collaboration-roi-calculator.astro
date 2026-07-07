@@ -197,10 +197,16 @@ const faqs = [
     </div>
   </div>
 
-  <div slot="about">
+  <div slot="about" class="editorial-content">
     <h2>How to Use This ROI Calculator: A Step-by-Step Guide</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to optimize your metrics?</strong> Read our comprehensive guide on <a href="/blog/brand-collaboration-roi-calculator-guide" style="color: var(--color-brand); text-decoration: underline;">Brand Collaboration ROI Calculations & Campaign Value Auditing</a> to learn how to calculate client acquisition costs, engagement multipliers, and margins.
+      </p>
+    </div>
+
     <p>
-      Calculating your return on investment is key to evaluating whether a brand collaboration is financially viable. This tool supports two campaign goals: **Sales & Conversions** (ideal for tracking promotional codes and affiliate links) and **Brand Awareness (EMV)** (ideal for valuing top-of-funnel reach).
+      Calculating your return on investment is key to evaluating whether a brand collaboration is financially viable. This tool supports two campaign goals: <strong>Sales & Conversions</strong> (ideal for tracking promotional codes and affiliate links) and <strong>Brand Awareness (EMV)</strong> (ideal for valuing top-of-funnel reach).
     </p>
     <p>
       Follow this step-by-step tutorial to get accurate results:
@@ -214,7 +220,7 @@ const faqs = [
 
       <div class="step-item">
         <h3>Step 2: Enter Campaign Expenditure</h3>
-        <p>Input the **Influencer Fee** (sponsorship payment) and **Additional Costs** (sample shipping, product gifting value, agency commissions, paid ad boosts).</p>
+        <p>Input the <strong>Influencer Fee</strong> (sponsorship payment) and <strong>Additional Costs</strong> (sample shipping, product gifting value, agency commissions, paid ad boosts).</p>
       </div>
 
       <div class="step-item">
@@ -595,6 +601,14 @@ const faqs = [
       align-items: start;
       gap: 2.5rem;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 

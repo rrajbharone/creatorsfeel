@@ -153,7 +153,7 @@ const faqs = [
     </div>
   </div>
 
-  <div slot="about">
+  <div slot="about" class="editorial-content">
     <h2>Twitter Engagement Calculator: How to Audit Your Performance on X</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
@@ -162,7 +162,7 @@ const faqs = [
     </div>
     
     <p>
-      Succeeding on X (formerly Twitter) requires more than just publishing posts regularly. With millions of posts published every day, standing out in the feed requires active engagement from your audience. To track your performance, you must understand **how to calculate engagement rate on twitter** using structured calculations. This **twitter engagement calculator** provides creators and social media managers with a free tool to audit their metrics.
+      Succeeding on X (formerly Twitter) requires more than just publishing posts regularly. With millions of posts published every day, standing out in the feed requires active engagement from your audience. To track your performance, you must understand <strong>how to calculate engagement rate on twitter</strong> using structured calculations. This <strong>twitter engagement calculator</strong> provides creators and social media managers with a free tool to audit their metrics.
     </p>
 
     <h2>How to Use the Twitter Engagement Calculator</h2>
@@ -203,7 +203,7 @@ const faqs = [
 
     <h2>Benefits of Auditing Your Engagement Rate on X</h2>
     <p>
-      Using a **twitter engagement rate calculator** regularly helps you:
+      Using a <strong>twitter engagement rate calculator</strong> regularly helps you:
     </p>
     <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
       <li><strong>Optimize Content Formats:</strong> Compare engagement rates between text posts, image posts, and video posts to see what your audience prefers.</li>
@@ -213,7 +213,7 @@ const faqs = [
 
     <h2>The Twitter Engagement Rate Formula</h2>
     <p>
-      To **calculate twitter engagement rate** manually, you can use the standard followers-based equation:
+      To <strong>calculate twitter engagement rate</strong> manually, you can use the standard followers-based equation:
     </p>
     <p style="background: var(--color-bg-alt); padding: 1rem; border-radius: var(--radius-md); font-family: monospace; text-align: center; border: 1px solid var(--color-border); font-weight: 700; color: var(--color-brand);">
       Engagement Rate = ((Likes + Reposts + Replies + Bookmarks) / Followers) * 100
@@ -544,6 +544,14 @@ const faqs = [
       align-items: start;
       gap: 2.5rem;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 

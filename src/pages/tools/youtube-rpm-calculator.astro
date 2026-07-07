@@ -161,7 +161,7 @@ const faqs = [
     </div>
   </div>
 
-  <div slot="about">
+  <div slot="about" class="editorial-content">
     <h2>YouTube RPM Calculator: How to Estimate Your True Channel Revenue</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
@@ -170,7 +170,7 @@ const faqs = [
     </div>
     
     <p>
-      Managing a YouTube channel requires monitoring financial analytics. While YouTube Studio provides complex analytics, calculating your actual earnings per views can be difficult. This **youtube rpm calculator** simplifies this process, providing creators with a free tool to calculate their actual earnings per thousand views.
+      Managing a YouTube channel requires monitoring financial analytics. While YouTube Studio provides complex analytics, calculating your actual earnings per views can be difficult. This <strong>youtube rpm calculator</strong> simplifies this process, providing creators with a free tool to calculate their actual earnings per thousand views.
     </p>
 
     <h2>How to Use the YouTube RPM Calculator</h2>
@@ -215,7 +215,7 @@ const faqs = [
 
     <h2>Benefits of Understanding Your YouTube RPM</h2>
     <p>
-      Monitoring **how to calculate youtube rpm** and evaluating performance helps you:
+      Monitoring <strong>how to calculate youtube rpm</strong> and evaluating performance helps you:
     </p>
     <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text-muted);">
       <li><strong>Benchmark Content Performance:</strong> Lets you identify which videos generate the highest returns per view so you can focus on high-paying topics.</li>
@@ -225,7 +225,7 @@ const faqs = [
 
     <h2>How to Calculate Your Own RPM manually</h2>
     <p>
-      If you want to know **how to calculate your own rpm youtube** manually, you can use the standard formula. Divide your total estimated earnings by the total number of views received, then multiply the result by 1,000:
+      If you want to know <strong>how to calculate your own rpm youtube</strong> manually, you can use the standard formula. Divide your total estimated earnings by the total number of views received, then multiply the result by 1,000:
     </p>
     <p style="background: var(--color-bg-alt); padding: 1rem; border-radius: var(--radius-md); font-family: monospace; text-align: center; border: 1px solid var(--color-border); font-weight: 700; color: var(--color-brand);">
       RPM = (Total Net Earnings / Total Video Views) * 1,000
@@ -572,6 +572,14 @@ const faqs = [
       align-items: start;
       gap: 2.5rem;
     }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
   }
 </style>
 
