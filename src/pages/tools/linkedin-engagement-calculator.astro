@@ -1,0 +1,549 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is a good engagement rate on LinkedIn?",
+    answer: "For company pages, a good engagement rate is between 1% and 2%. For personal profiles and creators, engagement rates are generally higher, ranging from 3% to 7% due to stronger personal connections."
+  },
+  {
+    question: "Should I calculate engagement based on followers or impressions?",
+    answer: "If you want to audit campaign reach and content efficiency, impressions-based calculation is best because it measures interactions against actual views. If you are comparing your profile against competitors, followers-based calculation is best because competitor impressions are private."
+  },
+  {
+    question: "Do link clicks count toward LinkedIn engagement?",
+    answer: "Yes, LinkedIn's native analytics counts link clicks, profile clicks, image clicks, and see-more clicks as interactions when calculating your total engagement rate."
+  },
+  {
+    question: "Does the LinkedIn algorithm reward high engagement rates?",
+    answer: "Yes. When a post receives quick reactions and comments (especially in the first hour), the algorithm distributes it to a broader group of feeds, extending its organic reach."
+  },
+  {
+    question: "How can I find my post impressions on LinkedIn?",
+    answer: "You can find impressions at the bottom of each post by clicking 'View analytics' or by exporting your complete profile data from your LinkedIn Creator Analytics dashboard."
+  }
+];
+---
+
+<ToolLayout
+  title="LinkedIn Engagement Calculator - Calculate Engagement Rate"
+  description="Calculate your LinkedIn engagement rate. Free online LinkedIn engagement rate calculator supporting both followers and impressions methods."
+  toolName="LinkedIn Engagement Calculator"
+  toolDescription="Measure the efficiency of your professional posts. Calculate engagement rate using impressions or followers and evaluate benchmarks."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Calculation Method Selection -->
+    <div class="tabs-container" style="display: flex; gap: 0.5rem; margin-bottom: 1.75rem; background: var(--color-bg-alt); padding: 0.35rem; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
+      <button type="button" id="tab-impressions" class="tab-btn active" style="flex: 1; height: 40px; border: none; background: var(--color-brand); color: white; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all var(--transition-fast);">Impressions-Based</button>
+      <button type="button" id="tab-followers" class="tab-btn" style="flex: 1; height: 40px; border: none; background: transparent; color: var(--color-text-muted); font-weight: 600; border-radius: 8px; cursor: pointer; transition: all var(--transition-fast);">Followers-Based</button>
+    </div>
+
+    <!-- Main Calculator Input & Output Grid -->
+    <div class="calc-grid" id="calc-form-container">
+      <form class="calc-form" id="engagement-form" onsubmit="return false;">
+        <!-- Dynamic Base Input -->
+        <div class="form-group">
+          <label for="base-input" class="icon-label" id="base-input-label">
+            <svg id="svg-impressions" class="field-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+            <svg id="svg-followers" class="field-icon hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.005 9.005 0 0 0-3.565-6.89M9 3.401a9 9 0 0 0-6.19 12.432m12.43a9 9 0 0 0-6.19-12.432M3 16.279a9 9 0 0 0 6.19 2.22m3.565-6.89a9.043 9.043 0 0 1 3.565 6.89m-7.13-13.78a9 9 0 0 0-3.565 6.89" />
+            </svg>
+            <span id="base-input-text">Post Impressions</span>
+          </label>
+          <input type="number" id="base-input" class="form-input" min="1" placeholder="e.g. 5000" required />
+        </div>
+
+        <div class="form-row-2">
+          <!-- Likes -->
+          <div class="form-group">
+            <label for="likes-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.1-1.4-.294l-3.52-1.57a3.15 3.15 0 0 0-2.22-.24l-.89.288c-.64.207-1.343-.097-1.62-.71l-.54-1.19c-.27-.59-.033-1.285.54-1.57c.563-.28 1.1-.644 1.6-1.082L6.63 10.25Z" />
+              </svg>
+              Likes & Reactions
+            </label>
+            <input type="number" id="likes-input" class="form-input" min="0" placeholder="0" />
+          </div>
+
+          <!-- Comments -->
+          <div class="form-group">
+            <label for="comments-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501c1.153-.086 2.294-.213 3.423-.379 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v5.78Z" />
+              </svg>
+              Comments
+            </label>
+            <input type="number" id="comments-input" class="form-input" min="0" placeholder="0" />
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <!-- Reposts -->
+          <div class="form-group">
+            <label for="reposts-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.656 48.656 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7C4.547 9.547 4.5 10.768 4.5 12s.047 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.092-1.209.138-2.43.138-3.662Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 10.5 12 7.5m0 0 3 3m-3-3v8.25" />
+              </svg>
+              Reposts (Shares)
+            </label>
+            <input type="number" id="reposts-input" class="form-input" min="0" placeholder="0" />
+          </div>
+
+          <!-- Clicks -->
+          <div class="form-group">
+            <label for="clicks-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 9.152c.582.448 1.148.89 1.676 1.345m-1.676-1.345c-.528-.407-1.124-.805-1.77-1.181m1.77 1.181c.07.054.14.108.209.163l.008.006a4.499 4.499 0 0 1-1.637 7.73l-.004.001a4.5 4.5 0 0 1-3.67-1.428m1.026-6.472a12.062 12.062 0 0 0-4.043 1.954m0 0C6.273 11.238 6 12.086 6 13c0 .92.274 1.776.745 2.493m-4.043-1.954c.264-.127.534-.242.812-.346m0 0a48.74 48.74 0 0 1 12.39-2.073m-12.39 2.073L2.25 18M18 12.375c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0 1 13.5 12.375v-2.25c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v2.25Z" />
+              </svg>
+              Link Clicks (Optional)
+            </label>
+            <input type="number" id="clicks-input" class="form-input" min="0" placeholder="0" />
+          </div>
+        </div>
+
+        <div class="form-actions" style="margin-top: 1.25rem;">
+          <button type="button" id="calc-btn" class="calc-btn" style="width: 100%;">Calculate Engagement</button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display Panel -->
+      <div class="calc-results" id="results-wrapper">
+        <div class="results-empty" id="res-empty-box">
+          <p class="text-muted" style="text-align: center; margin: 0;">Enter your post metrics and click Calculate to view your LinkedIn engagement rate and benchmark status.</p>
+        </div>
+
+        <div class="results-active hidden" id="res-active-box" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+          <!-- Large Rate Card -->
+          <div class="rate-display-card" style="text-align: center; background: var(--color-bg); padding: 1.75rem; border-radius: 16px; border: 1px solid var(--color-border);">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; display: block; margin-bottom: 0.5rem; letter-spacing: 0.05em;">LinkedIn Engagement Rate</span>
+            <h2 id="res-rate-num" style="font-size: 3.5rem; font-weight: 800; margin: 0; color: var(--color-brand);">0.00%</h2>
+            <div id="res-rating-badge" style="display: inline-block; margin-top: 0.75rem; padding: 0.25rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; background: var(--color-bg-alt); border: 1px solid var(--color-border);">Good</div>
+          </div>
+
+          <!-- Interaction Breakdown Metrics -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div style="background: var(--color-bg); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+              <span id="res-total-interactions" style="font-size: 1.5rem; font-weight: 800; color: var(--color-text); display: block;">0</span>
+              <span style="font-size: 0.75rem; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase;">Total Interactions</span>
+            </div>
+            <div style="background: var(--color-bg); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+              <span id="res-denominator-val" style="font-size: 1.5rem; font-weight: 800; color: var(--color-text); display: block;">0</span>
+              <span id="res-denominator-label" style="font-size: 0.75rem; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase;">Impressions</span>
+            </div>
+          </div>
+
+          <!-- Optimization Feedback -->
+          <div id="res-feedback-box" style="background: var(--color-bg); border: 1px solid var(--color-border); padding: 1.25rem; border-radius: 12px; font-size: 0.88rem; line-height: 1.5; color: var(--color-text-muted);">
+            Your engagement status will show here.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>LinkedIn Engagement Calculator: Measure and Grow Your Reach</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to grow your professional visibility?</strong> Read our comprehensive guide on <a href="/blog/linkedin-engagement-calculator-guide" style="color: var(--color-brand); text-decoration: underline;">LinkedIn Engagement Formulas & Organic Distribution Strategies</a> to learn how to structure hook copy, build dwell time multipliers, and boost your feed presence.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Succeeding on modern career networks requires more than sharing links. LinkedIn operates as a highly active B2B ecosystem where professional reach is driven by organic interactions. If your updates do not motivate comments, reposts, or reactions, the platform's distribution algorithm limits their visibility. This free <strong>linkedin engagement calculator</strong> makes it easy to audit your content's performance, evaluate benchmarks, and optimize your posting strategy.
+    </p>
+
+    <h3>What is LinkedIn Engagement Calculator?</h3>
+    <p>
+      A <strong>linkedin engagement rate calculator</strong> or <strong>linkedin engagement calculator</strong> is an online utility that audits content efficiency. It aggregates all post interactions (including likes, comments, reposts, and clicks) and compares them against your total follower count or post impressions. Using this data, it generates a percentage indicating how active your audience is.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To calculate your LinkedIn engagement rate, follow these instructions:
+    </p>
+    <ol>
+      <li><strong>Select Calculation Mode:</strong> Choose 'Impressions-Based' (recommended for internal campaign audits) or 'Followers-Based' (recommended for competitor profile audits).</li>
+      <li><strong>Enter Denominator:</strong> Paste the number of impressions (views) or followers into the primary base input field.</li>
+      <li><strong>Input Interactions:</strong> Type in the number of likes, comments, and reposts your post has received. Add any link clicks if you are tracking them.</li>
+      <li><strong>Calculate:</strong> Click <strong>Calculate Engagement</strong>. The tool will calculate your engagement rate and display your benchmark status.</li>
+      <li><strong>Reset:</strong> Click <strong>Reset</strong> to clear the form and start a new audit.</li>
+    </ol>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The calculator uses two primary formulas to evaluate your metrics:
+    </p>
+    <ul>
+      <li><strong>Impressions Method (Internal Analytics):</strong> Evaluates reach by dividing interactions by actual post views. Formula:
+        <br />
+        <code>Engagement Rate = ((Reactions + Comments + Reposts + Clicks) / Impressions) * 100</code>
+      </li>
+      <li><strong>Followers Method (Competitor Audits):</strong> Evaluates overall audience strength by dividing interactions by total followers. Formula:
+        <br />
+        <code>Engagement Rate = ((Reactions + Comments + Reposts + Clicks) / Followers) * 100</code>
+      </li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's walk through a formatting example of a post with these metrics:
+      <br />
+      ✦ Impressions: <strong>8,000</strong>
+      <br />
+      ✦ Likes/Reactions: <strong>120</strong>
+      <br />
+      ✦ Comments: <strong>40</strong>
+      <br />
+      ✦ Reposts: <strong>15</strong>
+      <br />
+      ✦ Clicks: <strong>25</strong>
+    </p>
+    <p>
+      <strong>Step 1: Sum the total interactions</strong>
+      <br />
+      <code>120 + 40 + 15 + 25 = 200 total interactions</code>
+    </p>
+    <p>
+      <strong>Step 2: Divide by impressions</strong>
+      <br />
+      <code>200 / 8,000 = 0.025</code>
+    </p>
+    <p>
+      <strong>Step 3: Multiply by 100 to get percentage</strong>
+      <br />
+      <code>0.025 * 100 = 2.50% engagement rate</code>
+    </p>
+    <p>
+      A 2.50% impressions-based engagement rate indicates a healthy, active post that meets industry standards on LinkedIn.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      Our <strong>linkedin post formatting tool</strong> and engagement rates calculator is designed for:
+    </p>
+    <ul>
+      <li><strong>LinkedIn Creators:</strong> Monitoring their audience growth.</li>
+      <li><strong>B2B Social Marketers:</strong> Auditing client updates.</li>
+      <li><strong>Recruitment Marketers:</strong> Optimizing job post layouts.</li>
+      <li><strong>Sales Reps:</strong> Evaluating their personal outreach posts.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .tab-btn:not(.active) {
+    color: var(--color-text-muted) !important;
+  }
+
+  .tab-btn:not(.active):hover {
+    background: rgba(99, 102, 241, 0.05) !important;
+    color: var(--color-text) !important;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .form-row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+</style>
+
+<script>
+  const setupLinkedinEngagementCalculator = () => {
+    // Mode tabs
+    const tabImpressions = document.getElementById('tab-impressions');
+    const tabFollowers = document.getElementById('tab-followers');
+    const svgImpressions = document.getElementById('svg-impressions');
+    const svgFollowers = document.getElementById('svg-followers');
+    const baseInputText = document.getElementById('base-input-text');
+    const baseInput = document.getElementById('base-input') as HTMLInputElement;
+
+    // Inputs
+    const likesInput = document.getElementById('likes-input') as HTMLInputElement;
+    const commentsInput = document.getElementById('comments-input') as HTMLInputElement;
+    const repostsInput = document.getElementById('reposts-input') as HTMLInputElement;
+    const clicksInput = document.getElementById('clicks-input') as HTMLInputElement;
+
+    // Actions
+    const calculateBtn = document.getElementById('calc-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Outputs
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+    const rateNum = document.getElementById('res-rate-num');
+    const ratingBadge = document.getElementById('res-rating-badge');
+    const totalInteractions = document.getElementById('res-total-interactions');
+    const denominatorVal = document.getElementById('res-denominator-val');
+    const denominatorLabel = document.getElementById('res-denominator-label');
+    const feedbackBox = document.getElementById('res-feedback-box');
+
+    let currentMode: 'impressions' | 'followers' = 'impressions';
+
+    // Toggle Tabs
+    const setMode = (mode: 'impressions' | 'followers') => {
+      currentMode = mode;
+      if (mode === 'impressions') {
+        tabImpressions?.classList.add('active');
+        tabFollowers?.classList.remove('active');
+        if (tabImpressions) {
+          tabImpressions.style.background = 'var(--color-brand)';
+          tabImpressions.style.color = 'white';
+        }
+        if (tabFollowers) {
+          tabFollowers.style.background = 'transparent';
+          tabFollowers.style.color = 'var(--color-text-muted)';
+        }
+        svgImpressions?.classList.remove('hidden');
+        svgFollowers?.classList.add('hidden');
+        if (baseInputText) baseInputText.textContent = 'Post Impressions';
+        if (baseInput) baseInput.placeholder = 'e.g. 5000';
+      } else {
+        tabFollowers?.classList.add('active');
+        tabImpressions?.classList.remove('active');
+        if (tabFollowers) {
+          tabFollowers.style.background = 'var(--color-brand)';
+          tabFollowers.style.color = 'white';
+        }
+        if (tabImpressions) {
+          tabImpressions.style.background = 'transparent';
+          tabImpressions.style.color = 'var(--color-text-muted)';
+        }
+        svgFollowers?.classList.remove('hidden');
+        svgImpressions?.classList.add('hidden');
+        if (baseInputText) baseInputText.textContent = 'Follower Count';
+        if (baseInput) baseInput.placeholder = 'e.g. 12000';
+      }
+    };
+
+    tabImpressions?.addEventListener('click', () => setMode('impressions'));
+    tabFollowers?.addEventListener('click', () => setMode('followers'));
+
+    // Perform Calculation
+    const calculateEngagement = () => {
+      const baseVal = parseFloat(baseInput?.value || '');
+      const likes = parseFloat(likesInput?.value || '0');
+      const comments = parseFloat(commentsInput?.value || '0');
+      const reposts = parseFloat(repostsInput?.value || '0');
+      const clicks = parseFloat(clicksInput?.value || '0');
+
+      if (!baseVal || baseVal <= 0) {
+        alert(currentMode === 'impressions' ? "Please enter a valid number of impressions." : "Please enter a valid number of followers.");
+        return;
+      }
+
+      const totalInter = likes + comments + reposts + clicks;
+      const rate = (totalInter / baseVal) * 100;
+
+      // Update Outputs
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      if (rateNum) {
+        rateNum.textContent = `${rate.toFixed(2)}%`;
+      }
+
+      if (totalInteractions) {
+        totalInteractions.textContent = totalInter.toLocaleString();
+      }
+
+      if (denominatorVal) {
+        denominatorVal.textContent = baseVal.toLocaleString();
+      }
+
+      if (denominatorLabel) {
+        denominatorLabel.textContent = currentMode === 'impressions' ? 'Impressions' : 'Followers';
+      }
+
+      // Benchmark limits & rating badge
+      if (ratingBadge && feedbackBox) {
+        if (rate < 1.0) {
+          ratingBadge.textContent = 'Low';
+          ratingBadge.style.color = '#ef4444';
+          ratingBadge.style.background = 'rgba(239, 68, 68, 0.1)';
+          ratingBadge.style.borderColor = 'rgba(239, 68, 68, 0.2)';
+          feedbackBox.innerHTML = `
+            🔴 <strong>Low engagement status.</strong> Try improving your hook placement within the first 140 characters, double-space your paragraphs to improve readability, and invite comments with a clear question at the bottom.
+          `;
+        } else if (rate >= 1.0 && rate <= 3.5) {
+          ratingBadge.textContent = 'Good';
+          ratingBadge.style.color = 'var(--color-brand)';
+          ratingBadge.style.background = 'rgba(99, 102, 241, 0.1)';
+          ratingBadge.style.borderColor = 'rgba(99, 102, 241, 0.2)';
+          feedbackBox.innerHTML = `
+            🟡 <strong>Good/Average engagement status.</strong> Your posts are performing consistently. To push into the outstanding category, try incorporating structured lists with bullet emojis and engaging directly with comments in the first hour.
+          `;
+        } else {
+          ratingBadge.textContent = 'Outstanding';
+          ratingBadge.style.color = 'var(--color-success)';
+          ratingBadge.style.background = 'rgba(34, 197, 94, 0.1)';
+          ratingBadge.style.borderColor = 'rgba(34, 197, 94, 0.2)';
+          feedbackBox.innerHTML = `
+            🟢 <strong>Outstanding engagement status!</strong> Your content is highly relevant to your audience and is creating active discussions. Keep replication parameters consistent and test new B2B niche topics.
+          `;
+        }
+      }
+
+      // Smooth scroll to results on mobile devices
+      if (window.innerWidth < 768) {
+        activeBox?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    calculateBtn?.addEventListener('click', calculateEngagement);
+
+    // Reset Form
+    resetBtn?.addEventListener('click', () => {
+      if (baseInput) baseInput.value = '';
+      if (likesInput) likesInput.value = '';
+      if (commentsInput) commentsInput.value = '';
+      if (repostsInput) repostsInput.value = '';
+      if (clicksInput) clicksInput.value = '';
+
+      if (emptyBox) emptyBox.classList.remove('hidden');
+      if (activeBox) activeBox.classList.add('hidden');
+    });
+  };
+
+  setupLinkedinEngagementCalculator();
+  document.addEventListener('astro:after-swap', setupLinkedinEngagementCalculator);
+</script>

@@ -31,6 +31,8 @@ export const GET: APIRoute = async (context) => {
     '/tools/instagram-username-generator',
     '/tools/instagram-hashtag-counter',
     '/tools/linkedin-post-formatter',
+    '/tools/linkedin-engagement-calculator',
+    '/tools/twitter-character-counter',
     '/blog',
     '/privacy',
     '/terms',

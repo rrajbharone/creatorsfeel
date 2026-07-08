@@ -1,0 +1,441 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the character limit on Twitter / X?",
+    answer: "For standard free accounts, the character limit is 280 characters. For X Premium subscribers, the limit is extended to 25,000 characters."
+  },
+  {
+    question: "How does Twitter count links?",
+    answer: "Every URL included in a tweet—regardless of its actual length—is automatically shortened using X's 't.co' wrapper and counts as exactly 23 characters against your limit."
+  },
+  {
+    question: "How do emojis impact my tweet character count?",
+    answer: "Under Twitter's text parser rules, emojis (including combined or customized ones) count as 2 characters each because they are processed as Unicode surrogate pairs."
+  },
+  {
+    question: "Do spaces count as characters on Twitter?",
+    answer: "Yes, every space, line break, and punctuation mark counts as exactly 1 character against your Twitter limit."
+  },
+  {
+    question: "Can I write threads using this tool?",
+    answer: "Yes, you can draft your copy inside the editor, verify that your paragraphs fit within the 280-character limit, and copy individual sections to compose a clean thread on X."
+  }
+];
+---
+
+<ToolLayout
+  title="Twitter Character Counter - X Character Limit Checker"
+  description="Audit your tweet lengths in real-time. Free online Twitter character counter that accurately counts t.co links, emojis, and Premium limits."
+  toolName="Twitter Character Counter"
+  toolDescription="Analyze your tweet character counts. Paste your draft to check character limits, automatically calculate link shortening weights, and count emojis."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Account Limit Profile Selection -->
+    <div class="tabs-container" style="display: flex; gap: 0.5rem; margin-bottom: 1.75rem; background: var(--color-bg-alt); padding: 0.35rem; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
+      <button type="button" id="tab-standard" class="tab-btn active" style="flex: 1; height: 40px; border: none; background: var(--color-brand); color: white; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all var(--transition-fast);">Standard (280 Limit)</button>
+      <button type="button" id="tab-premium" class="tab-btn" style="flex: 1; height: 40px; border: none; background: transparent; color: var(--color-text-muted); font-weight: 600; border-radius: 8px; cursor: pointer; transition: all var(--transition-fast);">Premium (25K Limit)</button>
+    </div>
+
+    <!-- Main Form Editor Grid -->
+    <div class="calc-grid" id="calc-form-container">
+      <form class="calc-form" id="counter-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="tweet-input" class="icon-label">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+            </svg>
+            Draft Your Tweet
+          </label>
+          <textarea id="tweet-input" class="form-input" style="height: 180px; resize: vertical; font-family: inherit; line-height: 1.5; font-size: 0.98rem;" placeholder="Type or paste your tweet here. Emojis and URLs are automatically calculated according to X's rules..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="clean-spacing-btn" class="calc-btn-secondary" style="width: 100%;">Clean Spacing</button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Clear All</button>
+        </div>
+      </form>
+
+      <!-- Outputs Display & Circle Progress Ring -->
+      <div class="calc-results" id="results-wrapper">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 1.25rem;">
+          <!-- Visual Circle Progress Ring -->
+          <div style="position: relative; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
+            <svg style="transform: rotate(-90deg); width: 120px; height: 120px;">
+              <circle cx="60" cy="60" r="50" stroke="var(--color-border)" stroke-width="8" fill="transparent"></circle>
+              <circle id="progress-circle" cx="60" cy="60" r="50" stroke="var(--color-brand)" stroke-width="8" fill="transparent" stroke-dasharray="314.16" stroke-dashoffset="314.16" style="transition: stroke-dashoffset var(--transition-fast);"></circle>
+            </svg>
+            <div style="position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <span id="res-remaining-num" style="font-size: 1.75rem; font-weight: 800; color: var(--color-text);">280</span>
+              <span style="font-size: 0.65rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Left</span>
+            </div>
+          </div>
+
+          <!-- Counters Metrics -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; width: 100%;">
+            <div style="background: var(--color-bg); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+              <span id="res-x-weighted" style="font-size: 1.5rem; font-weight: 800; color: var(--color-text); display: block;">0</span>
+              <span style="font-size: 0.72rem; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase;">X-Weighted Count</span>
+            </div>
+            <div style="background: var(--color-bg); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+              <span id="res-standard" style="font-size: 1.5rem; font-weight: 800; color: var(--color-text); display: block;">0</span>
+              <span style="font-size: 0.72rem; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase;">Standard Count</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" id="copy-btn" class="calc-btn" style="width: 100%;">Copy Tweet Text</button>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Twitter Character Counter: Style and Audit Your Posts for X</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💡 <strong>Want to grow your audience on X?</strong> Read our comprehensive guide on <a href="/blog/twitter-character-counter-guide" style="color: var(--color-brand); text-decoration: underline;">Twitter Character Limits & Feed Optimization Strategies</a> to learn how to structure hooks, balance URL counts, and compose clean threads.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Writing high-converting posts for X (formerly Twitter) requires working within strict character limits. While long-form posts are available to Premium subscribers, standard free accounts must communicate their message in exactly 280 characters. This free <strong>twitter character counter</strong> offers a clean editor to count characters, calculate link shortening weights, and preview limits before publishing.
+    </p>
+
+    <h3>What is Twitter Character Counter?</h3>
+    <p>
+      A <strong>twitter character counter</strong> or <strong>x character counter</strong> is an online writing utility designed to audit caption lengths. Twitter's text parser does not count characters like standard word processors. Because X automatically shortens links and treats emojis differently, using a dedicated parser ensures your draft fits the platform's actual rules.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To check your tweet lengths, follow these instructions:
+    </p>
+    <ol>
+      <li><strong>Select Account Type:</strong> Choose 'Standard' (280 limit) or 'Premium' (25,000 limit) depending on your profile level.</li>
+      <li><strong>Paste or Type Content:</strong> Enter your text into the editor. The progress circle and counter cards will update dynamically as you type.</li>
+      <li><strong>Review X-Weighted Count:</strong> Check the 'X-Weighted Count' card. Emojis and links are automatically weighted according to X's rules.</li>
+      <li><strong>Clean Spacing:</strong> Click <strong>Clean Spacing</strong> to strip out excess double linebreaks and optimize paragraph heights.</li>
+      <li><strong>Copy Tweet:</strong> Click <strong>Copy Tweet Text</strong> to copy your drafted text directly to your clipboard.</li>
+    </ol>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The tool uses a custom text parser to simulate Twitter's character counting logic:
+    </p>
+    <ul>
+      <li><strong>URL Shortener Weighting:</strong> Finds URLs using regex and replaces each with a dummy 23-character string, matching X's t.co wrapper rules.</li>
+      <li><strong>Emoji Weighting:</strong> Counts emojis (Unicode surrogate pairs) as 2 characters each, aligning with Twitter's text config rules.</li>
+      <li><strong>Dynamic Capacity Progress:</strong> Displays capacity usage visually using a circular stroke bar that changes to red if you exceed your limit.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's walk through an example of how raw text length compares to X-weighted length:
+    </p>
+    <p>
+      <strong>Draft text:</strong><br />
+      "Read my latest marketing case study here! 😊 https://example.com/case-study-about-brand-deals"
+    </p>
+    <p>
+      <strong>Standard Character Count:</strong><br />
+      The standard string contains <strong>89 characters</strong>.
+    </p>
+    <p>
+      <strong>X-Weighted Calculation:</strong><br />
+      ✦ Base text ("Read my latest marketing case study here! "): <strong>43 characters</strong>.<br />
+      ✦ Emoji ("😊"): <strong>2 characters</strong>.<br />
+      ✦ URL ("https://example.com/case-study-about-brand-deals"): Shortened to <strong>23 characters</strong>.<br />
+      <code>43 + 2 + 23 = 68 X-Weighted characters</code>.
+    </p>
+    <p>
+      By accounting for link shortening, the tool shows that your post uses only 68 characters, giving you more space for additional copy.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      Our <strong>free twitter character counter</strong> is designed for:
+    </p>
+    <ul>
+      <li><strong>Social Media Managers:</strong> Reviewing brand announcements.</li>
+      <li><strong>Content Creators:</strong> Drafting viral threads.</li>
+      <li><strong>Digital Advertisers:</strong> Optimizing ad copy for character limits.</li>
+      <li><strong>Affiliate Marketers:</strong> Adding tracking URLs to posts.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 340px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .tab-btn:not(.active) {
+    color: var(--color-text-muted) !important;
+  }
+
+  .tab-btn:not(.active):hover {
+    background: rgba(99, 102, 241, 0.05) !important;
+    color: var(--color-text) !important;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+</style>
+
+<script>
+  const setupTwitterCharacterCounter = () => {
+    // Mode tabs
+    const tabStandard = document.getElementById('tab-standard');
+    const tabPremium = document.getElementById('tab-premium');
+    const tweetInput = document.getElementById('tweet-input') as HTMLTextAreaElement;
+
+    // Actions
+    const cleanSpacingBtn = document.getElementById('clean-spacing-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+    const copyBtn = document.getElementById('copy-btn');
+
+    // Outputs
+    const progressCircle = document.getElementById('progress-circle');
+    const remainingNum = document.getElementById('res-remaining-num');
+    const xWeightedVal = document.getElementById('res-x-weighted');
+    const standardVal = document.getElementById('res-standard');
+
+    let currentLimit = 280;
+
+    // Toggle Tabs
+    const setLimit = (limit: number) => {
+      currentLimit = limit;
+      if (limit === 280) {
+        tabStandard?.classList.add('active');
+        tabPremium?.classList.remove('active');
+        if (tabStandard) {
+          tabStandard.style.background = 'var(--color-brand)';
+          tabStandard.style.color = 'white';
+        }
+        if (tabPremium) {
+          tabPremium.style.background = 'transparent';
+          tabPremium.style.color = 'var(--color-text-muted)';
+        }
+      } else {
+        tabPremium?.classList.add('active');
+        tabStandard?.classList.remove('active');
+        if (tabPremium) {
+          tabPremium.style.background = 'var(--color-brand)';
+          tabPremium.style.color = 'white';
+        }
+        if (tabStandard) {
+          tabStandard.style.background = 'transparent';
+          tabStandard.style.color = 'var(--color-text-muted)';
+        }
+      }
+      updateCounters();
+    };
+
+    tabStandard?.addEventListener('click', () => setLimit(280));
+    tabPremium?.addEventListener('click', () => setLimit(25000));
+
+    // Get X character count (links replacement to 23 chars)
+    const getXLength = (text: string) => {
+      let temp = text;
+      // Regex matching links (http/https/www/etc.)
+      const urlRegex = /https?:\/\/[^\s]+/gi;
+      temp = temp.replace(urlRegex, "12345678901234567890123");
+      return temp.length;
+    };
+
+    const updateCounters = () => {
+      const text = tweetInput?.value || '';
+      const standardLength = text.length;
+      const xLength = getXLength(text);
+      const remaining = currentLimit - xLength;
+
+      // Update counters values
+      if (standardVal) standardVal.textContent = standardLength.toLocaleString();
+      if (xWeightedVal) {
+        xWeightedVal.textContent = xLength.toLocaleString();
+        xWeightedVal.style.color = xLength > currentLimit ? '#ef4444' : '';
+      }
+
+      if (remainingNum) {
+        remainingNum.textContent = remaining.toLocaleString();
+        remainingNum.style.color = remaining < 0 ? '#ef4444' : '';
+      }
+
+      // Visual Progress Circle Ring calculation
+      if (progressCircle) {
+        const radius = 50;
+        const circumference = 2 * Math.PI * radius; // 314.16
+        const percent = Math.min(Math.max((xLength / currentLimit) * 100, 0), 100);
+        const offset = circumference - (percent / 100) * circumference;
+        
+        progressCircle.setAttribute('stroke-dashoffset', offset.toString());
+
+        if (xLength > currentLimit) {
+          progressCircle.setAttribute('stroke', '#ef4444');
+        } else if (percent > 85) {
+          progressCircle.setAttribute('stroke', 'orange');
+        } else {
+          progressCircle.setAttribute('stroke', 'var(--color-brand)');
+        }
+      }
+    };
+
+    tweetInput?.addEventListener('input', updateCounters);
+
+    // Clean spacing helper
+    cleanSpacingBtn?.addEventListener('click', () => {
+      if (!tweetInput) return;
+      const text = tweetInput.value;
+      // Replace triple or more linebreaks with clean double linebreaks
+      const cleaned = text.replace(/\n{3,}/g, '\n\n');
+      tweetInput.value = cleaned;
+      updateCounters();
+    });
+
+    // Copy Tweet
+    copyBtn?.addEventListener('click', () => {
+      const text = tweetInput?.value || '';
+      if (!text) return alert("Please enter some text to copy first.");
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = 'Tweet Copied! ✓';
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+        }, 1500);
+      });
+    });
+
+    // Reset Form
+    resetBtn?.addEventListener('click', () => {
+      if (tweetInput) tweetInput.value = '';
+      updateCounters();
+    });
+
+    updateCounters();
+  };
+
+  setupTwitterCharacterCounter();
+  document.addEventListener('astro:after-swap', setupTwitterCharacterCounter);
+</script>
