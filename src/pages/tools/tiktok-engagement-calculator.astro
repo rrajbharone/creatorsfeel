@@ -1,0 +1,548 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is a good engagement rate on TikTok?",
+    answer: "A good engagement rate on TikTok is typically between 3.5% and 6%. Anything above 6% is considered outstanding and indicates highly active viewers who resonate with your content."
+  },
+  {
+    question: "Should I calculate engagement based on followers or views?",
+    answer: "Views-based calculations are best for auditing individual video performance and campaign ROI, as TikTok's algorithm distributes content to the For You Page (FYP) rather than just followers. Followers-based calculations are useful for quick profile authority audits and competitor research."
+  },
+  {
+    question: "Why does the TikTok calculator include Saves and Shares?",
+    answer: "TikTok's recommendation algorithm heavily weights shares and saves. A share means the content was worth distributing, and a save means the user plans to watch it again. Including these metrics gives a much more accurate picture of your content's true algorithmic value."
+  },
+  {
+    question: "How often should I audit my TikTok engagement metrics?",
+    answer: "It is best to calculate your rate weekly or monthly to track trends, or per-campaign when delivering sponsored reports to brands."
+  },
+  {
+    question: "Is this TikTok Engagement Calculator free to use?",
+    answer: "Yes, our calculator is 100% free, runs locally in your browser, and requires no account creation or login details."
+  }
+];
+---
+
+<ToolLayout
+  title="TikTok Engagement Calculator - Free TikTok Rate Checker"
+  description="Calculate your TikTok engagement rate instantly. Paste your followers, views, likes, comments, shares, and saves to audit performance against benchmarks."
+  toolName="TikTok Engagement Calculator"
+  toolDescription="Analyze your TikTok interaction statistics. Choose between followers-based or views-based calculations to measure profile authority or sponsorship efficiency."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Calculation Mode Tabs -->
+    <div class="tabs-container" style="display: flex; gap: 0.5rem; margin-bottom: 1.75rem; background: var(--color-bg-alt); padding: 0.35rem; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
+      <button type="button" id="tab-views" class="tab-btn active" style="flex: 1; height: 40px; border: none; background: var(--color-brand); color: white; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all var(--transition-fast);">Views-Based (Video Audit)</button>
+      <button type="button" id="tab-followers" class="tab-btn" style="flex: 1; height: 40px; border: none; background: transparent; color: var(--color-text-muted); font-weight: 600; border-radius: 8px; cursor: pointer; transition: all var(--transition-fast);">Followers-Based (Profile Audit)</button>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="calc-grid">
+      <form class="calc-form" id="engagement-form" onsubmit="return false;">
+        <!-- Dynamic Base Input -->
+        <div class="form-group">
+          <label for="base-input" class="icon-label" id="base-input-label">
+            <svg id="svg-views" class="field-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+            <svg id="svg-followers" class="field-icon hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.005 9.005 0 0 0-3.565-6.89M9 3.401a9 9 0 0 0-6.19 12.432m12.43a9 9 0 0 0-6.19-12.432M3 16.279a9 9 0 0 0 6.19 2.22m3.565-6.89a9.043 9.043 0 0 1 3.565 6.89m-7.13-13.78a9 9 0 0 0-3.565 6.89" />
+            </svg>
+            <span id="base-input-text">Video Views</span>
+          </label>
+          <input type="number" id="base-input" class="form-input" min="1" placeholder="e.g. 25000" required />
+        </div>
+
+        <div class="form-row-2">
+          <!-- Likes -->
+          <div class="form-group">
+            <label for="likes-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+              </svg>
+              Likes
+            </label>
+            <input type="number" id="likes-input" class="form-input" min="0" placeholder="e.g. 1500" />
+          </div>
+
+          <!-- Comments -->
+          <div class="form-group">
+            <label for="comments-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48L4.5 21l3.75-1.5c1.1.256 2.27.375 3.75.375Z" />
+              </svg>
+              Comments
+            </label>
+            <input type="number" id="comments-input" class="form-input" min="0" placeholder="e.g. 80" />
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <!-- Shares -->
+          <div class="form-group">
+            <label for="shares-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+              </svg>
+              Shares
+            </label>
+            <input type="number" id="shares-input" class="form-input" min="0" placeholder="e.g. 120" />
+          </div>
+
+          <!-- Saves -->
+          <div class="form-group">
+            <label for="saves-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 13.186 0Z" />
+              </svg>
+              Saves
+            </label>
+            <input type="number" id="saves-input" class="form-input" min="0" placeholder="e.g. 210" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="calc-btn" class="calc-btn" style="width: 100%;">Calculate Engagement</button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset</button>
+        </div>
+      </form>
+
+      <!-- Dynamic Output Screen -->
+      <div class="calc-results" id="results-wrapper">
+        <!-- Default Empty State -->
+        <div id="res-empty-box" class="text-center" style="display: flex; flex-direction: column; gap: 1rem; padding: 2rem 0;">
+          <svg style="width: 48px; height: 48px; color: var(--color-text-muted); margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+          </svg>
+          <p style="margin: 0; color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.5;">
+            Enter your post metrics and click Calculate to view your TikTok engagement rate and benchmark status.
+          </p>
+        </div>
+
+        <!-- Calculated Results Panel -->
+        <div id="res-active-box" class="hidden" style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div style="text-align: center;">
+            <span id="res-rate-num" style="font-size: 3rem; font-weight: 800; color: var(--color-brand); display: block; line-height: 1;">0.00%</span>
+            <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--color-text-muted); display: block; margin-top: 0.5rem;">TikTok Engagement Rate</span>
+          </div>
+
+          <div style="background: var(--color-bg); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem;">
+              <span style="font-size: 0.88rem; color: var(--color-text-muted); font-weight: 600;">Benchmark Rating:</span>
+              <span id="res-rating-badge" class="badge" style="font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Outstanding</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem;">
+              <span style="font-size: 0.88rem; color: var(--color-text-muted); font-weight: 600;">Total Interactions:</span>
+              <span id="res-total-interactions" style="font-weight: 700; color: var(--color-text);">0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span id="res-denominator-label" style="font-size: 0.88rem; color: var(--color-text-muted); font-weight: 600;">Video Views:</span>
+              <span id="res-denominator-val" style="font-weight: 700; color: var(--color-text);">0</span>
+            </div>
+          </div>
+
+          <div id="res-feedback-box" style="font-size: 0.88rem; line-height: 1.5; padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border);">
+            <!-- Suggestions injected dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>TikTok Engagement Rate Optimizer: Audit Profiles and Videos</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        📈 <strong>Looking to boost your organic reach?</strong> Read our comprehensive strategy guide on <a href="/blog/tiktok-engagement-calculator-guide" style="color: var(--color-brand); text-decoration: underline;">TikTok Engagement Rates & Algorithm Hack Strategies</a> to learn how to structure hooks, increase video saves, and leverage shares.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Growing a presence on TikTok requires monitoring interaction signals. Because the For You Page (FYP) algorithm is based on active user engagement rather than passive scrolling, measuring metrics like comments, shares, and saves is essential. This free <strong>tiktok engagement calculator</strong> offers a simple interface to track your performance, evaluate sponsorship campaign values, and audit profile statistics.
+    </p>
+
+    <h3>What is TikTok Engagement Calculator?</h3>
+    <p>
+      A <strong>tiktok engagement calculator</strong> or <strong>tiktok engagement rate calculator</strong> is a social media tool designed to measure viewer response levels. Standard calculators only look at likes and comments. However, TikTok's algorithm prioritizes saves and shares. This tool includes these metrics to calculate a more accurate engagement rate.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To calculate your metrics, follow these instructions:
+    </p>
+    <ol>
+      <li><strong>Select Calculation Mode:</strong> Choose 'Views-Based' to audit individual video performance (recommended for brand campaigns) or 'Followers-Based' for profile authority assessments.</li>
+      <li><strong>Input Primary Metrics:</strong> Enter your views or follower count in the top input field.</li>
+      <li><strong>Input Interaction Statistics:</strong> Fill in the likes, comments, shares, and saves. If you do not have values for some inputs, leave them blank or enter 0.</li>
+      <li><strong>Analyze Results:</strong> Click <strong>Calculate Engagement</strong> to view your engagement percentage, total interactions, and benchmark rating.</li>
+      <li><strong>Reset Data:</strong> Click <strong>Reset</strong> to clear the inputs and start a new audit.</li>
+    </ol>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The tool calculates your engagement rate based on the chosen mode:
+    </p>
+    <ul>
+      <li><strong>Views-Based Formula:</strong> <code>((Likes + Comments + Shares + Saves) / Video Views) * 100</code>. This is the best method to evaluate individual video conversion rates.</li>
+      <li><strong>Followers-Based Formula:</strong> <code>((Likes + Comments + Shares + Saves) / Followers) * 100</code>. This is best to estimate overall profile authority.</li>
+      <li><strong>Rating Benchmarks:</strong> Compares your result against platform benchmarks: Low (below 3.5%), Good (3.5% to 6.0%), or Outstanding (above 6.0%).</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's walk through an example of a views-based campaign audit:
+    </p>
+    <p>
+      <strong>Campaign Video Statistics:</strong><br />
+      ✦ Video Views: 50,000<br />
+      ✦ Likes: 2,400<br />
+      ✦ Comments: 110<br />
+      ✦ Shares: 150<br />
+      ✦ Saves: 340
+    </p>
+    <p>
+      <strong>Step 1: Sum the interactions</strong><br />
+      <code>2,400 + 110 + 150 + 340 = 3,000 total interactions</code>
+    </p>
+    <p>
+      <strong>Step 2: Divide by video views and multiply by 100</strong><br />
+      <code>(3,000 / 50,000) * 100 = 6.00% engagement rate</code>
+    </p>
+    <p>
+      This result (6.00%) sits at the boundary of a Good to Outstanding rating, indicating strong audience interest.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This <strong>free tiktok engagement calculator</strong> is designed for:
+    </p>
+    <ul>
+      <li><strong>Content Creators:</strong> Tracking performance trends to find which video styles perform best.</li>
+      <li><strong>Influencer Marketing Agencies:</strong> Auditing creator profiles before pitching sponsorships.</li>
+      <li><strong>Brands & Sponsors:</strong> Evaluating campaign ROI and verifying deliverables.</li>
+      <li><strong>Social Media Managers:</strong> Building reporting decks for clients.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Card Padding and Styling */
+  .calc-card {
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    max-width: 100%;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 340px;
+    padding: 2.25rem;
+    border-radius: 20px !important;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    gap: 1.75rem;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .tab-btn:not(.active) {
+    color: var(--color-text-muted) !important;
+  }
+
+  .tab-btn:not(.active):hover {
+    background: rgba(99, 102, 241, 0.05) !important;
+    color: var(--color-text) !important;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Mobile Overrides */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .calc-results {
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      gap: 1.5rem !important;
+      margin-top: 0.5rem !important;
+      min-height: auto;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .form-row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  const setupTiktokEngagementCalculator = () => {
+    // Mode tabs
+    const tabViews = document.getElementById('tab-views');
+    const tabFollowers = document.getElementById('tab-followers');
+    const svgViews = document.getElementById('svg-views');
+    const svgFollowers = document.getElementById('svg-followers');
+    const baseInputText = document.getElementById('base-input-text');
+    const baseInput = document.getElementById('base-input') as HTMLInputElement;
+
+    // Inputs
+    const likesInput = document.getElementById('likes-input') as HTMLInputElement;
+    const commentsInput = document.getElementById('comments-input') as HTMLInputElement;
+    const sharesInput = document.getElementById('shares-input') as HTMLInputElement;
+    const savesInput = document.getElementById('saves-input') as HTMLInputElement;
+
+    // Actions
+    const calculateBtn = document.getElementById('calc-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Outputs
+    const emptyBox = document.getElementById('res-empty-box');
+    const activeBox = document.getElementById('res-active-box');
+    const rateNum = document.getElementById('res-rate-num');
+    const ratingBadge = document.getElementById('res-rating-badge');
+    const totalInteractions = document.getElementById('res-total-interactions');
+    const denominatorVal = document.getElementById('res-denominator-val');
+    const denominatorLabel = document.getElementById('res-denominator-label');
+    const feedbackBox = document.getElementById('res-feedback-box');
+
+    let currentMode: 'views' | 'followers' = 'views';
+
+    // Toggle Tabs
+    const setMode = (mode: 'views' | 'followers') => {
+      currentMode = mode;
+      if (mode === 'views') {
+        tabViews?.classList.add('active');
+        tabFollowers?.classList.remove('active');
+        if (tabViews) {
+          tabViews.style.background = 'var(--color-brand)';
+          tabViews.style.color = 'white';
+        }
+        if (tabFollowers) {
+          tabFollowers.style.background = 'transparent';
+          tabFollowers.style.color = 'var(--color-text-muted)';
+        }
+        svgViews?.classList.remove('hidden');
+        svgFollowers?.classList.add('hidden');
+        if (baseInputText) baseInputText.textContent = 'Video Views';
+        if (baseInput) baseInput.placeholder = 'e.g. 25000';
+      } else {
+        tabFollowers?.classList.add('active');
+        tabViews?.classList.remove('active');
+        if (tabFollowers) {
+          tabFollowers.style.background = 'var(--color-brand)';
+          tabFollowers.style.color = 'white';
+        }
+        if (tabViews) {
+          tabViews.style.background = 'transparent';
+          tabViews.style.color = 'var(--color-text-muted)';
+        }
+        svgFollowers?.classList.remove('hidden');
+        svgViews?.classList.add('hidden');
+        if (baseInputText) baseInputText.textContent = 'Followers';
+        if (baseInput) baseInput.placeholder = 'e.g. 10000';
+      }
+    };
+
+    tabViews?.addEventListener('click', () => setMode('views'));
+    tabFollowers?.addEventListener('click', () => setMode('followers'));
+
+    // Perform Calculation
+    const calculateEngagement = () => {
+      const baseVal = parseFloat(baseInput?.value || '');
+      const likes = parseFloat(likesInput?.value || '0');
+      const comments = parseFloat(commentsInput?.value || '0');
+      const shares = parseFloat(sharesInput?.value || '0');
+      const saves = parseFloat(savesInput?.value || '0');
+
+      if (!baseVal || baseVal <= 0) {
+        alert(currentMode === 'views' ? "Please enter a valid number of views." : "Please enter a valid follower count.");
+        return;
+      }
+
+      const totalInter = likes + comments + shares + saves;
+      const rate = (totalInter / baseVal) * 100;
+
+      // Update Outputs
+      if (emptyBox) emptyBox.classList.add('hidden');
+      if (activeBox) activeBox.classList.remove('hidden');
+
+      if (rateNum) {
+        rateNum.textContent = `${rate.toFixed(2)}%`;
+      }
+
+      if (totalInteractions) {
+        totalInteractions.textContent = totalInter.toLocaleString();
+      }
+
+      if (denominatorLabel) {
+        denominatorLabel.textContent = currentMode === 'views' ? 'Video Views:' : 'Followers:';
+      }
+
+      if (denominatorVal) {
+        denominatorVal.textContent = baseVal.toLocaleString();
+      }
+
+      // Ratings & Recommendations
+      let rating = 'Low';
+      let badgeColor = '#ef4444';
+      let feedback = '';
+
+      if (rate >= 6.0) {
+        rating = 'Outstanding';
+        badgeColor = '#22c55e';
+        feedback = `
+          <strong>Outstanding interaction rate!</strong> Your community is highly responsive. 
+          Saves and shares are driving your visibility on the For You Page (FYP). This level of engagement is highly valuable for sponsorships.
+        `;
+      } else if (rate >= 3.5) {
+        rating = 'Good';
+        badgeColor = '#f59e0b';
+        feedback = `
+          <strong>Healthy engagement levels.</strong> Your posts are capturing attention. 
+          To reach an outstanding rating, try adding calls to action that encourage viewers to share or save the video for later reference.
+        `;
+      } else {
+        rating = 'Low';
+        badgeColor = '#ef4444';
+        feedback = `
+          <strong>Low engagement levels.</strong> Viewers are scrolling past quickly. 
+          Focus on optimizing your video hooks in the first 3 seconds and using trending sounds to encourage longer watch times.
+        `;
+      }
+
+      if (ratingBadge) {
+        ratingBadge.textContent = rating;
+        ratingBadge.style.backgroundColor = badgeColor;
+        ratingBadge.style.color = 'white';
+      }
+
+      if (feedbackBox) {
+        feedbackBox.innerHTML = feedback;
+        feedbackBox.style.borderColor = badgeColor;
+        feedbackBox.style.background = currentMode === 'views' ? 'rgba(99, 102, 241, 0.03)' : 'rgba(34, 197, 94, 0.03)';
+      }
+    };
+
+    calculateBtn?.addEventListener('click', calculateEngagement);
+
+    // Reset Form
+    resetBtn?.addEventListener('click', () => {
+      if (baseInput) baseInput.value = '';
+      if (likesInput) likesInput.value = '';
+      if (commentsInput) commentsInput.value = '';
+      if (sharesInput) sharesInput.value = '';
+      if (savesInput) savesInput.value = '';
+      
+      emptyBox?.classList.remove('hidden');
+      activeBox?.classList.add('hidden');
+    });
+  };
+
+  setupTiktokEngagementCalculator();
+  document.addEventListener('astro:after-swap', setupTiktokEngagementCalculator);
+</script>

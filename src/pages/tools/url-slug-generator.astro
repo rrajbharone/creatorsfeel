@@ -1,0 +1,690 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is a URL slug?",
+    answer: "A URL slug is the user-readable part of a web address that comes at the very end of the URL, identifying a specific page (e.g., 'url-slug-generator')."
+  },
+  {
+    question: "Why should I remove stop words from SEO slugs?",
+    answer: "Removing stop words (like 'a', 'the', 'and', 'for') makes the slug shorter, cleaner, and easier for search engines and users to read, which helps boost SEO ranking signals."
+  },
+  {
+    question: "Should I use hyphens or underscores in URL slugs?",
+    answer: "You should always use hyphens (-) as word separators in URL slugs. Search engines like Google treat hyphens as spaces, whereas underscores (_) are treated as single characters, joining the words together."
+  },
+  {
+    question: "How long should a URL slug be?",
+    answer: "It is best to keep URL slugs under 50-60 characters or between 3 and 5 words. Shorter slugs are easier to share, look cleaner in search results, and prevent truncation."
+  },
+  {
+    question: "Can URL slugs contain uppercase letters?",
+    answer: "No, URL slugs should always be lowercase. Using uppercase letters can cause server routing issues, duplicate content flags, or broken links on some hosting platforms."
+  }
+];
+---
+
+<ToolLayout
+  title="URL Slug Generator - Free SEO Slug Maker"
+  description="Generate clean, readable, and search-optimized URL slugs. Convert page titles to slugs, strip stop-words, and preview Google search snippets."
+  toolName="URL Slug Generator"
+  toolDescription="Sanitize text strings and page titles into search-engine-friendly URL slugs. Clean up characters, remove prepositions, and optimize URL structure."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Settings and Input Forms -->
+      <div class="calc-form-column">
+        <form class="calc-form" id="generator-form" onsubmit="return false;">
+          <!-- Input String / Title -->
+          <div class="form-group">
+            <label for="value-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+              </svg>
+              Page Title or Input Text
+            </label>
+            <input type="text" id="value-input" class="form-input" placeholder="e.g. 10 Easy Tips to Improve SEO in 2026!" value="10 Easy Tips to Improve SEO in 2026!" required />
+          </div>
+
+          <!-- Separator Type -->
+          <div class="form-group">
+            <label for="separator-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+              </svg>
+              Word Separator Character
+            </label>
+            <select id="separator-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="-" selected>Hyphen (recommended-slug-style)</option>
+              <option value="_">Underscore (underscore_slug_style)</option>
+              <option value="+">Plus Symbol (plus+slug+style)</option>
+            </select>
+          </div>
+
+          <!-- Optimization Options -->
+          <div class="form-group" style="gap: 0.75rem; margin-top: 0.25rem;">
+            <label class="icon-label" style="margin-bottom: 0.15rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+              </svg>
+              SEO Slug Settings
+            </label>
+
+            <!-- Checkbox 1: Remove Stop Words -->
+            <label class="checkbox-container" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.92rem; font-weight: 600; color: var(--color-text);">
+              <input type="checkbox" id="stop-words-check" checked style="width: 17px; height: 17px; accent-color: var(--color-brand);" />
+              Remove common stop words (a, the, to, in, etc.)
+            </label>
+
+            <!-- Checkbox 2: Remove Numbers -->
+            <label class="checkbox-container" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.92rem; font-weight: 600; color: var(--color-text);">
+              <input type="checkbox" id="numbers-check" style="width: 17px; height: 17px; accent-color: var(--color-brand);" />
+              Strip digits and numbers
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn" style="width: 100%;">Generate Slug</button>
+            <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Fields</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Interactive Sandbox Editor & Google Mockup -->
+      <div class="calc-editor-column">
+        <!-- Live Google Search snippet mockup -->
+        <div class="google-mockup glass" style="background: var(--color-bg-alt); border: 1.5px solid var(--color-border); border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; text-align: left;">
+          <span style="font-size: 0.65rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.25rem; margin-bottom: 0.25rem; display: block;">Google Search Snippet Preview</span>
+          
+          <!-- URL breadcrumb line -->
+          <div style="font-size: 0.78rem; color: var(--color-text-muted); display: flex; align-items: center; gap: 0.25rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            <span>creatorsfeel.com</span>
+            <span>›</span>
+            <span>tools</span>
+            <span>›</span>
+            <span id="mockup-slug-display" style="color: var(--color-text); font-weight: 600;">easy-tips-improve-seo</span>
+          </div>
+
+          <!-- Page Title -->
+          <a href="#" onclick="return false;" style="font-size: 1.15rem; font-weight: 600; color: #1a0dab; text-decoration: none; line-height: 1.2; display: block; margin: 0.15rem 0;">10 Easy Tips to Improve SEO in 2026!</a>
+
+          <!-- Page snippet description description -->
+          <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.4; margin: 0;">
+            Discover the best ways to structure page URLs and meta tags. Audit formatting rules and check character limit compliance using our free tools.
+          </p>
+        </div>
+
+        <!-- Sandbox Active Workspace Editor -->
+        <div class="sandbox-box glass">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text); text-transform: uppercase;">Active Slug Sandbox</span>
+            <span id="sandbox-counter" style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted);">20 / 60</span>
+          </div>
+          
+          <textarea id="sandbox-input" class="form-input" style="height: 60px; resize: none; line-height: 1.4; font-size: 0.95rem; font-family: monospace; padding-top: 0.5rem;" placeholder="Refine your slug manually here..."></textarea>
+
+          <!-- Visual character budget progress bar -->
+          <div class="progress-bar-container" style="background: var(--color-border); height: 6px; border-radius: 4px; overflow: hidden; margin: 0.5rem 0;">
+            <div id="progress-bar-fill" style="width: 33.3%; height: 100%; background: var(--color-brand); transition: all var(--transition-fast);"></div>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+            <button type="button" id="copy-active-btn" class="calc-btn" style="flex: 1.2; height: 42px; font-size: 0.85rem;">Copy URL Slug</button>
+            <button type="button" id="clear-sandbox-btn" class="calc-btn-secondary" style="flex: 0.8; height: 42px; font-size: 0.85rem;">Clear</button>
+          </div>
+        </div>
+
+        <!-- Suggestions Drawer Panel -->
+        <div class="suggestions-drawer" id="suggestions-box" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+          <h4 style="margin: 0; font-size: 0.9rem; font-weight: 700; color: var(--color-text); text-transform: uppercase; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem;">Alternative Slug Variations</h4>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <!-- Card Option A -->
+            <div class="option-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span class="opt-label">Option A (Optimized SEO)</span>
+                <span id="opt-1-badge" class="opt-badge">0 / 60</span>
+              </div>
+              <p id="opt-1-val" class="opt-text">easy-tips-improve-seo</p>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-1-val">Load to Sandbox</button>
+                <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-1-val">Copy</button>
+              </div>
+            </div>
+
+            <!-- Card Option B -->
+            <div class="option-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span class="opt-label">Option B (Exact Match)</span>
+                <span id="opt-2-badge" class="opt-badge">0 / 60</span>
+              </div>
+              <p id="opt-2-val" class="opt-text">10-easy-tips-to-improve-seo-in-2026</p>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-2-val">Load to Sandbox</button>
+                <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-2-val">Copy</button>
+              </div>
+            </div>
+
+            <!-- Card Option C -->
+            <div class="option-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span class="opt-label">Option C (Ultra Short)</span>
+                <span id="opt-3-badge" class="opt-badge">0 / 60</span>
+              </div>
+              <p id="opt-3-val" class="opt-text">improve-seo-tips</p>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-3-val">Load to Sandbox</button>
+                <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-3-val">Copy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>URL Slug Generator: Sanitize and Clean Up Page Titles for SEO</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        🔗 <strong>Looking to optimize your URL structures?</strong> Read our comprehensive strategy guide on <a href="/blog/url-slug-generator-guide" style="color: var(--color-brand); text-decoration: underline;">URL Slugs & SEO Best Practices</a> to learn how to structure directories, remove prepositions, and redirect links safely.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Creating clean and descriptive web addresses is a fundamental part of search engine optimization. Search engines use page URLs to determine topic relevance, and clean slugs look more trustworthy when shared on social media or email. This free <strong>url slug generator</strong> automatically converts your page titles into sanitized, lowercase, hyphen-separated address formats.
+    </p>
+
+    <h3>What is URL Slug?</h3>
+    <p>
+      A <strong>url slug</strong> (or simply a slug) is the specific section of a web address that identifies a page in human-readable words instead of database IDs. For example, in the URL <code>creatorsfeel.com/tools/url-slug-generator</code>, the segment <code>url-slug-generator</code> is the page slug.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To write clean URL slugs, follow these instructions:
+    </p>
+    <ol>
+      <li><strong>Input Title:</strong> Paste your article heading or page title in the top text field.</li>
+      <li><strong>Select Separator:</strong> Choose hyphens, underscores, or pluses to connect words. Hyphens are recommended.</li>
+      <li><strong>Configure Filters:</strong> Check the box to remove prepositions and conjunctions (stop words) or strip digits.</li>
+      <li><strong>Generate Slug:</strong> Click <strong>Generate Slug</strong> to calculate three alternative templates.</li>
+      <li><strong>Sandbox Edit & Copy:</strong> Select a template to edit in the Sandbox text field, check character counts against recommendations, and copy the result.</li>
+    </ol>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The tool sanitizes titles using structured formatting rules:
+    </p>
+    <ul>
+      <li><strong>Case Normalization:</strong> Converts all letters to lowercase to prevent server routing errors.</li>
+      <li><strong>Accented Character Stripping:</strong> Replaces accented letters (like é, ü, or ç) with standard equivalents (e, u, c).</li>
+      <li><strong>Special Character Removal:</strong> Strips punctuation, parentheses, brackets, exclamation marks, and symbols.</li>
+      <li><strong>Word Conjunction Filters:</strong> Strips prepositions and conjunctions to make slugs short and punchy.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's look at how a page title is cleaned up step-by-step:
+    </p>
+    <p>
+      <strong>Input Heading:</strong> "How to structure and optimize URLs for SEO in 2026!"
+    </p>
+    <p>
+      <strong>Step 1: Lowercase conversion & special character stripping</strong><br />
+      `"how to structure and optimize urls for seo in 2026"`
+    </p>
+    <p>
+      <strong>Step 2: Stop word removal (to, and, for, in)</strong><br />
+      `"how structure optimize urls seo 2026"`
+    </p>
+    <p>
+      <strong>Step 3: Hyphen replacement</strong><br />
+      `"how-structure-optimize-urls-seo-2026"`
+    </p>
+    <p>
+      This result is under 50 characters, making it highly readable and optimized for search engine indexing.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This <strong>free url slug generator</strong> or <strong>seo slug generator</strong> is designed for:
+    </p>
+    <ul>
+      <li><strong>Bloggers & Content Writers:</strong> Keeping article URLs clean and shareable.</li>
+      <li><strong>SEO Managers:</strong> Optimizing landing page and directory structures.</li>
+      <li><strong>Web Developers:</strong> Batch-cleaning page titles during migrations.</li>
+      <li><strong>Digital Marketers:</strong> Designing readable tracking links.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  /* Sandbox Container CSS */
+  .sandbox-box {
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: 16px;
+    background: var(--color-bg-alt);
+  }
+
+  /* Suggestion Cards CSS */
+  .option-card {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .opt-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+  }
+
+  .opt-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .opt-text {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  .mock-btn-mini {
+    height: 28px;
+    padding: 0 0.75rem;
+    border-radius: 4px;
+    border: 1px solid var(--color-brand);
+    background: var(--color-brand);
+    color: white;
+    font-weight: 600;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mock-btn-mini.secondary {
+    border-color: var(--color-border);
+    background: transparent;
+    color: var(--color-text);
+  }
+
+  .mock-btn-mini.secondary:hover {
+    background: var(--color-bg);
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .calc-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupUrlSlugGenerator = () => {
+    const valueInput = document.getElementById('value-input') as HTMLInputElement;
+    const separatorSelect = document.getElementById('separator-input') as HTMLSelectElement;
+    const stopWordsCheck = document.getElementById('stop-words-check') as HTMLInputElement;
+    const numbersCheck = document.getElementById('numbers-check') as HTMLInputElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Google Preview Mockup Elements
+    const mockupSlugDisplay = document.getElementById('mockup-slug-display');
+
+    // Sandbox workspace
+    const sandboxInput = document.getElementById('sandbox-input') as HTMLTextAreaElement;
+    const sandboxCounter = document.getElementById('sandbox-counter');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const copyActiveBtn = document.getElementById('copy-active-btn');
+    const clearSandboxBtn = document.getElementById('clear-sandbox-btn');
+
+    // Alternative Displays
+    const opt1Val = document.getElementById('opt-1-val');
+    const opt2Val = document.getElementById('opt-2-val');
+    const opt3Val = document.getElementById('opt-3-val');
+
+    const opt1Badge = document.getElementById('opt-1-badge');
+    const opt2Badge = document.getElementById('opt-2-badge');
+    const opt3Badge = document.getElementById('opt-3-badge');
+
+    // Clean Stop words helper list
+    const STOP_WORDS = new Set([
+      'a', 'about', 'above', 'after', 'again', 'against', 'all', 'am', 'an', 'and', 'any', 'are', 'arent',
+      'as', 'at', 'be', 'because', 'been', 'before', 'being', 'below', 'between', 'both', 'but', 'by',
+      'cant', 'cannot', 'could', 'couldnt', 'did', 'didnt', 'do', 'does', 'doesnt', 'doing', 'dont',
+      'down', 'during', 'each', 'few', 'for', 'from', 'further', 'had', 'hadnt', 'has', 'hasnt', 'have',
+      'havent', 'having', 'he', 'hed', 'hell', 'hes', 'her', 'here', 'heres', 'hers', 'herself', 'him',
+      'himself', 'his', 'how', 'hows', 'i', 'id', 'ill', 'im', 'ive', 'if', 'in', 'into', 'is', 'isnt',
+      'it', 'its', 'itself', 'lets', 'me', 'more', 'most', 'mustnt', 'my', 'myself', 'no', 'nor', 'not',
+      'of', 'off', 'on', 'once', 'only', 'or', 'other', 'ought', 'our', 'ours', 'ourselves', 'out', 'over',
+      'own', 'same', 'shant', 'she', 'shed', 'shell', 'shes', 'should', 'shouldnt', 'so', 'some', 'such',
+      'than', 'that', 'thats', 'the', 'their', 'theirs', 'them', 'themselves', 'then', 'there', 'theres',
+      'these', 'they', 'theyd', 'theyll', 'theyre', 'theyve', 'this', 'those', 'through', 'to', 'too',
+      'under', 'until', 'up', 'very', 'was', 'wasnt', 'we', 'wed', 'well', 'were', 'weve', 'werent',
+      'what', 'whats', 'when', 'whens', 'where', 'wheres', 'which', 'while', 'who', 'whos', 'whom',
+      'why', 'whys', 'with', 'wont', 'would', 'wouldnt', 'you', 'youd', 'youll', 'youre', 'youve',
+      'your', 'yours', 'yourself', 'yourselves'
+    ]);
+
+    // Sanitization logic helper
+    const slugify = (text: string, sep: string, removeStop: boolean, removeNum: boolean): string => {
+      // 1. Lowercase & Normalize diacritics
+      let str = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      // 2. Remove special characters (keep words and spaces)
+      str = str.replace(/[^a-z0-9\s-]/g, '');
+
+      // 3. Split into words
+      let words = str.split(/\s+/).filter(w => w.length > 0);
+
+      // 4. Filter Stop Words
+      if (removeStop) {
+        words = words.filter(w => !STOP_WORDS.has(w));
+      }
+
+      // 5. Filter numbers
+      if (removeNum) {
+        words = words.filter(w => !/^\d+$/.test(w));
+      }
+
+      // 6. Join using separator
+      return words.join(sep);
+    };
+
+    // Live Sandbox update
+    const updateSandbox = () => {
+      const text = sandboxInput?.value || '';
+      const len = text.length;
+
+      // Update Mockup Slug
+      if (mockupSlugDisplay) {
+        mockupSlugDisplay.textContent = text || 'your-page-slug';
+      }
+
+      // Update counters
+      if (sandboxCounter) {
+        sandboxCounter.textContent = `${len} / 60`;
+        sandboxCounter.style.color = len > 60 ? '#f59e0b' : 'var(--color-text-muted)';
+      }
+
+      // Update progress bar
+      if (progressBarFill) {
+        const percent = Math.min((len / 60) * 100, 100);
+        progressBarFill.style.width = `${percent}%`;
+        
+        if (len > 80) {
+          progressBarFill.style.backgroundColor = '#ef4444'; // too long
+        } else if (len > 60) {
+          progressBarFill.style.backgroundColor = '#f59e0b'; // warning
+        } else {
+          progressBarFill.style.backgroundColor = 'var(--color-brand)';
+        }
+      }
+    };
+    sandboxInput?.addEventListener('input', updateSandbox);
+
+    // Dynamic generation
+    const generateSlugs = () => {
+      const val = (valueInput?.value || '').trim();
+      const sep = separatorSelect?.value || '-';
+      const removeStop = stopWordsCheck?.checked || false;
+      const removeNum = numbersCheck?.checked || false;
+
+      if (!val) {
+        alert("Please enter a title or string to slugify.");
+        return;
+      }
+
+      // Generate 3 variations
+      // A. Optimized (based on current checkboxes)
+      const slugA = slugify(val, sep, removeStop, removeNum);
+      
+      // B. Exact Match (all words kept, numbers kept)
+      const slugB = slugify(val, sep, false, false);
+
+      // C. Ultra Short (top 3 key words, stop words removed)
+      let wordsA = val.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s-]/g, '').split(/\s+/).filter(w => w.length > 0 && !STOP_WORDS.has(w));
+      if (removeNum) {
+        wordsA = wordsA.filter(w => !/^\d+$/.test(w));
+      }
+      const slugC = wordsA.slice(0, 3).join(sep);
+
+      // Populate Sandbox with Option A
+      if (sandboxInput) {
+        sandboxInput.value = slugA;
+        updateSandbox();
+      }
+
+      // Update Suggestion displays
+      const options = [slugA, slugB, slugC];
+      const vals = [opt1Val, opt2Val, opt3Val];
+      const badges = [opt1Badge, opt2Badge, opt3Badge];
+
+      options.forEach((opt, idx) => {
+        const vBlock = vals[idx];
+        const bBlock = badges[idx];
+
+        if (vBlock) vBlock.textContent = opt;
+        if (bBlock) {
+          const len = opt.length;
+          bBlock.textContent = `${len} / 60`;
+          bBlock.style.color = len > 60 ? '#f59e0b' : '';
+        }
+      });
+
+      // Scroll directly to the results / editor sandbox column
+      const editorCol = document.querySelector('.calc-editor-column');
+      if (editorCol) {
+        editorCol.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    generateBtn?.addEventListener('click', generateSlugs);
+
+    // Load to sandbox buttons
+    document.querySelectorAll('.load-sandbox-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        if (!targetId || !sandboxInput) return;
+        const textBlock = document.getElementById(targetId);
+        if (textBlock) {
+          sandboxInput.value = textBlock.textContent || '';
+          updateSandbox();
+        }
+      });
+    });
+
+    // Direct copies buttons
+    document.querySelectorAll('.copy-direct-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        if (!targetId) return;
+        const textBlock = document.getElementById(targetId);
+        const text = textBlock?.textContent || '';
+        if (!text) return;
+
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = btn.textContent;
+          btn.textContent = 'Copied! ✓';
+          setTimeout(() => {
+            btn.textContent = originalText;
+          }, 1500);
+        });
+      });
+    });
+
+    // Sandbox Copy
+    copyActiveBtn?.addEventListener('click', () => {
+      const text = sandboxInput?.value || '';
+      if (!text) return alert("Sandbox is empty!");
+      
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = copyActiveBtn.textContent;
+        copyActiveBtn.textContent = 'Copied to Clipboard! ✓';
+        setTimeout(() => {
+          copyActiveBtn.textContent = originalText;
+        }, 1500);
+      });
+    });
+
+    // Clear Sandbox
+    clearSandboxBtn?.addEventListener('click', () => {
+      if (sandboxInput) {
+        sandboxInput.value = '';
+        updateSandbox();
+      }
+    });
+
+    // Reset Fields
+    resetBtn?.addEventListener('click', () => {
+      if (valueInput) valueInput.value = '';
+      if (sandboxInput) sandboxInput.value = '';
+      updateSandbox();
+    });
+
+    // Initialize
+    updateSandbox();
+  };
+
+  setupUrlSlugGenerator();
+  document.addEventListener('astro:after-swap', setupUrlSlugGenerator);
+</script>

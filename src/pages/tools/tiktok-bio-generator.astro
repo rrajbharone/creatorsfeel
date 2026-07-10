@@ -1,0 +1,892 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the character limit for a TikTok bio?",
+    answer: "TikTok has a strict limit of 80 characters for bios. This includes letters, numbers, spaces, punctuation marks, and emojis."
+  },
+  {
+    question: "How do I add a clickable link to my TikTok bio?",
+    answer: "To add a clickable link to your TikTok bio, you must switch your account to a Business Account (which is free) or have a Personal Account with at least 1,000 followers. Once eligible, you will see a 'Website' field in your profile settings."
+  },
+  {
+    question: "Do emojis count against the character limit?",
+    answer: "Yes, emojis count against your 80-character limit. Standard emojis generally count as 2 characters each, so use them selectively to save space."
+  },
+  {
+    question: "Should I change my TikTok bio often?",
+    answer: "You should update your bio when you launch new campaigns, change your value proposition, or have a new link to promote. Keeping it fresh aligns with your current content focus."
+  },
+  {
+    question: "Can I use special fonts in my TikTok bio?",
+    answer: "Yes, you can use styled Unicode fonts in your bio. However, keep readability in mind, as some screen readers cannot parse decorative fonts easily."
+  }
+];
+---
+
+<ToolLayout
+  title="TikTok Bio Generator - Free TikTok Profile Hook Maker"
+  description="Generate cool and catchy TikTok bios instantly. Free online TikTok bio generator that structures your value proposition under the 80-character limit."
+  toolName="TikTok Bio Generator"
+  toolDescription="Create engaging bio hooks for your TikTok profile. Input your niche and goals to generate creative, aesthetic, or witty bios under the strict 80-character limit."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Settings and Input Forms -->
+      <div class="calc-form-column">
+        <form class="calc-form" id="generator-form" onsubmit="return false;">
+          <!-- Username Customize -->
+          <div class="form-group">
+            <label for="handle-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg>
+              Profile @Handle
+            </label>
+            <input type="text" id="handle-input" class="form-input" placeholder="e.g. brand_deals_creator" value="creators_feel" />
+          </div>
+
+          <!-- Niche Category Selection -->
+          <div class="form-group">
+            <label for="niche-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.125 1.125 0 0 0 1.591 0l7.136-7.136a1.125 1.125 0 0 0 0-1.591L11.75 3.659a2.25 2.25 0 0 0-1.591-.659Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h.008v.008H6V7.5Z" />
+              </svg>
+              Select Niche or Industry
+            </label>
+            <select id="niche-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="Comedy & Humor">Comedy & Humor</option>
+              <option value="Fashion & Beauty">Fashion & Beauty</option>
+              <option value="Tech & Gaming">Tech & Gaming</option>
+              <option value="Business & Marketing" selected>Business & Marketing</option>
+              <option value="Fitness & Lifestyle">Fitness & Lifestyle</option>
+              <option value="Personal & Vlogs">Personal & Vlogs</option>
+            </select>
+          </div>
+
+          <!-- Core Value Proposition -->
+          <div class="form-group">
+            <label for="value-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+              </svg>
+              What do you share? (Core Value)
+            </label>
+            <input type="text" id="value-input" class="form-input" placeholder="e.g. daily marketing tips" value="marketing growth tips" required />
+          </div>
+
+          <!-- Call to Action -->
+          <div class="form-group">
+            <label for="cta-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+              </svg>
+              Call to Action (CTA)
+            </label>
+            <input type="text" id="cta-input" class="form-input" placeholder="e.g. shop my link below 👇" value="grab my free checklist 👇" />
+          </div>
+
+          <!-- Tone Selection -->
+          <div class="form-group">
+            <label for="tone-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
+              </svg>
+              Select Tone Style
+            </label>
+            <select id="tone-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="Creative">Creative & Inspiring</option>
+              <option value="Aesthetic">Aesthetic & Minimal</option>
+              <option value="Funny">Funny & Witty</option>
+              <option value="Professional" selected>Professional & Authority</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn" style="width: 100%;">Generate Bios</button>
+            <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Fields</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Interactive Sandbox Editor & Mobile Mockup -->
+      <div class="calc-editor-column">
+        <!-- Live Mobile Mockup Preview -->
+        <div class="phone-mockup glass">
+          <div class="phone-header">
+            <svg class="phone-icon-btn" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" /></svg>
+            <span class="phone-name" id="mockup-name-display">creators_feel</span>
+            <svg class="phone-icon-btn" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+          </div>
+
+          <div class="phone-profile-info">
+            <div class="phone-avatar-placeholder">
+              <svg fill="currentColor" viewBox="0 0 24 24" style="width: 32px; height: 32px; color: var(--color-text-muted);"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <span class="phone-handle" id="mockup-handle-display">@creators_feel</span>
+          </div>
+
+          <!-- Stats Counters -->
+          <div class="phone-stats">
+            <div class="stat-item"><strong>142</strong><span>Following</span></div>
+            <div class="stat-item"><strong>12.5K</strong><span>Followers</span></div>
+            <div class="stat-item"><strong>184.2K</strong><span>Likes</span></div>
+          </div>
+
+          <!-- Buttons Bar -->
+          <div style="display: flex; gap: 0.5rem; justify-content: center; margin: 0.75rem 0;">
+            <div class="mock-btn active">Edit Profile</div>
+            <div class="mock-btn">Share Profile</div>
+          </div>
+
+          <!-- Live Mockup Bio Text Box -->
+          <div class="phone-bio-area">
+            <p id="mockup-bio-text">Sharing marketing growth tips daily. grab my free checklist 👇</p>
+            <p class="phone-website-link">🔗 creatorsfeel.com/links</p>
+          </div>
+        </div>
+
+        <!-- Sandbox Active Workspace Editor -->
+        <div class="sandbox-box glass">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text); text-transform: uppercase;">Active Bio Sandbox Editor</span>
+            <span id="sandbox-counter" style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted);">58 / 80</span>
+          </div>
+          
+          <textarea id="sandbox-input" class="form-input" style="height: 70px; resize: none; line-height: 1.4; font-size: 0.92rem; font-family: inherit;" placeholder="Refine your bio copy in this sandbox..."></textarea>
+
+          <!-- Visual characters budget progress scale bar -->
+          <div class="progress-bar-container" style="background: var(--color-border); height: 6px; border-radius: 4px; overflow: hidden; margin: 0.5rem 0;">
+            <div id="progress-bar-fill" style="width: 72.5%; height: 100%; background: var(--color-brand); transition: all var(--transition-fast);"></div>
+          </div>
+
+          <!-- Quick Curated Emoji Picker Drawer -->
+          <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem;">
+            <span style="font-size: 0.65rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Click to insert emoji at cursor:</span>
+            <div class="emoji-selector-panel" id="emoji-picker-container">
+              <button type="button" class="emoji-btn">👇</button>
+              <button type="button" class="emoji-btn">📈</button>
+              <button type="button" class="emoji-btn">✨</button>
+              <button type="button" class="emoji-btn">🎨</button>
+              <button type="button" class="emoji-btn">💫</button>
+              <button type="button" class="emoji-btn">⬇️</button>
+              <button type="button" class="emoji-btn">🛍️</button>
+              <button type="button" class="emoji-btn">🎬</button>
+              <button type="button" class="emoji-btn">🚀</button>
+              <button type="button" class="emoji-btn">💡</button>
+              <button type="button" class="emoji-btn">📩</button>
+              <button type="button" class="emoji-btn">🔥</button>
+              <button type="button" class="emoji-btn">✌️</button>
+              <button type="button" class="emoji-btn">👀</button>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+            <button type="button" id="copy-active-btn" class="calc-btn" style="flex: 1.2; height: 42px; font-size: 0.85rem;">Copy Sandbox Bio</button>
+            <button type="button" id="clear-sandbox-btn" class="calc-btn-secondary" style="flex: 0.8; height: 42px; font-size: 0.85rem;">Clear Editor</button>
+          </div>
+        </div>
+
+        <!-- Suggestions Drawer Panel -->
+        <div class="suggestions-drawer" id="suggestions-box" style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+          <h4 style="margin: 0; font-size: 0.9rem; font-weight: 700; color: var(--color-text); text-transform: uppercase; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem;">Alternative Suggestions</h4>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <!-- Card Option 1 -->
+            <div class="option-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span class="opt-label">Option A (Direct Value)</span>
+                <span id="opt-1-badge" class="opt-badge">0 / 80</span>
+              </div>
+              <p id="opt-1-val" class="opt-text">Sharing marketing growth tips daily. grab my free checklist 👇</p>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-1-val">Load to Sandbox</button>
+                <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-1-val">Copy</button>
+              </div>
+            </div>
+
+            <!-- Card Option 2 -->
+            <div class="option-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span class="opt-label">Option B (Punchy Aesthetic)</span>
+                <span id="opt-2-badge" class="opt-badge">0 / 80</span>
+              </div>
+              <p id="opt-2-val" class="opt-text">Helping you learn marketing growth tips 📈. grab my free checklist 👇</p>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-2-val">Load to Sandbox</button>
+                <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-2-val">Copy</button>
+              </div>
+            </div>
+
+            <!-- Card Option 3 -->
+            <div class="option-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span class="opt-label">Option C (Short Minimalist)</span>
+                <span id="opt-3-badge" class="opt-badge">0 / 80</span>
+              </div>
+              <p id="opt-3-val" class="opt-text">MARKETING GROWTH TIPS tips | grab my free checklist 👇</p>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-3-val">Load to Sandbox</button>
+                <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-3-val">Copy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>TikTok Bio Generator: Design Compliant Profiles under 80 Characters</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        ✍️ <strong>Looking to optimize your profile authority?</strong> Read our comprehensive strategy guide on <a href="/blog/tiktok-bio-generator-guide" style="color: var(--color-brand); text-decoration: underline;">TikTok Bio Ideas & Character Limit Guidelines</a> to learn how to structure hook copy, position keywords, and drive traffic.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Your bio is the first thing viewers see when they click on your profile from the For You Page (FYP). A strong bio must explain what your channel is about and tell viewers what to do next. However, writing a compelling hook inside a strict 80-character limit can be difficult. This free <strong>tiktok bio generator</strong> helps you structure your value proposition and call to action to fit TikTok's requirements perfectly.
+    </p>
+
+    <h3>What is TikTok Bio Generator?</h3>
+    <p>
+      A <strong>tiktok bio generator</strong> is an online copywriting utility designed for creator profiles. Standard bio writing leads to cut-off text if you exceed the platform's limit. This tool structures your value proposition and CTA, tracks character limits in real-time, and generates options based on your target niche.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To generate bio ideas, follow these instructions:
+    </p>
+    <ol>
+      <li><strong>Select Niche Category:</strong> Choose your niche from the dropdown list to align the copy style with your content category.</li>
+      <li><strong>Input Core Value:</strong> Enter what you share in 2-3 words (e.g., "baking hacks" or "tech news").</li>
+      <li><strong>Input Call to Action (CTA):</strong> Specify what viewers should do (e.g., "get free recipe guide" or "shop my links 👇").</li>
+      <li><strong>Choose Tone Style:</strong> Select a tone like Witty, Minimal, Creative, or Professional to shape the copywriting output.</li>
+      <li><strong>Generate & Copy:</strong> Click <strong>Generate Bios</strong> to preview three different options, check their character lengths, and copy your favorite to your clipboard.</li>
+    </ol>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The generator uses structured copywriting templates based on your inputs:
+    </p>
+    <ul>
+      <li><strong>Value Proposition Framing:</strong> Structures your core value clearly so viewers understand what you share instantly.</li>
+      <li><strong>Call to Action Integration:</strong> Adds your CTA pointing to your profile website link.</li>
+      <li><strong>Character Budget Audit:</strong> Automatically calculates character lengths and alerts you if the text exceeds 80 characters.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's look at how the tool structures a bio draft to fit the 80-character limit budget:
+    </p>
+    <p>
+      <strong>Input Values:</strong><br />
+      ✦ Core Value: "marketing tips"<br />
+      ✦ Call to Action: "grab free checklist 👇"
+    </p>
+    <p>
+      <strong>Draft Options:</strong><br />
+      1. <em>Direct Profile Option:</em> "Marketing tips to grow your brand. Grab free checklist 👇"<br />
+      ✦ Character Count: <strong>70 characters</strong>. (Fits within the 80-character budget).
+    </p>
+    <p>
+      2. <em>Aesthetic Minimal Option:</em> "Growth tips for brands 📈 | Free checklist below 👇"<br />
+      ✦ Character Count: <strong>55 characters</strong>. (Fits within the 80-character budget).
+    </p>
+    <p>
+      Using the generator helps you verify that your text fits the limit before pasting it into your TikTok settings.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      Our <strong>free tiktok bio generator</strong> is designed for:
+    </p>
+    <ul>
+      <li><strong>New Creators:</strong> Setting up their profile to capture FYP traffic.</li>
+      <li><strong>Sellers & Brands:</strong> Promoting store links or lead magnets.</li>
+      <li><strong>Social Media Marketers:</strong> Optimizing profiles for client accounts.</li>
+      <li><strong>Influencers:</strong> Updating their CTA for sponsored campaigns.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  /* Smartphone Mockup CSS Styling */
+  .phone-mockup {
+    background: var(--color-bg-alt);
+    border: 1.5px solid var(--color-border);
+    border-radius: 28px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .phone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .phone-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-text);
+  }
+
+  .phone-icon-btn {
+    width: 16px;
+    height: 16px;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .phone-profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .phone-avatar-placeholder {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--color-bg);
+    border: 1px dashed var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phone-handle {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .phone-stats {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    font-size: 0.82rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-item strong {
+    color: var(--color-text);
+  }
+
+  .stat-item span {
+    color: var(--color-text-muted);
+  }
+
+  .mock-btn {
+    padding: 0.35rem 1rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .mock-btn.active {
+    background: var(--color-brand);
+    color: white;
+    border-color: var(--color-brand);
+  }
+
+  .phone-bio-area {
+    text-align: center;
+    margin-top: 0.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .phone-bio-area p {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--color-text);
+    margin: 0;
+    word-break: break-word;
+  }
+
+  .phone-website-link {
+    font-size: 0.75rem !important;
+    color: var(--color-brand) !important;
+    font-weight: 700;
+    margin-top: 0.35rem !important;
+  }
+
+  /* Sandbox Container CSS */
+  .sandbox-box {
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: 16px;
+    background: var(--color-bg-alt);
+  }
+
+  .emoji-selector-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding-top: 0.25rem;
+  }
+
+  .emoji-btn {
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .emoji-btn:hover {
+    background: var(--color-border);
+    transform: scale(1.1);
+  }
+
+  /* Suggestion Cards CSS */
+  .option-card {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .opt-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+  }
+
+  .opt-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .opt-text {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  .mock-btn-mini {
+    height: 28px;
+    padding: 0 0.75rem;
+    border-radius: 4px;
+    border: 1px solid var(--color-brand);
+    background: var(--color-brand);
+    color: white;
+    font-weight: 600;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mock-btn-mini.secondary {
+    border-color: var(--color-border);
+    background: transparent;
+    color: var(--color-text);
+  }
+
+  .mock-btn-mini.secondary:hover {
+    background: var(--color-bg);
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+
+
+    .phone-mockup {
+      max-width: 100% !important;
+      padding: 1rem !important;
+    }
+    
+    .emoji-selector-panel {
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .calc-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupTiktokBioGenerator = () => {
+    // Left inputs
+    const handleInput = document.getElementById('handle-input') as HTMLInputElement;
+    const nicheSelect = document.getElementById('niche-input') as HTMLSelectElement;
+    const valueInput = document.getElementById('value-input') as HTMLInputElement;
+    const ctaInput = document.getElementById('cta-input') as HTMLInputElement;
+    const toneSelect = document.getElementById('tone-input') as HTMLSelectElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Phone Mockup Elements
+    const mockupName = document.getElementById('mockup-name-display');
+    const mockupHandle = document.getElementById('mockup-handle-display');
+    const mockupBioText = document.getElementById('mockup-bio-text');
+
+    // Sandbox workspace
+    const sandboxInput = document.getElementById('sandbox-input') as HTMLTextAreaElement;
+    const sandboxCounter = document.getElementById('sandbox-counter');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const copyActiveBtn = document.getElementById('copy-active-btn');
+    const clearSandboxBtn = document.getElementById('clear-sandbox-btn');
+
+    // Alternative Displays
+    const opt1Val = document.getElementById('opt-1-val');
+    const opt2Val = document.getElementById('opt-2-val');
+    const opt3Val = document.getElementById('opt-3-val');
+
+    const opt1Badge = document.getElementById('opt-1-badge');
+    const opt2Badge = document.getElementById('opt-2-badge');
+    const opt3Badge = document.getElementById('opt-3-badge');
+
+    // Live Handle Mockup Update
+    const updateHandleMockup = () => {
+      const handle = (handleInput?.value || 'creators_feel').trim().toLowerCase().replace(/\s+/g, '_');
+      if (mockupName) mockupName.textContent = handle;
+      if (mockupHandle) mockupHandle.textContent = `@${handle}`;
+    };
+    handleInput?.addEventListener('input', updateHandleMockup);
+
+    // Live Sandbox update
+    const updateSandbox = () => {
+      const text = sandboxInput?.value || '';
+      const len = text.length;
+
+      // Update Mockup Bio
+      if (mockupBioText) {
+        mockupBioText.textContent = text || 'Your profile bio hook will display here...';
+      }
+
+      // Update counters
+      if (sandboxCounter) {
+        sandboxCounter.textContent = `${len} / 80`;
+        sandboxCounter.style.color = len > 80 ? '#ef4444' : 'var(--color-text-muted)';
+      }
+
+      // Update progress bar
+      if (progressBarFill) {
+        const percent = Math.min((len / 80) * 100, 100);
+        progressBarFill.style.width = `${percent}%`;
+        
+        if (len > 80) {
+          progressBarFill.style.backgroundColor = '#ef4444';
+        } else if (percent > 85) {
+          progressBarFill.style.backgroundColor = '#f59e0b';
+        } else {
+          progressBarFill.style.backgroundColor = 'var(--color-brand)';
+        }
+      }
+    };
+    sandboxInput?.addEventListener('input', updateSandbox);
+
+    // Dynamic generation
+    const generateBios = () => {
+      const val = (valueInput?.value || '').trim();
+      const cta = (ctaInput?.value || '').trim();
+      const tone = toneSelect?.value || 'Professional';
+
+      if (!val) {
+        alert("Please specify what content you share.");
+        return;
+      }
+
+      let options = ['', '', ''];
+
+      if (tone === 'Professional') {
+        options[0] = `Sharing ${val} daily. ${cta}`.substring(0, 100);
+        options[1] = `Helping you learn ${val} 📈. ${cta}`.substring(0, 100);
+        options[2] = `${val.toUpperCase()} tips | ${cta}`.substring(0, 100);
+      } else if (tone === 'Creative') {
+        options[0] = `✨ Cultivating ${val} ideas. ${cta}`.substring(0, 100);
+        options[1] = `Creating space for ${val} 🎨. ${cta}`.substring(0, 100);
+        options[2] = `Design + ${val} | ${cta}`.substring(0, 100);
+      } else if (tone === 'Funny') {
+        options[0] = `Obsessed with ${val}. Not sorry. ${cta}`.substring(0, 100);
+        options[1] = `Slightly dynamic ${val} content. ${cta}`.substring(0, 100);
+        options[2] = `Here for the ${val} & comments. ${cta}`.substring(0, 100);
+      } else { // Aesthetic / Minimalist
+        options[0] = `${val} 💫 | ${cta}`.substring(0, 100);
+        options[1] = `${val} journal 📖 • ${cta}`.substring(0, 100);
+        options[2] = `minimal ${val} • ${cta}`.substring(0, 100);
+      }
+
+      // Populate Sandbox with Option 1
+      if (sandboxInput) {
+        sandboxInput.value = options[0];
+        updateSandbox();
+      }
+
+      // Update Suggestion displays
+      const vals = [opt1Val, opt2Val, opt3Val];
+      const badges = [opt1Badge, opt2Badge, opt3Badge];
+
+      options.forEach((opt, idx) => {
+        const vBlock = vals[idx];
+        const bBlock = badges[idx];
+
+        if (vBlock) vBlock.textContent = opt;
+        if (bBlock) {
+          const len = opt.length;
+          bBlock.textContent = `${len} / 80`;
+          bBlock.style.color = len > 80 ? '#ef4444' : '';
+        }
+      });
+
+      // Scroll directly to the results / editor sandbox column
+      const editorCol = document.querySelector('.calc-editor-column');
+      if (editorCol) {
+        editorCol.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    generateBtn?.addEventListener('click', generateBios);
+
+    // Emoji quick click inserter
+    const emojiContainer = document.getElementById('emoji-picker-container');
+    emojiContainer?.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('.emoji-btn');
+      if (!btn || !sandboxInput) return;
+      
+      const emoji = btn.textContent || '';
+      const start = sandboxInput.selectionStart;
+      const end = sandboxInput.selectionEnd;
+      const val = sandboxInput.value;
+
+      sandboxInput.value = val.substring(0, start) + emoji + val.substring(end);
+      
+      // Reset cursor position
+      sandboxInput.selectionStart = sandboxInput.selectionEnd = start + emoji.length;
+      sandboxInput.focus();
+      updateSandbox();
+    });
+
+    // Load to sandbox buttons
+    document.querySelectorAll('.load-sandbox-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        if (!targetId || !sandboxInput) return;
+        const textBlock = document.getElementById(targetId);
+        if (textBlock) {
+          sandboxInput.value = textBlock.textContent || '';
+          updateSandbox();
+        }
+      });
+    });
+
+    // Direct copies buttons
+    document.querySelectorAll('.copy-direct-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        if (!targetId) return;
+        const textBlock = document.getElementById(targetId);
+        const text = textBlock?.textContent || '';
+        if (!text) return;
+
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = btn.textContent;
+          btn.textContent = 'Copied! ✓';
+          setTimeout(() => {
+            btn.textContent = originalText;
+          }, 1500);
+        });
+      });
+    });
+
+    // Sandbox Copy
+    copyActiveBtn?.addEventListener('click', () => {
+      const text = sandboxInput?.value || '';
+      if (!text) return alert("Sandbox editor is empty!");
+      
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = copyActiveBtn.textContent;
+        copyActiveBtn.textContent = 'Copied to Clipboard! ✓';
+        setTimeout(() => {
+          copyActiveBtn.textContent = originalText;
+        }, 1500);
+      });
+    });
+
+    // Clear Sandbox
+    clearSandboxBtn?.addEventListener('click', () => {
+      if (sandboxInput) {
+        sandboxInput.value = '';
+        updateSandbox();
+      }
+    });
+
+    // Reset Fields
+    resetBtn?.addEventListener('click', () => {
+      if (valueInput) valueInput.value = '';
+      if (ctaInput) ctaInput.value = '';
+      if (sandboxInput) sandboxInput.value = '';
+      updateSandbox();
+    });
+
+    // Initialize
+    updateHandleMockup();
+    updateSandbox();
+  };
+
+  setupTiktokBioGenerator();
+  document.addEventListener('astro:after-swap', setupTiktokBioGenerator);
+</script>
