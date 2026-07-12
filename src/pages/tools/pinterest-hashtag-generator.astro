@@ -1,0 +1,648 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "Do hashtags work on Pinterest?",
+    answer: "Yes, hashtags work on Pinterest. They help the search index classify fresh Pins immediately. However, Pinterest recommends focusing heavily on descriptive keyword copywriting alongside a few targeted tags."
+  },
+  {
+    question: "How many hashtags should I add to a Pin?",
+    answer: "Pinterest recommends adding between 2 to 5 highly relevant hashtags per Pin description. Adding too many tags can look spammy and distract users from clicking your links."
+  },
+  {
+    question: "Where should I put hashtags in my Pin?",
+    answer: "Place your hashtags at the very bottom of your Pin description. This keeps your main descriptive hook paragraphs clean and easy to read."
+  },
+  {
+    question: "What is the character limit for a Pinterest Pin description?",
+    answer: "Pinterest Pin descriptions have a strict character limit of 500 characters. Our sandbox tracks this limit in real-time, showing a progress bar to prevent your text from getting cropped."
+  },
+  {
+    question: "Should I use broad tags or niche-specific tags?",
+    answer: "Use a mix of both. Broad tags (like #homedecor) help place your Pin in large categories, while niche-specific tags (#midcenturymodernliving) help you rank for targeted long-tail searches."
+  }
+];
+---
+
+<ToolLayout
+  title="Pinterest Hashtag Generator - Free Pin SEO Tag Tool"
+  description="Generate highly relevant hashtags for Pinterest Pins. Optimize Pin description keywords, audit character limits, and boost your monthly views."
+  toolName="Pinterest Hashtag Generator"
+  toolDescription="Generate custom, search-optimized hashtags for your Pinterest Pins. Select your category and tag style to write Pin descriptions that rank."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Settings and Input Forms -->
+      <div class="calc-form-column">
+        <form class="calc-form" id="generator-form" onsubmit="return false;">
+          <!-- Topic Input -->
+          <div class="form-group">
+            <label for="value-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+              </svg>
+              What is your Pin topic / keyword?
+            </label>
+            <input type="text" id="value-input" class="form-input" placeholder="e.g. diy home decor, quick healthy recipes" value="diy home decor" required />
+          </div>
+
+          <!-- Category Selection -->
+          <div class="form-group">
+            <label for="category-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.5 1.5 0 0 0 2.122 0l4.318-4.318a1.5 1.5 0 0 0 0-2.122L11.16 3.659A2.25 2.25 0 0 0 9.568 3Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+              </svg>
+              Pin Category
+            </label>
+            <select id="category-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="Animals & Pets">Animals & Pets</option>
+              <option value="Architecture">Architecture</option>
+              <option value="Art">Art</option>
+              <option value="Beauty & Makeup">Beauty & Makeup</option>
+              <option value="Cars & Motorcycles">Cars & Motorcycles</option>
+              <option value="DIY & Crafts">DIY & Crafts</option>
+              <option value="Design">Design</option>
+              <option value="Education">Education</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Event Planning">Event Planning</option>
+              <option value="Fashion (Men)">Fashion (Men)</option>
+              <option value="Fashion (Women)">Fashion (Women)</option>
+              <option value="Finance">Finance</option>
+              <option value="Food & Drink">Food & Drink</option>
+              <option value="Gardening">Gardening</option>
+              <option value="Hair & Beauty">Hair & Beauty</option>
+              <option value="Health & Fitness">Health & Fitness</option>
+              <option value="Home Decor" selected>Home Decor & Furniture</option>
+              <option value="Kids & Parenting">Kids & Parenting</option>
+              <option value="Outdoors & Camping">Outdoors & Camping</option>
+              <option value="Photography">Photography</option>
+              <option value="Quotes">Quotes</option>
+              <option value="Science & Tech">Science & Tech</option>
+              <option value="Sports & Outdoors">Sports & Outdoors</option>
+              <option value="Travel & Destinations">Travel & Destinations</option>
+              <option value="Weddings">Weddings</option>
+            </select>
+          </div>
+
+          <!-- Number of Hashtags Dropdown -->
+          <div class="form-group">
+            <label for="count-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-12.3 1.8 15m-9.75-15 1.8 15" />
+              </svg>
+              Number of Hashtags
+            </label>
+            <select id="count-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="5" selected>5 Hashtags</option>
+              <option value="10">10 Hashtags</option>
+              <option value="15">15 Hashtags</option>
+              <option value="20">20 Hashtags</option>
+              <option value="30">30 Hashtags</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn" style="width: 100%;">Generate Hashtags</button>
+            <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Fields</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Interactive Sandbox Editor & Pinterest Pin Mockup -->
+      <div class="calc-editor-column">
+        <!-- Live Pinterest Pin Mockup -->
+        <div class="pinterest-mockup glass" style="background: #fff; color: #111; border-radius: 20px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; text-align: left; box-shadow: var(--shadow-sm); max-width: 320px; margin: 0 auto;">
+          <span style="font-size: 0.68rem; font-weight: 700; color: #767676; text-transform: uppercase; border-bottom: 1px solid #efefef; padding-bottom: 0.25rem; display: block; width: 100%;">Pinterest Pin Preview</span>
+          
+          <!-- Mockup Header bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="background: #e9e9e9; padding: 4px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; color: #111; cursor: pointer;">
+              Select Board ▾
+            </div>
+            <button type="button" style="background: #e60023; color: white; border: none; padding: 6px 14px; border-radius: 18px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+              Save
+            </button>
+          </div>
+
+          <!-- Vertical Pin Image container (2:3 aspect ratio mockup) -->
+          <div style="height: 220px; border-radius: 12px; background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.85rem;">
+            📌 Vertical Pin (2:3 Preview)
+          </div>
+
+          <!-- Creator header -->
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 28px; height: 28px; border-radius: 50%; background: #e60023; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; flex-shrink: 0;">CF</div>
+            <div style="display: flex; flex-direction: column; gap: 1px;">
+              <span style="font-size: 0.75rem; font-weight: 700;">creators_feel</span>
+              <span style="font-size: 0.62rem; color: #767676;">42k followers</span>
+            </div>
+          </div>
+
+          <!-- Pin Title & Description -->
+          <div style="display: flex; flex-direction: column; gap: 0.25rem; overflow-wrap: break-word;">
+            <h4 id="mockup-pin-title" style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #111; line-height: 1.3;">10 Aesthetic DIY Home Decor Ideas</h4>
+            <p id="mockup-pin-description" style="margin: 0; font-size: 0.78rem; color: #333; line-height: 1.4; white-space: pre-wrap;">Discover simple and budget-friendly ideas to transform your room. #diy #homedecor #roommakeover</p>
+          </div>
+        </div>
+
+        <!-- Sandbox Active Workspace Editor -->
+        <div class="sandbox-box glass">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text); text-transform: uppercase;">Pinterest Hashtags Sandbox</span>
+            <div style="display: flex; gap: 0.75rem; font-size: 0.75rem; font-weight: 700;">
+              <span id="sandbox-counter" style="color: var(--color-text-muted);">92 / 500 Chars</span>
+              <span id="sandbox-hashtags" style="color: var(--color-text-muted);">3 / 5 Tags</span>
+            </div>
+          </div>
+          
+          <textarea id="sandbox-input" class="form-input" style="height: 110px; resize: none; line-height: 1.4; font-size: 0.92rem; font-family: inherit;" placeholder="Your generated Pinterest hashtags will display here..."></textarea>
+
+          <!-- Visual character progress bar -->
+          <div class="progress-bar-container" style="background: var(--color-border); height: 6px; border-radius: 4px; overflow: hidden; margin: 0.5rem 0;">
+            <div id="progress-bar-fill" style="width: 18.4%; height: 100%; background: var(--color-brand); transition: all var(--transition-fast);"></div>
+          </div>
+
+          <!-- Quick Emoji Panel -->
+          <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem;">
+            <span style="font-size: 0.65rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Quick Insert Emojis:</span>
+            <div class="emoji-selector-panel" id="emoji-picker-container">
+              <button type="button" class="emoji-btn">📌</button>
+              <button type="button" class="emoji-btn">✨</button>
+              <button type="button" class="emoji-btn">👇</button>
+              <button type="button" class="emoji-btn">💡</button>
+              <button type="button" class="emoji-btn">🔥</button>
+              <button type="button" class="emoji-btn">🏡</button>
+              <button type="button" class="emoji-btn">🍳</button>
+              <button type="button" class="emoji-btn">🎨</button>
+              <button type="button" class="emoji-btn">✈️</button>
+              <button type="button" class="emoji-btn">💯</button>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+            <button type="button" id="copy-active-btn" class="calc-btn" style="flex: 1.2; height: 42px; font-size: 0.85rem;">Copy Description</button>
+            <button type="button" id="clear-sandbox-btn" class="calc-btn-secondary" style="flex: 0.8; height: 42px; font-size: 0.85rem;">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Pinterest Hashtag Generator: Optimize Pin SEO & Keyword Spacing</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        📌 <strong>Looking to drive organic traffic from Pinterest searches?</strong> Read our comprehensive strategy guide on <a href="/blog/pinterest-hashtag-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Pinterest SEO & Spacing Rules</a> to learn how to write descriptive Pin copies, research keywords, and structure tags.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Pinterest acts as a visual search engine, where users search for planning ideas, purchase guides, and tutorials. Optimizing your Pins with highly relevant keywords and hashtags helps Pinterest's algorithm index and distribute your content to appropriate boards. This free <strong>pinterest hashtag generator</strong> analyzes your pin topics and selects trending tags to maximize views.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To write formatted descriptions and find tags, follow these instructions:
+    </p>
+    <ol>
+      <li><strong>Define Topic Niche:</strong> Input your target keyword topic (e.g. "diy home decor", "healthy baking").</li>
+      <li><strong>Select Category:</strong> Choose from any of the supported Pinterest categories.</li>
+      <li><strong>Select Quantity:</strong> Choose how many hashtags to generate, supporting 5, 10, 15, 20, or 30 hashtags.</li>
+      <li><strong>Generate Outlines:</strong> Click <strong>Generate Hashtags</strong> to process suggestions.</li>
+      <li><strong>Sandbox Edit:</strong> Refine the description in the Active Sandbox, audit the 500 character limit, and copy.</li>
+    </ol>
+
+    <h3>What is Pinterest Hashtag Generator</h3>
+    <p>
+      A <strong>pinterest hashtag generator</strong> or <strong>pinterest tag generator</strong> is a digital helper designed to write search-optimized Pin descriptions. It analyzes target topics and generates a list of Pinterest-compliant tags that match the visual query categories.
+    </p>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The generator uses a metadata tag database to pair keywords with categories:
+    </p>
+    <ul>
+      <li><strong>Database matching:</strong> Pulls from a curated seed database of tags categorized by niches (decor, food, crafts, travel).</li>
+      <li><strong>Relevancy weighting:</strong> Filters tags by search volume based on your style choice (narrow vs broad).</li>
+      <li><strong>Audit tools:</strong> Measures description character lengths (max 500) and counts total tags (recommends 2-5 tags).</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's look at how a Pin description is budgeted:
+    </p>
+    <p>
+      <strong>Input Parameters:</strong><br />
+      ✦ Topic: "diy home decor"<br />
+      ✦ Target Count: 5 tags<br />
+      ✦ Base Description: "Simple and budget-friendly ideas to transform your bedroom on a weekend." (83 characters)
+    </p>
+    <p>
+      <strong>Hashtags Budget Allocation:</strong><br />
+      ✦ Generated tags: `#diyhomedecor #bedroommakeover #roomdecor #diydecor`<br />
+      ✦ Tags character weight: <strong>55 characters</strong>.<br />
+      ✦ Total Description character length: `83 + 55 = 138 characters`.<br />
+      ✦ Pinterest Limit Check: Since 138 is under the 500 character limit, the text will display cleanly without getting cropped. The 4 hashtags fall within the recommended 2-5 tag limit.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This <strong>free pinterest keyword tool</strong> is designed for:
+    </p>
+    <ul>
+      <li><strong>Blogger & Creators:</strong> Driving referral traffic to articles and recipe pages.</li>
+      <li><strong>E-commerce shop owners:</strong> Optimizing product Pins to capture shoppers.</li>
+      <li><strong>Affiliate Marketers:</strong> Tagging campaign visual pins to rank in popular boards.</li>
+      <li><strong>Social Media Managers:</strong> Maintaining high-volume scheduling lists.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  /* Sandbox Container CSS */
+  .sandbox-box {
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: 16px;
+    background: var(--color-bg-alt);
+  }
+
+  .emoji-selector-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding-top: 0.25rem;
+  }
+
+  .emoji-btn {
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .emoji-btn:hover {
+    background: var(--color-border);
+    transform: scale(1.1);
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .emoji-selector-panel {
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .calc-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupPinterestHashtagGenerator = () => {
+    const valueInput = document.getElementById('value-input') as HTMLInputElement;
+    const categorySelect = document.getElementById('category-input') as HTMLSelectElement;
+    const countSelect = document.getElementById('count-input') as HTMLSelectElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Preview elements
+    const mockupTitle = document.getElementById('mockup-pin-title');
+    const mockupDescription = document.getElementById('mockup-pin-description');
+
+    // Sandbox workspace
+    const sandboxInput = document.getElementById('sandbox-input') as HTMLTextAreaElement;
+    const sandboxCounter = document.getElementById('sandbox-counter');
+    const sandboxHashtags = document.getElementById('sandbox-hashtags');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const copyActiveBtn = document.getElementById('copy-active-btn');
+    const clearSandboxBtn = document.getElementById('clear-sandbox-btn');
+
+    // Helper to capitalize words
+    const capitalizeWords = (str: string) => {
+      return str.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    };
+
+    // Live Sandbox update
+    const updateSandbox = () => {
+      const text = sandboxInput?.value || '';
+      const len = text.length;
+
+      // Extract and count hashtags
+      const tags = (text.match(/#[a-zA-Z0-9_]+/g) || []).length;
+      const targetTags = parseInt(countSelect?.value || '5', 10);
+
+      // Update Mockup Pin description
+      if (mockupDescription) {
+        mockupDescription.textContent = text || 'Your Pin description and hashtags will preview here...';
+      }
+
+      // Update counters
+      if (sandboxCounter) {
+        sandboxCounter.textContent = `${len} / 500 Chars`;
+        sandboxCounter.style.color = len > 500 ? '#ef4444' : 'var(--color-text-muted)';
+      }
+
+      if (sandboxHashtags) {
+        sandboxHashtags.textContent = `${tags} / ${targetTags} Tags`;
+        sandboxHashtags.style.color = tags > targetTags ? '#f59e0b' : 'var(--color-text-muted)';
+      }
+
+      // Update progress bar
+      if (progressBarFill) {
+        const percent = Math.min((len / 500) * 100, 100);
+        progressBarFill.style.width = `${percent}%`;
+        
+        if (len > 500) {
+          progressBarFill.style.backgroundColor = '#ef4444';
+        } else if (tags > targetTags) {
+          progressBarFill.style.backgroundColor = '#f59e0b';
+        } else {
+          progressBarFill.style.backgroundColor = 'var(--color-brand)';
+        }
+      }
+    };
+    sandboxInput?.addEventListener('input', updateSandbox);
+    countSelect?.addEventListener('change', updateSandbox);
+
+    // Generation logic
+    const generateHashtags = () => {
+      const topic = (valueInput?.value || '').trim();
+      const category = categorySelect?.value || 'Home Decor';
+      const targetTagsCount = parseInt(countSelect?.value || '5', 10);
+
+      if (!topic) {
+        alert("Please enter a Pin topic.");
+        return;
+      }
+
+      // Predefined hashtag category database covering all 26 categories
+      const tagDb: Record<string, string[]> = {
+        'Animals & Pets': ['animals', 'pets', 'doglovers', 'catsofinstagram', 'animalphotography', 'cutepets', 'petcare', 'dogs', 'cats', 'petlife', 'puppylove', 'kittens', 'animallife', 'funnyanimals', 'wildlife'],
+        'Architecture': ['architecture', 'design', 'building', 'modernhome', 'architecturedesign', 'interiorarchitecture', 'archilovers', 'exterior', 'minimalistarchitecture', 'historicbuildings', 'housegoals', 'facade'],
+        'Art': ['art', 'drawing', 'painting', 'sketchbook', 'illustration', 'digitalart', 'watercolor', 'artistsoninstagram', 'acrylicpainting', 'artinspiration', 'fineart', 'artistic', 'abstractart'],
+        'Beauty & Makeup': ['makeup', 'beauty', 'skincare', 'makeupideas', 'makeuptutorial', 'beautytips', 'glowingskin', 'makeuplook', 'cleanbeauty', 'selfcare', 'cosmetics', 'beautyblogger', 'glam'],
+        'Cars & Motorcycles': ['cars', 'motorcycles', 'supercars', 'classiccars', 'bikelife', 'automotive', 'luxurycars', 'carguy', 'moto', 'racing', 'carsofinstagram', 'speed', 'customcars'],
+        'DIY & Crafts': ['diyprojects', 'craftideas', 'homediy', 'dollartreediy', 'woodworking', 'craftymom', 'sewingprojects', 'upcycled', 'handmade', 'crafting', 'kidscrafts', 'diycrafts', 'diyhomedecor'],
+        'Design': ['graphicdesign', 'uxdesign', 'interiordesign', 'branding', 'typography', 'illustration', 'uidesign', 'minimalistdesign', 'creatives', 'artdirection', 'webdesign', 'logodesign'],
+        'Education': ['education', 'learning', 'teaching', 'school', 'studygram', 'homeschooling', 'teacherlife', 'classroomideas', 'studytips', 'stem', 'educationalactivities', 'infographics', 'collegelife'],
+        'Entertainment': ['movies', 'tvshows', 'popculture', 'memes', 'gaming', 'anime', 'cosplay', 'celebrities', 'music', 'funnyvideos', 'bookshelf', 'playlist', 'booktok'],
+        'Event Planning': ['eventplanning', 'partyideas', 'decorations', 'balloongarland', 'birthdayparty', 'babyshower', 'tablescape', 'eventdecor', 'partydecor', 'catering', 'partyplanner', 'dinnerparty'],
+        'Fashion (Men)': ['mensfashion', 'menstyle', 'mensoutfit', 'streetstyle', 'gentstyle', 'menswear', 'casualmenswear', 'suits', 'sneakers', 'mensstyleinspo', 'menslook', 'streetwear'],
+        'Fashion (Women)': ['styleinspiration', 'outfitgoals', 'streetwear', 'capsulewardrobe', 'casualoutfits', 'summerlooks', 'vintageaesthetic', 'accessories', 'styleinspo', 'womenstyle', 'fashioninspo', 'springfashion'],
+        'Finance': ['personalfinance', 'investing', 'moneytips', 'budgeting', 'savingmoney', 'financialfreedom', 'stocks', 'realestate', 'passiveincome', 'wealthbuilding', 'moneyhacks', 'sidehustles'],
+        'Food & Drink': ['easyrecipes', 'healthycooking', 'bakinglove', 'mealprep', 'comfortfood', 'foodinspiration', 'quickmeals', 'dinnerideas', 'glutenfree', 'veganrecipes', 'cocktails', 'healthyfood', 'desserts'],
+        'Gardening': ['gardening', 'plants', 'indoorplants', 'gardeninspiration', 'backyardgarden', 'plantmom', 'gardentips', 'succulents', 'vegetablegarden', 'urbanjungle', 'greenhouse', 'plantinspo'],
+        'Hair & Beauty': ['hairstyles', 'haircare', 'haircolor', 'braids', 'curlyhair', 'beautytips', 'naturalhair', 'hairinspo', 'salonstyle', 'skincareroutine', 'hairtrends', 'hairroutine'],
+        'Health & Fitness': ['fitnessgoals', 'workoutmotivation', 'healthyhabits', 'yogalife', 'weightlossjourney', 'cleanloading', 'gymmotivation', 'mentalhealth', 'wellness', 'cardio', 'fitfam', 'workoutroutine'],
+        'Home Decor': ['homedecor', 'decorideas', 'homeinspiration', 'roomdecor', 'interiorstyling', 'neutralaesthetic', 'apartmentgoals', 'cozyhome', 'budgetdecor', 'bohohome', 'modernfarmhouse', 'renovations'],
+        'Kids & Parenting': ['parenting', 'toddlerlife', 'kidsactivities', 'parentingtips', 'babyroom', 'sensoryplay', 'momlife', 'dadlife', 'nurserydecor', 'schoolcrafts', 'motherhood', 'familytime'],
+        'Outdoors & Camping': ['hiking', 'camping', 'backpacking', 'wilderness', 'adventure', 'naturelovers', 'nationalparks', 'campingtips', 'outdoorphotography', 'climbing', 'glamping', 'trekking'],
+        'Photography': ['photography', 'portrait', 'landscape', 'travelphotography', 'photooftheday', 'cameras', 'lightroom', 'streetphotography', 'aestheticphotography', 'iphoneography', 'photoshoot', 'cinematic'],
+        'Quotes': ['inspirationalquotes', 'motivation', 'quotesoftheday', 'positivevibes', 'affirmations', 'lifequotes', 'lovequotes', 'selflovequotes', 'wisewords', 'mindfulness', 'dailymotivation'],
+        'Science & Tech': ['technology', 'gadgets', 'coding', 'science', 'futuretech', 'ai', 'space', 'developer', 'software', 'programming', 'stemnews', 'robotics', 'datascience'],
+        'Sports & Outdoors': ['sports', 'football', 'basketball', 'soccer', 'running', 'outdoors', 'athletictraining', 'golf', 'cycling', 'activewear', 'gymnastics', 'surfing'],
+        'Travel & Destinations': ['travelguides', 'wanderlust', 'bucketlistplaces', 'solotravel', 'hiddengems', 'roadtripideas', 'europetravel', 'budgettravel', 'naturephotography', 'islandlife', 'honeymoon', 'wanderer'],
+        'Weddings': ['weddinginspiration', 'weddingdress', 'bridalmakeup', 'weddingdecor', 'weddingflowers', 'bridesmaids', 'elopement', 'weddingphotography', 'engagementring', 'bridetobe', 'weddingvenue', 'diywedding']
+      };
+
+      // Extract cleaned keywords from topic
+      const cleanTopic = topic.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+      const topicWords = cleanTopic.split(/\s+/).filter(w => w.length > 2);
+
+      // Select category database list
+      const dbTags = tagDb[category] || tagDb['Home Decor'];
+      
+      // Dynamic tags list
+      let finalTags: string[] = [];
+
+      // 1. Generate topic keyword variations
+      if (topicWords.length >= 2) {
+        finalTags.push(topicWords.join(''));
+      }
+      topicWords.forEach(w => {
+        finalTags.push(w);
+      });
+
+      // 2. Add category tags
+      finalTags.push(...dbTags);
+
+      // 3. Fallback tags if we need more (up to 30)
+      const generalFallbacks = ['inspiration', 'ideas', 'aesthetic', 'trendy', 'creative', 'viral', 'pinoftheday', 'foryou', 'pinspire', 'instastyle', 'diy', 'how-to', 'designinspo', 'weeklygoals'];
+      finalTags.push(...generalFallbacks);
+
+      // Deduplicate tags
+      const uniqueTagsSet = Array.from(new Set(finalTags.map(t => t.toLowerCase().replace(/\s+/g, ''))));
+
+      // Append prefix # symbol
+      const uniqueTags = uniqueTagsSet.slice(0, targetTagsCount).map(t => `#${t}`);
+
+      // Update Pin Mockup Title
+      if (mockupTitle) {
+        mockupTitle.textContent = capitalizeWords(topic) + ' Ideas';
+      }
+
+      // Construct output text containing only space-separated hashtags
+      const formattedOutput = uniqueTags.join(' ');
+
+      if (sandboxInput) {
+        sandboxInput.value = formattedOutput;
+        updateSandbox();
+      }
+
+      // Scroll directly to the results / editor sandbox column
+      const editorCol = document.querySelector('.calc-editor-column');
+      if (editorCol) {
+        editorCol.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    generateBtn?.addEventListener('click', generateHashtags);
+
+    // Emoji picker click inserter
+    const emojiContainer = document.getElementById('emoji-picker-container');
+    emojiContainer?.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('.emoji-btn');
+      if (!btn || !sandboxInput) return;
+      
+      const emoji = btn.textContent || '';
+      const start = sandboxInput.selectionStart;
+      const end = sandboxInput.selectionEnd;
+      const val = sandboxInput.value;
+
+      sandboxInput.value = val.substring(0, start) + emoji + val.substring(end);
+      sandboxInput.selectionStart = sandboxInput.selectionEnd = start + emoji.length;
+      sandboxInput.focus();
+      updateSandbox();
+    });
+
+    // Sandbox Copy
+    copyActiveBtn?.addEventListener('click', () => {
+      const text = sandboxInput?.value || '';
+      if (!text) return alert("Sandbox editor is empty!");
+      
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = copyActiveBtn.textContent;
+        copyActiveBtn.textContent = 'Copied to Clipboard! ✓';
+        setTimeout(() => {
+          copyActiveBtn.textContent = originalText;
+        }, 1500);
+      });
+    });
+
+    // Clear Sandbox
+    clearSandboxBtn?.addEventListener('click', () => {
+      if (sandboxInput) {
+        sandboxInput.value = '';
+        updateSandbox();
+      }
+    });
+
+    // Reset Fields
+    resetBtn?.addEventListener('click', () => {
+      if (valueInput) valueInput.value = '';
+      if (sandboxInput) sandboxInput.value = '';
+      updateSandbox();
+    });
+
+    // Initialize
+    updateSandbox();
+  };
+
+  setupPinterestHashtagGenerator();
+  document.addEventListener('astro:after-swap', setupPinterestHashtagGenerator);
+</script>
