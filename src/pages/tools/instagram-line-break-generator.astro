@@ -1,0 +1,692 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "Why does Instagram collapse line breaks in captions?",
+    answer: "Instagram's default text parsing engine collapses consecutive empty lines and trailing spaces to save screen space on mobile feeds. This tool solves this by inserting invisible spacer characters (like the U+2800 Braille space) at the start of newlines."
+  },
+  {
+    question: "What is the invisible spacer character?",
+    answer: "The U+2800 Braille pattern blank space (⠀) is a special Unicode character that browsers and apps render as completely empty space. Because it is technically a character and not a standard whitespace space key, Instagram is forced to preserve the line break without collapsing it."
+  },
+  {
+    question: "Will this tool make my captions look spammy?",
+    answer: "No. Since this generator uses truly invisible spacers, your captions will look clean and professional, without the need for bullet points (•) or dots (.) that creators historically used to separate paragraphs."
+  },
+  {
+    question: "How many hashtags can I format with this tool?",
+    answer: "Instagram has a strict limit of 30 hashtags per post. Our tool includes an active hashtag counter that highlights your hashtag count in red if you exceed this limit."
+  },
+  {
+    question: "Is there a character limit for Instagram captions?",
+    answer: "Yes, Instagram captions have a character limit of 2,200 characters. The sandbox workspace tracks this in real-time, showing a progress bar to prevent your caption from getting cut off."
+  }
+];
+---
+
+<ToolLayout
+  title="Instagram Line Break Generator - Free Caption Spacer Tool"
+  description="Generate clean, invisible line breaks for Instagram captions. Format post layouts, verify character limits, and count hashtags in real-time."
+  toolName="Instagram Line Break Generator"
+  toolDescription="Format your Instagram captions with clean, invisible spaces. Stop using dots or dashes to separate paragraphs—our tool injects clean spacer characters instantly."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Settings and Input Forms -->
+      <div class="calc-form-column">
+        <form class="calc-form" id="generator-form" onsubmit="return false;">
+          <!-- Custom handle name -->
+          <div class="form-group">
+            <label for="handle-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg>
+              Profile @Handle
+            </label>
+            <input type="text" id="handle-input" class="form-input" placeholder="e.g. fashion_creator" value="creators_feel" />
+          </div>
+
+          <!-- Caption Input Text -->
+          <div class="form-group">
+            <label for="value-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+              </svg>
+              Your Caption Text
+            </label>
+            <textarea id="value-input" class="form-input" style="height: 120px; line-height: 1.4;" placeholder="Type your caption here. Hit Enter to create spacing..." required>Stop using dots for spacing!
+
+Our tool inserts invisible spacer characters.
+
+Try it now and look professional. 👇 #seo #socialmedia</textarea>
+          </div>
+
+          <!-- Spacer Style Selection -->
+          <div class="form-group">
+            <label for="spacer-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+              </svg>
+              Spacer Character Style
+            </label>
+            <select id="spacer-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="invisible" selected>Invisible Unicode (⠀) (recommended)</option>
+              <option value="bullet">Bullet point (•)</option>
+              <option value="dash">Hyphen (-)</option>
+              <option value="star">Star (★)</option>
+            </select>
+          </div>
+
+          <!-- Extra formatting -->
+          <div class="form-group" style="gap: 0.75rem; margin-top: 0.25rem;">
+            <label class="icon-label" style="margin-bottom: 0.15rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+              </svg>
+              Formatting Helpers
+            </label>
+
+            <label class="checkbox-container" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.92rem; font-weight: 600; color: var(--color-text);">
+              <input type="checkbox" id="clean-spaces-check" checked style="width: 17px; height: 17px; accent-color: var(--color-brand);" />
+              Clean consecutive double spaces
+            </label>
+
+            <label class="checkbox-container" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.92rem; font-weight: 600; color: var(--color-text);">
+              <input type="checkbox" id="capitalize-check" style="width: 17px; height: 17px; accent-color: var(--color-brand);" />
+              Capitalize first letter of sentences
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn" style="width: 100%;">Format Caption</button>
+            <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Fields</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Interactive Sandbox Editor & Instagram Mockup -->
+      <div class="calc-editor-column">
+        <!-- Live Instagram Post Mockup -->
+        <div class="instagram-mockup glass" style="background: #fff; color: #262626; border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; text-align: left; box-shadow: var(--shadow-sm);">
+          <span style="font-size: 0.68rem; font-weight: 700; color: #8e8e8e; text-transform: uppercase; border-bottom: 1px solid #dbdbdb; padding-bottom: 0.25rem; display: block;">Instagram Post Preview</span>
+          
+          <!-- Header (User avatar + handle) -->
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); display: flex; align-items: center; justify-content: center; padding: 2px; flex-shrink: 0;">
+              <div style="width: 100%; height: 100%; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; color: #262626;">CF</div>
+            </div>
+            <span id="mockup-handle-display" style="font-size: 0.8rem; font-weight: 700;">creators_feel</span>
+          </div>
+
+          <!-- Photo placeholder (blurred color bar) -->
+          <div style="height: 180px; border-radius: 8px; background: linear-gradient(135deg, #a5b4fc 0%, #c084fc 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 0.8rem;">
+            📷 Photo Preview Placeholder
+          </div>
+
+          <!-- Interaction bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.15rem; color: #262626;">
+            <div style="display: flex; gap: 0.75rem;">
+              <span style="cursor: pointer; font-size: 1.15rem;">❤️</span>
+              <span style="cursor: pointer; font-size: 1.15rem;">💬</span>
+              <span style="cursor: pointer; font-size: 1.15rem;">✈️</span>
+            </div>
+            <span style="cursor: pointer; font-size: 1.15rem;">🔖</span>
+          </div>
+
+          <!-- Likes -->
+          <span style="font-size: 0.78rem; font-weight: 700; margin-top: -0.15rem;">1,429 likes</span>
+
+          <!-- Caption with line breaks preview -->
+          <div style="font-size: 0.82rem; line-height: 1.4; word-break: break-word;">
+            <span style="font-weight: 700; margin-right: 0.35rem;" id="mockup-caption-handle">creators_feel</span>
+            <span id="mockup-caption-text" style="white-space: pre-wrap;">Stop using dots for spacing!
+
+Invisible spacer characters are added.
+
+Try it now and look professional. 👇 #seo #socialmedia</span>
+            <span id="mockup-more-link" class="hidden" style="color: #8e8e8e; font-weight: 600; margin-left: 0.2rem; cursor: pointer;">... more</span>
+          </div>
+        </div>
+
+        <!-- Sandbox Active Workspace Editor -->
+        <div class="sandbox-box glass">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text); text-transform: uppercase;">Formatted Caption Sandbox</span>
+            <div style="display: flex; gap: 0.75rem; font-size: 0.75rem; font-weight: 700;">
+              <span id="sandbox-counter" style="color: var(--color-text-muted);">92 / 2200 Chars</span>
+              <span id="sandbox-hashtags" style="color: var(--color-text-muted);">2 / 30 Tags</span>
+            </div>
+          </div>
+          
+          <textarea id="sandbox-input" class="form-input" style="height: 110px; resize: none; line-height: 1.4; font-size: 0.92rem; font-family: inherit;" placeholder="Your formatted caption with spacer characters will display here..."></textarea>
+
+          <!-- Visual character progress bar -->
+          <div class="progress-bar-container" style="background: var(--color-border); height: 6px; border-radius: 4px; overflow: hidden; margin: 0.5rem 0;">
+            <div id="progress-bar-fill" style="width: 4.1%; height: 100%; background: var(--color-brand); transition: all var(--transition-fast);"></div>
+          </div>
+
+          <!-- Quick Emoji Panel -->
+          <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem;">
+            <span style="font-size: 0.65rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Quick Insert Emojis:</span>
+            <div class="emoji-selector-panel" id="emoji-picker-container">
+              <button type="button" class="emoji-btn">✨</button>
+              <button type="button" class="emoji-btn">👇</button>
+              <button type="button" class="emoji-btn">💡</button>
+              <button type="button" class="emoji-btn">🔥</button>
+              <button type="button" class="emoji-btn">🚀</button>
+              <button type="button" class="emoji-btn">📸</button>
+              <button type="button" class="emoji-btn">📌</button>
+              <button type="button" class="emoji-btn">💯</button>
+              <button type="button" class="emoji-btn">🙌</button>
+              <button type="button" class="emoji-btn">🎨</button>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+            <button type="button" id="copy-active-btn" class="calc-btn" style="flex: 1.2; height: 42px; font-size: 0.85rem;">Copy Caption</button>
+            <button type="button" id="clear-sandbox-btn" class="calc-btn-secondary" style="flex: 0.8; height: 42px; font-size: 0.85rem;">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Instagram Line Break Generator: Format Clean Captions Without Dots</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        📝 <strong>Looking to structure your Instagram feed layouts?</strong> Read our comprehensive strategy guide on <a href="/blog/instagram-line-break-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Instagram Captions formatting & Spacing Rules</a> to learn how to keep newlines intact, avoid truncation, and check character counts.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Creating a clean caption layout with clear spacing makes your content easy to read and looks professional to your audience. However, the Instagram app historically collapses consecutive line breaks, forcing creators to use ugly dots, periods, or dashes to separate paragraphs. This free <strong>instagram line break generator</strong> instantly solves this issue by inserting invisible Braille spacer characters, preserving your formatting perfectly.
+    </p>
+
+    <h3>What is Instagram line Break Generator?</h3>
+    <p>
+      An <strong>instagram line break generator</strong> or <strong>instagram space generator</strong> is an online writing assistant designed to clean up and format captions. By replacing ordinary newlines with compatible, invisible spacer symbols, it creates clean spacing in feed posts without using symbols or dots.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To write formatted captions, follow these instructions:
+    </p>
+    <ol>
+      <li><strong>Customize Profile:</strong> Input your handle to update the feed preview card.</li>
+      <li><strong>Type Caption:</strong> Enter your text in the caption field, hitting Enter to create paragraph separations.</li>
+      <li><strong>Choose Spacers:</strong> Select the Invisible Unicode option, or choose bullets/dashes if you prefer visible marks.</li>
+      <li><strong>Format Caption:</strong> Click <strong>Format Caption</strong> to process the newlines.</li>
+      <li><strong>Sandbox Edit & Copy:</strong> Modify the formatted result in the Sandbox workspace, check length limits, and copy.</li>
+    </ol>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The space generator parses your text using several formatting steps:
+    </p>
+    <ul>
+      <li><strong>Invisible Character Injection:</strong> Replaces blank line breaks with the invisible Braille blank character (<code>U+2800</code>). Instagram treats this as a regular letter, keeping the empty line intact on mobile.</li>
+      <li><strong>Double Spaces Cleanser:</strong> Normalizes consecutive spaces to single spaces for a cleaner look.</li>
+      <li><strong>Real-Time Audits:</strong> Counts your characters (up to 2,200) and hashtags (up to 30) to make sure you comply with Instagram's limits.</li>
+      <li><strong>Truncation Preview:</strong> Shows you where the caption will be cut off on the mobile feed behind the "... more" link.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's look at how the spacing budget is calculated:
+    </p>
+    <p>
+      <strong>Input Text:</strong><br />
+      "Stop using dots for spacing!<br />
+      <br />
+      Invisible spacer characters are added."
+    </p>
+    <p>
+      <strong>Formatting Output (Raw Code):</strong><br />
+      `"Stop using dots for spacing!\n⠀\nInvisible spacer characters are added."`<br />
+      ✦ Text Characters: <strong>66 characters</strong>.<br />
+      ✦ Spacers Added: 1 invisible Unicode symbol (<code>⠀</code>).<br />
+      ✦ Total Character Count: <strong>67 characters</strong>.<br />
+      ✦ Feed Truncation: Since the total count is under 125 characters, the full text (including line breaks) will display on mobile feeds without getting hidden behind the "... more" crop link!
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This <strong>free instagram caption spacer</strong> or <strong>instagram line breaks tool</strong> is designed for:
+    </p>
+    <ul>
+      <li><strong>Content Creators:</strong> Keeping caption formatting clean and readable.</li>
+      <li><strong>Brands & Businesses:</strong> Writing professional product announcements with clear callouts.</li>
+      <li><strong>Social Media Managers:</strong> Scheduling bulk posts with consistent formatting.</li>
+      <li><strong>Influencers:</strong> Structuring storytelling posts and recipes without ugly dots or dashes.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  /* Sandbox Container CSS */
+  .sandbox-box {
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: 16px;
+    background: var(--color-bg-alt);
+  }
+
+  .emoji-selector-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding-top: 0.25rem;
+  }
+
+  .emoji-btn {
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .emoji-btn:hover {
+    background: var(--color-border);
+    transform: scale(1.1);
+  }
+
+  /* Suggestion Cards CSS */
+  .option-card {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .opt-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+  }
+
+  .opt-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .opt-text {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  .mock-btn-mini {
+    height: 28px;
+    padding: 0 0.75rem;
+    border-radius: 4px;
+    border: 1px solid var(--color-brand);
+    background: var(--color-brand);
+    color: white;
+    font-weight: 600;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mock-btn-mini.secondary {
+    border-color: var(--color-border);
+    background: transparent;
+    color: var(--color-text);
+  }
+
+  .mock-btn-mini.secondary:hover {
+    background: var(--color-bg);
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .emoji-selector-panel {
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .calc-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupInstagramLineBreakGenerator = () => {
+    const handleInput = document.getElementById('handle-input') as HTMLInputElement;
+    const valueInput = document.getElementById('value-input') as HTMLTextAreaElement;
+    const spacerSelect = document.getElementById('spacer-input') as HTMLSelectElement;
+    const cleanSpacesCheck = document.getElementById('clean-spaces-check') as HTMLInputElement;
+    const capitalizeCheck = document.getElementById('capitalize-check') as HTMLInputElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Preview Mockup Elements
+    const mockupHandle = document.getElementById('mockup-handle-display');
+    const mockupCaptionHandle = document.getElementById('mockup-caption-handle');
+    const mockupCaptionText = document.getElementById('mockup-caption-text');
+    const mockupMoreLink = document.getElementById('mockup-more-link');
+
+    // Sandbox workspace
+    const sandboxInput = document.getElementById('sandbox-input') as HTMLTextAreaElement;
+    const sandboxCounter = document.getElementById('sandbox-counter');
+    const sandboxHashtags = document.getElementById('sandbox-hashtags');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const copyActiveBtn = document.getElementById('copy-active-btn');
+    const clearSandboxBtn = document.getElementById('clear-sandbox-btn');
+
+    // Live Handle Mockup Update
+    const updateHandleMockup = () => {
+      const handle = (handleInput?.value || 'creators_feel').trim().toLowerCase().replace(/\s+/g, '_');
+      if (mockupHandle) mockupHandle.textContent = handle;
+      if (mockupCaptionHandle) mockupCaptionHandle.textContent = handle;
+    };
+    handleInput?.addEventListener('input', updateHandleMockup);
+
+    // Live Sandbox update
+    const updateSandbox = () => {
+      const text = sandboxInput?.value || '';
+      const len = text.length;
+
+      // Extract and count hashtags
+      const tags = (text.match(/#[a-zA-Z0-9_]+/g) || []).length;
+
+      // Update Mockup Caption (with truncation simulation)
+      if (mockupCaptionText) {
+        if (len > 125) {
+          mockupCaptionText.textContent = text.substring(0, 125);
+          mockupMoreLink?.classList.remove('hidden');
+        } else {
+          mockupCaptionText.textContent = text || 'Your formatted caption will preview here...';
+          mockupMoreLink?.classList.add('hidden');
+        }
+      }
+
+      // Update counters
+      if (sandboxCounter) {
+        sandboxCounter.textContent = `${len} / 2200 Chars`;
+        sandboxCounter.style.color = len > 2200 ? '#ef4444' : 'var(--color-text-muted)';
+      }
+
+      if (sandboxHashtags) {
+        sandboxHashtags.textContent = `${tags} / 30 Tags`;
+        sandboxHashtags.style.color = tags > 30 ? '#ef4444' : 'var(--color-text-muted)';
+      }
+
+      // Update progress bar
+      if (progressBarFill) {
+        const percent = Math.min((len / 2200) * 100, 100);
+        progressBarFill.style.width = `${percent}%`;
+        
+        if (len > 2200 || tags > 30) {
+          progressBarFill.style.backgroundColor = '#ef4444';
+        } else if (percent > 85) {
+          progressBarFill.style.backgroundColor = '#f59e0b';
+        } else {
+          progressBarFill.style.backgroundColor = 'var(--color-brand)';
+        }
+      }
+    };
+    sandboxInput?.addEventListener('input', updateSandbox);
+
+    // Expand mockup caption
+    mockupMoreLink?.addEventListener('click', () => {
+      if (mockupCaptionText && sandboxInput) {
+        mockupCaptionText.textContent = sandboxInput.value;
+        mockupMoreLink.classList.add('hidden');
+      }
+    });
+
+    // Formatting logic
+    const formatCaption = () => {
+      let text = (valueInput?.value || '');
+      const spacerType = spacerSelect?.value || 'invisible';
+      const cleanSpaces = cleanSpacesCheck?.checked || false;
+      const capitalize = capitalizeCheck?.checked || false;
+
+      if (!text) {
+        alert("Please enter caption text to format.");
+        return;
+      }
+
+      // 1. Clean spaces
+      if (cleanSpaces) {
+        text = text.replace(/[ \t]+/g, ' ');
+      }
+
+      // 2. Capitalize sentences
+      if (capitalize) {
+        text = text.replace(/(^\s*|[.!?]\s+)([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
+      }
+
+      // 3. Spacers replacement
+      // Define spacer symbol
+      let spacer = '⠀'; // U+2800 Invisible braille space
+      if (spacerType === 'bullet') spacer = '•';
+      if (spacerType === 'dash') spacer = '—';
+      if (spacerType === 'star') spacer = '★';
+
+      // Split lines, map line spacing
+      const lines = text.split('\n');
+      const formattedLines = lines.map((line, idx) => {
+        const trimmed = line.trim();
+        // If line is empty (consecutive newline), inject spacer
+        if (trimmed === '') {
+          return spacer;
+        }
+        return line;
+      });
+
+      const formattedResult = formattedLines.join('\n');
+
+      if (sandboxInput) {
+        sandboxInput.value = formattedResult;
+        updateSandbox();
+      }
+
+      // Scroll directly to the results / editor sandbox column
+      const editorCol = document.querySelector('.calc-editor-column');
+      if (editorCol) {
+        editorCol.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    generateBtn?.addEventListener('click', formatCaption);
+
+    // Emoji quick click inserter
+    const emojiContainer = document.getElementById('emoji-picker-container');
+    emojiContainer?.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('.emoji-btn');
+      if (!btn || !sandboxInput) return;
+      
+      const emoji = btn.textContent || '';
+      const start = sandboxInput.selectionStart;
+      const end = sandboxInput.selectionEnd;
+      const val = sandboxInput.value;
+
+      sandboxInput.value = val.substring(0, start) + emoji + val.substring(end);
+      
+      // Reset cursor position
+      sandboxInput.selectionStart = sandboxInput.selectionEnd = start + emoji.length;
+      sandboxInput.focus();
+      updateSandbox();
+    });
+
+    // Sandbox Copy
+    copyActiveBtn?.addEventListener('click', () => {
+      const text = sandboxInput?.value || '';
+      if (!text) return alert("Sandbox editor is empty!");
+      
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = copyActiveBtn.textContent;
+        copyActiveBtn.textContent = 'Copied to Clipboard! ✓';
+        setTimeout(() => {
+          copyActiveBtn.textContent = originalText;
+        }, 1500);
+      });
+    });
+
+    // Clear Sandbox
+    clearSandboxBtn?.addEventListener('click', () => {
+      if (sandboxInput) {
+        sandboxInput.value = '';
+        updateSandbox();
+      }
+    });
+
+    // Reset Fields
+    resetBtn?.addEventListener('click', () => {
+      if (valueInput) valueInput.value = '';
+      if (sandboxInput) sandboxInput.value = '';
+      updateSandbox();
+    });
+
+    // Initialize
+    updateHandleMockup();
+    updateSandbox();
+  };
+
+  setupInstagramLineBreakGenerator();
+  document.addEventListener('astro:after-swap', setupInstagramLineBreakGenerator);
+</script>

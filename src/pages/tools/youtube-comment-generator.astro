@@ -1,0 +1,765 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "Why should I use a YouTube Comment Generator?",
+    answer: "Using a comment generator helps you write structured, engaging, and high-value comments quickly. This increases the chances of getting your comment pinned, liked, or hearted by the creator, driving visibility back to your own channel."
+  },
+  {
+    question: "What makes a YouTube comment stand out?",
+    answer: "A great YouTube comment should start with a specific compliment (hook), add real value or an opinion, and end with a constructive question that encourages the creator or other viewers to reply."
+  },
+  {
+    question: "Does the tool support formatting like bold or italics?",
+    answer: "Yes. YouTube supports native formatting: wrap text in asterisks (*bold*) for bold, underscores (_italics_) for italics, and dashes (-strikethrough-) for strikethrough text. Our sandbox allows you to format text easily."
+  },
+  {
+    question: "Is there a character limit for YouTube comments?",
+    answer: "YouTube allows comments up to 10,000 characters. However, best practice is keeping your comments under 200-300 characters so they are highly readable and don't get hidden behind a 'Read more' link."
+  },
+  {
+    question: "Can comments help with my channel's SEO?",
+    answer: "Yes, indirectly. Writing high-value comments on popular videos in your niche attracts organic profile clicks from other viewers, helping you build a targeted audience for your own content."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube Comment Generator - Free Video Comment Maker"
+  description="Generate engaging and high-value comments for YouTube videos. Customize tone, add questions or compliments, and preview your comments in a real YouTube thread."
+  toolName="YouTube Comment Generator"
+  toolDescription="Create thoughtful, humorous, or analytical comments for YouTube posts. Select your video niche and intent to write comments that capture attention and drive channel clicks."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Settings and Input Forms -->
+      <div class="calc-form-column">
+        <form class="calc-form" id="generator-form" onsubmit="return false;">
+          <!-- User Handle Customize -->
+          <div class="form-group">
+            <label for="handle-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg>
+              Profile @Handle
+            </label>
+            <input type="text" id="handle-input" class="form-input" placeholder="e.g. content_reviewer" value="creators_feel" />
+          </div>
+
+          <!-- Video Topic/Niche -->
+          <div class="form-group">
+            <label for="value-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.51 8.25h6.75M4.51 15.75h6.75M3 6.75h1.5M3 12h1.5M3 17.25h1.5" />
+              </svg>
+              What is the video niche / topic?
+            </label>
+            <input type="text" id="value-input" class="form-input" placeholder="e.g. productivity hacks, cooking channels" value="productivity hacks" required />
+          </div>
+
+          <!-- Comment Intent -->
+          <div class="form-group">
+            <label for="intent-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.693 9-8.25s-4.03-8.25-9-8.25S3 7.443 3 12c0 2.104.859 4.023 2.273 5.48L4.5 21l3.75-1.5c1.1.256 2.27.375 3.75.375Z" />
+              </svg>
+              Comment Intent
+            </label>
+            <select id="intent-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="Complimentary" selected>Complimentary Hook (Praise creator)</option>
+              <option value="Question">Question / Discussion (Engage viewers)</option>
+              <option value="Opinion">Opinion / Value Add (Share details)</option>
+              <option value="Feedback">Constructive Feedback (Friendly critique)</option>
+            </select>
+          </div>
+
+          <!-- Tone Selection -->
+          <div class="form-group">
+            <label for="tone-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
+              </svg>
+              Select Tone Style
+            </label>
+            <select id="tone-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="Friendly" selected>Friendly & Supportive</option>
+              <option value="Analytical">Analytical & Detailed</option>
+              <option value="Humorous">Humorous & Witty</option>
+              <option value="Professional">Professional & Clean</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn" style="width: 100%;">Generate Comments</button>
+            <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Fields</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Interactive Sandbox Editor & YouTube Mockup -->
+      <div class="calc-editor-column">
+        <!-- Live YouTube Comment Mockup -->
+        <div class="youtube-mockup glass" style="background: #fff; color: #0f0f0f; border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; text-align: left; box-shadow: var(--shadow-sm);">
+          <span style="font-size: 0.68rem; font-weight: 700; color: #606060; text-transform: uppercase; border-bottom: 1px solid #e5e5e5; padding-bottom: 0.25rem; display: block;">YouTube Comment Preview</span>
+          
+          <div style="display: flex; gap: 0.75rem; align-items: start;">
+            <!-- Avatar placeholder -->
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: #606060; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; flex-shrink: 0;" id="mockup-avatar">
+              C
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.2rem; flex: 1; min-width: 0;">
+              <!-- Meta handle + time -->
+              <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <span id="mockup-handle-display" style="font-size: 0.82rem; font-weight: 700; color: #0f0f0f;">@creators_feel</span>
+                <span style="font-size: 0.75rem; color: #606060;">2 minutes ago</span>
+              </div>
+              
+              <!-- Comment content body -->
+              <p id="mockup-comment-text" style="margin: 0; font-size: 0.88rem; line-height: 1.4; color: #0f0f0f; word-break: break-word; white-space: pre-wrap;">Great productivity hacks! The formatting of the calendar technique was super helpful. Keep up the excellent work!</p>
+              
+              <!-- Interaction icons (Like, Dislike, Reply, Creator heart) -->
+              <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.35rem; color: #606060;">
+                <div style="display: flex; align-items: center; gap: 0.25rem; cursor: pointer;">
+                  <svg style="width: 16px; height: 16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V3a.75.75 0 0 1 .75-.75A2.25 2.25 0 0 1 16.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.919.699 2.114 1.706.323 1.664-1.04 3.375-2.51 3.375h-3.126c-.618 0-.75.56-.75 1.28v2.24c0 .414-.336.75-.75.75h-1.5a.75.75 0 0 1-.75-.75V15h-1.5a.75.75 0 0 1-.75-.75V12h-1.5A2.25 2.25 0 0 1 6.633 10.5Z" /></svg>
+                  <span style="font-size: 0.72rem; font-weight: 700;">84</span>
+                </div>
+                <div style="cursor: pointer; display: flex; align-items: center;">
+                  <svg style="width: 16px; height: 16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 15h9.75M7.5 15a.75.75 0 0 1-.75-.75V12h-.75A2.25 2.25 0 0 0 3.75 14.25v.75m0 0h16.5m0-1.5V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v6.75a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>
+                </div>
+                <span style="font-size: 0.72rem; font-weight: 700; cursor: pointer;">Reply</span>
+                
+                <!-- Creator heart display -->
+                <div style="display: flex; align-items: center; gap: 0.2rem; cursor: pointer; margin-left: 0.5rem;" id="creator-heart">
+                  <div style="width: 18px; height: 18px; border-radius: 50%; background: var(--color-brand); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.5rem; font-weight: 900;">Y</div>
+                  <span style="font-size: 0.65rem; color: #ef4444;">♥️</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sandbox Active Workspace Editor -->
+        <div class="sandbox-box glass">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text); text-transform: uppercase;">Active Comment Editor</span>
+            <span id="sandbox-counter" style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted);">96 / 10000</span>
+          </div>
+          
+          <textarea id="sandbox-input" class="form-input" style="height: 90px; resize: none; line-height: 1.4; font-size: 0.92rem; font-family: inherit;" placeholder="Refine your comment copy here..."></textarea>
+
+          <!-- Visual character progress bar -->
+          <div class="progress-bar-container" style="background: var(--color-border); height: 6px; border-radius: 4px; overflow: hidden; margin: 0.5rem 0;">
+            <div id="progress-bar-fill" style="width: 1%; height: 100%; background: var(--color-brand); transition: all var(--transition-fast);"></div>
+          </div>
+
+          <!-- Quick Emoji Panel -->
+          <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem;">
+            <span style="font-size: 0.65rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Insert Emoji:</span>
+            <div class="emoji-selector-panel" id="emoji-picker-container">
+              <button type="button" class="emoji-btn">🔥</button>
+              <button type="button" class="emoji-btn">👏</button>
+              <button type="button" class="emoji-btn">🙌</button>
+              <button type="button" class="emoji-btn">💡</button>
+              <button type="button" class="emoji-btn">💯</button>
+              <button type="button" class="emoji-btn">🚀</button>
+              <button type="button" class="emoji-btn">👀</button>
+              <button type="button" class="emoji-btn">👇</button>
+              <button type="button" class="emoji-btn">👍</button>
+              <button type="button" class="emoji-btn">⭐</button>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+            <button type="button" id="copy-active-btn" class="calc-btn" style="flex: 1.2; height: 42px; font-size: 0.85rem;">Copy Comment</button>
+            <button type="button" id="clear-sandbox-btn" class="calc-btn-secondary" style="flex: 0.8; height: 42px; font-size: 0.85rem;">Clear</button>
+          </div>
+        </div>
+
+        <!-- Suggestions Drawer Panel -->
+        <div class="suggestions-drawer" id="suggestions-box" style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+          <h4 style="margin: 0; font-size: 0.9rem; font-weight: 700; color: var(--color-text); text-transform: uppercase; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem;">Alternative Suggestions</h4>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <!-- Card Option A -->
+            <div class="option-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span class="opt-label">Option A (Friendly & Supportive)</span>
+                <span id="opt-1-badge" class="opt-badge">0 / 10000</span>
+              </div>
+              <p id="opt-1-val" class="opt-text">Great productivity hacks! The formatting of the calendar technique was super helpful. Keep up the excellent work! 🙌</p>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-1-val">Load to Sandbox</button>
+                <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-1-val">Copy</button>
+              </div>
+            </div>
+
+            <!-- Card Option B -->
+            <div class="option-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span class="opt-label">Option B (Analytical & Detailed)</span>
+                <span id="opt-2-badge" class="opt-badge">0 / 10000</span>
+              </div>
+              <p id="opt-2-val" class="opt-text">Excellent summary of productivity hacks. Removing distractions is highly effective. What tool do you recommend for blocking apps? 💡</p>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-2-val">Load to Sandbox</button>
+                <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-2-val">Copy</button>
+              </div>
+            </div>
+
+            <!-- Card Option C -->
+            <div class="option-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span class="opt-label">Option C (Short & Witty)</span>
+                <span id="opt-3-badge" class="opt-badge">0 / 10000</span>
+              </div>
+              <p id="opt-3-val" class="opt-text">Need to try these productivity hacks immediately! Simple yet game-changing. 🚀</p>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-3-val">Load to Sandbox</button>
+                <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-3-val">Copy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>YouTube Comment Generator: Write High-Value Video Comments</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        💬 <strong>Looking to maximize community engagement?</strong> Read our comprehensive strategy guide on <a href="/blog/youtube-comment-generator-guide" style="color: var(--color-brand); text-decoration: underline;">YouTube Comments & Community Growth</a> to learn how to structure formatting, secure pinned status, and drive organic link clicks.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Leaving a thoughtful, engaging comment on a popular video is one of the most effective ways to build relationships with creators and get discovered by other viewers. This free <strong>youtube comment generator</strong> helps you quickly generate well-formatted, friendly, or analytical comments customized to a specific video topic or niche.
+    </p>
+
+    <h3>What is youtube comment generator?</h3>
+    <p>
+      A <strong>youtube comment generator</strong> is an online SEO writing tool that helps you structure video comment ideas. By combining compliments, value-added observations, and discussion questions, the generator crafts text layouts that increase user engagement and click-through rates to your profile.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To write high-value comments, follow these instructions:
+    </p>
+    <ol>
+      <li><strong>Customize Profile:</strong> Type your handle name to customize the Google/YouTube thread mockup.</li>
+      <li><strong>Select Topic:</strong> Input the topic of the video (e.g. "cooking hacks", "python code tutorial").</li>
+      <li><strong>Choose Intent:</strong> Pick whether you want to leave a compliment, ask a question, share an opinion, or write friendly feedback.</li>
+      <li><strong>Select Tone:</strong> Select Friendly, Analytical, Humorous, or Professional.</li>
+      <li><strong>Generate & Edit:</strong> Click <strong>Generate Comments</strong>, select a layout to load into the Sandbox editor, refine the text, and copy.</li>
+    </ol>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The tool analyzes your inputs to format comment templates using structural components:
+    </p>
+    <ul>
+      <li><strong>Hook:</strong> Starts with an eye-catching statement or compliment customized to your chosen video niche.</li>
+      <li><strong>Body value addition:</strong> Injects supportive observations or key discussion points matching the intent selected.</li>
+      <li><strong>Call to Action / Question:</strong> Appends questions or prompt phrases to invite other viewers to interact.</li>
+      <li><strong>Visual Formatting:</strong> Integrates formatting characters and emojis to boost readability in long-form threads.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's examine how a comment is budgeted and structured:
+    </p>
+    <p>
+      <strong>Input Parameters:</strong><br />
+      ✦ Video Niche: "productivity hacks"<br />
+      ✦ Comment Intent: "Opinion"<br />
+      ✦ Tone: "Analytical & Detailed"
+    </p>
+    <p>
+      <strong>Comment Layout:</strong><br />
+      "Excellent summary of productivity hacks. Removing distractions is highly effective. What tool do you recommend for blocking apps? 💡"<br />
+      ✦ Hook: "Excellent summary of productivity hacks." (Praise)<br />
+      ✦ Body: "Removing distractions is highly effective." (Value Observation)<br />
+      ✦ Close: "What tool do you recommend for blocking apps? 💡" (Question CTA)<br />
+      ✦ Total Character Count: <strong>132 characters</strong>. This is under the 200-character threshold, preventing truncation behind a 'Read more' button on mobile screens.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This <strong>free youtube comment generator</strong> is designed for:
+    </p>
+    <ul>
+      <li><strong>Content Creators:</strong> Leaving supportive feedback on peer videos to build community authority.</li>
+      <li><strong>Social Media Managers:</strong> Handling outreach and engagement across platform accounts.</li>
+      <li><strong>Active Viewers:</strong> Writing clean comments to share opinions and connect with creators.</li>
+      <li><strong>Affiliate Marketers:</strong> Adding valuable, relevant responses to drive organic clicks to niche videos.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  /* Sandbox Container CSS */
+  .sandbox-box {
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: 16px;
+    background: var(--color-bg-alt);
+  }
+
+  .emoji-selector-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding-top: 0.25rem;
+  }
+
+  .emoji-btn {
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .emoji-btn:hover {
+    background: var(--color-border);
+    transform: scale(1.1);
+  }
+
+  /* Suggestion Cards CSS */
+  .option-card {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .opt-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+  }
+
+  .opt-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .opt-text {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  .mock-btn-mini {
+    height: 28px;
+    padding: 0 0.75rem;
+    border-radius: 4px;
+    border: 1px solid var(--color-brand);
+    background: var(--color-brand);
+    color: white;
+    font-weight: 600;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mock-btn-mini.secondary {
+    border-color: var(--color-border);
+    background: transparent;
+    color: var(--color-text);
+  }
+
+  .mock-btn-mini.secondary:hover {
+    background: var(--color-bg);
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .emoji-selector-panel {
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .calc-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupYoutubeCommentGenerator = () => {
+    const handleInput = document.getElementById('handle-input') as HTMLInputElement;
+    const valueInput = document.getElementById('value-input') as HTMLInputElement;
+    const intentSelect = document.getElementById('intent-input') as HTMLSelectElement;
+    const toneSelect = document.getElementById('tone-input') as HTMLSelectElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Preview Mockup Elements
+    const mockupHandle = document.getElementById('mockup-handle-display');
+    const mockupCommentText = document.getElementById('mockup-comment-text');
+    const mockupAvatar = document.getElementById('mockup-avatar');
+
+    // Sandbox workspace
+    const sandboxInput = document.getElementById('sandbox-input') as HTMLTextAreaElement;
+    const sandboxCounter = document.getElementById('sandbox-counter');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const copyActiveBtn = document.getElementById('copy-active-btn');
+    const clearSandboxBtn = document.getElementById('clear-sandbox-btn');
+
+    // Alternative Displays
+    const opt1Val = document.getElementById('opt-1-val');
+    const opt2Val = document.getElementById('opt-2-val');
+    const opt3Val = document.getElementById('opt-3-val');
+
+    const opt1Badge = document.getElementById('opt-1-badge');
+    const opt2Badge = document.getElementById('opt-2-badge');
+    const opt3Badge = document.getElementById('opt-3-badge');
+
+    // Live Handle Mockup Update
+    const updateHandleMockup = () => {
+      const handle = (handleInput?.value || 'creators_feel').trim().toLowerCase().replace(/\s+/g, '_');
+      if (mockupHandle) mockupHandle.textContent = `@${handle}`;
+      if (mockupAvatar) {
+        const char = handle.charAt(0).toUpperCase();
+        mockupAvatar.textContent = char || '@';
+      }
+    };
+    handleInput?.addEventListener('input', updateHandleMockup);
+
+    // Live Sandbox update
+    const updateSandbox = () => {
+      const text = sandboxInput?.value || '';
+      const len = text.length;
+
+      // Update Mockup Bio
+      if (mockupCommentText) {
+        mockupCommentText.textContent = text || 'Your video comment will display here...';
+      }
+
+      // Update counters (YouTube limit is 10,000, but warning threshold at 200 characters is ideal for users readability)
+      if (sandboxCounter) {
+        sandboxCounter.textContent = `${len} / 10000`;
+        sandboxCounter.style.color = len > 300 ? '#f59e0b' : 'var(--color-text-muted)';
+      }
+
+      // Update progress bar (percent based on a recommended 300 character sweet spot)
+      if (progressBarFill) {
+        const percent = Math.min((len / 300) * 100, 100);
+        progressBarFill.style.width = `${percent}%`;
+        
+        if (len > 10000) {
+          progressBarFill.style.backgroundColor = '#ef4444';
+        } else if (len > 300) {
+          progressBarFill.style.backgroundColor = '#f59e0b';
+        } else {
+          progressBarFill.style.backgroundColor = 'var(--color-brand)';
+        }
+      }
+    };
+    sandboxInput?.addEventListener('input', updateSandbox);
+
+    // Dynamic generation
+    const generateComments = () => {
+      const val = (valueInput?.value || '').trim();
+      const intent = intentSelect?.value || 'Complimentary';
+      const tone = toneSelect?.value || 'Friendly';
+
+      if (!val) {
+        alert("Please specify the video topic.");
+        return;
+      }
+
+      let options = ['', '', ''];
+
+      if (intent === 'Complimentary') {
+        if (tone === 'Friendly') {
+          options[0] = `Great ${val} content! Your formatting and explanation was super helpful. Keep it up! 🙌`;
+          options[1] = `This video on ${val} deserves way more views. Really appreciate the clean breakdown! ⭐`;
+          options[2] = `Amazing explanation! You made ${val} look so simple. 🔥`;
+        } else if (tone === 'Analytical') {
+          options[0] = `Solid breakdown of ${val}. The structured tips on application were particularly informative.`;
+          options[1] = `Really clear details on ${val}. Your systematic process makes this approach highly actionable.`;
+          options[2] = `Excellent educational value on ${val}. Thanks for parsing the complex concepts.`;
+        } else if (tone === 'Humorous') {
+          options[0] = `Finally, a video on ${val} that didn't put me to sleep! 😂 Love your presentation style.`;
+          options[1] = `Came for the ${val} tips, stayed for the jokes. Super entertaining work! 🚀`;
+          options[2] = `My productivity increased just by watching you describe ${val} haha!`;
+        } else { // Professional
+          options[0] = `Highly informative analysis on ${val}. Thank you for organizing this reference.`;
+          options[1] = `Well-structured video on ${val}. The examples shared are very professional.`;
+          options[2] = `Appreciate the professional perspective on ${val}. Great tutorial.`;
+        }
+      } else if (intent === 'Question') {
+        options[0] = `Loved the tips on ${val}. How do you balance this technique when starting out? 🤔`;
+        options[1] = `This breakdown of ${val} was super interesting. Do you recommend any specific tools for beginners? 💡`;
+        options[2] = `Great video! I've struggled with ${val} in the past. What is the most common mistake you see?`;
+      } else if (intent === 'Opinion') {
+        options[0] = `Good points on ${val}. In my experience, keeping the setup simple is key to consistency. 💯`;
+        options[1] = `Strong arguments regarding ${val}. I think focusing on clean layouts holds the most value.`;
+        options[2] = `Interesting view on ${val}. We usually see complex setups, so this minimal style is refreshing.`;
+      } else { // constructive feedback
+        options[0] = `Great video on ${val}! The audio was a bit low in the middle, but the tips were top notch! 👍`;
+        options[1] = `Valuable advice on ${val}. It would be awesome if you showed more screen examples next time.`;
+        options[2] = `Nice tutorial! A quick summary list at the end would make this perfect. Thanks!`;
+      }
+
+      // Populate Sandbox with Option 1
+      if (sandboxInput) {
+        sandboxInput.value = options[0];
+        updateSandbox();
+      }
+
+      // Update Suggestion displays
+      const vals = [opt1Val, opt2Val, opt3Val];
+      const badges = [opt1Badge, opt2Badge, opt3Badge];
+
+      options.forEach((opt, idx) => {
+        const vBlock = vals[idx];
+        const bBlock = badges[idx];
+
+        if (vBlock) vBlock.textContent = opt;
+        if (bBlock) {
+          const len = opt.length;
+          bBlock.textContent = `${len} / 10000`;
+          bBlock.style.color = len > 300 ? '#f59e0b' : '';
+        }
+      });
+
+      // Scroll directly to the results / editor sandbox column
+      const editorCol = document.querySelector('.calc-editor-column');
+      if (editorCol) {
+        editorCol.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    generateBtn?.addEventListener('click', generateComments);
+
+    // Emoji quick click inserter
+    const emojiContainer = document.getElementById('emoji-picker-container');
+    emojiContainer?.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('.emoji-btn');
+      if (!btn || !sandboxInput) return;
+      
+      const emoji = btn.textContent || '';
+      const start = sandboxInput.selectionStart;
+      const end = sandboxInput.selectionEnd;
+      const val = sandboxInput.value;
+
+      sandboxInput.value = val.substring(0, start) + emoji + val.substring(end);
+      
+      // Reset cursor position
+      sandboxInput.selectionStart = sandboxInput.selectionEnd = start + emoji.length;
+      sandboxInput.focus();
+      updateSandbox();
+    });
+
+    // Load to sandbox buttons
+    document.querySelectorAll('.load-sandbox-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        if (!targetId || !sandboxInput) return;
+        const textBlock = document.getElementById(targetId);
+        if (textBlock) {
+          sandboxInput.value = textBlock.textContent || '';
+          updateSandbox();
+        }
+      });
+    });
+
+    // Direct copies buttons
+    document.querySelectorAll('.copy-direct-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        if (!targetId) return;
+        const textBlock = document.getElementById(targetId);
+        const text = textBlock?.textContent || '';
+        if (!text) return;
+
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = btn.textContent;
+          btn.textContent = 'Copied! ✓';
+          setTimeout(() => {
+            btn.textContent = originalText;
+          }, 1500);
+        });
+      });
+    });
+
+    // Sandbox Copy
+    copyActiveBtn?.addEventListener('click', () => {
+      const text = sandboxInput?.value || '';
+      if (!text) return alert("Sandbox editor is empty!");
+      
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = copyActiveBtn.textContent;
+        copyActiveBtn.textContent = 'Copied to Clipboard! ✓';
+        setTimeout(() => {
+          copyActiveBtn.textContent = originalText;
+        }, 1500);
+      });
+    });
+
+    // Clear Sandbox
+    clearSandboxBtn?.addEventListener('click', () => {
+      if (sandboxInput) {
+        sandboxInput.value = '';
+        updateSandbox();
+      }
+    });
+
+    // Reset Fields
+    resetBtn?.addEventListener('click', () => {
+      if (valueInput) valueInput.value = '';
+      if (sandboxInput) sandboxInput.value = '';
+      updateSandbox();
+    });
+
+    // Initialize
+    updateHandleMockup();
+    updateSandbox();
+  };
+
+  setupYoutubeCommentGenerator();
+  document.addEventListener('astro:after-swap', setupYoutubeCommentGenerator);
+</script>
