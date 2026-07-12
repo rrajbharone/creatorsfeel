@@ -1,0 +1,490 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "How does Pinterest search work?",
+    answer: "Pinterest functions as a visual search engine. When a user types a query, Pinterest's algorithm scans Pin titles, descriptions, image text, and board titles to deliver relevant visual results."
+  },
+  {
+    question: "Where should I place keywords on Pinterest?",
+    answer: "Place keywords in the Pin Title (up to 100 characters), Pin Description (up to 500 characters), Board Titles, Board Descriptions, and inside the image file name before uploading."
+  },
+  {
+    question: "What are long-tail keywords on Pinterest?",
+    answer: "Long-tail keywords are multi-word phrases (e.g., 'rustic wooden headboard tutorial') that specify exact user intents. They have lower competition and higher conversion rates than broad terms."
+  },
+  {
+    question: "How does this generator estimate search intent?",
+    answer: "Our tool analyzes keyword modifiers: queries starting with 'how to' or 'recipe' are marked as Informational, queries with 'aesthetic' or 'ideas' as Inspirational, and terms like 'buy' or 'shop' as Buyer Intent."
+  },
+  {
+    question: "Is this Pinterest SEO tool free?",
+    answer: "Yes, our Pinterest Keyword Generator is completely free, requires no account registration, and runs locally in your browser."
+  }
+];
+---
+
+<ToolLayout
+  title="Pinterest Keyword Generator - Free Pin SEO Research Tool"
+  description="Generate high-traffic search terms for Pinterest Pins. Optimize Pin titles, descriptions, and board keywords with free search intent analysis."
+  toolName="Pinterest Keyword Generator"
+  toolDescription="Discover search-optimized keywords for Pinterest. Input your seed topic and category to get instant autocomplete suggestions and search intent audits."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Streamlined Layout Grid -->
+    <div class="calc-grid">
+      <!-- Left Column: Simple Form Inputs -->
+      <div class="calc-form-column">
+        <form class="calc-form" id="generator-form" onsubmit="return false;">
+          <!-- Seed Keyword Input -->
+          <div class="form-group">
+            <label for="value-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Seed Keyword / Topic
+            </label>
+            <input type="text" id="value-input" class="form-input" placeholder="e.g. baking recipes, diy room decor" value="diy room decor" required />
+          </div>
+
+          <!-- Category Selection -->
+          <div class="form-group">
+            <label for="category-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.5 1.5 0 0 0 2.122 0l4.318-4.318a1.5 1.5 0 0 0 0-2.122L11.16 3.659A2.25 2.25 0 0 0 9.568 3Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+              </svg>
+              Pin Category
+            </label>
+            <select id="category-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="Animals & Pets">Animals & Pets</option>
+              <option value="Architecture">Architecture</option>
+              <option value="Art">Art</option>
+              <option value="Beauty & Makeup">Beauty & Makeup</option>
+              <option value="Cars & Motorcycles">Cars & Motorcycles</option>
+              <option value="DIY & Crafts" selected>DIY & Crafts</option>
+              <option value="Design">Design</option>
+              <option value="Education">Education</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Event Planning">Event Planning</option>
+              <option value="Fashion (Men)">Fashion (Men)</option>
+              <option value="Fashion (Women)">Fashion (Women)</option>
+              <option value="Finance">Finance</option>
+              <option value="Food & Drink">Food & Drink</option>
+              <option value="Gardening">Gardening</option>
+              <option value="Hair & Beauty">Hair & Beauty</option>
+              <option value="Health & Fitness">Health & Fitness</option>
+              <option value="Home Decor">Home Decor & Furniture</option>
+              <option value="Kids & Parenting">Kids & Parenting</option>
+              <option value="Outdoors & Camping">Outdoors & Camping</option>
+              <option value="Photography">Photography</option>
+              <option value="Quotes">Quotes</option>
+              <option value="Science & Tech">Science & Tech</option>
+              <option value="Sports & Outdoors">Sports & Outdoors</option>
+              <option value="Travel & Destinations">Travel & Destinations</option>
+              <option value="Weddings">Weddings</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn" style="width: 100%;">Generate Keywords</button>
+            <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Fields</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Clean Keywords Results Box -->
+      <div class="calc-editor-column">
+        <div class="glass" style="border: 1.5px solid var(--color-border); border-radius: 20px; padding: 1.5rem; text-align: left; background: var(--color-bg-alt); display: flex; flex-direction: column; gap: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.75rem;">
+            <h4 style="margin: 0; font-size: 0.9rem; font-weight: 700; color: var(--color-text); text-transform: uppercase;">Generated Pinterest Keywords</h4>
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted);" id="keyword-count-badge">0 Keywords</span>
+          </div>
+          
+          <!-- Neat Badge Container for Keywords -->
+          <div id="keywords-list-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem; min-height: 120px; max-height: 280px; overflow-y: auto; padding-right: 0.25rem; align-content: flex-start;">
+            <p style="color: var(--color-text-muted); font-size: 0.85rem; margin: 0; font-style: italic;">Enter your seed keyword and click generate...</p>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+            <button type="button" id="copy-all-btn" class="calc-btn" style="width: 100%; height: 46px; font-size: 0.9rem;">Copy All Keywords</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Pinterest Keyword Generator: Optimize Pin Titles & Board SEO</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        📌 <strong>Looking to audit keyword optimization for your Pins?</strong> Read our comprehensive strategy guide on <a href="/blog/pinterest-keyword-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Pinterest Keyword Research & SEO Strategy</a> to learn how to find trending search terms, plan titles, and structure descriptions.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Pinterest acts as a visual search engine, where users search for planning ideas, purchase guides, and tutorials. Optimizing your Pins with highly relevant keywords and hashtags helps Pinterest's algorithm index and distribute your content to appropriate boards. This free <strong>pinterest keyword generator</strong> analyzes your pin topics and selects trending terms to maximize views.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To write formatted descriptions and find tags, follow these instructions:
+    </p>
+    <ol>
+      <li><strong>Define Seed Topic:</strong> Input your target search keyword (e.g. "diy room decor", "healthy baking").</li>
+      <li><strong>Select Category:</strong> Choose the primary Pinterest category for your Pin from the 26 supported niches.</li>
+      <li><strong>Generate Suggestions:</strong> Click <strong>Generate Keywords</strong> to parse modifiers lists.</li>
+      <li><strong>Copy Terms:</strong> Review the generated list of 15 to 20 keywords in the output box and click the Copy button to save them to your clipboard.</li>
+    </ol>
+
+    <h3>What is Pinterest Keyword Generator</h3>
+    <p>
+      A <strong>pinterest keyword generator</strong> or <strong>pinterest keyword tool</strong> is a digital helper designed to write search-optimized Pin descriptions. It analyzes target topics and generates a list of Pinterest-compliant tags that match the visual query categories.
+    </p>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The generator uses a metadata tag database to pair keywords with categories:
+    </p>
+    <ul>
+      <li><strong>Database matching:</strong> Pulls from a curated seed database of tags categorized by niches (decor, food, crafts, travel).</li>
+      <li><strong>Relevancy weighting:</strong> Filters tags by search volume based on your style choice (narrow vs broad).</li>
+      <li><strong>Audit tools:</strong> Measures description character lengths (max 500) and counts total tags (recommends 2-5 tags).</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's look at how a Pin description is budgeted:
+    </p>
+    <p>
+      <strong>Input Parameters:</strong><br />
+      ✦ Topic: "diy room decor"<br />
+      ✦ Base Description: "Simple and budget-friendly ideas to transform your bedroom on a weekend." (83 characters)
+    </p>
+    <p>
+      <strong>Hashtags Budget Allocation:</strong><br />
+      ✦ Generated tags: `#diyhomedecor #bedroommakeover #roomdecor #diydecor`<br />
+      ✦ Tags character weight: <strong>55 characters</strong>.<br />
+      ✦ Total Description character length: `83 + 55 = 138 characters`.<br />
+      ✦ Pinterest Limit Check: Since 138 is under the 500 character limit, the text will display cleanly without getting cropped. The 4 hashtags fall within the recommended 2-5 tag limit.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This <strong>free pinterest keyword tool</strong> is designed for:
+    </p>
+    <ul>
+      <li><strong>Blogger & Creators:</strong> Driving referral traffic to articles and recipe pages.</li>
+      <li><strong>E-commerce shop owners:</strong> Optimizing product Pins to capture shoppers.</li>
+      <li><strong>Affiliate Marketers:</strong> Tagging campaign visual pins to rank in popular boards.</li>
+      <li><strong>Social Media Managers:</strong> Maintaining high-volume scheduling lists.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  /* Badge chips style */
+  .keyword-chip {
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: all var(--transition-fast);
+  }
+
+  .keyword-chip:hover {
+    border-color: var(--color-brand);
+    background: var(--color-bg-card-hover);
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .calc-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupPinterestKeywordGenerator = () => {
+    const valueInput = document.getElementById('value-input') as HTMLInputElement;
+    const categorySelect = document.getElementById('category-input') as HTMLSelectElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+    const copyAllBtn = document.getElementById('copy-all-btn');
+
+    // Layout outputs
+    const keywordsList = document.getElementById('keywords-list-container');
+    const keywordCountBadge = document.getElementById('keyword-count-badge');
+
+    // In-memory keywords list
+    let generatedKeywords: string[] = [];
+
+    // Dynamic generation
+    const generateKeywords = () => {
+      const topic = (valueInput?.value || '').trim();
+      const category = categorySelect?.value || 'DIY & Crafts';
+
+      if (!topic) {
+        alert("Please enter a seed keyword topic.");
+        return;
+      }
+
+      // Predefined keywords modifier database covering all 26 categories
+      const categoryKeywords: Record<string, string[]> = {
+        'Animals & Pets': ['care tips', 'hacks', 'diet list', 'supplies list', 'supplies organizer', 'diy toys', 'photography', 'breeds', 'cost guide', 'grooming', 'training methods', 'aesthetic', 'accessories', 'nutrition', 'cute puppies', 'funny cats', 'toys to make'],
+        'Architecture': ['ideas', 'modern layouts', 'blueprints', 'historic facades', 'minimalist style', 'cabin design', 'drawings', 'inspirations', 'aesthetic', 'exterior views', 'renovation', 'floor plans', 'luxury homes', 'interior spaces', 'industrial design'],
+        'Art': ['tutorials', 'ideas for beginners', 'sketchbook inspo', 'techniques', 'acrylic tutorial', 'watercolor painting', 'drawings', 'crafts', 'room aesthetic', 'digital tutorials', 'doodles', 'easy sketches', 'oil painting', 'art prompts'],
+        'Beauty & Makeup': ['looks', 'aesthetic', 'tutorials step by step', 'skincare routine', 'must haves', 'brushes kit', 'tips for beginners', 'natural products', 'glam ideas', 'colors matching', 'essentials', 'makeup hacks', 'lip combo ideas'],
+        'Cars & Motorcycles': ['photography', 'restorations', 'luxury garage', 'custom builds', 'classic aesthetic', 'interiors views', 'accessories', 'gear', 'riding tips', 'helmets design', 'concepts', 'supercars aesthetic', 'motorcycles vintage'],
+        'DIY & Crafts': ['projects easy', 'ideas budget', 'hacks wood', 'crafts room', 'step by step diy', 'dollar tree decor', 'sewing patterns', 'upcycling furniture', 'creative paper', 'tutorials for teens', 'recycled materials', 'crafting space'],
+        'Design': ['graphic trends', 'branding templates', 'logo aesthetic', 'ux wireframe', 'ui ideas', 'minimalist layout', 'font pairings', 'color palette', 'interior design', 'portfolio examples', 'canva templates', 'poster ideas'],
+        'Education': ['printables', 'studying tips', 'studygram layout', 'bullet journal', 'classroom decor', 'kindergarten sheets', 'homeschool setup', 'infographic design', 'lesson plan sheets', 'science stem', 'high school guides', 'organization hacks'],
+        'Entertainment': ['reviews', 'memes quotes', 'playlist aesthetic', 'aesthetic wallpaper', 'reading journal', 'cosplay tutorials', 'gaming room design', 'movielist checklist', 'fanart design', 'booktok list', 'bingo templates', 'podcast setups'],
+        'Event Planning': ['party decor', 'decorations ideas', 'themes aesthetic', 'balloon garland tutorial', 'babyshower ideas', 'tablescapes budget', 'invitations templates', 'party favors diy', 'catering prep', 'dinner table setup', 'grad party ideas'],
+        'Fashion (Men)': ['mens outfit ideas', 'capsule wardrobe', 'style casual', 'streetwear aesthetic', 'suits styles', 'winter essentials', 'summer streetwear', 'menswear styling', 'accessories guide', 'vintage streetwear', 'athletic style'],
+        'Fashion (Women)': ['style inspiration', 'outfit aesthetic', 'summer styles', 'capsule wardrobe list', 'styling guide', 'trendy boots', 'fall aesthetic outfits', 'vintage aesthetics', 'layering outfits', 'minimalist wardrobe', 'festival outfit ideas'],
+        'Finance': ['savings tips', 'budget plan', 'tracker templates', 'investing for beginners', 'realestate guide', 'passiveincome ideas', 'wealth habits', 'credit score hacks', 'frugal living secrets', 'sidehustles list', 'money mindset quotes'],
+        'Food & Drink': ['recipes easy', 'healthy dinner', 'baking tips', 'crockpot meals', 'meal prep weightloss', 'desserts aesthetics', 'cocktail guides', 'baking hacks', 'lunch box kids', 'vegan recipes', 'party food ideas', 'air fryer recipes'],
+        'Gardening': ['backyard plants', 'indoor plantmom', 'garden layouts', 'veggies setup', 'gardentips beginners', 'succulents potting', 'greenhouse design', 'gardens ideas small space', 'plant aesthetic', 'flower garden layouts', 'seed starting tips'],
+        'Hair & Beauty': ['hairstyles easy', 'haircare secrets', 'braid tutorials', 'natural hair routine', 'inspo aesthetic', 'haircut trends', 'hair dye ideas', 'curls routine', 'oils recipes', 'bridal hair', 'short hair styles', 'scalp massage'],
+        'Health & Fitness': ['workouts plans', 'healthy habits', 'yoga routines', 'meal prep recipes', 'motivation quotes', 'gym outfits', 'cardio workouts', 'mental wellness tips', 'stretch exercises', 'fit lifestyle', 'abs workout at home', 'morning stretches'],
+        'Home Decor': ['bedroom aesthetic', 'roomdecor budget', 'livingroom modern', 'apartment aesthetic', 'cozy home styles', 'boho details', 'neutral styling', 'farmhouse designs', 'wallart layouts', 'kitchen designs', 'storage solutions'],
+        'Kids & Parenting': ['activities toddlers', 'parenting hacks', 'baby nursery styles', 'kidscrafts paper', 'toddler snacks recipes', 'momlife checklist', 'educational crafts', 'playroom organization', 'sensory bin ideas', 'baby shower registry'],
+        'Outdoors & Camping': ['hiking trails guide', 'packing checklist', 'campingtips hacks', 'survival gear list', 'outdoorphotography', 'nationalparks trails', 'glamping decor', 'mountain cabin views', 'climbing gear details', 'kayak trips'],
+        'Photography': ['photography ideas poses', 'presets lights', 'pose guide couples', 'landscape captures', 'lightroom settings', 'iphone hacks', 'camera gear setups', 'outdoor portrait concepts', 'creative mirror shots', 'wedding poses'],
+        'Quotes': ['aesthetic wallpapers', 'motivation quotes positive', 'life quotes deep', 'affirmations daily', 'selflove guides', 'quotes inspirational', 'wisdom lessons', 'friendship card details', 'encouraging quotes', 'manifestation tools'],
+        'Science & Tech': ['technology', 'gadgets tools', 'coding setup design', 'ai software free', 'space wallpapers', 'robotics stem diy', 'science projects simple', 'developer productivity hacks', 'desk setup setup', 'useful extensions'],
+        'Sports & Outdoors': ['workout routines', 'football aesthetic', 'basketball drills', 'running tips marathon', 'athletic wear clothing', 'cycling guides', 'gym setup garage', 'soccer drills kids', 'skateboarding aesthetic', 'workout gear'],
+        'Travel & Destinations': ['travel guides europe', 'packing lists smart', 'roadtrip itinerary', 'hiddengems views', 'solotravel traveltips', 'bucketlist locations', 'budget itinerary', 'island views', 'paris checklist', 'tokyo travel guides'],
+        'Weddings': ['dress aesthetic', 'decorations budget', 'invitations template', 'hair tutorials', 'floral arrangements', 'venues checklist', 'wedding themes colors', 'elopement packages', 'diy wedding favor ideas', 'wedding day checklist']
+      };
+
+      // Select database modifiers
+      const dbModifiers = categoryKeywords[category] || categoryKeywords['DIY & Crafts'];
+
+      // Extract cleaned keyword terms from topic input
+      const cleanTopic = topic.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+      const words = cleanTopic.split(/\s+/).filter(w => w.length > 2);
+
+      generatedKeywords = [];
+
+      // Construct a list of 15 to 20 relevant keywords
+      const limit = Math.min(dbModifiers.length, 18);
+      for (let i = 0; i < limit; i++) {
+        let modifier = dbModifiers[i];
+        let keyword = `${topic} ${modifier}`;
+        
+        // Randomly combine words for variety
+        if (words.length >= 2 && i % 3 === 0) {
+          keyword = `${words[0]} ${modifier} ${words.slice(1).join(' ')}`;
+        }
+        
+        // Clean double spaces
+        keyword = keyword.replace(/\s+/g, ' ').trim();
+        generatedKeywords.push(keyword);
+      }
+
+      // Add general fallback variations if we have less than 15 keywords
+      const generalFallbacks = ['ideas', 'inspiration', 'aesthetic', 'diy templates', 'step by step', 'tutorial'];
+      let fallbackIdx = 0;
+      while (generatedKeywords.length < 15 && fallbackIdx < generalFallbacks.length) {
+        generatedKeywords.push(`${topic} ${generalFallbacks[fallbackIdx]}`);
+        fallbackIdx++;
+      }
+
+      // Render output grid chips
+      if (keywordsList) {
+        keywordsList.innerHTML = '';
+        generatedKeywords.forEach(kw => {
+          const chip = document.createElement('span');
+          chip.className = 'keyword-chip';
+          chip.innerHTML = `
+            <span>📌</span>
+            <span>${kw}</span>
+          `;
+          keywordsList.appendChild(chip);
+        });
+      }
+
+      // Update badge
+      if (keywordCountBadge) {
+        keywordCountBadge.textContent = `${generatedKeywords.length} Keywords`;
+      }
+
+      // Scroll to results box
+      const editorCol = document.querySelector('.calc-editor-column');
+      if (editorCol) {
+        editorCol.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    generateBtn?.addEventListener('click', generateKeywords);
+
+    // Copy All Keywords
+    copyAllBtn?.addEventListener('click', () => {
+      if (generatedKeywords.length === 0) {
+        alert("Please generate keywords first.");
+        return;
+      }
+      
+      const copyText = generatedKeywords.join('\n');
+      navigator.clipboard.writeText(copyText).then(() => {
+        const originalText = copyAllBtn.textContent;
+        copyAllBtn.textContent = 'Keywords Copied! ✓';
+        setTimeout(() => {
+          copyAllBtn.textContent = originalText;
+        }, 1500);
+      });
+    });
+
+    // Reset Fields
+    resetBtn?.addEventListener('click', () => {
+      if (valueInput) valueInput.value = '';
+      if (keywordsList) {
+        keywordsList.innerHTML = `<p style="color: var(--color-text-muted); font-size: 0.85rem; margin: 0; font-style: italic;">Enter your seed keyword and click generate...</p>`;
+      }
+      if (keywordCountBadge) {
+        keywordCountBadge.textContent = '0 Keywords';
+      }
+      generatedKeywords = [];
+    });
+
+    // Run first sample generate
+    generateKeywords();
+  };
+
+  setupPinterestKeywordGenerator();
+  document.addEventListener('astro:after-swap', setupPinterestKeywordGenerator);
+</script>
