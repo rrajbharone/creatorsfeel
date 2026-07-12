@@ -33,6 +33,7 @@ export const GET: APIRoute = async (context) => {
     '/tools/instagram-line-break-generator',
     '/tools/pinterest-hashtag-generator',
     '/tools/pinterest-keyword-generator',
+    '/tools/pinterest-board-name-generator',
     '/tools/linkedin-post-formatter',
     '/tools/linkedin-engagement-calculator',
     '/tools/twitter-character-counter',

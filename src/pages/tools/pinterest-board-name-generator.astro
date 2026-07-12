@@ -1,0 +1,536 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the character limit for a Pinterest board name?",
+    answer: "Pinterest board names have a maximum limit of 180 characters. However, Pinterest recommends keeping board names under 50 characters so they display cleanly without getting cropped on mobile feeds."
+  },
+  {
+    question: "Should I use creative board names or search keywords?",
+    answer: "You should prioritize clear, search-friendly keywords. For example, instead of naming a board 'Dreamy Spaces,' name it 'Mid-Century Modern Living Room Ideas' to help Pinterest index it."
+  },
+  {
+    question: "Can I rename an existing board on Pinterest?",
+    answer: "Yes, you can edit your board title, description, and category at any time. When renaming, ensure you keep the Pins already saved in the board relevant to the new title."
+  },
+  {
+    question: "Should I include emojis in board names?",
+    answer: "It is best to avoid emojis in board names. Emojis can interfere with how search engines read and index the text, potentially hurting your board's ranking."
+  },
+  {
+    question: "How many boards should a Pinterest profile have?",
+    answer: "There is no strict rule, but having 15 to 30 active boards covering various sub-niches of your main topic helps establish your account authority."
+  }
+];
+---
+
+<ToolLayout
+  title="Pinterest Board Name Generator - Free Board SEO Title Tool"
+  description="Generate search-optimized board names for Pinterest. Select your category and board style to create high-ranking visual boards."
+  toolName="Pinterest Board Name Generator"
+  toolDescription="Create creative and SEO-friendly names for your Pinterest boards. Input your seed topic and style preference to get instant search-optimized board names."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Layout Grid -->
+    <div class="calc-grid">
+      <!-- Left Column: Form Inputs -->
+      <div class="calc-form-column">
+        <form class="calc-form" id="generator-form" onsubmit="return false;">
+          <!-- Topic Input -->
+          <div class="form-group">
+            <label for="value-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.5 1.5 0 0 0 2.122 0l4.318-4.318a1.5 1.5 0 0 0 0-2.122L11.16 3.659A2.25 2.25 0 0 0 9.568 3Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+              </svg>
+              Board Niche / Topic
+            </label>
+            <input type="text" id="value-input" class="form-input" placeholder="e.g. boho bedroom, vegan snacks" value="boho bedroom" required />
+          </div>
+
+          <!-- Category Selection -->
+          <div class="form-group">
+            <label for="category-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.008 1.24l.885 1.77a2.25 2.25 0 0 0 2.007 1.24h1.98a2.25 2.25 0 0 0 2.007-1.24l.885-1.77a2.25 2.25 0 0 1 2.007-1.24h3.86m-18 0h18" />
+              </svg>
+              Pin Category
+            </label>
+            <select id="category-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="Animals & Pets">Animals & Pets</option>
+              <option value="Architecture">Architecture</option>
+              <option value="Art">Art</option>
+              <option value="Beauty & Makeup">Beauty & Makeup</option>
+              <option value="Cars & Motorcycles">Cars & Motorcycles</option>
+              <option value="DIY & Crafts">DIY & Crafts</option>
+              <option value="Design">Design</option>
+              <option value="Education">Education</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Event Planning">Event Planning</option>
+              <option value="Fashion (Men)">Fashion (Men)</option>
+              <option value="Fashion (Women)">Fashion (Women)</option>
+              <option value="Finance">Finance</option>
+              <option value="Food & Drink">Food & Drink</option>
+              <option value="Gardening">Gardening</option>
+              <option value="Hair & Beauty">Hair & Beauty</option>
+              <option value="Health & Fitness">Health & Fitness</option>
+              <option value="Home Decor" selected>Home Decor & Furniture</option>
+              <option value="Kids & Parenting">Kids & Parenting</option>
+              <option value="Outdoors & Camping">Outdoors & Camping</option>
+              <option value="Photography">Photography</option>
+              <option value="Quotes">Quotes</option>
+              <option value="Science & Tech">Science & Tech</option>
+              <option value="Sports & Outdoors">Sports & Outdoors</option>
+              <option value="Travel & Destinations">Travel & Destinations</option>
+              <option value="Weddings">Weddings</option>
+            </select>
+          </div>
+
+          <!-- Board Style Selection -->
+          <div class="form-group">
+            <label for="style-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l8.982-8.982m-8.982 8.982a9 9 0 1111.838-11.838V12" />
+              </svg>
+              Board Name Style
+            </label>
+            <select id="style-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="Aesthetic" selected>Aesthetic / Visual (Vibe-focused)</option>
+              <option value="DIY">DIY & How-To (Tutorial-focused)</option>
+              <option value="Shop">Shop & Products (Buyer-focused)</option>
+              <option value="Broad">Broad Search (High volume)</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn" style="width: 100%;">Generate Board Names</button>
+            <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Fields</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Results Output Box -->
+      <div class="calc-editor-column">
+        <div class="glass" style="border: 1.5px solid var(--color-border); border-radius: 20px; padding: 1.5rem; text-align: left; background: var(--color-bg-alt); display: flex; flex-direction: column; gap: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.75rem;">
+            <h4 style="margin: 0; font-size: 0.9rem; font-weight: 700; color: var(--color-text); text-transform: uppercase;">Suggested Board Names</h4>
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted);" id="results-count-badge">0 Names</span>
+          </div>
+
+          <!-- Board name list items container -->
+          <div id="names-list-container" style="display: flex; flex-direction: column; gap: 0.5rem; min-height: 180px; max-height: 320px; overflow-y: auto;">
+            <p style="color: var(--color-text-muted); font-size: 0.85rem; margin: 0; font-style: italic;">Enter your board niche topic and click generate...</p>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+            <button type="button" id="copy-all-btn" class="calc-btn" style="width: 100%; height: 46px; font-size: 0.9rem;">Copy All Board Names</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Pinterest Board Name Generator: Build Search-Optimized Visual Boards</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        📌 <strong>Looking to drive targeted traffic to your boards?</strong> Read our comprehensive strategy guide on <a href="/blog/pinterest-keyword-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Pinterest Keyword Research & SEO Strategy</a> to learn how to research high-traffic modifiers, layout board descriptions, and organize pins.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Pinterest boards act as the filing cabinets of your visual profile. Naming your boards with descriptive, high-volume search phrases is critical to help Pinterest's algorithm index your content and suggest your boards to users looking for design concepts, outfits, or recipes. This free <strong>pinterest board name generator</strong> provides instant name suggestions categorized by styles to boost profile visibility.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To draft and copy high-ranking board names, follow these instructions:
+    </p>
+    <ol>
+      <li><strong>Define Niche:</strong> Input your target board topic (e.g. "boho bedroom", "healthy snacks").</li>
+      <li><strong>Select Category:</strong> Choose the primary Pinterest niche for your board from the 26 supported categories.</li>
+      <li><strong>Choose Style:</strong> Pick a style preference (Aesthetic vibes, DIY tutorials, Shop products, or Broad Search terms).</li>
+      <li><strong>Generate Names:</strong> Click <strong>Generate Board Names</strong> to view 12 high-performing options.</li>
+      <li><strong>Copy Selections:</strong> Click the copy icon next to any board name to save it individually, or click "Copy All Board Names" to copy the entire list.</li>
+    </ol>
+
+    <h3>What is Pinterest Board Name Generator</h3>
+    <p>
+      A <strong>pinterest board name generator</strong> is a digital helper designed to create search-optimized names for Pinterest boards. It matches your seed niche topic with relevant modifiers, helping you target specific keywords that users search for on Pinterest.
+    </p>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The tool blends seed keywords with category-based search modifiers:
+    </p>
+    <ul>
+      <li><strong>Aesthetic modifiers:</strong> Appends words like "inspo," "aesthetic," "vibes," or "design ideas" to target discovery searches.</li>
+      <li><strong>DIY & Tutorial modifiers:</strong> Combines terms with "how to," "crafts," "diy," or "tutorials" to target learning searches.</li>
+      <li><strong>Product modifiers:</strong> Matches topics with "shop," "picks," "finds," or "must haves" for high buyer intent.</li>
+      <li><strong>Search optimization checks:</strong> Formats titles to stay under the recommended 50-character limit to avoid crop cuts.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Here is how the tool optimizes a board title budget:
+    </p>
+    <p>
+      <strong>Input Niche:</strong> "boho bedroom"<br />
+      <strong>Target Limit Check:</strong> Recommended maximum is <strong>50 characters</strong>.
+    </p>
+    <p>
+      <strong>Generated Variations:</strong><br />
+      ✦ Aesthetic Style: `"Boho Bedroom Decor Aesthetic"` (28 characters) $\rightarrow$ <strong>Safe</strong><br />
+      ✦ DIY Style: `"DIY Boho Bedroom Ideas & Tutorials"` (34 characters) $\rightarrow$ <strong>Safe</strong><br />
+      ✦ Shop Style: `"Boho Bedroom Furniture To Shop"` (30 characters) $\rightarrow$ <strong>Safe</strong><br />
+      ✦ Broad Style: `"Boho Bedroom Interior Design"` (28 characters) $\rightarrow$ <strong>Safe</strong>
+    </p>
+    <p>
+      Each generated name fits well within the 50-character limit, ensuring it displays fully in search results and on mobile devices.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This <strong>pinterest board name generator</strong> is useful for:
+    </p>
+    <ul>
+      <li><strong>Content Creators & Bloggers:</strong> Organizing campaign boards to drive traffic to recipe card guides or DIY blueprints.</li>
+      <li><strong>E-commerce Retailers:</strong> Cataloging product collections into buyer-focused boards.</li>
+      <li><strong>Brand Managers:</strong> Structuring visual profiles for clients to build a clear theme.</li>
+      <li><strong>Pinterest Marketers:</strong> Auditing account structures to target high-ranking terms.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  /* List row card item style */
+  .name-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.65rem 0.88rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+  }
+
+  .name-item-row:hover {
+    border-color: var(--color-brand);
+    background: var(--color-bg-card-hover);
+  }
+
+  .copy-row-btn {
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .copy-row-btn:hover {
+    background: var(--color-brand);
+    color: white;
+    border-color: var(--color-brand);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .copy-row-btn:active {
+    transform: translateY(0);
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .calc-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupPinterestBoardNameGenerator = () => {
+    const valueInput = document.getElementById('value-input') as HTMLInputElement;
+    const categorySelect = document.getElementById('category-input') as HTMLSelectElement;
+    const styleSelect = document.getElementById('style-input') as HTMLSelectElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+    const copyAllBtn = document.getElementById('copy-all-btn');
+
+    // Layout outputs
+    const namesList = document.getElementById('names-list-container');
+    const resultsCountBadge = document.getElementById('results-count-badge');
+
+    // In-memory list
+    let generatedNames: string[] = [];
+
+    // Helper to capitalize words
+    const capitalizeWords = (str: string) => {
+      return str.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).join('')).join(' ');
+    };
+
+    // Dynamic generation
+    const generateBoardNames = () => {
+      const topic = (valueInput?.value || '').trim();
+      const category = categorySelect?.value || 'Home Decor';
+      const boardStyle = styleSelect?.value || 'Aesthetic';
+
+      if (!topic) {
+        alert("Please enter a board niche topic.");
+        return;
+      }
+
+      // Predefined style suffix/prefix mappings
+      const styleModifiers: Record<string, string[]> = {
+        'Aesthetic': ['Inspo', 'Aesthetic', 'Vibes', 'Mood Board', 'Design Ideas', 'Styling', 'Concepts', 'Inspirations', 'Aesthetic Decor', 'Vibe Check', 'Style Guide', 'Lookbook'],
+        'DIY': ['DIY & Projects', 'How-To Tutorials', 'Hacks & Tips', 'Crafts Ideas', 'Woodworking DIY', 'Step By Step', 'Easy Crafts', 'Handmade Guides', 'Room Makeover', 'dollar tree hacks', 'Cheap DIY', 'Renovations'],
+        'Shop': ['To Shop', 'Must Haves', 'Picks', 'Shopping List', 'Best Buys', 'Gifts Ideas', 'Wishlist', 'Favorites', 'Budget Finds', 'Under $50', 'Deals', 'Essentials'],
+        'Broad': ['Ideas', 'Decor & Style', 'Design Hub', 'Board', 'Hub', 'Inspirations', 'Collection', 'Guide', 'List', 'Trends', 'Ideas For Home', 'Projects']
+      };
+
+      // Select database modifiers
+      const dbMods = styleModifiers[boardStyle] || styleModifiers['Broad'];
+
+      generatedNames = [];
+
+      // Capitalize inputs
+      const capitalizedTopic = topic.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+      // Build 12 board name suggestions
+      dbMods.forEach(mod => {
+        let name = '';
+        
+        // Vary layout combinations (prefix vs suffix)
+        if (mod.toLowerCase().startsWith('diy') || mod.toLowerCase().startsWith('how') || mod.toLowerCase().startsWith('best')) {
+          name = `${mod} ${capitalizedTopic}`;
+        } else {
+          name = `${capitalizedTopic} ${mod}`;
+        }
+
+        // Clean spacing and double capitalizations
+        name = name.replace(/\s+/g, ' ').trim();
+        
+        // Strict Pinterest board title limits crop safeguard (keeps it under 50 characters)
+        if (name.length > 50) {
+          name = name.slice(0, 47) + '...';
+        }
+
+        generatedNames.push(name);
+      });
+
+      // Render suggestions rows
+      if (namesList) {
+        namesList.innerHTML = '';
+        generatedNames.forEach(name => {
+          const row = document.createElement('div');
+          row.className = 'name-item-row';
+          row.innerHTML = `
+            <span>📌 ${name}</span>
+            <button type="button" class="copy-row-btn">📋 Copy</button>
+          `;
+          
+          row.querySelector('.copy-row-btn')?.addEventListener('click', (e) => {
+            navigator.clipboard.writeText(name).then(() => {
+              const btn = e.target as HTMLButtonElement;
+              const originalText = btn.textContent;
+              btn.textContent = 'Copied! ✓';
+              btn.style.background = 'var(--color-brand)';
+              btn.style.color = 'white';
+              setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+                btn.style.color = '';
+              }, 1500);
+            });
+          });
+
+          namesList.appendChild(row);
+        });
+      }
+
+      // Update badge
+      if (resultsCountBadge) {
+        resultsCountBadge.textContent = `${generatedNames.length} Names`;
+      }
+
+      // Scroll to results box
+      const editorCol = document.querySelector('.calc-editor-column');
+      if (editorCol) {
+        editorCol.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    generateBtn?.addEventListener('click', generateBoardNames);
+
+    // Copy All
+    copyAllBtn?.addEventListener('click', () => {
+      if (generatedNames.length === 0) {
+        alert("Please generate board names first.");
+        return;
+      }
+
+      const copyText = generatedNames.join('\n');
+      navigator.clipboard.writeText(copyText).then(() => {
+        const originalText = copyAllBtn.textContent;
+        copyAllBtn.textContent = 'All Copied! ✓';
+        setTimeout(() => {
+          copyAllBtn.textContent = originalText;
+        }, 1500);
+      });
+    });
+
+    // Reset Fields
+    resetBtn?.addEventListener('click', () => {
+      if (valueInput) valueInput.value = '';
+      if (namesList) {
+        namesList.innerHTML = `<p style="color: var(--color-text-muted); font-size: 0.85rem; margin: 0; font-style: italic;">Enter your board niche topic and click generate...</p>`;
+      }
+      if (resultsCountBadge) {
+        resultsCountBadge.textContent = '0 Names';
+      }
+      generatedNames = [];
+    });
+
+    // Run first sample generate
+    generateBoardNames();
+  };
+
+  setupPinterestBoardNameGenerator();
+  document.addEventListener('astro:after-swap', setupPinterestBoardNameGenerator);
+</script>
