@@ -1,0 +1,671 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "Does Threads support hashtags?",
+    answer: "Yes. Threads allows users to tag their posts. Unlike Instagram where you can add up to 30 tags, Threads natively converts hashtags into clickable blue topic links. In addition, you can add single tags without the hash symbol using their native tag feature."
+  },
+  {
+    question: "How many tags should I add to a Threads post?",
+    answer: "Threads recommends focusing on 1 to 3 highly targeted tags per post. Adding too many tags can clutter your layout and reduce readability, which affects user engagement."
+  },
+  {
+    question: "What is the character limit for a Threads post?",
+    answer: "The character limit for a single post on Threads is 500 characters. Our sandbox editor includes a real-time character tracker to help you stay within this limit."
+  },
+  {
+    question: "Are tags on Threads clickable?",
+    answer: "Yes, tags are clickable. When a user clicks a tag on Threads, they are taken to a search results feed containing other posts using the same tag."
+  },
+  {
+    question: "Should I place tags inside the text or at the bottom?",
+    answer: "Both methods work. Placing tags at the end of your post keeps the copy clean and easy to read, while placing tags inline can highlight specific keywords."
+  }
+];
+---
+
+<ToolLayout
+  title="Threads Hashtag Generator - Free Threads SEO Tag Tool"
+  description="Generate highly relevant hashtags for Threads posts. Optimize post keyword tags, audit character limits, and boost your reach on Threads."
+  toolName="Threads Hashtag Generator"
+  toolDescription="Generate custom, search-optimized tags for your Threads posts. Select your category and tag quantity to write social copies that stand out."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Settings and Input Forms -->
+      <div class="calc-form-column">
+        <form class="calc-form" id="generator-form" onsubmit="return false;">
+          <!-- Topic Input -->
+          <div class="form-group">
+            <label for="value-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+              </svg>
+              What is your post topic / keyword?
+            </label>
+            <input type="text" id="value-input" class="form-input" placeholder="e.g. productivity habits, social media tips" value="productivity habits" required />
+          </div>
+
+          <!-- Category Selection -->
+          <div class="form-group">
+            <label for="category-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.5 1.5 0 0 0 2.122 0l4.318-4.318a1.5 1.5 0 0 0 0-2.122L11.16 3.659A2.25 2.25 0 0 0 9.568 3Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+              </svg>
+              Post Category
+            </label>
+            <select id="category-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="Animals & Pets">Animals & Pets</option>
+              <option value="Architecture">Architecture</option>
+              <option value="Art">Art</option>
+              <option value="Beauty & Makeup">Beauty & Makeup</option>
+              <option value="Cars & Motorcycles">Cars & Motorcycles</option>
+              <option value="DIY & Crafts">DIY & Crafts</option>
+              <option value="Design">Design</option>
+              <option value="Education">Education</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Event Planning">Event Planning</option>
+              <option value="Fashion (Men)">Fashion (Men)</option>
+              <option value="Fashion (Women)">Fashion (Women)</option>
+              <option value="Finance">Finance</option>
+              <option value="Food & Drink">Food & Drink</option>
+              <option value="Gardening">Gardening</option>
+              <option value="Hair & Beauty">Hair & Beauty</option>
+              <option value="Health & Fitness">Health & Fitness</option>
+              <option value="Home Decor">Home Decor & Furniture</option>
+              <option value="Kids & Parenting">Kids & Parenting</option>
+              <option value="Outdoors & Camping">Outdoors & Camping</option>
+              <option value="Photography">Photography</option>
+              <option value="Quotes">Quotes</option>
+              <option value="Science & Tech" selected>Science & Tech</option>
+              <option value="Sports & Outdoors">Sports & Outdoors</option>
+              <option value="Travel & Destinations">Travel & Destinations</option>
+              <option value="Weddings">Weddings</option>
+            </select>
+          </div>
+
+          <!-- Tag Count Preference -->
+          <div class="form-group">
+            <label for="count-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-12.3 1.8 15m-9.75-15 1.8 15" />
+              </svg>
+              Number of Tags
+            </label>
+            <select id="count-input" class="form-input" style="height: 48px; border-radius: 8px;">
+              <option value="1">1 Tag (Threads recommendation)</option>
+              <option value="3" selected>3 Tags (Balanced)</option>
+              <option value="5">5 Tags (High visibility)</option>
+              <option value="10">10 Tags (Max reach)</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn" style="width: 100%;">Generate Tags</button>
+            <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Fields</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Interactive Sandbox Editor & Threads Mockup Preview -->
+      <div class="calc-editor-column">
+        <!-- Live Threads Post Mockup Card -->
+        <div class="threads-mockup glass" style="background: #101010; color: #f3f5f7; border-radius: 20px; padding: 1.25rem; display: flex; gap: 0.75rem; text-align: left; box-shadow: var(--shadow-sm); max-width: 340px; margin: 0 auto; width: 100%; border: 1px solid #262626;">
+          <!-- Left Column: Avatar -->
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; flex-shrink: 0;">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: #ffffff; color: #000; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800;">CF</div>
+            <div style="width: 2px; flex-grow: 1; background: #262626; border-radius: 1px;"></div>
+          </div>
+
+          <!-- Right Column: Content -->
+          <div style="display: flex; flex-direction: column; gap: 0.35rem; width: 100%; min-width: 0;">
+            <!-- Header: username + verified + time -->
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; font-weight: 700;">
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span>creators_feel</span>
+                <svg viewBox="0 0 24 24" aria-label="Verified" style="width: 14px; height: 14px; fill: #0095f6;"><path d="M12.002 2.005a9.995 9.995 0 1 0 0 19.99 9.995 9.995 0 0 0 0-19.99zm4.592 8.358l-5.698 5.698a.747.747 0 0 1-1.056 0L7.41 13.63a.747.747 0 0 1 1.056-1.056l1.96 1.96 5.17-5.17a.747.747 0 0 1 1.056 1.056z"></path></svg>
+              </div>
+              <span style="color: #616161; font-weight: 400; font-size: 0.78rem;">2h</span>
+            </div>
+
+            <!-- Post Text Area -->
+            <p id="mockup-post-text" style="margin: 0; font-size: 0.85rem; color: #e5e5e5; line-height: 1.4; white-space: pre-wrap; word-break: break-word;">Start planning your goals today. #productivity #habits</p>
+
+            <!-- Interaction Icons -->
+            <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem; color: #616161; padding-bottom: 0.25rem;">
+              <!-- Heart icon -->
+              <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg>
+              <!-- Speech bubble icon -->
+              <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.022 9-6.75s-4.03-6.75-9-6.75-9 3.022-9 6.75c0 1.957.87 3.738 2.3 5.02L4.5 20.25l3.87-1.125c1.1.378 2.29.562 3.63.562z"></path></svg>
+              <!-- Repost icon -->
+              <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.656 48.656 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3M4.5 12c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l-3 3m3-3l3 3"></path></svg>
+              <!-- Send icon -->
+              <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"></path></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sandbox Active Workspace Editor -->
+        <div class="sandbox-box glass">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text); text-transform: uppercase;">Threads Hashtags Sandbox</span>
+            <div style="display: flex; gap: 0.75rem; font-size: 0.75rem; font-weight: 700;">
+              <span id="sandbox-counter" style="color: var(--color-text-muted);">48 / 500 Chars</span>
+              <span id="sandbox-hashtags" style="color: var(--color-text-muted);">2 / 3 Tags</span>
+            </div>
+          </div>
+          
+          <textarea id="sandbox-input" class="form-input" style="height: 110px; resize: none; line-height: 1.4; font-size: 0.92rem; font-family: inherit;" placeholder="Your generated Threads tags will display here..."></textarea>
+
+          <!-- Visual character progress bar -->
+          <div class="progress-bar-container" style="background: var(--color-border); height: 6px; border-radius: 4px; overflow: hidden; margin: 0.5rem 0;">
+            <div id="progress-bar-fill" style="width: 9.6%; height: 100%; background: var(--color-brand); transition: all var(--transition-fast);"></div>
+          </div>
+
+          <!-- Quick Emoji Panel -->
+          <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem;">
+            <span style="font-size: 0.65rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Quick Insert Emojis:</span>
+            <div class="emoji-selector-panel" id="emoji-picker-container">
+              <button type="button" class="emoji-btn">📌</button>
+              <button type="button" class="emoji-btn">✨</button>
+              <button type="button" class="emoji-btn">🧵</button>
+              <button type="button" class="emoji-btn">💡</button>
+              <button type="button" class="emoji-btn">🔥</button>
+              <button type="button" class="emoji-btn">👀</button>
+              <button type="button" class="emoji-btn">💻</button>
+              <button type="button" class="emoji-btn">🚀</button>
+              <button type="button" class="emoji-btn">👇</button>
+              <button type="button" class="emoji-btn">💯</button>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+            <button type="button" id="copy-active-btn" class="calc-btn" style="flex: 1.2; height: 42px; font-size: 0.85rem;">Copy Post Content</button>
+            <button type="button" id="clear-sandbox-btn" class="calc-btn-secondary" style="flex: 0.8; height: 42px; font-size: 0.85rem;">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Threads Hashtag Generator: Optimize Topic Tags & Post Spacing</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        🧵 <strong>Looking to maximize engagement on the Threads app?</strong> Read our comprehensive strategy guide on <a href="/blog/threads-hashtag-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Threads Hashtags & Spacing Rules</a> to learn how to write compelling social copies, select relevant tags, and index in search feeds.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Threads, the text-based social conversation platform built by Instagram, allows creators and brands to share text updates, links, photos, and videos. To make posts discoverable in user searches, Threads supports clickable topic tags. This free <strong>threads hashtag generator</strong> helps you quickly identify relevant tags for your post topic while keeping track of the strict character limits.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To write formatted Threads posts with optimized keyword tags, follow these instructions:
+    </p>
+    <ol>
+      <li><strong>Define Topic:</strong> Input your target post topic or draft context (e.g. "morning productivity tips", "healthy cooking hacks").</li>
+      <li><strong>Select Category:</strong> Choose from the 26 supported conversation niches.</li>
+      <li><strong>Select Quantity:</strong> Pick how many tags you want to append, with support for 1, 3, 5, or 10 tags.</li>
+      <li><strong>Generate Post:</strong> Click <strong>Generate Tags</strong> to draft a copy and select relevant hashtags.</li>
+      <li><strong>Sandbox Edit:</strong> Customize the post in the active sandbox workspace, watch the character limits progress bar (optimal under 500 characters), and copy your finished post.</li>
+    </ol>
+
+    <h3>What is Threads Hashtag Generator</h3>
+    <p>
+      A <strong>threads hashtag generator</strong> or <strong>threads tag generator</strong> is a digital helper designed to create search-optimized posts. It matches post topics with relevant conversation keywords, turning text drafts into clickable Threads-compliant posts.
+    </p>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The generator uses a metadata tag database to pair keywords with categories:
+    </p>
+    <ul>
+      <li><strong>Database matching:</strong> Pulls from a curated seed database of tags categorized by niches (decor, food, crafts, travel).</li>
+      <li><strong>Relevancy weighting:</strong> Filters tags by search volume based on your style choice (narrow vs broad).</li>
+      <li><strong>Audit tools:</strong> Measures description character lengths (max 500) and counts total tags (recommends 2-5 tags).</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's look at how a Threads post character budget is allocated:
+    </p>
+    <p>
+      <strong>Input Parameters:</strong><br />
+      ✦ Topic: "productivity habits"<br />
+      ✦ Target Count: 3 tags<br />
+      ✦ Base Draft: "Establish a simple morning routine to start your workday with high energy and focus." (91 characters)
+    </p>
+    <p>
+      <strong>Hashtags Budget Allocation:</strong><br />
+      ✦ Generated tags: `#productivity #habits #focus` (28 characters).<br />
+      ✦ Total Post character length: `91 + 28 = 119 characters`.<br />
+      ✦ Threads Limit Check: Since 119 is well under the 500 character limit, the text will display cleanly without getting cropped. The 3 hashtags fall within the recommended limit.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This <strong>free threads keyword tool</strong> is designed for:
+    </p>
+    <ul>
+      <li><strong>Creators & Influencers:</strong> Driving conversational reach to build their follower base.</li>
+      <li><strong>Blogger & Writers:</strong> Sharing text snippets that link back to articles.</li>
+      <li><strong>Social Media Managers:</strong> Writing high-volume scheduling templates for Threads.</li>
+      <li><strong>Brands & Marketers:</strong> Tagging sponsored conversations to rank in trending discussions.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+  }
+
+  /* Sandbox Container CSS */
+  .sandbox-box {
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: 16px;
+    background: var(--color-bg-alt);
+  }
+
+  .emoji-selector-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding-top: 0.25rem;
+  }
+
+  .emoji-btn {
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .emoji-btn:hover {
+    background: var(--color-border);
+    transform: scale(1.1);
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .emoji-selector-panel {
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .calc-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupThreadsHashtagGenerator = () => {
+    const valueInput = document.getElementById('value-input') as HTMLInputElement;
+    const categorySelect = document.getElementById('category-input') as HTMLSelectElement;
+    const countSelect = document.getElementById('count-input') as HTMLSelectElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('calc-reset-btn');
+
+    // Preview mockup text
+    const mockupPostText = document.getElementById('mockup-post-text');
+
+    // Sandbox workspace
+    const sandboxInput = document.getElementById('sandbox-input') as HTMLTextAreaElement;
+    const sandboxCounter = document.getElementById('sandbox-counter');
+    const sandboxHashtags = document.getElementById('sandbox-hashtags');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const copyActiveBtn = document.getElementById('copy-active-btn');
+    const clearSandboxBtn = document.getElementById('clear-sandbox-btn');
+
+    // Helper to capitalize words
+    const capitalizeWords = (str: string) => {
+      return str.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    };
+
+    // Live Sandbox update
+    const updateSandbox = () => {
+      const text = sandboxInput?.value || '';
+      const len = text.length;
+
+      // Extract and count hashtags
+      const tags = (text.match(/#[a-zA-Z0-9_]+/g) || []).length;
+      const targetTags = parseInt(countSelect?.value || '3', 10);
+
+      // Update Mockup post preview text
+      if (mockupPostText) {
+        mockupPostText.textContent = text || 'Your post context and hashtags will preview here...';
+      }
+
+      // Update counters
+      if (sandboxCounter) {
+        sandboxCounter.textContent = `${len} / 500 Chars`;
+        sandboxCounter.style.color = len > 500 ? '#ef4444' : 'var(--color-text-muted)';
+      }
+
+      if (sandboxHashtags) {
+        sandboxHashtags.textContent = `${tags} / ${targetTags} Tags`;
+        sandboxHashtags.style.color = tags > targetTags ? '#f59e0b' : 'var(--color-text-muted)';
+      }
+
+      // Update progress bar
+      if (progressBarFill) {
+        const percent = Math.min((len / 500) * 100, 100);
+        progressBarFill.style.width = `${percent}%`;
+        
+        if (len > 500) {
+          progressBarFill.style.backgroundColor = '#ef4444';
+        } else if (tags > targetTags) {
+          progressBarFill.style.backgroundColor = '#f59e0b';
+        } else {
+          progressBarFill.style.backgroundColor = 'var(--color-brand)';
+        }
+      }
+    };
+    sandboxInput?.addEventListener('input', updateSandbox);
+    countSelect?.addEventListener('change', updateSandbox);
+
+    // Generation logic
+    const generateHashtags = () => {
+      const topic = (valueInput?.value || '').trim();
+      let category = categorySelect?.value || 'Science & Tech';
+      const targetTagsCount = parseInt(countSelect?.value || '3', 10);
+
+      if (!topic) {
+        alert("Please enter a post topic.");
+        return;
+      }
+
+      // Automatic category detection based on topic text matching
+      const lowerTopic = topic.toLowerCase();
+      if (lowerTopic.includes('tech') || lowerTopic.includes('coding') || lowerTopic.includes('science') || lowerTopic.includes('ai') || lowerTopic.includes('software') || lowerTopic.includes('programmer') || lowerTopic.includes('computer')) {
+        category = 'Science & Tech';
+      } else if (lowerTopic.includes('game') || lowerTopic.includes('gaming') || lowerTopic.includes('gamer') || lowerTopic.includes('playstation') || lowerTopic.includes('xbox') || lowerTopic.includes('nintendo') || lowerTopic.includes('steam')) {
+        category = 'Entertainment';
+      } else if (lowerTopic.includes('fit') || lowerTopic.includes('workout') || lowerTopic.includes('gym') || lowerTopic.includes('health') || lowerTopic.includes('exercise')) {
+        category = 'Health & Fitness';
+      } else if (lowerTopic.includes('food') || lowerTopic.includes('cook') || lowerTopic.includes('bake') || lowerTopic.includes('recipe') || lowerTopic.includes('dinner')) {
+        category = 'Food & Drink';
+      } else if (lowerTopic.includes('travel') || lowerTopic.includes('trip') || lowerTopic.includes('vacation') || lowerTopic.includes('explore')) {
+        category = 'Travel & Destinations';
+      } else if (lowerTopic.includes('diy') || lowerTopic.includes('craft') || lowerTopic.includes('make') || lowerTopic.includes('woodwork') || lowerTopic.includes('handmade')) {
+        category = 'DIY & Crafts';
+      } else if (lowerTopic.includes('decor') || lowerTopic.includes('interior') || lowerTopic.includes('room') || lowerTopic.includes('home') || lowerTopic.includes('design')) {
+        category = 'Home Decor';
+      }
+
+      // Predefined hashtag category database covering all 26 categories
+      const tagDb: Record<string, string[]> = {
+        'Animals & Pets': ['animals', 'pets', 'doglovers', 'catsofinstagram', 'animalphotography', 'cutepets', 'petcare', 'dogs', 'cats', 'petlife', 'puppylove', 'kittens', 'animallife', 'funnyanimals', 'wildlife'],
+        'Architecture': ['architecture', 'design', 'building', 'modernhome', 'architecturedesign', 'interiorarchitecture', 'archilovers', 'exterior', 'minimalistarchitecture', 'historicbuildings', 'housegoals', 'facade'],
+        'Art': ['art', 'drawing', 'painting', 'sketchbook', 'illustration', 'digitalart', 'watercolor', 'artistsoninstagram', 'acrylicpainting', 'artinspiration', 'fineart', 'artistic', 'abstractart'],
+        'Beauty & Makeup': ['makeup', 'beauty', 'skincare', 'makeupideas', 'makeuptutorial', 'beautytips', 'glowingskin', 'makeuplook', 'cleanbeauty', 'selfcare', 'cosmetics', 'beautyblogger', 'glam'],
+        'Cars & Motorcycles': ['cars', 'motorcycles', 'supercars', 'classiccars', 'bikelife', 'automotive', 'luxurycars', 'carguy', 'moto', 'racing', 'carsofinstagram', 'speed', 'customcars'],
+        'DIY & Crafts': ['diyprojects', 'craftideas', 'homediy', 'dollartreediy', 'woodworking', 'craftymom', 'sewingprojects', 'upcycled', 'handmade', 'crafting', 'kidscrafts', 'diycrafts', 'diyhomedecor'],
+        'Design': ['graphicdesign', 'uxdesign', 'interiordesign', 'branding', 'typography', 'illustration', 'uidesign', 'minimalistdesign', 'creatives', 'artdirection', 'webdesign', 'logodesign'],
+        'Education': ['education', 'learning', 'teaching', 'school', 'studygram', 'homeschooling', 'teacherlife', 'classroomideas', 'studytips', 'stem', 'educationalactivities', 'infographics', 'collegelife'],
+        'Entertainment': ['movies', 'tvshows', 'popculture', 'memes', 'gaming', 'anime', 'cosplay', 'celebrities', 'music', 'funnyvideos', 'bookshelf', 'playlist', 'booktok'],
+        'Event Planning': ['eventplanning', 'partyideas', 'decorations', 'balloongarland', 'birthdayparty', 'babyshower', 'tablescape', 'eventdecor', 'partydecor', 'catering', 'partyplanner', 'dinnerparty'],
+        'Fashion (Men)': ['mensfashion', 'menstyle', 'mensoutfit', 'streetstyle', 'gentstyle', 'menswear', 'casualmenswear', 'suits', 'sneakers', 'mensstyleinspo', 'menslook', 'streetwear'],
+        'Fashion (Women)': ['styleinspiration', 'outfitgoals', 'streetwear', 'capsulewardrobe', 'casualoutfits', 'summerlooks', 'vintageaesthetic', 'accessories', 'styleinspo', 'womenstyle', 'fashioninspo', 'springfashion'],
+        'Finance': ['personalfinance', 'investing', 'moneytips', 'budgeting', 'savingmoney', 'financialfreedom', 'stocks', 'realestate', 'passiveincome', 'wealthbuilding', 'moneyhacks', 'sidehustles'],
+        'Food & Drink': ['easyrecipes', 'healthycooking', 'bakinglove', 'mealprep', 'comfortfood', 'foodinspiration', 'quickmeals', 'dinnerideas', 'glutenfree', 'veganrecipes', 'cocktails', 'healthyfood', 'desserts'],
+        'Gardening': ['gardening', 'plants', 'indoorplants', 'gardeninspiration', 'backyardgarden', 'plantmom', 'gardentips', 'succulents', 'vegetablegarden', 'urbanjungle', 'greenhouse', 'plantinspo'],
+        'Hair & Beauty': ['hairstyles', 'haircare', 'haircolor', 'braids', 'curlyhair', 'beautytips', 'naturalhair', 'hairinspo', 'salonstyle', 'skincareroutine', 'hairtrends', 'hairroutine'],
+        'Health & Fitness': ['fitnessgoals', 'workoutmotivation', 'healthyhabits', 'yogalife', 'weightlossjourney', 'cleanloading', 'gymmotivation', 'mentalhealth', 'wellness', 'cardio', 'fitfam', 'workoutroutine'],
+        'Home Decor': ['homedecor', 'decorideas', 'homeinspiration', 'roomdecor', 'interiorstyling', 'neutralaesthetic', 'apartmentgoals', 'cozyhome', 'budgetdecor', 'bohohome', 'modernfarmhouse', 'renovations'],
+        'Kids & Parenting': ['parenting', 'toddlerlife', 'kidsactivities', 'parentingtips', 'babyroom', 'sensoryplay', 'momlife', 'dadlife', 'nurserydecor', 'schoolcrafts', 'motherhood', 'familytime'],
+        'Outdoors & Camping': ['hiking', 'camping', 'backpacking', 'wilderness', 'adventure', 'naturelovers', 'nationalparks', 'campingtips', 'outdoorphotography', 'climbing', 'glamping', 'trekking'],
+        'Photography': ['photography', 'portrait', 'landscape', 'travelphotography', 'photooftheday', 'cameras', 'lightroom', 'streetphotography', 'aestheticphotography', 'iphoneography', 'photoshoot', 'cinematic'],
+        'Quotes': ['inspirationalquotes', 'motivation', 'quotesoftheday', 'positivevibes', 'affirmations', 'lifequotes', 'lovequotes', 'selflovequotes', 'wisewords', 'mindfulness', 'dailymotivation'],
+        'Science & Tech': ['technology', 'gadgets', 'coding', 'science', 'futuretech', 'ai', 'space', 'developer', 'software', 'programming', 'stemnews', 'robotics', 'datascience'],
+        'Sports & Outdoors': ['sports', 'football', 'basketball', 'soccer', 'running', 'outdoors', 'athletictraining', 'golf', 'cycling', 'activewear', 'gymnastics', 'surfing'],
+        'Travel & Destinations': ['travelguides', 'wanderlust', 'bucketlistplaces', 'solotravel', 'hiddengems', 'roadtripideas', 'europetravel', 'budgettravel', 'naturephotography', 'islandlife', 'honeymoon', 'wanderer'],
+        'Weddings': ['weddinginspiration', 'weddingdress', 'bridalmakeup', 'weddingdecor', 'weddingflowers', 'bridesmaids', 'elopement', 'weddingphotography', 'engagementring', 'bridetobe', 'weddingvenue', 'diywedding']
+      };
+
+      // Extract cleaned keyword tags from topic
+      const cleanTopic = topic.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+      const topicWords = cleanTopic.split(/\s+/).filter(w => w.length > 2);
+
+      // Select database list
+      let dbTags = tagDb[category] || tagDb['Science & Tech'];
+
+      // Override dbTags if topic matches gaming/technology specifically
+      if (lowerTopic.includes('game') || lowerTopic.includes('gaming') || lowerTopic.includes('gamer') || lowerTopic.includes('playstation') || lowerTopic.includes('xbox') || lowerTopic.includes('nintendo') || lowerTopic.includes('steam')) {
+        dbTags = ['gaming', 'gamer', 'games', 'videogames', 'playstation', 'xbox', 'nintendo', 'gamers', 'gamerlife', 'pcgaming', 'gameinspo', 'gamingcommunity', 'streamer'];
+      } else if (lowerTopic.includes('tech') || lowerTopic.includes('coding') || lowerTopic.includes('science') || lowerTopic.includes('ai') || lowerTopic.includes('software') || lowerTopic.includes('programmer') || lowerTopic.includes('computer')) {
+        dbTags = ['technology', 'tech', 'coding', 'software', 'programming', 'ai', 'developer', 'computers', 'techlife', 'datascience', 'webdev', 'techinspo', 'futuretech'];
+      }
+      
+      // Build dynamic tags list
+      let finalTags: string[] = [];
+
+      // 1. Generate topic keyword variations
+      if (topicWords.length >= 2) {
+        finalTags.push(topicWords.join(''));
+      }
+      topicWords.forEach(w => {
+        finalTags.push(w);
+      });
+
+      // 2. Add category tags
+      finalTags.push(...dbTags);
+
+      // 3. Fallbacks if needed
+      let fallbacks = ['threadsapp', 'threadsvibes', 'foryou', 'trendingnow'];
+      if (lowerTopic.includes('game') || lowerTopic.includes('gaming') || lowerTopic.includes('gamer')) {
+        fallbacks = ['gamergirl', 'gamingpc', 'gameroom', 'gaminglife'];
+      } else if (lowerTopic.includes('tech') || lowerTopic.includes('coding') || lowerTopic.includes('science')) {
+        fallbacks = ['techworld', 'softwareengineering', 'developerlife', 'codinglife'];
+      }
+      finalTags.push(...fallbacks);
+
+      // Deduplicate tags
+      const uniqueTagsSet = Array.from(new Set(finalTags.map(t => t.toLowerCase().replace(/\s+/g, ''))));
+
+      // Append prefix # symbol
+      const uniqueTags = uniqueTagsSet.slice(0, targetTagsCount).map(t => `#${t}`);
+
+      // Construct output text containing only space-separated hashtags
+      const formattedOutput = uniqueTags.join(' ');
+
+      if (sandboxInput) {
+        sandboxInput.value = formattedOutput;
+        updateSandbox();
+      }
+
+      // Scroll directly to the editor sandbox column
+      const editorCol = document.querySelector('.calc-editor-column');
+      if (editorCol) {
+        editorCol.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    generateBtn?.addEventListener('click', generateHashtags);
+
+    // Emoji picker click inserter
+    const emojiContainer = document.getElementById('emoji-picker-container');
+    emojiContainer?.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('.emoji-btn');
+      if (!btn || !sandboxInput) return;
+      
+      const emoji = btn.textContent || '';
+      const start = sandboxInput.selectionStart;
+      const end = sandboxInput.selectionEnd;
+      const val = sandboxInput.value;
+
+      sandboxInput.value = val.substring(0, start) + emoji + val.substring(end);
+      sandboxInput.selectionStart = sandboxInput.selectionEnd = start + emoji.length;
+      sandboxInput.focus();
+      updateSandbox();
+    });
+
+    // Sandbox Copy
+    copyActiveBtn?.addEventListener('click', () => {
+      const text = sandboxInput?.value || '';
+      if (!text) return alert("Sandbox editor is empty!");
+      
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = copyActiveBtn.textContent;
+        copyActiveBtn.textContent = 'Copied to Clipboard! ✓';
+        setTimeout(() => {
+          copyActiveBtn.textContent = originalText;
+        }, 1500);
+      });
+    });
+
+    // Clear Sandbox
+    clearSandboxBtn?.addEventListener('click', () => {
+      if (sandboxInput) {
+        sandboxInput.value = '';
+        updateSandbox();
+      }
+    });
+
+    // Reset Fields
+    resetBtn?.addEventListener('click', () => {
+      if (valueInput) valueInput.value = '';
+      if (sandboxInput) sandboxInput.value = '';
+      updateSandbox();
+    });
+
+    // Initialize
+    updateSandbox();
+  };
+
+  setupThreadsHashtagGenerator();
+  document.addEventListener('astro:after-swap', setupThreadsHashtagGenerator);
+</script>

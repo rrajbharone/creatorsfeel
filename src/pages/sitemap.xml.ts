@@ -34,6 +34,8 @@ export const GET: APIRoute = async (context) => {
     '/tools/pinterest-hashtag-generator',
     '/tools/pinterest-keyword-generator',
     '/tools/pinterest-board-name-generator',
+    '/tools/threads-hashtag-generator',
+    '/tools/bluesky-character-counter',
     '/tools/linkedin-post-formatter',
     '/tools/linkedin-engagement-calculator',
     '/tools/twitter-character-counter',

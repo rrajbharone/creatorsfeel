@@ -1,0 +1,531 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the character limit on Bluesky?",
+    answer: "The maximum limit for a single post on Bluesky is 300 characters. This is slightly longer than Twitter/X's 280-character limit for free accounts."
+  },
+  {
+    question: "How do links affect the character count on Bluesky?",
+    answer: "Unlike Twitter which counts all links as 23 characters, Bluesky counts the actual number of characters in the URL string unless you use link cards (rich cards) or the rich text facets API. Our tool counts the exact character length of URLs to be safe."
+  },
+  {
+    question: "What happens if my post exceeds 300 characters?",
+    answer: "If your post is longer than 300 characters, the Bluesky app will not allow you to publish it. You will need to shorten the text or split it into multiple posts to create a thread."
+  },
+  {
+    question: "Does Bluesky support formatting like bold or italics?",
+    answer: "No, Bluesky's editor does not natively support rich text formatting like bold or italics. However, you can use hashtags, mentions (@handle), and URLs which are converted into clickable links."
+  },
+  {
+    question: "Is there a limit on how many links I can add?",
+    answer: "There is no strict limit on the number of links you can add, but each character in the link counts toward your 300-character budget, leaving less space for your main text."
+  }
+];
+---
+
+<ToolLayout
+  title="Bluesky Character Counter - Free Post Length Tracker"
+  description="Audit your Bluesky posts with our free character limit tracker. Count characters, words, spaces, and parse links in real-time."
+  toolName="Bluesky Character Counter"
+  toolDescription="Write perfect Bluesky posts. Track the strict 300-character budget in real-time, view stats for words and spaces, and preview your post layout."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Input text area and counter details -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Text Input Workspace -->
+          <div class="form-group">
+            <label for="value-input" class="icon-label" style="justify-content: space-between;">
+              <span style="display: flex; align-items: center; gap: 0.5rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                </svg>
+                Write your Bluesky post
+              </span>
+              <span id="char-badge" style="background: var(--color-brand); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">0 / 300 Chars</span>
+            </label>
+            <textarea id="value-input" class="form-input" style="height: 180px; resize: none; line-height: 1.5; font-size: 0.95rem;" placeholder="Start typing here... Emojis, links, and hashtags are supported."></textarea>
+          </div>
+
+          <!-- Visual Progress Bar -->
+          <div class="progress-bar-container" style="background: var(--color-border); height: 8px; border-radius: 4px; overflow: hidden; margin-top: -0.25rem;">
+            <div id="progress-bar-fill" style="width: 0%; height: 100%; background: var(--color-brand); transition: all var(--transition-fast);"></div>
+          </div>
+
+          <!-- Quick Emoji Panel -->
+          <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.25rem;">
+            <span style="font-size: 0.65rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Quick Insert Emojis:</span>
+            <div class="emoji-selector-panel" id="emoji-picker-container">
+              <button type="button" class="emoji-btn">📌</button>
+              <button type="button" class="emoji-btn">✨</button>
+              <button type="button" class="emoji-btn">🦋</button>
+              <button type="button" class="emoji-btn">💡</button>
+              <button type="button" class="emoji-btn">🔥</button>
+              <button type="button" class="emoji-btn">👀</button>
+              <button type="button" class="emoji-btn">🚀</button>
+              <button type="button" class="emoji-btn">👇</button>
+              <button type="button" class="emoji-btn">💯</button>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="copy-btn" class="calc-btn">Copy Post Text</button>
+            <button type="button" id="clear-btn" class="calc-btn-secondary">Clear Text</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Mockup & Stats counters -->
+      <div class="calc-editor-column">
+        <!-- Live Bluesky Post Preview Mockup -->
+        <div class="bluesky-mockup glass" style="background: #ffffff; color: #0b0f14; border-radius: 20px; padding: 1.25rem; display: flex; gap: 0.75rem; text-align: left; box-shadow: var(--shadow-sm); max-width: 340px; margin: 0 auto; width: 100%; border: 1px solid #e1e8ed;">
+          <!-- Avatar -->
+          <div style="flex-shrink: 0;">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: #0085ff; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800;">CF</div>
+          </div>
+
+          <!-- Content Column -->
+          <div style="display: flex; flex-direction: column; gap: 0.25rem; width: 100%; min-width: 0;">
+            <!-- Header (User handles) -->
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem; font-weight: 700;">
+              <div style="display: flex; align-items: center; gap: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                <span style="color: #0b0f14;">CreatorsFeel</span>
+                <span style="color: #546371; font-weight: 400; font-size: 0.78rem;">@creatorsfeel.bsky.social</span>
+              </div>
+              <span style="color: #546371; font-weight: 400; font-size: 0.78rem; flex-shrink: 0;">• 1m</span>
+            </div>
+
+            <!-- Post Body -->
+            <p id="mockup-post-body" style="margin: 0; font-size: 0.88rem; color: #0b0f14; line-height: 1.4; white-space: pre-wrap; word-break: break-word;">Start drafts here and watch them update live. #bluesky #seo</p>
+
+            <!-- Interaction Bar -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; color: #546371; font-size: 0.75rem; padding-right: 1.5rem;">
+              <!-- Reply -->
+              <div style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
+                <svg style="width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.022 9-6.75s-4.03-6.75-9-6.75-9 3.022-9 6.75c0 1.957.87 3.738 2.3 5.02L4.5 20.25l3.87-1.125c1.1.378 2.29.562 3.63.562z"></path></svg>
+                <span>4</span>
+              </div>
+              <!-- Repost -->
+              <div style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
+                <svg style="width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.656 48.656 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3M4.5 12c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l-3 3m3-3l3 3"></path></svg>
+                <span>12</span>
+              </div>
+              <!-- Like -->
+              <div style="display: flex; align-items: center; gap: 4px; cursor: pointer; color: #ec4899;">
+                <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg>
+                <span>48</span>
+              </div>
+              <!-- Share -->
+              <div style="display: flex; align-items: center; cursor: pointer;">
+                <svg style="width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2;" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186l.943.502m0 1.182l-.943-.502m5.185-3.323a2.25 2.25 0 10-2.2-2.098m2.2 2.098l-.943.503M13.25 18a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-Time Metrics Grid Card -->
+        <div class="glass" style="border: 1.5px solid var(--color-border); border-radius: 20px; padding: 1.25rem; text-align: left; background: var(--color-bg-alt);">
+          <h4 style="margin: 0 0 1rem 0; font-size: 0.85rem; font-weight: 700; color: var(--color-text); text-transform: uppercase; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem;">Post Metrics Audit</h4>
+          
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+            <!-- Words Card -->
+            <div style="background: var(--color-bg); padding: 0.75rem; border-radius: 12px; border: 1.5px solid var(--color-border);">
+              <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); display: block; text-transform: uppercase;">Words count</span>
+              <span id="stats-words" style="font-size: 1.3rem; font-weight: 800; color: var(--color-text); display: block; margin-top: 2px;">0</span>
+            </div>
+            <!-- Spaces Card -->
+            <div style="background: var(--color-bg); padding: 0.75rem; border-radius: 12px; border: 1.5px solid var(--color-border);">
+              <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); display: block; text-transform: uppercase;">Total Spaces</span>
+              <span id="stats-spaces" style="font-size: 1.3rem; font-weight: 800; color: var(--color-text); display: block; margin-top: 2px;">0</span>
+            </div>
+            <!-- Links Card -->
+            <div style="background: var(--color-bg); padding: 0.75rem; border-radius: 12px; border: 1.5px solid var(--color-border);">
+              <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); display: block; text-transform: uppercase;">URLs / Links</span>
+              <span id="stats-links" style="font-size: 1.3rem; font-weight: 800; color: var(--color-text); display: block; margin-top: 2px;">0</span>
+            </div>
+            <!-- Remaining Characters -->
+            <div style="background: var(--color-bg); padding: 0.75rem; border-radius: 12px; border: 1.5px solid var(--color-border);">
+              <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); display: block; text-transform: uppercase;">Chars Left</span>
+              <span id="stats-left" style="font-size: 1.3rem; font-weight: 800; color: var(--color-text); display: block; margin-top: 2px;">300</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Bluesky Character Counter: Real-Time Post Length Audit</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        🦋 <strong>Want to master growth strategies on the Bluesky app?</strong> Read our comprehensive strategy guide on <a href="/blog/bluesky-character-counter-guide" style="color: var(--color-brand); text-decoration: underline;">Bluesky Character Limits & Thread Optimization</a> to learn how to write micro-blog copies, place link tags, and build threads.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Bluesky, a decentralized micro-blogging platform built on the AT Protocol, has emerged as a major space for real-time text updates, news sharing, and developer discussions. Unlike platforms that allow massive text boxes, Bluesky restricts posts to a strict budget of <strong>300 characters</strong>. Naming link cards, mentions, and tags within this window requires auditing characters. This free <strong>bluesky character counter</strong> makes writing drafts easy.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To write drafts and check character counts, follow these instructions:
+    </p>
+    <ol>
+      <li><strong>Input Text:</strong> Start typing or paste your post copy into the active workspace editor.</li>
+      <li><strong>Review Progress:</strong> Watch the character count badge (showing X / 300) and the visual progress bar.</li>
+      <li><strong>Audit Metrics:</strong> Check stats for total words, spaces, link counts, and remaining character space.</li>
+      <li><strong>Live Mockup Preview:</strong> Review how your post will render in the light-themed Bluesky post mockup card.</li>
+      <li><strong>Copy Draft:</strong> Click <strong>Copy Post Text</strong> to save your finished update.</li>
+    </ol>
+
+    <h3>What is Bluesky Character Counter</h3>
+    <p>
+      A <strong>bluesky character counter</strong> or <strong>bluesky length checker</strong> is an interactive writing tool designed to verify post lengths. It counts every character (including letters, numbers, spaces, and punctuation) to make sure updates fit within Bluesky's character limit.
+    </p>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The tool parses text strings in real-time to generate counts:
+    </p>
+    <ul>
+      <li><strong>Punctuation & Emojis:</strong> Measures emoji characters accurately (certain emojis count as multiple bytes under UTF-16, but Bluesky handles standard emojis as single characters).</li>
+      <li><strong>Link Facet Audits:</strong> Counts URL lengths. Bluesky counts the exact characters of links unless converted into rich links.</li>
+      <li><strong>Real-time Stats:</strong> Dynamically calculates words, whitespace counts, and links using regex matching.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's look at how a Bluesky post budget is calculated:
+    </p>
+    <p>
+      <strong>Draft Post Content:</strong><br />
+      `"Excited to share our new design updates for creators feel! Check out the details here: creatorsfeel.com #design"`
+    </p>
+    <p>
+      <strong>Character Budget Breakdown:</strong><br />
+      ✦ Main Hook: `"Excited to share our new design updates for creators feel! Check out the details here: "` $\rightarrow$ <strong>86 characters</strong>.<br />
+      ✦ URL Link: `"creatorsfeel.com"` $\rightarrow$ <strong>16 characters</strong>.<br />
+      ✦ Hashtag: `" #design"` $\rightarrow$ <strong>8 characters</strong>.<br />
+      ✦ Total Characters: `86 + 16 + 8 = 110 characters`.<br />
+      ✦ Remaining characters: `300 - 110 = 190 characters`.
+    </p>
+    <p>
+      This draft uses 110 characters, leaving a budget of 190 characters. It will publish cleanly.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This <strong>free bluesky post length tracker</strong> is designed for:
+    </p>
+    <ul>
+      <li><strong>Content Creators & Writers:</strong> Keeping updates short, punchy, and formatted.</li>
+      <li><strong>Social Media Managers:</strong> Reviewing scheduled updates before bulk scheduling.</li>
+      <li><strong>Journalists & Publishers:</strong> Sharing news headlines and linking back to publications.</li>
+      <li><strong>Developer & Tech Teams:</strong> Formatting release updates and sharing repository links.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .emoji-selector-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding-top: 0.25rem;
+  }
+
+  .emoji-btn {
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .emoji-btn:hover {
+    background: var(--color-border);
+    transform: scale(1.1);
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+    
+    .emoji-selector-panel {
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .calc-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupBlueskyCharacterCounter = () => {
+    const valueInput = document.getElementById('value-input') as HTMLTextAreaElement;
+
+    // Actions
+    const copyBtn = document.getElementById('copy-btn');
+    const clearBtn = document.getElementById('clear-btn');
+
+    // Metrics elements
+    const charBadge = document.getElementById('char-badge');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    
+    // Stats cards
+    const statsWords = document.getElementById('stats-words');
+    const statsSpaces = document.getElementById('stats-spaces');
+    const statsLinks = document.getElementById('stats-links');
+    const statsLeft = document.getElementById('stats-left');
+
+    // Mockup post text
+    const mockupPostBody = document.getElementById('mockup-post-body');
+
+    // Real-Time count checker
+    const updateMetrics = () => {
+      const text = valueInput?.value || '';
+      const len = text.length;
+
+      // 1. Calculate stats metrics
+      const wordsCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+      const spacesCount = (text.match(/\s/g) || []).length;
+      const linksCount = (text.match(/https?:\/\/[^\s]+|www\.[^\s]+|[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}/g) || []).length;
+      const leftCount = Math.max(300 - len, 0);
+
+      // Update badge
+      if (charBadge) {
+        charBadge.textContent = `${len} / 300 Chars`;
+        charBadge.style.background = len > 300 ? '#ef4444' : 'var(--color-brand)';
+      }
+
+      // Update visual progress bar fill
+      if (progressBarFill) {
+        const percent = Math.min((len / 300) * 100, 100);
+        progressBarFill.style.width = `${percent}%`;
+        progressBarFill.style.backgroundColor = len > 300 ? '#ef4444' : 'var(--color-brand)';
+      }
+
+      // Update Stats cards
+      if (statsWords) statsWords.textContent = wordsCount.toString();
+      if (statsSpaces) statsSpaces.textContent = spacesCount.toString();
+      if (statsLinks) statsLinks.textContent = linksCount.toString();
+      if (statsLeft) {
+        statsLeft.textContent = leftCount.toString();
+        statsLeft.style.color = len > 300 ? '#ef4444' : 'var(--color-text)';
+      }
+
+      // Update Mockup post body text
+      if (mockupPostBody) {
+        mockupPostBody.textContent = text || 'Start drafts here and watch them update live. #bluesky #seo';
+      }
+    };
+
+    valueInput?.addEventListener('input', updateMetrics);
+
+    // Emoji picker click inserter
+    const emojiContainer = document.getElementById('emoji-picker-container');
+    emojiContainer?.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('.emoji-btn');
+      if (!btn || !valueInput) return;
+      
+      const emoji = btn.textContent || '';
+      const start = valueInput.selectionStart;
+      const end = valueInput.selectionEnd;
+      const val = valueInput.value;
+
+      valueInput.value = val.substring(0, start) + emoji + val.substring(end);
+      valueInput.selectionStart = valueInput.selectionEnd = start + emoji.length;
+      valueInput.focus();
+      updateMetrics();
+    });
+
+    // Copy draft
+    copyBtn?.addEventListener('click', () => {
+      const text = valueInput?.value || '';
+      if (!text) return alert("Write some text first!");
+      
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = 'Post Copied! ✓';
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+        }, 1500);
+      });
+    });
+
+    // Clear draft
+    clearBtn?.addEventListener('click', () => {
+      if (valueInput) {
+        valueInput.value = '';
+        updateMetrics();
+      }
+    });
+
+    // Initial check
+    updateMetrics();
+  };
+
+  setupBlueskyCharacterCounter();
+  document.addEventListener('astro:after-swap', setupBlueskyCharacterCounter);
+</script>
