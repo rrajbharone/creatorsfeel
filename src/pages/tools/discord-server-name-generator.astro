@@ -1,0 +1,1092 @@
+---
+import ToolLayout from "../../layouts/ToolLayout.astro";
+
+const faqs = [
+  {
+    question: "What is the character limit for a Discord server name?",
+    answer:
+      "Discord server names can be between 2 and 100 characters long. However, keeping them under 30 characters is recommended so they display fully without cropping on the sidebar.",
+  },
+  {
+    question:
+      "Can I use special symbols and custom fonts in Discord server names?",
+    answer:
+      "Yes, Discord supports standard Unicode symbols (like ✧, ✦, 🪐, 🎮) and special math/alphanumeric font styles in server names. Our tool formats these automatically.",
+  },
+  {
+    question: "Are emojis allowed in a Discord server name?",
+    answer:
+      "Yes, you can include standard emojis in a server name. They are a great way to add visual identity to your server header listing.",
+  },
+  {
+    question: "How do I change the name of my Discord server?",
+    answer:
+      "To change your server name, open your server on Discord, click the server name header to open the dropdown menu, select 'Server Settings', modify the 'Server Name' field, and click 'Save Changes'.",
+  },
+  {
+    question: "Will changing my Discord server name break invite links?",
+    answer:
+      "No, changing the name of your server will not break or alter any existing active server invite links. The server ID remains the same.",
+  },
+];
+---
+
+<ToolLayout
+  title="Discord Server Name Generator - Cool & Aesthetic Ideas"
+  description="Generate cool, aesthetic, and unique server name ideas for Discord. Customize server names by gaming, social, study, and anime niches."
+  toolName="Discord Server Name Generator"
+  toolDescription="Create unique, eye-catching Discord server names. Customize by niche tones, toggle aesthetic decorations, and preview on a server list sidebar."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Generator Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Seed Name Input -->
+          <div class="form-group">
+            <label for="seed-input" class="icon-label">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="field-icon"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"
+                ></path>
+              </svg>
+              Seed Keyword / Topic
+            </label>
+            <input
+              type="text"
+              id="seed-input"
+              class="form-input"
+              placeholder="e.g. lounge, nexus, guild"
+              value="lounge"
+            />
+          </div>
+
+          <div
+            style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;"
+          >
+            <!-- Server Niche Style -->
+            <div class="form-group">
+              <label for="niche-select" class="icon-label">Server Niche</label>
+              <select
+                id="niche-select"
+                class="form-input"
+                style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);"
+              >
+                <option value="gaming">Gaming / Clan</option>
+                <option value="community">Community / Social</option>
+                <option value="aesthetic">Aesthetic / Chill</option>
+                <option value="anime">Anime / Otaku</option>
+                <option value="study">Study / Professional</option>
+              </select>
+            </div>
+
+            <!-- Formatting Dropdown -->
+            <div class="form-group">
+              <label for="format-select" class="icon-label"
+                >Format Preference</label
+              >
+              <select
+                id="format-select"
+                class="form-input"
+                style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);"
+              >
+                <option value="symbols">Aesthetic Symbols (✧, ✦)</option>
+                <option value="clean">Clean (Text Only)</option>
+                <option value="spaces">Space Separated (L o u n g e)</option>
+                <option value="font">Special Font Styles (𝔘𝔫𝔦𝔠𝔬𝔡𝔢)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn"
+              >Generate Server Names</button
+            >
+            <button type="button" id="reset-btn" class="calc-btn-secondary"
+              >Reset Inputs</button
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live Discord Server List Mockup Preview -->
+        <div
+          class="discord-server-preview glass"
+          style="background: #2f3136; color: #ffffff; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #202225; text-align: left; box-shadow: var(--shadow-md); display: flex; height: 260px;"
+        >
+          <!-- Server Left Icon Sidebar (Standard Discord Style) -->
+          <div
+            style="background: #202225; width: 64px; display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 12px; flex-shrink: 0;"
+          >
+            <!-- Server Icon Circle -->
+            <div
+              id="mockup-server-bubble"
+              style="width: 44px; height: 44px; border-radius: 50%; background: #5865f2; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800; cursor: pointer; transition: all 0.2s;"
+              title="Creators Feel Server"
+            >
+              CF
+            </div>
+
+            <div
+              style="width: 30px; height: 2px; background: #2f3136; border-radius: 1px;"
+            >
+            </div>
+
+            <!-- Dummy Server bubbles -->
+            <div
+              style="width: 44px; height: 44px; border-radius: 50%; background: #2f3136; color: #8e9297; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700;"
+            >
+              G1
+            </div>
+            <div
+              style="width: 44px; height: 44px; border-radius: 50%; background: #2f3136; color: #8e9297; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700;"
+            >
+              G2
+            </div>
+          </div>
+
+          <!-- Channel List Area -->
+          <div
+            style="flex-grow: 1; display: flex; flex-direction: column; background: #2f3136; min-width: 0;"
+          >
+            <!-- Header (Server Name) -->
+            <div
+              style="height: 48px; border-bottom: 1px solid #202225; display: flex; justify-content: space-between; align-items: center; padding: 0 1rem; flex-shrink: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.2); min-width: 0;"
+            >
+              <span
+                id="mockup-server-name"
+                style="font-size: 0.88rem; font-weight: 800; color: #ffffff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 4px;"
+                >✦ lounge ✦</span
+              >
+              <svg
+                style="width: 18px; height: 18px; color: #b9bbbe; flex-shrink: 0;"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path></svg
+              >
+            </div>
+
+            <!-- Channels Listing -->
+            <div
+              style="padding: 1rem 0.5rem; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; font-size: 0.85rem; color: #8e9297;"
+            >
+              <!-- Welcome -->
+              <div
+                style="display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 4px; background: #34373c; color: #ffffff; cursor: pointer;"
+              >
+                <span>#</span>
+                <span>welcome-rules</span>
+              </div>
+              <!-- General -->
+              <div
+                style="display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 4px; cursor: pointer;"
+              >
+                <span>#</span>
+                <span>general-chat</span>
+              </div>
+              <!-- Gaming -->
+              <div
+                style="display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 4px; cursor: pointer;"
+              >
+                <span>#</span>
+                <span>gaming-zone</span>
+              </div>
+              <!-- Voice -->
+              <div
+                style="display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 4px; cursor: pointer;"
+              >
+                <span>🔊</span>
+                <span>Voice Lounge</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div
+      id="results-wrapper"
+      class="hidden"
+      style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;"
+    >
+      <h3
+        style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          style="width: 20px; height: 20px; color: var(--color-brand);"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
+          ></path>
+        </svg>
+        Suggested Discord Server Names
+      </h3>
+
+      <div class="usernames-grid" id="generated-servers-container">
+        <!-- Results dynamic content goes here -->
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+        <button
+          type="button"
+          id="generate-more-btn"
+          class="calc-btn"
+          style="max-width: 200px; padding: 0 1.5rem;">Generate More</button
+        >
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Discord Server Name Generator: Build Cool Server Identities</h2>
+    <div
+      style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);"
+    >
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        🦋 <strong
+          >Looking to audit bio templates or write custom profile layouts?</strong
+        > Try our free <a
+          href="/tools/discord-bio-generator"
+          style="color: var(--color-brand); text-decoration: underline;"
+          >Discord Bio Generator</a
+        > to customize your 'About Me' text box inside the strict 190-character ceiling.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      Creating a successful Discord server starts with building a distinct
+      brand. In a listing of hundreds of public servers, your server name is the
+      first element potential members notice. A poorly formatted or generic name
+      will fail to attract users, while a highly stylized name with aesthetic
+      symbols catches their attention. Whether you are running a gaming clan, an
+      anime fan club, a professional study group, or a friendly chat lounge, our
+      free <strong>discord server name generator</strong> helps you discover unique
+      name variations that make your server stand out.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To generate and preview cool Discord server names, follow these simple
+      directions:
+    </p>
+    <ol>
+      <li>
+        <strong>Seed Topic:</strong> Enter a base keyword or server theme (e.g. lounge,
+        nexus, cafe).
+      </li>
+      <li>
+        <strong>Niche Select:</strong> Pick a style tone matching your community (Gaming,
+        Social, Aesthetic, Anime, or Study).
+      </li>
+      <li>
+        <strong>Format Select:</strong> Choose a separator formatting (Aesthetic symbols,
+        Clean text, spaces, or custom unicode fonts).
+      </li>
+      <li>
+        <strong>Generate Names:</strong> Click **Generate Server Names** to construct
+        15 unique ideas.
+      </li>
+      <li>
+        <strong>Preview & Copy:</strong> Click any generated name to preview it in
+        the Discord server list mockup, and copy it with the pill-shaped button. Click
+        **Generate More** to append 5 more options.
+      </li>
+    </ol>
+
+    <h3>What is Discord Server</h3>
+    <p>
+      A Discord server is a dedicated online space where people can communicate,
+      collaborate, and build communities around shared interests. Think of it as
+      a virtual clubhouse that contains multiple text and voice channels, each
+      organized for different topics or activities.
+    </p>
+    <p>
+      For example, a gaming server might have separate channels for
+      announcements, strategy discussions, voice chat, memes, and support.
+      Server owners can customize permissions, create roles for moderators and
+      members, and automate tasks using bots. Discord servers are widely used by
+      content creators, businesses, educators, developers, gaming communities,
+      and hobby groups because they make it easy to keep conversations organized
+      while supporting thousands of members.
+    </p>
+    <p>
+      Members can join public servers through invite links or participate in
+      private servers that require approval. Features such as screen sharing,
+      file sharing, events, polls, and voice or video calls help communities
+      stay active and engaged. Whether you're managing a small team or building
+      a large online audience, a Discord server provides a flexible and scalable
+      way to connect people in real time.
+    </p>
+    <p>
+      By organizing discussions into dedicated channels and assigning
+      appropriate roles, server owners can create a welcoming environment that
+      encourages meaningful conversations, collaboration, and long-term
+      community growth.
+    </p>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      Our <strong>discord name generator</strong> processes input keywords using custom
+      naming algorithms:
+    </p>
+    <ul>
+      <li>
+        <strong>Style Matching:</strong> Maps specific prefixes and suffixes related
+        to your niche (e.g. adding `.gg/` or `🎮` for gaming, and `✦`, `✧`, or `✿`
+        for aesthetic chill zones).
+      </li>
+      <li>
+        <strong>Font Stylization:</strong> Converts standard letters into decorative
+        Unicode letters (like gothic, double-struck, or cursive characters).
+      </li>
+      <li>
+        <strong>Character Checks:</strong> Verifies names fit within the 100-character
+        ceiling and formats them for sidebar readability.
+      </li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>Let's look at how an aesthetic server name is compiled:</p>
+    <p>
+      <strong>Input Seed Name:</strong> `"Haven"`<br />
+      <strong>Server Niche selected:</strong> `"Aesthetic / Chill"`<br />
+      <strong>Format selected:</strong> `"With Aesthetic Symbols"`
+    </p>
+    <p>
+      <strong>Calculation Process:</strong><br />
+      ✦ Base name: `"Haven"` $\rightarrow$ <strong>5 characters</strong>.<br />
+      ✦ Niche suffix: `"Cafe"` $\rightarrow$ <strong>4 characters</strong>.<br
+      />
+      ✦ Aesthetic symbols: `"✦"` (prefix) and `"✦"` (suffix) $\rightarrow$ <strong
+        >4 characters</strong
+      > (with spaces).<br />
+      ✦ Combined output: `"✦ Haven Cafe ✦"` $\rightarrow$ <strong
+        >14 characters</strong
+      >.<br />
+      ✦ Character limit check: `14 < 300 characters`.
+    </p>
+    <p>
+      The generated server name is `✦ Haven Cafe ✦`. It complies with Discord's
+      rules.
+    </p>
+
+    <h3>Features</h3>
+    <p>
+      This <strong>free discord server name generator</strong> includes:
+    </p>
+    <ul>
+      <li>
+        <strong>Live Server List Mockup:</strong> Review how your server name displays
+        in the Discord server header banner and circular sidebar bubble.
+      </li>
+      <li>
+        <strong>Generate More Options:</strong> Append 5 more unique server name variations
+        on click.
+      </li>
+      <li>
+        <strong>Multiple Niche Tones:</strong> Tailored prefixes and suffixes for
+        esports clans, fan clubs, cozy cafes, and study groups.
+      </li>
+      <li>
+        <strong>Pill-Shaped Tactile Copy Buttons:</strong> Instantly copy your favorite
+        server name with a single click.
+      </li>
+    </ul>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>This generator is designed for:</p>
+    <ul>
+      <li>
+        <strong>Esports Teams & Clan Leaders:</strong> Creating cool names for team
+        servers (e.g. `Vortex Esports | Recruitment`).
+      </li>
+      <li>
+        <strong>Aesthetic Community Owners:</strong> Designing soft, cozy, and aesthetic
+        server themes (e.g. `✦ cozy tea lounge ✦`).
+      </li>
+      <li>
+        <strong>Anime Fan Clubs:</strong> Exploring Japanese or Otaku-themed name
+        variations (e.g. `Akihabara | Anime Nexus 🪐`).
+      </li>
+      <li>
+        <strong>Study Group Moderators:</strong> Building clean, professional study
+        grids (e.g. `Computer Science Study Hub 📚`).
+      </li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column,
+  .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  /* Usernames Grid Styling */
+  .usernames-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Tactile row chip layout */
+  :global(.server-chip) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    padding: 0.65rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+  }
+
+  :global(.server-chip:hover) {
+    border-color: var(--color-brand);
+    background: var(--color-bg-alt);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+  }
+
+  :global(.server-text) {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 8px;
+  }
+
+  :global(.chip-btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    background: var(--color-bg-alt);
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  :global(.server-chip:hover .chip-btn) {
+    background: var(--color-brand);
+    color: white;
+    border-color: var(--color-brand);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn,
+    .calc-btn-secondary {
+      flex: 1;
+    }
+    .usernames-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+    .usernames-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+
+<script>
+  const setupDiscordServerNameGenerator = () => {
+    const seedInput = document.getElementById("seed-input") as HTMLInputElement;
+    const nicheSelect = document.getElementById(
+      "niche-select",
+    ) as HTMLSelectElement;
+    const formatSelect = document.getElementById(
+      "format-select",
+    ) as HTMLSelectElement;
+
+    // Actions
+    const generateBtn = document.getElementById("generate-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const generateMoreBtn = document.getElementById("generate-more-btn");
+
+    // Layout slots
+    const resultsWrapper = document.getElementById("results-wrapper");
+    const container = document.getElementById("generated-servers-container");
+
+    // Mockup targets
+    const mockupServerName = document.getElementById("mockup-server-name");
+    const mockupServerBubble = document.getElementById("mockup-server-bubble");
+
+    // Niche structures database
+    const serverNiches: Record<
+      string,
+      { prefixes: string[]; suffixes: string[]; decorators: string[] }
+    > = {
+      gaming: {
+        prefixes: [
+          "apex",
+          "vortex",
+          "lethal",
+          "tactical",
+          "esports",
+          "nexus",
+          "arena",
+          "clan",
+          "squad",
+        ],
+        suffixes: [
+          "gg",
+          "hq",
+          "zone",
+          "clan",
+          "gaming",
+          "esports",
+          "nexus",
+          "guild",
+          "hub",
+        ],
+        decorators: ["🎮", "🏆", "⚡", "🔥"],
+      },
+      community: {
+        prefixes: [
+          "social",
+          "central",
+          "house",
+          "town",
+          "metro",
+          "plaza",
+          "haven",
+          "world",
+          "society",
+        ],
+        suffixes: [
+          "hub",
+          "lounge",
+          "club",
+          "central",
+          "community",
+          "town",
+          "nexus",
+          "square",
+          "corner",
+        ],
+        decorators: ["💬", "👋", "🌍", "🏠"],
+      },
+      aesthetic: {
+        prefixes: [
+          "cozy",
+          "luna",
+          "haze",
+          "cloud",
+          "mist",
+          "soft",
+          "calm",
+          "dusk",
+          "blossom",
+          "peach",
+        ],
+        suffixes: [
+          "cafe",
+          "lounge",
+          "dream",
+          "bloom",
+          "garden",
+          "space",
+          "cottage",
+          "oasis",
+          "haze",
+        ],
+        decorators: ["✦", "✧", "✿", "🪐", "☁️"],
+      },
+      anime: {
+        prefixes: [
+          "otaku",
+          "senpai",
+          "tokyo",
+          "shibuya",
+          "akiba",
+          "chibi",
+          "neko",
+          "manga",
+          "kawaii",
+        ],
+        suffixes: [
+          "nexus",
+          "guild",
+          "cafe",
+          "lounge",
+          "society",
+          "club",
+          "district",
+          "world",
+          "otaku",
+        ],
+        decorators: ["🪐", "🌸", "🦊", "🎋"],
+      },
+      study: {
+        prefixes: [
+          "study",
+          "code",
+          "geek",
+          "dev",
+          "science",
+          "math",
+          "campus",
+          "scholar",
+          "library",
+        ],
+        suffixes: [
+          "hub",
+          "lab",
+          "club",
+          "guild",
+          "academy",
+          "lounge",
+          "center",
+          "room",
+          "study",
+        ],
+        decorators: ["📚", "💻", "💡", "📈"],
+      },
+    };
+
+    // Unicode font maps for styles
+    const unicodeFonts: Record<string, string> = {
+      a: "𝖺",
+      b: "𝖻",
+      c: "𝖼",
+      d: "𝖽",
+      e: "𝖾",
+      f: "𝖿",
+      g: "𝗀",
+      h: "𝗁",
+      i: "𝗂",
+      j: "𝗃",
+      k: "𝗄",
+      l: "𝗅",
+      m: "𝗆",
+      n: "𝗇",
+      o: "𝗈",
+      p: "𝗉",
+      q: "𝗊",
+      r: "𝗋",
+      s: "𝗌",
+      t: "𝗍",
+      u: "𝗎",
+      v: "𝗏",
+      w: "𝗐",
+      x: "𝗑",
+      y: "𝗒",
+      z: "𝗓",
+      A: "𝖠",
+      B: "𝖡",
+      C: "𝖢",
+      D: "𝖣",
+      E: "𝖤",
+      F: "𝖥",
+      G: "𝖦",
+      H: "𝖧",
+      I: "𝖨",
+      J: "𝖩",
+      K: "𝖪",
+      L: "𝖫",
+      M: "𝖬",
+      N: "𝖭",
+      O: "𝖮",
+      P: "𝖯",
+      Q: "𝖰",
+      R: "𝖱",
+      S: "𝖲",
+      T: "𝖳",
+      U: "𝖴",
+      V: "𝖵",
+      W: "𝖶",
+      X: "𝖷",
+      Y: "𝖸",
+      Z: "𝖹",
+    };
+
+    const convertToUnicode = (str: string) => {
+      return str
+        .split("")
+        .map((char) => unicodeFonts[char] || char)
+        .join("");
+    };
+
+    let currentShuffledPool: string[] = [];
+    let currentPoolIndex = 0;
+
+    const buildShuffledNames = () => {
+      const seed = (seedInput?.value || "").trim();
+      const niche = nicheSelect?.value || "gaming";
+      const format = formatSelect?.value || "symbols";
+
+      const database = serverNiches[niche] || serverNiches["gaming"];
+      const generatedSet = new Set<string>();
+
+      const applyFormat = (prefix: string, body: string, suffix: string) => {
+        let text = "";
+        const dec =
+          database.decorators[
+            Math.floor(Math.random() * database.decorators.length)
+          ] || "";
+
+        // Clean spacing or format preferences
+        if (format === "spaces") {
+          const raw = `${prefix} ${body} ${suffix}`.trim().replace(/\s+/g, " ");
+          text = raw.split("").join(" ").replace(/\s+/g, " ");
+        } else if (format === "font") {
+          const raw = `${prefix} ${body} ${suffix}`.trim().replace(/\s+/g, " ");
+          text = convertToUnicode(raw);
+        } else if (format === "symbols") {
+          text = `${dec} ${prefix} ${body} ${suffix} ${dec}`
+            .trim()
+            .replace(/\s+/g, " ");
+        } else {
+          // Clean
+          text = `${prefix} ${body} ${suffix}`.trim().replace(/\s+/g, " ");
+        }
+
+        return text.substring(0, 100);
+      };
+
+      // Generate a pool of 50 possible unique variations
+      let iterations = 0;
+      while (generatedSet.size < 50 && iterations < 300) {
+        iterations++;
+        const pIndex = Math.floor(Math.random() * database.prefixes.length);
+        const sIndex = Math.floor(Math.random() * database.suffixes.length);
+
+        const prefix = database.prefixes[pIndex];
+        const suffix = database.suffixes[sIndex];
+
+        let formatted = "";
+        const pattern = Math.floor(Math.random() * 3);
+        if (pattern === 0 && seed) {
+          formatted = applyFormat(prefix, seed, "");
+        } else if (pattern === 1 && seed) {
+          formatted = applyFormat("", seed, suffix);
+        } else {
+          formatted = applyFormat(prefix, seed || "lobby", suffix);
+        }
+
+        if (formatted.length >= 2) {
+          generatedSet.add(formatted);
+        }
+      }
+
+      currentShuffledPool = Array.from(generatedSet).sort(
+        () => Math.random() - 0.5,
+      );
+      currentPoolIndex = 0;
+    };
+
+    const updateMockupBubble = (name: string) => {
+      if (!mockupServerBubble) return;
+
+      // Extract cleaned initials (letters and numbers only)
+      const clean = name.replace(/[^a-zA-Z0-9\s]/g, "").trim();
+      const parts = clean.split(/\s+/).filter((w) => w.length > 0);
+      let initials = "";
+
+      if (parts.length >= 2) {
+        initials = (parts[0][0] || "") + (parts[1][0] || "");
+      } else if (parts.length === 1 && parts[0].length >= 2) {
+        initials = parts[0].substring(0, 2);
+      } else {
+        initials = name.substring(0, 2);
+      }
+
+      mockupServerBubble.textContent = initials.toUpperCase();
+    };
+
+    // Clean initial list generation
+    const generateList = () => {
+      buildShuffledNames();
+
+      const selected = currentShuffledPool.slice(0, 15);
+      currentPoolIndex = 15;
+
+      if (container) {
+        container.innerHTML = selected
+          .map((s) => {
+            return `
+            <div class="server-chip" data-name="${s}">
+              <span class="server-text">${s}</span>
+              <button class="chip-btn">Copy</button>
+            </div>
+          `;
+          })
+          .join("");
+      }
+
+      resultsWrapper?.classList.remove("hidden");
+
+      // Default the mockup server name to the first generated result
+      if (mockupServerName && selected.length > 0) {
+        mockupServerName.textContent = selected[0];
+        updateMockupBubble(selected[0]);
+      }
+    };
+
+    // Append 5 more unique names
+    const appendMoreNames = () => {
+      if (currentShuffledPool.length === 0) {
+        buildShuffledNames();
+      }
+
+      if (currentPoolIndex >= currentShuffledPool.length) {
+        buildShuffledNames();
+      }
+
+      const next = currentShuffledPool.slice(
+        currentPoolIndex,
+        currentPoolIndex + 5,
+      );
+      currentPoolIndex += 5;
+
+      if (container) {
+        const appendHtml = next
+          .map((s) => {
+            return `
+            <div class="server-chip" data-name="${s}">
+              <span class="server-text">${s}</span>
+              <button class="chip-btn">Copy</button>
+            </div>
+          `;
+          })
+          .join("");
+        container.innerHTML += appendHtml;
+      }
+    };
+
+    generateBtn?.addEventListener("click", () => {
+      generateList();
+
+      const resultsSection = document.getElementById("results-wrapper");
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+
+    generateMoreBtn?.addEventListener("click", () => {
+      appendMoreNames();
+    });
+
+    // Handle copying individual server name chips and update mockup preview
+    container?.addEventListener("click", (e) => {
+      const chip = (e.target as HTMLElement).closest(".server-chip");
+      if (!chip) return;
+
+      const name = chip.getAttribute("data-name") || "";
+
+      // Update mockup sidebar
+      if (mockupServerName) {
+        mockupServerName.textContent = name;
+      }
+      updateMockupBubble(name);
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(name).then(() => {
+        const btn = chip.querySelector(".chip-btn") as HTMLElement;
+        if (btn) {
+          btn.textContent = "Copied! ✓";
+          setTimeout(() => {
+            btn.textContent = "Copy";
+          }, 1200);
+        }
+      });
+    });
+
+    // Reset inputs
+    resetBtn?.addEventListener("click", () => {
+      if (seedInput) seedInput.value = "";
+      resultsWrapper?.classList.add("hidden");
+    });
+
+    // Auto-generate initial list
+    generateList();
+  };
+
+  setupDiscordServerNameGenerator();
+  document.addEventListener(
+    "astro:after-swap",
+    setupDiscordServerNameGenerator,
+  );
+</script>

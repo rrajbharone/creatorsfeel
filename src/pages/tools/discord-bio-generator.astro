@@ -1,0 +1,756 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the maximum length of a Discord bio?",
+    answer: "The strict character limit for a Discord bio (the 'About Me' section) is 190 characters. If your bio is longer, it will get cropped and you will not be able to save it."
+  },
+  {
+    question: "Can I use formatting like bold or links in my Discord bio?",
+    answer: "Yes, Discord bios support basic Markdown formatting. You can use asterisks for bold (**bold**) or italics (*italics*), underscores for underline (__underline__), and custom hyperlinks using standard markdown syntax."
+  },
+  {
+    question: "Are emojis counted towards the character limit?",
+    answer: "Yes, emojis count towards the 190-character limit. Custom emojis from servers can count as more characters because their underlying format includes the emoji name and ID (e.g. <:emojiname:123456789012345678>)."
+  },
+  {
+    question: "Can I add server invite links to my bio?",
+    answer: "Yes, you can paste server invite links or external social links into your Discord bio. However, keep in mind that URLs consume your 190-character budget quickly."
+  },
+  {
+    question: "Is this bio generator free to use?",
+    answer: "Yes, our Discord Bio Generator is 100% free to use. You can generate as many bio variations as you like without any limits or registration requirements."
+  }
+];
+---
+
+<ToolLayout
+  title="Discord Bio Generator - Free Custom Profile Ideas"
+  description="Generate cool, unique, and custom Discord bios for your profile. Optimize bios for gaming, aesthetic, cyberpunk, and witty themes."
+  toolName="Discord Bio Generator"
+  toolDescription="Create unique Discord bios under the strict 190-character limit. Customize by tone, toggle emojis or sparkles, and preview on a profile card."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Generator Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Keywords Input -->
+          <div class="form-group">
+            <label for="desc-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+              </svg>
+              Keywords or Hobbies
+            </label>
+            <input type="text" id="desc-input" class="form-input" placeholder="e.g. loves valorant, web developer, cat dad" value="gaming, coffee, web developer" />
+          </div>
+
+          <!-- Niche Tone -->
+          <div class="form-group">
+            <label for="tone-select" class="icon-label">Bio Tone</label>
+            <select id="tone-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+              <option value="gaming">Gaming / Competitive</option>
+              <option value="cozy">Aesthetic / Cozy</option>
+              <option value="cyber">Cyberpunk / Tech</option>
+              <option value="witty">Funny / Witty</option>
+              <option value="professional">Professional / Business</option>
+            </select>
+          </div>
+
+          <!-- Checkbox Toggles -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; background: var(--color-bg-alt); padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--color-border);">
+            <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Decorative Elements</span>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.88rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="emoji-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include Emojis
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="sparkle-check" style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include Sparkles/Decorations
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="link-check" style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include Social Link Template
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn">Generate Bios</button>
+            <button type="button" id="reset-btn" class="calc-btn-secondary">Reset Inputs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live Discord Profile Mockup Card -->
+        <div class="discord-profile-card glass" style="background: #18191c; color: #ffffff; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #202225; text-align: left; box-shadow: var(--shadow-md);">
+          <!-- Top Banner -->
+          <div style="background: #5865f2; height: 60px; width: 100%;"></div>
+
+          <!-- Avatar & Badge Area -->
+          <div style="position: relative; padding: 0 1rem; margin-top: -30px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <!-- Avatar Container with Status Circle -->
+            <div style="position: relative; display: inline-block;">
+              <div style="width: 66px; height: 66px; border-radius: 50%; background: #2f3136; border: 6px solid #18191c; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; color: #ffffff;">CF</div>
+              <div style="position: absolute; bottom: 2px; right: 2px; width: 15px; height: 15px; border-radius: 50%; background: #43b581; border: 3px solid #18191c;"></div>
+            </div>
+
+            <!-- Badge Box -->
+            <div style="background: #2f3136; padding: 4px 8px; border-radius: 4px; display: flex; gap: 4px; align-items: center; font-size: 0.7rem; font-weight: 700; color: #b9bbbe; margin-bottom: 4px;">
+              <span>Online</span>
+            </div>
+          </div>
+
+          <!-- Profile Body -->
+          <div style="padding: 1rem;">
+            <!-- Name Header -->
+            <div style="border-bottom: 1px solid #202225; padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+              <div style="font-size: 1.15rem; font-weight: 800; color: #ffffff;">Creators Feel</div>
+              <div style="font-size: 0.85rem; color: #b9bbbe; margin-top: 2px;">@creators_feel</div>
+            </div>
+
+            <!-- Custom Info Block -->
+            <div style="font-size: 0.78rem; display: flex; flex-direction: column; gap: 0.75rem; color: #b9bbbe;">
+              <div>
+                <strong style="color: #ffffff; text-transform: uppercase; font-size: 0.68rem; display: block; margin-bottom: 4px;">About Me</strong>
+                <span id="discord-bio-text" style="color: #ffffff; white-space: pre-wrap; word-break: break-word;">Click a generated bio below to preview it here! 🎮☕💻</span>
+              </div>
+
+              <div>
+                <strong style="color: #ffffff; text-transform: uppercase; font-size: 0.68rem; display: block; margin-bottom: 4px;">Discord Member Since</strong>
+                <span>July 15, 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div id="results-wrapper" class="hidden" style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-brand);">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+        </svg>
+        Suggested Discord Bios
+      </h3>
+
+      <div class="bios-grid" id="generated-bios-container">
+        <!-- Results dynamic content goes here -->
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+        <button type="button" id="generate-more-btn" class="calc-btn" style="max-width: 200px; padding: 0 1.5rem;">Generate More</button>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Discord Bio Generator: Write Creative Profile About Me Text</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        🎮 <strong>Looking for a search-compliant username to pair with your new bio?</strong> Try our free <a href="/tools/discord-username-generator" style="color: var(--color-brand); text-decoration: underline;">Discord Username Generator</a> to secure a unique handle using aesthetic gaming niches.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      In the digital era of communication, your Discord profile is your personal billboard. Whether you are chatting in server channels, networking with developers, or looking for teammate groupings, your "About Me" bio section defines how others perceive you. However, compiling a bio that captures your interest, lists your social accounts, and uses cool formatting options while fitting inside a tight character limit is difficult. Our free, interactive <strong>discord bio generator</strong> is designed to build creative, formatted bios automatically.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To write and audit custom Discord bios in real-time, follow these simple directions:
+    </p>
+    <ol>
+      <li><strong>Keywords & Hobbies:</strong> Enter a few keywords, details, or hobbies that describe you.</li>
+      <li><strong>Tone Selection:</strong> Choose a tone style that fits your persona (Gaming, Cozy/Aesthetic, Cyberpunk/Tech, Witty, or Professional).</li>
+      <li><strong>Toggles:</strong> Check options to insert custom emoji layouts, sparkle designs, or social link place-markers.</li>
+      <li><strong>Generate List:</strong> Click **Generate Bios** to construct 5 custom bio variations.</li>
+      <li><strong>Mockup & Copy:</strong> Click any generated bio block to see it previewed in the Discord card mockup, and click the copy chip button to save it.</li>
+    </ol>
+
+    <h3>What is Discord Bio</h3>
+    <p>
+      A <strong>discord bio</strong> (officially known as the "About Me" box) is a text space in your user profile card. It supports up to 190 characters of text, emojis, links, and markdown formatting. It lets you display details about who you are, what games you play, what servers you run, or where else people can find you online.
+    </p>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The generator merges your seed hobbies with pre-formatted structure scripts:
+    </p>
+    <ul>
+      <li><strong>Keyword Parsing:</strong> Cleans up your hobbies list and integrates them into natural, conversational phrases.</li>
+      <li><strong>Decoration Integration:</strong> Adds aesthetic borders, line separators, or emojis based on your selections.</li>
+      <li><strong>Character Cap Auditing:</strong> Cuts off sentences cleanly before they hit 190 characters to avoid browser saving crashes.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's look at how a custom bio character budget is calculated:
+    </p>
+    <p>
+      <strong>Input Description:</strong> `"loves gaming, developer"`<br />
+      <strong>Tone:</strong> `"Gaming / Competitive"`<br />
+      <strong>Toggles:</strong> `"Include Emojis"`, `"Include Sparkles"`, `"Include Social Link Template"`
+    </p>
+    <p>
+      <strong>Bio Construction Process:</strong><br />
+      ✦ Base copy: `"*Loves gaming & developing*"` $\rightarrow$ <strong>26 characters</strong> (with markdown italics).<br />
+      ✦ Sparkle decorations: `"✧ ✦ ✧"` $\rightarrow$ <strong>5 characters</strong>.<br />
+      ✦ Emojis: `"🎮💻"` $\rightarrow$ <strong>4 characters</strong> (standard emojis count as 2 UTF-16 bytes).<br />
+      ✦ Social link: `"| links: cf.gg"` $\rightarrow$ <strong>15 characters</strong>.<br />
+      ✦ Combined output: `"✧ Loves gaming & developing ✧ 🎮💻 | links: cf.gg"` $\rightarrow$ <strong>50 characters</strong>.<br />
+      ✦ Compliance audit: `50 < 190 characters`.
+    </p>
+    <p>
+      This bio fits within Discord's 190-character limit with a remaining budget of 140 characters.
+    </p>
+
+    <h3>Features</h3>
+    <p>
+      This <strong>free discord bio generator</strong> offers several tools:
+    </p>
+    <ul>
+      <li><strong>Interactive Profile Preview Mockup:</strong> Review how your bio wraps, displays, and fits inside a dark-themed Discord card.</li>
+      <li><strong>Real-Time Character Count Safety:</strong> Every generated option is pre-audited to ensure it never exceeds the 190-character ceiling.</li>
+      <li><strong>Markdown Ready Formatting:</strong> Generates italic hooks and clean column dividers automatically.</li>
+      <li><strong>Pill-Shaped Tactile Copy Buttons:</strong> Instantly copy your favorite bio with a single click.</li>
+    </ul>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This generator is designed for:
+    </p>
+    <ul>
+      <li><strong>Esports Competitors:</strong> Listing roles (e.g. `Duelist main`), team names, and social links.</li>
+      <li><strong>Aesthetic Community Profiles:</strong> Writing soft, cozy bios with aesthetic emojis.</li>
+      <li><strong>Software Developers:</strong> Showing programming stacks (e.g. `Astro / TS`) and linking to GitHub repositories.</li>
+      <li><strong>Writers & Creatives:</strong> Creating witty, humorous bios to showcase personality.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  /* Bios Grid Styling */
+  .bios-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Tactile row chip layout */
+  :global(.bio-card) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+  }
+
+  :global(.bio-card:hover) {
+    border-color: var(--color-brand);
+    background: var(--color-bg-alt);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+  }
+
+  :global(.bio-text-display) {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  :global(.bio-action-row) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px dashed var(--color-border);
+    padding-top: 0.5rem;
+  }
+
+  :global(.bio-char-count) {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  :global(.chip-btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    background: var(--color-bg-alt);
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    line-height: 1;
+  }
+
+  :global(.bio-card:hover .chip-btn) {
+    background: var(--color-brand);
+    color: white;
+    border-color: var(--color-brand);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupDiscordBioGenerator = () => {
+    const descInput = document.getElementById('desc-input') as HTMLInputElement;
+    const toneSelect = document.getElementById('tone-select') as HTMLSelectElement;
+
+    // Checkboxes
+    const emojiCheck = document.getElementById('emoji-check') as HTMLInputElement;
+    const sparkleCheck = document.getElementById('sparkle-check') as HTMLInputElement;
+    const linkCheck = document.getElementById('link-check') as HTMLInputElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const generateMoreBtn = document.getElementById('generate-more-btn');
+
+    // Layout slots
+    const resultsWrapper = document.getElementById('results-wrapper');
+    const container = document.getElementById('generated-bios-container');
+
+    // Mockup targets
+    const discordBioText = document.getElementById('discord-bio-text');
+
+    // Local tracking arrays
+    let currentShuffledTemplates: string[] = [];
+    let currentTemplateIndex = 0;
+
+    const buildShuffledPool = () => {
+      const hobbies = (descInput?.value || '').trim();
+      const tone = toneSelect?.value || 'gaming';
+
+      // Extract details
+      const details = hobbies.split(',').map(d => d.trim()).filter(d => d.length > 0);
+      const h1 = details[0] || 'chatting';
+      const h2 = details[1] || 'gaming';
+      const h3 = details[2] || 'chilling';
+
+      const templates: string[] = [];
+
+      // Expanded tone-specific pools (15 templates each)
+      if (tone === 'gaming') {
+        templates.push(
+          `✧ Gaming is life | Maining ${h1} | Add me to play 🎮`,
+          `Apex predator in ${h1}. Carrying teams in ${h2}. GG only! 🏆`,
+          `Competitive ${h1} player. Powered by coffee & bad decisions. ☕`,
+          `Just a ${h1} enthusiast who loves ${h2}. | Let's queue! 🎮`,
+          `Living in the ${h1} lobby. | DM for server invite ⚡`,
+          `Leveling up in ${h1} | ${h2} speedrunner | DM to queue 🎮`,
+          `Esports athlete | Focus: ${h1} & ${h2} | Let's play! 🏆`,
+          `Ranked grind on ${h1} | ${h2} specialist | GG vibes ⚡`,
+          `✧ ${h1} main | Casual ${h2} enjoyer | DM me 🎮`,
+          `clutching rounds in ${h1} | sleeping is for the weak 💀`,
+          `on that ${h1} grindset | ${h2} and chilling | discord user 🎮`,
+          `fps champion // main game: ${h1} // lobby hosts only 🏆`,
+          `gaming is my therapy | currently grinding ${h1} 🎮`,
+          `✧ no mercy in ${h1} | ${h2} speedrunner | discord friend ✧`,
+          `just here to play ${h1} and drink cold brew ☕🎮`
+        );
+      } else if (tone === 'cozy') {
+        templates.push(
+          `✦ cozy vibes only ✦ loves ${h1} & soft music ✦ ☕`,
+          `dreaming of ${h1} ✦ tea lover ✦ let's chill ☁️`,
+          `just a soft soul enjoying ${h1} and cozying up with ${h2} ✿`,
+          `haze & stardust. chill sessions of ${h1} 🌙`,
+          `calm days, cozy nights, and plenty of ${h1} 🌾`,
+          `cozy room, warm coffee, and quiet games of ${h1} ☕`,
+          `stargazing ✦ reading books ✦ relaxing with ${h1} ✿`,
+          `soft blanket & ${h1} kind of day ✦ chill space 🌙`,
+          `✦ rainy days, warm tea, and exploring ${h1} ✿`,
+          `living in a cozy bubble ✦ obsessed with ${h1} ☁️`,
+          `✿ flower garden keeper ✿ quiet thoughts about ${h1} ✦`,
+          `cozy pixel art & ${h1} soundtracks ✦ warm vibes ☕`,
+          `✦ simple things: hot chocolate, thick books, and ${h1} ✿`,
+          `dusk and twilight ✦ peaceful gaming with ${h1} 🌙`,
+          `✿ lavender tea and gentle sessions of ${h1} ✦`
+        );
+      } else if (tone === 'cyber') {
+        templates.push(
+          `[system]: logging ${h1} protocol // ping: low // developer 💻`,
+          `netrunner status: code, coffee, and ${h1}. 🤖`,
+          `glitching through ${h1} systems. // matrix hacker 🌐`,
+          `matrix.log: loves ${h1} & building ${h2} modules. 👾`,
+          `cyberpunk soul | network programmer | dev of ${h1} ⚡`,
+          `hardware hacker | testing ${h1} scripts | system: active 🤖`,
+          `decrypted data: ${h1} lover & ${h2} coder 💻`,
+          `rebooting system... running ${h1} client version 1.0 🌐`,
+          `[error]: too much code, not enough ${h1} // tech life 💻`,
+          `digital nomad // developing in ${h1} // cyber world 🌐`,
+          `terminal active // pinging ${h1} servers // matrix host 🤖`,
+          `cyberpunk aesthetic | coder of ${h1} | tech core ⚡`,
+          `building web tools with ${h1} | coffee powered dev 💻`,
+          `[status]: code execution of ${h1} complete // dev life 🤖`,
+          `network node active // sharing tech & ${h1} designs 🌐`
+        );
+      } else if (tone === 'witty') {
+        templates.push(
+          `Professionally lazy. Expert in ${h1} and making bad puns. 🫠`,
+          `Loves ${h1} but ${h2} loves me more. Don't add me. ⛔`,
+          `My hobbies include ${h1} and regretting my life choices. 💀`,
+          `I put the 'pro' in procrastination and ${h1}. 🏆`,
+          `Here for the memes and ${h1} updates. DM at your own risk. 👀`,
+          `Warning: Contains trace amounts of ${h1} and sarcasm. ⚠️`,
+          `Under construction. Just like my skill level in ${h1}. 🫠`,
+          `Sponsoring coffee companies since I started ${h1}. ☕`,
+          `I'm not short, I'm just concentrated awesome and ${h1}. 💀`,
+          `Currently avoiding responsibilities by playing ${h1}. 🫠`,
+          `Professional overthinker | Niche expert in ${h1} 💀`,
+          `My brain has 47 open tabs, and 46 are about ${h1}. 🫠`,
+          `I speak fluent sarcasm and ${h1} references. ⚠️`,
+          `Error 404: Bio not found. Too busy playing ${h1}. 💀`,
+          `Loves ${h1} and ignoring my laundry. 🫠`
+        );
+      } else {
+        // Professional
+        templates.push(
+          `Product Designer & developer. Focused on ${h1} projects. 💼`,
+          `Web Developer | Tech builder | Passionate about ${h1} 💻`,
+          `Designing products at day, exploring ${h1} at night. 🏢`,
+          `Building digital products. Reach out for collaborations in ${h1} 🤝`,
+          `Business inquiries only. Passionate developer of ${h1} 📈`,
+          `Creative engineering & dev operations // focused on ${h1} 💼`,
+          `Building modern web platforms and exploring ${h1} architecture 💻`,
+          `UX Consultant | Tech content creator | Niche: ${h1} 🏢`,
+          `Software Engineer // Specializing in ${h1} and clean code 💻`,
+          `Founder & Tech Director // Building systems with ${h1} 📈`,
+          `Innovating client platforms // developer of ${h1} tools 🤝`,
+          `Tech Consultant | Helping startups scale using ${h1} 🏢`,
+          `Developer Relations Engineer // Speaking about ${h1} tech 💻`,
+          `Open source contributor // current projects: ${h1} 💼`,
+          `Engineering lead // managing product builds for ${h1} 📈`
+        );
+      }
+
+      // Shuffle array helper
+      currentShuffledTemplates = [...templates].sort(() => Math.random() - 0.5);
+      currentTemplateIndex = 0;
+    };
+
+    // Format modifiers helper
+    const formatBio = (base: string) => {
+      const includeEmojis = emojiCheck?.checked;
+      const includeSparkles = sparkleCheck?.checked;
+      const includeLinks = linkCheck?.checked;
+
+      let text = base;
+      
+      // Emojis injection
+      if (!includeEmojis) {
+        // Remove emoji characters
+        text = text.replace(/[\u2000-\u32FF]|[\uD83C-\uDDFE][\uDC00-\uDFFF]/g, '');
+      }
+
+      // Sparkles injection
+      if (includeSparkles) {
+        text = `✦ ${text} ✦`;
+      }
+
+      // Links injection
+      if (includeLinks) {
+        text = `${text} | links: cf.gg`;
+      }
+
+      // Clean double separators and trim to 190 characters
+      return text.trim().substring(0, 190);
+    };
+
+    // Initial clean generation
+    const generateList = () => {
+      buildShuffledPool();
+      
+      // Select first 5 templates
+      const selectedTemplates = currentShuffledTemplates.slice(0, 5);
+      currentTemplateIndex = 5;
+
+      const finalBios = selectedTemplates.map(t => formatBio(t));
+
+      // Render to DOM
+      if (container) {
+        container.innerHTML = finalBios.map((b, i) => {
+          return `
+            <div class="bio-card" data-bio="${b}">
+              <p class="bio-text-display">${b}</p>
+              <div class="bio-action-row">
+                <span class="bio-char-count">${b.length} / 190 Chars</span>
+                <button class="chip-btn">Copy Bio</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Display results section
+      resultsWrapper?.classList.remove('hidden');
+
+      // Default the mockup bio to the first generated result
+      if (discordBioText && finalBios.length > 0) {
+        discordBioText.textContent = finalBios[0];
+      }
+    };
+
+    // Append 5 more bios
+    const appendMoreBios = () => {
+      if (currentShuffledTemplates.length === 0) {
+        buildShuffledPool();
+      }
+
+      // Check boundary bounds
+      if (currentTemplateIndex >= currentShuffledTemplates.length) {
+        // If we ran out, reshuffle
+        const oldIndex = currentTemplateIndex;
+        buildShuffledPool();
+      }
+
+      const nextTemplates = currentShuffledTemplates.slice(currentTemplateIndex, currentTemplateIndex + 5);
+      currentTemplateIndex += 5;
+
+      const finalBios = nextTemplates.map(t => formatBio(t));
+
+      // Render append
+      if (container) {
+        const appendHtml = finalBios.map((b, i) => {
+          return `
+            <div class="bio-card" data-bio="${b}">
+              <p class="bio-text-display">${b}</p>
+              <div class="bio-action-row">
+                <span class="bio-char-count">${b.length} / 190 Chars</span>
+                <button class="chip-btn">Copy Bio</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+        container.innerHTML += appendHtml;
+      }
+    };
+
+    generateBtn?.addEventListener('click', () => {
+      generateList();
+      
+      // Scroll down to results section
+      const resultsSection = document.getElementById('results-wrapper');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    generateMoreBtn?.addEventListener('click', () => {
+      appendMoreBios();
+    });
+
+    // Handle copying individual bio chips and update mockup preview
+    container?.addEventListener('click', (e) => {
+      const card = (e.target as HTMLElement).closest('.bio-card');
+      if (!card) return;
+
+      const bio = card.getAttribute('data-bio') || '';
+
+      // Update Mockup card preview
+      if (discordBioText) {
+        discordBioText.textContent = bio;
+      }
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(bio).then(() => {
+        const btn = card.querySelector('.chip-btn') as HTMLElement;
+        if (btn) {
+          btn.textContent = 'Copied! ✓';
+          setTimeout(() => {
+            btn.textContent = 'Copy Bio';
+          }, 1200);
+        }
+      });
+    });
+
+    // Reset inputs
+    resetBtn?.addEventListener('click', () => {
+      if (descInput) descInput.value = '';
+      resultsWrapper?.classList.add('hidden');
+    });
+
+    // Initialize list
+    generateList();
+  };
+
+  setupDiscordBioGenerator();
+  document.addEventListener('astro:after-swap', setupDiscordBioGenerator);
+</script>

@@ -1,0 +1,860 @@
+---
+import ToolLayout from "../../layouts/ToolLayout.astro";
+
+const faqs = [
+  {
+    question: "What is the size limit for custom Discord emojis?",
+    answer:
+      "Custom Discord emojis must be under 256 KB in file size. They are ideally uploaded as square images (128x128 pixels).",
+  },
+  {
+    question: "Can I use custom emojis in my Discord bio or username?",
+    answer:
+      "Yes, you can use standard Unicode emojis and custom Kaomojis in your bio or username. However, custom server emojis can only be displayed in text channels, status messages, or by Nitro subscribers.",
+  },
+  {
+    question: "What is the difference between an emoji and a Kaomoji?",
+    answer:
+      "An emoji is a graphical glyph (like 🎮 or 🔥), while a Kaomoji is a Japanese-style text emoticon composed of standard keyboard characters (like (╯°□°）╯ or ʕ•ᴥ•ʔ).",
+  },
+  {
+    question: "How do I upload custom emojis to my Discord server?",
+    answer:
+      "Go to Server Settings > Emoji, click 'Upload Emoji', and select your image files. Normal servers can upload up to 50 custom emojis initially, and more by boosting the server.",
+  },
+  {
+    question: "Are animated custom emojis supported on Discord?",
+    answer:
+      "Yes, Discord supports animated custom emojis in GIF format. Members with Discord Nitro can use them globally across all servers.",
+  },
+];
+---
+
+<ToolLayout
+  title="Discord Emoji Generator - Cool Custom Kaomojis & Combos"
+  description="Generate cool, aesthetic, and funny custom Discord emojis and Kaomojis. Copy emoji combos and text badges for chat channels and bios."
+  toolName="Discord Emoji Generator"
+  toolDescription="Generate custom Kaomojis, text badges, and aesthetic emoji combinations. Preview outputs inside a live Discord chat message card."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Generator Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Seed Name Input -->
+          <div class="form-group">
+            <label for="seed-input" class="icon-label">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="field-icon"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"
+                ></path>
+              </svg>
+              Emoji Keyword / Vibe
+            </label>
+            <input
+              type="text"
+              id="seed-input"
+              class="form-input"
+              placeholder="e.g. cry, hype, cool, love"
+              value="cool"
+            />
+          </div>
+
+          <div
+            style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;"
+          >
+            <!-- Emoji Niche Style -->
+            <div class="form-group">
+              <label for="niche-select" class="icon-label">Emoji Vibe</label>
+              <select
+                id="niche-select"
+                class="form-input"
+                style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);"
+              >
+                <option value="gaming">Gaming / Streamer</option>
+                <option value="cozy">Aesthetic / Cozy</option>
+                <option value="funny">Meme / Funny</option>
+                <option value="cyber">Tech / Cyberpunk</option>
+                <option value="faces">Expression / Faces</option>
+              </select>
+            </div>
+
+            <!-- Output Format -->
+            <div class="form-group">
+              <label for="format-select" class="icon-label">Format Style</label>
+              <select
+                id="format-select"
+                class="form-input"
+                style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);"
+              >
+                <option value="kaomoji">Kaomoji Face (╯°□°）╯</option>
+                <option value="combo">Emoji Combo (🔥🎮🔥)</option>
+                <option value="badge">Text Badge ([HYPE])</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn"
+              >Generate Emojis</button
+            >
+            <button type="button" id="reset-btn" class="calc-btn-secondary"
+              >Reset Inputs</button
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live Discord Message Preview Card -->
+        <div
+          class="discord-message-preview glass"
+          style="background: #36393f; color: #dcddde; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #202225; text-align: left; box-shadow: var(--shadow-md); display: flex; padding: 1.25rem; gap: 12px; font-family: var(--font-body);"
+        >
+          <!-- Mock Avatar -->
+          <div
+            style="width: 40px; height: 40px; border-radius: 50%; background: #5865f2; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; flex-shrink: 0; user-select: none;"
+          >
+            CF
+          </div>
+
+          <!-- Message Body -->
+          <div
+            style="display: flex; flex-direction: column; gap: 4px; min-width: 0;"
+          >
+            <!-- Header Block -->
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span
+                style="color: #ffffff; font-weight: 700; font-size: 0.92rem; cursor: pointer;"
+                >Creators Feel</span
+              >
+              <span
+                style="background: #5865f2; color: #ffffff; font-size: 0.58rem; font-weight: 700; padding: 1px 4px; border-radius: 3px; text-transform: uppercase;"
+                >Bot</span
+              >
+              <span style="color: #72767d; font-size: 0.72rem;"
+                >Today at 12:43 PM</span
+              >
+            </div>
+
+            <!-- Content text block -->
+            <div
+              style="font-size: 0.95rem; color: #dcddde; word-break: break-word; line-height: 1.4;"
+            >
+              Check out my custom emoji! <span
+                id="mockup-emoji-display"
+                style="color: #ffffff; font-weight: 800; background: rgba(88,101,242,0.15); padding: 2px 6px; border-radius: 4px;"
+                >(⌐■_■)</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div
+      id="results-wrapper"
+      class="hidden"
+      style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;"
+    >
+      <h3
+        style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          style="width: 20px; height: 20px; color: var(--color-brand);"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
+          ></path>
+        </svg>
+        Suggested Emojis & Combos
+      </h3>
+
+      <div class="usernames-grid" id="generated-emojis-container">
+        <!-- Results dynamic content goes here -->
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+        <button
+          type="button"
+          id="generate-more-btn"
+          class="calc-btn"
+          style="max-width: 200px; padding: 0 1.5rem;">Generate More</button
+        >
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Discord Emoji Generator: Design Custom Text Emotes & Combos</h2>
+    <div
+      style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);"
+    >
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        🪐 <strong
+          >Looking to brand your community sidebar or channel rules?</strong
+        > Try our free <a
+          href="/tools/discord-server-name-generator"
+          style="color: var(--color-brand); text-decoration: underline;"
+          >Discord Server Name Generator</a
+        > to generate cool, stylized server titles featuring aesthetic symbols.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      In text channels, visual elements represent your speech cues. Custom
+      emotes and graphic combos establish the tone of chats, announcements, and
+      reactions. If you are moderating a community server, setting up stream
+      updates, or looking to customize your chat profile, standard emojis can
+      feel generic. Our free <strong>discord emoji generator</strong> constructs customized
+      text emoticons (Kaomojis), graphic layouts, and brackets badges instantly. Use
+      these styled combinations to add visual flair to your text chats.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To draft and audit custom Discord emojis in real-time, follow these steps:
+    </p>
+    <ol>
+      <li>
+        <strong>Emoji Vibe:</strong> Enter a seed keyword describing your desired
+        mood (e.g. happy, sleep, heart, hype).
+      </li>
+      <li>
+        <strong>Category Selection:</strong> Select a theme category (Gaming, Cozy/Aesthetic,
+        Meme, Cyberpunk, or Expressions).
+      </li>
+      <li>
+        <strong>Output Layout:</strong> Choose between Japanese-style Kaomojis, stacked
+        emoji combinations, or bracketed text badges.
+      </li>
+      <li>
+        <strong>Generate List:</strong> Click **Generate Emojis** to view 15 distinct
+        options.
+      </li>
+      <li>
+        <strong>Interactive Audit:</strong> Click any badge to preview it in the Discord
+        message chat bubble mockup, and copy it instantly. Click **Generate More**
+        to append 5 more options.
+      </li>
+    </ol>
+
+    <h3>What is Discord Emoji</h3>
+    <p>
+      A Discord Emoji is one of the most popular places to show off custom emoji
+      layouts. Because bios are limited to 190 characters, using dense Unicode
+      symbols and Kaomojis is a clever way to fit more personality into your
+      profile card. Integrating these styles into both your user bio and server
+      announcements builds a unified community theme. Our generator ensures that
+      every text face and emoji layout is optimized for dark-mode screens,
+      keeping your chat profile visually clean.
+    </p>
+
+    <h3>How Does It Work?</h3>
+    <p>The generator merges your keyword seeds with character databases:</p>
+    <ul>
+      <li>
+        <strong>Kaomoji Assembly:</strong> Compiles mouth, eye, and arm symbols to
+        form expressive text faces.
+      </li>
+      <li>
+        <strong>Emoji Stacking:</strong> Pairs your vibe keyword with thematic graphical
+        emojis to create structured separators (e.g. `✨[Hype]✨` or `🔥🎮🔥`).
+      </li>
+      <li>
+        <strong>Byte Checking:</strong> Audits character sizes to verify text faces
+        display correctly across mobile and desktop apps.
+      </li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's look at how a custom emoji combination character budget is
+      calculated:
+    </p>
+    <p>
+      <strong>Input Seed Word:</strong> `"Hype"`<br />
+      <strong>Emoji Vibe selected:</strong> `"Gaming / Streamer"`<br />
+      <strong>Format selected:</strong> `"Custom Styled Badges"`
+    </p>
+    <p>
+      <strong>Calculation Process:</strong><br />
+      ✦ Base text: `"HYPE"` $\rightarrow$ <strong>4 characters</strong>.<br />
+      ✦ Brackets: `"[` and `]"` $\rightarrow$ <strong>2 characters</strong>.<br
+      />
+      ✦ Gaming decorations: `"⚔️"` and `"⚔️"` $\rightarrow$ <strong
+        >2 emojis</strong
+      >.<br />
+      ✦ Combined output: `"⚔️ [HYPE] ⚔️"` $\rightarrow$ <strong
+        >12 characters</strong
+      >.<br />
+      ✦ UTF-16 character limit check: `12 < 32 characters` (custom upload name limits)
+      or `12 < 190 characters` (profile bio limits).
+    </p>
+    <p>
+      The output is `⚔️ [HYPE] ⚔️`, which fits easily within any Discord
+      character budget.
+    </p>
+
+    <h3>Features</h3>
+    <p>
+      This <strong>free discord emoji generator</strong> offers several tools:
+    </p>
+    <ul>
+      <li>
+        <strong>Live Chat Message Preview:</strong> Review how your Kaomoji or emoji
+        combo renders inside a realistic Discord message bubble.
+      </li>
+      <li>
+        <strong>Generate More Button:</strong> Dynamically generate and append 5 more
+        unique ideas.
+      </li>
+      <li>
+        <strong>Cross-Platform Kaomoji Sets:</strong> Generates classic Japanese text
+        emoticons that render correctly across all mobile operating systems.
+      </li>
+      <li>
+        <strong>Tactile Pill-Shaped Buttons:</strong> Copy any combo instantly to
+        your clipboard.
+      </li>
+    </ul>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>This generator is designed for:</p>
+    <ul>
+      <li>
+        <strong>Streamers & Content Creators:</strong> Designing announcers and reaction
+        commands for their community servers.
+      </li>
+      <li>
+        <strong>Discord Server Admins:</strong> Creating custom channel header icons,
+        role labels, and rules banners.
+      </li>
+      <li>
+        <strong>Casual Chatters:</strong> Adding unique Kaomojis to stand out in active
+        server channels.
+      </li>
+      <li>
+        <strong>Cozy Profile Designers:</strong> Styling bios with soft, botanical
+        emoji combinations.
+      </li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column,
+  .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  /* Usernames Grid Styling */
+  .usernames-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Tactile row chip layout */
+  :global(.emoji-chip) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    padding: 0.65rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+  }
+
+  :global(.emoji-chip:hover) {
+    border-color: var(--color-brand);
+    background: var(--color-bg-alt);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+  }
+
+  :global(.emoji-text) {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 8px;
+  }
+
+  :global(.chip-btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    background: var(--color-bg-alt);
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  :global(.emoji-chip:hover .chip-btn) {
+    background: var(--color-brand);
+    color: white;
+    border-color: var(--color-brand);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn,
+    .calc-btn-secondary {
+      flex: 1;
+    }
+    .usernames-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+    .usernames-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+
+<script>
+  const setupDiscordEmojiGenerator = () => {
+    const seedInput = document.getElementById("seed-input") as HTMLInputElement;
+    const nicheSelect = document.getElementById(
+      "niche-select",
+    ) as HTMLSelectElement;
+    const formatSelect = document.getElementById(
+      "format-select",
+    ) as HTMLSelectElement;
+
+    // Actions
+    const generateBtn = document.getElementById("generate-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const generateMoreBtn = document.getElementById("generate-more-btn");
+
+    // Layout slots
+    const resultsWrapper = document.getElementById("results-wrapper");
+    const container = document.getElementById("generated-emojis-container");
+
+    // Mockup targets
+    const mockupEmojiDisplay = document.getElementById("mockup-emoji-display");
+
+    // Emoji structure database
+    const vibesData: Record<
+      string,
+      {
+        graphicPrefixes: string[];
+        graphicSuffixes: string[];
+        kaomojis: string[];
+      }
+    > = {
+      gaming: {
+        graphicPrefixes: ["⚔️", "🎮", "🔥", "👾", "👑", "⚡"],
+        graphicSuffixes: ["⚔️", "🎮", "🔥", "👾", "👑", "⚡"],
+        kaomojis: [
+          "(•_•)凸",
+          "(*_*)ノ",
+          "(⌐■_■)",
+          "🎮 (ఠ_ఠ)",
+          "(ʘ‿ʘ)ノ",
+          "ᕙ(⇀‸↼)ᕗ",
+          "t(-_-t)",
+        ],
+      },
+      cozy: {
+        graphicPrefixes: ["✿", "✧", "☕", "☁️", "🌙", "🍂"],
+        graphicSuffixes: ["✿", "✧", "☕", "☁️", "🌙", "🍂"],
+        kaomojis: [
+          "(✿◠‿◠)",
+          "(◡‿◡✿)",
+          "(=^·^=)☕",
+          "( ☁️ )",
+          "( ´◡` )",
+          "(*¯︶¯*)",
+          "✿(◡‿◡)",
+        ],
+      },
+      funny: {
+        graphicPrefixes: ["🤪", "🫠", "💀", "🤡", "🤮", "💩"],
+        graphicSuffixes: ["🤪", "🫠", "💀", "🤡", "🤮", "💩"],
+        kaomojis: [
+          "(°ロ°)",
+          "¯\\_(ツ)_/¯",
+          "( ͡° ͜ʖ ͡°)",
+          "(╯°□°）╯",
+          "┬──┬ ノ( ゜-゜ノ)",
+          "ಠ_ಠ",
+          "(;´༎ຶД༎ຶ`)",
+        ],
+      },
+      cyber: {
+        graphicPrefixes: ["🤖", "💻", "🌐", "📡", "🔋", "🔌"],
+        graphicSuffixes: ["🤖", "💻", "🌐", "📡", "🔋", "🔌"],
+        kaomojis: [
+          "[🤖]",
+          "Error(°_°)",
+          "101(⌐■_■)",
+          "(⚙️)",
+          "(💻)",
+          "[system_err]",
+          "🤖(•_•)",
+        ],
+      },
+      faces: {
+        graphicPrefixes: ["😀", "😍", "😭", "😡", "😱", "😴"],
+        graphicSuffixes: ["😀", "😍", "😭", "😡", "😱", "😴"],
+        kaomojis: [
+          "(❤ω❤)",
+          "(=^･ω･^=)",
+          "(*^ω^*)",
+          "(〃▽〃)",
+          "(>_<)",
+          "(-_-)zzz",
+          "ヽ(>_<)ノ",
+        ],
+      },
+    };
+
+    let currentShuffledPool: string[] = [];
+    let currentPoolIndex = 0;
+
+    const buildShuffledPool = () => {
+      const seed = (seedInput?.value || "").trim();
+      const niche = nicheSelect?.value || "gaming";
+      const format = formatSelect?.value || "kaomoji";
+
+      const database = vibesData[niche] || vibesData["gaming"];
+      const generatedSet = new Set<string>();
+
+      // Pre-populate templates based on layout choices
+      const applyFormat = () => {
+        const randIndex = Math.floor(Math.random() * database.kaomojis.length);
+        const randKaomoji = database.kaomojis[randIndex] || "(⌐■_■)";
+
+        const randPIndex = Math.floor(
+          Math.random() * database.graphicPrefixes.length,
+        );
+        const randSIndex = Math.floor(
+          Math.random() * database.graphicSuffixes.length,
+        );
+
+        const gp = database.graphicPrefixes[randPIndex] || "";
+        const gs = database.graphicSuffixes[randSIndex] || "";
+
+        let text = "";
+        if (format === "kaomoji") {
+          text = seed
+            ? `${randKaomoji.substring(0, 4)}_${seed.toLowerCase()}_${randKaomoji.substring(4)}`
+            : randKaomoji;
+        } else if (format === "combo") {
+          text = seed
+            ? `${gp} ${seed.toLowerCase()} ${gs}`
+            : `${gp} ${gs} ${gp}`;
+        } else {
+          // Badges
+          text = seed
+            ? `${gp} [${seed.toUpperCase()}] ${gs}`
+            : `${gp} [HYPE] ${gs}`;
+        }
+
+        return text.trim().substring(0, 32); // Custom emojis naming bounds
+      };
+
+      // Generate a pool of 50 unique variations
+      let iterations = 0;
+      while (generatedSet.size < 50 && iterations < 300) {
+        iterations++;
+        const formatted = applyFormat();
+        if (formatted.length >= 2) {
+          generatedSet.add(formatted);
+        }
+      }
+
+      currentShuffledPool = Array.from(generatedSet).sort(
+        () => Math.random() - 0.5,
+      );
+      currentPoolIndex = 0;
+    };
+
+    // Clean initial list generation
+    const generateList = () => {
+      buildShuffledPool();
+
+      const selected = currentShuffledPool.slice(0, 15);
+      currentPoolIndex = 15;
+
+      if (container) {
+        container.innerHTML = selected
+          .map((s) => {
+            return `
+            <div class="emoji-chip" data-name="${s}">
+              <span class="emoji-text">${s}</span>
+              <button class="chip-btn">Copy</button>
+            </div>
+          `;
+          })
+          .join("");
+      }
+
+      resultsWrapper?.classList.remove("hidden");
+
+      // Default the mockup emoji display to the first result
+      if (mockupEmojiDisplay && selected.length > 0) {
+        mockupEmojiDisplay.textContent = selected[0];
+      }
+    };
+
+    // Append 5 more unique emojis
+    const appendMoreEmojis = () => {
+      if (currentShuffledPool.length === 0) {
+        buildShuffledPool();
+      }
+
+      if (currentPoolIndex >= currentShuffledPool.length) {
+        buildShuffledPool();
+      }
+
+      const next = currentShuffledPool.slice(
+        currentPoolIndex,
+        currentPoolIndex + 5,
+      );
+      currentPoolIndex += 5;
+
+      if (container) {
+        const appendHtml = next
+          .map((s) => {
+            return `
+            <div class="emoji-chip" data-name="${s}">
+              <span class="emoji-text">${s}</span>
+              <button class="chip-btn">Copy</button>
+            </div>
+          `;
+          })
+          .join("");
+        container.innerHTML += appendHtml;
+      }
+    };
+
+    generateBtn?.addEventListener("click", () => {
+      generateList();
+
+      const resultsSection = document.getElementById("results-wrapper");
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+
+    generateMoreBtn?.addEventListener("click", () => {
+      appendMoreEmojis();
+    });
+
+    // Handle copying individual emoji chips and update mockup preview
+    container?.addEventListener("click", (e) => {
+      const chip = (e.target as HTMLElement).closest(".emoji-chip");
+      if (!chip) return;
+
+      const emojiTextValue = chip.getAttribute("data-name") || "";
+
+      // Update mockup sidebar
+      if (mockupEmojiDisplay) {
+        mockupEmojiDisplay.textContent = emojiTextValue;
+      }
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(emojiTextValue).then(() => {
+        const btn = chip.querySelector(".chip-btn") as HTMLElement;
+        if (btn) {
+          btn.textContent = "Copied! ✓";
+          setTimeout(() => {
+            btn.textContent = "Copy";
+          }, 1200);
+        }
+      });
+    });
+
+    // Reset inputs
+    resetBtn?.addEventListener("click", () => {
+      if (seedInput) seedInput.value = "";
+      resultsWrapper?.classList.add("hidden");
+    });
+
+    // Auto-generate initial list
+    generateList();
+  };
+
+  setupDiscordEmojiGenerator();
+  document.addEventListener("astro:after-swap", setupDiscordEmojiGenerator);
+</script>
