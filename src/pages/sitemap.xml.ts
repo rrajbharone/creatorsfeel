@@ -40,6 +40,8 @@ export const GET: APIRoute = async (context) => {
     '/tools/discord-bio-generator',
     '/tools/discord-server-name-generator',
     '/tools/discord-emoji-generator',
+    '/tools/twitch-title-generator',
+    '/tools/twitch-username-generator',
     '/tools/linkedin-post-formatter',
     '/tools/linkedin-engagement-calculator',
     '/tools/twitter-character-counter',

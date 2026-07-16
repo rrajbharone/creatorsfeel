@@ -1,0 +1,669 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What are the rules for a Twitch username?",
+    answer: "Twitch usernames must be between 4 and 25 characters in length. They can only contain letters (a-z), numbers (0-9), and underscores (_). Space characters and special symbols are not allowed."
+  },
+  {
+    question: "How often can I change my Twitch username?",
+    answer: "Active Twitch users can change their username once every 60 days. When you change it, your old username is held by Twitch for a minimum of 6 months before being recycled back into the public pool."
+  },
+  {
+    question: "Can I use 'TTV' or 'Live' in my Twitch username?",
+    answer: "Yes, suffixes like 'TTV' (Twitch TV) or 'Live' are very popular for gamers who want to cross-promote their streams while playing in multiplayer public lobbies (e.g. Fortnite or Valorant)."
+  },
+  {
+    question: "Does changing my username delete my Twitch followers?",
+    answer: "No, changing your Twitch username will not affect your follower list, subscriber counts, channel clips, channel points, or channel emotes. However, your channel URL will update, so you must update links on other social platforms."
+  },
+  {
+    question: "Can I use capital letters in my Twitch username?",
+    answer: "Your login username must be entirely lowercase. However, you can change the capitalization of your display name at any time in your Twitch profile settings (e.g., changing 'shroud' to 'Shroud')."
+  }
+];
+---
+
+<ToolLayout
+  title="Twitch Username Generator - Cool & Catchy Channel Names"
+  description="Generate cool, aesthetic, and unique Twitch usernames. Customize stream names by gaming, chill, and minimalist styles and audit character limits."
+  toolName="Twitch Username Generator"
+  toolDescription="Create unique, search-compliant Twitch usernames under the strict 25-character limit. Customize by style niche and preview live channel banners."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Generator Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Seed Name Input -->
+          <div class="form-group">
+            <label for="seed-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
+              </svg>
+              Seed Keyword / Topic
+            </label>
+            <input type="text" id="seed-input" class="form-input" placeholder="e.g. gamer, ninja, shroud" value="shroud" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <!-- Username Vibe Select -->
+            <div class="form-group">
+              <label for="niche-select" class="icon-label">Username Vibe</label>
+              <select id="niche-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+                <option value="gaming">Gaming / Competitive</option>
+                <option value="chill">Aesthetic / Chill</option>
+                <option value="funny">Humorous / Funny</option>
+                <option value="cyber">Cyberpunk / Tech</option>
+                <option value="short">Minimalist / Short</option>
+              </select>
+            </div>
+
+            <!-- Suffix Options -->
+            <div class="form-group">
+              <label for="format-select" class="icon-label">Format Preference</label>
+              <select id="format-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+                <option value="suffixes">With Suffixes (TTV, Live)</option>
+                <option value="clean">Clean (No Suffix)</option>
+                <option value="underscores">With Underscores (t_t_v)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn">Generate Usernames</button>
+            <button type="button" id="reset-btn" class="calc-btn-secondary">Reset Inputs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live Twitch Channel Banner Mockup -->
+        <div class="twitch-channel-preview glass" style="background: #0e0e10; color: #efeff1; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #1f1f23; text-align: left; box-shadow: var(--shadow-md); font-family: var(--font-body);">
+          <!-- Top Stream Banner (Twitch Purple Theme) -->
+          <div style="background: linear-gradient(90deg, #9146ff, #6441a5); height: 80px; width: 100%; position: relative;">
+            <div style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #efeff1; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 12px; text-transform: uppercase;">Offline</div>
+          </div>
+
+          <!-- Streamer Info Block -->
+          <div style="padding: 1.25rem 1rem; position: relative;">
+            <!-- Avatar positioned overlapping the banner -->
+            <div id="mockup-avatar-bubble" style="width: 58px; height: 58px; border-radius: 50%; background: #9146ff; border: 4px solid #0e0e10; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; font-weight: 800; position: absolute; top: -29px; left: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+              SH
+            </div>
+
+            <!-- Details (pushed right of avatar) -->
+            <div style="margin-left: 68px; margin-top: -10px; display: flex; flex-direction: column; gap: 2px;">
+              <!-- Display Name -->
+              <span id="mockup-display-name" style="font-size: 1.05rem; font-weight: 800; color: #ffffff;">shroud_ttv</span>
+              <!-- Verified Badge / Link -->
+              <span style="font-size: 0.72rem; color: #9146ff; font-weight: 700;">twitch.tv/handle</span>
+            </div>
+
+            <!-- Followers / Buttons Area -->
+            <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #1f1f23; padding-top: 0.75rem;">
+              <div style="display: flex; flex-direction: column;">
+                <span style="font-size: 0.85rem; font-weight: 700; color: #ffffff;">12.4K</span>
+                <span style="font-size: 0.68rem; color: #adadb8;">Followers</span>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <button type="button" style="background: #9146ff; border: none; color: #ffffff; font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Follow</button>
+                <button type="button" style="background: #1f1f23; border: 1px solid #2f2f35; color: #efeff1; font-size: 0.75rem; font-weight: 700; padding: 6px 10px; border-radius: 4px; cursor: pointer;">⚙️</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div id="results-wrapper" class="hidden" style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-brand);">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+        </svg>
+        Suggested Twitch Usernames
+      </h3>
+
+      <div class="usernames-grid" id="generated-usernames-container">
+        <!-- Results dynamic content goes here -->
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+        <button type="button" id="generate-more-btn" class="calc-btn" style="max-width: 200px; padding: 0 1.5rem;">Generate More</button>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Twitch Username Generator: Create Unique Channel Names</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        📺 <strong>Looking to optimize stream headlines for high click-through rates?</strong> Try our free <a href="/tools/twitch-title-generator" style="color: var(--color-brand); text-decoration: underline;">Twitch Title Generator</a> to craft catchy headers under the 140-character crop limits.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      In social entertainment networks, your handle represents your digital brand. When you type in a busy stream chat, search listings, or lobby groupings, your name is the primary item visible. Building a distinctive, short name is key to turning casual lobby matches into active channel subscribers. Our free, interactive <strong>twitch username generator</strong> is designed to help streamers build creative, compliant usernames that match Twitch naming guidelines automatically.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To craft and preview new Twitch usernames, follow these simple directions:
+    </p>
+    <ol>
+      <li><strong>Seed Word:</strong> Enter a base keyword, nickname, or topic (e.g. gamer, shadow, void).</li>
+      <li><strong>Username Vibe:</strong> Choose a style vibe matching your stream brand (Gaming, Cozy/Chill, Humorous, Cyberpunk, or Short).</li>
+      <li><strong>Format settings:</strong> Pick a suffix configuration (adding TTV/Live, underscores, or clean layouts).</li>
+      <li><strong>Generate List:</strong> Click **Generate Usernames** to build 15 distinct options.</li>
+      <li><strong>Interactive Mockup:</strong> Click any username to preview it inside the Twitch header banner mockup, and copy it with the pill-shaped button. Click **Generate More** to append 5 more options.</li>
+    </ol>
+
+    <h3>What is Twitch Username</h3>
+    <p>
+      A <strong>Twitch username</strong> is your unique account handle used for logging in, chat channels, and stream listing URLs. While many users look for a <strong>twitch username generator</strong> to find styled names, Twitch enforces strict technical limits. Every username must be between 4 and 25 characters, alphanumeric only, with underscores as the only allowed symbol. Discovering <strong>aesthetic twitch usernames</strong> or <strong>cool twitch usernames</strong> that satisfy these constraints requires careful planning. Streamers frequently add popular tags like "TTV" or "Live" to prompt players in public games to search for their broadcasts.
+    </p>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The generator processes your seed terms through customized naming loops:
+    </p>
+    <ul>
+      <li><strong>Character Filtering:</strong> Strips out spaces, symbols, and double underscores to prevent saving errors on Twitch.</li>
+      <li><strong>Niche Suffix Mapping:</strong> Appends thematic terms matching gaming or tech styles (e.g. adding `_ttv`, `_live`, `_fps`, or `_chills`).</li>
+      <li><strong>Size Constraint Checks:</strong> Automatically trims characters to ensure the total string size falls strictly between 4 and 25 characters.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's look at how a custom Twitch username is validated:
+    </p>
+    <p>
+      <strong>Input Seed Name:</strong> `"Ninja"`<br />
+      <strong>Username Vibe selected:</strong> `"Gaming / Competitive"`<br />
+      <strong>Format selected:</strong> `"With Suffixes (TTV, Live)"`
+    </p>
+    <p>
+      <strong>Calculation Process:</strong><br />
+      ✦ Base seed: `"ninja"` $\rightarrow$ <strong>5 characters</strong>.<br />
+      ✦ Gaming suffix: `"ttv"` $\rightarrow$ <strong>3 characters</strong>.<br />
+      ✦ Underline separator: `"_"` $\rightarrow$ <strong>1 character</strong>.<br />
+      ✦ Combined output: `"ninja_ttv"` $\rightarrow$ <strong>9 characters</strong>.<br />
+      ✦ Minimum check: `9 >= 4 characters` (compliant).<br />
+      ✦ Maximum check: `9 <= 25 characters` (compliant).<br />
+      ✦ Character set validation: `[a-z0-9_]` (all letters are lowercase alphanumeric with a single underscore separator).
+    </p>
+    <p>
+      The generated username is `ninja_ttv`. It complies with Twitch's rules.
+    </p>
+
+    <h3>Features</h3>
+    <p>
+      Our <strong>free twitch username generator</strong> offers several tools:
+    </p>
+    <ul>
+      <li><strong>Live Channel Header Mockup:</strong> Review how your username wraps, looks, and displays in the Twitch profile avatar, follow header, and URL paths.</li>
+      <li><strong>Character Budget Checks:</strong> Every generated username is pre-vetted to ensure it fits the 4-25 character limit.</li>
+      <li><strong>Generate More Button:</strong> Generate and append 5 more unique usernames to the grid dynamically.</li>
+      <li><strong>Pill-Shaped Tactile Copy Buttons:</strong> Instantly copy your favorite username to your clipboard.</li>
+    </ul>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This generator is designed for:
+    </p>
+    <ul>
+      <li><strong>New Streamers:</strong> Establishing a unique, brandable gaming handle from day one.</li>
+      <li><strong>Competitive Gamers:</strong> Adding suffixes like `TTV` or `Live` to promote their streams during public lobbies (e.g. `cool_gamer_ttv`).</li>
+      <li><strong>Aesthetic Streamers:</strong> Finding soft, cozy, and clean username options (e.g. `cozy_bloom`).</li>
+      <li><strong>Meme Channels:</strong> Creating funny, sarcastic, or humorous usernames to make chat laugh (e.g. `worst_player_live`).</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  /* Usernames Grid Styling */
+  .usernames-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Tactile row chip layout */
+  :global(.username-chip) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    padding: 0.65rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-width: 0;
+    text-align: left;
+  }
+
+  :global(.username-chip:hover) {
+    border-color: var(--color-brand);
+    background: var(--color-bg-alt);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+  }
+
+  :global(.username-text) {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.4;
+    padding-right: 12px;
+    min-width: 0;
+  }
+
+  :global(.chip-btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    background: var(--color-bg-alt);
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  :global(.username-chip:hover .chip-btn) {
+    background: var(--color-brand);
+    color: white;
+    border-color: var(--color-brand);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+    .usernames-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+    .usernames-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+
+<script>
+  const setupTwitchUsernameGenerator = () => {
+    const seedInput = document.getElementById('seed-input') as HTMLInputElement;
+    const nicheSelect = document.getElementById('niche-select') as HTMLSelectElement;
+    const formatSelect = document.getElementById('format-select') as HTMLSelectElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const generateMoreBtn = document.getElementById('generate-more-btn');
+
+    // Layout slots
+    const resultsWrapper = document.getElementById('results-wrapper');
+    const container = document.getElementById('generated-usernames-container');
+
+    // Mockup targets
+    const mockupDisplayName = document.getElementById('mockup-display-name');
+    const mockupAvatarBubble = document.getElementById('mockup-avatar-bubble');
+
+    // Niche details database
+    const vibesData: Record<string, { prefixes: string[], suffixes: string[] }> = {
+      gaming: {
+        prefixes: ['pro', 'clutch', 'reaper', 'vortex', 'apex', 'lethal', 'tactical', 'shadow', 'speedy'],
+        suffixes: ['fps', 'ttv', 'gaming', 'gg', 'live', 'playz', 'tv', 'kills', 'clutch']
+      },
+      chill: {
+        prefixes: ['cozy', 'luna', 'cloudy', 'misty', 'soft', 'calm', 'dusk', 'bloom', 'peach', 'mellow'],
+        suffixes: ['chill', 'vibes', 'clouds', 'cafe', 'space', 'bloom', 'cozy', 'dreams', 'mellow']
+      },
+      funny: {
+        prefixes: ['worst', 'whiff', 'toxic', 'trash', 'noob', 'lazy', 'terrible', 'troll', 'failed'],
+        suffixes: ['troll', 'whiffs', 'noob', 'aimbot', 'fails', 'trolls', 'misses', 'lost']
+      },
+      cyber: {
+        prefixes: ['cyber', 'pixel', 'byte', 'vector', 'binary', 'glitch', 'synth', 'macro', 'micro'],
+        suffixes: ['code', 'bytes', 'sys', 'net', 'dev', 'glitch', 'node', 'bot', 'mod']
+      },
+      short: {
+        prefixes: ['x', 'v', 'z', 'o', 'k', 'i', 'q', 'y'],
+        suffixes: ['x', 'z', 'o', 'k', 'i']
+      }
+    };
+
+    let currentShuffledPool: string[] = [];
+    let currentPoolIndex = 0;
+
+    const buildShuffledPool = () => {
+      const seed = (seedInput?.value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+      const niche = nicheSelect?.value || 'gaming';
+      const format = formatSelect?.value || 'suffixes';
+
+      const database = vibesData[niche] || vibesData['gaming'];
+      const generatedSet = new Set<string>();
+
+      const applyFormat = (prefix: string, body: string, suffix: string) => {
+        let text = '';
+        
+        if (format === 'clean') {
+          text = `${prefix}${body}`;
+        } else if (format === 'underscores') {
+          text = `${prefix}_${body}_${suffix}`;
+        } else {
+          // Suffixes
+          text = `${body}_${suffix}`;
+        }
+
+        // Clean extra underscores and trim to Twitch 25-character max limits
+        let cleaned = text.replace(/_+/g, '_').replace(/^_+|_+$/g, '');
+        if (cleaned.length < 4) {
+          cleaned = `${cleaned}101`;
+        }
+        return cleaned.substring(0, 25);
+      };
+
+      // Generate a pool of 50 unique variations
+      let iterations = 0;
+      while (generatedSet.size < 50 && iterations < 300) {
+        iterations++;
+        const pIndex = Math.floor(Math.random() * database.prefixes.length);
+        const sIndex = Math.floor(Math.random() * database.suffixes.length);
+
+        const prefix = database.prefixes[pIndex] || 'stream';
+        const suffix = database.suffixes[sIndex] || 'live';
+
+        let formatted = '';
+        const pattern = Math.floor(Math.random() * 3);
+        if (pattern === 0 && seed) {
+          formatted = applyFormat(prefix, seed, '');
+        } else if (pattern === 1 && seed) {
+          formatted = applyFormat('', seed, suffix);
+        } else {
+          formatted = applyFormat(prefix, seed || 'user', suffix);
+        }
+
+        if (formatted.length >= 4) {
+          generatedSet.add(formatted);
+        }
+      }
+
+      currentShuffledPool = Array.from(generatedSet).sort(() => Math.random() - 0.5);
+      currentPoolIndex = 0;
+    };
+
+    const updateMockupAvatar = (username: string) => {
+      if (!mockupAvatarBubble) return;
+      const clean = username.replace(/[^a-zA-Z0-9]/g, '').trim();
+      const initials = clean.substring(0, 2).toUpperCase();
+      mockupAvatarBubble.textContent = initials || 'TW';
+    };
+
+    // Clean initial list generation
+    const generateList = () => {
+      buildShuffledPool();
+
+      const selected = currentShuffledPool.slice(0, 15);
+      currentPoolIndex = 15;
+
+      if (container) {
+        container.innerHTML = selected.map(s => {
+          return `
+            <div class="username-chip" data-name="${s}">
+              <span class="username-text">@${s}</span>
+              <button class="chip-btn">Copy</button>
+            </div>
+          `;
+        }).join('');
+      }
+
+      resultsWrapper?.classList.remove('hidden');
+
+      // Default the mockup channel info to the first generated result
+      if (mockupDisplayName && selected.length > 0) {
+        mockupDisplayName.textContent = selected[0];
+        updateMockupAvatar(selected[0]);
+      }
+    };
+
+    // Append 5 more unique usernames
+    const appendMoreUsernames = () => {
+      if (currentShuffledPool.length === 0) {
+        buildShuffledPool();
+      }
+
+      if (currentPoolIndex >= currentShuffledPool.length) {
+        buildShuffledPool();
+      }
+
+      const next = currentShuffledPool.slice(currentPoolIndex, currentPoolIndex + 5);
+      currentPoolIndex += 5;
+
+      if (container) {
+        const appendHtml = next.map(s => {
+          return `
+            <div class="username-chip" data-name="${s}">
+              <span class="username-text">@${s}</span>
+              <button class="chip-btn">Copy</button>
+            </div>
+          `;
+        }).join('');
+        container.innerHTML += appendHtml;
+      }
+    };
+
+    generateBtn?.addEventListener('click', () => {
+      generateList();
+
+      const resultsSection = document.getElementById('results-wrapper');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    generateMoreBtn?.addEventListener('click', () => {
+      appendMoreUsernames();
+    });
+
+    // Handle copying individual username chips and update mockup preview
+    container?.addEventListener('click', (e) => {
+      const chip = (e.target as HTMLElement).closest('.username-chip');
+      if (!chip) return;
+
+      const username = chip.getAttribute('data-name') || '';
+
+      // Update mockup sidebar
+      if (mockupDisplayName) {
+        mockupDisplayName.textContent = username;
+      }
+      updateMockupAvatar(username);
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(username).then(() => {
+        const btn = chip.querySelector('.chip-btn') as HTMLElement;
+        if (btn) {
+          btn.textContent = 'Copied! ✓';
+          setTimeout(() => {
+            btn.textContent = 'Copy';
+          }, 1200);
+        }
+      });
+    });
+
+    // Reset inputs
+    resetBtn?.addEventListener('click', () => {
+      if (seedInput) seedInput.value = '';
+      resultsWrapper?.classList.add('hidden');
+    });
+
+    // Auto-generate initial list
+    generateList();
+  };
+
+  setupTwitchUsernameGenerator();
+  document.addEventListener('astro:after-swap', setupTwitchUsernameGenerator);
+</script>
