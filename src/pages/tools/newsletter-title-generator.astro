@@ -1,0 +1,712 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the best character length for a newsletter subject line?",
+    answer: "The recommended length is between 50 and 60 characters. Most mobile mail clients (like Apple Mail and Gmail) truncate subject lines after 50 characters, so placing your main hook at the beginning is crucial."
+  },
+  {
+    question: "How do personalization tags like [First Name] affect email deliverability?",
+    answer: "Personalization tags do not directly affect email server deliverability, but they significantly improve open rates by making the message feel relevant. Ensure your email service provider supports tags like [First Name] before sending."
+  },
+  {
+    question: "Should I use emojis in my newsletter titles?",
+    answer: "Emojis can increase open rates by making your email stand out in a crowded inbox. However, use them sparingly (1 or 2 at most) to avoid spam filters and to maintain a professional brand image."
+  },
+  {
+    question: "How does capitalization impact email open rates?",
+    answer: "Sentence case (capitalizing only the first letter) often feels more personal and human-written, which can improve open rates. Title Case feels more editorial and professional, while all-lowercase can sometimes capture attention by feeling casual."
+  },
+  {
+    question: "Can I use this tool to write newsletter headers?",
+    answer: "Yes, you can use this tool to generate subject lines, email headings, and titles for newsletter platforms like Substack, Beehiiv, Mailchimp, or ConvertKit."
+  }
+];
+---
+
+<ToolLayout
+  title="Newsletter Title Generator - Catchy Subject Line Ideas"
+  description="Generate cool, high-open rate newsletter titles and subject lines. Optimize email subject headers by educational, curiosity, and scarcity niches."
+  toolName="Newsletter Title Generator"
+  toolDescription="Create unique, high-CTR newsletter titles and subject lines. Customize by tone and preview layouts in a mobile email inbox mockup."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Generator Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Seed Keyword Input -->
+          <div class="form-group">
+            <label for="seed-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+              </svg>
+              Topic or Subject
+            </label>
+            <input type="text" id="seed-input" class="form-input" placeholder="e.g. AI tools, wealth building, productivity" value="AI tools" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <!-- Niche Vibe Select -->
+            <div class="form-group">
+              <label for="niche-select" class="icon-label">Newsletter Vibe</label>
+              <select id="niche-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+                <option value="edu">Educational / How-To</option>
+                <option value="curiosity">Curiosity / Hook</option>
+                <option value="scarcity">Scarcity / Urgent</option>
+                <option value="direct">Direct News / Update</option>
+                <option value="humorous">Humorous / Question</option>
+              </select>
+            </div>
+
+            <!-- Capitalization Select -->
+            <div class="form-group">
+              <label for="format-select" class="icon-label">Capitalization</label>
+              <select id="format-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+                <option value="sentence">Sentence case</option>
+                <option value="title">Title Case</option>
+                <option value="lowercase">lowercase only</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Checkboxes -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; background: var(--color-bg-alt); padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--color-border);">
+            <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Formatting Add-ons</span>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.88rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="emoji-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include Emojis
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="personalization-check" style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include Personalization Tag (e.g. [First Name])
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn">Generate Titles</button>
+            <button type="button" id="reset-btn" class="calc-btn-secondary">Reset Inputs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live Mobile Inbox Mockup Card -->
+        <div class="email-mockup-card glass" style="background: #ffffff; color: #1a1a1a; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #e1e4e6; text-align: left; box-shadow: var(--shadow-md); font-family: var(--font-body); display: flex; flex-direction: column;">
+          <!-- Top Inbox Bar -->
+          <div style="background: #f1f3f4; padding: 8px 12px; border-bottom: 1px solid #e1e4e6; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-size: 0.72rem; font-weight: 700; color: #5f6368; display: flex; align-items: center; gap: 4px;">
+              📥 Primary Inbox
+            </span>
+            <span style="font-size: 0.68rem; color: #5f6368;">10:30 AM</span>
+          </div>
+
+          <!-- Email Row -->
+          <div style="padding: 1rem; background: #ffffff; display: flex; flex-direction: column; gap: 4px; position: relative; border-bottom: 1px solid #f1f3f4;">
+            <!-- Blue dot indicator for Unread -->
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: #1a73e8; position: absolute; top: 18px; right: 12px;"></div>
+
+            <!-- Sender -->
+            <span style="font-size: 0.85rem; font-weight: 800; color: #202124; padding-right: 16px;">Creators Feel Newsletter</span>
+            
+            <!-- Subject (updating live) -->
+            <span id="mockup-subject-text" style="font-size: 0.82rem; font-weight: 700; color: #202124; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 90%;">
+              How to level up your workflow using AI tools
+            </span>
+
+            <!-- Preview Snippet -->
+            <span id="mockup-snippet-text" style="font-size: 0.75rem; color: #5f6368; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              Hey there, in this week's issue we are diving deep into the latest...
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div id="results-wrapper" class="hidden" style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-brand);">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+        </svg>
+        Suggested Newsletter Titles
+      </h3>
+
+      <div class="usernames-grid" id="generated-titles-container">
+        <!-- Results dynamic content goes here -->
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+        <button type="button" id="generate-more-btn" class="calc-btn" style="max-width: 200px; padding: 0 1.5rem;">Generate More</button>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Newsletter Title Generator: Write High-Open Rate Subject Lines</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
+        📺 <strong>Need to optimize headlines for community boards?</strong> Try our free <a href="/tools/reddit-title-generator" style="color: var(--color-brand); text-decoration: underline;">Reddit Title Generator</a> to craft high-upvote post headers featuring bracket tags.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      In email marketing, your subject line represents the single gatekeeper of your content. No matter how valuable the insights inside your weekly issue are, if the title fails to capture attention, your open rates will plummet. Structuring clear, crop-safe, and engaging subject lines is essential for competing in a crowded user inbox. Our free <strong>newsletter title generator</strong> is built to construct high-open rate newsletter titles and email subject lines that respect email client formatting guidelines automatically.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To write and audit custom newsletter subject lines in real-time, follow these simple directions:
+    </p>
+    <ol>
+      <li><strong>Topic / Subject:</strong> Enter your core email topic or seed keyword (e.g. AI tools, cooking hacks).</li>
+      <li><strong>Newsletter Vibe:</strong> Select an email category style (Educational, Curiosity Hook, Scarcity/Urgent, Direct News, or Humorous).</li>
+      <li><strong>Capitalization:</strong> Pick your capitalization format (Sentence case, Title Case, or lowercase).</li>
+      <li><strong>Add-ons:</strong> Select toggles to include emojis or personalization tags.</li>
+      <li><strong>Generate List:</strong> Click <strong>Generate Titles</strong> to view 15 custom options.</li>
+      <li><strong>Preview & Copy:</strong> Click any title to preview it in the interactive mobile email inbox card mockup, and copy it instantly. Click <strong>Generate More</strong> to append 5 more options.</li>
+    </ol>
+
+    <h3>What is Newsletter Title</h3>
+    <p>
+      A <strong>newsletter title</strong> (or email subject line) is the descriptive header displayed inside your subscriber's email inbox listing. Optimizing <strong>newsletter subject lines</strong> requires adjusting text lengths to prevent truncation. If you write titles for other platforms, like streaming broadcasts, you can check them via our <a href="/tools/twitch-title-generator">Twitch Title Generator</a>, but email layouts are even tighter. Most mobile mail clients crop subject headers after 50 characters, meaning your primary benefit or callout must be positioned at the start of your title.
+    </p>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The generator processes your topic and formats it using specific subject line structures:
+    </p>
+    <ul>
+      <li><strong>Vibe Templates:</strong> Maps your seed keyword to proven open-rate frameworks, such as asking questions or creating urgent deadlines.</li>
+      <li><strong>Capitalization Filters:</strong> Automatically formats the letters to match Sentence case or Title Case.</li>
+      <li><strong>Inbox Crop Checks:</strong> Checks that the critical hook stays within the 50-60 character safe boundary.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's look at how an email subject line character budget is calculated:
+    </p>
+    <p>
+      <strong>Input Topic:</strong> `"AI tools"`<br />
+      <strong>Newsletter Vibe selected:</strong> `"Educational / How-To"`<br />
+      <strong>Capitalization selected:</strong> `"Title Case"`<br />
+      <strong>Toggles:</strong> `"Include Emojis"` and `"Include Personalization"`
+    </p>
+    <p>
+      <strong>Calculation Process:</strong><br />
+      ✦ Personalization Prefix: `"[First Name], "` $\rightarrow$ <strong>14 characters</strong>.<br />
+      ✦ Base title hook: `"How to Automate Your Workflow With AI Tools"` $\rightarrow$ <strong>44 characters</strong>.<br />
+      ✦ Emojis: `" 🤖"` $\rightarrow$ <strong>2 characters</strong>.<br />
+      ✦ Combined output: `"[First Name], How to Automate Your Workflow With AI Tools 🤖"` $\rightarrow$ <strong>60 characters</strong>.<br />
+      ✦ Mobile Crop Safe Check: `60 <= 60 characters` (compliant).
+    </p>
+    <p>
+      The generated subject line fits within the 60-character mobile crop-safe zone, maximizing readability in your subscribers' inbox feeds.
+    </p>
+
+    <h3>How To Use</h3>
+    <p>
+      Using our generator is easy. Simply enter your topic, select your preferred newsletter vibe and capitalization styles, and click generate. Clicking any suggested title updates the live card preview, allowing you to audit the text layout before copying. You can copy titles with a single click and append more options using the "Generate More" button.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This generator is designed for:
+    </p>
+    <ul>
+      <li><strong>Email Marketers:</strong> Writing marketing campaigns, sales sequences, and product update launches.</li>
+      <li><strong>Substack & Beehiiv Writers:</strong> Generating engaging titles for weekly articles, essays, and stories.</li>
+      <li><strong>Content Creators:</strong> Sharing updates, resources, or videos (you can also audit video titles using our <a href="/tools/youtube-title-length-checker">YouTube Title Length Checker</a>).</li>
+      <li><strong>SaaS Founders:</strong> Crafting onboarding email sequences that convert trial users to customers.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  /* Usernames Grid Styling */
+  .usernames-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Tactile row chip layout */
+  :global(.title-chip) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+    min-width: 0;
+  }
+
+  :global(.title-chip:hover) {
+    border-color: var(--color-brand);
+    background: var(--color-bg-alt);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+  }
+
+  :global(.title-text) {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text);
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.4;
+    padding-right: 12px;
+    min-width: 0;
+  }
+
+  :global(.chip-btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    background: var(--color-bg-alt);
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  :global(.title-chip:hover .chip-btn) {
+    background: var(--color-brand);
+    color: white;
+    border-color: var(--color-brand);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+    .usernames-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+    .usernames-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const setupNewsletterTitleGenerator = () => {
+    const seedInput = document.getElementById('seed-input') as HTMLInputElement;
+    const nicheSelect = document.getElementById('niche-select') as HTMLSelectElement;
+    const formatSelect = document.getElementById('format-select') as HTMLSelectElement;
+
+    // Checkboxes
+    const emojiCheck = document.getElementById('emoji-check') as HTMLInputElement;
+    const personalizationCheck = document.getElementById('personalization-check') as HTMLInputElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const generateMoreBtn = document.getElementById('generate-more-btn');
+
+    // Layout slots
+    const resultsWrapper = document.getElementById('results-wrapper');
+    const container = document.getElementById('generated-titles-container');
+
+    // Mockup targets
+    const mockupSubjectText = document.getElementById('mockup-subject-text');
+    const mockupSnippetText = document.getElementById('mockup-snippet-text');
+
+    // Vibe Templates Database
+    const vibesData: Record<string, { templates: string[], emojis: string[] }> = {
+      edu: {
+        templates: [
+          `How to level up your workflow using {topic}`,
+          `The ultimate guide to mastering {topic}`,
+          `5 simple hacks to save hours on {topic}`,
+          `What nobody tells you about {topic}`,
+          `How we scaled our results with {topic}`
+        ],
+        emojis: ['🎓', '💡', '📈', '🚀', '🧠']
+      },
+      curiosity: {
+        templates: [
+          `The hidden secret behind {topic} revealed`,
+          `Is it really possible to double your results with {topic}?`,
+          `Why most creators are completely wrong about {topic}`,
+          `This small change in {topic} makes a massive difference`,
+          `What if you could automate all your {topic} today?`
+        ],
+        emojis: ['🤔', '🤫', '👀', '🔮', '✨']
+      },
+      scarcity: {
+        templates: [
+          `Only 24 hours left to secure your guide on {topic}`,
+          `Stop missing out on critical {topic} opportunities`,
+          `This is your last warning regarding {topic}`,
+          `Closing soon: Get our complete checklist for {topic}`,
+          `Why you need to update your {topic} strategy today`
+        ],
+        emojis: ['⏳', '⚠️', '🚨', '⏰', '🔥']
+      },
+      direct: {
+        templates: [
+          `Weekly update: What is new with {topic}`,
+          `Our honest review of {topic} configurations`,
+          `Case study: How we optimized {topic} from scratch`,
+          `Important announcement regarding your {topic}`,
+          `Top trends: Everything happening in {topic} this week`
+        ],
+        emojis: ['📰', '📢', '💬', '📊', '💻']
+      },
+      humorous: {
+        templates: [
+          `We spent 48 hours reviewing {topic} (so you do not have to)`,
+          `My boss thinks I am working, but I am just researching {topic}`,
+          `Can {topic} save your productivity? Let us find out`,
+          `The absolute worst way to get started with {topic}`,
+          `Is it just me, or is {topic} getting out of hand?`
+        ],
+        emojis: ['🫠', '🤷', '💀', '🤡', '😂']
+      }
+    };
+
+    let currentShuffledPool: string[] = [];
+    let currentPoolIndex = 0;
+
+    const buildShuffledPool = () => {
+      const topic = (seedInput?.value || '').trim();
+      const niche = nicheSelect?.value || 'edu';
+      const format = formatSelect?.value || 'sentence';
+
+      const includeEmojis = emojiCheck?.checked;
+      const includePersonalization = personalizationCheck?.checked;
+
+      const database = vibesData[niche] || vibesData['edu'];
+      const generatedSet = new Set<string>();
+
+      const applyCapitalization = (text: string) => {
+        if (format === 'lowercase') {
+          return text.toLowerCase();
+        }
+        if (format === 'title') {
+          return text.replace(/\b\w/g, c => c.toUpperCase());
+        }
+        // Sentence case: capitalize first letter
+        return text.charAt(0).toUpperCase() + text.slice(1);
+      };
+
+      const applyFormat = (template: string, emoji: string) => {
+        const topicVal = topic || 'AI tools';
+        let rawSubject = template.replace(/{topic}/g, topicVal);
+
+        // Apply capitalization filters
+        rawSubject = applyCapitalization(rawSubject);
+
+        // Apply personalization tag
+        if (includePersonalization) {
+          rawSubject = `[First Name], ${rawSubject}`;
+        }
+
+        // Apply emoji
+        if (includeEmojis && emoji) {
+          rawSubject = `${rawSubject} ${emoji}`;
+        }
+
+        // Trim subject to 150 characters maximum
+        return rawSubject.substring(0, 150);
+      };
+
+      // Generate a pool of 50 possible unique variations
+      let iterations = 0;
+      while (generatedSet.size < 50 && iterations < 300) {
+        iterations++;
+        const tIndex = Math.floor(Math.random() * database.templates.length);
+        const eIndex = Math.floor(Math.random() * database.emojis.length);
+
+        const template = database.templates[tIndex] || '';
+        const emojiVal = database.emojis[eIndex] || '';
+
+        const formatted = applyFormat(template, emojiVal);
+        if (formatted.length >= 5) {
+          generatedSet.add(formatted);
+        }
+      }
+
+      currentShuffledPool = Array.from(generatedSet).sort(() => Math.random() - 0.5);
+      currentPoolIndex = 0;
+    };
+
+    // Clean initial list generation
+    const generateList = () => {
+      buildShuffledPool();
+
+      const selected = currentShuffledPool.slice(0, 15);
+      currentPoolIndex = 15;
+
+      if (container) {
+        container.innerHTML = selected.map(s => {
+          return `
+            <div class="title-chip" data-name="${s}">
+              <span class="title-text">${s}</span>
+              <button class="chip-btn">Copy</button>
+            </div>
+          `;
+        }).join('');
+      }
+
+      resultsWrapper?.classList.remove('hidden');
+
+      // Default the mockup subject to the first generated result
+      if (mockupSubjectText && selected.length > 0) {
+        mockupSubjectText.textContent = selected[0];
+      }
+
+      // Update snippet preview personalization if checked
+      if (mockupSnippetText) {
+        const isPersonalized = personalizationCheck?.checked;
+        mockupSnippetText.textContent = isPersonalized 
+          ? "Hey [First Name], in this week's issue we are diving deep into the latest..."
+          : "Hey there, in this week's issue we are diving deep into the latest...";
+      }
+    };
+
+    // Append 5 more unique titles
+    const appendMoreTitles = () => {
+      if (currentShuffledPool.length === 0) {
+        buildShuffledPool();
+      }
+
+      if (currentPoolIndex >= currentShuffledPool.length) {
+        buildShuffledPool();
+      }
+
+      const next = currentShuffledPool.slice(currentPoolIndex, currentPoolIndex + 5);
+      currentPoolIndex += 5;
+
+      if (container) {
+        const appendHtml = next.map(s => {
+          return `
+            <div class="title-chip" data-name="${s}">
+              <span class="title-text">${s}</span>
+              <button class="chip-btn">Copy</button>
+            </div>
+          `;
+        }).join('');
+        container.innerHTML += appendHtml;
+      }
+    };
+
+    generateBtn?.addEventListener('click', () => {
+      generateList();
+
+      const resultsSection = document.getElementById('results-wrapper');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    generateMoreBtn?.addEventListener('click', () => {
+      appendMoreTitles();
+    });
+
+    // Handle copying individual title chips and update mockup preview
+    container?.addEventListener('click', (e) => {
+      const chip = (e.target as HTMLElement).closest('.title-chip');
+      if (!chip) return;
+
+      const titleVal = chip.getAttribute('data-name') || '';
+
+      // Update mockup sidebar
+      if (mockupSubjectText) {
+        mockupSubjectText.textContent = titleVal;
+      }
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(titleVal).then(() => {
+        const btn = chip.querySelector('.chip-btn') as HTMLElement;
+        if (btn) {
+          btn.textContent = 'Copied! ✓';
+          setTimeout(() => {
+            btn.textContent = 'Copy';
+          }, 1200);
+        }
+      });
+    });
+
+    // Reset inputs
+    resetBtn?.addEventListener('click', () => {
+      if (seedInput) seedInput.value = '';
+      resultsWrapper?.classList.add('hidden');
+    });
+
+    // Auto-generate initial list
+    generateList();
+  };
+
+  setupNewsletterTitleGenerator();
+  document.addEventListener('astro:after-swap', setupNewsletterTitleGenerator);
+</script>

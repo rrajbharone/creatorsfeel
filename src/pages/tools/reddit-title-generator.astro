@@ -1,0 +1,743 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the character limit for a Reddit post title?",
+    answer: "The absolute limit for a Reddit post title is 300 characters. Keeping your titles concise and readable is highly recommended to ensure they display fully in feeds."
+  },
+  {
+    question: "Can I edit my Reddit post title after publishing?",
+    answer: "No, Reddit does not allow you to edit post titles once they are submitted. If you make a typo, your only options are to leave it or delete the post and re-submit it."
+  },
+  {
+    question: "Are emojis allowed in Reddit titles?",
+    answer: "Yes, you can use emojis in Reddit post titles. However, some subreddits have custom rules banning emojis, so always check the specific subreddit guidelines first."
+  },
+  {
+    question: "What do tags like 'TIL' and 'ELI5' mean on Reddit?",
+    answer: "'TIL' stands for 'Today I Learned', 'ELI5' stands for 'Explain Like I'm 5', and '[OC]' stands for 'Original Content'. These prefixes are commonly used on Reddit to categorize post types."
+  },
+  {
+    question: "Is this Reddit title generator free to use?",
+    answer: "Yes, this tool is 100% free. You can generate unlimited Reddit titles for any subreddit or topic without registration."
+  }
+];
+---
+
+<ToolLayout
+  title="Reddit Title Generator - Cool & Catchy Post Ideas"
+  description="Generate cool, catchy, and high-upvote Reddit titles. Optimize titles for AskReddit, TIL, and OC formats to boost post engagement."
+  toolName="Reddit Title Generator"
+  toolDescription="Create unique, high-engagement Reddit titles under the strict 300-character limit. Customize by subreddit niche and preview on a post card."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Generator Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Topic Input -->
+          <div class="form-group">
+            <label for="seed-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+              </svg>
+              Topic or Subject
+            </label>
+            <input type="text" id="seed-input" class="form-input" placeholder="e.g. mechanical keyboards, productivity hacks" value="mechanical keyboards" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <!-- Reddit Niche Style -->
+            <div class="form-group">
+              <label for="niche-select" class="icon-label">Reddit Niche</label>
+              <select id="niche-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+                <option value="question">AskReddit / Question Style</option>
+                <option value="til">TIL / Facts</option>
+                <option value="oc">OC / Show & Tell</option>
+                <option value="discussion">Discussion / Opinion</option>
+                <option value="funny">Humorous / Funny</option>
+              </select>
+            </div>
+
+            <!-- Format Prefixes -->
+            <div class="form-group">
+              <label for="prefix-select" class="icon-label">Format Prefix</label>
+              <select id="prefix-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+                <option value="none">None (Clean)</option>
+                <option value="til">TIL (Today I Learned)</option>
+                <option value="oc">[OC] (Original Content)</option>
+                <option value="serious">[Serious] (Replies Only)</option>
+                <option value="eli5">ELI5 (Explain Like I'm 5)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Checkbox Toggles -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; background: var(--color-bg-alt); padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--color-border);">
+            <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Aesthetic Details</span>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.88rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="emoji-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include Emojis
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="hook-check" style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include Question Hook
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn">Generate Titles</button>
+            <button type="button" id="reset-btn" class="calc-btn-secondary">Reset Inputs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live Reddit Post Card Mockup -->
+        <div class="reddit-post-card glass" style="background: #1a1a1b; color: #d7dadc; border-radius: 16px; overflow: hidden; max-width: 340px; margin: 0 auto; width: 100%; border: 1px solid #343536; text-align: left; box-shadow: var(--shadow-md); display: flex; font-family: var(--font-body);">
+          <!-- Left Upvote/Downvote sidebar -->
+          <div style="width: 44px; background: #151516; display: flex; flex-direction: column; align-items: center; padding-top: 12px; gap: 8px; flex-shrink: 0;">
+            <!-- Upvote Arrow -->
+            <svg style="width: 20px; height: 20px; color: #878a8c; cursor: pointer;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18" /></svg>
+            <!-- Upvote Count -->
+            <span style="font-size: 0.78rem; font-weight: 700; color: #d7dadc;">452</span>
+            <!-- Downvote Arrow -->
+            <svg style="width: 20px; height: 20px; color: #878a8c; cursor: pointer;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" /></svg>
+          </div>
+
+          <!-- Main Post Content -->
+          <div style="flex-grow: 1; padding: 0.75rem 1rem; min-width: 0;">
+            <!-- Header Block -->
+            <div style="display: flex; gap: 6px; font-size: 0.72rem; color: #818384; align-items: center; flex-wrap: wrap; margin-bottom: 6px;">
+              <span id="mockup-subreddit" style="color: #ffffff; font-weight: 700;">r/AskReddit</span>
+              <span>•</span>
+              <span>Posted by u/CreatorsFeel</span>
+              <span>2h ago</span>
+            </div>
+
+            <!-- Title (updating live) -->
+            <div id="mockup-post-title" style="font-size: 0.95rem; font-weight: 600; color: #d7dadc; line-height: 1.4; word-break: break-word; margin-bottom: 12px;">
+              What is the single best advice you can give to a newcomer?
+            </div>
+
+            <!-- Footer Interaction Bar -->
+            <div style="display: flex; gap: 14px; font-size: 0.72rem; color: #878a8c; border-top: 1px solid #343536; padding-top: 6px;">
+              <span style="display: flex; align-items: center; gap: 4px; cursor: pointer;"><svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.92 1.78c-.082.095-.08.24.008.322a.24.24 0 0 0 .323-.008a6.376 6.376 0 0 0 1.954-1.258c.24-.22.569-.304.88-.231a8.96 8.96 0 0 0 2.996.526Z" /></svg> 83 Comments</span>
+              <span style="display: flex; align-items: center; gap: 4px; cursor: pointer;"><svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" /></svg> Share</span>
+              <span style="display: flex; align-items: center; gap: 4px; cursor: pointer;"><svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" /></svg> Save</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div id="results-wrapper" class="hidden" style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-brand);">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+        </svg>
+        Suggested Reddit Titles
+      </h3>
+
+      <div class="usernames-grid" id="generated-titles-container">
+        <!-- Results dynamic content goes here -->
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+        <button type="button" id="generate-more-btn" class="calc-btn" style="max-width: 200px; padding: 0 1.5rem;">Generate More</button>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Reddit Title Generator: Write Catchy Headers for Top Subreddits</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
+        📚 <strong>Want to learn the strategy behind virality?</strong> Read our comprehensive <a href="/blog/reddit-title-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Reddit Title Writing Guide</a> to write high-engagement posts that reach the front page.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      On Reddit, the title of your post dictates whether your content gains traction or is ignored. Subreddit feeds display hundreds of text, image, and video cards side-by-side. A boring, clickbait, or poorly formatted title is immediately downvoted or scrolled past. To build community upvotes and engagement, you need titles tailored to specific subreddit cultures (like Today I Learned or AskReddit). Our free <strong>reddit title generator</strong> is built to construct high-upvote post titles that match specific formatting rules automatically.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To write and audit custom Reddit post titles in real-time, follow these simple directions:
+    </p>
+    <ol>
+      <li><strong>Topic / Subject:</strong> Enter your core post theme or seed keyword (e.g. productivity hacks, mechanical keyboards).</li>
+      <li><strong>Reddit Niche:</strong> Select a subreddit style (AskReddit Questions, TIL Facts, OC Show & Tell, Discussions, or Humorous).</li>
+      <li><strong>Format Prefix:</strong> Pick a classic Reddit bracket tag (TIL, [OC], [Serious], or ELI5).</li>
+      <li><strong>Toggles:</strong> Check options to insert matching emojis or question hooks.</li>
+      <li><strong>Generate List:</strong> Click <strong>Generate Titles</strong> to create 15 custom options.</li>
+      <li><strong>Preview & Copy:</strong> Click any title to preview it in the interactive Reddit post card mockup, and copy it instantly. Click <strong>Generate More</strong> to append 5 more options.</li>
+    </ol>
+
+    <h3>What is Reddit Title Generator</h3>
+    <p>
+      A <strong>Reddit Title Generator</strong> is a writing assistant that drafts search-optimized, high-CTR post headers. Similar to optimizing stream headlines using our interactive <a href="/tools/twitch-title-generator">Twitch Title Generator</a>, writing Reddit posts requires adapting templates to fit specific formatting rules. While the absolute character limit on Reddit is 300 characters, most successful posts keep their titles between 50 and 120 characters to ensure readability in mobile feeds. Optimizing these titles requires integrating semantic keywords and popular bracket tags to match subreddit guidelines, which our tool formats automatically.
+    </p>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The generator processes your topic and formats it using specific subreddit structures:
+    </p>
+    <ul>
+      <li><strong>Formatting Prefixes:</strong> Places standard Reddit prefixes like `TIL:` or `ELI5:` at the beginning of the title.</li>
+      <li><strong>Vibe Adapters:</strong> Rephrases your seed topic into questions for r/AskReddit, or facts for r/todayilearned.</li>
+      <li><strong>Mobile Containment Checks:</strong> Vets the title size against crop limits, ensuring the title fits within community boundaries.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let's look at how a Reddit title character budget is calculated:
+    </p>
+    <p>
+      <strong>Input Topic:</strong> `"mechanical keyboards"`<br />
+      <strong>Reddit Niche selected:</strong> `"TIL / Facts"`<br />
+      <strong>Format Prefix:</strong> `"TIL (Today I Learned)"`<br />
+      <strong>Toggles:</strong> `"Include Emojis"`
+    </p>
+    <p>
+      <strong>Calculation Process:</strong><br />
+      ✦ Prefix text: `"TIL that"` $\rightarrow$ <strong>8 characters</strong>.<br />
+      ✦ Base fact hook: `"mechanical keyboards can increase typing speed and comfort"` $\rightarrow$ <strong>60 characters</strong>.<br />
+      ✦ Emojis: `"⌨️✨"` $\rightarrow$ <strong>4 characters</strong>.<br />
+      ✦ Combined output: `"TIL that mechanical keyboards can increase typing speed and comfort ⌨️✨"` $\rightarrow$ <strong>72 characters</strong>.<br />
+      ✦ Character limit check: `72 < 300 characters` (fully compliant).
+    </p>
+    <p>
+      The generated title is 72 characters long, which is well within Reddit's 300-character limit and fits perfectly in desktop and mobile feeds.
+    </p>
+
+    <h3>How To Use</h3>
+    <p>
+      Using our generator is easy. Simply enter your topic, select your preferred subreddit style and prefix tags, and click generate. Clicking any suggested title updates the live card preview, allowing you to audit the text layout before copying. You can copy titles with a single click and append more options using the "Generate More" button.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This generator is designed for:
+    </p>
+    <ul>
+      <li><strong>Content Creators:</strong> Promoting blog posts, videos, or products on relevant subreddits. If you are uploading videos, check your video title layout safety via our <a href="/tools/youtube-title-length-checker">YouTube Title Length Checker</a>.</li>
+      <li><strong>AskReddit Enthusiasts:</strong> Generating engaging questions that encourage discussion.</li>
+      <li><strong>Product Builders:</strong> Sharing original designs, coding projects, or mechanical builds (e.g. `[OC] Just finished building my custom keyboard!`).</li>
+      <li><strong>Curious Educators:</strong> Formatting interesting facts for r/todayilearned.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  /* Usernames Grid Styling */
+  .usernames-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Tactile row chip layout */
+  :global(.title-chip) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+    min-width: 0;
+  }
+
+  :global(.title-chip:hover) {
+    border-color: var(--color-brand);
+    background: var(--color-bg-alt);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+  }
+
+  :global(.title-text) {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text);
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.4;
+    padding-right: 12px;
+    min-width: 0;
+  }
+
+  :global(.chip-btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    background: var(--color-bg-alt);
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  :global(.title-chip:hover .chip-btn) {
+    background: var(--color-brand);
+    color: white;
+    border-color: var(--color-brand);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+    .usernames-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+    .usernames-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const setupRedditTitleGenerator = () => {
+    const seedInput = document.getElementById('seed-input') as HTMLInputElement;
+    const nicheSelect = document.getElementById('niche-select') as HTMLSelectElement;
+    const prefixSelect = document.getElementById('prefix-select') as HTMLSelectElement;
+
+    // Toggles
+    const emojiCheck = document.getElementById('emoji-check') as HTMLInputElement;
+    const hookCheck = document.getElementById('hook-check') as HTMLInputElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const generateMoreBtn = document.getElementById('generate-more-btn');
+
+    // Layout slots
+    const resultsWrapper = document.getElementById('results-wrapper');
+    const container = document.getElementById('generated-titles-container');
+
+    // Mockup targets
+    const mockupPostTitle = document.getElementById('mockup-post-title');
+    const mockupSubreddit = document.getElementById('mockup-subreddit');
+
+    // Title construction pools
+    const nichesData: Record<string, { baseHooks: string[], emojis: string[], subreddit: string }> = {
+      question: {
+        baseHooks: [
+          `What is your absolute best advice regarding`,
+          `How did you first discover your passion for`,
+          `What is a common misconception people have about`,
+          `If you could change one thing about the history of`,
+          `What is the most underrated aspect of`
+        ],
+        emojis: ['🤔', '❓', '💭', '😮'],
+        subreddit: 'r/AskReddit'
+      },
+      til: {
+        baseHooks: [
+          `that some designs of can increase typing speeds by up to 20%`,
+          `that the first versions of date back to the early 19th century`,
+          `that enthusiasts spend thousands of dollars customizing their`,
+          `about the psychological benefits of using custom tactile`,
+          `that manufacturing processes for have changed drastically`
+        ],
+        emojis: ['🧠', '📚', '💡', '🧐'],
+        subreddit: 'r/todayilearned'
+      },
+      oc: {
+        baseHooks: [
+          `Just finished assembling my custom build. Thoughts?`,
+          `My custom setup is finally complete!`,
+          `What do you guys think of my homemade layout for`,
+          `Step-by-step assembly guide for my new project`,
+          `Rate my customized setup from 1 to 10!`
+        ],
+        emojis: ['✨', '🛠️', '📸', '🔥'],
+        subreddit: 'r/gaming'
+      },
+      discussion: {
+        baseHooks: [
+          `Why custom designs are infinitely better than stock layouts`,
+          `We need to talk about the pricing bubble of`,
+          `Is it really worth upgrading your system for`,
+          `The ultimate guide to building and scaling your`,
+          `Why most newcomers fail when starting out with`
+        ],
+        emojis: ['💬', '🗣️', '📊', '📈'],
+        subreddit: 'r/technology'
+      },
+      funny: {
+        baseHooks: [
+          `My wallet crying after looking at custom designs for`,
+          `Expectation vs reality when custom building your first`,
+          `My wife threatened to throw away my collection of`,
+          `How to successfully hide your hobby purchases from family`,
+          `When you buy a premium set but still type at 30 WPM`
+        ],
+        emojis: ['🫠', '💀', '🤡', '😭'],
+        subreddit: 'r/memes'
+      }
+    };
+
+    const prefixesData: Record<string, string> = {
+      none: '',
+      til: 'TIL',
+      oc: '[OC]',
+      serious: '[Serious]',
+      eli5: 'ELI5:'
+    };
+
+    let currentShuffledPool: string[] = [];
+    let currentPoolIndex = 0;
+
+    const buildShuffledPool = () => {
+      const topic = (seedInput?.value || '').trim();
+      const niche = nicheSelect?.value || 'question';
+      const prefixType = prefixSelect?.value || 'none';
+
+      const includeEmojis = emojiCheck?.checked;
+      const includeHook = hookCheck?.checked;
+
+      const nData = nichesData[niche] || nichesData['question'];
+      const prefix = prefixesData[prefixType] || '';
+
+      const generatedSet = new Set<string>();
+
+      const applyFormat = (base: string, randEmoji: string) => {
+        let text = '';
+        const topicString = topic || 'mechanical keyboards';
+
+        // Integrate prefix tag
+        let initialText = '';
+        if (prefix) {
+          initialText = `${prefix} `;
+        }
+
+        // Integrate Vibe Base hook
+        if (niche === 'question') {
+          initialText += `${base} ${topicString}?`;
+        } else if (niche === 'til') {
+          if (prefixType === 'til') {
+            initialText = `TIL ${base.replace(/^about\s+/, 'about ')} ${topicString}`;
+          } else {
+            initialText += `Interesting fact about ${topicString}: ${base}`;
+          }
+        } else if (niche === 'oc') {
+          initialText += `${base} (${topicString})`;
+        } else if (niche === 'discussion') {
+          initialText += `${base} - ${topicString}`;
+        } else {
+          initialText += `${base} - ${topicString}`;
+        }
+
+        // Apply question hook suffix if toggle checked
+        if (includeHook && !initialText.endsWith('?')) {
+          initialText += ' Thoughts?';
+        }
+
+        text = initialText;
+
+        // Apply emoji
+        if (includeEmojis && randEmoji) {
+          text = `${text} ${randEmoji}`;
+        }
+
+        // Trim to Reddit maximum character rules
+        return text.trim().replace(/\s+/g, ' ').substring(0, 300);
+      };
+
+      // Generate a pool of 50 possible unique variations
+      let iterations = 0;
+      while (generatedSet.size < 50 && iterations < 300) {
+        iterations++;
+        const bIndex = Math.floor(Math.random() * nData.baseHooks.length);
+        const eIndex = Math.floor(Math.random() * nData.emojis.length);
+
+        const base = nData.baseHooks[bIndex] || '';
+        const emojiVal = nData.emojis[eIndex] || '';
+
+        const formatted = applyFormat(base, emojiVal);
+        if (formatted.length >= 5) {
+          generatedSet.add(formatted);
+        }
+      }
+
+      currentShuffledPool = Array.from(generatedSet).sort(() => Math.random() - 0.5);
+      currentPoolIndex = 0;
+    };
+
+    // Clean initial list generation
+    const generateList = () => {
+      buildShuffledPool();
+
+      const selected = currentShuffledPool.slice(0, 15);
+      currentPoolIndex = 15;
+
+      if (container) {
+        container.innerHTML = selected.map(s => {
+          return `
+            <div class="title-chip" data-name="${s}">
+              <span class="title-text">${s}</span>
+              <button class="chip-btn">Copy</button>
+            </div>
+          `;
+        }).join('');
+      }
+
+      resultsWrapper?.classList.remove('hidden');
+
+      // Default the mockup title to the first generated result
+      if (mockupPostTitle && selected.length > 0) {
+        mockupPostTitle.textContent = selected[0];
+      }
+      if (mockupSubreddit) {
+        const niche = nicheSelect?.value || 'question';
+        const nData = nichesData[niche] || nichesData['question'];
+        mockupSubreddit.textContent = nData.subreddit;
+      }
+    };
+
+    // Append 5 more unique titles
+    const appendMoreTitles = () => {
+      if (currentShuffledPool.length === 0) {
+        buildShuffledPool();
+      }
+
+      if (currentPoolIndex >= currentShuffledPool.length) {
+        buildShuffledPool();
+      }
+
+      const next = currentShuffledPool.slice(currentPoolIndex, currentPoolIndex + 5);
+      currentPoolIndex += 5;
+
+      if (container) {
+        const appendHtml = next.map(s => {
+          return `
+            <div class="title-chip" data-name="${s}">
+              <span class="title-text">${s}</span>
+              <button class="chip-btn">Copy</button>
+            </div>
+          `;
+        }).join('');
+        container.innerHTML += appendHtml;
+      }
+    };
+
+    generateBtn?.addEventListener('click', () => {
+      generateList();
+
+      const resultsSection = document.getElementById('results-wrapper');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    generateMoreBtn?.addEventListener('click', () => {
+      appendMoreTitles();
+    });
+
+    // Handle copying individual title chips and update mockup preview
+    container?.addEventListener('click', (e) => {
+      const chip = (e.target as HTMLElement).closest('.title-chip');
+      if (!chip) return;
+
+      const titleVal = chip.getAttribute('data-name') || '';
+
+      // Update mockup sidebar
+      if (mockupPostTitle) {
+        mockupPostTitle.textContent = titleVal;
+      }
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(titleVal).then(() => {
+        const btn = chip.querySelector('.chip-btn') as HTMLElement;
+        if (btn) {
+          btn.textContent = 'Copied! ✓';
+          setTimeout(() => {
+            btn.textContent = 'Copy';
+          }, 1200);
+        }
+      });
+    });
+
+    // Reset inputs
+    resetBtn?.addEventListener('click', () => {
+      if (seedInput) seedInput.value = '';
+      resultsWrapper?.classList.add('hidden');
+    });
+
+    // Auto-generate initial list
+    generateList();
+  };
+
+  setupRedditTitleGenerator();
+  document.addEventListener('astro:after-swap', setupRedditTitleGenerator);
+</script>

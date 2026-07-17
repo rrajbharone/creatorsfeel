@@ -3,33 +3,33 @@ import ToolLayout from '../../layouts/ToolLayout.astro';
 
 const faqs = [
   {
-    question: "What are the rules for a Twitch username?",
-    answer: "Twitch usernames must be between 4 and 25 characters in length. They can only contain letters (a-z), numbers (0-9), and underscores (_). Space characters and special symbols are not allowed."
+    question: "What are the rules for a Reddit username?",
+    answer: "Reddit usernames must be between 3 and 20 characters in length. They can only contain alphanumeric characters (a-z, 0-9), underscores (_), and hyphens (-). Spaces and other special characters are strictly prohibited."
   },
   {
-    question: "How often can I change my Twitch username?",
-    answer: "Active Twitch users can change their username once every 60 days. When you change it, your old username is held by Twitch for a minimum of 6 months before being recycled back into the public pool."
+    question: "Can I change my Reddit username after creation?",
+    answer: "No, Reddit does not allow you to change your username once the account is created. The only exception is if you signed up with a Google or Apple account, in which case you have a 30-day window to change the randomly generated name before it becomes permanent."
   },
   {
-    question: "Can I use 'TTV' or 'Live' in my Twitch username?",
-    answer: "Yes, suffixes like 'TTV' (Twitch TV) or 'Live' are very popular for gamers who want to cross-promote their streams while playing in multiplayer public lobbies (e.g. Fortnite or Valorant)."
+    question: "Can I have multiple Reddit accounts?",
+    answer: "Yes, Reddit allows you to create and manage multiple accounts under the same email address. Many users do this to keep their hobbies, professional discussions, and anonymous browsing separated."
   },
   {
-    question: "Does changing my username delete my Twitch followers?",
-    answer: "No, changing your Twitch username will not affect your follower list, subscriber counts, channel clips, channel points, or channel emotes. However, your channel URL will update, so you must update links on other social platforms."
+    question: "Are capital letters allowed in Reddit usernames?",
+    answer: "Yes, Reddit usernames are case-sensitive and support capital letters. However, search listings and mentions are case-insensitive, meaning u/CreatorsFeel and u/creatorsfeel refer to the same account."
   },
   {
-    question: "Can I use capital letters in my Twitch username?",
-    answer: "Your login username must be entirely lowercase. However, you can change the capitalization of your display name at any time in your Twitch profile settings (e.g., changing 'shroud' to 'Shroud')."
+    question: "Does deleting my Reddit account free up the username?",
+    answer: "No, once a username is registered on Reddit, it can never be used again. Deleting an account makes that username permanently unavailable to others."
   }
 ];
 ---
 
 <ToolLayout
-  title="Twitch Username Generator - Cool & Catchy Channel Names"
-  description="Generate cool, aesthetic, and unique Twitch usernames. Customize stream names by gaming, chill, and minimalist styles and audit character limits."
-  toolName="Twitch Username Generator"
-  toolDescription="Create unique, search-compliant Twitch usernames under the strict 25-character limit. Customize by style niche and preview live channel banners."
+  title="Reddit Username Generator - Cool & Anonymous Account Names"
+  description="Generate cool, anonymous, and unique Reddit usernames. Customize account names by gaming, tech, and aesthetic styles and audit character limits."
+  toolName="Reddit Username Generator"
+  toolDescription="Create unique, search-compliant Reddit usernames under the strict 20-character limit. Customize by style vibe and preview profile cards."
   category="Writing Tools"
   faqs={faqs}
 >
@@ -39,7 +39,7 @@ const faqs = [
       <!-- Left Column: Generator Inputs -->
       <div class="calc-form-column">
         <div class="calc-form">
-          <!-- Seed Name Input -->
+          <!-- Seed Keyword Input -->
           <div class="form-group">
             <label for="seed-input" class="icon-label">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
@@ -47,29 +47,29 @@ const faqs = [
               </svg>
               Seed Keyword / Topic
             </label>
-            <input type="text" id="seed-input" class="form-input" placeholder="e.g. gamer, ninja, shroud" value="shroud" />
+            <input type="text" id="seed-input" class="form-input" placeholder="e.g. coder, lurker, keyboard" value="lurker" />
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
-            <!-- Username Vibe Select -->
+            <!-- Reddit Vibe Select -->
             <div class="form-group">
-              <label for="niche-select" class="icon-label">Username Vibe</label>
+              <label for="niche-select" class="icon-label">Reddit Vibe</label>
               <select id="niche-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
-                <option value="gaming">Gaming / Competitive</option>
+                <option value="gaming">Gaming / Tech</option>
                 <option value="chill">Aesthetic / Chill</option>
-                <option value="funny">Humorous / Funny</option>
-                <option value="cyber">Cyberpunk / Tech</option>
-                <option value="short">Minimalist / Short</option>
+                <option value="funny">Humorous / Troll</option>
+                <option value="anon">Anonymous / Secret</option>
+                <option value="minimal">Minimalist / Short</option>
               </select>
             </div>
 
-            <!-- Suffix Options -->
+            <!-- Separator Prefs -->
             <div class="form-group">
-              <label for="format-select" class="icon-label">Format Preference</label>
+              <label for="format-select" class="icon-label">Separators</label>
               <select id="format-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
-                <option value="suffixes">With Suffixes (TTV, Live)</option>
-                <option value="clean">Clean (No Suffix)</option>
-                <option value="underscores">With Underscores (t_t_v)</option>
+                <option value="none">Clean (No Separator)</option>
+                <option value="underscores">With Underscores</option>
+                <option value="hyphens">With Hyphens</option>
               </select>
             </div>
           </div>
@@ -84,38 +84,40 @@ const faqs = [
 
       <!-- Right Column: Live Mockup Card -->
       <div class="calc-editor-column">
-        <!-- Live Twitch Channel Banner Mockup -->
-        <div class="twitch-channel-preview glass" style="background: #0e0e10; color: #efeff1; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #1f1f23; text-align: left; box-shadow: var(--shadow-md); font-family: var(--font-body);">
-          <!-- Top Stream Banner (Twitch Purple Theme) -->
-          <div style="background: linear-gradient(90deg, #9146ff, #6441a5); height: 80px; width: 100%; position: relative;">
-            <div style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #efeff1; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 12px; text-transform: uppercase;">Offline</div>
-          </div>
+        <!-- Live Reddit Profile Card Mockup -->
+        <div class="reddit-profile-card glass" style="background: #1a1a1b; color: #d7dadc; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #343536; text-align: left; box-shadow: var(--shadow-md); font-family: var(--font-body);">
+          <!-- Banner -->
+          <div style="background: #242526; height: 60px; width: 100%;"></div>
 
-          <!-- Streamer Info Block -->
+          <!-- Info Block -->
           <div style="padding: 1.25rem 1rem; position: relative;">
-            <!-- Avatar positioned overlapping the banner -->
-            <div id="mockup-avatar-bubble" style="width: 58px; height: 58px; border-radius: 50%; background: #9146ff; border: 4px solid #0e0e10; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; font-weight: 800; position: absolute; top: -29px; left: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-              SH
+            <!-- Avatar overlapping banner -->
+            <div id="mockup-avatar-bubble" style="width: 58px; height: 58px; border-radius: 50%; background: #ff4500; border: 4px solid #1a1a1b; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; position: absolute; top: -29px; left: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+              LU
             </div>
 
-            <!-- Details (pushed right of avatar) -->
+            <!-- Details -->
             <div style="margin-left: 68px; margin-top: -10px; display: flex; flex-direction: column; gap: 2px;">
-              <!-- Display Name -->
-              <span id="mockup-display-name" style="font-size: 1.05rem; font-weight: 800; color: #ffffff;">shroud_ttv</span>
-              <!-- Verified Badge / Link -->
-              <span style="font-size: 0.72rem; color: #9146ff; font-weight: 700;">twitch.tv/handle</span>
+              <span style="font-size: 1.05rem; font-weight: 800; color: #ffffff;">Creators Feel</span>
+              <span id="mockup-username-text" style="font-size: 0.75rem; color: #818384;">u/lurker_anon</span>
             </div>
 
-            <!-- Followers / Buttons Area -->
-            <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #1f1f23; padding-top: 0.75rem;">
+            <!-- Karma stats panel -->
+            <div style="margin-top: 1.25rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; background: #151516; padding: 10px; border-radius: 8px; border: 1px solid #272729;">
               <div style="display: flex; flex-direction: column;">
-                <span style="font-size: 0.85rem; font-weight: 700; color: #ffffff;">12.4K</span>
-                <span style="font-size: 0.68rem; color: #adadb8;">Followers</span>
+                <span style="font-size: 0.8rem; font-weight: 700; color: #ffffff;">1,540</span>
+                <span style="font-size: 0.65rem; color: #818384;">Post Karma</span>
               </div>
-              <div style="display: flex; gap: 6px;">
-                <button type="button" style="background: #9146ff; border: none; color: #ffffff; font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Follow</button>
-                <button type="button" style="background: #1f1f23; border: 1px solid #2f2f35; color: #efeff1; font-size: 0.75rem; font-weight: 700; padding: 6px 10px; border-radius: 4px; cursor: pointer;">⚙️</button>
+              <div style="display: flex; flex-direction: column;">
+                <span style="font-size: 0.8rem; font-weight: 700; color: #ffffff;">8,920</span>
+                <span style="font-size: 0.65rem; color: #818384;">Comment Karma</span>
               </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div style="margin-top: 1rem; display: flex; gap: 8px;">
+              <button type="button" style="flex: 1; background: #d7dadc; border: none; color: #1a1a1b; font-size: 0.75rem; font-weight: 700; padding: 8px; border-radius: 20px; cursor: pointer; text-align: center;">Chat</button>
+              <button type="button" style="flex: 1; background: transparent; border: 1px solid #d7dadc; color: #d7dadc; font-size: 0.75rem; font-weight: 700; padding: 8px; border-radius: 20px; cursor: pointer; text-align: center;">Follow</button>
             </div>
           </div>
         </div>
@@ -128,7 +130,7 @@ const faqs = [
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-brand);">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
         </svg>
-        Suggested Twitch Usernames
+        Suggested Reddit Usernames
       </h3>
 
       <div class="usernames-grid" id="generated-usernames-container">
@@ -142,33 +144,33 @@ const faqs = [
   </div>
 
   <div slot="about" class="editorial-content">
-    <h2>Twitch Username Generator: Create Unique Channel Names</h2>
+    <h2>Reddit Username Generator: Create Unique & Anonymous Account Names</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        📺 <strong>Looking to optimize stream headlines for high click-through rates?</strong> Try our free <a href="/tools/twitch-title-generator" style="color: var(--color-brand); text-decoration: underline;">Twitch Title Generator</a> to craft catchy headers under the 140-character crop limits.
+        📺 <strong>Need to optimize post titles to gather more upvotes?</strong> Try our free <a href="/tools/reddit-title-generator" style="color: var(--color-brand); text-decoration: underline;">Reddit Title Generator</a> to craft high-engagement titles with tag prefixes.
       </p>
     </div>
 
     <h3>Introduction</h3>
     <p>
-      In social entertainment networks, your handle represents your digital brand. When you type in a busy stream chat, search listings, or lobby groupings, your name is the primary item visible. Building a distinctive, short name is key to turning casual lobby matches into active channel subscribers. Our free, interactive <strong>twitch username generator</strong> is designed to help streamers build creative, compliant usernames that match Twitch naming guidelines automatically.
+      On Reddit, your username represents your identity across comment sections, community feeds, and post listings. Unlike other networks where your display name is primary, Reddit is built on pseudonymity. Having a distinct username that does not expose your real-world identity is vital for speaking freely in open discussions. Our free <strong>reddit username generator</strong> helps you create unique, compliant account handles that fit formatting rules.
     </p>
 
     <h3>How to Use This Tool</h3>
     <p>
-      To craft and preview new Twitch usernames, follow these simple directions:
+      To craft and preview new Reddit usernames, follow these simple directions:
     </p>
     <ol>
-      <li><strong>Seed Word:</strong> Enter a base keyword, nickname, or topic (e.g. gamer, shadow, void).</li>
-      <li><strong>Username Vibe:</strong> Choose a style vibe matching your stream brand (Gaming, Cozy/Chill, Humorous, Cyberpunk, or Short).</li>
-      <li><strong>Format settings:</strong> Pick a suffix configuration (adding TTV/Live, underscores, or clean layouts).</li>
-      <li><strong>Generate List:</strong> Click <strong>Generate Usernames</strong> to build 15 distinct options.</li>
-      <li><strong>Interactive Mockup:</strong> Click any username to preview it inside the Twitch header banner mockup, and copy it with the pill-shaped button. Click <strong>Generate More</strong> to append 5 more options.</li>
+      <li><strong>Seed Keyword:</strong> Enter a base topic, nickname, or hobby keyword (e.g. coder, lurker, key).</li>
+      <li><strong>Reddit Vibe:</strong> Pick a style vibe matching your account persona (Gaming/Tech, Aesthetic/Chill, Humorous/Troll, Anonymous, or Minimalist).</li>
+      <li><strong>Separators:</strong> Choose between clean text, underscores, or hyphens.</li>
+      <li><strong>Generate List:</strong> Click <strong>Generate Usernames</strong> to view 15 distinct options.</li>
+      <li><strong>Preview & Copy:</strong> Click any username chip to preview it inside the Reddit user profile card mockup, and copy it instantly. Click <strong>Generate More</strong> to append 5 more options.</li>
     </ol>
 
-    <h3>What is Twitch Username</h3>
+    <h3>What is Reddit Username</h3>
     <p>
-      A <strong>Twitch username</strong> is your unique account handle used for logging in, chat channels, and stream listing URLs. While many users look for a <strong>twitch username generator</strong> to find styled names, Twitch enforces strict technical limits. Every username must be between 4 and 25 characters, alphanumeric only, with underscores as the only allowed symbol. Discovering <strong>aesthetic twitch usernames</strong> or <strong>cool twitch usernames</strong> that satisfy these constraints requires careful planning. Streamers frequently add popular tags like "TTV" or "Live" to prompt players in public games to search for their broadcasts.
+      A <strong>Reddit username</strong> is the unique identifier (preceded by u/) associated with your posts, comments, and karma metrics. While networks like Discord let you change handles, your Reddit username is permanent. If you want to customize other platforms, you can use our <a href="/tools/discord-username-generator">Discord Username Generator</a>, but on Reddit, you must get it right from the start. Reddit usernames must be between 3 and 20 characters in length and can only contain letters, numbers, underscores, and hyphens. Finding <strong>cool reddit usernames</strong> or <strong>reddit usernames</strong> that balance anonymity with style requires using generator loops to bypass taken handles.
     </p>
 
     <h3>How Does It Work?</h3>
@@ -176,54 +178,47 @@ const faqs = [
       The generator processes your seed terms through customized naming loops:
     </p>
     <ul>
-      <li><strong>Character Filtering:</strong> Strips out spaces, symbols, and double underscores to prevent saving errors on Twitch.</li>
-      <li><strong>Niche Suffix Mapping:</strong> Appends thematic terms matching gaming or tech styles (e.g. adding `_ttv`, `_live`, `_fps`, or `_chills`).</li>
-      <li><strong>Size Constraint Checks:</strong> Automatically trims characters to ensure the total string size falls strictly between 4 and 25 characters.</li>
+      <li><strong>Separator Formatting:</strong> Integrates hyphens or underscores matching your preference.</li>
+      <li><strong>Style Vibe Customizer:</strong> Combines your seed keyword with specific prefixes or suffixes tailored to gaming or anonymous personas.</li>
+      <li><strong>Size Constraint Checks:</strong> Automatically trims output strings to fit strictly within the 3-20 character budget.</li>
     </ul>
 
     <h3>Example Calculation</h3>
     <p>
-      Let's look at how a custom Twitch username is validated:
+      Let's look at how a Reddit username is structured and calculated:
     </p>
     <p>
-      <strong>Input Seed Name:</strong> `"Ninja"`<br />
-      <strong>Username Vibe selected:</strong> `"Gaming / Competitive"`<br />
-      <strong>Format selected:</strong> `"With Suffixes (TTV, Live)"`
+      <strong>Input Seed Name:</strong> `"lurker"`<br />
+      <strong>Reddit Vibe selected:</strong> `"Anonymous / Secret"`<br />
+      <strong>Separator selected:</strong> `"With Underscores"`
     </p>
     <p>
       <strong>Calculation Process:</strong><br />
-      ✦ Base seed: `"ninja"` $\rightarrow$ <strong>5 characters</strong>.<br />
-      ✦ Gaming suffix: `"ttv"` $\rightarrow$ <strong>3 characters</strong>.<br />
+      ✦ Base seed: `"lurker"` $\rightarrow$ <strong>6 characters</strong>.<br />
+      ✦ Anonymous suffix: `"anon"` $\rightarrow$ <strong>4 characters</strong>.<br />
       ✦ Underline separator: `"_"` $\rightarrow$ <strong>1 character</strong>.<br />
-      ✦ Combined output: `"ninja_ttv"` $\rightarrow$ <strong>9 characters</strong>.<br />
-      ✦ Minimum check: `9 >= 4 characters` (compliant).<br />
-      ✦ Maximum check: `9 <= 25 characters` (compliant).<br />
-      ✦ Character set validation: `[a-z0-9_]` (all letters are lowercase alphanumeric with a single underscore separator).
+      ✦ Combined output: `"lurker_anon"` $\rightarrow$ <strong>11 characters</strong>.<br />
+      ✦ Minimum check: `11 >= 3 characters` (compliant).<br />
+      ✦ Maximum check: `11 <= 20 characters` (compliant).<br />
+      ✦ Character set validation: `[a-zA-Z0-9_-]` (compliant).
     </p>
     <p>
-      The generated username is `ninja_ttv`. It complies with Twitch's rules.
+      The generated username is `lurker_anon`, which fits Reddit's parameters.
     </p>
 
-    <h3>Features</h3>
+    <h3>How To Use</h3>
     <p>
-      Our <strong>free twitch username generator</strong> offers several tools:
+      Using our generator is easy. Simply enter your topic, select your preferred subreddit style and separator tags, and click generate. Clicking any suggested handle updates the live user card mockup, allowing you to audit the text layout before copying. You can copy usernames with a single click and append more options using the "Generate More" button.
     </p>
-    <ul>
-      <li><strong>Live Channel Header Mockup:</strong> Review how your username wraps, looks, and displays in the Twitch profile avatar, follow header, and URL paths.</li>
-      <li><strong>Character Budget Checks:</strong> Every generated username is pre-vetted to ensure it fits the 4-25 character limit.</li>
-      <li><strong>Generate More Button:</strong> Generate and append 5 more unique usernames to the grid dynamically.</li>
-      <li><strong>Pill-Shaped Tactile Copy Buttons:</strong> Instantly copy your favorite username to your clipboard.</li>
-    </ul>
 
     <h3>Who Should Use This Tool?</h3>
     <p>
       This generator is designed for:
     </p>
     <ul>
-      <li><strong>New Streamers:</strong> Establishing a unique, brandable gaming handle from day one.</li>
-      <li><strong>Competitive Gamers:</strong> Adding suffixes like `TTV` or `Live` to promote their streams during public lobbies (e.g. `cool_gamer_ttv`).</li>
-      <li><strong>Aesthetic Streamers:</strong> Finding soft, cozy, and clean username options (e.g. `cozy_bloom`).</li>
-      <li><strong>Meme Channels:</strong> Creating funny, sarcastic, or humorous usernames to make chat laugh (e.g. `worst_player_live`).</li>
+      <li><strong>Privacy-Conscious Users:</strong> Creating throwaway accounts or anonymous profiles to discuss sensitive topics.</li>
+      <li><strong>Gamers:</strong> Formatting competitive tags for tech forums. If you stream, you can also cross-promote using handles generated via our <a href="/tools/twitch-username-generator">Twitch Username Generator</a>.</li>
+      <li><strong>Subreddit Communities:</strong> Creating dedicated alt accounts for posting DIY guides, artwork, or hobby reviews.</li>
     </ul>
   </div>
 </ToolLayout>
@@ -454,7 +449,7 @@ const faqs = [
 </style>
 
 <script>
-  const setupTwitchUsernameGenerator = () => {
+  const setupRedditUsernameGenerator = () => {
     const seedInput = document.getElementById('seed-input') as HTMLInputElement;
     const nicheSelect = document.getElementById('niche-select') as HTMLSelectElement;
     const formatSelect = document.getElementById('format-select') as HTMLSelectElement;
@@ -469,28 +464,28 @@ const faqs = [
     const container = document.getElementById('generated-usernames-container');
 
     // Mockup targets
-    const mockupDisplayName = document.getElementById('mockup-display-name');
+    const mockupUsernameText = document.getElementById('mockup-username-text');
     const mockupAvatarBubble = document.getElementById('mockup-avatar-bubble');
 
-    // Niche details database
+    // Vibe prefixes and suffixes
     const vibesData: Record<string, { prefixes: string[], suffixes: string[] }> = {
       gaming: {
-        prefixes: ['pro', 'clutch', 'reaper', 'vortex', 'apex', 'lethal', 'tactical', 'shadow', 'speedy'],
-        suffixes: ['fps', 'ttv', 'gaming', 'gg', 'live', 'playz', 'tv', 'kills', 'clutch']
+        prefixes: ['pro', 'apex', 'vortex', 'lethal', 'tactical', 'glitch', 'pixel', 'clutch'],
+        suffixes: ['gamer', 'gg', 'plays', 'dev', 'fps', 'builds', 'net', 'sys']
       },
       chill: {
-        prefixes: ['cozy', 'luna', 'cloudy', 'misty', 'soft', 'calm', 'dusk', 'bloom', 'peach', 'mellow'],
-        suffixes: ['chill', 'vibes', 'clouds', 'cafe', 'space', 'bloom', 'cozy', 'dreams', 'mellow']
+        prefixes: ['cozy', 'luna', 'cloudy', 'misty', 'bloom', 'soft', 'mellow', 'dusk'],
+        suffixes: ['vibes', 'clouds', 'cafe', 'space', 'bloom', 'dreamer', 'mellow']
       },
       funny: {
-        prefixes: ['worst', 'whiff', 'toxic', 'trash', 'noob', 'lazy', 'terrible', 'troll', 'failed'],
-        suffixes: ['troll', 'whiffs', 'noob', 'aimbot', 'fails', 'trolls', 'misses', 'lost']
+        prefixes: ['worst', 'whiff', 'trash', 'noob', 'lazy', 'terrible', 'troll', 'failed'],
+        suffixes: ['troll', 'noob', 'whiffs', 'fails', 'trolls', 'lost', 'slug']
       },
-      cyber: {
-        prefixes: ['cyber', 'pixel', 'byte', 'vector', 'binary', 'glitch', 'synth', 'macro', 'micro'],
-        suffixes: ['code', 'bytes', 'sys', 'net', 'dev', 'glitch', 'node', 'bot', 'mod']
+      anon: {
+        prefixes: ['secret', 'ghost', 'shadow', 'silent', 'hidden', 'masked', 'shady', 'phantom'],
+        suffixes: ['anon', 'lurker', 'ninja', 'agent', 'shadow', 'phantom', 'ghost']
       },
-      short: {
+      minimal: {
         prefixes: ['x', 'v', 'z', 'o', 'k', 'i', 'q', 'y'],
         suffixes: ['x', 'z', 'o', 'k', 'i']
       }
@@ -500,31 +495,29 @@ const faqs = [
     let currentPoolIndex = 0;
 
     const buildShuffledPool = () => {
-      const seed = (seedInput?.value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+      const seed = (seedInput?.value || '').trim().toLowerCase().replace(/[^a-zA-Z0-9_-]/g, '');
       const niche = nicheSelect?.value || 'gaming';
-      const format = formatSelect?.value || 'suffixes';
+      const format = formatSelect?.value || 'none';
 
       const database = vibesData[niche] || vibesData['gaming'];
       const generatedSet = new Set<string>();
 
       const applyFormat = (prefix: string, body: string, suffix: string) => {
         let text = '';
-        
-        if (format === 'clean') {
-          text = `${prefix}${body}`;
-        } else if (format === 'underscores') {
-          text = `${prefix}_${body}_${suffix}`;
+        const separator = format === 'underscores' ? '_' : (format === 'hyphens' ? '-' : '');
+
+        if (format === 'none') {
+          text = `${prefix}${body}${suffix}`;
         } else {
-          // Suffixes
-          text = `${body}_${suffix}`;
+          text = `${prefix}${separator}${body}${separator}${suffix}`;
         }
 
-        // Clean extra underscores and trim to Twitch 25-character max limits
-        let cleaned = text.replace(/_+/g, '_').replace(/^_+|_+$/g, '');
-        if (cleaned.length < 4) {
-          cleaned = `${cleaned}101`;
+        // Clean double separators and trim to Reddit 20-character maximum limits
+        let cleaned = text.replace(/_+/g, '_').replace(/-+/g, '-').replace(/^[_|-]+|[_|-]+$/g, '');
+        if (cleaned.length < 3) {
+          cleaned = `${cleaned}10`;
         }
-        return cleaned.substring(0, 25);
+        return cleaned.substring(0, 20);
       };
 
       // Generate a pool of 50 unique variations
@@ -534,8 +527,8 @@ const faqs = [
         const pIndex = Math.floor(Math.random() * database.prefixes.length);
         const sIndex = Math.floor(Math.random() * database.suffixes.length);
 
-        const prefix = database.prefixes[pIndex] || 'stream';
-        const suffix = database.suffixes[sIndex] || 'live';
+        const prefix = database.prefixes[pIndex] || 'user';
+        const suffix = database.suffixes[sIndex] || 'reddit';
 
         let formatted = '';
         const pattern = Math.floor(Math.random() * 3);
@@ -547,7 +540,7 @@ const faqs = [
           formatted = applyFormat(prefix, seed || 'user', suffix);
         }
 
-        if (formatted.length >= 4) {
+        if (formatted.length >= 3) {
           generatedSet.add(formatted);
         }
       }
@@ -560,7 +553,7 @@ const faqs = [
       if (!mockupAvatarBubble) return;
       const clean = username.replace(/[^a-zA-Z0-9]/g, '').trim();
       const initials = clean.substring(0, 2).toUpperCase();
-      mockupAvatarBubble.textContent = initials || 'TW';
+      mockupAvatarBubble.textContent = initials || 'RE';
     };
 
     // Clean initial list generation
@@ -574,7 +567,7 @@ const faqs = [
         container.innerHTML = selected.map(s => {
           return `
             <div class="username-chip" data-name="${s}">
-              <span class="username-text">@${s}</span>
+              <span class="username-text">u/${s}</span>
               <button class="chip-btn">Copy</button>
             </div>
           `;
@@ -583,9 +576,9 @@ const faqs = [
 
       resultsWrapper?.classList.remove('hidden');
 
-      // Default the mockup channel info to the first generated result
-      if (mockupDisplayName && selected.length > 0) {
-        mockupDisplayName.textContent = selected[0];
+      // Default the mockup profile handle to the first generated result
+      if (mockupUsernameText && selected.length > 0) {
+        mockupUsernameText.textContent = `u/${selected[0]}`;
         updateMockupAvatar(selected[0]);
       }
     };
@@ -607,7 +600,7 @@ const faqs = [
         const appendHtml = next.map(s => {
           return `
             <div class="username-chip" data-name="${s}">
-              <span class="username-text">@${s}</span>
+              <span class="username-text">u/${s}</span>
               <button class="chip-btn">Copy</button>
             </div>
           `;
@@ -637,8 +630,8 @@ const faqs = [
       const username = chip.getAttribute('data-name') || '';
 
       // Update mockup sidebar
-      if (mockupDisplayName) {
-        mockupDisplayName.textContent = username;
+      if (mockupUsernameText) {
+        mockupUsernameText.textContent = `u/${username}`;
       }
       updateMockupAvatar(username);
 
@@ -664,6 +657,6 @@ const faqs = [
     generateList();
   };
 
-  setupTwitchUsernameGenerator();
-  document.addEventListener('astro:after-swap', setupTwitchUsernameGenerator);
+  setupRedditUsernameGenerator();
+  document.addEventListener('astro:after-swap', setupRedditUsernameGenerator);
 </script>
