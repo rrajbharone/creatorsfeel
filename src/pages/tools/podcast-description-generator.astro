@@ -1,0 +1,617 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the recommended length for a podcast description?",
+    answer: "For show-level descriptions, Apple Podcasts allows up to 4,000 characters, but keeping the main summary within the first 150 to 200 characters is critical. For individual episode descriptions, aim for 150 to 300 words including timestamps and links."
+  },
+  {
+    question: "How do podcast descriptions impact audio SEO?",
+    answer: "Spotify and Apple Podcasts index keywords in show descriptions and episode notes. Including relevant keywords like your topic, guest names, and niche concepts helps your podcast rank higher in directory search results."
+  },
+  {
+    question: "What should I include in my episode show notes?",
+    answer: "A great episode description includes a compelling 2-sentence hook summary, key takeaway bullet points, episode timestamps, links mentioned in the audio, and a call-to-action (CTA) encouraging subscribers to leave a review."
+  },
+  {
+    question: "Can I use timestamps in my podcast episode descriptions?",
+    answer: "Yes, adding timestamps (e.g. 02:15 - Introduction, 10:45 - Main Topic) helps listeners jump to specific topics and is supported on Apple Podcasts, Spotify, and YouTube Music."
+  },
+  {
+    question: "Does this generator support both show descriptions and episode descriptions?",
+    answer: "Yes, you can use this tool to write overarching channel/show summaries as well as individual episode show notes by adjusting your topic and tone inputs."
+  }
+];
+---
+
+<ToolLayout
+  title="Podcast Description Generator - Show Notes & Summaries"
+  description="Generate engaging, SEO-friendly podcast descriptions and episode show notes. Optimize channel summaries for Spotify and Apple Podcasts directories."
+  toolName="Podcast Description Generator"
+  toolDescription="Create search-optimized podcast show notes and channel descriptions. Customize tone, add timestamps, and preview live mobile episode cards."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Generator Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Show Title Input -->
+          <div class="form-group">
+            <label for="show-title-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
+              </svg>
+              Podcast Show Title
+            </label>
+            <input type="text" id="show-title-input" class="form-input" placeholder="e.g. The Tech Chronicles, Mindset Uncut" value="The Tech Chronicles" />
+          </div>
+
+          <!-- Topic / Episode Summary Input -->
+          <div class="form-group">
+            <label for="topic-input" class="icon-label">Topic or Episode Summary</label>
+            <input type="text" id="topic-input" class="form-input" placeholder="e.g. AI tools and automation strategies" value="AI tools and automation strategies" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <!-- Target Audience Input -->
+            <div class="form-group">
+              <label for="audience-input" class="icon-label">Target Audience</label>
+              <input type="text" id="audience-input" class="form-input" style="height: 48px;" placeholder="e.g. creators, developers" value="creators & tech fans" />
+            </div>
+
+            <!-- Tone Select -->
+            <div class="form-group">
+              <label for="tone-select" class="icon-label">Tone & Style</label>
+              <select id="tone-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+                <option value="conversational">Engaging & Conversational</option>
+                <option value="professional">Professional & Authoritative</option>
+                <option value="story">Story-Driven & Intriguing</option>
+                <option value="energetic">Energetic & Fun</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Formatting Checkboxes -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; background: var(--color-bg-alt); padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--color-border);">
+            <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Show Notes Add-ons</span>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.88rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="timestamps-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include Episode Timestamps Placeholder
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="cta-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include Subscribe & Review Call to Action (CTA)
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn">Generate Descriptions</button>
+            <button type="button" id="reset-btn" class="calc-btn-secondary">Reset Inputs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live Apple Podcasts / Spotify Episode Card Mockup -->
+        <div class="podcast-episode-card glass" style="background: #121212; color: #ffffff; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #282828; text-align: left; box-shadow: var(--shadow-md); font-family: var(--font-body); padding: 1.25rem;">
+          <!-- Top Episode Info -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1px solid #282828; padding-bottom: 0.5rem;">
+            <span style="font-size: 0.7rem; font-weight: 800; color: #1db954; text-transform: uppercase;">Ep. 42 • Live Preview</span>
+            <span style="font-size: 0.68rem; color: #b3b3b3;">34 mins</span>
+          </div>
+
+          <!-- Show Title -->
+          <span id="mockup-show-header" style="font-size: 0.78rem; font-weight: 700; color: #6366f1; display: block; margin-bottom: 4px;">
+            The Tech Chronicles
+          </span>
+
+          <!-- Description text updating live -->
+          <div id="mockup-description-body" style="font-size: 0.78rem; color: #e0e0e0; line-height: 1.45; max-height: 140px; overflow-y: auto; padding-right: 4px; font-family: var(--font-body);">
+            Welcome to The Tech Chronicles! In this episode, we explore AI tools and automation strategies. Tune in for actionable tips designed for creators & tech fans.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div id="results-wrapper" class="hidden" style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-brand);">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+        </svg>
+        Suggested Podcast Descriptions
+      </h3>
+
+      <div class="usernames-grid" id="generated-descriptions-container">
+        <!-- Results dynamic content goes here -->
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+        <button type="button" id="generate-more-btn" class="calc-btn" style="max-width: 200px; padding: 0 1.5rem;">Generate More</button>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Podcast Description Generator: Write Search-Optimized Show Notes</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
+        🎙️ <strong>Looking to generate catchy podcast show titles?</strong> Use our free <a href="/tools/podcast-name-generator" style="color: var(--color-brand); text-decoration: underline;">Podcast Name Generator</a> to craft high-recall show titles for Apple Podcasts and Spotify.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      In the competitive audio landscape, your podcast description serves as the ultimate pitch to potential listeners. When users search Apple Podcasts, Spotify, or Google Podcasts, your show summary is what convinces them to press play. Structuring clear, keyword-rich show notes is vital for driving audio discoverability and turning casual listeners into loyal subscribers. Our free <strong>podcast description generator</strong> helps creators craft engaging, search-optimized episode notes and channel summaries in seconds.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      To write and audit custom podcast descriptions in real-time, follow these simple directions:
+    </p>
+    <ol>
+      <li><strong>Podcast Show Title:</strong> Enter your official show or channel title.</li>
+      <li><strong>Topic / Summary:</strong> Enter the primary episode subject or key discussion points.</li>
+      <li><strong>Target Audience:</strong> Define your primary audience (e.g. creators, tech enthusiasts).</li>
+      <li><strong>Tone & Style:</strong> Select a writing voice (Conversational, Professional, Story-Driven, or Energetic).</li>
+      <li><strong>Show Notes Add-ons:</strong> Select toggles to include timestamps or call-to-action (CTA) text.</li>
+      <li><strong>Generate List:</strong> Click <strong>Generate Descriptions</strong> to view 15 custom options.</li>
+      <li><strong>Preview & Copy:</strong> Click any description card to preview it inside the Apple Podcasts & Spotify episode mockup, and copy it instantly. Click <strong>Generate More</strong> to append 5 more options.</li>
+    </ol>
+
+    <h3>What is Podcast Description</h3>
+    <p>
+      A <strong>podcast description</strong> (or show notes summary) is the text overview attached to your podcast RSS feed. It gives prospective listeners an overview of your channel or episode, highlighting key topics, guest bios, and resource links. Writing compelling <strong>podcast descriptions</strong> involves placing your main value proposition in the first two sentences, as directory feeds crop long text blocks. If you also run an email broadcast, you can craft matching subject lines using our <a href="/tools/newsletter-title-generator">Newsletter Title Generator</a>.
+    </p>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The generator processes your episode details through structured audio SEO frameworks:
+    </p>
+    <ul>
+      <li><strong>Hook Generation:</strong> Creates an immediate summary sentence highlighting your primary topic and audience benefit.</li>
+      <li><strong>Tone Alignment:</strong> Formats the language to match conversational, authoritative, or energetic styles.</li>
+      <li><strong>Formatting Add-ons:</strong> Automatically appends structured timestamp placeholders (e.g. `00:00 - Intro`) and rating call-to-action text.</li>
+    </ul>
+
+    <h3>How To Use</h3>
+    <p>
+      Using our generator is easy. Simply fill out your show title, episode topic, and target audience, pick your desired tone style, and click generate. Clicking any description updates the live card mockup, allowing you to preview how your show notes look on mobile player feeds before copying. If you publish video podcasts on YouTube, you can also verify your video title lengths with our <a href="/tools/youtube-title-length-checker">YouTube Title Length Checker</a>.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This generator is designed for:
+    </p>
+    <ul>
+      <li><strong>Indie Podcasters:</strong> Saving time on weekly show notes writing while maintaining consistent quality.</li>
+      <li><strong>Podcast Producers & Editors:</strong> Writing optimized episode descriptions for client RSS feeds across Spotify and Apple Podcasts.</li>
+      <li><strong>Content Creators:</strong> Repurposing audio recordings into structured episode summaries and show notes.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  /* Usernames Grid Styling */
+  .usernames-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Tactile description card layout */
+  :global(.description-card) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    padding: 1rem 1.15rem;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+    min-width: 0;
+  }
+
+  :global(.description-card:hover) {
+    border-color: var(--color-brand);
+    background: var(--color-bg-alt);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+  }
+
+  :global(.description-text) {
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    color: var(--color-text);
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.5;
+    min-width: 0;
+  }
+
+  :global(.chip-btn) {
+    align-self: flex-end;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    background: var(--color-bg-alt);
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  :global(.description-card:hover .chip-btn) {
+    background: var(--color-brand);
+    color: white;
+    border-color: var(--color-brand);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupPodcastDescriptionGenerator = () => {
+    const showTitleInput = document.getElementById('show-title-input') as HTMLInputElement;
+    const topicInput = document.getElementById('topic-input') as HTMLInputElement;
+    const audienceInput = document.getElementById('audience-input') as HTMLInputElement;
+    const toneSelect = document.getElementById('tone-select') as HTMLSelectElement;
+
+    const timestampsCheck = document.getElementById('timestamps-check') as HTMLInputElement;
+    const ctaCheck = document.getElementById('cta-check') as HTMLInputElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const generateMoreBtn = document.getElementById('generate-more-btn');
+
+    // Layout slots
+    const resultsWrapper = document.getElementById('results-wrapper');
+    const container = document.getElementById('generated-descriptions-container');
+
+    // Mockup targets
+    const mockupShowHeader = document.getElementById('mockup-show-header');
+    const mockupDescriptionBody = document.getElementById('mockup-description-body');
+
+    // Templates database
+    const templatesByTone: Record<string, string[]> = {
+      conversational: [
+        `Welcome back to {showTitle}! In this episode, we dive deep into {topic}. Whether you are a dedicated listener or joining us for the first time, this episode is packed with practical tips for {audience}. Tune in for an engaging breakdown!`,
+        `Hey everyone! On today's episode of {showTitle}, we are talking all about {topic}. We break down the key strategies that every {audience} needs to know right now. Grab your coffee and press play!`,
+        `What is the real story behind {topic}? On this episode of {showTitle}, we unwrap the facts and share actionable advice tailored for {audience}. Do not miss these insights!`
+      ],
+      professional: [
+        `In this edition of {showTitle}, we examine the fundamentals of {topic}. Designed specifically for {audience}, this episode analyzes current industry trends, operational frameworks, and strategic insights.`,
+        `Welcome to {showTitle}. Today's discussion focuses on {topic} and its impact on {audience}. Join us as we evaluate key metrics, best practices, and expert methodologies.`,
+        `Strategic insights on {topic}: In this episode of {showTitle}, we deliver an authoritative breakdown tailored for {audience}. Learn how to optimize your approach today.`
+      ],
+      story: [
+        `Behind every success lies a story. In this episode of {showTitle}, we explore the journey of {topic}. Discover how {audience} can overcome challenges and find breakthroughs.`,
+        `Have you ever wondered what happens when you master {topic}? On today's episode of {showTitle}, we share compelling stories and lessons built for {audience}.`,
+        `Uncovering the unexpected: On this episode of {showTitle}, we dive into the fascinating world of {topic}. A must-listen episode for curious {audience} everywhere.`
+      ],
+      energetic: [
+        `Get ready! In this action-packed episode of {showTitle}, we are tackling {topic} at full speed! If you are part of {audience}, this episode is going to blow your mind!`,
+        `Welcome to the ultimate episode of {showTitle}! Today we are leveling up your knowledge on {topic}. Perfect for ambitious {audience} ready to win!`,
+        `Fire up your headphones! {showTitle} is back with an epic episode on {topic}. Tailored exclusively for driven {audience}!`
+      ]
+    };
+
+    let currentShuffledPool: string[] = [];
+    let currentPoolIndex = 0;
+
+    const buildShuffledPool = () => {
+      const showTitle = (showTitleInput?.value || '').trim() || 'The Tech Chronicles';
+      const topic = (topicInput?.value || '').trim() || 'AI tools and automation strategies';
+      const audience = (audienceInput?.value || '').trim() || 'creators & tech fans';
+      const tone = toneSelect?.value || 'conversational';
+
+      const includeTimestamps = timestampsCheck?.checked;
+      const includeCta = ctaCheck?.checked;
+
+      const baseTemplates = templatesByTone[tone] || templatesByTone['conversational'];
+      const generatedSet = new Set<string>();
+
+      const timestampsBlock = `\n\n📌 Episode Timestamps:\n00:00 - Introduction & Highlights\n04:15 - Deep Dive into ${topic}\n18:30 - Key Takeaways for ${audience}\n28:00 - Q&A and Wrap Up`;
+      const ctaBlock = `\n\n⭐ Enjoying the show? Please leave us a 5-star review on Apple Podcasts and Spotify, and subscribe for weekly episodes!`;
+
+      let iterations = 0;
+      while (generatedSet.size < 40 && iterations < 200) {
+        iterations++;
+        const index = Math.floor(Math.random() * baseTemplates.length);
+        let text = baseTemplates[index]
+          .replace(/{showTitle}/g, showTitle)
+          .replace(/{topic}/g, topic)
+          .replace(/{audience}/g, audience);
+
+        if (includeTimestamps) {
+          text += timestampsBlock;
+        }
+
+        if (includeCta) {
+          text += ctaBlock;
+        }
+
+        generatedSet.add(text);
+      }
+
+      currentShuffledPool = Array.from(generatedSet).sort(() => Math.random() - 0.5);
+      currentPoolIndex = 0;
+    };
+
+    // Clean initial list generation
+    const generateList = () => {
+      buildShuffledPool();
+
+      const selected = currentShuffledPool.slice(0, 15);
+      currentPoolIndex = 15;
+
+      const showTitleVal = (showTitleInput?.value || '').trim() || 'The Tech Chronicles';
+
+      if (container) {
+        container.innerHTML = selected.map(s => {
+          return `
+            <div class="description-card" data-text="${encodeURIComponent(s)}">
+              <div class="description-text">${s}</div>
+              <button class="chip-btn">Copy Show Notes</button>
+            </div>
+          `;
+        }).join('');
+      }
+
+      resultsWrapper?.classList.remove('hidden');
+
+      // Default mockup text
+      if (mockupShowHeader) {
+        mockupShowHeader.textContent = showTitleVal;
+      }
+      if (mockupDescriptionBody && selected.length > 0) {
+        mockupDescriptionBody.textContent = selected[0];
+      }
+    };
+
+    // Append 5 more unique items
+    const appendMoreTitles = () => {
+      if (currentShuffledPool.length === 0) {
+        buildShuffledPool();
+      }
+
+      if (currentPoolIndex >= currentShuffledPool.length) {
+        buildShuffledPool();
+      }
+
+      const next = currentShuffledPool.slice(currentPoolIndex, currentPoolIndex + 5);
+      currentPoolIndex += 5;
+
+      if (container) {
+        const appendHtml = next.map(s => {
+          return `
+            <div class="description-card" data-text="${encodeURIComponent(s)}">
+              <div class="description-text">${s}</div>
+              <button class="chip-btn">Copy Show Notes</button>
+            </div>
+          `;
+        }).join('');
+        container.innerHTML += appendHtml;
+      }
+    };
+
+    generateBtn?.addEventListener('click', () => {
+      generateList();
+
+      const resultsSection = document.getElementById('results-wrapper');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    generateMoreBtn?.addEventListener('click', () => {
+      appendMoreTitles();
+    });
+
+    // Handle copying individual description cards and update mockup preview
+    container?.addEventListener('click', (e) => {
+      const card = (e.target as HTMLElement).closest('.description-card');
+      if (!card) return;
+
+      const rawText = decodeURIComponent(card.getAttribute('data-text') || '');
+
+      // Update mockup sidebar
+      if (mockupDescriptionBody) {
+        mockupDescriptionBody.textContent = rawText;
+      }
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(rawText).then(() => {
+        const btn = card.querySelector('.chip-btn') as HTMLElement;
+        if (btn) {
+          btn.textContent = 'Copied! ✓';
+          setTimeout(() => {
+            btn.textContent = 'Copy Show Notes';
+          }, 1200);
+        }
+      });
+    });
+
+    // Reset inputs
+    resetBtn?.addEventListener('click', () => {
+      if (showTitleInput) showTitleInput.value = '';
+      if (topicInput) topicInput.value = '';
+      resultsWrapper?.classList.add('hidden');
+    });
+
+    // Auto-generate initial list
+    generateList();
+  };
+
+  setupPodcastDescriptionGenerator();
+  document.addEventListener('astro:after-swap', setupPodcastDescriptionGenerator);
+</script>

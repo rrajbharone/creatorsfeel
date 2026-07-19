@@ -1,0 +1,709 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "Why is having a consistent social media handle important across all platforms?",
+    answer: "A unified social media handle across Instagram, TikTok, YouTube, X (Twitter), and Pinterest makes your brand instantly recognizable. It prevents fan confusion, improves word-of-mouth marketing, and ensures your audience can find you on any network without searching for alternate spellings."
+  },
+  {
+    question: "What are the character limit rules for social media handles on major platforms?",
+    answer: "Character limits vary by network: X (Twitter) enforces a strict 15-character max limit, TikTok limits handles to 24 characters, while Instagram and YouTube allow up to 30 characters. Using a handle under 15 characters ensures compatibility across all networks."
+  },
+  {
+    question: "What characters are allowed in social media usernames?",
+    answer: "Most platforms allow letters (a-z), numbers (0-9), and underscores (_). Instagram and Pinterest also allow periods (.), but X (Twitter) and TikTok prohibit periods in handle names."
+  },
+  {
+    question: "What should I do if my preferred handle is already taken?",
+    answer: "If your exact name is taken, try adding a clean prefix or suffix such as 'iam', 'real', 'official', 'the', 'hq', or 'studio' rather than adding random strings of numbers."
+  },
+  {
+    question: "Can I change my social media handle later without losing followers?",
+    answer: "Yes, platforms like Instagram, TikTok, YouTube, and X allow you to change your handle while keeping your existing followers, posts, and verification status. However, updating your handle means your old @mentions on external sites will no longer direct to your profile."
+  }
+];
+---
+
+<ToolLayout
+  title="Social Media Handle Generator - Unique Username Ideas"
+  description="Generate cool, available, and consistent social media handles for Instagram, TikTok, YouTube, and X. Audit username length limits and preview profile cards."
+  toolName="Social Media Handle Generator"
+  toolDescription="Create unique, cross-platform social media handles. Filter by target platform, audit character limits, and preview live universal profile cards."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Generator Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Seed Name / Brand Input -->
+          <div class="form-group">
+            <label for="seed-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+              Name, Brand, or Keyword
+            </label>
+            <input type="text" id="seed-input" class="form-input" placeholder="e.g. alex, creator, fit, tech" value="alex" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <!-- Target Platform Select -->
+            <div class="form-group">
+              <label for="platform-select" class="icon-label">Target Platform</label>
+              <select id="platform-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+                <option value="universal">All Platforms (Under 15 chars)</option>
+                <option value="instagram">Instagram (Max 30 chars)</option>
+                <option value="tiktok">TikTok (Max 24 chars)</option>
+                <option value="youtube">YouTube (Max 30 chars)</option>
+                <option value="twitter">X / Twitter (Max 15 chars)</option>
+              </select>
+            </div>
+
+            <!-- Handle Vibe Select -->
+            <div class="form-group">
+              <label for="vibe-select" class="icon-label">Handle Vibe</label>
+              <select id="vibe-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+                <option value="clean">Clean & Minimalist</option>
+                <option value="aesthetic">Aesthetic & Modern</option>
+                <option value="official">Creator & Official</option>
+                <option value="gaming">Gaming & Tech</option>
+                <option value="short">Short & Punchy</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Formatting Checkboxes -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; background: var(--color-bg-alt); padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--color-border);">
+            <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Formatting Add-ons</span>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.88rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="underscore-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Allow Underscores (_)
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="period-check" style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Allow Periods (.) (Insta/YouTube only)
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="numbers-check" style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include Number Suffixes (e.g. 99, 101)
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn">Generate Handles</button>
+            <button type="button" id="reset-btn" class="calc-btn-secondary">Reset Inputs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live Universal Social Media Profile Card Mockup -->
+        <div class="universal-profile-card glass" style="background: #111827; color: #ffffff; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #1f2937; text-align: left; box-shadow: var(--shadow-md); font-family: var(--font-body); padding: 1.25rem;">
+          <!-- Top Platform Badge Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #1f2937; padding-bottom: 0.5rem;">
+            <span style="font-size: 0.72rem; font-weight: 800; color: #6366f1; text-transform: uppercase; display: flex; align-items: center; gap: 4px;">
+              ✨ Verified Creator Profile
+            </span>
+            <span id="mockup-platform-tag" style="font-size: 0.68rem; background: #374151; color: #e5e7eb; padding: 2px 8px; border-radius: 10px; font-weight: 700;">
+              Universal
+            </span>
+          </div>
+
+          <!-- Profile Header Row -->
+          <div style="display: flex; gap: 0.85rem; align-items: center; margin-bottom: 0.85rem;">
+            <!-- Avatar Bubble -->
+            <div id="mockup-avatar-bubble" style="width: 54px; height: 54px; border-radius: 50%; background: linear-gradient(135deg, #4f46e5, #ec4899); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; font-weight: 800; color: #ffffff; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+              AL
+            </div>
+            <!-- Name & Handle details -->
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+              <span id="mockup-display-name" style="font-size: 0.92rem; font-weight: 800; color: #ffffff; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                Alex Creator
+              </span>
+              <!-- Handle updating live -->
+              <span id="mockup-handle-text" style="font-size: 0.8rem; font-weight: 700; color: #6366f1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                @alex_creator
+              </span>
+            </div>
+          </div>
+
+          <!-- Stats & Bio -->
+          <div style="background: #1f2937; border-radius: 10px; padding: 0.65rem; display: flex; justify-content: space-around; text-align: center; margin-bottom: 0.85rem;">
+            <div>
+              <span style="font-size: 0.82rem; font-weight: 800; color: #ffffff; display: block;">125K</span>
+              <span style="font-size: 0.65rem; color: #9ca3af;">Followers</span>
+            </div>
+            <div style="border-left: 1px solid #374151; padding-left: 0.85rem;">
+              <span style="font-size: 0.82rem; font-weight: 800; color: #ffffff; display: block;">1.2M</span>
+              <span style="font-size: 0.65rem; color: #9ca3af;">Likes</span>
+            </div>
+          </div>
+
+          <!-- Follow Button -->
+          <button type="button" style="width: 100%; background: #6366f1; border: none; color: #ffffff; font-size: 0.78rem; font-weight: 700; padding: 8px; border-radius: 10px; cursor: pointer;">
+            Follow Profile
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div id="results-wrapper" class="hidden" style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-brand);">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+        </svg>
+        Suggested Social Media Handles
+      </h3>
+
+      <div class="usernames-grid" id="generated-handles-container">
+        <!-- Results dynamic content goes here -->
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+        <button type="button" id="generate-more-btn" class="calc-btn" style="max-width: 200px; padding: 0 1.5rem;">Generate More</button>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Social Media Handle Generator: Build Consistent Cross-Platform Usernames</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
+        📸 <strong>Looking for Instagram-specific handle ideas?</strong> Try our free <a href="/tools/instagram-username-generator" style="color: var(--color-brand); text-decoration: underline;">Instagram Username Generator</a> to audit 30-character limits and bio layouts.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      In modern digital branding, your social media handle is your digital address. Whether you are launching a personal brand, a startup, a podcast, or a digital shop, securing a clean, memorable handle across major social media networks—including Instagram, TikTok, YouTube, X (Twitter), and Pinterest—is essential for building brand authority. When users discover your content on one platform, their immediate next step is searching for your handle on another. If your usernames are mismatched or filled with random numbers, you risk losing followers to impersonators or duplicate accounts. Our free <strong>social media handle generator</strong> is designed to help creators, marketers, and entrepreneurs discover creative, available, and search-optimized social media handles pre-checked against platform character rules.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      Generating and auditing custom social media usernames in real-time is straightforward. Follow these steps:
+    </p>
+    <ol>
+      <li><strong>Name or Seed Keyword:</strong> Enter your real name, brand name, niche topic, or core keyword (e.g. alex, creator, fit, tech).</li>
+      <li><strong>Target Platform:</strong> Select your target social network or choose <strong>All Platforms (Universal)</strong> to enforce a strict 15-character limit that complies with X/Twitter, TikTok, Instagram, and YouTube guidelines.</li>
+      <li><strong>Handle Vibe:</strong> Pick a styling direction (Clean & Minimalist, Aesthetic & Modern, Creator & Official, Gaming & Tech, or Short & Punchy).</li>
+      <li><strong>Formatting Add-ons:</strong> Select toggles to allow underscores, periods, or number suffixes.</li>
+      <li><strong>Generate List:</strong> Click <strong>Generate Handles</strong> to view 15 custom options.</li>
+      <li><strong>Preview & Copy:</strong> Click any handle chip to preview it inside the universal social media profile mockup, and copy it to your clipboard. Click <strong>Generate More</strong> to append 5 more options.</li>
+    </ol>
+
+    <h3>What is Social Media Handle</h3>
+    <p>
+      A <strong>social media handle</strong> (often referred to as a username or <strong>@handle</strong>) is the unique identifier used to tag, address, and locate your account across social media platforms. Unlike display names, which can be modified at any time and shared by multiple users, your handle is completely unique to your profile.
+    </p>
+    <p>
+      Using a reliable <strong>social media handle generator</strong> helps you navigate the technical character limits and restriction rules enforced by major networks:
+    </p>
+    <ul>
+      <li><strong>X / Twitter:</strong> Imposes a strict 15-character maximum limit. Handles can only contain letters, numbers, and underscores (no periods or hyphens).</li>
+      <li><strong>TikTok:</strong> Allows up to 24 characters using letters, numbers, underscores, and periods (though periods cannot be placed at the end of the handle).</li>
+      <li><strong>Instagram:</strong> Enforces a 30-character maximum limit using letters, numbers, underscores, and periods. If you stream on Twitch, you can check gaming handles with our <a href="/tools/twitch-username-generator">Twitch Username Generator</a>.</li>
+      <li><strong>YouTube Handles:</strong> Supports up to 30 characters using alphanumeric characters, underscores, hyphens, and periods.</li>
+    </ul>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The generator processes your seed terms through customized platform algorithms:
+    </p>
+    <ul>
+      <li><strong>Prefix & Suffix Combination:</strong> Combines your seed keywords with clean branding modifiers (such as 'iam', 'real', 'official', 'hq', 'studio', or 'daily').</li>
+      <li><strong>Character Cap Filtering:</strong> Automatically trims generated handles to ensure they meet your selected platform's maximum length limit (e.g. cutting names down to under 15 characters for Universal compatibility).</li>
+      <li><strong>Character Set Auditing:</strong> Strips invalid characters based on platform rules (e.g. automatically removing periods when X/Twitter is selected).</li>
+    </ul>
+
+    <h3>How To Use</h3>
+    <p>
+      Using our generator is intuitive. Simply type your seed keyword into the input box, choose your platform and vibe preferences, and click generate. Clicking any handle card automatically updates the live universal profile mockup, allowing you to preview how the handle looks under a verified avatar badge. You can also explore community handles for discussion boards using our <a href="/tools/reddit-username-generator">Reddit Username Generator</a>.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This generator is designed for:
+    </p>
+    <ul>
+      <li><strong>Content Creators & Influencers:</strong> Securing matching handles across Instagram, TikTok, and YouTube before launching campaigns.</li>
+      <li><strong>Startup Founders & Businesses:</strong> Finding clean, professional company handles that reflect their brand name.</li>
+      <li><strong>Gamers & Streamers:</strong> Crafting memorable gaming tags and handles for social channels.</li>
+      <li><strong>Digital Marketers:</strong> Checking handle ideas for client rebrand projects and social campaigns.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  /* Usernames Grid Styling */
+  .usernames-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Tactile row chip layout */
+  :global(.title-chip) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+    min-width: 0;
+  }
+
+  :global(.title-chip:hover) {
+    border-color: var(--color-brand);
+    background: var(--color-bg-alt);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+  }
+
+  :global(.title-text) {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text);
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.4;
+    padding-right: 12px;
+    min-width: 0;
+  }
+
+  :global(.chip-btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    background: var(--color-bg-alt);
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  :global(.title-chip:hover .chip-btn) {
+    background: var(--color-brand);
+    color: white;
+    border-color: var(--color-brand);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+    .usernames-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+    .usernames-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const setupSocialMediaHandleGenerator = () => {
+    const seedInput = document.getElementById('seed-input') as HTMLInputElement;
+    const platformSelect = document.getElementById('platform-select') as HTMLSelectElement;
+    const vibeSelect = document.getElementById('vibe-select') as HTMLSelectElement;
+
+    const underscoreCheck = document.getElementById('underscore-check') as HTMLInputElement;
+    const periodCheck = document.getElementById('period-check') as HTMLInputElement;
+    const numbersCheck = document.getElementById('numbers-check') as HTMLInputElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const generateMoreBtn = document.getElementById('generate-more-btn');
+
+    // Layout slots
+    const resultsWrapper = document.getElementById('results-wrapper');
+    const container = document.getElementById('generated-handles-container');
+
+    // Mockup targets
+    const mockupHandleText = document.getElementById('mockup-handle-text');
+    const mockupDisplayName = document.getElementById('mockup-display-name');
+    const mockupPlatformTag = document.getElementById('mockup-platform-tag');
+    const mockupAvatarBubble = document.getElementById('mockup-avatar-bubble');
+
+    // Platform character limits
+    const platformLimits: Record<string, number> = {
+      universal: 15,
+      twitter: 15,
+      tiktok: 24,
+      instagram: 30,
+      youtube: 30
+    };
+
+    // Vibe Modifiers
+    const vibeModifiers: Record<string, { prefixes: string[], suffixes: string[] }> = {
+      clean: {
+        prefixes: ['iam', 'the', 'real', 'hey', 'its', 'my'],
+        suffixes: ['official', 'hq', 'studio', 'co', 'life', 'daily']
+      },
+      aesthetic: {
+        prefixes: ['soft', 'lunar', 'velvet', 'vibe', 'aura', 'cloud'],
+        suffixes: ['notes', 'vibes', 'realm', 'mood', 'space', 'journal']
+      },
+      official: {
+        prefixes: ['official', 'the', 'real', 'meet', 'connect'],
+        suffixes: ['official', 'verified', 'page', 'brand', 'media', 'network']
+      },
+      gaming: {
+        prefixes: ['cyber', 'pixel', 'neo', 'shadow', 'hyper', 'apex'],
+        suffixes: ['play', 'gaming', 'gg', 'zone', 'vault', 'quest']
+      },
+      short: {
+        prefixes: ['go', 'be', 'im', 'mr', 'ms', 'dr'],
+        suffixes: ['on', 'up', 'in', 'ex', 'io', 'ai']
+      }
+    };
+
+    let currentShuffledPool: string[] = [];
+    let currentPoolIndex = 0;
+
+    const buildShuffledPool = () => {
+      const seed = (seedInput?.value || '').toLowerCase().replace(/[^a-z0-9]/g, '') || 'alex';
+      const platform = platformSelect?.value || 'universal';
+      const vibe = vibeSelect?.value || 'clean';
+
+      const allowUnderscore = underscoreCheck?.checked;
+      const allowPeriod = periodCheck?.checked && (platform === 'instagram' || platform === 'youtube');
+      const allowNumbers = numbersCheck?.checked;
+
+      const maxLen = platformLimits[platform] || 15;
+      const modifiers = vibeModifiers[vibe] || vibeModifiers['clean'];
+
+      const generatedSet = new Set<string>();
+
+      const formatHandle = (prefix: string, body: string, suffix: string) => {
+        let sep = '';
+        if (allowUnderscore) sep = '_';
+        else if (allowPeriod) sep = '.';
+
+        let numStr = '';
+        if (allowNumbers) {
+          numStr = Math.floor(Math.random() * 89 + 10).toString();
+        }
+
+        const choice = Math.floor(Math.random() * 4);
+        let raw = '';
+
+        if (choice === 0) raw = `${prefix}${sep}${body}`;
+        else if (choice === 1) raw = `${body}${sep}${suffix}`;
+        else if (choice === 2) raw = `${prefix}${sep}${body}${sep}${suffix}`;
+        else raw = `${body}${numStr}`;
+
+        // Ensure max length compliance
+        let handle = raw.substring(0, maxLen);
+        if (handle.endsWith('_') || handle.endsWith('.')) {
+          handle = handle.slice(0, -1);
+        }
+        return `@${handle}`;
+      };
+
+      let iterations = 0;
+      while (generatedSet.size < 50 && iterations < 300) {
+        iterations++;
+        const pIndex = Math.floor(Math.random() * modifiers.prefixes.length);
+        const sIndex = Math.floor(Math.random() * modifiers.suffixes.length);
+
+        const prefix = modifiers.prefixes[pIndex];
+        const suffix = modifiers.suffixes[sIndex];
+
+        const formatted = formatHandle(prefix, seed, suffix);
+        if (formatted.length >= 4) {
+          generatedSet.add(formatted);
+        }
+      }
+
+      currentShuffledPool = Array.from(generatedSet).sort(() => Math.random() - 0.5);
+      currentPoolIndex = 0;
+    };
+
+    const updateMockupAvatar = (seedName: string) => {
+      if (!mockupAvatarBubble) return;
+      const clean = seedName.replace(/[^a-zA-Z0-9]/g, '').trim();
+      const initials = clean.substring(0, 2).toUpperCase();
+      mockupAvatarBubble.textContent = initials || 'AL';
+    };
+
+    // Clean initial list generation
+    const generateList = () => {
+      buildShuffledPool();
+
+      const selected = currentShuffledPool.slice(0, 15);
+      currentPoolIndex = 15;
+
+      const seedVal = (seedInput?.value || '').trim() || 'Alex';
+      const platformVal = platformSelect?.value || 'universal';
+
+      if (container) {
+        container.innerHTML = selected.map(s => {
+          return `
+            <div class="title-chip" data-name="${s}">
+              <span class="title-text">${s}</span>
+              <button class="chip-btn">Copy Handle</button>
+            </div>
+          `;
+        }).join('');
+      }
+
+      resultsWrapper?.classList.remove('hidden');
+
+      // Default mockup text
+      if (mockupDisplayName) {
+        mockupDisplayName.textContent = `${seedVal.charAt(0).toUpperCase() + seedVal.slice(1)} Creator`;
+      }
+      if (mockupPlatformTag) {
+        mockupPlatformTag.textContent = platformVal.charAt(0).toUpperCase() + platformVal.slice(1);
+      }
+      if (mockupHandleText && selected.length > 0) {
+        mockupHandleText.textContent = selected[0];
+      }
+      updateMockupAvatar(seedVal);
+    };
+
+    // Append 5 more unique handles
+    const appendMoreTitles = () => {
+      if (currentShuffledPool.length === 0) {
+        buildShuffledPool();
+      }
+
+      if (currentPoolIndex >= currentShuffledPool.length) {
+        buildShuffledPool();
+      }
+
+      const next = currentShuffledPool.slice(currentPoolIndex, currentPoolIndex + 5);
+      currentPoolIndex += 5;
+
+      if (container) {
+        const appendHtml = next.map(s => {
+          return `
+            <div class="title-chip" data-name="${s}">
+              <span class="title-text">${s}</span>
+              <button class="chip-btn">Copy Handle</button>
+            </div>
+          `;
+        }).join('');
+        container.innerHTML += appendHtml;
+      }
+    };
+
+    generateBtn?.addEventListener('click', () => {
+      generateList();
+
+      const resultsSection = document.getElementById('results-wrapper');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    generateMoreBtn?.addEventListener('click', () => {
+      appendMoreTitles();
+    });
+
+    // Handle copying individual handle chips and update mockup preview
+    container?.addEventListener('click', (e) => {
+      const chip = (e.target as HTMLElement).closest('.title-chip');
+      if (!chip) return;
+
+      const handleVal = chip.getAttribute('data-name') || '';
+
+      // Update mockup sidebar
+      if (mockupHandleText) {
+        mockupHandleText.textContent = handleVal;
+      }
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(handleVal).then(() => {
+        const btn = chip.querySelector('.chip-btn') as HTMLElement;
+        if (btn) {
+          btn.textContent = 'Copied! ✓';
+          setTimeout(() => {
+            btn.textContent = 'Copy Handle';
+          }, 1200);
+        }
+      });
+    });
+
+    // Reset inputs
+    resetBtn?.addEventListener('click', () => {
+      if (seedInput) seedInput.value = '';
+      resultsWrapper?.classList.add('hidden');
+    });
+
+    // Auto-generate initial list
+    generateList();
+  };
+
+  setupSocialMediaHandleGenerator();
+  document.addEventListener('astro:after-swap', setupSocialMediaHandleGenerator);
+</script>
