@@ -1,0 +1,501 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the difference between YouTube CPM and YouTube RPM?",
+    answer: "YouTube CPM (Cost Per Mille) is the price advertisers pay per 1,000 ad impressions shown on your channel before YouTube's fee. YouTube RPM (Revenue Per Mille) is the actual net earnings a creator makes per 1,000 total video views after YouTube takes its 45% revenue cut."
+  },
+  {
+    question: "What percentage cut does YouTube take from ad revenue?",
+    answer: "Under the YouTube Partner Program (YPP) revenue sharing agreement, YouTube takes a 45% platform fee from ad revenue, leaving content creators with 55% of total gross ad earnings."
+  },
+  {
+    question: "Why do CPM rates vary so drastically across different niches?",
+    answer: "Advertisers bid higher CPM rates for niches with high commercial purchase intent (such as Finance, Real Estate, Business, and Software) compared to general entertainment or gaming niches, where audience purchase intent is lower."
+  },
+  {
+    question: "What percentage of YouTube video views are monetized with ads?",
+    answer: "Typically, 40% to 80% of video views are monetized with ads. Monetized playback rates depend on viewer ad-blocker usage, viewer geographic location, YouTube Premium subscriptions, and brand safety algorithms."
+  },
+  {
+    question: "Is this YouTube CPM Calculator free to use?",
+    answer: "Yes, our YouTube CPM Calculator is 100% free with unlimited revenue calculations, niche CPM presets, 55/45 split breakdowns, and live YouTube Studio analytics card previews."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube CPM Calculator - Estimate Channel Revenue & RPM"
+  description="Calculate YouTube CPM, gross ad earnings, net creator payouts (55/45 split), and effective RPM per 1,000 views across different channel niches."
+  toolName="YouTube CPM Calculator"
+  toolDescription="Calculate YouTube CPM rates and ad payouts. Estimate net creator earnings, YouTube's 45% platform split, and creator RPM across different channel niches."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Calculator Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Total Video Views Input -->
+          <div class="form-group">
+            <label for="views-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.573 16.49 16.638 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+              Total Video Views
+            </label>
+            <input type="number" id="views-input" class="form-input" placeholder="e.g. 100000" value="100000" min="100" step="1000" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <!-- Monetized Playbacks % Input -->
+            <div class="form-group">
+              <label for="monetized-pct-input" class="icon-label">Monetized Views %</label>
+              <input type="number" id="monetized-pct-input" class="form-input" placeholder="e.g. 60" value="60" min="10" max="100" step="5" />
+            </div>
+
+            <!-- Niche Preset Select -->
+            <div class="form-group">
+              <label for="niche-select" class="icon-label">Niche CPM Benchmark</label>
+              <select id="niche-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+                <option value="18">Finance & Business ($18.00)</option>
+                <option value="12">Tech & Gadgets ($12.00)</option>
+                <option value="4">Gaming & Entertainment ($4.00)</option>
+                <option value="9">Education & Tutorials ($9.00)</option>
+                <option value="5">Vlogs & Lifestyle ($5.00)</option>
+                <option value="custom">Custom CPM Rate</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- CPM Rate or Earnings Input -->
+          <div class="form-group">
+            <label for="cpm-rate-input" class="icon-label">
+              Advertiser Gross CPM Rate ($ per 1k ad views)
+            </label>
+            <input type="number" id="cpm-rate-input" class="form-input" placeholder="e.g. 12.00" value="12.00" min="0.5" step="0.5" />
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="calculate-btn" class="calc-btn">Calculate Payout & CPM</button>
+            <button type="button" id="reset-btn" class="calc-btn-secondary">Reset Inputs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live YouTube Studio Analytics Mockup -->
+        <div class="youtube-analytics-card glass" style="background: #0f0f0f; color: #ffffff; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #272727; text-align: left; box-shadow: var(--shadow-md); font-family: var(--font-body); padding: 1.25rem;">
+          <!-- Top Header Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #272727; padding-bottom: 0.5rem;">
+            <span style="font-size: 0.72rem; font-weight: 800; color: #ff0000; text-transform: uppercase; display: flex; align-items: center; gap: 4px;">
+              📊 YouTube Studio Analytics
+            </span>
+            <span style="font-size: 0.68rem; background: #272727; color: #2ba640; padding: 2px 8px; border-radius: 10px; font-weight: 700;">
+              YPP Active ✓
+            </span>
+          </div>
+
+          <!-- Payout Metrics Grid -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <!-- Estimated Net Revenue -->
+            <div style="background: #181818; border-radius: 10px; padding: 0.75rem; border: 1px solid #272727;">
+              <span style="font-size: 0.68rem; font-weight: 700; color: #aaaaaa; text-transform: uppercase; display: block;">Your Net Estimated Revenue (55%)</span>
+              <span id="mockup-net-revenue" style="font-size: 1.4rem; font-weight: 800; color: #2ba640; display: block; margin-top: 2px;">
+                $396.00
+              </span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.65rem;">
+              <!-- Gross CPM -->
+              <div style="background: #181818; border-radius: 8px; padding: 0.6rem; border: 1px solid #272727;">
+                <span style="font-size: 0.65rem; color: #aaaaaa; display: block;">Gross CPM</span>
+                <span id="mockup-gross-cpm" style="font-size: 0.95rem; font-weight: 800; color: #ffffff;">$12.00</span>
+              </div>
+              <!-- Creator RPM -->
+              <div style="background: #181818; border-radius: 8px; padding: 0.6rem; border: 1px solid #272727;">
+                <span style="font-size: 0.65rem; color: #aaaaaa; display: block;">Creator RPM</span>
+                <span id="mockup-creator-rpm" style="font-size: 0.95rem; font-weight: 800; color: #6366f1;">$3.96</span>
+              </div>
+            </div>
+
+            <!-- YouTube Cut -->
+            <div style="background: #181818; border-radius: 8px; padding: 0.6rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; border: 1px solid #272727;">
+              <span style="color: #aaaaaa;">YouTube 45% Platform Share:</span>
+              <span id="mockup-youtube-share" style="font-weight: 800; color: #f59e0b;">$324.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div id="results-wrapper" class="hidden" style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-brand);">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+        Estimated YouTube Payout & Earnings Summary
+      </h3>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Gross Ad Revenue</span>
+          <span id="stat-gross-revenue" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-text); margin-top: 4px;">$720.00</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Creator Payout (55%)</span>
+          <span id="stat-net-payout" style="display: block; font-size: 1.4rem; font-weight: 800; color: #16a34a; margin-top: 4px;">$396.00</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">YouTube Share (45%)</span>
+          <span id="stat-yt-share" style="display: block; font-size: 1.4rem; font-weight: 800; color: #f59e0b; margin-top: 4px;">$324.00</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Creator RPM</span>
+          <span id="stat-creator-rpm" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-brand); margin-top: 4px;">$3.96</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>YouTube CPM Calculator: Calculate Ad Revenue & Creator RPM</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
+        📈 <strong>Want to analyze your net earnings per thousand total views?</strong> Try our free <a href="/tools/youtube-rpm-calculator" style="color: var(--color-brand); text-decoration: underline;">YouTube RPM Calculator</a> to calculate net RPM across memberships, Super Chats, and ad revenue.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      For video creators monetized through the YouTube Partner Program (YPP), understanding how ad revenue is generated is key to building a sustainable digital media business. While many creators track total video views, ad revenue is determined by advertiser bidding rates—known as <strong>YouTube CPM</strong> (Cost Per Mille). Different content niches (such as Finance vs. Gaming) command vastly different CPM rates, and YouTube's 55/45 revenue share model means creators receive a fraction of total advertiser spend. Our free <strong>YouTube CPM calculator</strong> allows creators to estimate gross ad revenue, net creator payouts, YouTube's platform share, and effective RPM rates in real-time.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      Calculating your estimated YouTube ad payouts and effective CPM is simple. Follow these steps:
+    </p>
+    <ol>
+      <li><strong>Total Video Views:</strong> Enter your total video view count or projected channel views (e.g. 100,000 views).</li>
+      <li><strong>Monetized Views %:</strong> Input the percentage of views that display ads (typically 50% to 70%).</li>
+      <li><strong>Niche CPM Benchmark:</strong> Choose a preset CPM benchmark matching your channel's niche (Finance $18, Tech $12, Gaming $4, Education $9, Vlogs $5, or Custom).</li>
+      <li><strong>Advertiser CPM Rate:</strong> Enter your target or historical gross CPM rate.</li>
+      <li><strong>Calculate Payout:</strong> Click <strong>Calculate Payout & CPM</strong> to view your Net Creator Payout ($), YouTube Share ($), and Creator RPM ($).</li>
+    </ol>
+
+    <h3>What is YouTube CPM</h3>
+    <p>
+      <strong>YouTube CPM</strong> stands for <i>Cost Per Mille</i> ('mille' meaning thousand in Latin). It represents the cost an advertiser pays to display 1,000 ad impressions on a creator's video content.
+    </p>
+    <p>
+      Understanding how CPM differs from RPM and platform payouts is essential:
+    </p>
+    <ul>
+      <li><strong>Gross CPM vs Net RPM:</strong> Gross CPM is what advertisers pay before YouTube takes its fee. Net RPM (Revenue Per Mille) is what you earn per 1,000 total video views after YouTube's cut and monetized playback filters are applied.</li>
+      <li><strong>YouTube's 55/45 Revenue Split:</strong> Under YPP terms, YouTube pays content creators <strong>55%</strong> of gross ad revenue while retaining <strong>45%</strong> as a platform service fee.</li>
+      <li><strong>Monetized Playbacks:</strong> Not every view displays an ad due to ad-blockers, Premium subscribers, or unmonetized mobile devices. You can also calculate general digital campaign rates with our <a href="/tools/cpm-calculator">CPM Calculator</a>.</li>
+    </ul>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The calculator evaluates your channel metrics through YouTube's monetization formula:
+    </p>
+    <ul>
+      <li><strong>Monetized Views Calculation:</strong> Multiplies total views by your monetized playback percentage.</li>
+      <li><strong>Gross Ad Revenue:</strong> Multiplies monetized views (in thousands) by the gross CPM rate.</li>
+      <li><strong>Net Creator Payout:</strong> Applies the 55% creator revenue share split to gross ad earnings.</li>
+      <li><strong>Creator RPM:</strong> Divides your net creator payout by total views to determine your effective RPM. Evaluate influencer brand sponsorship quotes using our <a href="/tools/influencer-rate-calculator">Influencer Rate Calculator</a>.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let us look at a step-by-step example calculation for a YouTube video:
+    </p>
+    <p>
+      <strong>Total Views:</strong> 100,000 views<br />
+      <strong>Monetized Playback Rate:</strong> 60%<br />
+      <strong>Gross Advertiser CPM:</strong> $12.00
+    </p>
+    <p>
+      <strong>Step 1: Calculate Monetized Views</strong><br />
+      Monetized Views = 100,000 &times; (60 / 100) = <strong>60,000 views</strong>
+    </p>
+    <p>
+      <strong>Step 2: Calculate Gross Ad Revenue</strong><br />
+      Gross Revenue = (60,000 / 1,000) &times; $12.00 = 60 &times; $12.00 = <strong>$720.00</strong>
+    </p>
+    <p>
+      <strong>Step 3: Calculate Creator Net Payout (55% Share)</strong><br />
+      Net Creator Payout = $720.00 &times; 0.55 = <strong>$396.00</strong>
+    </p>
+    <p>
+      <strong>Step 4: Calculate Effective Creator RPM</strong><br />
+      Creator RPM = ($396.00 / 100,000) &times; 1,000 = <strong>$3.96 per 1k total views</strong>
+    </p>
+    <p>
+      In this example, out of <strong>$720.00</strong> in total advertiser spend, the creator earns <strong>$396.00</strong> (an RPM of $3.96 per 1,000 total views), while YouTube retains <strong>$324.00</strong> (45%).
+    </p>
+
+    <h3>How To Use</h3>
+    <p>
+      Using our calculator is intuitive. Type your view counts into the inputs, select your niche benchmark, and click calculate. The live YouTube Studio analytics mockup updates automatically, displaying your net earnings and RPM in a real-time analytics interface.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This calculator is designed for:
+    </p>
+    <ul>
+      <li><strong>YouTube Content Creators:</strong> Projecting monthly ad payouts and benchmarking channel RPM rates.</li>
+      <li><strong>Video Marketers & Agencies:</strong> Estimating campaign ROI and creator sponsorship payouts.</li>
+      <li><strong>Aspiring YouTubers:</strong> Comparing potential earnings across different channel niches before launching.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupYoutubeCpmCalculator = () => {
+    const viewsInput = document.getElementById('views-input') as HTMLInputElement;
+    const monetizedPctInput = document.getElementById('monetized-pct-input') as HTMLInputElement;
+    const nicheSelect = document.getElementById('niche-select') as HTMLSelectElement;
+    const cpmRateInput = document.getElementById('cpm-rate-input') as HTMLInputElement;
+
+    // Actions
+    const calculateBtn = document.getElementById('calculate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Layout slots
+    const resultsWrapper = document.getElementById('results-wrapper');
+
+    // Stat targets
+    const statGrossRevenue = document.getElementById('stat-gross-revenue');
+    const statNetPayout = document.getElementById('stat-net-payout');
+    const statYtShare = document.getElementById('stat-yt-share');
+    const statCreatorRpm = document.getElementById('stat-creator-rpm');
+
+    // Mockup targets
+    const mockupNetRevenue = document.getElementById('mockup-net-revenue');
+    const mockupGrossCpm = document.getElementById('mockup-gross-cpm');
+    const mockupCreatorRpm = document.getElementById('mockup-creator-rpm');
+    const mockupYoutubeShare = document.getElementById('mockup-youtube-share');
+
+    // Update CPM rate input when niche dropdown changes
+    nicheSelect?.addEventListener('change', () => {
+      const val = nicheSelect.value;
+      if (val !== 'custom' && cpmRateInput) {
+        cpmRateInput.value = parseFloat(val).toFixed(2);
+        runCalculation();
+      }
+    });
+
+    const runCalculation = () => {
+      const totalViews = Math.max(100, parseFloat(viewsInput?.value || '100000') || 100000);
+      const monetizedPct = Math.min(100, Math.max(5, parseFloat(monetizedPctInput?.value || '60') || 60));
+      const cpmRate = Math.max(0.1, parseFloat(cpmRateInput?.value || '12.00') || 12.00);
+
+      // Math
+      const monetizedViews = totalViews * (monetizedPct / 100);
+      const grossRevenue = (monetizedViews / 1000) * cpmRate;
+      const netPayout = grossRevenue * 0.55;
+      const ytShare = grossRevenue * 0.45;
+      const creatorRpm = (netPayout / totalViews) * 1000;
+
+      // Update overview stat cards
+      if (statGrossRevenue) statGrossRevenue.textContent = `$${grossRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      if (statNetPayout) statNetPayout.textContent = `$${netPayout.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      if (statYtShare) statYtShare.textContent = `$${ytShare.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      if (statCreatorRpm) statCreatorRpm.textContent = `$${creatorRpm.toFixed(2)}`;
+
+      // Update mockup card
+      if (mockupNetRevenue) mockupNetRevenue.textContent = `$${netPayout.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      if (mockupGrossCpm) mockupGrossCpm.textContent = `$${cpmRate.toFixed(2)}`;
+      if (mockupCreatorRpm) mockupCreatorRpm.textContent = `$${creatorRpm.toFixed(2)}`;
+      if (mockupYoutubeShare) mockupYoutubeShare.textContent = `$${ytShare.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+      resultsWrapper?.classList.remove('hidden');
+    };
+
+    calculateBtn?.addEventListener('click', () => {
+      runCalculation();
+
+      const resultsSection = document.getElementById('results-wrapper');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      if (viewsInput) viewsInput.value = '100000';
+      if (monetizedPctInput) monetizedPctInput.value = '60';
+      if (cpmRateInput) cpmRateInput.value = '12.00';
+      runCalculation();
+    });
+
+    // Auto-run initial calculation
+    runCalculation();
+  };
+
+  setupYoutubeCpmCalculator();
+  document.addEventListener('astro:after-swap', setupYoutubeCpmCalculator);
+</script>

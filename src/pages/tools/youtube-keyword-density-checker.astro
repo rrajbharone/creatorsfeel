@@ -1,0 +1,587 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the optimal keyword density for YouTube video descriptions?",
+    answer: "The ideal keyword density for YouTube descriptions is between 1% and 3%. This means your primary keyword should appear 2 to 4 times in a 250 to 300-word description. Exceeding 5% density can trigger YouTube's keyword stuffing spam filters."
+  },
+  {
+    question: "Can YouTube penalize videos for keyword stuffing in descriptions?",
+    answer: "Yes, YouTube's search and discovery algorithm actively flags descriptions that contain lists of repetitive keywords or unnatural phrasing. Over-optimizing metadata can result in lower search rankings or removal from recommendation feeds."
+  },
+  {
+    question: "How does keyword density differ between 1-word, 2-word, and 3-word phrases?",
+    answer: "Single-word density measures individual word frequency (e.g., 'gaming'), while 2-word and 3-word phrase density tracks exact multi-word search queries (e.g., 'gaming PC' or 'best gaming PC build'). Tracking multi-word phrases ensures your target long-tail keywords are balanced."
+  },
+  {
+    question: "Does YouTube check transcript text for keyword density?",
+    answer: "Yes, YouTube automatically transcribes spoken audio into closed captions. Spoken keyword density affects your video's semantic context, so saying your target keywords naturally during your video presentation improves search indexing."
+  },
+  {
+    question: "Is this YouTube Keyword Density Checker free to use?",
+    answer: "Yes, our YouTube Keyword Density Checker is 100% free with unlimited text analysis, 1 to 3-word phrase breakdowns, spam risk detection, and live description card previews."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube Keyword Density Checker - Free Video Description Audit Tool"
+  description="Analyze YouTube video description keyword density, total word count, 1-3 word phrase frequencies, and spam risk levels to avoid keyword stuffing."
+  toolName="YouTube Keyword Density Checker"
+  toolDescription="Audit YouTube video descriptions for keyword density and frequency. Prevent keyword stuffing penalties, analyze 1-3 word phrases, and optimize video metadata."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Analyzer Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Text Area Input for YouTube Description -->
+          <div class="form-group">
+            <label for="description-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+              </svg>
+              YouTube Video Description Text
+            </label>
+            <textarea id="description-input" class="form-input" rows="7" style="height: auto; padding: 12px; font-family: var(--font-body); font-size: 0.9rem; resize: vertical;" placeholder="Paste your YouTube video description or transcript text here...">In this video, we show you how to build a gaming PC step by step for beginners. Building a gaming PC can be intimidating, but our complete gaming PC build guide breaks down every component you need. Learn how to choose the right CPU, GPU, motherboard, and RAM for your custom gaming PC. We cover budget gaming PC options as well as high-end gaming PC builds.</textarea>
+          </div>
+
+          <!-- Target Keyword Input -->
+          <div class="form-group">
+            <label for="target-keyword-input" class="icon-label">
+              Target Keyword (Optional)
+            </label>
+            <input type="text" id="target-keyword-input" class="form-input" placeholder="e.g. gaming PC" value="gaming PC" />
+          </div>
+
+          <!-- Filter Controls -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; background: var(--color-bg-alt); padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--color-border);">
+            <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Analysis Settings</span>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.88rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="exclude-stopwords-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Exclude Common Stop Words (the, and, is, for, in)
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="min-length-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Ignore Words Under 3 Characters
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="analyze-btn" class="calc-btn">Analyze Density</button>
+            <button type="button" id="reset-btn" class="calc-btn-secondary">Clear Text</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Video Description Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live YouTube Video Description Mockup -->
+        <div class="youtube-desc-card glass" style="background: #0f0f0f; color: #ffffff; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #272727; text-align: left; box-shadow: var(--shadow-md); font-family: var(--font-body); padding: 1.25rem;">
+          <!-- Top Header -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1px solid #272727; padding-bottom: 0.5rem;">
+            <span style="font-size: 0.72rem; font-weight: 800; color: #ff0000; text-transform: uppercase; display: flex; align-items: center; gap: 4px;">
+              📺 YouTube Description Preview
+            </span>
+            <span id="char-counter-tag" style="font-size: 0.68rem; background: #272727; color: #aaaaaa; padding: 2px 8px; border-radius: 10px; font-weight: 700;">
+              342 / 5000 chars
+            </span>
+          </div>
+
+          <!-- Description Text Preview with Target Highlight -->
+          <div id="mockup-desc-text" style="font-size: 0.78rem; line-height: 1.5; color: #f1f1f1; max-height: 180px; overflow-y: auto; background: #181818; padding: 0.75rem; border-radius: 10px; border: 1px solid #272727;">
+            In this video, we show you how to build a <mark style="background: rgba(99, 102, 241, 0.35); color: #6366f1; padding: 0 4px; border-radius: 3px; font-weight: 700;">gaming PC</mark> step by step for beginners. Building a <mark style="background: rgba(99, 102, 241, 0.35); color: #6366f1; padding: 0 4px; border-radius: 3px; font-weight: 700;">gaming PC</mark> can be intimidating, but our complete...
+          </div>
+
+          <!-- Target Keyword Status Footer -->
+          <div style="margin-top: 0.75rem; background: #181818; border-radius: 8px; padding: 0.6rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem;">
+            <span style="color: #aaaaaa;">Target Density:</span>
+            <span id="target-status-tag" style="font-weight: 800; color: #2ba640;">2.4% (Safe Zone ✓)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div id="results-wrapper" class="hidden" style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;">
+      <!-- Key Metrics Overview Cards -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Total Words</span>
+          <span id="stat-total-words" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-text); margin-top: 4px;">67</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Unique Words</span>
+          <span id="stat-unique-words" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-text); margin-top: 4px;">42</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Target Keyword</span>
+          <span id="stat-target-density" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-brand); margin-top: 4px;">2.4%</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Spam Risk Level</span>
+          <span id="stat-spam-risk" style="display: block; font-size: 1rem; font-weight: 800; color: #16a34a; margin-top: 8px;">Low Risk ✓</span>
+        </div>
+      </div>
+
+      <!-- Phrase Frequency Tables -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        <!-- 1-Word Density Table -->
+        <div style="background: var(--color-bg-alt); padding: 1.25rem; border-radius: 16px; border: 1px solid var(--color-border);">
+          <h4 style="font-size: 0.9rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0;">1-Word Frequency</h4>
+          <div id="table-1word-container" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Dynamic 1-word list -->
+          </div>
+        </div>
+
+        <!-- 2-Word Density Table -->
+        <div style="background: var(--color-bg-alt); padding: 1.25rem; border-radius: 16px; border: 1px solid var(--color-border);">
+          <h4 style="font-size: 0.9rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0;">2-Word Phrase Frequency</h4>
+          <div id="table-2word-container" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Dynamic 2-word list -->
+          </div>
+        </div>
+
+        <!-- 3-Word Density Table -->
+        <div style="background: var(--color-bg-alt); padding: 1.25rem; border-radius: 16px; border: 1px solid var(--color-border);">
+          <h4 style="font-size: 0.9rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0;">3-Word Phrase Frequency</h4>
+          <div id="table-3word-container" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Dynamic 3-word list -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>YouTube Keyword Density Checker: Optimize Video Description Metadata</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
+        🔍 <strong>Looking for high-volume keywords to target?</strong> Use our free <a href="/tools/youtube-keyword-generator" style="color: var(--color-brand); text-decoration: underline;">YouTube Keyword Generator</a> to discover search intent terms and volume metrics.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      In YouTube SEO, video descriptions play a central role in helping YouTube's search crawler understand the context of your content. When viewers search for specific tutorials, reviews, or guides, YouTube evaluates how frequently target keywords and semantic terms appear within your description text. However, there is a fine line between strategic keyword inclusion and unnatural keyword stuffing. Exceeding recommended keyword repetition limits can trigger algorithm spam filters and hurt your channel's search rankings. Our free <strong>YouTube keyword density checker</strong> allows creators to analyze description word counts, calculate 1 to 3-word phrase frequency percentages, and audit spam risk levels in real-time.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      Auditing your YouTube description metadata with our interactive tool is straightforward. Follow these steps:
+    </p>
+    <ol>
+      <li><strong>Paste Description Text:</strong> Copy and paste your video description or script text into the main text area input.</li>
+      <li><strong>Target Keyword:</strong> Enter your primary target keyword or phrase (e.g. gaming PC).</li>
+      <li><strong>Analysis Settings:</strong> Toggle options to exclude common English stop words or ignore words under 3 characters.</li>
+      <li><strong>Analyze Density:</strong> Click <strong>Analyze Density</strong> to run the audit.</li>
+      <li><strong>Review Breakdown:</strong> Review your Total Word Count, Target Keyword Density percentage, Spam Risk Level, and 1 to 3-word phrase tables.</li>
+    </ol>
+
+    <h3>What is YouTube Keyword Density</h3>
+    <p>
+      <strong>YouTube keyword density</strong> is the percentage measurement of how many times a specific keyword or phrase appears inside your video description relative to the total number of words in that description text.
+    </p>
+    <p>
+      Maintaining a healthy keyword density ensures your metadata stays optimized while complying with YouTube's search policies:
+    </p>
+    <ul>
+      <li><strong>Ideal Safe Density (1% – 3%):</strong> The sweet spot for video SEO. Your target keyword appears naturally 2 to 4 times in a 250-word description, signaling strong topic relevancy.</li>
+      <li><strong>Moderate Risk (3% – 5%):</strong> Approaching over-optimization. Consider replacing repetitive keywords with LSI (Latent Semantic Indexing) synonyms.</li>
+      <li><strong>High Spam Risk (> 5%):</strong> Triggers keyword stuffing flags. YouTube may penalize videos that repeat keywords excessively. Before publishing, check your overall title limits using our <a href="/tools/youtube-title-length-checker">YouTube Title Length Checker</a>.</li>
+    </ul>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The checker processes your text using multi-word tokenization algorithms:
+    </p>
+    <ul>
+      <li><strong>Word Tokenization:</strong> Cleans punctuation, handles case sensitivity, and splits text into individual words.</li>
+      <li><strong>N-Gram Phrase Extraction:</strong> Groups consecutive words into 2-word (bigrams) and 3-word (trigrams) phrases to detect exact multi-word search queries.</li>
+      <li><strong>Density Percentage Calculation:</strong> Computes exact frequency ratios and compares target keyword occurrences against total word counts.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let us calculate the Keyword Density percentage for a sample YouTube video description:
+    </p>
+    <p>
+      <strong>Total Word Count ($W$):</strong> `300 words`<br />
+      <strong>Target Keyword ($K$):</strong> `"gaming PC"`<br />
+      <strong>Target Keyword Occurrences ($N$):</strong> `6 times`
+    </p>
+    <p>
+      <strong>Formula:</strong><br />
+      Keyword Density % = (Target Keyword Occurrences / Total Word Count) &times; 100
+    </p>
+    <p>
+      Keyword Density % = (6 / 300) &times; 100 = 0.02 &times; 100 = <strong>2.0%</strong>
+    </p>
+    <p>
+      A keyword density of <strong>2.0%</strong> falls perfectly within YouTube's recommended 1% to 3% safe zone, ensuring optimal search indexing without triggering spam filters. You can also generate copy-paste tags for your upload with our <a href="/tools/youtube-tag-generator">YouTube Tag Generator</a>.
+    </p>
+
+    <h3>How To Use</h3>
+    <p>
+      Using our tool is intuitive. Paste your draft description into the input box, enter your target keyword, and click analyze. The live YouTube description mockup card updates automatically, highlighting target keyword occurrences in real-time so you can refine your phrasing before publishing.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This generator is designed for:
+    </p>
+    <ul>
+      <li><strong>YouTube Creators:</strong> Checking description drafts to avoid keyword stuffing before upload.</li>
+      <li><strong>Video SEO Specialists:</strong> Auditing client channels and optimizing video metadata for higher search positions.</li>
+      <li><strong>Copywriters & Content Managers:</strong> Ensuring video descriptions maintain natural readability and balanced keyword frequency.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupYoutubeKeywordDensityChecker = () => {
+    const descInput = document.getElementById('description-input') as HTMLTextAreaElement;
+    const targetInput = document.getElementById('target-keyword-input') as HTMLInputElement;
+
+    const excludeStopwordsCheck = document.getElementById('exclude-stopwords-check') as HTMLInputElement;
+    const minLengthCheck = document.getElementById('min-length-check') as HTMLInputElement;
+
+    // Actions
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Layout slots
+    const resultsWrapper = document.getElementById('results-wrapper');
+
+    // Stat targets
+    const statTotalWords = document.getElementById('stat-total-words');
+    const statUniqueWords = document.getElementById('stat-unique-words');
+    const statTargetDensity = document.getElementById('stat-target-density');
+    const statSpamRisk = document.getElementById('stat-spam-risk');
+
+    // Mockup targets
+    const mockupDescText = document.getElementById('mockup-desc-text');
+    const charCounterTag = document.getElementById('char-counter-tag');
+    const targetStatusTag = document.getElementById('target-status-tag');
+
+    // Tables
+    const table1Word = document.getElementById('table-1word-container');
+    const table2Word = document.getElementById('table-2word-container');
+    const table3Word = document.getElementById('table-3word-container');
+
+    const stopWords = new Set([
+      'the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'i',
+      'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at',
+      'this', 'but', 'his', 'by', 'from', 'they', 'we', 'say', 'her', 'she',
+      'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their', 'what',
+      'so', 'up', 'out', 'if', 'about', 'who', 'get', 'which', 'go', 'me'
+    ]);
+
+    const runDensityAnalysis = () => {
+      const text = descInput?.value || '';
+      const targetKw = (targetInput?.value || '').trim().toLowerCase();
+
+      const excludeStop = excludeStopwordsCheck?.checked;
+      const minLength = minLengthCheck?.checked;
+
+      // Clean text into tokens
+      const rawWords = text.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
+      const totalWordCount = rawWords.length;
+
+      if (charCounterTag) {
+        charCounterTag.textContent = `${text.length} / 5000 chars`;
+      }
+
+      if (totalWordCount === 0) {
+        resultsWrapper?.classList.add('hidden');
+        return;
+      }
+
+      // Filtered words for n-gram frequency
+      const filteredWords = rawWords.filter(w => {
+        if (minLength && w.length < 3) return false;
+        if (excludeStop && stopWords.has(w)) return false;
+        return true;
+      });
+
+      const uniqueWords = new Set(filteredWords).size;
+
+      // 1-Word Frequencies
+      const freq1: Record<string, number> = {};
+      filteredWords.forEach(w => {
+        freq1[w] = (freq1[w] || 0) + 1;
+      });
+
+      // 2-Word Frequencies (Bigrams)
+      const freq2: Record<string, number> = {};
+      for (let i = 0; i < rawWords.length - 1; i++) {
+        const w1 = rawWords[i];
+        const w2 = rawWords[i + 1];
+        if (excludeStop && (stopWords.has(w1) && stopWords.has(w2))) continue;
+        const phrase = `${w1} ${w2}`;
+        freq2[phrase] = (freq2[phrase] || 0) + 1;
+      }
+
+      // 3-Word Frequencies (Trigrams)
+      const freq3: Record<string, number> = {};
+      for (let i = 0; i < rawWords.length - 2; i++) {
+        const w1 = rawWords[i];
+        const w2 = rawWords[i + 1];
+        const w3 = rawWords[i + 2];
+        const phrase = `${w1} ${w2} ${w3}`;
+        freq3[phrase] = (freq3[phrase] || 0) + 1;
+      }
+
+      // Target Keyword Count Calculation
+      let targetCount = 0;
+      if (targetKw) {
+        const regex = new RegExp(targetKw.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
+        const matches = text.match(regex);
+        targetCount = matches ? matches.length : 0;
+      }
+
+      const targetDensityPct = totalWordCount > 0 ? ((targetCount / totalWordCount) * 100) : 0;
+
+      // Update overview stats
+      if (statTotalWords) statTotalWords.textContent = totalWordCount.toString();
+      if (statUniqueWords) statUniqueWords.textContent = uniqueWords.toString();
+      if (statTargetDensity) statTargetDensity.textContent = `${targetDensityPct.toFixed(1)}%`;
+
+      if (statSpamRisk) {
+        if (targetDensityPct > 5.0) {
+          statSpamRisk.textContent = 'High Spam Risk ⚠️';
+          statSpamRisk.style.color = '#ef4444';
+        } else if (targetDensityPct > 3.0) {
+          statSpamRisk.textContent = 'Moderate Risk ⚡';
+          statSpamRisk.style.color = '#f59e0b';
+        } else {
+          statSpamRisk.textContent = 'Safe Zone ✓';
+          statSpamRisk.style.color = '#16a34a';
+        }
+      }
+
+      if (targetStatusTag) {
+        targetStatusTag.textContent = `${targetDensityPct.toFixed(1)}% (${targetDensityPct > 5 ? 'High Risk ⚠️' : 'Safe Zone ✓'})`;
+        targetStatusTag.style.color = targetDensityPct > 5 ? '#ef4444' : '#2ba640';
+      }
+
+      // Update Live Mockup Highlight Text
+      if (mockupDescText) {
+        if (targetKw && targetCount > 0) {
+          const escKw = targetKw.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+          const highlightHtml = text.replace(new RegExp(`(${escKw})`, 'gi'), `<mark style="background: rgba(99, 102, 241, 0.35); color: #6366f1; padding: 0 4px; border-radius: 3px; font-weight: 700;">$1</mark>`);
+          mockupDescText.innerHTML = highlightHtml;
+        } else {
+          mockupDescText.textContent = text;
+        }
+      }
+
+      // Render Tables Helper
+      const renderTable = (elem: HTMLElement | null, obj: Record<string, number>) => {
+        if (!elem) return;
+        const sorted = Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, 5);
+        if (sorted.length === 0) {
+          elem.innerHTML = '<span style="font-size: 0.78rem; color: var(--color-text-muted);">No data.</span>';
+          return;
+        }
+        elem.innerHTML = sorted.map(([phrase, count]) => {
+          const pct = ((count / totalWordCount) * 100).toFixed(1);
+          return `
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; background: var(--color-bg); padding: 6px 10px; border-radius: 8px; border: 1px solid var(--color-border);">
+              <span style="font-weight: 700; color: var(--color-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60%;">${phrase}</span>
+              <span style="color: var(--color-text-muted); font-size: 0.72rem;">${count}x (${pct}%)</span>
+            </div>
+          `;
+        }).join('');
+      };
+
+      renderTable(table1Word, freq1);
+      renderTable(table2Word, freq2);
+      renderTable(table3Word, freq3);
+
+      resultsWrapper?.classList.remove('hidden');
+    };
+
+    analyzeBtn?.addEventListener('click', () => {
+      runDensityAnalysis();
+
+      const resultsSection = document.getElementById('results-wrapper');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      if (descInput) descInput.value = '';
+      resultsWrapper?.classList.add('hidden');
+    });
+
+    // Auto-run initial analysis
+    runDensityAnalysis();
+  };
+
+  setupYoutubeKeywordDensityChecker();
+  document.addEventListener('astro:after-swap', setupYoutubeKeywordDensityChecker);
+</script>

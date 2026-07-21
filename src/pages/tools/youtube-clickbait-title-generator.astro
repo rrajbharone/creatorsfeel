@@ -1,0 +1,676 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is a YouTube Clickbait Title Generator and how does it help creators?",
+    answer: "A YouTube Clickbait Title Generator is a video marketing tool that leverages psychological curiosity gaps, emotional triggers, and high-CTR power words to create compelling, attention-grabbing titles that encourage viewers to click."
+  },
+  {
+    question: "Is using clickbait titles bad for my YouTube channel?",
+    answer: "Misleading clickbait (promising something in the title that never appears in the video) harms your channel by increasing viewer bounce rates. However, 'ethical clickbait'—using high-curiosity phrasing that your video actually delivers on—is essential for high Click-Through Rates (CTR)."
+  },
+  {
+    question: "How long should a YouTube clickbait title be?",
+    answer: "The ideal length for a YouTube title is between 50 and 70 characters. Titles under 70 characters ensure your full title is visible on mobile screens without getting truncated."
+  },
+  {
+    question: "Should I use ALL CAPS or emojis in my YouTube titles?",
+    answer: "Using selective ALL CAPS power words (like SECRET, NEVER, or WARNING) and 1 to 2 relevant emojis boosts visual contrast in YouTube recommendation feeds, increasing click-through rates by up to 25%."
+  },
+  {
+    question: "Is this YouTube Clickbait Title Generator free to use?",
+    answer: "Yes, our YouTube Clickbait Title Generator is 100% free with unlimited title generations, emotion filters, power word add-ons, and live mobile video card previews."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube Clickbait Title Generator - High-CTR Video Title Ideas"
+  description="Generate viral, high-CTR YouTube clickbait titles. Leverage curiosity gaps, power words, and emotion filters to boost video views and clicks."
+  toolName="YouTube Clickbait Title Generator"
+  toolDescription="Create high-converting, attention-grabbing YouTube titles. Filter by emotion vibe, customize power words, and preview live YouTube mobile video cards."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Generator Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Topic / Seed Concept Input -->
+          <div class="form-group">
+            <label for="seed-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.375 8.75c0 1.105-1.123 2-2.5 2s-2.5-.895-2.5-2 1.123-2 2.5-2 2.5.895 2.5 2Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
+              </svg>
+              Video Topic or Seed Concept
+            </label>
+            <input type="text" id="seed-input" class="form-input" placeholder="e.g. iPhone 16, day in the life, crypto crash" value="iPhone 16" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <!-- Clickbait Vibe Select -->
+            <div class="form-group">
+              <label for="vibe-select" class="icon-label">Clickbait Vibe</label>
+              <select id="vibe-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+                <option value="shock">Extreme Curiosity & Shock</option>
+                <option value="urgent">Dramatic & Urgent</option>
+                <option value="secret">Secret & Hidden Knowledge</option>
+                <option value="challenge">Challenge & Impossible</option>
+                <option value="reaction">High-Energy & Reaction</option>
+              </select>
+            </div>
+
+            <!-- Target Audience Select -->
+            <div class="form-group">
+              <label for="audience-select" class="icon-label">Target Niche</label>
+              <select id="audience-select" class="form-input" style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);">
+                <option value="tech">Tech & Gadgets</option>
+                <option value="gaming">Gaming & Streams</option>
+                <option value="lifestyle">Vlogs & Lifestyle</option>
+                <option value="finance">Finance & Business</option>
+                <option value="general">General YouTube</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Formatting Checkboxes -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; background: var(--color-bg-alt); padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--color-border);">
+            <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Title Formatting Add-ons</span>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.88rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="caps-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include ALL CAPS Power Words (SECRET, NEVER, STOP)
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="emojis-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include Emojis (😱, 🔥, 🚨)
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="brackets-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Include Brackets & Hooks ([SHOCKING], (DON'T BUY))
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="generate-btn" class="calc-btn">Generate Clickbait Titles</button>
+            <button type="button" id="reset-btn" class="calc-btn-secondary">Reset Inputs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live YouTube Mobile Video Card Preview Mockup -->
+        <div class="youtube-mobile-card glass" style="background: #0f0f0f; color: #ffffff; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #272727; text-align: left; box-shadow: var(--shadow-md); font-family: var(--font-body); padding: 1rem;">
+          <!-- Simulated Video Thumbnail Container -->
+          <div style="position: relative; width: 100%; height: 160px; background: linear-gradient(135deg, #1e1e24, #0f0f0f); border-radius: 12px; overflow: hidden; margin-bottom: 0.75rem; border: 1px solid #272727; display: flex; align-items: center; justify-content: center;">
+            <div style="text-align: center;">
+              <span style="font-size: 2.2rem; display: block;">😱</span>
+              <span style="font-size: 0.72rem; font-weight: 800; color: #ff0000; letter-spacing: 1px; text-transform: uppercase;">[SHOCKING REVEAL]</span>
+            </div>
+            <!-- Duration Pill -->
+            <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.85); color: #ffffff; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 4px;">
+              12:45
+            </span>
+          </div>
+
+          <!-- Video Details Row -->
+          <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+            <!-- Channel Avatar -->
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #ec4899); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; color: #ffffff; flex-shrink: 0;">
+              CF
+            </div>
+            <!-- Title & Metadata -->
+            <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0;">
+              <!-- Title updating live -->
+              <span id="mockup-title-text" style="font-size: 0.82rem; font-weight: 700; color: #ffffff; line-height: 1.35; max-height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                I Tested the iPhone 16 for 24 Hours... [DON'T BUY THIS] 😱
+              </span>
+              <div style="font-size: 0.68rem; color: #aaaaaa; display: flex; gap: 6px; align-items: center;">
+                <span>CreatorsFeel</span>
+                <span>•</span>
+                <span>450K views</span>
+                <span>•</span>
+                <span>2 hours ago</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTR & Length Indicator Footer -->
+          <div style="margin-top: 0.85rem; background: #181818; border-radius: 8px; padding: 0.5rem 0.75rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem;">
+            <span style="color: #aaaaaa;">CTR Potential:</span>
+            <span id="ctr-status-tag" style="font-weight: 800; color: #2ba640;">🔥 High CTR (64 chars)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div id="results-wrapper" class="hidden" style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-brand);">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+        </svg>
+        Suggested Clickbait YouTube Titles
+      </h3>
+
+      <div class="usernames-grid" id="generated-titles-container">
+        <!-- Results dynamic content goes here -->
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+        <button type="button" id="generate-more-btn" class="calc-btn" style="max-width: 200px; padding: 0 1.5rem;">Generate More</button>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>YouTube Clickbait Title Generator: Boost Click-Through Rates (CTR)</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
+        📏 <strong>Want to make sure your title fits mobile screens perfectly?</strong> Check title character limits with our free <a href="/tools/youtube-title-length-checker" style="color: var(--color-brand); text-decoration: underline;">YouTube Title Length Checker</a> to prevent mobile title cropping.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      In YouTube content creation, your title and thumbnail are the two most critical factors determining your video's Click-Through Rate (CTR). Even if your video features Hollywood-grade production value, no one will watch it if your title fails to spark curiosity in recommendation feeds. YouTube handles millions of uploads daily, and standing out requires leveraging psychological curiosity gaps, emotional triggers, and urgency phrasing. Our free <strong>YouTube clickbait title generator</strong> helps creators, vloggers, and digital marketers craft high-converting, attention-grabbing titles that entice viewers to click while maintaining content honesty.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      Generating high-CTR clickbait YouTube titles in real-time is straightforward. Follow these simple steps:
+    </p>
+    <ol>
+      <li><strong>Video Topic or Seed Concept:</strong> Enter your core video concept or main keyword (e.g. iPhone 16, day in the life, crypto crash).</li>
+      <li><strong>Clickbait Vibe:</strong> Select an emotional style filter (Extreme Curiosity & Shock, Dramatic & Urgent, Secret & Hidden Knowledge, Challenge & Impossible, or High-Energy & Reaction).</li>
+      <li><strong>Target Niche:</strong> Choose your channel's niche (Tech & Gadgets, Gaming, Vlogs, Finance, or General YouTube).</li>
+      <li><strong>Formatting Add-ons:</strong> Select toggles to include ALL CAPS power words, emojis, or bracket hooks.</li>
+      <li><strong>Generate List:</strong> Click <strong>Generate Clickbait Titles</strong> to view 15 custom options complete with character count badges.</li>
+      <li><strong>Preview & Copy:</strong> Click any title card to preview how it looks inside a live YouTube mobile video card, and copy it to your clipboard. Click <strong>Generate More</strong> to append 5 more options.</li>
+    </ol>
+
+    <h3>What is YouTube Clickbait Title Generator</h3>
+    <p>
+      A <strong>YouTube clickbait title generator</strong> is an advanced video marketing tool engineered to create compelling, curiosity-driven titles by combining your seed topic with high-converting power words, emotional hooks, and psychological curiosity gaps.
+    </p>
+    <p>
+      Using a dedicated <strong>clickbait generator for YouTube</strong> helps you balance CTR optimization with audience retention:
+    </p>
+    <ul>
+      <li><strong>The Curiosity Gap:</strong> Creating a knowledge gap between what the viewer knows and what they want to know (e.g. <i>"I Tried Working Out Like The Rock for 30 Days... (THIS HAPPENED)"</i>).</li>
+      <li><strong>Ethical Clickbait vs. Misleading Clickbait:</strong> Ethical clickbait uses high-energy phrasing to highlight the most exciting aspect of a video. Misleading clickbait makes promises the video fails to deliver, leading to high bounce rates.</li>
+      <li><strong>SEO Keyword Balance:</strong> Blending curiosity hooks with search keywords so your video ranks in YouTube search results while capturing clicks in recommendation feeds. Discover target keywords with our <a href="/tools/youtube-keyword-generator">YouTube Keyword Generator</a>.</li>
+    </ul>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The generator processes your seed concept through proven YouTube title formulas:
+    </p>
+    <ul>
+      <li><strong>Power Word Insertion:</strong> Integrates high-converting trigger words (such as 'SECRET', 'NEVER', 'WARNING', 'DONT', or 'SHOCKING') to command visual attention in feeds.</li>
+      <li><strong>Bracket & Hook Structuring:</strong> Encloses key emotional teasers inside brackets or parentheses—a proven technique used by top YouTubers to increase CTR by up to 20%.</li>
+      <li><strong>Character Count Trimming:</strong> Trims titles to optimal length (between 50 and 70 characters) so your full hook remains visible on mobile screens. Generate tags for your upload with our <a href="/tools/youtube-tag-generator">YouTube Tag Generator</a>.</li>
+    </ul>
+
+    <h3>How To Use</h3>
+    <p>
+      Using our generator is intuitive. Simply type your video concept into the input field, pick your preferred clickbait vibe, and click generate. Clicking any title card automatically updates the live mobile video mockup card, giving you an exact visual preview of how your title will appear in YouTube's mobile home feed before publishing.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This generator is designed for:
+    </p>
+    <ul>
+      <li><strong>YouTubers & Content Creators:</strong> Looking to boost click-through rates on new uploads or revive underperforming videos.</li>
+      <li><strong>Vloggers & Influencers:</strong> Crafting high-energy storytelling titles that spark curiosity.</li>
+      <li><strong>Digital Marketers & Video Agencies:</strong> Optimizing video campaign titles for maximum viewer reach.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  /* Usernames Grid Styling */
+  .usernames-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Tactile row chip layout */
+  :global(.title-chip) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+    min-width: 0;
+  }
+
+  :global(.title-chip:hover) {
+    border-color: var(--color-brand);
+    background: var(--color-bg-alt);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+  }
+
+  :global(.title-text) {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text);
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.4;
+    padding-right: 12px;
+    min-width: 0;
+  }
+
+  :global(.chip-btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    background: var(--color-bg-alt);
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  :global(.title-chip:hover .chip-btn) {
+    background: var(--color-brand);
+    color: white;
+    border-color: var(--color-brand);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+    .usernames-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+    .usernames-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const setupYoutubeClickbaitTitleGenerator = () => {
+    const seedInput = document.getElementById('seed-input') as HTMLInputElement;
+    const vibeSelect = document.getElementById('vibe-select') as HTMLSelectElement;
+    const audienceSelect = document.getElementById('audience-select') as HTMLSelectElement;
+
+    const capsCheck = document.getElementById('caps-check') as HTMLInputElement;
+    const emojisCheck = document.getElementById('emojis-check') as HTMLInputElement;
+    const bracketsCheck = document.getElementById('brackets-check') as HTMLInputElement;
+
+    // Actions
+    const generateBtn = document.getElementById('generate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const generateMoreBtn = document.getElementById('generate-more-btn');
+
+    // Layout slots
+    const resultsWrapper = document.getElementById('results-wrapper');
+    const container = document.getElementById('generated-titles-container');
+
+    // Mockup targets
+    const mockupTitleText = document.getElementById('mockup-title-text');
+    const ctrStatusTag = document.getElementById('ctr-status-tag');
+
+    // Vibe Modifiers & Hooks
+    const vibeTemplates: Record<string, { hooks: string[], capsWords: string[], emojis: string[] }> = {
+      shock: {
+        hooks: ['I Can\'t Believe This Happened to', 'The Truth About', 'I Tested', 'Why Everyone is Wrong About'],
+        capsWords: ['[SHOCKING]', 'DON\'T BUY THIS', 'EXPOSED', 'NEVER DO THIS'],
+        emojis: ['😱', '🤯', '🚨', '❌']
+      },
+      urgent: {
+        hooks: ['STOP Doing This With Your', 'Do THIS Before It\'s Too Late for', 'The Urgent Warning About', 'Why You Need to Fix Your'],
+        capsWords: ['[WARNING]', 'URGENT', 'STOP NOW', 'FINAL NOTICE'],
+        emojis: ['🚨', '⚠️', '🔥', '🛑']
+      },
+      secret: {
+        hooks: ['The Hidden Feature in', 'Secret Trick to Master', 'What They Aren\'t Telling You About', 'The 1% Secret to'],
+        capsWords: ['[SECRET]', 'HIDDEN TRICK', 'CONFIDENTIAL', 'MUST WATCH'],
+        emojis: ['🤫', '🔑', '💡', '⚡']
+      },
+      challenge: {
+        hooks: ['I Spent 24 Hours Testing', 'Can You Really Master', 'I Tried the Ultimate Challenge for', 'Surviving 7 Days With'],
+        capsWords: ['[IMPOSSIBLE]', '24 HOUR CHALLENGE', 'SURVIVED', 'HARDCORE'],
+        emojis: ['🔥', '🏆', '🎯', '💪']
+      },
+      reaction: {
+        hooks: ['My Honest Reaction to', 'Testing Viral Hacks for', 'This Changed Everything About', 'Is This the Ultimate'],
+        capsWords: ['[MUST SEE]', 'CRAZY REACTION', 'LEGENDARY', 'INSANE'],
+        emojis: ['😱', '🎉', '💥', '✨']
+      }
+    };
+
+    let currentShuffledPool: string[] = [];
+    let currentPoolIndex = 0;
+
+    const buildShuffledPool = () => {
+      const topic = (seedInput?.value || '').trim() || 'iPhone 16';
+      const vibe = vibeSelect?.value || 'shock';
+
+      const allowCaps = capsCheck?.checked;
+      const allowEmojis = emojisCheck?.checked;
+      const allowBrackets = bracketsCheck?.checked;
+
+      const data = vibeTemplates[vibe] || vibeTemplates['shock'];
+      const generatedSet = new Set<string>();
+
+      const formatTitle = (hook: string, caps: string, emoji: string) => {
+        let t = `${hook} ${topic}`;
+
+        if (allowBrackets) {
+          t = `${t} ${caps}`;
+        } else if (allowCaps) {
+          t = `${t} (${caps.replace(/[[\]]/g, '')})`;
+        }
+
+        if (allowEmojis) {
+          t = `${t} ${emoji}`;
+        }
+
+        return t.replace(/\s+/g, ' ').trim();
+      };
+
+      let iterations = 0;
+      while (generatedSet.size < 50 && iterations < 300) {
+        iterations++;
+        const hIndex = Math.floor(Math.random() * data.hooks.length);
+        const cIndex = Math.floor(Math.random() * data.capsWords.length);
+        const eIndex = Math.floor(Math.random() * data.emojis.length);
+
+        const hook = data.hooks[hIndex];
+        const caps = data.capsWords[cIndex];
+        const emoji = data.emojis[eIndex];
+
+        const formatted = formatTitle(hook, caps, emoji);
+        if (formatted.length >= 10) {
+          generatedSet.add(formatted);
+        }
+      }
+
+      currentShuffledPool = Array.from(generatedSet).sort(() => Math.random() - 0.5);
+      currentPoolIndex = 0;
+    };
+
+    // Clean initial list generation
+    const generateList = () => {
+      buildShuffledPool();
+
+      const selected = currentShuffledPool.slice(0, 15);
+      currentPoolIndex = 15;
+
+      if (container) {
+        container.innerHTML = selected.map(s => {
+          return `
+            <div class="title-chip" data-title="${s}">
+              <span class="title-text">${s}</span>
+              <button class="chip-btn">Copy Title</button>
+            </div>
+          `;
+        }).join('');
+      }
+
+      resultsWrapper?.classList.remove('hidden');
+
+      // Default mockup text
+      if (selected.length > 0) {
+        if (mockupTitleText) mockupTitleText.textContent = selected[0];
+        if (ctrStatusTag) {
+          ctrStatusTag.textContent = `🔥 High CTR (${selected[0].length} chars)`;
+        }
+      }
+    };
+
+    // Append 5 more unique items
+    const appendMoreTitles = () => {
+      if (currentShuffledPool.length === 0) {
+        buildShuffledPool();
+      }
+
+      if (currentPoolIndex >= currentShuffledPool.length) {
+        buildShuffledPool();
+      }
+
+      const next = currentShuffledPool.slice(currentPoolIndex, currentPoolIndex + 5);
+      currentPoolIndex += 5;
+
+      if (container) {
+        const appendHtml = next.map(s => {
+          return `
+            <div class="title-chip" data-title="${s}">
+              <span class="title-text">${s}</span>
+              <button class="chip-btn">Copy Title</button>
+            </div>
+          `;
+        }).join('');
+        container.innerHTML += appendHtml;
+      }
+    };
+
+    generateBtn?.addEventListener('click', () => {
+      generateList();
+
+      const resultsSection = document.getElementById('results-wrapper');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    generateMoreBtn?.addEventListener('click', () => {
+      appendMoreTitles();
+    });
+
+    // Handle copying individual title cards and update mockup preview
+    container?.addEventListener('click', (e) => {
+      const chip = (e.target as HTMLElement).closest('.title-chip');
+      if (!chip) return;
+
+      const titleVal = chip.getAttribute('data-title') || '';
+
+      // Update mockup sidebar
+      if (mockupTitleText) {
+        mockupTitleText.textContent = titleVal;
+      }
+
+      if (ctrStatusTag) {
+        ctrStatusTag.textContent = `🔥 High CTR (${titleVal.length} chars)`;
+      }
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(titleVal).then(() => {
+        const btn = chip.querySelector('.chip-btn') as HTMLElement;
+        if (btn) {
+          btn.textContent = 'Copied! ✓';
+          setTimeout(() => {
+            btn.textContent = 'Copy Title';
+          }, 1200);
+        }
+      });
+    });
+
+    // Reset inputs
+    resetBtn?.addEventListener('click', () => {
+      if (seedInput) seedInput.value = '';
+      resultsWrapper?.classList.add('hidden');
+    });
+
+    // Auto-generate initial list
+    generateList();
+  };
+
+  setupYoutubeClickbaitTitleGenerator();
+  document.addEventListener('astro:after-swap', setupYoutubeClickbaitTitleGenerator);
+</script>
