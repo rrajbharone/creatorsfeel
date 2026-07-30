@@ -49,6 +49,7 @@ export const GET: APIRoute = async (context) => {
     '/tools/podcast-description-generator',
     '/tools/podcast-intro-generator',
     '/tools/social-media-handle-generator',
+    '/tools/meta-description-length-checker',
     '/tools/youtube-keyword-generator',
     '/tools/youtube-keyword-density-checker',
     '/tools/youtube-clickbait-title-generator',

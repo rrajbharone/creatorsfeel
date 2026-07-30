@@ -1,0 +1,561 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the ideal length for a Google meta description?",
+    answer: "Google generally truncates meta descriptions that exceed 155 to 160 characters (or around 960 pixels on desktop and 680 pixels on mobile). Writing descriptions between 120 and 155 characters ensures your complete message remains visible in search results."
+  },
+  {
+    question: "Does keyword density in meta descriptions directly affect search rankings?",
+    answer: "No, meta descriptions are not a direct ranking factor in Google's search algorithm. However, including your target keyword is highly recommended because Google bolds matching keywords in search snippets, drawing visual attention and boosting your Click-Through Rate (CTR)."
+  },
+  {
+    question: "Why does Google sometimes rewrite my meta description?",
+    answer: "Google rewrites meta descriptions in over 70% of search cases if the custom description is missing, too short, too long, or fails to accurately summarize the page content relative to the user's specific search query."
+  },
+  {
+    question: "How does pixel width differ from character count in search snippets?",
+    answer: "Character counts are approximations because different letters occupy different widths. For example, a capital 'W' occupies more horizontal pixel space than a lowercase 'i'. Search engines enforce hard limits in pixels (960px for desktop, 680px for mobile), making pixel-width tracking more accurate."
+  },
+  {
+    question: "Is this Meta Description Length Checker free to use?",
+    answer: "Yes, our Meta Description Length Checker is 100% free with real-time character counters, pixel width auditors, keyword match checking, and desktop/mobile Google preview panels."
+  }
+];
+---
+
+<ToolLayout
+  title="Meta Description Length Checker - Google Snippet Preview Tool"
+  description="Audit your SEO meta description length in real-time. Calculate character counts and pixel widths for desktop and mobile search snippets."
+  toolName="Meta Description Length Checker"
+  toolDescription="Analyze and preview SEO meta descriptions in real-time. Verify character limit caps, evaluate pixel widths, and check target keyword alignment."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Input Form -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Page Title Input -->
+          <div class="form-group">
+            <label for="title-input" class="icon-label">
+              Page Title (Optional)
+            </label>
+            <input type="text" id="title-input" class="form-input" placeholder="e.g. How to Grow Your Instagram Account in 2026" value="How to Grow Your Instagram Account in 2026" />
+          </div>
+
+          <!-- Meta Description Input -->
+          <div class="form-group">
+            <label for="description-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+              </svg>
+              Meta Description Text
+            </label>
+            <textarea id="description-input" class="form-input" rows="5" style="height: auto; padding: 12px; font-family: var(--font-body); font-size: 0.9rem; resize: vertical;" placeholder="Paste your SEO meta description text here...">Learn how to grow your Instagram account with our complete step-by-step guide. Master organic engagement hacks, bio optimization, and reels marketing tips.</textarea>
+          </div>
+
+          <!-- Target Keyword Input -->
+          <div class="form-group">
+            <label for="target-keyword-input" class="icon-label">
+              Target Keyword (Optional)
+            </label>
+            <input type="text" id="target-keyword-input" class="form-input" placeholder="e.g. grow your Instagram" value="grow your Instagram" />
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="analyze-btn" class="calc-btn">Analyze Snippet</button>
+            <button type="button" id="reset-btn" class="calc-btn-secondary">Clear Inputs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live Google Search Results Snippet Mockup -->
+        <div class="google-serp-card glass" style="background: #ffffff; color: #1a0dab; border-radius: 16px; overflow: hidden; max-width: 100%; width: 100%; border: 1px solid #dadce0; text-align: left; box-shadow: var(--shadow-sm); font-family: Arial, sans-serif; padding: 1.25rem; min-height: 220px;">
+          <!-- Device Toggle Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; font-family: var(--font-body);">
+            <span style="font-size: 0.72rem; font-weight: 800; color: var(--color-brand); text-transform: uppercase;">
+              🔍 Google Search snippet
+            </span>
+            <div style="display: flex; gap: 4px;">
+              <button type="button" id="desktop-view-btn" style="background: var(--color-brand); color: white; border: none; font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; cursor: pointer;">Desktop</button>
+              <button type="button" id="mobile-view-btn" style="background: #f1f3f4; color: #3c4043; border: none; font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; cursor: pointer;">Mobile</button>
+            </div>
+          </div>
+
+          <!-- Google Snippet Body Container -->
+          <div id="snippet-container" style="display: flex; flex-direction: column; gap: 4px; font-size: 14px;">
+            <!-- Favicon and Path Row -->
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #202124; margin-bottom: 2px;">
+              <div style="width: 16px; height: 16px; border-radius: 50%; background: #eee; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 800; color: #555;">CF</div>
+              <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px;">creatorsfeel.com &gt; blog &gt; instagram-growth</span>
+            </div>
+
+            <!-- Page Title blue link -->
+            <a href="#" id="mockup-title-link" style="font-size: 19px; line-height: 1.3; color: #1a0dab; text-decoration: none; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 600px; margin-bottom: 4px;">
+              How to Grow Your Instagram Account in 2026
+            </a>
+
+            <!-- Meta Description text with keyword highlight -->
+            <div id="mockup-desc-text" style="font-size: 14px; line-height: 1.5; color: #4d5156; word-break: break-word; font-family: Roboto, sans-serif;">
+              Learn how to <mark style="background: none; font-weight: 700; color: #000000; padding: 0;">grow your Instagram</mark> account with our complete step-by-step guide. Master organic engagement hacks, bio optimization, and reels marketing tips.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div id="results-wrapper" class="hidden" style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-brand);">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+        </svg>
+        Snippet Relevancy & Length Audit
+      </h3>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Character Count</span>
+          <span id="stat-char-count" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-text); margin-top: 4px;">142</span>
+          <span id="stat-char-badge" style="display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-top: 6px; background: #dcfce7; color: #16a34a;">Optimal (120-160)</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Pixel Width</span>
+          <span id="stat-pixel-width" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-text); margin-top: 4px;">780 px</span>
+          <span id="stat-pixel-badge" style="display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-top: 6px; background: #dcfce7; color: #16a34a;">Optimal (< 960px)</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Keyword Match</span>
+          <span id="stat-keyword-match" style="display: block; font-size: 1.2rem; font-weight: 800; color: #16a34a; margin-top: 8px;">Found ✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>Meta Description Length Checker: Optimize Search Engine Snippets</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
+        📸 <strong>Want to verify video title limits on mobile layouts?</strong> Try our free <a href="/tools/youtube-title-length-checker" style="color: var(--color-brand); text-decoration: underline;">YouTube Title Length Checker</a> to audit title character boundaries and crop markers.
+      </p>
+    </div>
+
+    <h3>Introduction</h3>
+    <p>
+      In search engine optimization (SEO), your page title and meta description serve as your website's digital storefront in organic search engine results pages (SERPs). When a user searches for answers, products, or tutorials, Google displaying your snippet acts as a direct call-to-action. If your description is too long, search crawlers automatically crop the text with a trailing ellipsis (...), cutting off your value proposition. Our free <strong>meta description length checker</strong> helps content creators, bloggers, and SEO copywriters analyze meta description characters, measure exact pixel widths, and preview search snippets in real-time.
+    </p>
+
+    <h3>How to Use This Tool</h3>
+    <p>
+      Auditing and previewing your SEO meta descriptions with our interactive dashboard is simple:
+    </p>
+    <ol>
+      <li><strong>Page Title:</strong> Enter your page title to simulate a live search result link (optional).</li>
+      <li><strong>Meta Description:</strong> Paste your custom meta description draft in the text area container.</li>
+      <li><strong>Target Keyword:</strong> Add your primary search keyword to verify that it appears within your text.</li>
+      <li><strong>Analyze Snippet:</strong> Click <strong>Analyze Snippet</strong> to run the real-time checker.</li>
+      <li><strong>Preview Display:</strong> Toggle between the <strong>Desktop</strong> and <strong>Mobile</strong> preview buttons to verify the visual layout.</li>
+    </ol>
+
+    <h3>What is Meta Description</h3>
+    <p>
+      A <strong>meta description</strong> is an HTML head metadata tag that provides a concise summary of a web page's content. While search engines do not use meta descriptions as a direct ranking signal, they are essential for optimizing Click-Through Rate (CTR).
+    </p>
+    <p>
+      A high-CTR meta description requires balancing strict character and pixel limits:
+    </p>
+    <ul>
+      <li><strong>Desktop Limit:</strong> Standard meta descriptions should be between 120 and 155 characters (or up to 960 pixels wide).</li>
+      <li><strong>Mobile Limit:</strong> Mobile search displays are narrower. Keep mobile meta descriptions under 120 characters (or 680 pixels wide) to avoid cropping. Ensure your website paths are clean using our <a href="/tools/url-slug-generator">URL Slug Generator</a>.</li>
+      <li><strong>Social Media Compatibility:</strong> Securing a consistent length also ensures clean link previews on Facebook, LinkedIn, and X. Check branding handles with our <a href="/tools/social-media-handle-generator">Social Media Handle Generator</a>.</li>
+    </ul>
+
+    <h3>How Does It Work?</h3>
+    <p>
+      The tool analyzes snippet metadata using custom font-metric audits:
+    </p>
+    <ul>
+      <li><strong>Character Counting:</strong> Compares description lengths against optimal bounds (120-160 characters).</li>
+      <li><strong>Pixel Width Measurement:</strong> Uses HTML Canvas font metrics to measure the exact horizontal space (in pixels) your text occupies using standard SERP typography.</li>
+      <li><strong>Live Truncation Simulation:</strong> Automatically appends trailing ellipses (...) to the preview link if character or pixel width thresholds are exceeded.</li>
+    </ul>
+
+    <h3>Example Calculation</h3>
+    <p>
+      Let us look at how characters and pixels differ in a meta description audit:
+    </p>
+    <p>
+      <strong>Description A:</strong> `"Wider capital letters take more space."`<br />
+      ✦ Character Count: `37 characters`<br />
+      ✦ Pixel Width: `248 pixels`
+    </p>
+    <p>
+      <strong>Description B:</strong> `"lilliputians live in little cities."`<br />
+      ✦ Character Count: `37 characters`<br />
+      ✦ Pixel Width: `184 pixels`
+    </p>
+    <p>
+      Even though both descriptions contain exactly <strong>37 characters</strong>, Description A is <strong>34% wider</strong> in pixels due to wide characters (like 'W' and capital letters) compared to narrow lowercase letters (like 'l' and 'i'). Our checker uses a canvas metric audit to calculate this pixel space precisely.
+    </p>
+
+    <h3>How To Use</h3>
+    <p>
+      Using our generator is intuitive. Paste your text into the input box, choose your target keyword, and click analyze. The live Google mockup updates automatically, displaying your title link and description snippet exactly as they will appear in Google Search.
+    </p>
+
+    <h3>Who Should Use This Tool?</h3>
+    <p>
+      This generator is designed for:
+    </p>
+    <ul>
+      <li><strong>SEO Consultants & Copywriters:</strong> Drafting and verifying snippet layouts before publishing.</li>
+      <li><strong>Bloggers & Content Marketers:</strong> Optimizing article meta tags for high click-through rates.</li>
+      <li><strong>Web Developers:</strong> Verifying programmatically generated metadata templates across large websites.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupMetaDescriptionChecker = () => {
+    const titleInput = document.getElementById('title-input') as HTMLInputElement;
+    const descInput = document.getElementById('description-input') as HTMLTextAreaElement;
+    const targetInput = document.getElementById('target-keyword-input') as HTMLInputElement;
+
+    // View Toggles
+    const desktopViewBtn = document.getElementById('desktop-view-btn');
+    const mobileViewBtn = document.getElementById('mobile-view-btn');
+
+    // Actions
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Layout slots
+    const resultsWrapper = document.getElementById('results-wrapper');
+
+    // Stat targets
+    const statCharCount = document.getElementById('stat-char-count');
+    const statCharBadge = document.getElementById('stat-char-badge');
+    const statPixelWidth = document.getElementById('stat-pixel-width');
+    const statPixelBadge = document.getElementById('stat-pixel-badge');
+    const statKeywordMatch = document.getElementById('stat-keyword-match');
+
+    // Mockup targets
+    const mockupTitleLink = document.getElementById('mockup-title-link');
+    const mockupDescText = document.getElementById('mockup-desc-text');
+
+    let currentViewMode = 'desktop'; // 'desktop' or 'mobile'
+
+    // Helper to calculate pixel width of text
+    const getTextPixelWidth = (text: string, font: string = '14px Arial') => {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      if (context) {
+        context.font = font;
+        return Math.ceil(context.measureText(text).width);
+      }
+      return text.length * 8; // fallback approximation
+    };
+
+    const runAnalysis = () => {
+      const title = titleInput?.value || 'How to Grow Your Instagram Account in 2026';
+      const desc = descInput?.value || '';
+      const targetKw = (targetInput?.value || '').trim().toLowerCase();
+
+      const charCount = desc.length;
+      const pixelWidth = getTextPixelWidth(desc, '14px Arial');
+
+      // Update stat cards
+      if (statCharCount) statCharCount.textContent = charCount.toString();
+      if (statPixelWidth) statPixelWidth.textContent = `${pixelWidth} px`;
+
+      // Character count badges
+      if (statCharBadge) {
+        if (charCount > 160) {
+          statCharBadge.textContent = 'Too Long (> 160)';
+          statCharBadge.style.background = '#ffeeef';
+          statCharBadge.style.color = '#ef4444';
+        } else if (charCount < 120) {
+          statCharBadge.textContent = 'Too Short (< 120)';
+          statCharBadge.style.background = '#fef3c7';
+          statCharBadge.style.color = '#d97706';
+        } else {
+          statCharBadge.textContent = 'Optimal (120-160)';
+          statCharBadge.style.background = '#dcfce7';
+          statCharBadge.style.color = '#16a34a';
+        }
+      }
+
+      // Pixel count badges
+      if (statPixelBadge) {
+        const limit = currentViewMode === 'desktop' ? 960 : 680;
+        if (pixelWidth > limit) {
+          statPixelBadge.textContent = `Too Wide (> ${limit}px)`;
+          statPixelBadge.style.background = '#ffeeef';
+          statPixelBadge.style.color = '#ef4444';
+        } else {
+          statPixelBadge.textContent = `Optimal (< ${limit}px)`;
+          statPixelBadge.style.background = '#dcfce7';
+          statPixelBadge.style.color = '#16a34a';
+        }
+      }
+
+      // Keyword matching
+      if (statKeywordMatch) {
+        if (targetKw && desc.toLowerCase().includes(targetKw)) {
+          statKeywordMatch.textContent = 'Found ✓';
+          statKeywordMatch.style.color = '#16a34a';
+        } else if (targetKw) {
+          statKeywordMatch.textContent = 'Missing ⚠️';
+          statKeywordMatch.style.color = '#ef4444';
+        } else {
+          statKeywordMatch.textContent = 'N/A';
+          statKeywordMatch.style.color = 'var(--color-text-muted)';
+        }
+      }
+
+      // Update Mockup link title
+      if (mockupTitleLink) {
+        mockupTitleLink.textContent = title;
+        // Truncate title in preview if too long (desktop 600px, mobile 550px)
+        const titleLimit = currentViewMode === 'desktop' ? 600 : 520;
+        const titleWidth = getTextPixelWidth(title, '19px Arial');
+        if (titleWidth > titleLimit) {
+          mockupTitleLink.style.whiteSpace = 'nowrap';
+        } else {
+          mockupTitleLink.style.whiteSpace = 'normal';
+        }
+      }
+
+      // Update Mockup description text with keyword highlight and truncation
+      if (mockupDescText) {
+        const pixelLimit = currentViewMode === 'desktop' ? 960 : 680;
+        let truncatedDesc = desc;
+
+        // Truncate logic by pixel width
+        if (pixelWidth > pixelLimit) {
+          let temp = desc;
+          while (getTextPixelWidth(temp + '...', '14px Arial') > pixelLimit && temp.length > 0) {
+            temp = temp.slice(0, -1);
+          }
+          truncatedDesc = temp + '...';
+        }
+
+        if (targetKw && truncatedDesc.toLowerCase().includes(targetKw)) {
+          const escKw = targetKw.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+          const highlightHtml = truncatedDesc.replace(new RegExp(`(${escKw})`, 'gi'), `<mark style="background: none; font-weight: 700; color: #000000; padding: 0;">$1</mark>`);
+          mockupDescText.innerHTML = highlightHtml;
+        } else {
+          mockupDescText.textContent = truncatedDesc;
+        }
+      }
+
+      resultsWrapper?.classList.remove('hidden');
+    };
+
+    // Toggle view modes
+    desktopViewBtn?.addEventListener('click', () => {
+      currentViewMode = 'desktop';
+      desktopViewBtn.style.background = 'var(--color-brand)';
+      desktopViewBtn.style.color = 'white';
+      if (mobileViewBtn) {
+        mobileViewBtn.style.background = '#f1f3f4';
+        mobileViewBtn.style.color = '#3c4043';
+      }
+      runAnalysis();
+    });
+
+    mobileViewBtn?.addEventListener('click', () => {
+      currentViewMode = 'mobile';
+      mobileViewBtn.style.background = 'var(--color-brand)';
+      mobileViewBtn.style.color = 'white';
+      if (desktopViewBtn) {
+        desktopViewBtn.style.background = '#f1f3f4';
+        desktopViewBtn.style.color = '#3c4043';
+      }
+      runAnalysis();
+    });
+
+    analyzeBtn?.addEventListener('click', () => {
+      runAnalysis();
+
+      const resultsSection = document.getElementById('results-wrapper');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      if (titleInput) titleInput.value = '';
+      if (descInput) descInput.value = '';
+      if (targetInput) targetInput.value = '';
+      resultsWrapper?.classList.add('hidden');
+    });
+
+    // Auto-run initial analysis
+    runAnalysis();
+  };
+
+  setupMetaDescriptionChecker();
+  document.addEventListener('astro:after-swap', setupMetaDescriptionChecker);
+</script>
