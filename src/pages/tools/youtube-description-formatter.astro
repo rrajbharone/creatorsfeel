@@ -1,0 +1,587 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is a YouTube description formatter?",
+    answer: "A YouTube description formatter is an SEO optimization tool that structures video descriptions with clean line breaks, highlighted timestamps, standardized bullet emojis, and social template links, ensuring they comply with YouTube's 5,000-character limit."
+  },
+  {
+    question: "How do I format timestamps so they become clickable on YouTube?",
+    answer: "To create clickable chapter timestamps on YouTube, list them in your description using the MM:SS or HH:MM:SS format, starting with exactly 00:00 (or 0:00). Each timestamp must be on a new line followed by a space and a chapter name."
+  },
+  {
+    question: "Can formatting my YouTube description improve video search rankings?",
+    answer: "Yes, well-formatted descriptions improve search indexing by placing primary target keywords in the first 2 lines, structuring LSI synonyms in the body, and organizing links/timestamps. This improves user experience, boosts click-through rates (CTR), and increases average watch time."
+  },
+  {
+    question: "Does this tool automatically clean up broken links?",
+    answer: "Yes, the formatter scans your description for plain text URLs and converts them to standard hyperlinked formats, ensuring your affiliate resources and social links remain active and clickable for viewers."
+  },
+  {
+    question: "Is this YouTube Description Formatter free to use?",
+    answer: "Yes, our YouTube Description Formatter is 100% free with unlimited description edits, character counts, copy-paste outputs, and live collapsible preview panels."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube Description Formatter - Free Video SEO Optimizer"
+  description="Format your YouTube video descriptions with clickable timestamps, emojis, clean paragraph spacing, and social templates. Audit character limits in real-time."
+  toolName="YouTube Description Formatter"
+  toolDescription="Format and optimize your YouTube video descriptions in real-time. Structure timestamps, convert lists to bullets, normalize spacing, and preview layouts."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Formatter Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Description Text Area -->
+          <div class="form-group">
+            <label for="description-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+              </svg>
+              Raw Video Description Draft
+            </label>
+            <textarea id="description-input" class="form-input" rows="8" style="height: auto; padding: 12px; font-family: monospace; font-size: 0.9rem; resize: vertical;" placeholder="Paste your messy video description draft here...">Check out this video where we cover the best setup guide!
+- CPU options
+- RAM configurations
+- Case choices
+
+Timestamps:
+01:15 Selecting CPU
+04:30 Installing motherboard
+08:45 Final system boot
+
+Check out our links:
+Website creatorsfeel.com
+Subscribe to channel youtube.com/c/creatorsfeel
+
+#gamingpc #pcbuild #pcsetup</textarea>
+          </div>
+
+          <!-- Formatting Modifiers -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; background: var(--color-bg-alt); padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--color-border);">
+            <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Description Formatting Options</span>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.88rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="timestamps-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Format Timestamps (Auto-adds 00:00 start)
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="bullets-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Replace Hyphen/Dot Lists with Emojis (📌, ✅, 👉)
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="links-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Normalize Website Links (Add https:// prefix)
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
+                <input type="checkbox" id="spacing-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
+                Clean Up Paragraph Spacing & Double Line Breaks
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="format-btn" class="calc-btn">Format Description</button>
+            <button type="button" id="reset-btn" class="calc-btn-secondary">Reset Inputs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Mockup Box -->
+      <div class="calc-editor-column">
+        <!-- Live YouTube Description panel mockup -->
+        <div class="youtube-desc-mockup glass" style="background: #0f0f0f; color: #ffffff; border-radius: 16px; overflow: hidden; max-width: 100%; width: 100%; border: 1px solid #272727; text-align: left; box-shadow: var(--shadow-md); font-family: Roboto, Arial, sans-serif; padding: 1rem;">
+          <!-- Top info summary -->
+          <div style="font-size: 0.85rem; font-weight: 700; color: #ffffff; display: flex; gap: 8px; margin-bottom: 0.5rem;">
+            <span>45,200 views</span>
+            <span>•</span>
+            <span>Aug 5, 2026</span>
+          </div>
+
+          <!-- Live formatted description content -->
+          <div id="mockup-formatted-text" style="font-size: 0.82rem; line-height: 1.5; color: #f1f1f1; white-space: pre-wrap; word-break: break-word; font-family: monospace; background: #181818; padding: 0.75rem; border-radius: 10px; border: 1px solid #272727; max-height: 220px; overflow-y: auto;">
+            <!-- Live formatted text goes here -->
+          </div>
+
+          <!-- Collapsible toggle footer bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; border-top: 1px solid #272727; padding-top: 0.5rem;">
+            <button type="button" id="copy-description-btn" style="background: #272727; border: 1px solid #3e3e3e; color: #ffffff; font-size: 0.72rem; font-weight: 700; padding: 6px 12px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+              Copy Formatted Text
+            </button>
+            <span id="char-counter-tag" style="font-size: 0.7rem; color: #aaaaaa; font-weight: 700;">
+              0 / 5,000 characters
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div id="results-wrapper" class="hidden" style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-brand);">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+        </svg>
+        Description Relevancy & Audit Metrics
+      </h3>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Character Count</span>
+          <span id="stat-char-count" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-text); margin-top: 4px;">0</span>
+          <span id="stat-char-badge" style="display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-top: 6px; background: #dcfce7; color: #16a34a;">Optimal (< 5000)</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Line Count</span>
+          <span id="stat-line-count" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-text); margin-top: 4px;">0</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Link Count</span>
+          <span id="stat-link-count" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-brand); margin-top: 4px;">0</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Hashtag Count</span>
+          <span id="stat-tag-count" style="display: block; font-size: 1.4rem; font-weight: 800; color: #f59e0b; margin-top: 4px;">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>YouTube Description Formatter: Optimize Video Metadata & Layouts</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
+        🏷️ <strong>Need tag ideas to match your formatted description?</strong> Try our free <a href="/tools/youtube-tag-generator" style="color: var(--color-brand); text-decoration: underline;">YouTube Tag Generator</a> to generate copy-paste tags for your channel.
+      </p>
+    </div>
+
+    <h2>What Is a YouTube Description Formatter?</h2>
+    <p>
+      A <strong>YouTube description formatter</strong> is an advanced video SEO optimization tool designed to help content creators format, structure, and clean up video description text before publishing on YouTube. Video descriptions can include up to 5,000 characters of metadata, links, social channels, and chapter timestamps. If your descriptions are messy, unstructured, or contain raw unformatted links, viewers will bounce quickly, leading to lower conversion rates. Using a dedicated formatter allows you to convert plain lists into highly readable emoji bullets, structure clickable chapter timestamps, clean up spacing, and verify that your total character length meets platform limits.
+    </p>
+
+    <h2>How Does the YouTube Description Formatter Work?</h2>
+    <p>
+      The description formatter processes your raw draft through custom text parsing filters:
+    </p>
+    <ul>
+      <li><strong>Timestamp Parser:</strong> Detects time codes (e.g. `01:15` or `4:30`) and ensures they format cleanly on new lines so they become clickable chapter markers. If your video is over-optimized, you can check keyword balance using our <a href="/tools/youtube-keyword-density-checker">YouTube Keyword Density Checker</a>.</li>
+      <li><strong>Emoji Bullet Replacement:</strong> Replaces plain hyphens (`-`) or asterisks (`*`) in lists with standardized, visually appealing emojis (like 📌, ✅, 👉) to increase readability in feeds.</li>
+      <li><strong>Link Cleanser:</strong> Scans text for plain domains (e.g. `creatorsfeel.com`) and prefixes them with `https://` to guarantee they become active hyperlinks.</li>
+      <li><strong>Spacing Normalizer:</strong> Removes redundant line breaks and extra blank spaces to maintain a clean layout.</li>
+    </ul>
+
+    <h2>How to Format a YouTube Description</h2>
+    <p>
+      Formatting descriptions with our interactive tool is simple:
+    </p>
+    <ol>
+      <li>Paste your draft description into the input box.</li>
+      <li>Select the formatting option checkboxes (timetamps, bullets, link normalization, spacing cleanup).</li>
+      <li>Click <strong>Format Description</strong> to output a clean version.</li>
+      <li>Preview your description inside the live collapsible dark-theme mockup card and copy the output to your clipboard. Check your title character limits with our <a href="/tools/youtube-title-length-checker">YouTube Title Length Checker</a>.</li>
+    </ol>
+
+    <h2>YouTube Description Formatting Options</h2>
+    <p>
+      Our formatter includes customized options built specifically for YouTube's interface:
+    </p>
+    <ul>
+      <li><strong>Format Timestamps:</strong> Ensures each chapter has a timecode on a separate line starting from `00:00`.</li>
+      <li><strong>Emoji Bullets:</strong> Replaces list characters with visual emojis.</li>
+      <li><strong>HTTPS Normalization:</strong> Pre-formats affiliate links and product resources.</li>
+      <li><strong>Line Break Control:</strong> Standardizes double space separation between description sections.</li>
+    </ul>
+
+    <h2>Why Should You Format Your YouTube Description?</h2>
+    <p>
+      Proper description formatting is crucial for conversion optimization and viewer retention. The description is your primary location to place call-to-actions, affiliate product links, subscription landing pages, and playlist resources. If your description looks like a single wall of text, viewers will ignore it. Stucturing it with clear section headers, bold titles, and bullet lists increases click-through rates on your external links by up to 40%.
+    </p>
+
+    <h2>YouTube Description Formatting Best Practices</h2>
+    <p>
+      To achieve maximum reach and conversion rates, follow these formatting guidelines:
+    </p>
+    <ul>
+      <li><strong>Hook First:</strong> Place your primary keyword and call-to-action in the first 2 lines (150 characters), as these are visible in Google and YouTube search results without clicking "Show More".</li>
+      <li><strong>Clickable Chapters:</strong> Add timestamps for chapters so viewers can navigate directly to the sections they care about.</li>
+      <li><strong>Limit Hashtags:</strong> Use 3 to 5 highly relevant hashtags at the very bottom. Overusing hashtags (more than 15) causes YouTube to ignore all hashtags on your upload.</li>
+    </ul>
+
+    <h2>What Should a YouTube Description Include?</h2>
+    <p>
+      A complete, high-converting video description template should include:
+    </p>
+    <ul>
+      <li><strong>Introduction Hook:</strong> 2 to 3 sentences summarizing the value of your video.</li>
+      <li><strong>Chapter Timestamps:</strong> Structured list starting with `00:00`.</li>
+      <li><strong>Call-To-Actions (CTAs):</strong> Direct link to subscribe or visit your website.</li>
+      <li><strong>Resources & Socials:</strong> Affiliate disclosures, gear used, and social media handles.</li>
+    </ul>
+
+    <h2>Who Can Use This YouTube Description Formatter?</h2>
+    <p>
+      This tool is designed for:
+    </p>
+    <ul>
+      <li><strong>YouTubers & Creators:</strong> Looking to save time when organizing their upload description metadata.</li>
+      <li><strong>Video SEO Specialists:</strong> Restructuring client channel descriptions for higher rank potential.</li>
+      <li><strong>Social Media Managers:</strong> Standardizing links and hashtags across daily video uploads.</li>
+    </ul>
+
+    <h2>Is YouTube Description Formatting Important for SEO?</h2>
+    <p>
+      Yes! YouTube's search and recommendation algorithms evaluate description keywords to determine video topic relevancy. Clickable timestamps and organized formatting help search engines index individual video chapters in Google Search "Key Moments", driving continuous organic traffic to your channel.
+    </p>
+
+    <h2>YouTube Description Formatting Tips for Mobile Viewers</h2>
+    <p>
+      Since over 70% of YouTube watch time occurs on mobile devices, formatting for mobile is critical. Keep description lines short to avoid text wrapping, place your most important affiliate links in the first few lines, and use spacing so that viewers can navigate your description easily on small screens.
+    </p>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h2) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupYoutubeDescriptionFormatter = () => {
+    const descInput = document.getElementById('description-input') as HTMLTextAreaElement;
+
+    const timestampsCheck = document.getElementById('timestamps-check') as HTMLInputElement;
+    const bulletsCheck = document.getElementById('bullets-check') as HTMLInputElement;
+    const linksCheck = document.getElementById('links-check') as HTMLInputElement;
+    const spacingCheck = document.getElementById('spacing-check') as HTMLInputElement;
+
+    // Actions
+    const formatBtn = document.getElementById('format-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const copyBtn = document.getElementById('copy-description-btn');
+
+    // Layout slots
+    const resultsWrapper = document.getElementById('results-wrapper');
+
+    // Metrics targets
+    const statCharCount = document.getElementById('stat-char-count');
+    const statCharBadge = document.getElementById('stat-char-badge');
+    const statLineCount = document.getElementById('stat-line-count');
+    const statLinkCount = document.getElementById('stat-link-count');
+    const statTagCount = document.getElementById('stat-tag-count');
+
+    // Mockup targets
+    const mockupFormattedText = document.getElementById('mockup-formatted-text');
+    const charCounterTag = document.getElementById('char-counter-tag');
+
+    const formatDescription = () => {
+      let text = descInput?.value || '';
+
+      const formatTimestamps = timestampsCheck?.checked;
+      const formatBullets = bulletsCheck?.checked;
+      const formatLinks = linksCheck?.checked;
+      const cleanSpacing = spacingCheck?.checked;
+
+      let lines = text.split('\n');
+
+      // 1. Process timestamps
+      if (formatTimestamps) {
+        let hasStart = false;
+        lines = lines.map(line => {
+          // Detect MM:SS or HH:MM:SS
+          const timeMatch = line.match(/(?:\d{1,2}:)?\d{1,2}:\d{2}/);
+          if (timeMatch) {
+            const timeCode = timeMatch[0];
+            if (timeCode === '00:00' || timeCode === '0:00' || timeCode === '00:00:00') {
+              hasStart = true;
+            }
+            // Structure: "MM:SS - Chapter Title"
+            const title = line.replace(timeCode, '').replace(/^[\s\-_:=]+/, '').trim();
+            return `${timeCode} - ${title}`;
+          }
+          return line;
+        });
+
+        // Prepend 00:00 Intro if missing and timestamps exist
+        const hasTimestamps = lines.some(l => /(?:\d{1,2}:)?\d{1,2}:\d{2}/.test(l));
+        if (hasTimestamps && !hasStart) {
+          const firstTimeIdx = lines.findIndex(l => /(?:\d{1,2}:)?\d{1,2}:\d{2}/.test(l));
+          if (firstTimeIdx !== -1) {
+            lines.splice(firstTimeIdx, 0, '00:00 - Intro');
+          }
+        }
+      }
+
+      // 2. Process list bullet points
+      if (formatBullets) {
+        let bulletIdx = 0;
+        const bulletEmojis = ['📌', '✅', '👉', '✨', '⚡'];
+        lines = lines.map(line => {
+          if (line.trim().startsWith('-') || line.trim().startsWith('*')) {
+            const cleanText = line.replace(/^[\s\-*]+/, '').trim();
+            const emoji = bulletEmojis[bulletIdx % bulletEmojis.length];
+            bulletIdx++;
+            return `${emoji} ${cleanText}`;
+          }
+          return line;
+        });
+      }
+
+      // 3. Process links
+      if (formatLinks) {
+        lines = lines.map(line => {
+          // Find standard domain pattern e.g. creatorsfeel.com or youtube.com/abc
+          const domainMatch = line.match(/(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/[^\s]*)?/);
+          if (domainMatch && !line.includes('http://') && !line.includes('https://')) {
+            const domain = domainMatch[0];
+            return line.replace(domain, `https://${domain}`);
+          }
+          return line;
+        });
+      }
+
+      // 4. Normalize spacing
+      let formattedText = lines.join('\n');
+      if (cleanSpacing) {
+        formattedText = formattedText
+          .replace(/\r\n/g, '\n')
+          .replace(/\n{3,}/g, '\n\n') // Max double line breaks
+          .trim();
+      }
+
+      // Update counters
+      const charCount = formattedText.length;
+      const totalLines = formattedText.split('\n').filter(Boolean).length;
+      
+      const linkMatches = formattedText.match(/https?:\/\/[^\s]+/g);
+      const totalLinks = linkMatches ? linkMatches.length : 0;
+
+      const tagMatches = formattedText.match(/#[a-zA-Z0-9_]+/g);
+      const totalTags = tagMatches ? tagMatches.length : 0;
+
+      // Update metrics slots
+      if (statCharCount) statCharCount.textContent = charCount.toString();
+      if (statLineCount) statLineCount.textContent = totalLines.toString();
+      if (statLinkCount) statLinkCount.textContent = totalLinks.toString();
+      if (statTagCount) statTagCount.textContent = totalTags.toString();
+
+      if (statCharBadge) {
+        if (charCount > 5000) {
+          statCharBadge.textContent = 'Too Long (> 5k)';
+          statCharBadge.style.background = '#ffeeef';
+          statCharBadge.style.color = '#ef4444';
+        } else {
+          statCharBadge.textContent = 'Optimal (< 5000)';
+          statCharBadge.style.background = '#dcfce7';
+          statCharBadge.style.color = '#16a34a';
+        }
+      }
+
+      if (charCounterTag) {
+        charCounterTag.textContent = `${charCount.toLocaleString()} / 5,000 characters`;
+        charCounterTag.style.color = charCount > 5000 ? '#ef4444' : '#aaaaaa';
+      }
+
+      // Update mockup content
+      if (mockupFormattedText) {
+        mockupFormattedText.textContent = formattedText;
+      }
+
+      resultsWrapper?.classList.remove('hidden');
+    };
+
+    formatBtn?.addEventListener('click', () => {
+      formatDescription();
+
+      const resultsSection = document.getElementById('results-wrapper');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    // Handle copying individual description preview
+    copyBtn?.addEventListener('click', () => {
+      const formattedText = mockupFormattedText?.textContent || '';
+      if (!formattedText) return;
+
+      navigator.clipboard.writeText(formattedText).then(() => {
+        if (copyBtn) {
+          copyBtn.textContent = 'Copied! ✓';
+          setTimeout(() => {
+            copyBtn.textContent = 'Copy Formatted Text';
+          }, 1500);
+        }
+      });
+    });
+
+    // Reset inputs
+    resetBtn?.addEventListener('click', () => {
+      if (descInput) descInput.value = '';
+      resultsWrapper?.classList.add('hidden');
+    });
+
+    // Auto-run initial format
+    formatDescription();
+  };
+
+  setupYoutubeDescriptionFormatter();
+  document.addEventListener('astro:after-swap', setupYoutubeDescriptionFormatter);
+</script>

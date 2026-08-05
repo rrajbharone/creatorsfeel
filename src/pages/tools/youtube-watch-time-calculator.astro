@@ -1,0 +1,562 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "How many watch hours do I need to get monetized on YouTube?",
+    answer: "Under the standard YouTube Partner Program (YPP) requirements, creators need 4,000 valid public watch hours within the last 12 months, along with 1,000 subscribers, to monetize their long-form videos with ad revenue."
+  },
+  {
+    question: "Do YouTube Shorts views count toward the 4,000 watch hours requirement?",
+    answer: "No, watch hours generated from YouTube Shorts viewed in the Shorts feed do not count toward the 4,000 public watch hours requirement. However, creators can qualify for monetization by generating 10 million valid public Shorts views within 90 days."
+  },
+  {
+    question: "What is the formula to convert video view minutes into watch hours?",
+    answer: "To convert total watch minutes into hours, multiply your Total Views by your Average View Duration (in minutes), then divide the result by 60: Total Watch Hours = (Total Views × Average View Duration in minutes) ÷ 60."
+  },
+  {
+    question: "How many views do I need to get 4,000 watch hours?",
+    answer: "The number of views needed depends entirely on your average view duration. If your viewers watch an average of 4 minutes per video, you will need 60,000 total views (60,000 × 4 mins = 240,000 mins = 4,000 hours)."
+  },
+  {
+    question: "Is this YouTube Watch Time Calculator free to use?",
+    answer: "Yes, our YouTube Watch Time Calculator is 100% free with unlimited calculations, 4,000-hour monetization progress tracking, retention auditing, and live YouTube Studio progress card previews."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube Watch Time Calculator - Track 4,000 Hours Milestone"
+  description="Calculate YouTube watch time in hours and minutes. Track progress toward the 4,000 public watch hours monetization threshold and calculate required views."
+  toolName="YouTube Watch Time Calculator"
+  toolDescription="Calculate YouTube watch time metrics in real-time. Estimate total watch hours, track 4,000-hour monetization goals, and audit audience retention."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+    <!-- Main Advanced Grid Layout -->
+    <div class="calc-grid">
+      <!-- Left Column: Form Inputs -->
+      <div class="calc-form-column">
+        <div class="calc-form">
+          <!-- Total Views Input -->
+          <div class="form-group">
+            <label for="views-input" class="icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.573 16.49 16.638 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+              Total Video Views
+            </label>
+            <input type="number" id="views-input" class="form-input" placeholder="e.g. 50000" value="50000" min="1" step="1000" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <!-- Average View Duration Input (Minutes) -->
+            <div class="form-group">
+              <label for="avd-input" class="icon-label">Avg View Duration (Mins)</label>
+              <input type="number" id="avd-input" class="form-input" placeholder="e.g. 4.5" value="4.5" min="0.1" step="0.5" />
+            </div>
+
+            <!-- Video Length Input (Optional) -->
+            <div class="form-group">
+              <label for="video-length-input" class="icon-label">Video Length (Mins)</label>
+              <input type="number" id="video-length-input" class="form-input" placeholder="e.g. 10.0" value="10.0" min="0.5" step="0.5" />
+            </div>
+          </div>
+
+          <!-- Target Watch Hour Goal Input -->
+          <div class="form-group">
+            <label for="goal-hours-input" class="icon-label">
+              Target Watch Hours Goal (YPP Default: 4,000)
+            </label>
+            <input type="number" id="goal-hours-input" class="form-input" placeholder="e.g. 4000" value="4000" min="10" step="100" />
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" id="calculate-btn" class="calc-btn">Calculate Watch Time</button>
+            <button type="button" id="reset-btn" class="calc-btn-secondary">Reset Inputs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive YouTube Studio Monetization Mockup Card -->
+      <div class="calc-editor-column">
+        <!-- Live YouTube Studio Monetization Card -->
+        <div class="youtube-studio-card glass" style="background: #0f0f0f; color: #ffffff; border-radius: 16px; overflow: hidden; max-width: 320px; margin: 0 auto; width: 100%; border: 1px solid #272727; text-align: left; box-shadow: var(--shadow-md); font-family: Roboto, Arial, sans-serif; padding: 1.25rem;">
+          <!-- Header Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #272727; padding-bottom: 0.5rem;">
+            <span style="font-size: 0.72rem; font-weight: 800; color: #ff0000; text-transform: uppercase; display: flex; align-items: center; gap: 4px;">
+              📊 YouTube Studio Earn
+            </span>
+            <span id="mockup-status-badge" style="font-size: 0.68rem; background: #272727; color: #f59e0b; padding: 2px 8px; border-radius: 10px; font-weight: 700;">
+              In Progress
+            </span>
+          </div>
+
+          <!-- Progress Bar & Gauge -->
+          <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+            <div style="background: #181818; border-radius: 10px; padding: 0.75rem; border: 1px solid #272727;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #aaaaaa; margin-bottom: 4px;">
+                <span>Public Watch Hours</span>
+                <span id="mockup-progress-pct" style="font-weight: 800; color: #ffffff;">93.8%</span>
+              </div>
+              
+              <!-- Progress Bar Track -->
+              <div style="width: 100%; height: 8px; background: #272727; border-radius: 4px; overflow: hidden; margin: 6px 0;">
+                <div id="mockup-progress-bar" style="width: 93.8%; height: 100%; background: linear-gradient(90deg, #ff0000, #16a34a); border-radius: 4px; transition: width 0.4s ease;"></div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 4px;">
+                <span id="mockup-current-hours" style="font-size: 1.25rem; font-weight: 800; color: #ffffff;">3,750 hrs</span>
+                <span style="font-size: 0.72rem; color: #888888;">/ 4,000 hrs</span>
+              </div>
+            </div>
+
+            <!-- Views Required Metric Box -->
+            <div style="background: #181818; border-radius: 8px; padding: 0.65rem; border: 1px solid #272727; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;">
+              <span style="color: #aaaaaa;">Views to reach goal:</span>
+              <span id="mockup-views-needed" style="font-weight: 800; color: #6366f1;">3,334 views</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <div id="results-wrapper" class="hidden" style="margin-top: 2rem; border-top: 1px dashed var(--color-border); padding-top: 1.5rem;">
+      <h3 style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: var(--color-text); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px; color: var(--color-brand);">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+        Watch Time Calculation Summary
+      </h3>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Total Watch Hours</span>
+          <span id="stat-total-hours" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-text); margin-top: 4px;">3,750 Hrs</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Total Watch Minutes</span>
+          <span id="stat-total-mins" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-brand); margin-top: 4px;">225,000 Mins</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Views Needed (4k Goal)</span>
+          <span id="stat-views-needed" style="display: block; font-size: 1.4rem; font-weight: 800; color: #16a34a; margin-top: 4px;">53,334 Views</span>
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border); text-align: center;">
+          <span style="font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Audience Retention %</span>
+          <span id="stat-retention-pct" style="display: block; font-size: 1.4rem; font-weight: 800; color: #f59e0b; margin-top: 4px;">45.0%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div slot="about" class="editorial-content">
+    <h2>YouTube Watch Time Calculator: Calculate Hours & Track Monetization Goals</h2>
+    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+      <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
+        📈 <strong>Want to estimate your net revenue once you reach 4,000 watch hours?</strong> Try our free <a href="/tools/youtube-rpm-calculator" style="color: var(--color-brand); text-decoration: underline;">YouTube RPM Calculator</a> to project channel revenue per 1,000 views.
+      </p>
+    </div>
+
+    <h2>What Is a YouTube Watch Time Calculator?</h2>
+    <p>
+      A <strong>YouTube watch time calculator</strong> is an essential analytics tool built for video content creators, channel managers, and video marketers to calculate total accumulated watch time in hours and minutes. Because YouTube's search and recommendation algorithm prioritizes cumulative watch time over simple view counts, tracking watch hours is critical. Furthermore, aspiring YouTubers must reach <strong>4,000 valid public watch hours</strong> within a 12-month period to unlock monetization through the YouTube Partner Program (YPP). Our free calculator allows you to compute total watch hours, calculate audience retention percentages, and determine the exact number of views required to hit your monetization milestones.
+    </p>
+
+    <h2>How Does the YouTube Watch Time Calculator Work?</h2>
+    <p>
+      The calculator processes your channel metrics using standard time conversion algorithms:
+    </p>
+    <ul>
+      <li><strong>Total Watch Minutes Calculation:</strong> Multiplies your Total Video Views by your Average View Duration (AVD in minutes).</li>
+      <li><strong>Watch Hours Conversion:</strong> Divides total watch minutes by 60 to output total watch hours.</li>
+      <li><strong>Monetization Progress Tracking:</strong> Evaluates accumulated watch hours against your target threshold (default 4,000 hours) to compute progress percentages. Check projected ad payouts using our <a href="/tools/youtube-cpm-calculator">YouTube CPM Calculator</a>.</li>
+      <li><strong>Audience Retention Percentage:</strong> Divides Average View Duration by total video length to calculate viewer retention efficiency.</li>
+    </ul>
+
+    <h2>How to Calculate YouTube Watch Time</h2>
+    <p>
+      Calculating your total watch hours manually or with our calculator is simple. To calculate total watch hours manually, follow this formula:
+    </p>
+    <p>
+      Total Watch Hours = (Total Views &times; Average View Duration in minutes) / 60
+    </p>
+    <p>
+      For example, if your video receives <strong>50,000 views</strong> and viewers watch an average of <strong>4.5 minutes</strong>, your total watch time is `(50,000 × 4.5) ÷ 60 = 3,750 Hours`.
+    </p>
+
+    <h2>How to Use This YouTube Watch Time Calculator</h2>
+    <p>
+      Using our interactive tool takes only seconds:
+    </p>
+    <ol>
+      <li><strong>Total Video Views:</strong> Enter your total video views or target view count.</li>
+      <li><strong>Average View Duration (AVD):</strong> Enter your average watch duration in minutes (e.g., 4.5).</li>
+      <li><strong>Video Length:</strong> Input total video duration in minutes (optional, to compute retention %).</li>
+      <li><strong>Target Watch Hours Goal:</strong> Set your target watch hour milestone (default is 4,000 hours for YPP).</li>
+      <li><strong>Calculate Watch Time:</strong> Click <strong>Calculate Watch Time</strong> to view your total watch hours, retention rate, and live YPP progress mockup. Check title length limits with our <a href="/tools/youtube-title-length-checker">YouTube Title Length Checker</a>.</li>
+    </ol>
+
+    <h2>What Does the YouTube Watch Time Calculator Calculate?</h2>
+    <p>
+      Our calculator computes four essential channel analytics metrics:
+    </p>
+    <ul>
+      <li><strong>Total Watch Hours:</strong> Cumulative watch time converted into standard hours.</li>
+      <li><strong>Total Watch Minutes:</strong> Total watch time in raw minutes.</li>
+      <li><strong>Views Needed for 4,000 Hours:</strong> Exact total views required at your current AVD to hit the 4,000-hour monetization threshold.</li>
+      <li><strong>Audience Retention Rate:</strong> Percentage of the video watched on average by viewers.</li>
+    </ul>
+
+    <h2>YouTube Watch Time Formula</h2>
+    <p>
+      The mathematical formulas behind watch time calculations include:
+    </p>
+    <ul>
+      <li><strong>Watch Hours Formula:</strong> `Watch Hours = (Views × AVD in Minutes) ÷ 60`</li>
+      <li><strong>Views Needed Formula:</strong> `Views Needed = (Target Hours Goal × 60) ÷ AVD in Minutes`</li>
+      <li><strong>Audience Retention Formula:</strong> `Retention % = (AVD ÷ Video Length) × 100`</li>
+    </ul>
+
+    <h2>YouTube Watch Time Calculation Example</h2>
+    <p>
+      Let us review a step-by-step calculation example:
+    </p>
+    <p>
+      <strong>Total Views:</strong> 50,000 views<br />
+      <strong>Average View Duration:</strong> 4.5 minutes<br />
+      <strong>Video Length:</strong> 10.0 minutes<br />
+      <strong>Target Goal:</strong> 4,000 Watch Hours
+    </p>
+    <p>
+      <strong>Step 1: Calculate Total Watch Minutes</strong><br />
+      Total Minutes = 50,000 &times; 4.5 = <strong>225,000 minutes</strong>
+    </p>
+    <p>
+      <strong>Step 2: Calculate Total Watch Hours</strong><br />
+      Total Hours = 225,000 / 60 = <strong>3,750 Hours</strong>
+    </p>
+    <p>
+      <strong>Step 3: Calculate Progress Toward 4,000 Hours</strong><br />
+      Progress = (3,750 / 4,000) &times; 100 = <strong>93.75% Complete</strong>
+    </p>
+    <p>
+      <strong>Step 4: Calculate Views Needed to Reach 4,000 Hours</strong><br />
+      Total Views Needed = (4,000 &times; 60) / 4.5 = 240,000 / 4.5 = <strong>53,334 total views</strong>
+    </p>
+
+    <h2>How Many Views Do You Need to Reach Your Watch Time Goal?</h2>
+    <p>
+      The number of views required to hit 4,000 watch hours depends on your average view duration:
+    </p>
+    <ul>
+      <li><strong>2 Minute AVD:</strong> Requires <strong>120,000 views</strong> (240,000 mins).</li>
+      <li><strong>4 Minute AVD:</strong> Requires <strong>60,000 views</strong> (240,000 mins).</li>
+      <li><strong>6 Minute AVD:</strong> Requires <strong>40,000 views</strong> (240,000 mins).</li>
+      <li><strong>8 Minute AVD:</strong> Requires <strong>30,000 views</strong> (240,000 mins).</li>
+    </ul>
+
+    <h2>How Video Length and Average View Duration Affect Watch Time</h2>
+    <p>
+      Longer videos inherently provide greater watch time potential. A 15-minute video with a 40% retention rate generates <strong>6.0 minutes</strong> of watch time per view, whereas a 3-minute video with a 70% retention rate only generates <strong>2.1 minutes</strong> per view. Creating longer, engaging content allows you to hit watch time milestones with fewer total views.
+    </p>
+
+    <h2>How to Increase YouTube Watch Time</h2>
+    <p>
+      To boost your channel's watch time and hit 4,000 hours faster:
+    </p>
+    <ul>
+      <li><strong>Hook Viewers in the First 15 Seconds:</strong> Deliver on your video title immediately to eliminate early drop-offs.</li>
+      <li><strong>Use Pattern Interrupts:</strong> Incorporate B-roll, text overlays, and audio cues every 30 to 60 seconds to maintain visual interest.</li>
+      <li><strong>Create Playlists:</strong> Organize related videos into playlists to encourage binge-watching across multiple uploads.</li>
+      <li><strong>Structure Videos for Mid-Rolls:</strong> Produce content longer than 8 minutes with structured chapters.</li>
+    </ul>
+
+    <h2>YouTube Watch Time vs Average View Duration</h2>
+    <p>
+      While <strong>Watch Time</strong> measures the total cumulative time (in hours or minutes) spent watching your videos across all viewers, <strong>Average View Duration (AVD)</strong> measures the average time spent per individual view. High AVD leads directly to higher total watch time.
+    </p>
+
+    <h2>YouTube Watch Time vs Views</h2>
+    <p>
+      View counts indicate how many times a video was clicked and watched for at least 30 seconds, but Watch Time measures how deeply viewers engaged with the content. YouTube's recommendation engine favors videos with high watch time over videos with high view counts but short watch durations.
+    </p>
+
+    <h2>YouTube Watch Time and Monetization</h2>
+    <p>
+      To qualify for ad revenue sharing in the YouTube Partner Program, creators must reach <strong>4,000 valid public watch hours</strong> in the trailing 12 months. Only long-form public videos contribute toward this threshold.
+    </p>
+
+    <h2>Important Things to Know About YouTube Watch Time</h2>
+    <p>
+      Keep these crucial rules in mind when tracking watch hours:
+    </p>
+    <ul>
+      <li>Unlisted, private, or deleted videos do not count toward public watch hours.</li>
+      <li>Watch hours generated from YouTube Shorts viewed in the Shorts shelf do not count toward the 4,000 long-form hour threshold.</li>
+      <li>Ad campaigns (YouTube Ads views) do not count toward monetization watch hours.</li>
+    </ul>
+
+    <h2>Related YouTube Tools</h2>
+    <p>
+      Explore our suite of free YouTube optimization tools to accelerate your channel growth:
+    </p>
+    <ul>
+      <li><a href="/tools/youtube-rpm-calculator">YouTube RPM Calculator</a>: Estimate net revenue per 1,000 views.</li>
+      <li><a href="/tools/youtube-cpm-calculator">YouTube CPM Calculator</a>: Calculate gross advertiser spend and 55/45 payouts.</li>
+      <li><a href="/tools/youtube-title-length-checker">YouTube Title Length Checker</a>: Audit title character limits.</li>
+    </ul>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Layout Config */
+  .calc-card {
+    padding: 2.25rem !important;
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .calc-form-column, .calc-editor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .calc-btn-secondary {
+    height: 48px;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+  }
+
+  .calc-btn {
+    height: 48px;
+    background: var(--gradient-brand);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all var(--transition-normal);
+  }
+
+  .calc-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h2) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  /* Responsive Queries */
+  @media (max-width: 767px) {
+    .calc-card {
+      padding: 1.25rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .form-actions {
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .calc-btn, .calc-btn-secondary {
+      flex: 1;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .calc-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  const setupYoutubeWatchTimeCalculator = () => {
+    const viewsInput = document.getElementById('views-input') as HTMLInputElement;
+    const avdInput = document.getElementById('avd-input') as HTMLInputElement;
+    const videoLengthInput = document.getElementById('video-length-input') as HTMLInputElement;
+    const goalHoursInput = document.getElementById('goal-hours-input') as HTMLInputElement;
+
+    // Actions
+    const calculateBtn = document.getElementById('calculate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Layout slots
+    const resultsWrapper = document.getElementById('results-wrapper');
+
+    // Overview Stat Targets
+    const statTotalHours = document.getElementById('stat-total-hours');
+    const statTotalMins = document.getElementById('stat-total-mins');
+    const statViewsNeeded = document.getElementById('stat-views-needed');
+    const statRetentionPct = document.getElementById('stat-retention-pct');
+
+    // Mockup Card Targets
+    const mockupStatusBadge = document.getElementById('mockup-status-badge');
+    const mockupProgressPct = document.getElementById('mockup-progress-pct');
+    const mockupProgressBar = document.getElementById('mockup-progress-bar');
+    const mockupCurrentHours = document.getElementById('mockup-current-hours');
+    const mockupViewsNeeded = document.getElementById('mockup-views-needed');
+
+    const runCalculation = () => {
+      const views = Math.max(1, parseFloat(viewsInput?.value || '50000') || 50000);
+      const avdMins = Math.max(0.05, parseFloat(avdInput?.value || '4.5') || 4.5);
+      const videoLengthMins = Math.max(avdMins, parseFloat(videoLengthInput?.value || '10.0') || 10.0);
+      const goalHours = Math.max(1, parseFloat(goalHoursInput?.value || '4000') || 4000);
+
+      // Calculations
+      const totalMinutes = views * avdMins;
+      const totalHours = totalMinutes / 60;
+      const progressPct = Math.min(100, (totalHours / goalHours) * 100);
+
+      // Views needed to hit goal
+      const viewsNeeded = Math.ceil((goalHours * 60) / avdMins);
+      const retentionPct = Math.min(100, (avdMins / videoLengthMins) * 100);
+
+      // Update stat cards
+      if (statTotalHours) statTotalHours.textContent = `${totalHours.toLocaleString('en-US', { maximumFractionDigits: 1 })} Hrs`;
+      if (statTotalMins) statTotalMins.textContent = `${totalMinutes.toLocaleString('en-US', { maximumFractionDigits: 0 })} Mins`;
+      if (statViewsNeeded) statViewsNeeded.textContent = `${viewsNeeded.toLocaleString()} Views`;
+      if (statRetentionPct) statRetentionPct.textContent = `${retentionPct.toFixed(1)}%`;
+
+      // Update Mockup card
+      if (mockupCurrentHours) mockupCurrentHours.textContent = `${totalHours.toLocaleString('en-US', { maximumFractionDigits: 0 })} hrs`;
+      if (mockupProgressPct) mockupProgressPct.textContent = `${progressPct.toFixed(1)}%`;
+      if (mockupProgressBar) mockupProgressBar.style.width = `${progressPct}%`;
+      if (mockupViewsNeeded) mockupViewsNeeded.textContent = `${viewsNeeded.toLocaleString()} views`;
+
+      if (mockupStatusBadge) {
+        if (progressPct >= 100) {
+          mockupStatusBadge.textContent = 'Unlocked! 🎉';
+          mockupStatusBadge.style.color = '#16a34a';
+          mockupStatusBadge.style.background = '#183820';
+        } else {
+          mockupStatusBadge.textContent = 'In Progress';
+          mockupStatusBadge.style.color = '#f59e0b';
+          mockupStatusBadge.style.background = '#272727';
+        }
+      }
+
+      resultsWrapper?.classList.remove('hidden');
+    };
+
+    calculateBtn?.addEventListener('click', () => {
+      runCalculation();
+
+      const resultsSection = document.getElementById('results-wrapper');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      if (viewsInput) viewsInput.value = '50000';
+      if (avdInput) avdInput.value = '4.5';
+      if (videoLengthInput) videoLengthInput.value = '10.0';
+      if (goalHoursInput) goalHoursInput.value = '4000';
+      runCalculation();
+    });
+
+    // Auto-run initial calculation
+    runCalculation();
+  };
+
+  setupYoutubeWatchTimeCalculator();
+  document.addEventListener('astro:after-swap', setupYoutubeWatchTimeCalculator);
+</script>

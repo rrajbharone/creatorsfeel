@@ -54,6 +54,8 @@ export const GET: APIRoute = async (context) => {
     '/tools/youtube-keyword-density-checker',
     '/tools/youtube-clickbait-title-generator',
     '/tools/youtube-cpm-calculator',
+    '/tools/youtube-description-formatter',
+    '/tools/youtube-watch-time-calculator',
     '/tools/linkedin-post-formatter',
     '/tools/linkedin-engagement-calculator',
     '/tools/twitter-character-counter',
