@@ -1,0 +1,969 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the recommended number of hashtags per tweet on Twitter/X?",
+    answer: "Twitter officially recommends using no more than 1 to 2 relevant hashtags per tweet. Tweets with 1 or 2 hashtags receive up to 21% higher engagement than tweets with 3 or more hashtags."
+  },
+  {
+    question: "Is there a hard character or hashtag limit on Twitter?",
+    answer: "There is no separate 'hashtag limit' on Twitter, but all hashtags and their '#' symbols count directly against your 280-character limit (or 25,000 characters for X Premium)."
+  },
+  {
+    question: "Should I place hashtags in the middle or end of my tweet?",
+    answer: "Placing hashtags at the end of your tweet or integrating them naturally into sentences improves readability. Avoid grouping 5+ hashtags together at the top of your post."
+  },
+  {
+    question: "Why should I use CamelCase for Twitter hashtags?",
+    answer: "Using CamelCase (capitalizing the first letter of each word in a hashtag, like #SocialMediaMarketing) makes hashtags accessible to screen readers and far easier for humans to read."
+  },
+  {
+    question: "Can punctuation or special symbols be used in Twitter hashtags?",
+    answer: "No. Twitter hashtags cannot contain spaces, punctuation marks, hyphens, periods, or symbols like $, %, or !. Using punctuation automatically terminates the hashtag at that character."
+  },
+  {
+    question: "Do hashtags increase retweets and impressions on X?",
+    answer: "Yes, targeted niche hashtags help X's recommendation engine categorize your tweet and surface it in search results and topic feeds, increasing organic impressions."
+  }
+];
+---
+
+<ToolLayout
+  title="Twitter Hashtag Counter - X Hashtag Count & Density Checker"
+  description="Free Twitter Hashtag Counter. Count, extract, and audit hashtags in your tweets and X posts in real time. Optimize hashtag density for maximum reach."
+  toolName="Twitter Hashtag Counter"
+  toolDescription="Count and extract hashtags from your tweets, verify recommended hashtag limits, and audit character impacts on X."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: Input Editor & Action Buttons -->
+      <form class="calc-form" id="counter-form" onsubmit="return false;">
+        <div class="form-group">
+          <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem;">
+            <label for="tweet-input" class="input-label" style="margin: 0;">Draft Your Tweet / Paste Hashtag List</label>
+            <!-- Quick Format Buttons -->
+            <div class="format-toolbar" style="display: flex; gap: 0.25rem; flex-wrap: wrap;">
+              <button type="button" class="format-btn" id="btn-uppercase" title="Convert to ALL CAPS">UPPERCASE</button>
+              <button type="button" class="format-btn" id="btn-lowercase" title="Convert to lowercase">lowercase</button>
+              <button type="button" class="format-btn" id="btn-titlecase" title="Convert to Title Case">Title Case</button>
+              <button type="button" class="format-btn" id="btn-cleanspace" title="Trim extra spaces">Clean Spacing</button>
+            </div>
+          </div>
+          <textarea 
+            id="tweet-input" 
+            class="editor-textarea" 
+            placeholder="Type or paste your tweet text or hashtag list here... e.g., #SocialMedia #Marketing #ContentCreator"
+            rows="8"
+          ></textarea>
+        </div>
+
+        <!-- Prominent Action Buttons Row -->
+        <div class="main-actions-row">
+          <button type="button" id="btn-copy-hashtags" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+            </svg>
+            <span id="copy-hashtags-text">Copy Hashtags</span>
+          </button>
+          <button type="button" id="btn-clear" class="calc-btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+            </svg>
+            Clear All
+          </button>
+        </div>
+      </form>
+
+      <!-- Right Column: Live Results & Hashtag Analysis -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- Optimal Hashtag Limit Status Card -->
+        <div class="hashtag-status-card status-neutral" id="hashtag-status-card">
+          <div class="status-header-row">
+            <span class="status-badge-icon" id="status-icon">🔍</span>
+            <strong class="status-badge-title" id="status-title">No Hashtags Detected</strong>
+          </div>
+          <p class="status-desc-text" id="status-desc">
+            Twitter best practice recommends using 1 to 2 targeted hashtags per tweet for maximum reach and engagement.
+          </p>
+        </div>
+
+        <!-- 8 Metric Cards Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card highlight-card">
+            <span class="metric-value" id="count-hashtags">0</span>
+            <span class="metric-label">Total Hashtags</span>
+            <span class="metric-sub text-muted">Hashtag count</span>
+          </div>
+
+          <div class="metric-card highlight-card">
+            <span class="metric-value" id="count-unique">0</span>
+            <span class="metric-label">Unique Hashtags</span>
+            <span class="metric-sub text-muted">Deduplicated</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-hashtag-chars">0</span>
+            <span class="metric-label">Hashtag Characters</span>
+            <span class="metric-sub text-muted">Length used by #</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-remaining">280</span>
+            <span class="metric-label">Allowance Left</span>
+            <span class="metric-sub text-muted">280 char limit</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-words">0</span>
+            <span class="metric-label">Total Words</span>
+            <span class="metric-sub text-muted">Draft word count</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-chars">0</span>
+            <span class="metric-label">Standard Chars</span>
+            <span class="metric-sub text-muted">Raw count</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-x-weighted">0</span>
+            <span class="metric-label">X-Weighted Chars</span>
+            <span class="metric-sub text-muted">t.co & emoji weights</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-avg-length">0</span>
+            <span class="metric-label">Avg Tag Length</span>
+            <span class="metric-sub text-muted">Chars / hashtag</span>
+          </div>
+        </div>
+
+        <!-- Extracted Hashtags Tag List Box -->
+        <div class="extracted-tags-box">
+          <div class="tags-header">
+            <span class="tags-title">Extracted Hashtags</span>
+            <span class="tags-count-badge" id="extracted-count-badge">0 tags</span>
+          </div>
+          <div class="tags-container" id="extracted-tags-list">
+            <span class="tags-empty-text">No hashtags found yet. Type hashtags starting with # above.</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is a Twitter Hashtag Counter?</h2>
+      <p>
+        A <strong>Twitter Hashtag Counter</strong> (or X Hashtag Counter) is a specialized social media tool designed to extract, count, and audit hashtags used in tweets, threads, and X posts.
+      </p>
+      <p>
+        While hashtags remain one of the most powerful discovery mechanisms on Twitter, overusing them can harm post reach. Our Twitter Hashtag Counter provides real-time counts of total hashtags, unique hashtags, hashtag character usage, and feed density ratings to help creators land in the optimal 1-to-2 hashtag window.
+      </p>
+
+      <h2>How Does a Twitter Hashtag Counter Work?</h2>
+      <p>
+        Our counter processes your draft using a regex extraction parser designed specifically for Twitter syntax:
+      </p>
+      <ul>
+        <li><strong>Hashtag Extraction:</strong> Identifies strings starting with the <code>#</code> symbol followed by alphanumeric characters and underscores (e.g., <code>#SocialMedia</code>, <code>#Web3</code>).</li>
+        <li><strong>Deduplication Audit:</strong> Separates duplicate hashtags to show your net unique topic tags.</li>
+        <li><strong>Character Impact Measurement:</strong> Measures how many characters your hashtags consume from your 280-character tweet allowance.</li>
+        <li><strong>Density Rating:</strong> Evaluates your hashtag count against Twitter's official engagement recommendations.</li>
+      </ul>
+
+      <h2>Twitter Hashtag Limits and Best Practices</h2>
+      <p>
+        Technically, Twitter allows you to include as many hashtags as will fit into your character limit. However, Twitter's official research guidelines state that <strong>1 to 2 hashtags per tweet is the optimal limit</strong>.
+      </p>
+
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Hashtag Count</th>
+              <th>Engagement Impact</th>
+              <th>Status & Recommendation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1 to 2 Hashtags</strong></td>
+              <td>+21% Higher Engagement</td>
+              <td>✅ <strong>Optimal:</strong> Maximum reach and retweets without looking like spam.</td>
+            </tr>
+            <tr>
+              <td><strong>3 to 4 Hashtags</strong></td>
+              <td>-17% Engagement Drop</td>
+              <td>⚠️ <strong>Moderate:</strong> Acceptable for event live-tweeting, but dilutes focus.</td>
+            </tr>
+            <tr>
+              <td><strong>5+ Hashtags</strong></td>
+              <td>-50% Engagement Drop</td>
+              <td>🚫 <strong>Over-Hashtagged:</strong> Looks like spam and triggers algorithmic suppression.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>How to Count Hashtags on Twitter/X</h2>
+      <p>
+        To audit your hashtags before publishing, follow these steps:
+      </p>
+      <ol>
+        <li><strong>Paste Your Draft:</strong> Copy your tweet text into the editor above.</li>
+        <li><strong>Review Total vs. Unique Tags:</strong> Ensure you aren't repeating identical hashtags.</li>
+        <li><strong>Check Hashtag Density:</strong> Verify that your hashtag count sits comfortably at 1 or 2 tags.</li>
+        <li><strong>Copy Hashtags or Full Tweet:</strong> Click <strong>Copy Hashtags</strong> to extract tags for cross-posting, or <strong>Copy Full Tweet</strong> to paste into X.</li>
+      </ol>
+
+      <h2>Why Hashtag Count Matters</h2>
+      <p>
+        On Twitter, hashtag density directly influences user psychology and recommendation algorithms:
+      </p>
+      <ul>
+        <li><strong>Prevents Visual Clutter:</strong> Tweets cluttered with 10 hashtags look low-quality and get skipped on mobile feeds.</li>
+        <li><strong>Improves Search Categorization:</strong> 1 or 2 focused hashtags help Twitter's algorithm categorize your topic accurately for topic feeds.</li>
+        <li><strong>Preserves Character Budget:</strong> Every hashtag takes away characters that could be spent on a strong hook, detail, or call-to-action.</li>
+      </ul>
+
+      <h2>How to Use Hashtags Effectively</h2>
+      <p>
+        Maximize the discovery potential of your hashtags with these proven tips:
+      </p>
+      <ol>
+        <li>
+          <strong>Use CamelCase for Accessibility:</strong> Capitalize the first letter of each word (e.g., <code>#DigitalMarketing</code> instead of <code>#digitalmarketing</code>) so screen readers can pronounce words correctly.
+        </li>
+        <li>
+          <strong>Place Hashtags at the End or Within Copy:</strong> Integrate hashtags naturally into sentences or append them neatly at the bottom of your tweet.
+        </li>
+        <li>
+          <strong>Combine Character & Word Audits:</strong> Keep your total tweet copy within character limits using our <a href="/tools/twitter-character-counter">Twitter Character Counter</a> and <a href="/tools/twitter-post-word-counter">Twitter Post Word Counter</a>.
+        </li>
+        <li>
+          <strong>Track Engagement Velocity:</strong> Measure how your tweets perform using our <a href="/tools/twitter-engagement-calculator">Twitter Engagement Calculator</a>.
+        </li>
+        <li>
+          <strong>Cross-Post to Other Channels:</strong> Adapt your hashtags for other platforms using our <a href="/tools/instagram-hashtag-counter">Instagram Hashtag Counter</a> or format post text with our <a href="/tools/linkedin-post-formatter">LinkedIn Post Formatter</a>.
+        </li>
+      </ol>
+
+      <h2>Common Twitter Hashtag Mistakes</h2>
+      <ul>
+        <li><strong>Using Spaces or Punctuation:</strong> Adding spaces or punctuation (e.g., <code>#social media</code> or <code>#web3.0</code>) breaks the hashtag link.</li>
+        <li><strong>Using Super Broad Tags:</strong> Tags like <code>#happy</code> or <code>#today</code> are too noisy; use niche tags like <code>#SaaSGrowth</code> instead.</li>
+        <li><strong>Using Too Many Hashtags:</strong> Stuffing 5+ hashtags into a 280-character tweet reduces retweets significantly.</li>
+      </ul>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/twitter-character-counter" class="tool-link-card glass">
+          <div class="tool-link-title">Twitter Character Counter</div>
+          <div class="tool-link-desc">Audit tweet character limits, t.co link shortening weights, and emoji counts in real time.</div>
+        </a>
+        <a href="/tools/twitter-post-word-counter" class="tool-link-card glass">
+          <div class="tool-link-title">Twitter Post Word Counter</div>
+          <div class="tool-link-desc">Count words, characters, t.co URLs, and emojis in your tweets and X Premium posts.</div>
+        </a>
+        <a href="/tools/twitter-engagement-calculator" class="tool-link-card glass">
+          <div class="tool-link-title">Twitter Engagement Calculator</div>
+          <div class="tool-link-desc">Measure your Twitter engagement rate based on likes, retweets, replies, and followers.</div>
+        </a>
+        <a href="/tools/instagram-hashtag-counter" class="tool-link-card glass">
+          <div class="tool-link-title">Instagram Hashtag Counter</div>
+          <div class="tool-link-desc">Count and extract Instagram hashtags while auditing the 30-hashtag maximum limit.</div>
+        </a>
+        <a href="/tools/linkedin-post-formatter" class="tool-link-card glass">
+          <div class="tool-link-title">LinkedIn Post Formatter</div>
+          <div class="tool-link-desc">Format social media posts with bold, italic, and bulleted Unicode text styles.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Editor */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .input-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .editor-textarea {
+    width: 100%;
+    min-height: 220px;
+    padding: 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .editor-textarea:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .format-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .format-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  /* Prominent Main Action Buttons Row */
+  .main-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .calc-btn-primary {
+    flex: 2;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Right Column: Results Panel */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  /* Optimal Hashtag Status Card */
+  .hashtag-status-card {
+    padding: 1rem 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    transition: all var(--transition-fast);
+  }
+
+  .hashtag-status-card.status-optimal {
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  .hashtag-status-card.status-warning {
+    border-color: rgba(217, 119, 6, 0.4);
+    background: rgba(217, 119, 6, 0.08);
+  }
+
+  .hashtag-status-card.status-danger {
+    border-color: rgba(220, 38, 38, 0.4);
+    background: rgba(220, 38, 38, 0.08);
+  }
+
+  .status-header-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .status-badge-icon {
+    font-size: 1.1rem;
+  }
+
+  .status-badge-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .status-desc-text {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* 8 Metric Cards Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-card.highlight-card {
+    background: rgba(99, 102, 241, 0.06);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  .metric-value {
+    font-size: 1.3rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Extracted Hashtags Box */
+  .extracted-tags-box {
+    padding: 1rem 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .tags-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .tags-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .tags-count-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-brand);
+  }
+
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    min-height: 48px;
+    align-items: center;
+  }
+
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-brand);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .tag-pill:hover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.1);
+  }
+
+  .tags-empty-text {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .faq-editorial-list p {
+    margin-bottom: 1rem;
+    background: var(--color-bg-alt);
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tweetInput = document.getElementById('tweet-input') as HTMLTextAreaElement | null;
+
+    // Formatting Toolbar Buttons
+    const btnUppercase = document.getElementById('btn-uppercase');
+    const btnLowercase = document.getElementById('btn-lowercase');
+    const btnTitlecase = document.getElementById('btn-titlecase');
+    const btnCleanspace = document.getElementById('btn-cleanspace');
+    const btnCopyHashtags = document.getElementById('btn-copy-hashtags');
+    const copyHashtagsTextSpan = document.getElementById('copy-hashtags-text');
+    const btnClear = document.getElementById('btn-clear');
+
+    // Status Card Elements
+    const hashtagStatusCard = document.getElementById('hashtag-status-card');
+    const statusIcon = document.getElementById('status-icon');
+    const statusTitle = document.getElementById('status-title');
+    const statusDesc = document.getElementById('status-desc');
+
+    // 8 Metric Count Displays
+    const countHashtags = document.getElementById('count-hashtags');
+    const countUnique = document.getElementById('count-unique');
+    const countHashtagChars = document.getElementById('count-hashtag-chars');
+    const countRemaining = document.getElementById('count-remaining');
+    const countWords = document.getElementById('count-words');
+    const countChars = document.getElementById('count-chars');
+    const countXWeighted = document.getElementById('count-x-weighted');
+    const countAvgLength = document.getElementById('count-avg-length');
+
+    // Extracted Tags List Container
+    const extractedTagsList = document.getElementById('extracted-tags-list');
+    const extractedCountBadge = document.getElementById('extracted-count-badge');
+
+    if (!tweetInput) return;
+
+    // Twitter hashtag extraction regex: matches # followed by unicode word chars (letters, digits, underscores)
+    const hashtagRegex = /#[\p{L}\p{N}_]+/gu;
+    const urlRegex = /https?:\/\/[^\s]+/g;
+    const emojiRegex = /[\u{1F300}-\u{1F9FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E6}-\u{1F1FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1FA70}-\u{1FAFF}]/gu;
+
+    // Calculate Twitter X-Weighted Character Count
+    function calculateXWeightedLength(text: string): number {
+      if (!text) return 0;
+      let parsed = text.replace(urlRegex, 'x'.repeat(23));
+      let length = Array.from(parsed).length;
+      const emojiMatches = text.match(emojiRegex);
+      if (emojiMatches) {
+        length += emojiMatches.length;
+      }
+      return length;
+    }
+
+    // Main Live Metric Calculation Engine
+    function updateMetrics() {
+      const rawText = tweetInput?.value || '';
+
+      // 1. Extract Hashtags
+      const hashtagMatches = rawText.match(hashtagRegex) || [];
+      const totalHashtagsCount = hashtagMatches.length;
+
+      // 2. Unique Hashtags
+      const uniqueHashtagsSet = new Set(hashtagMatches.map(t => t.toLowerCase()));
+      const uniqueHashtagsCount = uniqueHashtagsSet.size;
+
+      // 3. Hashtag Characters Total
+      const hashtagCharsSum = hashtagMatches.reduce((acc, tag) => acc + Array.from(tag).length, 0);
+
+      // 4. Average Hashtag Length
+      const avgLength = totalHashtagsCount > 0 ? (hashtagCharsSum / totalHashtagsCount).toFixed(1) : '0';
+
+      // 5. Total Words
+      const trimmedText = rawText.trim();
+      const words = trimmedText ? trimmedText.split(/\s+/).filter(Boolean).length : 0;
+
+      // 6. Standard Characters
+      const charsWithSpaces = Array.from(rawText).length;
+
+      // 7. X-Weighted Characters
+      const xWeightedChars = calculateXWeightedLength(rawText);
+
+      // 8. Remaining Allowance (280 limit)
+      const remainingAllowance = 280 - xWeightedChars;
+
+      // Update Metric Displays
+      if (countHashtags) countHashtags.textContent = totalHashtagsCount.toLocaleString();
+      if (countUnique) countUnique.textContent = uniqueHashtagsCount.toLocaleString();
+      if (countHashtagChars) countHashtagChars.textContent = hashtagCharsSum.toLocaleString();
+      if (countRemaining) {
+        countRemaining.textContent = remainingAllowance >= 0 ? remainingAllowance.toLocaleString() : `-${Math.abs(remainingAllowance).toLocaleString()}`;
+        countRemaining.style.color = remainingAllowance < 0 ? 'var(--color-danger)' : 'var(--color-brand)';
+      }
+      if (countWords) countWords.textContent = words.toLocaleString();
+      if (countChars) countChars.textContent = charsWithSpaces.toLocaleString();
+      if (countXWeighted) countXWeighted.textContent = xWeightedChars.toLocaleString();
+      if (countAvgLength) countAvgLength.textContent = avgLength;
+
+      // Update Hashtag Density Rating Status Card
+      updateHashtagStatus(totalHashtagsCount);
+
+      // Update Extracted Tags Pill Display
+      updateExtractedTagsDisplay(hashtagMatches);
+    }
+
+    // Update Status Rating Box based on Hashtag Count
+    function updateHashtagStatus(count: number) {
+      if (!hashtagStatusCard || !statusIcon || !statusTitle || !statusDesc) return;
+
+      hashtagStatusCard.className = 'hashtag-status-card';
+
+      if (count === 0) {
+        hashtagStatusCard.classList.add('status-neutral');
+        statusIcon.textContent = '🔍';
+        statusTitle.textContent = 'No Hashtags Detected';
+        statusDesc.textContent = 'Twitter best practice recommends using 1 to 2 targeted hashtags per tweet for maximum reach and engagement.';
+      } else if (count >= 1 && count <= 2) {
+        hashtagStatusCard.classList.add('status-optimal');
+        statusIcon.textContent = '✅';
+        statusTitle.textContent = `Optimal Hashtag Range (${count} ${count === 1 ? 'Hashtag' : 'Hashtags'})`;
+        statusDesc.textContent = 'Great job! Using 1 to 2 relevant hashtags per tweet maximizes retweets and discoverability without triggering spam filters.';
+      } else if (count >= 3 && count <= 4) {
+        hashtagStatusCard.classList.add('status-warning');
+        statusIcon.textContent = '⚠️';
+        statusTitle.textContent = `Moderate Hashtag Usage (${count} Hashtags)`;
+        statusDesc.textContent = 'Using 3 to 4 hashtags slightly reduces engagement rates on Twitter. Consider trimming down to the top 1 or 2 most relevant tags.';
+      } else {
+        hashtagStatusCard.classList.add('status-danger');
+        statusIcon.textContent = '🚫';
+        statusTitle.textContent = `Over-Hashtagged (${count} Hashtags)`;
+        statusDesc.textContent = 'Using 5+ hashtags significantly reduces tweet engagement and makes your post look spammy. Keep hashtags to 1-2 targeted topics.';
+      }
+    }
+
+    // Render Extracted Hashtags as Interactive Pills
+    function updateExtractedTagsDisplay(tags: string[]) {
+      if (!extractedTagsList || !extractedCountBadge) return;
+
+      if (extractedCountBadge) extractedCountBadge.textContent = `${tags.length} ${tags.length === 1 ? 'tag' : 'tags'}`;
+
+      if (tags.length === 0) {
+        extractedTagsList.innerHTML = '<span class="tags-empty-text">No hashtags found yet. Type hashtags starting with # above.</span>';
+        return;
+      }
+
+      // Deduplicate tags for clean pill list
+      const uniqueTags = Array.from(new Set(tags));
+      extractedTagsList.innerHTML = '';
+
+      uniqueTags.forEach(tag => {
+        const pill = document.createElement('span');
+        pill.className = 'tag-pill';
+        pill.title = 'Click to copy hashtag';
+        pill.innerHTML = `<span>${tag}</span><small>📋</small>`;
+        pill.addEventListener('click', () => {
+          navigator.clipboard.writeText(tag).then(() => {
+            const originalText = pill.innerHTML;
+            pill.innerHTML = `<span>Copied!</span>`;
+            setTimeout(() => {
+              pill.innerHTML = originalText;
+            }, 1500);
+          });
+        });
+        extractedTagsList.appendChild(pill);
+      });
+    }
+
+    // Attach Event Listeners to Input
+    ['input', 'change', 'keyup'].forEach(evt => {
+      tweetInput.addEventListener(evt, updateMetrics);
+    });
+
+    // Toolbar Action 1: UPPERCASE
+    if (btnUppercase) {
+      btnUppercase.addEventListener('click', () => {
+        if (!tweetInput) return;
+        tweetInput.value = tweetInput.value.toUpperCase();
+        updateMetrics();
+      });
+    }
+
+    // Toolbar Action 2: lowercase
+    if (btnLowercase) {
+      btnLowercase.addEventListener('click', () => {
+        if (!tweetInput) return;
+        tweetInput.value = tweetInput.value.toLowerCase();
+        updateMetrics();
+      });
+    }
+
+    // Toolbar Action 3: Title Case
+    if (btnTitlecase) {
+      btnTitlecase.addEventListener('click', () => {
+        if (!tweetInput) return;
+        tweetInput.value = tweetInput.value.replace(/\w\S*/g, (txt) => {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        updateMetrics();
+      });
+    }
+
+    // Toolbar Action 4: Clean Spacing
+    if (btnCleanspace) {
+      btnCleanspace.addEventListener('click', () => {
+        if (!tweetInput) return;
+        tweetInput.value = tweetInput.value
+          .split('\n')
+          .map(line => line.replace(/[ \t]+/g, ' ').trim())
+          .join('\n');
+        updateMetrics();
+      });
+    }
+
+    // Toolbar Action 5: Copy Hashtags
+    if (btnCopyHashtags) {
+      btnCopyHashtags.addEventListener('click', () => {
+        if (!tweetInput) return;
+        const hashtagMatches = tweetInput.value.match(hashtagRegex) || [];
+        if (hashtagMatches.length === 0) {
+          if (copyHashtagsTextSpan) copyHashtagsTextSpan.textContent = 'No Hashtags!';
+          setTimeout(() => {
+            if (copyHashtagsTextSpan) copyHashtagsTextSpan.textContent = 'Copy Hashtags';
+          }, 2000);
+          return;
+        }
+
+        const hashtagsString = Array.from(new Set(hashtagMatches)).join(' ');
+        navigator.clipboard.writeText(hashtagsString).then(() => {
+          if (copyHashtagsTextSpan) copyHashtagsTextSpan.textContent = 'Copied Hashtags!';
+          setTimeout(() => {
+            if (copyHashtagsTextSpan) copyHashtagsTextSpan.textContent = 'Copy Hashtags';
+          }, 2000);
+        });
+      });
+    }
+
+    // Toolbar Action 6: Clear All
+    if (btnClear) {
+      btnClear.addEventListener('click', () => {
+        if (!tweetInput) return;
+        tweetInput.value = '';
+        updateMetrics();
+        tweetInput.focus();
+      });
+    }
+
+    // Initial calculation on page load
+    updateMetrics();
+  });
+</script>
