@@ -1,0 +1,953 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the character limit for a LinkedIn post?",
+    answer: "The official character limit for a standard LinkedIn post (update) is 3,000 characters. This includes letters, numbers, spaces, punctuation, hashtags, and emojis."
+  },
+  {
+    question: "What is the character limit for a LinkedIn headline?",
+    answer: "The official character limit for a LinkedIn profile headline is 220 characters when updated on desktop or mobile."
+  },
+  {
+    question: "What is the character limit for the LinkedIn About section?",
+    answer: "The official character limit for the LinkedIn profile About (summary) section is 2,600 characters."
+  },
+  {
+    question: "Where does LinkedIn truncate posts with the '...see more' button?",
+    answer: "On desktop feeds, LinkedIn truncates post text at approximately 210 characters (around 3 to 5 lines). On mobile feeds, truncation occurs around 140 to 150 characters. Hooking your reader in these first 140–210 characters is critical."
+  },
+  {
+    question: "How do emojis and Unicode symbols affect LinkedIn character counts?",
+    answer: "Standard emojis count as 1 to 2 Unicode grapheme clusters, but complex emojis with skin tone modifiers or zero-width joiners (ZWJ) can occupy multiple code units. Our tool uses Unicode-aware counting so every emoji is counted accurately."
+  },
+  {
+    question: "What is the character limit for LinkedIn Articles and Pulse?",
+    answer: "LinkedIn Articles allow up to 110,000 characters for the main body content, while the article headline title has a 100-character limit."
+  }
+];
+---
+
+<ToolLayout
+  title="LinkedIn Character Counter - Post, Headline & Summary Limit Checker"
+  description="Free LinkedIn Character Counter. Count characters, words, spaces, and emojis in your LinkedIn posts, headlines, and About summary in real time."
+  toolName="LinkedIn Character Counter"
+  toolDescription="Count characters with & without spaces, words, letters, numbers, special characters, and emojis for LinkedIn posts, headlines, and profile summaries."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    <div class="calc-main-container">
+      
+      <!-- Preset Target Limit Selector Tabs -->
+      <div class="preset-tabs-wrapper">
+        <span class="tabs-label">Limit Preset:</span>
+        <div class="preset-tabs">
+          <button type="button" class="preset-tab active" data-limit="3000" data-label="LinkedIn Post">Post (3,000)</button>
+          <button type="button" class="preset-tab" data-limit="220" data-label="LinkedIn Headline">Headline (220)</button>
+          <button type="button" class="preset-tab" data-limit="2600" data-label="LinkedIn About Summary">About (2,600)</button>
+          <button type="button" class="preset-tab" data-limit="100" data-label="LinkedIn Article Title">Article Title (100)</button>
+        </div>
+      </div>
+
+      <!-- Editor Textarea & Integrated Action Toolbar -->
+      <div class="editor-section">
+        <div class="editor-header">
+          <label for="text-input" class="editor-label">Draft Your LinkedIn Text</label>
+          <div class="action-toolbar">
+            <button type="button" class="action-btn" id="btn-uppercase" title="Convert to ALL CAPS">UPPERCASE</button>
+            <button type="button" class="action-btn" id="btn-lowercase" title="Convert to all lowercase">lowercase</button>
+            <button type="button" class="action-btn" id="btn-titlecase" title="Convert to Title Case">Title Case</button>
+            <button type="button" class="action-btn" id="btn-cleanspace" title="Trim extra spaces">Clean Spacing</button>
+            <button type="button" class="action-btn action-btn-copy" id="btn-copy" title="Copy text to clipboard">
+              <span id="copy-text">Copy Text</span>
+            </button>
+            <button type="button" class="action-btn action-btn-clear" id="btn-clear" title="Clear text">Clear</button>
+          </div>
+        </div>
+
+        <textarea 
+          id="text-input" 
+          class="editor-textarea" 
+          placeholder="Type or paste your LinkedIn post, headline, or About section draft here..."
+          rows="7"
+        ></textarea>
+      </div>
+
+      <!-- Real-Time Character Progress & Fold Audit Bar -->
+      <div class="progress-audit-card">
+        <div class="progress-info-row">
+          <span class="progress-preset-name" id="limit-preset-name">LinkedIn Post Limit</span>
+          <span class="progress-count-val" id="limit-count-val">0 / 3,000 characters (0%)</span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+
+        <!-- Truncation Fold Audit Callout -->
+        <div class="fold-audit-box" id="fold-audit-box">
+          <span class="fold-icon" id="fold-icon">💡</span>
+          <div class="fold-details">
+            <strong id="fold-title">Above the Fold (Hook Stage)</strong>
+            <p id="fold-desc">On mobile and desktop feeds, LinkedIn truncates your post after ~140–210 characters with a "...see more" button. Make sure your hook grabs attention within the first 140 characters!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 Live Metric Count Cards Grid -->
+      <div class="metrics-grid">
+        <div class="metric-card highlight-card">
+          <span class="metric-value" id="count-total">0</span>
+          <span class="metric-label">Total Characters</span>
+          <span class="metric-sub text-muted">All grapheme clusters</span>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-value" id="count-with-spaces">0</span>
+          <span class="metric-label">With Spaces</span>
+          <span class="metric-sub text-muted">Includes spaces/newlines</span>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-value" id="count-no-spaces">0</span>
+          <span class="metric-label">Without Spaces</span>
+          <span class="metric-sub text-muted">Visible characters only</span>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-value" id="count-words">0</span>
+          <span class="metric-label">Total Words</span>
+          <span class="metric-sub text-muted">Word boundary count</span>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-value" id="count-letters">0</span>
+          <span class="metric-label">Total Letters</span>
+          <span class="metric-sub text-muted">Alphabetic characters</span>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-value" id="count-numbers">0</span>
+          <span class="metric-label">Total Numbers</span>
+          <span class="metric-sub text-muted">Numeric digits</span>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-value" id="count-special">0</span>
+          <span class="metric-label">Special Characters</span>
+          <span class="metric-sub text-muted">Punctuation & symbols</span>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-value" id="count-emojis">0</span>
+          <span class="metric-label">Total Emojis</span>
+          <span class="metric-sub text-muted">Unicode emoji clusters</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      <h2>Complete Guide to LinkedIn Character Limits and Content Optimization</h2>
+      <p>
+        LinkedIn has evolved into the premier global platform for professional networking, personal branding, B2B lead generation, and thought leadership. Whether you are publishing an insightful industry post, auditing your profile headline, or polishing your About summary, mastering <strong>LinkedIn character limits</strong> ensures your messaging is never truncated mid-sentence or cut off before delivering impact.
+      </p>
+      <p>
+        Our <strong>LinkedIn Character Counter</strong> gives creators, copywriters, and professionals real-time feedback on exact character counts, word counts, space distribution, emoji usage, and feed truncation points.
+      </p>
+
+      <h2>Official vs. Practical LinkedIn Character Limits Breakdown</h2>
+      <p>
+        Understanding the distinction between <em>official maximum limits</em> and <em>practical feed truncation boundaries</em> is vital for maximizing click-through rates and reader engagement:
+      </p>
+
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>LinkedIn Content Type</th>
+              <th>Official Max Limit</th>
+              <th>Practical Recommendation / Truncation Point</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Standard Feed Post (Update)</strong></td>
+              <td>3,000 characters</td>
+              <td>1,200–1,800 characters (First 140–210 before "...see more")</td>
+            </tr>
+            <tr>
+              <td><strong>Profile Headline</strong></td>
+              <td>220 characters</td>
+              <td>100–150 characters (For mobile view visibility)</td>
+            </tr>
+            <tr>
+              <td><strong>Profile About (Summary)</strong></td>
+              <td>2,600 characters</td>
+              <td>2,000–2,400 characters (First 250–300 before "...see more")</td>
+            </tr>
+            <tr>
+              <td><strong>Article Title (Pulse)</strong></td>
+              <td>100 characters</td>
+              <td>50–70 characters (Prevents title wrapping)</td>
+            </tr>
+            <tr>
+              <td><strong>Article Body (Pulse)</strong></td>
+              <td>110,000 characters</td>
+              <td>1,500–3,000 words (Comprehensive guides)</td>
+            </tr>
+            <tr>
+              <td><strong>Direct Message (InMail / Message)</strong></td>
+              <td>8,000 characters</td>
+              <td>300–600 characters (Concise outreach)</td>
+            </tr>
+            <tr>
+              <td><strong>Company Page Custom Button</strong></td>
+              <td>30 characters</td>
+              <td>15–25 characters (Clear CTA)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>The "...see more" Fold: Why the First 140–210 Characters Matter</h2>
+      <p>
+        When your post appears in a user's LinkedIn feed, only the first few lines are initially visible. On desktop browsers, LinkedIn inserts the <code>...see more</code> truncation fold after approximately <strong>210 characters</strong>. On mobile devices, this threshold drops to around <strong>140 characters</strong>.
+      </p>
+      <p>
+        If your opening lines fail to spark curiosity, state a compelling problem, or offer immediate value, scrollers will pass over your content without expanding the full post. Always treat your first 140 characters as your post headline.
+      </p>
+
+      <h2>Unicode Character Counting: Emojis and Special Formatting</h2>
+      <p>
+        Not all characters are processed equally in modern web text. Standard ASCII characters (A-Z, 0-9) take 1 code unit, but emojis (such as 🚀, 💡, 👨‍💻) and special Unicode formatted bold/italic text use multi-byte sequences.
+      </p>
+      <p>
+        Basic string length calculations (like JavaScript's <code>.length</code>) often count a single multi-byte emoji as 2 to 7 characters, causing inaccuracies. Our counter uses Unicode-aware grapheme cluster segmentation (<code>Intl.Segmenter</code>) to ensure every emoji and special symbol is counted accurately as a single visual character.
+      </p>
+
+      <h2>5 Proven Copywriting Tips for High-Performing LinkedIn Posts</h2>
+      <ol>
+        <li>
+          <strong>Craft an Unresistible 140-Character Hook:</strong> Use bold statements, surprising statistics, or open loops in line 1 to force readers to click <em>...see more</em>.
+        </li>
+        <li>
+          <strong>Use Clean White Space and Short Paragraphs:</strong> Large blocks of text create visual friction. Keep paragraphs to 1–2 sentences for effortless reading. Format your text easily with our <a href="/tools/linkedin-post-formatter">LinkedIn Post Formatter</a>.
+        </li>
+        <li>
+          <strong>Optimize Your Headline for Search:</strong> Your profile headline appears everywhere you comment. Craft a keyword-dense 220-character headline using our <a href="/tools/linkedin-headline-generator">LinkedIn Headline Generator</a>.
+        </li>
+        <li>
+          <strong>Write an Engaging About Summary:</strong> Structure your profile summary into clear sections (Value proposition, Key achievements, Contact info) using our <a href="/tools/linkedin-bio-generator">LinkedIn Bio Generator</a>.
+        </li>
+        <li>
+          <strong>Track Engagement Rates:</strong> Measure how your character lengths influence likes, comments, and shares using our <a href="/tools/linkedin-engagement-calculator">LinkedIn Engagement Calculator</a>, or compare cross-platform limits with our <a href="/tools/twitter-character-counter">Twitter Character Counter</a>.
+        </li>
+      </ol>
+
+      <h2>Step-by-Step Guide: How to Use the LinkedIn Character Counter</h2>
+      <ul class="steps-list">
+        <li><strong>Step 1: Select Your Limit Preset:</strong> Click a preset tab (Post 3,000, Headline 220, About 2,600, or Article Title 100) to set your target threshold.</li>
+        <li><strong>Step 2: Type or Paste Your Text:</strong> Draft your post inside the main editor box. The counter updates instantly with zero lag.</li>
+        <li><strong>Step 3: Audit Character & Emoji Distribution:</strong> Inspect total characters, characters without spaces, word count, special symbols, and emoji count.</li>
+        <li><strong>Step 4: Check Feed Truncation Warnings:</strong> Review the progress bar and fold audit box to ensure your hook fits within the 140–210 character preview window.</li>
+        <li><strong>Step 5: Apply Quick Formatting & Copy:</strong> Use quick case-transformation buttons (UPPERCASE, Title Case, Clean Spacing) and click <strong>Copy Text</strong> to paste directly into LinkedIn.</li>
+      </ul>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/linkedin-post-formatter" class="tool-link-card glass">
+          <div class="tool-link-title">LinkedIn Post Formatter</div>
+          <div class="tool-link-desc">Add bold, italic, bullet points, and clean line breaks to your LinkedIn posts to boost readability.</div>
+        </a>
+        <a href="/tools/linkedin-headline-generator" class="tool-link-card glass">
+          <div class="tool-link-title">LinkedIn Headline Generator</div>
+          <div class="tool-link-desc">Generate professional, keyword-rich 220-character profile headlines tailored to your industry.</div>
+        </a>
+        <a href="/tools/linkedin-bio-generator" class="tool-link-card glass">
+          <div class="tool-link-title">LinkedIn Bio Generator</div>
+          <div class="tool-link-desc">Create high-converting About section summaries optimized for LinkedIn recruiter searches.</div>
+        </a>
+        <a href="/tools/linkedin-engagement-calculator" class="tool-link-card glass">
+          <div class="tool-link-title">LinkedIn Engagement Calculator</div>
+          <div class="tool-link-desc">Calculate your LinkedIn post engagement rates based on impressions, likes, comments, and shares.</div>
+        </a>
+        <a href="/tools/twitter-character-counter" class="tool-link-card glass">
+          <div class="tool-link-title">Twitter Character Counter</div>
+          <div class="tool-link-desc">Count characters, t.co URLs, and emojis for standard and X Premium tweets.</div>
+        </a>
+      </div>
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .calc-main-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  /* Preset Limit Selector Tabs */
+  .preset-tabs-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .preset-tabs-wrapper {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .tabs-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .preset-tabs {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    background: var(--color-bg);
+    padding: 0.3rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+  }
+
+  .preset-tab {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .preset-tab:hover {
+    color: var(--color-text);
+  }
+
+  .preset-tab.active {
+    background: var(--color-brand);
+    color: #ffffff;
+  }
+
+  /* Editor Section & Toolbar */
+  .editor-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .editor-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .action-toolbar {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-height: 32px;
+  }
+
+  .action-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  .action-btn-copy {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: #ffffff;
+  }
+
+  .action-btn-copy:hover {
+    opacity: 0.9;
+    color: #ffffff;
+  }
+
+  .action-btn-clear {
+    border-color: rgba(220, 38, 38, 0.4);
+    color: var(--color-danger);
+  }
+
+  .action-btn-clear:hover {
+    background: rgba(220, 38, 38, 0.1);
+  }
+
+  .editor-textarea {
+    width: 100%;
+    padding: 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .editor-textarea:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  /* Progress & Fold Audit Card */
+  .progress-audit-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1rem 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+  }
+
+  .progress-info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .progress-bar-track {
+    width: 100%;
+    height: 8px;
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gradient-brand);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-normal), background var(--transition-fast);
+  }
+
+  .progress-bar-fill.warning {
+    background: var(--color-warning);
+  }
+
+  .progress-bar-fill.danger {
+    background: var(--color-danger);
+  }
+
+  .fold-audit-box {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    font-size: 0.825rem;
+    align-items: flex-start;
+  }
+
+  .fold-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  .fold-details strong {
+    color: var(--color-text);
+    display: block;
+    margin-bottom: 0.15rem;
+  }
+
+  .fold-details p {
+    margin: 0;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  /* 8 Metric Cards Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 576px) {
+    .metrics-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .metric-card {
+    padding: 0.85rem 0.65rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-card.highlight-card {
+    background: rgba(99, 102, 241, 0.06);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  .metric-value {
+    font-size: 1.35rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const textInput = document.getElementById('text-input') as HTMLTextAreaElement | null;
+    const presetTabs = document.querySelectorAll('.preset-tab');
+
+    // Toolbar Action Buttons
+    const btnUppercase = document.getElementById('btn-uppercase');
+    const btnLowercase = document.getElementById('btn-lowercase');
+    const btnTitlecase = document.getElementById('btn-titlecase');
+    const btnCleanspace = document.getElementById('btn-cleanspace');
+    const btnCopy = document.getElementById('btn-copy');
+    const copyTextSpan = document.getElementById('copy-text');
+    const btnClear = document.getElementById('btn-clear');
+
+    // Progress Bar & Audit Elements
+    const limitPresetName = document.getElementById('limit-preset-name');
+    const limitCountVal = document.getElementById('limit-count-val');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const foldIcon = document.getElementById('fold-icon');
+    const foldTitle = document.getElementById('fold-title');
+    const foldDesc = document.getElementById('fold-desc');
+
+    // 8 Metric Count Displays
+    const countTotal = document.getElementById('count-total');
+    const countWithSpaces = document.getElementById('count-with-spaces');
+    const countNoSpaces = document.getElementById('count-no-spaces');
+    const countWords = document.getElementById('count-words');
+    const countLetters = document.getElementById('count-letters');
+    const countNumbers = document.getElementById('count-numbers');
+    const countSpecial = document.getElementById('count-special');
+    const countEmojis = document.getElementById('count-emojis');
+
+    if (!textInput) return;
+
+    let currentLimit = 3000;
+    let currentPresetLabel = 'LinkedIn Post';
+
+    // Emoji Regex Matcher for Unicode grapheme clusters
+    const emojiRegex = /[\u{1F300}-\u{1F9FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E6}-\u{1F1FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1FA70}-\u{1FAFF}]/gu;
+
+    // Unicode-aware character segmentation helper
+    function getGraphemeClusterCount(text: string): number {
+      if (!text) return 0;
+      // Use Intl.Segmenter if supported for 100% Unicode accuracy
+      if (typeof Intl !== 'undefined' && (Intl as any).Segmenter) {
+        const segmenter = new (Intl as any).Segmenter('en', { granularity: 'grapheme' });
+        return Array.from(segmenter.segment(text)).length;
+      }
+      // Fallback for older environments
+      return Array.from(text).length;
+    }
+
+    // Main Live Metric Calculation Engine
+    function updateMetrics() {
+      const rawText = textInput?.value || '';
+
+      // 1. Total Characters (Unicode Graphemes)
+      const totalChars = getGraphemeClusterCount(rawText);
+
+      // 2. Characters With Spaces
+      const charsWithSpaces = totalChars;
+
+      // 3. Characters Without Spaces (Strip all whitespace & line breaks)
+      const noSpacesText = rawText.replace(/\s+/g, '');
+      const charsNoSpaces = getGraphemeClusterCount(noSpacesText);
+
+      // 4. Word Count
+      const trimmedText = rawText.trim();
+      const words = trimmedText ? trimmedText.split(/\s+/).filter(Boolean).length : 0;
+
+      // 5. Letter Count (\p{L})
+      const letterMatches = rawText.match(/\p{L}/gu);
+      const letterCount = letterMatches ? letterMatches.length : 0;
+
+      // 6. Number Count (\p{N})
+      const numberMatches = rawText.match(/\p{N}/gu);
+      const numberCount = numberMatches ? numberMatches.length : 0;
+
+      // 7. Emoji Count
+      const emojiMatches = rawText.match(emojiRegex);
+      const emojiCount = emojiMatches ? emojiMatches.length : 0;
+
+      // 8. Special Characters Count (Punctuation & Symbols excluding Emojis)
+      const punctMatches = rawText.match(/[\p{P}\p{S}]/gu);
+      let totalPunct = punctMatches ? punctMatches.length : 0;
+      // Adjust if emojis overlap with \p{S}
+      const specialCount = Math.max(0, totalPunct - emojiCount);
+
+      // Format Numbers with Commas
+      if (countTotal) countTotal.textContent = totalChars.toLocaleString();
+      if (countWithSpaces) countWithSpaces.textContent = charsWithSpaces.toLocaleString();
+      if (countNoSpaces) countNoSpaces.textContent = charsNoSpaces.toLocaleString();
+      if (countWords) countWords.textContent = words.toLocaleString();
+      if (countLetters) countLetters.textContent = letterCount.toLocaleString();
+      if (countNumbers) countNumbers.textContent = numberCount.toLocaleString();
+      if (countSpecial) countSpecial.textContent = specialCount.toLocaleString();
+      if (countEmojis) countEmojis.textContent = emojiCount.toLocaleString();
+
+      // Update Progress Bar & Percentage
+      const pctUsed = Math.min(100, Math.round((totalChars / currentLimit) * 100));
+      if (limitPresetName) limitPresetName.textContent = `${currentPresetLabel} Limit`;
+      if (limitCountVal) limitCountVal.textContent = `${totalChars.toLocaleString()} / ${currentLimit.toLocaleString()} characters (${pctUsed}%)`;
+      
+      if (progressBarFill) {
+        progressBarFill.style.width = `${pctUsed}%`;
+        progressBarFill.className = 'progress-bar-fill';
+        if (pctUsed >= 100) {
+          progressBarFill.classList.add('danger');
+        } else if (pctUsed >= 85) {
+          progressBarFill.classList.add('warning');
+        }
+      }
+
+      // Update Truncation Fold Audit Callout Box
+      updateFoldAudit(totalChars);
+    }
+
+    // Update Fold Audit Callout depending on active limit preset & character count
+    function updateFoldAudit(totalChars: number) {
+      if (!foldIcon || !foldTitle || !foldDesc) return;
+
+      if (currentLimit === 3000) {
+        // LinkedIn Post Truncation Rules (~140-210 chars)
+        if (totalChars === 0) {
+          foldIcon.textContent = '💡';
+          foldTitle.textContent = 'Above the Fold (Hook Stage)';
+          foldDesc.textContent = 'On mobile and desktop feeds, LinkedIn truncates your post after ~140–210 characters with a "...see more" button. Make sure your hook grabs attention within the first 140 characters!';
+        } else if (totalChars <= 140) {
+          foldIcon.textContent = '✅';
+          foldTitle.textContent = 'Fully Visible Hook (Under 140 Chars)';
+          foldDesc.textContent = 'Your draft fits completely within the initial un-truncated view on both mobile and desktop feeds!';
+        } else if (totalChars <= 210) {
+          foldIcon.textContent = '👁️';
+          foldTitle.textContent = 'Desktop Visible Fold (~140–210 Chars)';
+          foldDesc.textContent = 'Your post is fully visible on desktop feeds, but mobile users will see a "...see more" button after line 3.';
+        } else if (totalChars <= 3000) {
+          foldIcon.textContent = '📄';
+          foldTitle.textContent = 'Expanded Post View (Over 210 Chars)';
+          foldDesc.textContent = 'Your post will display a "...see more" button. Ensure your opening 140 characters contain your core hook to drive clicks!';
+        } else {
+          foldIcon.textContent = '⚠️';
+          foldTitle.textContent = 'Exceeds Official 3,000 Limit!';
+          foldDesc.textContent = 'Your text exceeds LinkedIn\'s maximum 3,000 character limit for posts. Trim text before publishing.';
+        }
+      } else if (currentLimit === 220) {
+        // Headline Rules
+        if (totalChars <= 150) {
+          foldIcon.textContent = '✅';
+          foldTitle.textContent = 'Mobile Optimized Headline';
+          foldDesc.textContent = 'Fits comfortably on both mobile devices and desktop profile headers.';
+        } else if (totalChars <= 220) {
+          foldIcon.textContent = '📱';
+          foldTitle.textContent = 'Desktop Headline Length';
+          foldDesc.textContent = 'Headline fits within the 220-character limit, but may wrap or truncate on smaller mobile screens.';
+        } else {
+          foldIcon.textContent = '⚠️';
+          foldTitle.textContent = 'Exceeds 220 Character Limit!';
+          foldDesc.textContent = 'LinkedIn profile headlines cannot exceed 220 characters.';
+        }
+      } else if (currentLimit === 2600) {
+        // About Summary Rules
+        if (totalChars <= 300) {
+          foldIcon.textContent = '👁️';
+          foldTitle.textContent = 'Above the About Fold';
+          foldDesc.textContent = 'Visible immediately on your profile without readers clicking "...see more".';
+        } else if (totalChars <= 2600) {
+          foldIcon.textContent = '📑';
+          foldTitle.textContent = 'Full Summary Length';
+          foldDesc.textContent = 'Great depth for recruiter keywords and achievements. Readers will click "...see more" to read full details.';
+        } else {
+          foldIcon.textContent = '⚠️';
+          foldTitle.textContent = 'Exceeds 2,600 Character Limit!';
+          foldDesc.textContent = 'LinkedIn About summaries cannot exceed 2,600 characters.';
+        }
+      } else {
+        // Article Title Rules
+        if (totalChars <= 70) {
+          foldIcon.textContent = '✅';
+          foldTitle.textContent = 'Optimal Title Length';
+          foldDesc.textContent = 'Title fits cleanly without wrapping in search results and email notifications.';
+        } else if (totalChars <= 100) {
+          foldIcon.textContent = '📌';
+          foldTitle.textContent = 'Long Article Title';
+          foldDesc.textContent = 'Fits within the 100-character limit, but may wrap on mobile screens.';
+        } else {
+          foldIcon.textContent = '⚠️';
+          foldTitle.textContent = 'Exceeds 100 Character Limit!';
+          foldDesc.textContent = 'LinkedIn article titles cannot exceed 100 characters.';
+        }
+      }
+    }
+
+    // Attach Event Listeners to Editor Input
+    ['input', 'change', 'keyup'].forEach(evt => {
+      textInput.addEventListener(evt, updateMetrics);
+    });
+
+    // Preset Tabs Switch Handler
+    presetTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const limit = tab.getAttribute('data-limit');
+        const label = tab.getAttribute('data-label');
+        if (limit && label) {
+          currentLimit = parseInt(limit, 10);
+          currentPresetLabel = label;
+
+          presetTabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          updateMetrics();
+        }
+      });
+    });
+
+    // Toolbar Action 1: UPPERCASE
+    if (btnUppercase) {
+      btnUppercase.addEventListener('click', () => {
+        if (!textInput) return;
+        textInput.value = textInput.value.toUpperCase();
+        updateMetrics();
+      });
+    }
+
+    // Toolbar Action 2: lowercase
+    if (btnLowercase) {
+      btnLowercase.addEventListener('click', () => {
+        if (!textInput) return;
+        textInput.value = textInput.value.toLowerCase();
+        updateMetrics();
+      });
+    }
+
+    // Toolbar Action 3: Title Case
+    if (btnTitlecase) {
+      btnTitlecase.addEventListener('click', () => {
+        if (!textInput) return;
+        textInput.value = textInput.value.replace(/\w\S*/g, (txt) => {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        updateMetrics();
+      });
+    }
+
+    // Toolbar Action 4: Clean Spacing
+    if (btnCleanspace) {
+      btnCleanspace.addEventListener('click', () => {
+        if (!textInput) return;
+        // Trim lines and collapse multiple spaces while preserving paragraphs
+        textInput.value = textInput.value
+          .split('\n')
+          .map(line => line.replace(/[ \t]+/g, ' ').trim())
+          .join('\n');
+        updateMetrics();
+      });
+    }
+
+    // Toolbar Action 5: Copy Text
+    if (btnCopy) {
+      btnCopy.addEventListener('click', () => {
+        if (!textInput) return;
+        navigator.clipboard.writeText(textInput.value).then(() => {
+          if (copyTextSpan) copyTextSpan.textContent = 'Copied!';
+          setTimeout(() => {
+            if (copyTextSpan) copyTextSpan.textContent = 'Copy Text';
+          }, 2000);
+        }).catch(() => {
+          // Fallback select
+          textInput.select();
+          document.execCommand('copy');
+          if (copyTextSpan) copyTextSpan.textContent = 'Copied!';
+          setTimeout(() => {
+            if (copyTextSpan) copyTextSpan.textContent = 'Copy Text';
+          }, 2000);
+        });
+      });
+    }
+
+    // Toolbar Action 6: Clear
+    if (btnClear) {
+      btnClear.addEventListener('click', () => {
+        if (!textInput) return;
+        textInput.value = '';
+        updateMetrics();
+        textInput.focus();
+      });
+    }
+
+    // Initial update on load
+    updateMetrics();
+  });
+</script>

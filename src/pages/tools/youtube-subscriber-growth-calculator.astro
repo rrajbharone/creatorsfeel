@@ -1,0 +1,1342 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "How does the YouTube Subscriber Growth Calculator estimate my goal date?",
+    answer: "The calculator determines the remaining subscribers needed to reach your goal (Target Subscribers minus Current Subscribers) and divides that number by your Average Monthly Subscriber Growth. It then projects the estimated target achievement month and year starting from today's date."
+  },
+  {
+    question: "How long does it take to get 1,000 subscribers on YouTube?",
+    answer: "On average, new YouTube channels take between 6 and 18 months to reach 1,000 subscribers. Channels that post consistently (1-2 videos per week) in a specific niche with optimized titles and thumbnails tend to reach 1,000 subscribers much faster."
+  },
+  {
+    question: "How long does it take to reach 10,000 subscribers on YouTube?",
+    answer: "Reaching 10,000 subscribers typically takes 1.5 to 3 years. Because channel growth is non-linear and speeds up as YouTube's recommendation engine indexes your content library, scaling from 1,000 to 10,000 subscribers is usually faster than getting your first 1,000 subscribers."
+  },
+  {
+    question: "Why is YouTube subscriber growth not completely linear?",
+    answer: "Linear projections assume constant monthly growth, but YouTube channel growth is compounding. As your video library expands, your baseline monthly views increase, causing your monthly subscriber acquisition rate to accelerate over time."
+  },
+  {
+    question: "What is a good subscriber conversion rate for YouTube videos?",
+    answer: "A healthy subscriber conversion rate is around 1% to 3% of total video views. For example, if a video receives 10,000 views, gaining 100 to 300 new subscribers is considered strong performance."
+  },
+  {
+    question: "Can I use this calculator to track progress toward YouTube Partner Program (YPP) monetization?",
+    answer: "Yes! You can set your target to 1,000 subscribers (the subscriber milestone required for the YouTube Partner Program) to calculate how many months remain until you fulfill the subscriber monetization requirement."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube Subscriber Growth Calculator - Goal & Timeline Forecast"
+  description="Free YouTube Subscriber Growth Calculator. Calculate how long to reach 1,000, 10,000, or 100,000 subscribers based on your monthly growth rate and target goals."
+  toolName="YouTube Subscriber Growth Calculator"
+  toolDescription="Forecast your channel timeline, estimate months to reach target subscriber goals, calculate annual subscriber growth, and track milestone progress."
+  category="Calculators"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    <div class="calc-main-grid">
+      
+      <!-- Inputs Column -->
+      <div class="calc-input-panel">
+        <h3 class="panel-heading">Channel Growth Inputs</h3>
+        
+        <div class="form-group">
+          <label for="current-subs" class="input-label">Current Subscribers</label>
+          <div class="input-wrapper">
+            <input 
+              type="number" 
+              id="current-subs" 
+              class="calc-input" 
+              value="250" 
+              min="0" 
+              step="1"
+              placeholder="e.g. 250" 
+            />
+            <span class="input-unit">subs</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="monthly-growth" class="input-label">Average New Subscribers / Month</label>
+          <div class="input-wrapper">
+            <input 
+              type="number" 
+              id="monthly-growth" 
+              class="calc-input" 
+              value="50" 
+              min="1" 
+              step="1"
+              placeholder="e.g. 50" 
+            />
+            <span class="input-unit">subs/mo</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="label-row">
+            <label for="target-subs" class="input-label">Target Subscriber Goal</label>
+            <span class="preset-label">Quick Goals:</span>
+          </div>
+          <div class="input-wrapper">
+            <input 
+              type="number" 
+              id="target-subs" 
+              class="calc-input" 
+              value="1000" 
+              min="1" 
+              step="1"
+              placeholder="e.g. 1000" 
+            />
+            <span class="input-unit">subs</span>
+          </div>
+
+          <!-- Quick Target Presets Bar -->
+          <div class="presets-bar">
+            <button type="button" class="preset-btn" data-target="1000">1K (YPP)</button>
+            <button type="button" class="preset-btn" data-target="5000">5K</button>
+            <button type="button" class="preset-btn" data-target="10000">10K</button>
+            <button type="button" class="preset-btn" data-target="50000">50K</button>
+            <button type="button" class="preset-btn" data-target="100000">100K</button>
+          </div>
+        </div>
+
+        <!-- Form Action Buttons -->
+        <div class="form-actions-row">
+          <button type="button" id="btn-calculate" class="calc-btn-primary">
+            Calculate Growth
+          </button>
+          <button type="button" id="btn-reset" class="calc-btn-secondary">
+            Reset
+          </button>
+        </div>
+
+        <!-- Inline Validation Alert Box -->
+        <div class="status-alert-box hidden" id="status-alert">
+          <span class="alert-icon">⚠️</span>
+          <span class="alert-message" id="alert-message">Please enter valid inputs.</span>
+        </div>
+
+        <!-- Pre-calculation Help Note -->
+        <div class="help-note-box">
+          <div class="note-icon">💡</div>
+          <div class="note-text">
+            Enter your current subscribers, average monthly growth rate, and target goal above, then click <strong>Calculate Growth</strong> to generate your timeline forecast.
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Results & Progress Forecast -->
+      <div class="calc-results-panel" id="results-panel">
+        
+        <!-- Placeholder Waiting State (Visible before calculation) -->
+        <div class="empty-state" id="res-empty-box">
+          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 0 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+          </svg>
+          <h3 class="empty-title">Waiting for Calculation</h3>
+          <p class="empty-desc">Enter your details and click Calculate Growth to see your subscriber growth projection here.</p>
+        </div>
+
+        <!-- Active Calculation Results (Rendered upon clicking Calculate Growth) -->
+        <div class="results-active hidden" id="results-section">
+          <h3 class="panel-heading">Subscriber Growth Forecast</h3>
+
+          <!-- Goal Achieved Banner (Visible if Current >= Target) -->
+          <div class="achieved-banner hidden" id="achieved-banner">
+            <span class="achieved-icon">🎉</span>
+            <h4 class="achieved-title">Congratulations! You've already reached your target.</h4>
+            <p class="achieved-text">Your current subscriber count has met or surpassed your target goal. Set a higher target above to project future growth!</p>
+          </div>
+
+          <!-- Main Projection Card -->
+          <div class="hero-result-card" id="hero-result-card">
+            <span class="hero-needed-badge" id="res-needed-title">You Need 750 More Subscribers</span>
+            <span class="hero-sub-title">Estimated Time at Your Current Growth Rate</span>
+            <div class="hero-main-value" id="res-time-hero">1 Year 3 Months</div>
+            <p class="hero-rate-note" id="res-rate-note">Based on an average growth of 50 subscribers per month.</p>
+            <div class="hero-date-badge" id="res-date-badge">Estimated Date: November 2027</div>
+          </div>
+
+          <!-- Long Timeline Warning Box (Visible if estimated time > 5 years) -->
+          <div class="long-timeline-box hidden" id="long-timeline-box">
+            <div class="long-timeline-header">
+              <span class="long-timeline-icon">⌛</span>
+              <strong class="long-timeline-title">Your current growth pace suggests a long timeline</strong>
+            </div>
+            <p class="long-timeline-text">
+              Based on your current average monthly subscriber growth, the calculator produces a long-term projection. This does not mean it will actually take this long. YouTube growth can accelerate significantly when a video performs well, a channel reaches a new audience, or content strategy improves.
+            </p>
+          </div>
+
+          <!-- 6 Key Metric Cards Grid -->
+          <div class="metrics-grid">
+            
+            <div class="metric-card">
+              <span class="metric-value" id="res-current-subs">250</span>
+              <span class="metric-label">Current Subs</span>
+              <span class="metric-sub text-muted">Baseline count</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-target-subs">1,000</span>
+              <span class="metric-label">Target Subs</span>
+              <span class="metric-sub text-muted">Milestone goal</span>
+            </div>
+
+            <div class="metric-card highlight-card">
+              <span class="metric-value" id="res-subs-needed">750</span>
+              <span class="metric-label">Subscribers Needed</span>
+              <span class="metric-sub text-muted">Remaining gap</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-monthly-rate">50 / mo</span>
+              <span class="metric-label">Monthly Growth</span>
+              <span class="metric-sub text-muted">Average rate</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-target-date">Nov 2027</span>
+              <span class="metric-label">Estimated Date</span>
+              <span class="metric-sub text-muted">Projected month</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-progress-pct">25%</span>
+              <span class="metric-label">Current Progress</span>
+              <span class="metric-sub text-muted">Goal completion</span>
+            </div>
+
+          </div>
+
+          <!-- Visual Progress Bar -->
+          <div class="progress-section">
+            <div class="progress-label-row">
+              <span class="progress-title" id="progress-bar-title">Progress to 1,000 Subscribers</span>
+              <span class="progress-pct-val" id="progress-pct-val">250 / 1,000 (25%)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="progress-fill" style="width: 25%;"></div>
+            </div>
+          </div>
+
+          <!-- Growth Reality & Projection Explanation Box -->
+          <div class="growth-reality-box">
+            <div class="reality-header">
+              <span class="reality-icon">📊</span>
+              <h4 class="reality-title">Important: YouTube Growth Is Not Linear</h4>
+            </div>
+            <p class="reality-intro">
+              This calculation answers: <strong>"How long would it take if I continued growing at my current average rate?"</strong> It is an estimate based on your current baseline pace, not a rigid prediction of what will happen to your channel.
+            </p>
+            <ul class="reality-list">
+              <li><strong>Initial Slow Phase:</strong> Subscriber growth is often slow initially while building your video foundation.</li>
+              <li><strong>Viral & Recommendation Spikes:</strong> A single successful video can bring a sudden, dramatic surge in subscribers.</li>
+              <li><strong>Compounding Search Traffic:</strong> An expanding video library builds recurring organic views that gather subscribers 24/7.</li>
+              <li><strong>Audience Authority:</strong> Consistent publishing improves CTR and converts casual viewers into loyal subscribers faster over time.</li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      <h2>Complete Guide to YouTube Subscriber Growth Calculation and Milestone Forecasting</h2>
+      <p>
+        Setting clear, data-driven subscriber milestones is one of the most effective strategies for growing a successful YouTube channel. Whether your immediate goal is reaching 1,000 subscribers to unlock monetization through the YouTube Partner Program (YPP) or scaling past 10,000 subscribers to establish full-time brand authority, knowing your growth velocity keeps your publishing strategy focused.
+      </p>
+      <p>
+        Our <strong>YouTube Subscriber Growth Calculator</strong> calculates your growth trajectory in real-time. By inputting your current subscriber count, average monthly new subscribers, and target goal, you get an immediate breakdown of the subscribers needed, estimated months required, expected completion date, annual growth rate, and percentage completion.
+      </p>
+
+      <h2>What is a YouTube Subscriber Growth Calculator?</h2>
+      <p>
+        A YouTube Subscriber Growth Calculator is a specialized digital forecasting tool designed to measure the mathematical timeline required for a channel to travel from its current subscriber benchmark to a target goal.
+      </p>
+      <p>
+        Instead of guessing when your channel will reach key milestones, the calculator applies linear growth principles to your monthly acquisition metrics, providing a realistic baseline for channel planning, content calendars, and sponsorship pitching.
+      </p>
+
+      <h2>How the Subscriber Growth Calculation Works</h2>
+      <p>
+        The core math behind our subscriber calculator is straightforward, transparent, and accurate:
+      </p>
+      <div class="formula-box glass">
+        <div class="formula-row">
+          <strong>1. Subscribers Needed</strong> = Target Subscribers − Current Subscribers
+        </div>
+        <div class="formula-row">
+          <strong>2. Estimated Months</strong> = Subscribers Needed ÷ Average Monthly New Subscribers
+        </div>
+        <div class="formula-row">
+          <strong>3. Annual Growth Rate</strong> = Average Monthly New Subscribers × 12
+        </div>
+        <div class="formula-row">
+          <strong>4. Current Progress (%)</strong> = (Current Subscribers ÷ Target Subscribers) × 100
+        </div>
+      </div>
+      <p>
+        For example, if you currently have <strong>250 subscribers</strong>, gain an average of <strong>50 new subscribers per month</strong>, and set a target of <strong>1,000 subscribers</strong>:
+      </p>
+      <ul>
+        <li><strong>Subscribers Needed:</strong> 1,000 − 250 = 750 subscribers.</li>
+        <li><strong>Estimated Months:</strong> 750 ÷ 50 = 15 months (1 Year 3 Months).</li>
+        <li><strong>Annual Subscriber Growth:</strong> 50 × 12 = 600 subscribers per year.</li>
+        <li><strong>Current Progress:</strong> (250 ÷ 1,000) × 100 = 25%.</li>
+      </ul>
+
+      <h2>Estimating Time to Reach 1,000 YouTube Subscribers</h2>
+      <p>
+        Reaching <strong>1,000 subscribers</strong> is the first major milestone for every creator because it represents the subscriber threshold needed to qualify for YouTube Partner Program monetization (alongside 4,000 public watch hours or 10M Shorts views).
+      </p>
+      <p>
+        Here is how average timelines vary based on monthly subscriber acquisition rates:
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Monthly Growth Rate</th>
+              <th>Starting Subscribers</th>
+              <th>Subscribers Needed</th>
+              <th>Estimated Time to 1,000 Subs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>10 subs / month</strong></td>
+              <td>0</td>
+              <td>1,000</td>
+              <td>100 Months (~8.3 Years)</td>
+            </tr>
+            <tr>
+              <td><strong>25 subs / month</strong></td>
+              <td>100</td>
+              <td>900</td>
+              <td>36 Months (3 Years)</td>
+            </tr>
+            <tr>
+              <td><strong>50 subs / month</strong></td>
+              <td>250</td>
+              <td>750</td>
+              <td>15 Months (1.25 Years)</td>
+            </tr>
+            <tr>
+              <td><strong>100 subs / month</strong></td>
+              <td>500</td>
+              <td>500</td>
+              <td>5 Months (~0.4 Years)</td>
+            </tr>
+            <tr>
+              <td><strong>200 subs / month</strong></td>
+              <td>200</td>
+              <td>800</td>
+              <td>4 Months (~0.33 Years)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Estimating Time to Reach 10,000 YouTube Subscribers</h2>
+      <p>
+        Scaling from 1,000 to 10,000 subscribers transitions a channel from hobby status to an established media platform. At 10,000 subscribers, creators unlock additional community features, brand deal opportunities, and higher baseline algorithmic reach.
+      </p>
+      <p>
+        While linear calculations project timelines based on fixed monthly numbers, most channels experience an acceleration in growth after passing 1,000 subscribers. This occurs because an expanded library of top-performing videos continues to gather search traffic and recommendation impressions round-the-clock.
+      </p>
+
+      <h2>Linear Projections vs. Exponential Algorithmic Growth</h2>
+      <p>
+        It is important to recognize that YouTube subscriber growth rarely follows a flat, straight line forever:
+      </p>
+      <div class="comparison-box glass">
+        <div class="comp-column">
+          <h3 class="comp-heading">Linear Projection (Calculator Baseline)</h3>
+          <p>
+            Assumes a static monthly growth rate (e.g. exactly 50 subscribers every 30 days). Useful for setting realistic minimum targets and evaluating current performance.
+          </p>
+        </div>
+        <div class="comp-column">
+          <h3 class="comp-heading text-brand">Exponential Channel Compound Growth</h3>
+          <p>
+            As your publishing consistency improves, your video catalog grows, and click-through rates rise, YouTube's algorithm pushes your videos to broader seed audiences, accelerating monthly subscriber gains.
+          </p>
+        </div>
+      </div>
+
+      <h2>5 Proven Strategies to Accelerate YouTube Subscriber Growth</h2>
+      <p>
+        If your estimated timeline to reach your goal is longer than desired, implementing these optimization strategies can increase your monthly subscriber acquisition rate:
+      </p>
+      <ol>
+        <li>
+          <strong>Optimize Your First 50 Characters of Titles:</strong> Make sure your video titles communicate clear value immediately so viewers in search grids click through. Use our <a href="/tools/youtube-title-character-counter">YouTube Title Character Counter</a> to prevent mobile title truncation.
+        </li>
+        <li>
+          <strong>Structure Descriptions for Search Indexing:</strong> Use detailed, keyword-rich descriptions with formatted chapter timestamps to rank in YouTube search. Use our <a href="/tools/youtube-description-formatter">YouTube Description Formatter</a> for clean layouts.
+        </li>
+        <li>
+          <strong>Target High-Demand, Low-Competition Keywords:</strong> Focus on specific search queries that viewers are actively searching for. Generate content topics with our <a href="/tools/youtube-keyword-generator">YouTube Keyword Generator</a> and <a href="/tools/youtube-tag-generator">YouTube Tag Generator</a>.
+        </li>
+        <li>
+          <strong>Track Watch Hours Alongside Subscribers:</strong> Remember that monetization requires both 1,000 subscribers and 4,000 watch hours. Forecast your watch time progress using our <a href="/tools/youtube-watch-time-calculator">YouTube Watch Time Calculator</a>.
+        </li>
+        <li>
+          <strong>Include Verbal & Visual Call-to-Actions (CTAs):</strong> Don't assume satisfied viewers will subscribe automatically. Remind them mid-video by explaining <em>why</em> subscribing benefits them (e.g. "Subscribe for new weekly guides").
+        </li>
+      </ol>
+
+      <h2>Common Mistakes When Setting YouTube Subscriber Goals</h2>
+      <ul>
+        <li><strong>Comparing Early Growth to Large Competitors:</strong> Comparing a 200-subscriber channel's monthly growth to a 500,000-subscriber channel creates unrealistic expectations. Focus on incremental percentage growth.</li>
+        <li><strong>Focusing on Subscriber Count Over View Velocity:</strong> Subscribers are a lagging indicator; video views and watch time are leading indicators. Increasing video views naturally drives subscriber conversion.</li>
+        <li><strong>Inconsistent Upload Schedules:</strong> Sporadic posting disrupts your audience's habit loop and limits YouTube's ability to test your content against consistent viewer segments.</li>
+        <li><strong>Changing Niches Too Frequently:</strong> Broad pivoting confuses YouTube's recommendation engine and leads to low subscriber notification click-through rates.</li>
+      </ul>
+
+      <h2>Step-by-Step Guide: How to Use the Calculator</h2>
+      <ul class="steps-list">
+        <li><strong>Step 1: Enter Current Subscribers:</strong> Type your exact subscriber count as displayed in YouTube Studio.</li>
+        <li><strong>Step 2: Input Average Monthly Growth:</strong> Enter how many new subscribers your channel gains on average each month (e.g., last 28 days sub count in Analytics).</li>
+        <li><strong>Step 3: Select or Enter Target Goal:</strong> Use the quick preset buttons (1K, 5K, 10K, 50K, 100K) or enter a custom target goal.</li>
+        <li><strong>Step 4: Click Calculate Growth:</strong> Click the primary action button to run the calculation and view your projected milestone breakdown.</li>
+        <li><strong>Step 5: Review Strategic Insights:</strong> Read the non-linear growth notes and evaluate how increasing monthly output can shorten your timeline.</li>
+      </ul>
+
+      <h2>Explore More Free YouTube Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/youtube-watch-time-calculator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Watch Time Calculator</div>
+          <div class="tool-link-desc">Track public watch hours and forecast your channel timeline toward the 4,000-hour YPP monetization threshold.</div>
+        </a>
+        <a href="/tools/youtube-title-character-counter" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Title Character Counter</div>
+          <div class="tool-link-desc">Count characters, words, spaces, and emojis in your video titles while auditing mobile snippet truncation.</div>
+        </a>
+        <a href="/tools/youtube-description-formatter" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Description Formatter</div>
+          <div class="tool-link-desc">Format clean descriptions, build clickable timestamps, normalize link formatting, and avoid truncation.</div>
+        </a>
+        <a href="/tools/youtube-keyword-generator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Keyword Generator</div>
+          <div class="tool-link-desc">Discover high-volume, low-competition keywords for video titles, descriptions, and channel tags.</div>
+        </a>
+        <a href="/tools/youtube-tag-generator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Tag Generator</div>
+          <div class="tool-link-desc">Generate character-optimized SEO metadata tags for YouTube videos and Shorts to improve search indexing.</div>
+        </a>
+      </div>
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Main Two-Column Grid */
+  .calc-main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(1.5rem, 3.5vw, 2.25rem);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 992px) {
+    .calc-main-grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Panel: Inputs */
+  .calc-input-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 100%;
+  }
+
+  .panel-heading {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .input-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .preset-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .input-wrapper {
+    display: flex;
+    align-items: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .input-wrapper:focus-within {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .calc-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: transparent;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .input-unit {
+    padding-right: 1rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  /* Target Presets Bar */
+  .presets-bar {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-top: 0.2rem;
+  }
+
+  .preset-btn {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-height: 32px;
+  }
+
+  .preset-btn:hover, .preset-btn.active {
+    border-color: var(--color-brand);
+    background: var(--color-brand);
+    color: #ffffff;
+  }
+
+  /* Form Action Buttons */
+  .form-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .calc-btn-primary {
+    flex: 1;
+    min-width: 160px;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+    text-align: center;
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    padding: 0.85rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: center;
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  /* Status Alert Box */
+  .status-alert-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(220, 38, 38, 0.35);
+    background: rgba(220, 38, 38, 0.08);
+    color: var(--color-danger);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .status-alert-box.hidden {
+    display: none;
+  }
+
+  /* Helpful Callout Note Box */
+  .help-note-box {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-brand);
+    background: var(--color-bg-alt);
+    font-size: 0.825rem;
+    line-height: 1.5;
+  }
+
+  .note-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .note-text {
+    color: var(--color-text-muted);
+  }
+
+  .note-text strong {
+    color: var(--color-text);
+  }
+
+  /* Right Panel: Results & Placeholder */
+  .calc-results-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 380px;
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Empty State Placeholder Box */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.75rem;
+    padding: 2rem 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .empty-state.hidden {
+    display: none;
+  }
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-brand);
+    margin-bottom: 0.25rem;
+  }
+
+  .empty-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .empty-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    max-width: 320px;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Active Calculation Results */
+  .results-active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .results-active.hidden {
+    display: none;
+  }
+
+  /* Goal Achieved Banner */
+  .achieved-banner {
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    background: rgba(16, 185, 129, 0.08);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .achieved-banner.hidden {
+    display: none;
+  }
+
+  .achieved-icon {
+    font-size: 1.5rem;
+  }
+
+  .achieved-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-success);
+    margin: 0;
+  }
+
+  .achieved-text {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* Hero Result Card */
+  .hero-result-card {
+    padding: 1.35rem 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-brand);
+    background: var(--gradient-glow);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+  }
+
+  .hero-needed-badge {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--color-brand);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.15rem;
+  }
+
+  .hero-sub-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .hero-main-value {
+    font-size: clamp(2.2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .hero-rate-note {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    margin: 0.15rem 0 0.35rem 0;
+  }
+
+  .hero-date-badge {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.3rem 0.85rem;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+
+  /* Long Timeline Warning Box */
+  .long-timeline-box {
+    padding: 0.9rem 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(217, 119, 6, 0.35);
+    background: rgba(217, 119, 6, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .long-timeline-box.hidden {
+    display: none;
+  }
+
+  .long-timeline-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .long-timeline-icon {
+    font-size: 1.1rem;
+  }
+
+  .long-timeline-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-warning);
+  }
+
+  .long-timeline-text {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  /* Metric Grid 2x3 */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 576px) {
+    .metrics-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .metric-card {
+    padding: 0.75rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-card.highlight-card {
+    background: rgba(99, 102, 241, 0.06);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  .metric-value {
+    font-size: 1.3rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Progress Section */
+  .progress-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+  }
+
+  .progress-label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 8px;
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--gradient-brand);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-normal);
+  }
+
+  /* Growth Reality Box */
+  .growth-reality-box {
+    padding: 1rem 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .reality-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .reality-icon {
+    font-size: 1.1rem;
+  }
+
+  .reality-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .reality-intro {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  .reality-intro strong {
+    color: var(--color-text);
+  }
+
+  .reality-list {
+    margin: 0.25rem 0 0 0;
+    padding-left: 1.25rem;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .reality-list li {
+    margin-bottom: 0.35rem;
+    line-height: 1.45;
+  }
+
+  .reality-list strong {
+    color: var(--color-text);
+  }
+
+  /* Formula Box */
+  .formula-box {
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .comparison-box {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    margin: 1.5rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .comparison-box {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .comp-heading {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .text-brand { color: var(--color-brand); font-weight: 700; }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentInput = document.getElementById('current-subs') as HTMLInputElement | null;
+    const monthlyInput = document.getElementById('monthly-growth') as HTMLInputElement | null;
+    const targetInput = document.getElementById('target-subs') as HTMLInputElement | null;
+    const presetBtns = document.querySelectorAll('.preset-btn');
+    const btnCalculate = document.getElementById('btn-calculate');
+    const btnReset = document.getElementById('btn-reset');
+
+    // Alert & Results container
+    const statusAlert = document.getElementById('status-alert');
+    const alertMessage = document.getElementById('alert-message');
+    const resEmptyBox = document.getElementById('res-empty-box');
+    const resultsSection = document.getElementById('results-section');
+    const achievedBanner = document.getElementById('achieved-banner');
+    const heroResultCard = document.getElementById('hero-result-card');
+    const longTimelineBox = document.getElementById('long-timeline-box');
+
+    // Hero Result elements
+    const resNeededTitle = document.getElementById('res-needed-title');
+    const resTimeHero = document.getElementById('res-time-hero');
+    const resRateNote = document.getElementById('res-rate-note');
+    const resDateBadge = document.getElementById('res-date-badge');
+
+    // Metric elements
+    const resCurrentSubs = document.getElementById('res-current-subs');
+    const resTargetSubs = document.getElementById('res-target-subs');
+    const resSubsNeeded = document.getElementById('res-subs-needed');
+    const resMonthlyRate = document.getElementById('res-monthly-rate');
+    const resTargetDate = document.getElementById('res-target-date');
+    const resProgressPct = document.getElementById('res-progress-pct');
+
+    // Progress bar elements
+    const progressBarTitle = document.getElementById('progress-bar-title');
+    const progressPctVal = document.getElementById('progress-pct-val');
+    const progressFill = document.getElementById('progress-fill');
+
+    if (!currentInput || !monthlyInput || !targetInput) return;
+
+    // Number Formatting Helper with Commas
+    function formatNumber(num: number): string {
+      if (isNaN(num) || !isFinite(num)) return '0';
+      return Math.round(num).toLocaleString('en-US');
+    }
+
+    // Main Calculator Execution Function (Runs ONLY on Calculate Growth click)
+    function executeCalculation() {
+      // Hide alert by default
+      if (statusAlert) statusAlert.classList.add('hidden');
+
+      let current = parseFloat(currentInput?.value || '0');
+      let monthly = parseFloat(monthlyInput?.value || '0');
+      let target = parseFloat(targetInput?.value || '0');
+
+      // Validation 1: NaN or Negative values
+      if (isNaN(current) || current < 0) current = 0;
+      if (isNaN(target) || target < 0) target = 0;
+
+      // Validation 2: Monthly growth must be > 0
+      if (isNaN(monthly) || monthly <= 0) {
+        if (statusAlert && alertMessage) {
+          statusAlert.classList.remove('hidden');
+          alertMessage.textContent = 'Average monthly subscriber growth must be greater than 0.';
+        }
+        if (resultsSection) resultsSection.classList.add('hidden');
+        if (resEmptyBox) resEmptyBox.classList.remove('hidden');
+        return;
+      }
+
+      // Hide empty state placeholder, show active results
+      if (resEmptyBox) resEmptyBox.classList.add('hidden');
+
+      // Handle Current >= Target Edge Case
+      if (target > 0 && current >= target) {
+        if (resultsSection) resultsSection.classList.remove('hidden');
+        if (achievedBanner) achievedBanner.classList.remove('hidden');
+        if (heroResultCard) heroResultCard.classList.add('hidden');
+        if (longTimelineBox) longTimelineBox.classList.add('hidden');
+
+        if (resCurrentSubs) resCurrentSubs.textContent = formatNumber(current);
+        if (resTargetSubs) resTargetSubs.textContent = formatNumber(target);
+        if (resSubsNeeded) resSubsNeeded.textContent = '0';
+        if (resMonthlyRate) resMonthlyRate.textContent = `${formatNumber(monthly)} / mo`;
+        if (resTargetDate) resTargetDate.textContent = 'Achieved!';
+        if (resProgressPct) resProgressPct.textContent = '100%';
+
+        if (progressBarTitle) progressBarTitle.textContent = `Progress to ${formatNumber(target)} Subscribers`;
+        if (progressPctVal) progressPctVal.textContent = `${formatNumber(current)} / ${formatNumber(target)} (100%)`;
+        if (progressFill) progressFill.style.width = '100%';
+
+        // Scroll to results section on mobile/viewport
+        smoothScrollToResults();
+        return;
+      }
+
+      // Standard Calculation: Target > Current
+      if (achievedBanner) achievedBanner.classList.add('hidden');
+      if (heroResultCard) heroResultCard.classList.remove('hidden');
+
+      const subsNeeded = Math.max(0, target - current);
+      const exactMonths = subsNeeded / monthly;
+      const roundedMonths = Math.ceil(exactMonths);
+      const progressPct = target > 0 ? Math.min(100, Math.round((current / target) * 100)) : 0;
+
+      // Format Human-Friendly Duration
+      const years = Math.floor(roundedMonths / 12);
+      const remainingMonths = roundedMonths % 12;
+      let humanDuration = '';
+      if (years > 0) {
+        humanDuration = remainingMonths > 0 
+          ? `${years} ${years === 1 ? 'Year' : 'Years'} ${remainingMonths} ${remainingMonths === 1 ? 'Month' : 'Months'}`
+          : `${years} ${years === 1 ? 'Year' : 'Years'}`;
+      } else {
+        humanDuration = `${roundedMonths} ${roundedMonths === 1 ? 'Month' : 'Months'}`;
+      }
+
+      // Calculate Target Achievement Date
+      const now = new Date();
+      const targetDate = new Date(now.getFullYear(), now.getMonth() + roundedMonths, 1);
+      const monthNamesShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const monthNamesFull = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      const formattedDateFull = `${monthNamesFull[targetDate.getMonth()]} ${targetDate.getFullYear()}`;
+      const formattedDateShort = `${monthNamesShort[targetDate.getMonth()]} ${targetDate.getFullYear()}`;
+
+      // Update Hero Result Card
+      if (resNeededTitle) resNeededTitle.textContent = `You Need ${formatNumber(subsNeeded)} More Subscribers`;
+      if (resTimeHero) resTimeHero.textContent = humanDuration;
+      if (resRateNote) resRateNote.textContent = `Based on an average growth of ${formatNumber(monthly)} subscribers per month.`;
+      if (resDateBadge) resDateBadge.textContent = `Estimated Target Date: ${formattedDateFull}`;
+
+      // Update Long Timeline Warning Box (> 5 years / > 60 months)
+      if (longTimelineBox) {
+        if (roundedMonths > 60) {
+          longTimelineBox.classList.remove('hidden');
+        } else {
+          longTimelineBox.classList.add('hidden');
+        }
+      }
+
+      // Update 6 Metric Cards
+      if (resCurrentSubs) resCurrentSubs.textContent = formatNumber(current);
+      if (resTargetSubs) resTargetSubs.textContent = formatNumber(target);
+      if (resSubsNeeded) resSubsNeeded.textContent = formatNumber(subsNeeded);
+      if (resMonthlyRate) resMonthlyRate.textContent = `${formatNumber(monthly)} / mo`;
+      if (resTargetDate) resTargetDate.textContent = formattedDateShort;
+      if (resProgressPct) resProgressPct.textContent = `${progressPct}%`;
+
+      // Update Progress Bar
+      if (progressBarTitle) progressBarTitle.textContent = `Progress to ${formatNumber(target)} Subscribers`;
+      if (progressPctVal) progressPctVal.textContent = `${formatNumber(current)} / ${formatNumber(target)} (${progressPct}%)`;
+      if (progressFill) progressFill.style.width = `${progressPct}%`;
+
+      // Render results section
+      if (resultsSection) resultsSection.classList.remove('hidden');
+
+      // Scroll smoothly to results section on mobile/viewport
+      smoothScrollToResults();
+    }
+
+    // Smooth Scroll Helper
+    function smoothScrollToResults() {
+      if (!resultsSection) return;
+      // Scroll smoothly on mobile or narrow screens so results are in view
+      if (window.innerWidth < 992) {
+        setTimeout(() => {
+          const yOffset = -20;
+          const y = resultsSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }, 50);
+      }
+    }
+
+    // Reset Functionality
+    function resetForm() {
+      if (currentInput) currentInput.value = '';
+      if (monthlyInput) monthlyInput.value = '';
+      if (targetInput) targetInput.value = '';
+      
+      presetBtns.forEach(btn => btn.classList.remove('active'));
+      if (statusAlert) statusAlert.classList.add('hidden');
+      if (resultsSection) resultsSection.classList.add('hidden');
+      if (resEmptyBox) resEmptyBox.classList.remove('hidden');
+
+      if (currentInput) currentInput.focus();
+    }
+
+    // Calculate Button Click Event
+    if (btnCalculate) {
+      btnCalculate.addEventListener('click', executeCalculation);
+    }
+
+    // Reset Button Click Event
+    if (btnReset) {
+      btnReset.addEventListener('click', resetForm);
+    }
+
+    // Preset Goal Buttons Event Listener
+    presetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetVal = btn.getAttribute('data-target');
+        if (targetVal && targetInput) {
+          targetInput.value = targetVal;
+          presetBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        }
+      });
+    });
+  });
+</script>
