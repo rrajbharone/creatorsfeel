@@ -1,0 +1,904 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the character limit for a Meta Threads post?",
+    answer: "Meta Threads allows up to 500 characters per individual post for all accounts. This is nearly double Twitter's standard 280-character limit, allowing roughly 75 to 100 words per post."
+  },
+  {
+    question: "Do spaces and punctuation count toward the 500-character limit on Threads?",
+    answer: "Yes, every character including letters, numbers, spaces, line breaks, punctuation, and emojis counts directly toward your 500-character limit on Threads."
+  },
+  {
+    question: "How long can links and URLs be in Threads posts?",
+    answer: "Unlike Twitter which shortens all links to 23 characters using t.co, Threads counts web URLs by their raw character length. Using short URLs or link shorteners helps preserve your character count."
+  },
+  {
+    question: "Can I post multi-post threads on Threads?",
+    answer: "Yes! If your thought exceeds 500 characters, you can add multiple connected replies to create a full thread. Our counter helps you split long copy into perfect 500-character chunks."
+  },
+  {
+    question: "Do hashtags count against the character limit on Threads?",
+    answer: "Yes, hashtags on Threads count character-for-character toward your 500 limit. Threads supports single topic tags per post to keep feed copy clean."
+  },
+  {
+    question: "Can I edit a Threads post after publishing?",
+    answer: "Meta Threads allows users to edit a post within 5 minutes of publishing. After 5 minutes, you must delete and repost if you need to fix typos or adjust character lengths."
+  }
+];
+---
+
+<ToolLayout
+  title="Threads Character Counter - Check Threads Post Character Limit & Word Count"
+  description="Free Threads Character Counter tool. Count characters, words, spaces, and emojis in your Meta Threads posts in real time. Audit your 500-character limit."
+  toolName="Threads Character Counter"
+  toolDescription="Count characters, words, spaces, and emojis for Meta Threads posts in real time. Audit your 500-character post limit."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: Input Editor & Action Buttons -->
+      <form class="calc-form" id="counter-form" onsubmit="return false;">
+        <div class="form-group">
+          <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem;">
+            <label for="threads-input" class="input-label" style="margin: 0;">Draft Your Threads Post</label>
+            <!-- Quick Format Buttons -->
+            <div class="format-toolbar" style="display: flex; gap: 0.25rem; flex-wrap: wrap;">
+              <button type="button" class="format-btn" id="btn-uppercase" title="Convert to ALL CAPS">UPPERCASE</button>
+              <button type="button" class="format-btn" id="btn-lowercase" title="Convert to lowercase">lowercase</button>
+              <button type="button" class="format-btn" id="btn-titlecase" title="Convert to Title Case">Title Case</button>
+              <button type="button" class="format-btn" id="btn-cleanspace" title="Trim extra spaces">Clean Spacing</button>
+            </div>
+          </div>
+          <textarea 
+            id="threads-input" 
+            class="editor-textarea" 
+            placeholder="Type or paste your Threads post draft here... Meta Threads allows up to 500 characters (~75-100 words) per post."
+            rows="8"
+          ></textarea>
+        </div>
+
+        <!-- Prominent Action Buttons Row -->
+        <div class="main-actions-row">
+          <button type="button" id="btn-copy" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+            </svg>
+            <span id="copy-text">Copy Threads Post</span>
+          </button>
+          <button type="button" id="btn-clear" class="calc-btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+            </svg>
+            Clear All
+          </button>
+        </div>
+      </form>
+
+      <!-- Right Column: Live Results & Progress Ring -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- Progress Ring Card -->
+        <div class="progress-ring-card">
+          <div class="ring-container">
+            <svg class="ring-svg" viewBox="0 0 100 100">
+              <circle class="ring-bg" cx="50" cy="50" r="42"></circle>
+              <circle class="ring-fill" id="ring-fill" cx="50" cy="50" r="42" stroke-dasharray="263.89" stroke-dashoffset="263.89"></circle>
+            </svg>
+            <div class="ring-center-text">
+              <span class="ring-num" id="ring-remaining-num">500</span>
+              <span class="ring-sub">Left</span>
+            </div>
+          </div>
+
+          <div class="ring-details">
+            <div class="ring-title-row">
+              <strong class="ring-mode-title">Threads Post Limit</strong>
+              <span class="ring-pct-badge" id="limit-count-val">0 / 500 (0% used)</span>
+            </div>
+            <p class="ring-desc-text" id="ring-desc-text">
+              Meta Threads allows up to 500 characters per post (~75–100 words). Line breaks, spaces, URLs, and emojis count toward your 500 limit.
+            </p>
+          </div>
+        </div>
+
+        <!-- 8 Metric Cards Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card highlight-card">
+            <span class="metric-value" id="count-chars">0</span>
+            <span class="metric-label">Total Characters</span>
+            <span class="metric-sub text-muted">With spaces (500 max)</span>
+          </div>
+
+          <div class="metric-card highlight-card">
+            <span class="metric-value" id="count-no-spaces">0</span>
+            <span class="metric-label">Without Spaces</span>
+            <span class="metric-sub text-muted">Visible text length</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-words">0</span>
+            <span class="metric-label">Total Words</span>
+            <span class="metric-sub text-muted">Word count</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-remaining">500</span>
+            <span class="metric-label">Allowance Left</span>
+            <span class="metric-sub text-muted">500 limit remaining</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-reading-time">0s</span>
+            <span class="metric-label">Est. Read Time</span>
+            <span class="metric-sub text-muted">Based on 200 WPM</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-letters">0</span>
+            <span class="metric-label">Total Letters</span>
+            <span class="metric-sub text-muted">Alphabetic</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-numbers">0</span>
+            <span class="metric-label">Total Numbers</span>
+            <span class="metric-sub text-muted">Numeric digits</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-emojis">0</span>
+            <span class="metric-label">Total Emojis</span>
+            <span class="metric-sub text-muted">Unicode emojis</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is a Threads Character Counter?</h2>
+      <p>
+        A <strong>Threads Character Counter</strong> is a specialized writing tool designed to measure character count, word count, line breaks, and emoji usage for posts created on Meta Threads.
+      </p>
+      <p>
+        Meta Threads gives creators a 500-character limit per post—nearly double Twitter’s standard 280-character allowance. Our Threads post counter audits your text in real time so you can compose punchy posts, structure clean threads, and avoid getting cut off mid-sentence.
+      </p>
+
+      <h2>How Does the Threads Character Counter Work?</h2>
+      <p>
+        Our Threads Character Counter analyzes your text instantaneously using specialized browser parsing rules:
+      </p>
+      <ul>
+        <li><strong>Character Limit Tracking:</strong> Measures raw character length (including spaces, punctuation, and emojis) against the 500-character Threads post limit.</li>
+        <li><strong>Word & Reading Time Calculation:</strong> Counts total words and estimates reading duration based on an average reading speed of 200 words per minute.</li>
+        <li><strong>Unicode Emoji Matching:</strong> Detects emojis and measures their impact on your post allowance.</li>
+        <li><strong>Visual Progress Gauge:</strong> Displays a real-time progress ring that alerts you as you approach the 500-character boundary.</li>
+      </ul>
+
+      <h2>Threads Character Limit and Post Length</h2>
+      <p>
+        Understanding Meta Threads post length boundaries helps creators optimize their content strategy across different formats:
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Format / Element</th>
+              <th>Character Limit</th>
+              <th>Average Word Count</th>
+              <th>Best Practice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Standard Threads Post</strong></td>
+              <td>500 characters</td>
+              <td>75–100 words</td>
+              <td>Short-form commentary, insights, and conversation hooks</td>
+            </tr>
+            <tr>
+              <td><strong>Profile Bio</strong></td>
+              <td>150 characters</td>
+              <td>20–30 words</td>
+              <td>Clean positioning statement & call-to-action link</td>
+            </tr>
+            <tr>
+              <td><strong>Profile Name</strong></td>
+              <td>30 characters</td>
+              <td>2–5 words</td>
+              <td>Brand or creator display name (synced from Instagram)</td>
+            </tr>
+            <tr>
+              <td><strong>Video Upload Duration</strong></td>
+              <td>Up to 5 minutes</td>
+              <td>N/A</td>
+              <td>High-retention short vertical or landscape video</td>
+            </tr>
+            <tr>
+              <td><strong>Image Carousel</strong></td>
+              <td>Up to 10 photos/videos</td>
+              <td>N/A</td>
+              <td>Visual slide decks and infographics</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>How to Count Characters in a Threads Post</h2>
+      <p>
+        Counting characters for Meta Threads is simple and fast with our free tool:
+      </p>
+      <ol>
+        <li><strong>Paste Your Draft:</strong> Type or paste your post copy into the text editor above.</li>
+        <li><strong>Check Character Allowance:</strong> Observe the progress ring to ensure your character count stays below 500.</li>
+        <li><strong>Format Clean Spacing:</strong> Click <strong>Clean Spacing</strong> to trim accidental double spaces or trailing whitespace.</li>
+        <li><strong>Copy with One Click:</strong> Click <strong>Copy Threads Post</strong> to copy your formatted post directly to your clipboard.</li>
+      </ol>
+
+      <h2>Why Character Count Matters on Threads</h2>
+      <p>
+        The 500-character limit on Threads sits right in the sweet spot between micro-blogging and short essay posts. Here is why monitoring your character count is essential:
+      </p>
+      <ul>
+        <li><strong>Maximizes Hook Retention:</strong> The first 100 characters dictate whether a user stops scrolling or passes by in the Threads algorithmic feed.</li>
+        <li><strong>Prevents Truncation:</strong> Exceeding 500 characters forces Meta Threads to prevent publishing or truncates text into multi-post replies.</li>
+        <li><strong>Enhances Visual Spacing:</strong> Concise 200–350 character posts with clean line breaks perform significantly better on mobile device screens.</li>
+      </ul>
+
+      <h2>Tips for Writing Better Threads Posts</h2>
+      <p>
+        Boost engagement and conversation on Meta Threads with these proven writing strategies:
+      </p>
+      <ol>
+        <li>
+          <strong>Lead with a Strong Question or Hot Take:</strong> Opening your post with a sharp hook in the first sentence encourages replies and discussion.
+        </li>
+        <li>
+          <strong>Format Paragraphs for Mobile:</strong> Break up long walls of text into 2-to-3 sentence paragraphs. Format text easily using our <a href="/tools/linkedin-post-formatter">LinkedIn Post Formatter</a> or check character limits with our <a href="/tools/twitter-character-counter">Twitter Character Counter</a>.
+        </li>
+        <li>
+          <strong>Include Targeted Topic Tags:</strong> Threads allows creators to add topic tags to posts. Generate trending hashtags using our <a href="/tools/threads-hashtag-generator">Threads Hashtag Generator</a>.
+        </li>
+        <li>
+          <strong>Cross-Post to Instagram & Twitter:</strong> Repurpose your top-performing Threads posts into Instagram captions using our <a href="/tools/instagram-caption-character-counter">Instagram Caption Character Counter</a> or tweets with our <a href="/tools/twitter-post-word-counter">Twitter Post Word Counter</a>.
+        </li>
+      </ol>
+
+      <h2>Common Threads Character Count Mistakes</h2>
+      <ul>
+        <li><strong>Assuming URLs Get Shortened Automatically:</strong> Unlike Twitter's 23-character t.co shortener, Threads counts full raw URL lengths. Use short links when adding external web links.</li>
+        <li><strong>Neglecting Line Break Character Counts:</strong> Pressing enter inserts newline characters that consume 1-2 characters per break.</li>
+        <li><strong>Overpacking Emojis:</strong> While emojis add personality, using dozens of emojis eats up character allowance quickly.</li>
+        <li><strong>Writing Dense Walls of Text:</strong> Maxing out 500 characters without paragraph spacing makes copy hard to read on mobile devices.</li>
+      </ul>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/twitter-character-counter" class="tool-link-card glass">
+          <div class="tool-link-title">Twitter Character Counter</div>
+          <div class="tool-link-desc">Audit tweet character limits, t.co link shortening weights, and emoji counts in real time.</div>
+        </a>
+        <a href="/tools/instagram-caption-character-counter" class="tool-link-card glass">
+          <div class="tool-link-title">Instagram Caption Character Counter</div>
+          <div class="tool-link-desc">Check the 2,200 character limit and 125-character mobile feed crop for Instagram captions.</div>
+        </a>
+        <a href="/tools/twitter-post-word-counter" class="tool-link-card glass">
+          <div class="tool-link-title">Twitter Post Word Counter</div>
+          <div class="tool-link-desc">Count words, characters, t.co URLs, and emojis in your tweets and X Premium posts.</div>
+        </a>
+        <a href="/tools/threads-hashtag-generator" class="tool-link-card glass">
+          <div class="tool-link-title">Threads Hashtag Generator</div>
+          <div class="tool-link-desc">Generate relevant topic tags and hashtags for Meta Threads posts to increase reach.</div>
+        </a>
+        <a href="/tools/linkedin-post-formatter" class="tool-link-card glass">
+          <div class="tool-link-title">LinkedIn Post Formatter</div>
+          <div class="tool-link-desc">Format social media posts with bold, italic, and bulleted Unicode text styles.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Editor */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .input-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .editor-textarea {
+    width: 100%;
+    min-height: 220px;
+    padding: 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .editor-textarea:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .format-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .format-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  /* Prominent Main Action Buttons Row */
+  .main-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .calc-btn-primary {
+    flex: 2;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Right Column: Results Panel */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  /* Progress Ring Card */
+  .progress-ring-card {
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .ring-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ring-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .ring-bg {
+    fill: transparent;
+    stroke: var(--color-border);
+    stroke-width: 8;
+  }
+
+  .ring-fill {
+    fill: transparent;
+    stroke: var(--color-brand);
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset var(--transition-fast), stroke var(--transition-fast);
+  }
+
+  .ring-center-text {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .ring-num {
+    font-size: 1.15rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-text);
+  }
+
+  .ring-sub {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    margin-top: 0.15rem;
+  }
+
+  .ring-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 180px;
+  }
+
+  .ring-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .ring-mode-title {
+    font-size: 0.9rem;
+    color: var(--color-text);
+  }
+
+  .ring-pct-badge {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-brand);
+  }
+
+  .ring-desc-text {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* 8 Metric Cards Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-card.highlight-card {
+    background: rgba(99, 102, 241, 0.06);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  .metric-value {
+    font-size: 1.3rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const threadsInput = document.getElementById('threads-input') as HTMLTextAreaElement | null;
+
+    // Formatting Buttons
+    const btnUppercase = document.getElementById('btn-uppercase');
+    const btnLowercase = document.getElementById('btn-lowercase');
+    const btnTitlecase = document.getElementById('btn-titlecase');
+    const btnCleanspace = document.getElementById('btn-cleanspace');
+    const btnCopy = document.getElementById('btn-copy');
+    const copyTextSpan = document.getElementById('copy-text');
+    const btnClear = document.getElementById('btn-clear');
+
+    // Progress Ring Elements
+    const ringFill = document.getElementById('ring-fill');
+    const ringRemainingNum = document.getElementById('ring-remaining-num');
+    const limitCountVal = document.getElementById('limit-count-val');
+
+    // 8 Metric Displays
+    const countChars = document.getElementById('count-chars');
+    const countNoSpaces = document.getElementById('count-no-spaces');
+    const countWords = document.getElementById('count-words');
+    const countRemaining = document.getElementById('count-remaining');
+    const countReadingTime = document.getElementById('count-reading-time');
+    const countLetters = document.getElementById('count-letters');
+    const countNumbers = document.getElementById('count-numbers');
+    const countEmojis = document.getElementById('count-emojis');
+
+    if (!threadsInput) return;
+
+    const THREADS_LIMIT = 500;
+    const emojiRegex = /[\u{1F300}-\u{1F9FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E6}-\u{1F1FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1FA70}-\u{1FAFF}]/gu;
+
+    function updateMetrics() {
+      const rawText = threadsInput?.value || '';
+
+      // 1. Standard Characters (With Spaces)
+      const charsWithSpaces = Array.from(rawText).length;
+
+      // 2. Characters Without Spaces
+      const noSpacesText = rawText.replace(/\s+/g, '');
+      const charsNoSpaces = Array.from(noSpacesText).length;
+
+      // 3. Total Words
+      const trimmedText = rawText.trim();
+      const words = trimmedText ? trimmedText.split(/\s+/).filter(Boolean).length : 0;
+
+      // 4. Remaining Allowance
+      const remainingChars = THREADS_LIMIT - charsWithSpaces;
+
+      // 5. Estimated Reading Time (200 WPM)
+      const secondsRead = Math.ceil((words / 200) * 60);
+      let readingTimeStr = '0s';
+      if (words > 0) {
+        if (secondsRead < 60) {
+          readingTimeStr = `${secondsRead}s`;
+        } else {
+          const mins = Math.floor(secondsRead / 60);
+          const secs = secondsRead % 60;
+          readingTimeStr = secs > 0 ? `${mins}m ${secs}s` : `${mins}m`;
+        }
+      }
+
+      // 6. Total Letters (\p{L})
+      const letterMatches = rawText.match(/\p{L}/gu);
+      const letterCount = letterMatches ? letterMatches.length : 0;
+
+      // 7. Total Numbers (\p{N})
+      const numberMatches = rawText.match(/\p{N}/gu);
+      const numberCount = numberMatches ? numberMatches.length : 0;
+
+      // 8. Total Emojis
+      const emojiMatches = rawText.match(emojiRegex);
+      const emojiCount = emojiMatches ? emojiMatches.length : 0;
+
+      // Format Numbers into UI Elements
+      if (countChars) countChars.textContent = charsWithSpaces.toLocaleString();
+      if (countNoSpaces) countNoSpaces.textContent = charsNoSpaces.toLocaleString();
+      if (countWords) countWords.textContent = words.toLocaleString();
+      if (countRemaining) {
+        countRemaining.textContent = remainingChars >= 0 ? remainingChars.toLocaleString() : `-${Math.abs(remainingChars).toLocaleString()}`;
+        countRemaining.style.color = remainingChars < 0 ? 'var(--color-danger)' : 'var(--color-brand)';
+      }
+      if (countReadingTime) countReadingTime.textContent = readingTimeStr;
+      if (countLetters) countLetters.textContent = letterCount.toLocaleString();
+      if (countNumbers) countNumbers.textContent = numberCount.toLocaleString();
+      if (countEmojis) countEmojis.textContent = emojiCount.toLocaleString();
+
+      // Progress Ring calculation
+      const pctUsed = Math.min(100, Math.max(0, Math.round((charsWithSpaces / THREADS_LIMIT) * 100)));
+
+      if (ringRemainingNum) {
+        ringRemainingNum.textContent = remainingChars >= 0 ? remainingChars.toLocaleString() : `-${Math.abs(remainingChars).toLocaleString()}`;
+        ringRemainingNum.style.color = remainingChars < 0 ? 'var(--color-danger)' : 'var(--color-text)';
+      }
+
+      if (limitCountVal) {
+        limitCountVal.textContent = `${charsWithSpaces.toLocaleString()} / ${THREADS_LIMIT.toLocaleString()} (${pctUsed}%)`;
+      }
+
+      // Ring Offset (Perimeter = 263.89)
+      const circumference = 263.89;
+      if (ringFill) {
+        const offset = circumference - (pctUsed / 100) * circumference;
+        ringFill.style.strokeDashoffset = `${offset}`;
+        
+        if (remainingChars < 0) {
+          ringFill.style.stroke = 'var(--color-danger)';
+        } else if (pctUsed >= 85) {
+          ringFill.style.stroke = 'var(--color-warning)';
+        } else {
+          ringFill.style.stroke = 'var(--color-brand)';
+        }
+      }
+    }
+
+    // Event Listeners
+    ['input', 'change', 'keyup'].forEach(evt => {
+      threadsInput.addEventListener(evt, updateMetrics);
+    });
+
+    // Toolbar 1: UPPERCASE
+    if (btnUppercase) {
+      btnUppercase.addEventListener('click', () => {
+        if (!threadsInput) return;
+        threadsInput.value = threadsInput.value.toUpperCase();
+        updateMetrics();
+      });
+    }
+
+    // Toolbar 2: lowercase
+    if (btnLowercase) {
+      btnLowercase.addEventListener('click', () => {
+        if (!threadsInput) return;
+        threadsInput.value = threadsInput.value.toLowerCase();
+        updateMetrics();
+      });
+    }
+
+    // Toolbar 3: Title Case
+    if (btnTitlecase) {
+      btnTitlecase.addEventListener('click', () => {
+        if (!threadsInput) return;
+        threadsInput.value = threadsInput.value.replace(/\w\S*/g, (txt) => {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        updateMetrics();
+      });
+    }
+
+    // Toolbar 4: Clean Spacing
+    if (btnCleanspace) {
+      btnCleanspace.addEventListener('click', () => {
+        if (!threadsInput) return;
+        threadsInput.value = threadsInput.value
+          .split('\n')
+          .map(line => line.replace(/[ \t]+/g, ' ').trim())
+          .join('\n');
+        updateMetrics();
+      });
+    }
+
+    // Toolbar 5: Copy Threads Post
+    if (btnCopy) {
+      btnCopy.addEventListener('click', () => {
+        if (!threadsInput) return;
+        navigator.clipboard.writeText(threadsInput.value).then(() => {
+          if (copyTextSpan) copyTextSpan.textContent = 'Copied!';
+          setTimeout(() => {
+            if (copyTextSpan) copyTextSpan.textContent = 'Copy Threads Post';
+          }, 2000);
+        }).catch(() => {
+          threadsInput.select();
+          document.execCommand('copy');
+          if (copyTextSpan) copyTextSpan.textContent = 'Copied!';
+          setTimeout(() => {
+            if (copyTextSpan) copyTextSpan.textContent = 'Copy Threads Post';
+          }, 2000);
+        });
+      });
+    }
+
+    // Toolbar 6: Clear All
+    if (btnClear) {
+      btnClear.addEventListener('click', () => {
+        if (!threadsInput) return;
+        threadsInput.value = '';
+        updateMetrics();
+        threadsInput.focus();
+      });
+    }
+
+    // Initial Calculation
+    updateMetrics();
+  });
+</script>

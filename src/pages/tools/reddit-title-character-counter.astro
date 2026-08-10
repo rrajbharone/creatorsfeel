@@ -1,0 +1,910 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the character limit for a Reddit post title?",
+    answer: "Reddit enforces a hard character limit of 300 characters for post titles across all subreddits. Titles that exceed 300 characters cannot be submitted."
+  },
+  {
+    question: "Can you edit a Reddit post title after submitting?",
+    answer: "No. Reddit does not allow users or moderators to edit post titles once submitted. If you make a typo or title error, you must delete the post and submit a new one."
+  },
+  {
+    question: "What is the optimal Reddit title length for high upvotes?",
+    answer: "Data analyzing viral Reddit posts shows that titles between 60 and 120 characters (roughly 10 to 20 words) receive the highest upvote ratios and comment engagement."
+  },
+  {
+    question: "Do spaces, emojis, and brackets count toward the 300 character limit?",
+    answer: "Yes, every character including letters, numbers, punctuation, spaces, emojis, and tags like [OC] or [NSFW] counts directly toward Reddit's 300-character title limit."
+  },
+  {
+    question: "What is the minimum character length for a Reddit post title?",
+    answer: "Reddit requires titles to have at least 1 character. However, many subreddits enforce custom minimum length rules (e.g., r/todayilearned requires titles to start with 'TIL')."
+  },
+  {
+    question: "How do titles get displayed on mobile Reddit apps?",
+    answer: "Long titles over 200 characters may get visually truncated on smaller smartphone screens or card view feeds. Placing your main hook in the first 80 characters ensures maximum mobile visibility."
+  }
+];
+---
+
+<ToolLayout
+  title="Reddit Title Character Counter - Check Reddit Post Title Length & Limits"
+  description="Free Reddit Title Character Counter. Check Reddit post title character limits, word counts, and formatting rules in real time. Optimize titles for maximum upvotes."
+  toolName="Reddit Title Character Counter"
+  toolDescription="Count characters, words, spaces, and emojis for Reddit post titles in real time. Audit Reddit's 300-character title limit."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: Input Editor & Action Buttons -->
+      <form class="calc-form" id="counter-form" onsubmit="return false;">
+        <div class="form-group">
+          <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem;">
+            <label for="reddit-title-input" class="input-label" style="margin: 0;">Draft Your Reddit Post Title</label>
+            <!-- Quick Format Buttons -->
+            <div class="format-toolbar" style="display: flex; gap: 0.25rem; flex-wrap: wrap;">
+              <button type="button" class="format-btn" id="btn-uppercase" title="Convert to ALL CAPS">UPPERCASE</button>
+              <button type="button" class="format-btn" id="btn-lowercase" title="Convert to lowercase">lowercase</button>
+              <button type="button" class="format-btn" id="btn-titlecase" title="Convert to Title Case">Title Case</button>
+              <button type="button" class="format-btn" id="btn-cleanspace" title="Trim extra spaces">Clean Spacing</button>
+            </div>
+          </div>
+          <textarea 
+            id="reddit-title-input" 
+            class="editor-textarea" 
+            placeholder="Type or paste your Reddit post title draft here... Reddit allows up to 300 characters (~40-50 words) per title."
+            rows="6"
+          ></textarea>
+        </div>
+
+        <!-- Prominent Action Buttons Row -->
+        <div class="main-actions-row">
+          <button type="button" id="btn-copy" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+            </svg>
+            <span id="copy-text">Copy Title</span>
+          </button>
+          <button type="button" id="btn-clear" class="calc-btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+            </svg>
+            Clear All
+          </button>
+        </div>
+      </form>
+
+      <!-- Right Column: Live Results Display & Progress Ring -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- Progress Ring Card -->
+        <div class="progress-ring-card">
+          <div class="ring-container">
+            <svg class="ring-svg" viewBox="0 0 100 100">
+              <circle class="ring-bg" cx="50" cy="50" r="42"></circle>
+              <circle class="ring-fill" id="ring-fill" cx="50" cy="50" r="42" stroke-dasharray="263.89" stroke-dashoffset="263.89"></circle>
+            </svg>
+            <div class="ring-center-text">
+              <span class="ring-num" id="ring-remaining-num">300</span>
+              <span class="ring-sub">Left</span>
+            </div>
+          </div>
+
+          <div class="ring-details">
+            <div class="ring-title-row">
+              <strong class="ring-mode-title">Reddit Title Limit</strong>
+              <span class="ring-pct-badge" id="limit-count-val">0 / 300 (0% used)</span>
+            </div>
+            <p class="ring-desc-text" id="ring-desc-text">
+              Reddit limits post titles to 300 characters (~40–50 words). Titles cannot be edited after publishing, so audit length before submitting.
+            </p>
+          </div>
+        </div>
+
+        <!-- 8 Metric Cards Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card highlight-card">
+            <span class="metric-value" id="count-chars">0</span>
+            <span class="metric-label">Total Characters</span>
+            <span class="metric-sub text-muted">With spaces (300 max)</span>
+          </div>
+
+          <div class="metric-card highlight-card">
+            <span class="metric-value" id="count-no-spaces">0</span>
+            <span class="metric-label">Without Spaces</span>
+            <span class="metric-sub text-muted">Visible text length</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-words">0</span>
+            <span class="metric-label">Total Words</span>
+            <span class="metric-sub text-muted">Word count</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-remaining">300</span>
+            <span class="metric-label">Allowance Left</span>
+            <span class="metric-sub text-muted">300 limit remaining</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-reading-time">0s</span>
+            <span class="metric-label">Est. Read Time</span>
+            <span class="metric-sub text-muted">Based on 200 WPM</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-letters">0</span>
+            <span class="metric-label">Total Letters</span>
+            <span class="metric-sub text-muted">Alphabetic</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-numbers">0</span>
+            <span class="metric-label">Total Numbers</span>
+            <span class="metric-sub text-muted">Numeric digits</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="count-emojis">0</span>
+            <span class="metric-label">Total Emojis</span>
+            <span class="metric-sub text-muted">Unicode emojis</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is a Reddit Title Character Counter?</h2>
+      <p>
+        A <strong>Reddit Title Character Counter</strong> (also referred to as a Reddit Title Length Checker) is a dedicated social media utility designed to measure character counts, word counts, formatting syntax, and limit boundaries for post titles on Reddit.
+      </p>
+      <p>
+        Reddit enforces a strict, un-editable limit of 300 characters for post titles across all subreddits. Our Reddit Title Character Counter helps redditors, marketers, and content creators draft high-upvote titles that fit within Reddit's 300-character boundary while optimizing hook readability for mobile and desktop feeds.
+      </p>
+
+      <h2>How Does the Reddit Title Character Counter Work?</h2>
+      <p>
+        Our counter audits your title draft in real time using specialized client-side string processing:
+      </p>
+      <ul>
+        <li><strong>Character Limit Tracking:</strong> Counts total characters including letters, numbers, spaces, punctuation, bracket tags (e.g. <code>[OC]</code>, <code>[TIL]</code>), and emojis against Reddit's 300 limit.</li>
+        <li><strong>Word Count & Readability:</strong> Measures word boundaries to help you stay within the optimal 10-to-20 word engagement window.</li>
+        <li><strong>Live Visual Progress Gauge:</strong> Updates a circular progress ring that shifts from brand indigo to warning amber and danger red if copy approaches or exceeds 300 characters.</li>
+        <li><strong>Formatting Actions:</strong> Provides instant case conversion (UPPERCASE, lowercase, Title Case) and spacing cleanup buttons.</li>
+      </ul>
+
+      <h2>Reddit Title Character Limit and Length</h2>
+      <p>
+        Reddit has unique rules regarding post title lengths compared to other major social platforms:
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Reddit Title Parameter</th>
+              <th>Boundary / Rule</th>
+              <th>Recommended Best Practice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Maximum Title Limit</strong></td>
+              <td>300 characters</td>
+              <td>Aim for 60–120 characters (~10–20 words) for highest upvote density</td>
+            </tr>
+            <tr>
+              <td><strong>Minimum Title Length</strong></td>
+              <td>1 character</td>
+              <td>Use descriptive titles; single-word titles get downvoted for low effort</td>
+            </tr>
+            <tr>
+              <td><strong>Title Editability</strong></td>
+              <td>Cannot be edited after submission</td>
+              <td>Always proofread and audit character counts before clicking Submit</td>
+            </tr>
+            <tr>
+              <td><strong>Subreddit Specific Tags</strong></td>
+              <td>Counts toward 300 limit</td>
+              <td>Place tags like <code>[OC]</code> or <code>TIL:</code> at the very beginning of the title</td>
+            </tr>
+            <tr>
+              <td><strong>Mobile Feed Display</strong></td>
+              <td>Truncates after ~180–220 chars</td>
+              <td>Put your most compelling hook in the first 80 characters</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>How to Write the Right-Length Reddit Title</h2>
+      <p>
+        Writing a Reddit title that earns upvotes requires balancing information density with readability:
+      </p>
+      <ol>
+        <li><strong>Draft Your Headline:</strong> Type your post title into the editor above.</li>
+        <li><strong>Audit Character Count:</strong> Ensure your title stays comfortably under the 300-character ceiling.</li>
+        <li><strong>Optimize Word Count:</strong> Keep titles between 10 and 20 words for maximum community engagement.</li>
+        <li><strong>Format Clean White Space:</strong> Remove trailing spaces or accidental line breaks using <strong>Clean Spacing</strong>.</li>
+        <li><strong>Copy and Submit:</strong> Click <strong>Copy Title</strong> to copy your headline and paste it into Reddit.</li>
+      </ol>
+
+      <h2>Why Reddit Title Length Matters</h2>
+      <p>
+        On Reddit, the title is often the <em>only</em> element users see before deciding whether to upvote, click, or scroll past:
+      </p>
+      <ul>
+        <li><strong>Permanent Post Headline:</strong> Unlike post text or comments, Reddit titles cannot be modified once published.</li>
+        <li><strong>Mobile Feed Scanning:</strong> Millions of redditors browse on the Reddit iOS/Android app. Short, punchy titles fit fully on mobile screens without truncation.</li>
+        <li><strong>Search Engine Indexing:</strong> Reddit titles index prominently on Google search results. Clear, keyword-focused titles drive ongoing organic traffic.</li>
+      </ul>
+
+      <h2>Tips for Writing Better Reddit Titles</h2>
+      <p>
+        Improve your post performance across popular subreddits with these headline tips:
+      </p>
+      <ol>
+        <li>
+          <strong>Be Specific and Context-Rich:</strong> Vague titles like <em>"Look at this"</em> perform poorly. Provide specific details about what the user is looking at.
+        </li>
+        <li>
+          <strong>Use Subreddit Bracket Tags:</strong> Clearly mark original content with <code>[OC]</code>, questions with <code>[Q]</code>, or updates with <code>[Update]</code>.
+        </li>
+        <li>
+          <strong>Generate Catchy Subreddit Headlines:</strong> Brainstorm viral Reddit post titles using our <a href="/tools/reddit-title-generator">Reddit Title Generator</a>.
+        </li>
+        <li>
+          <strong>Cross-Post to Other Platforms:</strong> Adapt your headlines for Twitter using our <a href="/tools/twitter-character-counter">Twitter Character Counter</a> or <a href="/tools/twitter-post-word-counter">Twitter Post Word Counter</a>.
+        </li>
+        <li>
+          <strong>Compare with Video & Article Titles:</strong> Check title truncation for video content using our <a href="/tools/youtube-title-character-counter">YouTube Title Character Counter</a> or format text copy using our <a href="/tools/linkedin-post-formatter">LinkedIn Post Formatter</a>.
+        </li>
+      </ol>
+
+      <h2>Common Reddit Title Mistakes</h2>
+      <ul>
+        <li><strong>Going Over 300 Characters:</strong> Exceeding 300 characters prevents post submission on Reddit.</li>
+        <li><strong>Sensational Clickbait:</strong> Redditors dislike clickbait titles. Be honest, descriptive, and transparent.</li>
+        <li><strong>Typos in Titles:</strong> Since Reddit titles are permanent, a single typo forces you to delete and repost.</li>
+        <li><strong>ALL CAPS Titles:</strong> Posting in ALL CAPS violates reddiquette in most subreddits and triggers downvotes.</li>
+      </ul>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/reddit-title-generator" class="tool-link-card glass">
+          <div class="tool-link-title">Reddit Title Generator</div>
+          <div class="tool-link-desc">Generate catchy, high-upvote post titles for Reddit. Optimize titles by subreddit niche and bracket tags.</div>
+        </a>
+        <a href="/tools/twitter-character-counter" class="tool-link-card glass">
+          <div class="tool-link-title">Twitter Character Counter</div>
+          <div class="tool-link-desc">Audit tweet character limits, t.co link shortening weights, and emoji counts in real time.</div>
+        </a>
+        <a href="/tools/youtube-title-character-counter" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Title Character Counter</div>
+          <div class="tool-link-desc">Count characters, words, and emojis in your YouTube video titles while checking mobile feed truncation.</div>
+        </a>
+        <a href="/tools/twitter-post-word-counter" class="tool-link-card glass">
+          <div class="tool-link-title">Twitter Post Word Counter</div>
+          <div class="tool-link-desc">Count words, characters, t.co URLs, and emojis in your tweets and X Premium posts.</div>
+        </a>
+        <a href="/tools/linkedin-post-formatter" class="tool-link-card glass">
+          <div class="tool-link-title">LinkedIn Post Formatter</div>
+          <div class="tool-link-desc">Format social media posts with bold, italic, and bulleted Unicode text styles.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Editor */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .input-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .editor-textarea {
+    width: 100%;
+    min-height: 220px;
+    padding: 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .editor-textarea:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .format-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .format-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  /* Prominent Main Action Buttons Row */
+  .main-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .calc-btn-primary {
+    flex: 2;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Right Column: Results Panel */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  /* Progress Ring Card */
+  .progress-ring-card {
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .ring-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ring-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .ring-bg {
+    fill: transparent;
+    stroke: var(--color-border);
+    stroke-width: 8;
+  }
+
+  .ring-fill {
+    fill: transparent;
+    stroke: var(--color-brand);
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset var(--transition-fast), stroke var(--transition-fast);
+  }
+
+  .ring-center-text {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .ring-num {
+    font-size: 1.15rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-text);
+  }
+
+  .ring-sub {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    margin-top: 0.15rem;
+  }
+
+  .ring-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 180px;
+  }
+
+  .ring-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .ring-mode-title {
+    font-size: 0.9rem;
+    color: var(--color-text);
+  }
+
+  .ring-pct-badge {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-brand);
+  }
+
+  .ring-desc-text {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* 8 Metric Cards Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-card.highlight-card {
+    background: rgba(99, 102, 241, 0.06);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  .metric-value {
+    font-size: 1.3rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const redditInput = document.getElementById('reddit-title-input') as HTMLTextAreaElement | null;
+
+    // Formatting Buttons
+    const btnUppercase = document.getElementById('btn-uppercase');
+    const btnLowercase = document.getElementById('btn-lowercase');
+    const btnTitlecase = document.getElementById('btn-titlecase');
+    const btnCleanspace = document.getElementById('btn-cleanspace');
+    const btnCopy = document.getElementById('btn-copy');
+    const copyTextSpan = document.getElementById('copy-text');
+    const btnClear = document.getElementById('btn-clear');
+
+    // Progress Ring Elements
+    const ringFill = document.getElementById('ring-fill');
+    const ringRemainingNum = document.getElementById('ring-remaining-num');
+    const limitCountVal = document.getElementById('limit-count-val');
+
+    // 8 Metric Displays
+    const countChars = document.getElementById('count-chars');
+    const countNoSpaces = document.getElementById('count-no-spaces');
+    const countWords = document.getElementById('count-words');
+    const countRemaining = document.getElementById('count-remaining');
+    const countReadingTime = document.getElementById('count-reading-time');
+    const countLetters = document.getElementById('count-letters');
+    const countNumbers = document.getElementById('count-numbers');
+    const countEmojis = document.getElementById('count-emojis');
+
+    if (!redditInput) return;
+
+    const REDDIT_LIMIT = 300;
+    const emojiRegex = /[\u{1F300}-\u{1F9FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E6}-\u{1F1FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1FA70}-\u{1FAFF}]/gu;
+
+    function updateMetrics() {
+      const rawText = redditInput?.value || '';
+
+      // 1. Standard Characters (With Spaces)
+      const charsWithSpaces = Array.from(rawText).length;
+
+      // 2. Characters Without Spaces
+      const noSpacesText = rawText.replace(/\s+/g, '');
+      const charsNoSpaces = Array.from(noSpacesText).length;
+
+      // 3. Total Words
+      const trimmedText = rawText.trim();
+      const words = trimmedText ? trimmedText.split(/\s+/).filter(Boolean).length : 0;
+
+      // 4. Remaining Allowance
+      const remainingChars = REDDIT_LIMIT - charsWithSpaces;
+
+      // 5. Estimated Reading Time (200 WPM)
+      const secondsRead = Math.ceil((words / 200) * 60);
+      let readingTimeStr = '0s';
+      if (words > 0) {
+        if (secondsRead < 60) {
+          readingTimeStr = `${secondsRead}s`;
+        } else {
+          const mins = Math.floor(secondsRead / 60);
+          const secs = secondsRead % 60;
+          readingTimeStr = secs > 0 ? `${mins}m ${secs}s` : `${mins}m`;
+        }
+      }
+
+      // 6. Total Letters (\p{L})
+      const letterMatches = rawText.match(/\p{L}/gu);
+      const letterCount = letterMatches ? letterMatches.length : 0;
+
+      // 7. Total Numbers (\p{N})
+      const numberMatches = rawText.match(/\p{N}/gu);
+      const numberCount = numberMatches ? numberMatches.length : 0;
+
+      // 8. Total Emojis
+      const emojiMatches = rawText.match(emojiRegex);
+      const emojiCount = emojiMatches ? emojiMatches.length : 0;
+
+      // Format Numbers into UI Elements
+      if (countChars) countChars.textContent = charsWithSpaces.toLocaleString();
+      if (countNoSpaces) countNoSpaces.textContent = charsNoSpaces.toLocaleString();
+      if (countWords) countWords.textContent = words.toLocaleString();
+      if (countRemaining) {
+        countRemaining.textContent = remainingChars >= 0 ? remainingChars.toLocaleString() : `-${Math.abs(remainingChars).toLocaleString()}`;
+        countRemaining.style.color = remainingChars < 0 ? 'var(--color-danger)' : 'var(--color-brand)';
+      }
+      if (countReadingTime) countReadingTime.textContent = readingTimeStr;
+      if (countLetters) countLetters.textContent = letterCount.toLocaleString();
+      if (countNumbers) countNumbers.textContent = numberCount.toLocaleString();
+      if (countEmojis) countEmojis.textContent = emojiCount.toLocaleString();
+
+      // Progress Ring calculation
+      const pctUsed = Math.min(100, Math.max(0, Math.round((charsWithSpaces / REDDIT_LIMIT) * 100)));
+
+      if (ringRemainingNum) {
+        ringRemainingNum.textContent = remainingChars >= 0 ? remainingChars.toLocaleString() : `-${Math.abs(remainingChars).toLocaleString()}`;
+        ringRemainingNum.style.color = remainingChars < 0 ? 'var(--color-danger)' : 'var(--color-text)';
+      }
+
+      if (limitCountVal) {
+        limitCountVal.textContent = `${charsWithSpaces.toLocaleString()} / ${REDDIT_LIMIT.toLocaleString()} (${pctUsed}%)`;
+      }
+
+      // Ring Offset (Perimeter = 263.89)
+      const circumference = 263.89;
+      if (ringFill) {
+        const offset = circumference - (pctUsed / 100) * circumference;
+        ringFill.style.strokeDashoffset = `${offset}`;
+        
+        if (remainingChars < 0) {
+          ringFill.style.stroke = 'var(--color-danger)';
+        } else if (pctUsed >= 85) {
+          ringFill.style.stroke = 'var(--color-warning)';
+        } else {
+          ringFill.style.stroke = 'var(--color-brand)';
+        }
+      }
+    }
+
+    // Event Listeners
+    ['input', 'change', 'keyup'].forEach(evt => {
+      redditInput.addEventListener(evt, updateMetrics);
+    });
+
+    // Toolbar 1: UPPERCASE
+    if (btnUppercase) {
+      btnUppercase.addEventListener('click', () => {
+        if (!redditInput) return;
+        redditInput.value = redditInput.value.toUpperCase();
+        updateMetrics();
+      });
+    }
+
+    // Toolbar 2: lowercase
+    if (btnLowercase) {
+      btnLowercase.addEventListener('click', () => {
+        if (!redditInput) return;
+        redditInput.value = redditInput.value.toLowerCase();
+        updateMetrics();
+      });
+    }
+
+    // Toolbar 3: Title Case
+    if (btnTitlecase) {
+      btnTitlecase.addEventListener('click', () => {
+        if (!redditInput) return;
+        redditInput.value = redditInput.value.replace(/\w\S*/g, (txt) => {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        updateMetrics();
+      });
+    }
+
+    // Toolbar 4: Clean Spacing
+    if (btnCleanspace) {
+      btnCleanspace.addEventListener('click', () => {
+        if (!redditInput) return;
+        redditInput.value = redditInput.value
+          .split('\n')
+          .map(line => line.replace(/[ \t]+/g, ' ').trim())
+          .join('\n');
+        updateMetrics();
+      });
+    }
+
+    // Toolbar 5: Copy Title
+    if (btnCopy) {
+      btnCopy.addEventListener('click', () => {
+        if (!redditInput) return;
+        navigator.clipboard.writeText(redditInput.value).then(() => {
+          if (copyTextSpan) copyTextSpan.textContent = 'Copied!';
+          setTimeout(() => {
+            if (copyTextSpan) copyTextSpan.textContent = 'Copy Title';
+          }, 2000);
+        }).catch(() => {
+          redditInput.select();
+          document.execCommand('copy');
+          if (copyTextSpan) copyTextSpan.textContent = 'Copied!';
+          setTimeout(() => {
+            if (copyTextSpan) copyTextSpan.textContent = 'Copy Title';
+          }, 2000);
+        });
+      });
+    }
+
+    // Toolbar 6: Clear All
+    if (btnClear) {
+      btnClear.addEventListener('click', () => {
+        if (!redditInput) return;
+        redditInput.value = '';
+        updateMetrics();
+        redditInput.focus();
+      });
+    }
+
+    // Initial Calculation
+    updateMetrics();
+  });
+</script>
