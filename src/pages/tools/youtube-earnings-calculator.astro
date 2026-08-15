@@ -1,0 +1,1091 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the formula to calculate YouTube earnings?",
+    answer: "YouTube earnings are calculated using RPM (Revenue Per Mille): Total Earnings = (Total Views / 1,000) × RPM. Alternatively, if calculating from CPM: Total Revenue = (Monetized Views / 1,000) × CPM × 0.55 (the creator's 55% share)."
+  },
+  {
+    question: "What is the difference between RPM and CPM on YouTube?",
+    answer: "CPM (Cost Per Mille) is what advertisers pay for 1,000 ad impressions before YouTube takes its 45% cut. RPM (Revenue Per Mille) is what the creator actually earns per 1,000 total video views after YouTube's split, including membership and Super Chat revenue."
+  },
+  {
+    question: "How much does YouTube pay for 1,000 views?",
+    answer: "On average, YouTube creators earn between $1.50 and $7.00 per 1,000 views. In high-paying niches like finance, business, or tech, RPMs can range from $10.00 to $25.00+ per 1,000 views."
+  },
+  {
+    question: "How much does YouTube pay for 1 million views?",
+    answer: "For 1,000,000 views, a channel with an average RPM of $3.50 will earn approximately $3,500. Depending on audience location and niche, 1 million views can yield anywhere from $1,500 to over $20,000."
+  },
+  {
+    question: "Why do actual YouTube earnings differ from calculator estimates?",
+    answer: "Calculator estimates use average RPM benchmarks. Actual earnings vary based on viewer geographic location, ad blocker usage, niche ad demand, seasonal ad spending spikes (e.g., Q4 holidays), and YouTube's 55/45 AdSense revenue split."
+  },
+  {
+    question: "What requirements are needed to start earning money on YouTube?",
+    answer: "To join the YouTube Partner Program (YPP) for ad revenue, channels need at least 1,000 subscribers and 4,000 valid public watch hours in the past 12 months (or 10 million public Shorts views in the last 90 days)."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube Earnings Calculator - Calculate YouTube Income From Views"
+  description="Free YouTube Earnings Calculator. Calculate estimated YouTube AdSense revenue per day, month, and year based on views, RPM, CPM, and channel niche."
+  toolName="YouTube Earnings Calculator"
+  toolDescription="Calculate estimated YouTube revenue based on views, RPM, monetized views %, and channel niche. Analyze daily, monthly, and annual AdSense earnings."
+  category="Calculators"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: Input Calculator Form -->
+      <form class="calc-form" id="earnings-form" onsubmit="return false;">
+        
+        <!-- View Mode Switcher -->
+        <div class="tabs-container">
+          <button type="button" class="preset-tab active" id="tab-monthly" data-mode="monthly">Monthly Views</button>
+          <button type="button" class="preset-tab" id="tab-daily" data-mode="daily">Daily Views</button>
+        </div>
+
+        <!-- Total Views Input -->
+        <div class="form-group">
+          <label for="views-input" class="input-label" id="views-label">Total Monthly Video Views</label>
+          <input 
+            type="number" 
+            id="views-input" 
+            class="form-input" 
+            value="50000" 
+            min="100" 
+            max="100000000" 
+            step="1000"
+            placeholder="e.g. 50000"
+          />
+        </div>
+
+        <!-- Channel Niche Preset Selector -->
+        <div class="form-group">
+          <label for="niche-select" class="input-label">Select Channel Niche (RPM Benchmark)</label>
+          <select id="niche-select" class="form-input select-input">
+            <option value="3.50" selected>General / Vlogs / Entertainment ($3.50 RPM)</option>
+            <option value="14.00">Finance, Investing & Business ($14.00 RPM)</option>
+            <option value="9.00">Tech, Software & AI ($9.00 RPM)</option>
+            <option value="2.00">Gaming & Anime ($2.00 RPM)</option>
+            <option value="4.50">Lifestyle, Beauty & Fashion ($4.50 RPM)</option>
+            <option value="6.00">Education, Science & How-To ($6.00 RPM)</option>
+            <option value="1.50">Music & Compilation Videos ($1.50 RPM)</option>
+            <option value="custom">Custom RPM Setting</option>
+          </select>
+        </div>
+
+        <!-- Estimated RPM Input Slider -->
+        <div class="form-group">
+          <div class="label-row" style="display: flex; justify-content: space-between; align-items: center;">
+            <label for="rpm-input" class="input-label" style="margin: 0;">Estimated RPM ($ Revenue / 1,000 Views)</label>
+            <span class="range-val-badge" id="rpm-badge">$3.50</span>
+          </div>
+          <input 
+            type="range" 
+            id="rpm-slider" 
+            class="form-range" 
+            min="0.50" 
+            max="25.00" 
+            step="0.25" 
+            value="3.50"
+          />
+          <input 
+            type="number" 
+            id="rpm-input" 
+            class="form-input" 
+            value="3.50" 
+            min="0.10" 
+            max="100.00" 
+            step="0.10" 
+            style="margin-top: 0.35rem;"
+          />
+        </div>
+
+        <!-- Estimated Monetized Views % -->
+        <div class="form-group">
+          <div class="label-row" style="display: flex; justify-content: space-between; align-items: center;">
+            <label for="monetized-slider" class="input-label" style="margin: 0;">Estimated Monetized Views %</label>
+            <span class="range-val-badge" id="monetized-badge">60%</span>
+          </div>
+          <input 
+            type="range" 
+            id="monetized-slider" 
+            class="form-range" 
+            min="30" 
+            max="90" 
+            step="5" 
+            value="60"
+          />
+          <span class="input-help-text">Percentage of video views where ads are served (typically 40%–70%).</span>
+        </div>
+
+        <!-- Action Buttons Pair -->
+        <div class="main-actions-row">
+          <button type="button" id="calc-submit-btn" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm2.25-4.5h.008v.008H10.5v-.008Zm0 2.25h.008v.008H10.5V13.5Zm0 2.25h.008v.008H10.5v-.008Zm2.25-4.5h.008v.008H12.75v-.008Zm0 2.25h.008v.008H12.75V13.5Zm0 2.25h.008v.008H12.75v-.008Zm2.25-4.5h.008v.008H15v-.008Zm0 2.25h.008v.008H15V13.5M6 18.75h12a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 18 4.5H6a2.25 2.25 0 0 0-2.25 2.25v9.75A2.25 2.25 0 0 0 6 18.75Z" />
+            </svg>
+            <span>Calculate Earnings</span>
+          </button>
+          <button type="button" id="calc-reset-btn" class="calc-btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+            </svg>
+            Reset
+          </button>
+        </div>
+      </form>
+
+      <!-- Right Column: Results & Projections Panel -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- Uncalculated Placeholder Card -->
+        <div class="empty-state-card" id="empty-state-card">
+          <div class="empty-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="empty-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+          </div>
+          <strong class="empty-title">Waiting for Calculation</strong>
+          <p class="empty-desc">Enter your video views and estimated RPM on the left, then click <strong>Calculate Earnings</strong> to see your daily, monthly, and annual AdSense revenue forecast.</p>
+        </div>
+
+        <!-- Calculated Results Panel (Hidden before calculation) -->
+        <div class="results-display-box" id="results-display-box" style="display: none;">
+          
+          <!-- Top Estimated Revenue Range Highlights -->
+          <div class="revenue-summary-card">
+            <div class="revenue-period-box">
+              <span class="period-label">Daily Estimated Revenue</span>
+              <strong class="period-val" id="res-daily-range">$0.00 – $0.00</strong>
+            </div>
+            <div class="revenue-period-box highlight-period">
+              <span class="period-label">Monthly Estimated Revenue</span>
+              <strong class="period-val" id="res-monthly-range">$0.00 – $0.00</strong>
+            </div>
+            <div class="revenue-period-box">
+              <span class="period-label">Yearly Estimated Revenue</span>
+              <strong class="period-val" id="res-yearly-range">$0.00 – $0.00</strong>
+            </div>
+          </div>
+
+          <!-- 4 Key Metrics Breakdown -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-value" id="res-monetized-views">0</span>
+              <span class="metric-label">Monetized Views</span>
+              <span class="metric-sub text-muted">Est. ad impressions</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-avg-rpm">$0.00</span>
+              <span class="metric-label">Estimated RPM</span>
+              <span class="metric-sub text-muted">Net / 1,000 views</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-per-1k">$0.00</span>
+              <span class="metric-label">Pay Per 1,000 Views</span>
+              <span class="metric-sub text-muted">Total views basis</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-per-1m">$0.00</span>
+              <span class="metric-label">Pay Per 1M Views</span>
+              <span class="metric-sub text-muted">1 Million views basis</span>
+            </div>
+          </div>
+
+          <!-- AdSense Disclaimer & Transparency Box -->
+          <div class="transparency-note-box">
+            <div class="note-header-row">
+              <span>💡</span>
+              <strong>Earnings Transparency & Revenue Split</strong>
+            </div>
+            <p class="note-desc-text">
+              These figures represent estimated net earnings based on YouTube's official AdSense revenue split (55% to creator, 45% to YouTube). Actual earnings fluctuate based on viewer country, CPM seasonality, ad blockers, and monetized view ratios.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>How Are YouTube Earnings Calculated?</h2>
+      <p>
+        Understanding <strong>how YouTube earnings are calculated</strong> is essential for creators looking to monetize their channel effectively. YouTube generates revenue primarily through advertisements served on videos, channel memberships, Super Chats, Super Stickers, and YouTube Premium subscription revenue sharing.
+      </p>
+      <p>
+        When a viewer watches an ad on your video, advertisers pay YouTube based on a Cost Per Mille (CPM) model. YouTube collects this advertising revenue, retains a 45% platform fee, and passes the remaining 55% share directly to the creator. This net payout is tracked on your channel analytics dashboard as RPM (Revenue Per Mille).
+      </p>
+
+      <h2>How Do You Calculate YouTube Earnings?</h2>
+      <p>
+        If you want to know <strong>how do you calculate YouTube earnings</strong> accurately, the simplest method relies on your video view count and your channel's RPM metric:
+      </p>
+      <div class="formula-box glass">
+        <strong>Core YouTube Earnings Formula:</strong>
+        <p class="formula-code">Estimated Earnings = (Total Views ÷ 1,000) × RPM</p>
+      </div>
+      <p>
+        For example, if your video receives 100,000 total views and your channel has an average RPM of $4.00, your estimated payout is:
+      </p>
+      <p>
+        <code>(100,000 ÷ 1,000) × $4.00 = 100 × $4.00 = $400.00</code>
+      </p>
+
+      <h2>How to Calculate Earnings From YouTube</h2>
+      <p>
+        To learn <strong>how to calculate earnings from YouTube</strong> using advertiser CPM rates instead of net RPM, you must factor in monetized views and YouTube's 55% revenue split:
+      </p>
+      <ol>
+        <li><strong>Determine Monetized Views:</strong> Not every video view shows an ad. On average, 40% to 70% of total views serve ads. (If a video gets 50,000 views and 60% serve ads, monetized views equal 30,000).</li>
+        <li><strong>Multiply by Advertiser CPM:</strong> Multiply monetized views by the advertiser CPM (e.g., $10.00 CPM).<br />
+        <code>(30,000 ÷ 1,000) × $10.00 = $300.00 Gross Ad Revenue</code>
+        </li>
+        <li><strong>Apply Creator Revenue Split (55%):</strong> YouTube pays you 55% of gross ad revenue.<br />
+        <code>$300.00 × 0.55 = $165.00 Net Creator Revenue</code>
+        </li>
+      </ol>
+
+      <h2>How to Calculate Money Earned From YouTube</h2>
+      <p>
+        When evaluating <strong>how to calculate money earned from YouTube</strong>, creators must distinguish between gross ad spending and net takeaway pay. Here is a breakdown of the revenue pipeline:
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Revenue Stage</th>
+              <th>Metric / Formula</th>
+              <th>Example Calculation ($10 CPM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Gross Ad Spend</strong></td>
+              <td>Advertiser CPM × Monetized Impressions</td>
+              <td>$10.00 per 1,000 monetized views</td>
+            </tr>
+            <tr>
+              <td><strong>YouTube Platform Share</strong></td>
+              <td>45% of Gross Ad Spend</td>
+              <td>$4.50 retained by YouTube</td>
+            </tr>
+            <tr>
+              <td><strong>Creator Net Share</strong></td>
+              <td>55% of Gross Ad Spend (Net RPM)</td>
+              <td><strong>$5.50 paid to creator</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Effective RPM (Total Views)</strong></td>
+              <td>(Net Share × Monetized %)</td>
+              <td>$5.50 × 60% = <strong>$3.30 RPM</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>How to Calculate YouTube Earnings From Views</h2>
+      <p>
+        Knowing <strong>how to calculate YouTube earnings from views</strong> requires understanding how different view tiers scale. Here is a quick reference table showing estimated revenue across common view milestones based on low ($1.50), average ($4.00), and high ($12.00) RPM niches:
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Total Video Views</th>
+              <th>Low RPM Niche ($1.50)</th>
+              <th>Average RPM Niche ($4.00)</th>
+              <th>High RPM Niche ($12.00)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>10,000 Views</strong></td>
+              <td>$15.00</td>
+              <td>$40.00</td>
+              <td>$120.00</td>
+            </tr>
+            <tr>
+              <td><strong>50,000 Views</strong></td>
+              <td>$75.00</td>
+              <td>$200.00</td>
+              <td>$600.00</td>
+            </tr>
+            <tr>
+              <td><strong>100,000 Views</strong></td>
+              <td>$150.00</td>
+              <td>$400.00</td>
+              <td>$1,200.00</td>
+            </tr>
+            <tr>
+              <td><strong>500,000 Views</strong></td>
+              <td>$750.00</td>
+              <td>$2,000.00</td>
+              <td>$6,000.00</td>
+            </tr>
+            <tr>
+              <td><strong>1,000,000 Views (1M)</strong></td>
+              <td>$1,500.00</td>
+              <td>$4,000.00</td>
+              <td>$12,000.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>YouTube RPM vs CPM: What Is the Difference?</h2>
+      <p>
+        The terms RPM and CPM are frequently confused by new creators, but they measure completely different parts of your earnings stream:
+      </p>
+      <ul>
+        <li>
+          <strong>CPM (Cost Per Mille):</strong> The gross amount an advertiser pays to serve 1,000 ad impressions on your video. CPM reflects advertiser demand and niche valuation before YouTube takes its 45% cut. Calculate your channel CPM with our dedicated <a href="/tools/youtube-cpm-calculator">YouTube CPM Calculator</a>.
+        </li>
+        <li>
+          <strong>RPM (Revenue Per Mille):</strong> The actual net revenue a creator earns per 1,000 <em>total</em> video views. RPM includes ad revenue after YouTube's 45% split, plus Channel Memberships, Super Chats, and Premium views. Calculate net RPM with our <a href="/tools/youtube-rpm-calculator">YouTube RPM Calculator</a>.
+        </li>
+      </ul>
+
+      <h2>How Much Does YouTube Pay for 1,000 or 1 Million Views?</h2>
+      <p>
+        On average, YouTube pays creators between <strong>$1.50 and $7.00 per 1,000 views</strong> ($1,500 to $7,000 per million views). However, earnings vary dramatically depending on content type:
+      </p>
+      <ul>
+        <li><strong>Finance, Real Estate & Business:</strong> $10.00 to $25.00+ RPM ($10,000 – $25,000 per million views).</li>
+        <li><strong>Tech, Software & Tutorials:</strong> $6.00 to $14.00 RPM ($6,000 – $14,000 per million views).</li>
+        <li><strong>Lifestyle, Beauty & Fitness:</strong> $3.00 to $7.00 RPM ($3,000 – $7,000 per million views).</li>
+        <li><strong>Gaming, Anime & Entertainment:</strong> $1.50 to $3.50 RPM ($1,500 – $3,500 per million views).</li>
+        <li><strong>YouTube Shorts:</strong> $0.03 to $0.07 RPM ($30 – $70 per million views).</li>
+      </ul>
+
+      <h2>Factors That Affect YouTube Earnings</h2>
+      <p>
+        Several critical variables influence your final monthly AdSense payout:
+      </p>
+      <ol>
+        <li>
+          <strong>Viewer Geography:</strong> Views from top-tier countries (USA, Canada, UK, Australia, Germany) yield significantly higher CPMs than views from lower purchasing power regions.
+        </li>
+        <li>
+          <strong>Video Duration & Mid-roll Ads:</strong> Videos longer than 8 minutes can insert mid-roll ads, doubling or tripling revenue per view compared to 3-minute videos.
+        </li>
+        <li>
+          <strong>Seasonality & Q4 Spikes:</strong> Advertiser spending peaks in Q4 (October through December for holiday shopping), driving CPMs up by 30% to 80%.
+        </li>
+        <li>
+          <strong>Channel Growth & Retention:</strong> Planning channel milestones with our <a href="/tools/youtube-subscriber-growth-calculator">YouTube Subscriber Growth Calculator</a> and auditing watch hours using our <a href="/tools/youtube-watch-time-calculator">YouTube Watch Time Calculator</a> helps build predictable long-term revenue.
+        </li>
+        <li>
+          <strong>CTR & Title Optimizations:</strong> High click-through rates drive more views. Generate viral, high-CTR titles using our <a href="/tools/youtube-clickbait-title-generator">YouTube Clickbait Title Generator</a>.
+        </li>
+      </ol>
+
+      <h2>How to Use the YouTube Earnings Calculator</h2>
+      <p>
+        Our YouTube Earnings Calculator makes forecasting video income simple and transparent:
+      </p>
+      <ol>
+        <li><strong>Choose View Mode:</strong> Select whether you want to calculate based on <em>Monthly Views</em> or <em>Daily Views</em>.</li>
+        <li><strong>Enter Video Views:</strong> Type your average video view count.</li>
+        <li><strong>Select Channel Niche or RPM:</strong> Pick your niche from the preset dropdown or set a custom RPM value.</li>
+        <li><strong>Click Calculate Earnings:</strong> Click <strong>Calculate Earnings</strong> to view daily, monthly, and yearly income ranges.</li>
+      </ol>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/youtube-rpm-calculator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube RPM Calculator</div>
+          <div class="tool-link-desc">Calculate your net Revenue Per Mille (RPM) and track net creator payouts per 1,000 views.</div>
+        </a>
+        <a href="/tools/youtube-cpm-calculator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube CPM Calculator</div>
+          <div class="tool-link-desc">Calculate advertiser Cost Per Mille (CPM) rates and evaluate niche ad revenue potential.</div>
+        </a>
+        <a href="/tools/youtube-watch-time-calculator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Watch Time Calculator</div>
+          <div class="tool-link-desc">Calculate YouTube watch time in hours and track progress toward the 4,000 public watch hours monetization limit.</div>
+        </a>
+        <a href="/tools/youtube-subscriber-growth-calculator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Subscriber Growth Calculator</div>
+          <div class="tool-link-desc">Forecast channel timelines, annual subscriber growth rates, and monetization target dates.</div>
+        </a>
+        <a href="/tools/youtube-clickbait-title-generator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Clickbait Title Generator</div>
+          <div class="tool-link-desc">Generate viral, high-CTR YouTube titles using power words and curiosity gap filters.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Preset Selection Tabs */
+  .tabs-container {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    background: var(--color-bg-alt);
+    padding: 0.35rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+  }
+
+  .preset-tab {
+    flex: 1;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: center;
+  }
+
+  .preset-tab:hover {
+    color: var(--color-text);
+  }
+
+  .preset-tab.active {
+    background: var(--color-brand);
+    color: #ffffff;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Inputs */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .input-label {
+    font-size: 0.925rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .form-input {
+    width: 100%;
+    height: 44px;
+    padding: 0.6rem 0.85rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .select-input {
+    cursor: pointer;
+  }
+
+  .form-input:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .form-range {
+    width: 100%;
+    accent-color: var(--color-brand);
+    cursor: pointer;
+  }
+
+  .range-val-badge {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .input-help-text {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Prominent Main Action Buttons Row */
+  .main-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .calc-btn-primary {
+    flex: 2;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Right Column: Results Panel */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  /* Uncalculated Empty State Card */
+  .empty-state-card {
+    min-height: 360px;
+    padding: 2rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .empty-icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .empty-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .empty-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    max-width: 320px;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Calculated Results Box */
+  .results-display-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  /* Top Revenue Summary Card */
+  .revenue-summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .revenue-period-box {
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .revenue-period-box.highlight-period {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.4);
+  }
+
+  .period-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .period-val {
+    font-size: 1.2rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+  }
+
+  /* 4 Metrics Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-value {
+    font-size: 1.2rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Note Box */
+  .transparency-note-box {
+    padding: 0.9rem 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .note-header-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    color: var(--color-text);
+  }
+
+  .note-desc-text {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .formula-box {
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    margin: 1.25rem 0;
+    border-left: 4px solid var(--color-brand);
+  }
+
+  .formula-code {
+    font-family: monospace;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Mode Switcher Tabs
+    const tabMonthly = document.getElementById('tab-monthly');
+    const tabDaily = document.getElementById('tab-daily');
+    const viewsLabel = document.getElementById('views-label');
+    const viewsInput = document.getElementById('views-input') as HTMLInputElement | null;
+
+    // Inputs
+    const nicheSelect = document.getElementById('niche-select') as HTMLSelectElement | null;
+    const rpmSlider = document.getElementById('rpm-slider') as HTMLInputElement | null;
+    const rpmInput = document.getElementById('rpm-input') as HTMLInputElement | null;
+    const rpmBadge = document.getElementById('rpm-badge');
+    const monetizedSlider = document.getElementById('monetized-slider') as HTMLInputElement | null;
+    const monetizedBadge = document.getElementById('monetized-badge');
+
+    // Buttons
+    const btnSubmit = document.getElementById('calc-submit-btn');
+    const btnReset = document.getElementById('calc-reset-btn');
+
+    // Results Boxes
+    const emptyStateCard = document.getElementById('empty-state-card');
+    const resultsDisplayBox = document.getElementById('results-display-box');
+
+    // Results Text Fields
+    const resDailyRange = document.getElementById('res-daily-range');
+    const resMonthlyRange = document.getElementById('res-monthly-range');
+    const resYearlyRange = document.getElementById('res-yearly-range');
+    const resMonetizedViews = document.getElementById('res-monetized-views');
+    const resAvgRpm = document.getElementById('res-avg-rpm');
+    const resPer1k = document.getElementById('res-per-1k');
+    const resPer1m = document.getElementById('res-per-1m');
+
+    let currentMode: 'monthly' | 'daily' = 'monthly';
+
+    // Switch View Mode
+    if (tabMonthly && tabDaily) {
+      tabMonthly.addEventListener('click', () => {
+        currentMode = 'monthly';
+        tabMonthly.classList.add('active');
+        tabDaily.classList.remove('active');
+        if (viewsLabel) viewsLabel.textContent = 'Total Monthly Video Views';
+        if (viewsInput && (viewsInput.value === '1666' || viewsInput.value === '1670')) {
+          viewsInput.value = '50000';
+        }
+      });
+
+      tabDaily.addEventListener('click', () => {
+        currentMode = 'daily';
+        tabDaily.classList.add('active');
+        tabMonthly.classList.remove('active');
+        if (viewsLabel) viewsLabel.textContent = 'Total Daily Video Views';
+        if (viewsInput && viewsInput.value === '50000') {
+          viewsInput.value = '1670';
+        }
+      });
+    }
+
+    // Niche Preset Selector Handler
+    if (nicheSelect) {
+      nicheSelect.addEventListener('change', () => {
+        const val = nicheSelect.value;
+        if (val !== 'custom') {
+          const numVal = parseFloat(val);
+          if (rpmSlider) rpmSlider.value = numVal.toString();
+          if (rpmInput) rpmInput.value = numVal.toFixed(2);
+          if (rpmBadge) rpmBadge.textContent = `$${numVal.toFixed(2)}`;
+        }
+      });
+    }
+
+    // RPM Slider Handler
+    if (rpmSlider && rpmInput && rpmBadge) {
+      rpmSlider.addEventListener('input', () => {
+        const val = parseFloat(rpmSlider.value);
+        rpmInput.value = val.toFixed(2);
+        rpmBadge.textContent = `$${val.toFixed(2)}`;
+        if (nicheSelect) nicheSelect.value = 'custom';
+      });
+
+      rpmInput.addEventListener('input', () => {
+        const val = parseFloat(rpmInput.value) || 0;
+        rpmSlider.value = val.toString();
+        rpmBadge.textContent = `$${val.toFixed(2)}`;
+        if (nicheSelect) nicheSelect.value = 'custom';
+      });
+    }
+
+    // Monetized Slider Handler
+    if (monetizedSlider && monetizedBadge) {
+      monetizedSlider.addEventListener('input', () => {
+        monetizedBadge.textContent = `${monetizedSlider.value}%`;
+      });
+    }
+
+    // Core Calculation Logic
+    function performCalculation() {
+      if (!viewsInput || !rpmInput || !monetizedSlider) return;
+
+      const viewsVal = Math.max(0, parseFloat(viewsInput.value) || 0);
+      const rpmVal = Math.max(0, parseFloat(rpmInput.value) || 0);
+      const monetizedPctVal = Math.max(10, Math.min(100, parseFloat(monetizedSlider.value) || 60)) / 100;
+
+      // Calculate total monthly and daily views
+      let monthlyViews = 0;
+      let dailyViews = 0;
+
+      if (currentMode === 'monthly') {
+        monthlyViews = viewsVal;
+        dailyViews = viewsVal / 30.4167;
+      } else {
+        dailyViews = viewsVal;
+        monthlyViews = viewsVal * 30.4167;
+      }
+
+      const yearlyViews = monthlyViews * 12;
+
+      // Base net RPM revenue calculation
+      const baseMonthlyEarnings = (monthlyViews / 1000) * rpmVal;
+      const baseDailyEarnings = (dailyViews / 1000) * rpmVal;
+      const baseYearlyEarnings = (yearlyViews / 1000) * rpmVal;
+
+      // Range estimate: Low (-20%) to High (+25%) variance for realism
+      const lowMonthly = baseMonthlyEarnings * 0.80;
+      const highMonthly = baseMonthlyEarnings * 1.25;
+
+      const lowDaily = baseDailyEarnings * 0.80;
+      const highDaily = baseDailyEarnings * 1.25;
+
+      const lowYearly = baseYearlyEarnings * 0.80;
+      const highYearly = baseYearlyEarnings * 1.25;
+
+      // Monetized Views Count
+      const monetizedViewsCount = Math.round(monthlyViews * monetizedPctVal);
+
+      // Revenue per 1K and per 1M total views
+      const payPer1k = rpmVal;
+      const payPer1m = rpmVal * 1000;
+
+      // Currency Formatter
+      const fmtCurr = (num: number) => `$${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      const fmtNum = (num: number) => Math.round(num).toLocaleString('en-US');
+
+      // Update UI Text Elements
+      if (resDailyRange) resDailyRange.textContent = `${fmtCurr(lowDaily)} – ${fmtCurr(highDaily)}`;
+      if (resMonthlyRange) resMonthlyRange.textContent = `${fmtCurr(lowMonthly)} – ${fmtCurr(highMonthly)}`;
+      if (resYearlyRange) resYearlyRange.textContent = `${fmtCurr(lowYearly)} – ${fmtCurr(highYearly)}`;
+      
+      if (resMonetizedViews) resMonetizedViews.textContent = fmtNum(monetizedViewsCount);
+      if (resAvgRpm) resAvgRpm.textContent = fmtCurr(rpmVal);
+      if (resPer1k) resPer1k.textContent = fmtCurr(payPer1k);
+      if (resPer1m) resPer1m.textContent = fmtCurr(payPer1m);
+
+      // Reveal Results Display Panel
+      if (emptyStateCard) emptyStateCard.style.display = 'none';
+      if (resultsDisplayBox) {
+        resultsDisplayBox.style.display = 'flex';
+        // Auto-scroll on mobile devices
+        if (window.innerWidth < 992) {
+          resultsDisplayBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+
+    // Attach Submit Button Handler
+    if (btnSubmit) {
+      btnSubmit.addEventListener('click', performCalculation);
+    }
+
+    // Attach Reset Button Handler
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        if (viewsInput) viewsInput.value = currentMode === 'monthly' ? '50000' : '1670';
+        if (nicheSelect) nicheSelect.value = '3.50';
+        if (rpmSlider) rpmSlider.value = '3.50';
+        if (rpmInput) rpmInput.value = '3.50';
+        if (rpmBadge) rpmBadge.textContent = '$3.50';
+        if (monetizedSlider) monetizedSlider.value = '60';
+        if (monetizedBadge) monetizedBadge.textContent = '60%';
+
+        if (resultsDisplayBox) resultsDisplayBox.style.display = 'none';
+        if (emptyStateCard) emptyStateCard.style.display = 'flex';
+      });
+    }
+  });
+</script>
