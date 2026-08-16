@@ -1,0 +1,963 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "Why does Instagram delete line breaks in my captions?",
+    answer: "Instagram's mobile app automatically strips empty lines and trailing whitespace when publishing captions. Using an Instagram Caption Formatter inserts invisible Unicode spaces (U+2800) between paragraphs so your line breaks stay perfectly intact."
+  },
+  {
+    question: "How do I format an Instagram caption without using periods or dots?",
+    answer: "Our Instagram Caption Formatter automatically converts empty lines into clean, invisible paragraph breaks. Simply click 'Clean Line Breaks' to format your text without needing clumsy dots (.), dashes (-), or symbols between paragraphs."
+  },
+  {
+    question: "What is the character limit for Instagram captions?",
+    answer: "Instagram allows up to 2,200 characters per caption. However, mobile feeds truncate captions after the first 125 characters, hiding the rest behind a '...more' button. It's best to put your strongest hook in the first 125 characters."
+  },
+  {
+    question: "How many hashtags can I include in an Instagram caption?",
+    answer: "Instagram permits a maximum of 30 hashtags per post. Current algorithm best practices recommend using 3 to 5 highly specific, relevant hashtags to help Instagram categorize your content."
+  },
+  {
+    question: "Can I use bold and italic text in Instagram captions?",
+    answer: "Yes! While Instagram doesn't offer native formatting tools, our caption formatter uses official Unicode mathematical alphanumeric symbols to convert plain text into bold, italic, or script styles that paste cleanly into Instagram."
+  },
+  {
+    question: "Will formatted captions affect my reach or post engagement?",
+    answer: "Formatted captions improve readability, increase watch and dwell time, and encourage users to click '...more'. Clear visual structure with hooks, bullet points, and clean spacing directly boosts engagement signals."
+  }
+];
+---
+
+<ToolLayout
+  title="Instagram Caption Formatter - Clean Line Breaks, Spacing & Fonts"
+  description="Free Instagram Caption Formatter. Format Instagram captions with clean line breaks, invisible spacing, bold hooks, bullet lists, feed fold preview, and 2,200 character audit."
+  toolName="Instagram Caption Formatter"
+  toolDescription="Format Instagram captions with clean invisible line breaks, bold hooks, bullet symbols, mobile feed crop preview, and 2,200 character limit audit."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: Input Editor & Action Buttons -->
+      <form class="calc-form" id="formatter-form" onsubmit="return false;">
+        <div class="form-group">
+          <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem;">
+            <label for="caption-input" class="input-label" style="margin: 0;">Write or Paste Your Instagram Caption</label>
+            
+            <!-- Quick Format Actions Toolbar -->
+            <div class="format-toolbar" style="display: flex; gap: 0.25rem; flex-wrap: wrap;">
+              <button type="button" class="format-btn" id="btn-clean-breaks" title="Insert invisible line breaks">Clean Line Breaks</button>
+              <button type="button" class="format-btn" id="btn-bold-hook" title="Convert first line to bold">Bold Hook</button>
+              <button type="button" class="format-btn" id="btn-dot-line" title="Add dot line before hashtags">Add Dot Line</button>
+              <button type="button" class="format-btn" id="btn-move-hashtags" title="Shift hashtags to bottom">Move Hashtags Down</button>
+            </div>
+          </div>
+          <textarea 
+            id="caption-input" 
+            class="editor-textarea" 
+            placeholder="Type or paste your Instagram caption here..."
+            rows="8"
+          >Want to grow your Instagram reach in 2026? 🚀
+
+Here are 3 simple tips that work:
+
+1. Post high-retention Reels
+2. Write structured captions
+3. Engage daily with your niche
+
+Save this post for later! ✨
+#instagramtips #contentcreator #growth</textarea>
+        </div>
+
+        <!-- Bullet Symbols Quick Inserter Bar -->
+        <div class="symbols-toolbar">
+          <span class="symbols-label">Insert Bullet Symbol:</span>
+          <div class="symbols-pills">
+            <button type="button" class="symbol-btn" data-symbol="•">• Bullet</button>
+            <button type="button" class="symbol-btn" data-symbol="▶">▶ Arrow</button>
+            <button type="button" class="symbol-btn" data-symbol="✓">✓ Check</button>
+            <button type="button" class="symbol-btn" data-symbol="👉">👉 Point</button>
+            <button type="button" class="symbol-btn" data-symbol="✨">✨ Sparkle</button>
+            <button type="button" class="symbol-btn" data-symbol="📌">📌 Pin</button>
+            <button type="button" class="symbol-btn" data-symbol="💡">💡 Idea</button>
+            <button type="button" class="symbol-btn" data-symbol="⚡">⚡ Bolt</button>
+          </div>
+        </div>
+
+        <!-- Prominent Main Action Buttons Row -->
+        <div class="main-actions-row">
+          <button type="button" id="btn-copy-caption" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+            </svg>
+            <span id="copy-btn-text">Copy Formatted Caption</span>
+          </button>
+          <button type="button" id="btn-clear-caption" class="calc-btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+            </svg>
+            Clear All
+          </button>
+        </div>
+      </form>
+
+      <!-- Right Column: Mobile Feed Fold Preview & Audit -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- Live Mobile Feed Fold Preview Card -->
+        <div class="feed-preview-card">
+          <div class="feed-card-header">
+            <div class="user-avatar-placeholder"></div>
+            <div class="user-meta">
+              <strong class="user-handle">your_username</strong>
+              <span class="user-sub">Instagram Feed Preview</span>
+            </div>
+          </div>
+          <div class="feed-card-body">
+            <div class="feed-text-preview" id="feed-text-preview">
+              <!-- Dynamically populated JS preview showing visible hook vs truncated text -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Audit Metric Cards Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-value" id="res-char-count">0 / 2,200</span>
+            <span class="metric-label">Character Count</span>
+            <span class="metric-sub" id="res-char-status">2,200 Allowed</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="res-fold-status">Safe</span>
+            <span class="metric-label">Mobile Feed Fold</span>
+            <span class="metric-sub text-muted">First 125 chars</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="res-tag-count">0 / 30</span>
+            <span class="metric-label">Hashtag Count</span>
+            <span class="metric-sub" id="res-tag-status">Max 30 Tags</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="res-words-lines">0 w / 0 l</span>
+            <span class="metric-label">Words & Lines</span>
+            <span class="metric-sub text-muted">Paragraph structure</span>
+          </div>
+        </div>
+
+        <!-- Invisible Spacing Transparency Box -->
+        <div class="transparency-note-box">
+          <div class="note-header-row">
+            <span>💡</span>
+            <strong>Automatic Invisible Spacing (U+2800)</strong>
+          </div>
+          <p class="note-desc-text">
+            When you click <strong>Copy Formatted Caption</strong>, our engine automatically replaces collapsing empty lines with invisible Unicode Braille spaces (U+2800). Your line breaks will paste cleanly on Instagram iOS & Android without needing dots or symbols.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is an Instagram Caption Formatter?</h2>
+      <p>
+        An <strong>Instagram Caption Formatter</strong> is a specialized writing and optimization tool designed to solve one of the most frustrating challenges social media creators face: Instagram stripping line breaks, collapsing paragraphs, and messing up caption layout when publishing posts.
+      </p>
+      <p>
+        By using an <strong>Instagram caption formatting</strong> tool, creators can draft, structure, bold hooks, insert bullet lists, relocate hashtags, and add clean invisible line breaks without needing clumsy periods (<code>.</code>), dashes, or extra emojis between paragraphs.
+      </p>
+
+      <h2>Why Instagram Caption Formatting Matters for Engagement</h2>
+      <p>
+        Captions are no longer an afterthought on Instagram—they are a core driver of post reach, dwell time, and user engagement:
+      </p>
+      <ul>
+        <li><strong>Increases Dwell Time:</strong> Dwell time (the duration a user spends reading your post on their screen) is a primary ranking signal for Instagram's recommendation algorithm. Structured, readable captions keep users engaged longer.</li>
+        <li><strong>Drives Feed Clicks:</strong> Instagram crops captions in the main home feed after the first 125 characters. A formatted opening hook entices users to tap <em>"...more"</em>.</li>
+        <li><strong>Improves Scanning & Accessibility:</strong> Bullet points, bold headers, and clean paragraph breaks make long-form storytelling effortless to read on mobile screens.</li>
+      </ul>
+
+      <h2>How to Add Line Breaks to Instagram Captions Without Dots</h2>
+      <p>
+        Historically, creators inserted periods or dashes on empty lines to prevent Instagram from deleting paragraph breaks. Today, you can achieve 100% clean <strong>Instagram caption spacing</strong> using invisible Unicode characters:
+      </p>
+      <ol>
+        <li><strong>The U+2800 Invisible Space:</strong> Unicode contains a Braille Pattern Blank symbol (<code>U+2800</code>) that renders as a completely transparent character.</li>
+        <li><strong>Automatic Formatting:</strong> When you process your text with our <strong>Instagram caption line breaks</strong> engine, empty lines are filled with invisible characters automatically.</li>
+        <li><strong>Seamless Copy & Paste:</strong> Click <strong>Copy Formatted Caption</strong> and paste directly into Instagram. Your paragraph breaks will render cleanly without dots or clutter.</li>
+      </ol>
+
+      <h2>How to Format Instagram Captions Step-by-Step</h2>
+      <p>
+        Follow these four steps to create high-converting <strong>Instagram caption text formatting</strong> for your profile:
+      </p>
+      <ol>
+        <li><strong>Craft a Strong 125-Character Hook:</strong> Place your primary offer or curiosity gap in the first line. Click <em>Bold Hook</em> to convert the opening sentence into bold Unicode text.</li>
+        <li><strong>Structure Body Paragraphs:</strong> Keep paragraphs short (2-3 sentences max). Click the bullet symbols toolbar to insert checkmarks (<code>✓</code>), arrows (<code>▶</code>), or sparkles (<code>✨</code>).</li>
+        <li><strong>Relocate Hashtags:</strong> Click <em>Move Hashtags Down</em> to automatically isolate your hashtags at the bottom of your post.</li>
+        <li><strong>Copy & Publish:</strong> Audit your character and hashtag limits on our right-hand panel, click <strong>Copy Formatted Caption</strong>, and paste into Instagram.</li>
+      </ol>
+
+      <h2>Understanding Instagram's 125-Character Mobile Feed Fold</h2>
+      <p>
+        When users scroll through their Instagram home feed or Explore page, Instagram displays only the first 125 characters of your caption alongside your username before adding a <code>...more</code> link.
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Caption Section</th>
+              <th>Character Range</th>
+              <th>Formatting Best Practice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Primary Hook (Above Fold)</strong></td>
+              <td>0 – 125 Characters</td>
+              <td>Bold Unicode text, strong call-to-action or intrigue query</td>
+            </tr>
+            <tr>
+              <td><strong>Body Content (Below Fold)</strong></td>
+              <td>126 – 1,800 Characters</td>
+              <td>Clean line breaks, bullet lists, short readable paragraphs</td>
+            </tr>
+            <tr>
+              <td><strong>Call-to-Action & Hashtags</strong></td>
+              <td>1,801 – 2,200 Characters</td>
+              <td>Isolated at the bottom preceded by invisible line spacing</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Best Practices for Structuring Instagram Captions</h2>
+      <p>
+        To maximize engagement across long-form captions and Reels descriptions, implement these tested copywriting structures:
+      </p>
+      <ul>
+        <li><strong>Use Bold Opening Headlines:</strong> Convert key phrases or hook lines to bold Unicode fonts to catch mobile scrollers instantly.</li>
+        <li><strong>Limit Paragraphs to 3 Lines:</strong> Dense walls of text cause mobile users to scroll past. Break copy into bite-sized 2-line blocks.</li>
+        <li><strong>Include a Clear Call-to-Action (CTA):</strong> Prompt viewers to <em>"Save this post"</em>, <em>"Share with a friend"</em>, or <em>"Comment below"</em>.</li>
+      </ul>
+
+      <h2>How to Style Bold and Italic Fonts in Instagram Captions</h2>
+      <p>
+        Standard mobile keyboards do not offer rich text formatting (like Ctrl+B or Ctrl+I) for Instagram captions. Our tool bridges this gap using <strong>Mathematical Alphanumeric Symbols</strong>:
+      </p>
+      <p>
+        When you select words and apply formatting, characters convert into mathematical bold (<code>𝗕𝗼𝗹𝗱</code>) or italic (<code>𝙄𝙩𝙖𝙡𝙞𝙘</code>) Unicode symbols supported natively by iOS and Android browsers. For custom bio and display name styles, explore our dedicated <a href="/tools/instagram-font-generator">Instagram Font Generator</a>.
+      </p>
+
+      <h2>Common Instagram Caption Formatting Mistakes to Avoid</h2>
+      <ul>
+        <li><strong>Forgetting Mobile Truncation:</strong> Putting critical links or CTAs after character 125 where users never see them.</li>
+        <li><strong>Exceeding 30 Hashtags:</strong> Including 31+ hashtags causes Instagram to silently block your caption from posting. Audit hashtag counts using our <a href="/tools/instagram-hashtag-counter">Instagram Hashtag Counter</a>.</li>
+        <li><strong>Using Cluttered Dots:</strong> Using old-fashioned dot lines (<code>. . .</code>) that look unpolished and amateurish.</li>
+      </ul>
+
+      <h2>How to Use Hashtags Effectively in Formatted Captions</h2>
+      <p>
+        Current Instagram SEO guidelines emphasize placing relevant hashtags cleanly at the bottom of the caption or in the first comment. Isolating hashtags below invisible line breaks keeps your main story clean while ensuring Instagram's search indexers index your targeted keywords.
+      </p>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/instagram-caption-character-counter" class="tool-link-card glass">
+          <div class="tool-link-title">Instagram Caption Character Counter</div>
+          <div class="tool-link-desc">Verify the 2,200 character limit, track hashtag counts, and preview mobile feed crops in real-time.</div>
+        </a>
+        <a href="/tools/instagram-bio-character-counter" class="tool-link-card glass">
+          <div class="tool-link-title">Instagram Bio Character Counter</div>
+          <div class="tool-link-desc">Audit your 150-character Instagram bio limit, line breaks, link counts, and emoji usage.</div>
+        </a>
+        <a href="/tools/instagram-font-generator" class="tool-link-card glass">
+          <div class="tool-link-title">Instagram Font Generator</div>
+          <div class="tool-link-desc">Convert normal text into 25+ cool, fancy, and stylish Unicode fonts for Instagram bios and captions.</div>
+        </a>
+        <a href="/tools/instagram-line-break-generator" class="tool-link-card glass">
+          <div class="tool-link-title">Instagram Line Break Generator</div>
+          <div class="tool-link-desc">Add clean, invisible U+2800 line breaks and paragraph spacing to Instagram captions.</div>
+        </a>
+        <a href="/tools/instagram-hashtag-counter" class="tool-link-card glass">
+          <div class="tool-link-title">Instagram Hashtag Counter</div>
+          <div class="tool-link-desc">Count hashtags, detect banned tags, and optimize your 30-hashtag limit for maximum reach.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Editor */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .input-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .editor-textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 1rem;
+    font-family: var(--font-body);
+    font-size: 0.975rem;
+    line-height: 1.55;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .editor-textarea:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .format-btn {
+    padding: 0.25rem 0.55rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .format-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  /* Bullet Symbols Inserter Bar */
+  .symbols-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .symbols-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .symbols-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .symbol-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .symbol-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.08);
+  }
+
+  /* Prominent Main Action Buttons Row */
+  .main-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .calc-btn-primary {
+    flex: 2;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Right Column: Feed Fold Preview & Audit Results */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Live Mobile Feed Fold Preview Card */
+  .feed-preview-card {
+    padding: 1rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .feed-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .user-avatar-placeholder {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--gradient-brand);
+  }
+
+  .user-meta {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-handle {
+    font-size: 0.85rem;
+    color: var(--color-text);
+  }
+
+  .user-sub {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+
+  .feed-card-body {
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: var(--color-text);
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+
+  .hook-highlight {
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .fold-truncate-more {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    cursor: pointer;
+  }
+
+  /* 4 Metrics Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Transparency Note Box */
+  .transparency-note-box {
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .note-header-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--color-text);
+  }
+
+  .note-desc-text {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const captionInput = document.getElementById('caption-input') as HTMLTextAreaElement | null;
+    const feedTextPreview = document.getElementById('feed-text-preview');
+
+    // Action buttons
+    const btnCleanBreaks = document.getElementById('btn-clean-breaks');
+    const btnBoldHook = document.getElementById('btn-bold-hook');
+    const btnDotLine = document.getElementById('btn-dot-line');
+    const btnMoveHashtags = document.getElementById('btn-move-hashtags');
+
+    // Bullet Symbol Buttons
+    const symbolBtns = document.querySelectorAll('.symbol-btn');
+
+    // Copy & Clear Buttons
+    const btnCopy = document.getElementById('btn-copy-caption');
+    const copyBtnText = document.getElementById('copy-btn-text');
+    const btnClear = document.getElementById('btn-clear-caption');
+
+    // Metric Displays
+    const resCharCount = document.getElementById('res-char-count');
+    const resCharStatus = document.getElementById('res-char-status');
+    const resFoldStatus = document.getElementById('res-fold-status');
+    const resTagCount = document.getElementById('res-tag-count');
+    const resTagStatus = document.getElementById('res-tag-status');
+    const resWordsLines = document.getElementById('res-words-lines');
+
+    if (!captionInput) return;
+
+    // Convert string to Bold Unicode
+    function toBoldUnicode(str: string): string {
+      return str.split('').map(ch => {
+        const code = ch.charCodeAt(0);
+        if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D5D4 + (code - 65));
+        if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D5EE + (code - 97));
+        if (code >= 48 && code <= 57) return String.fromCodePoint(0x1D7EC + (code - 48));
+        return ch;
+      }).join('');
+    }
+
+    // Process Caption Formatting & Invisible Line Breaks (U+2800)
+    function getFormattedCaptionText(): string {
+      if (!captionInput) return '';
+      const lines = captionInput.value.split('\n');
+      
+      // Replace empty lines with U+2800 (Braille Pattern Blank)
+      return lines.map(line => {
+        const trimmed = line.trim();
+        return trimmed === '' ? '\u2800' : trimmed;
+      }).join('\n');
+    }
+
+    // Audit & Update Metrics
+    function auditCaption() {
+      if (!captionInput) return;
+      const text = captionInput.value;
+      const charLength = text.length;
+
+      // Hashtag extraction
+      const hashtags = text.match(/#[a-zA-Z0-9_\u0080-\uFFFF]+/g) || [];
+      const hashtagCount = hashtags.length;
+
+      // Word & Line count
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      const lines = text.split('\n').length;
+
+      // Update Character Count
+      if (resCharCount) resCharCount.textContent = `${charLength.toLocaleString()} / 2,200`;
+      if (resCharStatus) {
+        if (charLength > 2200) {
+          resCharStatus.textContent = `${(charLength - 2200).toLocaleString()} Over Limit!`;
+          resCharStatus.style.color = 'var(--color-danger, #ef4444)';
+        } else {
+          resCharStatus.textContent = `${(2200 - charLength).toLocaleString()} Left`;
+          resCharStatus.style.color = 'var(--color-text-muted)';
+        }
+      }
+
+      // Update Mobile Feed Fold Status (First 125 Chars)
+      const foldCropLength = 125;
+      if (resFoldStatus) {
+        if (charLength <= foldCropLength) {
+          resFoldStatus.textContent = 'Safe';
+          resFoldStatus.style.color = 'var(--color-brand)';
+        } else {
+          resFoldStatus.textContent = 'Truncated';
+          resFoldStatus.style.color = 'var(--color-warning, #f59e0b)';
+        }
+      }
+
+      // Update Hashtags Count
+      if (resTagCount) resTagCount.textContent = `${hashtagCount} / 30`;
+      if (resTagStatus) {
+        if (hashtagCount > 30) {
+          resTagStatus.textContent = `${hashtagCount - 30} Tags Over Limit!`;
+          resTagStatus.style.color = 'var(--color-danger, #ef4444)';
+        } else {
+          resTagStatus.textContent = 'Max 30 Allowed';
+          resTagStatus.style.color = 'var(--color-text-muted)';
+        }
+      }
+
+      // Update Words & Lines
+      if (resWordsLines) resWordsLines.textContent = `${words} w / ${lines} l`;
+
+      // Update Mobile Feed Preview Box
+      if (feedTextPreview) {
+        if (!text.trim()) {
+          feedTextPreview.innerHTML = '<span class="text-muted" style="font-style: italic;">Caption preview will appear here...</span>';
+        } else if (charLength <= foldCropLength) {
+          feedTextPreview.textContent = text;
+        } else {
+          const visibleHook = text.slice(0, foldCropLength);
+          const hiddenBody = text.slice(foldCropLength);
+          feedTextPreview.innerHTML = `<span class="hook-highlight">${escapeHtml(visibleHook)}</span><span class="fold-truncate-more">...more</span>`;
+        }
+      }
+    }
+
+    function escapeHtml(str: string): string {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Event Listener on Textarea Input
+    ['input', 'change', 'keyup'].forEach(evt => {
+      captionInput.addEventListener(evt, auditCaption);
+    });
+
+    // Toolbar 1: Clean Line Breaks
+    if (btnCleanBreaks) {
+      btnCleanBreaks.addEventListener('click', () => {
+        captionInput.value = captionInput.value
+          .split('\n')
+          .map(line => line.replace(/[ \t]+/g, ' ').trim())
+          .join('\n');
+        auditCaption();
+      });
+    }
+
+    // Toolbar 2: Bold Hook (First Line)
+    if (btnBoldHook) {
+      btnBoldHook.addEventListener('click', () => {
+        const lines = captionInput.value.split('\n');
+        if (lines.length > 0 && lines[0].trim() !== '') {
+          lines[0] = toBoldUnicode(lines[0]);
+          captionInput.value = lines.join('\n');
+          auditCaption();
+        }
+      });
+    }
+
+    // Toolbar 3: Add Dot Line Before Hashtags
+    if (btnDotLine) {
+      btnDotLine.addEventListener('click', () => {
+        const text = captionInput.value;
+        const hashtagIndex = text.search(/#[a-zA-Z0-9_]+/);
+        if (hashtagIndex !== -1) {
+          const body = text.substring(0, hashtagIndex).trimEnd();
+          const tags = text.substring(hashtagIndex).trimStart();
+          captionInput.value = `${body}\n.\n.\n.\n${tags}`;
+        } else {
+          captionInput.value = `${text.trimEnd()}\n.\n.\n.`;
+        }
+        auditCaption();
+      });
+    }
+
+    // Toolbar 4: Move Hashtags to Bottom
+    if (btnMoveHashtags) {
+      btnMoveHashtags.addEventListener('click', () => {
+        const text = captionInput.value;
+        const hashtags = text.match(/#[a-zA-Z0-9_\u0080-\uFFFF]+/g) || [];
+        if (hashtags.length === 0) return;
+
+        // Remove hashtags from body
+        let cleanBody = text.replace(/#[a-zA-Z0-9_\u0080-\uFFFF]+/g, '').replace(/\n\s*\n\s*\n/g, '\n\n').trim();
+        captionInput.value = `${cleanBody}\n\n${hashtags.join(' ')}`;
+        auditCaption();
+      });
+    }
+
+    // Bullet Symbol Inserter Buttons
+    symbolBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const symbol = btn.getAttribute('data-symbol');
+        if (!symbol || !captionInput) return;
+
+        const start = captionInput.selectionStart;
+        const end = captionInput.selectionEnd;
+        const text = captionInput.value;
+
+        captionInput.value = text.substring(0, start) + `${symbol} ` + text.substring(end);
+        captionInput.selectionStart = captionInput.selectionEnd = start + symbol.length + 1;
+        captionInput.focus();
+        auditCaption();
+      });
+    });
+
+    // Copy Formatted Caption Handler (with U+2800 invisible line breaks)
+    if (btnCopy) {
+      btnCopy.addEventListener('click', () => {
+        const formatted = getFormattedCaptionText();
+        navigator.clipboard.writeText(formatted).then(() => {
+          if (copyBtnText) copyBtnText.textContent = 'Copied!';
+          setTimeout(() => {
+            if (copyBtnText) copyBtnText.textContent = 'Copy Formatted Caption';
+          }, 2000);
+        }).catch(() => {
+          const textarea = document.createElement('textarea');
+          textarea.value = formatted;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          if (copyBtnText) copyBtnText.textContent = 'Copied!';
+          setTimeout(() => {
+            if (copyBtnText) copyBtnText.textContent = 'Copy Formatted Caption';
+          }, 2000);
+        });
+      });
+    }
+
+    // Clear All Handler
+    if (btnClear) {
+      btnClear.addEventListener('click', () => {
+        captionInput.value = '';
+        auditCaption();
+        captionInput.focus();
+      });
+    }
+
+    // Initial Audit
+    auditCaption();
+  });
+</script>

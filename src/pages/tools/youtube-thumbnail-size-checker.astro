@@ -1,0 +1,1038 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the official YouTube thumbnail size and resolution?",
+    answer: "The recommended YouTube thumbnail size is 1280 x 720 pixels, with a minimum width of 640 pixels. High-resolution 1280x720 thumbnails ensure your image remains crisp on retina desktop displays and smart TVs."
+  },
+  {
+    question: "What is the correct aspect ratio for YouTube thumbnails?",
+    answer: "YouTube uses a 16:9 aspect ratio for all video player embeds, home feeds, and mobile search results. Creating thumbnails in 16:9 prevents awkward black letterbox bars on the sides."
+  },
+  {
+    question: "What is the maximum file size for a YouTube thumbnail?",
+    answer: "YouTube limits thumbnail file uploads to a maximum of 2 MB (2,048 KB). If your thumbnail file size exceeds 2 MB, YouTube will reject the upload until you compress the image."
+  },
+  {
+    question: "Which image formats does YouTube accept for custom thumbnails?",
+    answer: "YouTube accepts custom video thumbnails in JPG, PNG, WEBP, and GIF image formats. PNG provides the highest graphic quality, while JPG and WEBP offer smaller file sizes for fast loading."
+  },
+  {
+    question: "What is the timestamp safe zone on YouTube thumbnails?",
+    answer: "YouTube displays a black video duration timestamp badge (e.g. '12:45') in the bottom-right corner of video thumbnails across mobile feeds and search results. Avoid placing key text or faces in the bottom-right 15% of your thumbnail."
+  },
+  {
+    question: "Why does my YouTube thumbnail look blurry on mobile or desktop?",
+    answer: "Blurry thumbnails occur when an image is saved below the minimum 640px width requirement or saved with heavy lossy JPEG compression. Saving your thumbnail at 1280x720 in PNG or high-quality JPG preserves sharp details."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube Thumbnail Size Checker - Check Dimensions, Aspect Ratio & Size"
+  description="Free YouTube Thumbnail Size Checker. Upload your video thumbnail to audit 1280x720 dimensions, 16:9 aspect ratio, 2 MB file size limit, and timestamp overlay safe zones."
+  toolName="YouTube Thumbnail Size Checker"
+  toolDescription="Check YouTube thumbnail dimensions, 16:9 aspect ratio, 2 MB size limit, and preview timestamp safe zones in real time."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: Image Upload & Dropzone -->
+      <div class="calc-form">
+        
+        <!-- Drag & Drop Zone Container -->
+        <div class="dropzone-wrap" id="dropzone">
+          <input type="file" id="file-input" class="file-input-hidden" accept="image/png, image/jpeg, image/webp, image/gif" />
+          
+          <div class="dropzone-content" id="dropzone-prompt">
+            <div class="upload-icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="upload-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+              </svg>
+            </div>
+            <strong class="dropzone-title">Drag & Drop Thumbnail Here</strong>
+            <p class="dropzone-desc">or <span class="browse-link">browse image file</span> from your device</p>
+            <span class="file-types-badge">PNG, JPG, WEBP, GIF • Max 2 MB</span>
+          </div>
+
+          <!-- Uploaded Image Thumbnail Preview Box -->
+          <div class="image-loaded-preview" id="image-loaded-preview" style="display: none;">
+            <img id="loaded-img-element" class="preview-img-thumbnail" alt="Uploaded Thumbnail Preview" />
+            <div class="image-meta-bar">
+              <span class="loaded-filename" id="loaded-filename">filename.png</span>
+              <button type="button" class="btn-change-image" id="btn-change-image">Check Another Image</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Official Guidelines Quick Ref Box -->
+        <div class="guidelines-ref-box">
+          <strong class="guidelines-title">YouTube Official Standards</strong>
+          <ul class="guidelines-list">
+            <li><strong>Ideal Dimensions:</strong> 1280 x 720 pixels</li>
+            <li><strong>Minimum Width:</strong> 640 pixels</li>
+            <li><strong>Aspect Ratio:</strong> 16:9 (Standard widescreen)</li>
+            <li><strong>Max File Size:</strong> 2.0 MB (2,048 KB)</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Audit Results & Safe Zone Mockup -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- Uncalculated Placeholder Empty State -->
+        <div class="empty-state-card" id="empty-state-card">
+          <div class="empty-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="empty-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+            </svg>
+          </div>
+          <strong class="empty-title">Waiting for Image Upload</strong>
+          <p class="empty-desc">Drag and drop or select a YouTube thumbnail on the left to run an instant audit of dimensions, 16:9 aspect ratio, file size, and timestamp safe zones.</p>
+        </div>
+
+        <!-- Calculated Audit Results (Hidden before upload) -->
+        <div class="results-display-box" id="results-display-box" style="display: none;">
+          
+          <!-- Verdict Status Banner -->
+          <div class="verdict-banner" id="verdict-banner">
+            <span class="verdict-icon" id="verdict-icon">✅</span>
+            <div class="verdict-text-wrap">
+              <strong class="verdict-title" id="verdict-title">Perfect YouTube Thumbnail Sizing!</strong>
+              <span class="verdict-desc" id="verdict-desc">Your thumbnail matches all YouTube 1280x720, 16:9, and 2 MB upload specifications.</span>
+            </div>
+          </div>
+
+          <!-- 4 Key Audit Metric Cards -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-value" id="res-dimensions">0 x 0</span>
+              <span class="metric-label">Dimensions (W x H)</span>
+              <span class="metric-sub" id="res-dimensions-sub">1280x720 Ideal</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-ratio">16:9</span>
+              <span class="metric-label">Aspect Ratio</span>
+              <span class="metric-sub" id="res-ratio-sub">16:9 Standard</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-file-size">0 KB</span>
+              <span class="metric-label">File Size</span>
+              <span class="metric-sub" id="res-file-size-sub">Max 2.0 MB</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-format">PNG</span>
+              <span class="metric-label">File Format</span>
+              <span class="metric-sub text-muted">Image Format</span>
+            </div>
+          </div>
+
+          <!-- YouTube Feed Timestamp Safe Zone Mockup -->
+          <div class="timestamp-mockup-card">
+            <div class="mockup-header-row">
+              <span class="mockup-title">YouTube Feed Overlay Safe Zone Test</span>
+              <span class="mockup-badge">Live Feed Overlay</span>
+            </div>
+            
+            <div class="mockup-stage">
+              <img id="mockup-img-element" class="mockup-img" alt="Feed Overlay Preview" />
+              <!-- Bottom Right Timestamp Overlay Badge -->
+              <div class="youtube-timestamp-overlay">12:45</div>
+            </div>
+            <p class="mockup-help-text">
+              <strong>Safe Zone Check:</strong> Ensure crucial faces, branding, or text in your thumbnail are not obscured by the bottom-right <strong>12:45</strong> video duration badge.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is a YouTube Thumbnail Size Checker?</h2>
+      <p>
+        A <strong>YouTube Thumbnail Size Checker</strong> is an essential creator utility designed to audit custom video thumbnails before publishing. It analyzes pixel dimensions, aspect ratio, image file size, and visual safe zones directly inside your web browser.
+      </p>
+      <p>
+        Because video thumbnails serve as the single most critical factor influencing your YouTube Click-Through Rate (CTR), verifying your <strong>YouTube thumbnail size</strong> ensures your graphics render sharp and clear on desktop monitors, smartphones, tablets, and smart TVs.
+      </p>
+
+      <h2>Official YouTube Thumbnail Dimensions and Specifications</h2>
+      <p>
+        YouTube specifies strict technical guidelines for custom video thumbnails. Meeting these specifications prevents uploading errors and low-resolution blurriness:
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Specification Parameter</th>
+              <th>YouTube Requirement</th>
+              <th>Optimal Best Practice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Recommended Resolution</strong></td>
+              <td>1280 x 720 pixels</td>
+              <td><strong>1280 x 720 px</strong> (or 1920 x 1080 px)</td>
+            </tr>
+            <tr>
+              <td><strong>Minimum Width</strong></td>
+              <td>640 pixels</td>
+              <td>Avoid uploading under 1280px width</td>
+            </tr>
+            <tr>
+              <td><strong>Aspect Ratio</strong></td>
+              <td>16:9 Widescreen</td>
+              <td><strong>Exact 16:9 ratio</strong> (1.777:1)</td>
+            </tr>
+            <tr>
+              <td><strong>Maximum File Size</strong></td>
+              <td>2.0 MB (2,048 KB)</td>
+              <td>1.0 MB – 1.8 MB compressed</td>
+            </tr>
+            <tr>
+              <td><strong>Accepted File Formats</strong></td>
+              <td>JPG, PNG, WEBP, GIF</td>
+              <td><strong>PNG</strong> for graphics, <strong>JPG/WEBP</strong> for photos</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Why 1280 x 720 Resolution Is Recommended for YouTube Thumbnails</h2>
+      <p>
+        While YouTube displays thumbnails at smaller sizes across mobile feeds (approx. 320 x 180 pixels), YouTube strongly recommends creating custom graphics at <strong>1280 x 720 pixels</strong> for three strategic reasons:
+      </p>
+      <ol>
+        <li><strong>Smart TV & HD Embeds:</strong> When viewers watch YouTube on 4K Smart TVs, high-density retina laptops, or embedded web players, low-resolution thumbnails appear pixelated and unappealing.</li>
+        <li><strong>Video Player Preview Backdrop:</strong> Before a user clicks play, YouTube expands the thumbnail image to fill the entire 16:9 video player area.</li>
+        <li><strong>Future-Proofing Content:</strong> High-resolution 1280x720 graphics ensure your channel archives remain sharp for years to come.</li>
+      </ol>
+
+      <h2>Understanding YouTube Thumbnail Aspect Ratio (16:9)</h2>
+      <p>
+        The <strong>YouTube thumbnail aspect ratio</strong> defines the proportional relationship between image width and height. Standard YouTube video players utilize a <strong>16:9 aspect ratio</strong>:
+      </p>
+      <ul>
+        <li><strong>Standard 16:9 Dimensions:</strong> 1280x720, 1920x1080, 2560x1440.</li>
+        <li><strong>Non-Standard Ratios (4:3 or 1:1):</strong> If you upload a square (1:1) or 4:3 image, YouTube automatically pads the sides with black letterbox bars, wasting valuable visual real estate.</li>
+      </ul>
+
+      <h2>YouTube 2 MB File Size Limit and Compression Tips</h2>
+      <p>
+        YouTube enforces a strict <strong>2.0 MB file size limit</strong> for custom thumbnail uploads. If your graphic software outputs a file at 2.1 MB, YouTube will display an error message and block the upload.
+      </p>
+      <p>
+        If your thumbnail file size exceeds 2 MB:
+      </p>
+      <ul>
+        <li>Convert lossless PNG files to 90% quality JPG or WEBP formats.</li>
+        <li>Run the image through browser compression tools to reduce file size under 1.5 MB without sacrificing visible graphic clarity.</li>
+      </ul>
+
+      <h2>How to Use the YouTube Thumbnail Size Checker</h2>
+      <p>
+        Our YouTube Thumbnail Size Checker online tool analyzes your graphics in seconds:
+      </p>
+      <ol>
+        <li><strong>Upload Thumbnail:</strong> Drag and drop your image into the upload dropzone above, or click to browse files.</li>
+        <li><strong>Audit Results:</strong> Instant client-side inspection validates pixel width, height, aspect ratio, file size, and file type.</li>
+        <li><strong>Verify Timestamp Safe Zone:</strong> Inspect our live YouTube feed mockup on the right to ensure YouTube's <code>12:45</code> timestamp overlay doesn't cover critical text or facial expressions.</li>
+      </ol>
+
+      <h2>YouTube Timestamp Safe Zones: Preventing Obstructed Text</h2>
+      <p>
+        A frequent mistake creators make is placing primary text or logo graphics in the bottom-right corner of their thumbnail design.
+      </p>
+      <p>
+        Across YouTube mobile apps, desktop search feeds, and sidebar recommended videos, YouTube overlays a black video duration timestamp badge (e.g. <code>14:20</code>) in the bottom-right corner. Always keep the bottom-right 15% of your thumbnail free of essential text.
+      </p>
+
+      <h2>Best Image Formats for YouTube Thumbnails: JPG vs PNG vs WEBP</h2>
+      <ul>
+        <li><strong>PNG (.png):</strong> Best for illustrations, high-contrast text, vector art, and graphics with sharp color transitions. Offers zero compression artifacts.</li>
+        <li><strong>JPG / JPEG (.jpg):</strong> Ideal for real-life photography, creator faces, and complex backgrounds. Produces much smaller file sizes under 1 MB.</li>
+        <li><strong>WEBP (.webp):</strong> Next-generation web image format providing superior compression efficiency while preserving high color fidelity.</li>
+      </ul>
+
+      <h2>Common YouTube Thumbnail Mistakes That Hurt Click-Through Rates</h2>
+      <ol>
+        <li><strong>Tiny, Unreadable Text:</strong> Using small fonts that become illegible when scaled down to smartphone feeds.</li>
+        <li><strong>Cluttered Visuals:</strong> Adding too many elements. High-CTR thumbnails focus on 1 main subject, 1 emotional face, and 3-4 bold words max.</li>
+        <li><strong>Title Repeat:</strong> Repeating the exact video title text inside the thumbnail instead of using complementary intrigue hooks. Pair your thumbnail with optimized titles generated by our <a href="/tools/youtube-clickbait-title-generator">YouTube Clickbait Title Generator</a>.</li>
+        <li><strong>Ignoring Character & Title Length:</strong> Audit title character count with our <a href="/tools/youtube-title-character-counter">YouTube Title Character Counter</a> and inspect mobile feed title crops using our <a href="/tools/youtube-title-length-checker">YouTube Title Length Checker</a>.</li>
+        <li><strong>Poor Tag Optimization:</strong> Ensure video discovery by building relevant video metadata with our <a href="/tools/youtube-tag-generator">YouTube Tag Generator</a> and analyzing net channel payouts with our <a href="/tools/youtube-rpm-calculator">YouTube RPM Calculator</a>.</li>
+      </ol>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/youtube-title-length-checker" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Title Length Checker</div>
+          <div class="tool-link-desc">Preview title truncation across desktop and mobile YouTube search results.</div>
+        </a>
+        <a href="/tools/youtube-title-character-counter" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Title Character Counter</div>
+          <div class="tool-link-desc">Audit the 100-character title limit and optimize title length for click-through rate.</div>
+        </a>
+        <a href="/tools/youtube-clickbait-title-generator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Clickbait Title Generator</div>
+          <div class="tool-link-desc">Generate high-CTR, curiosity-driven titles tailored to your video topic.</div>
+        </a>
+        <a href="/tools/youtube-rpm-calculator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube RPM Calculator</div>
+          <div class="tool-link-desc">Calculate net Revenue Per Mille (RPM) and analyze revenue per 1,000 views.</div>
+        </a>
+        <a href="/tools/youtube-tag-generator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Tag Generator</div>
+          <div class="tool-link-desc">Generate SEO tags and metadata tags for YouTube videos and Shorts.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Column: Form & Dropzone */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  /* Dropzone Styling */
+  .dropzone-wrap {
+    min-height: 240px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-fast);
+  }
+
+  .dropzone-wrap:hover, .dropzone-wrap.dragover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.05);
+  }
+
+  .file-input-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .dropzone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .upload-icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .upload-svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .dropzone-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .dropzone-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .browse-link {
+    color: var(--color-brand);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .file-types-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Loaded Image Preview */
+  .image-loaded-preview {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .preview-img-thumbnail {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: var(--radius-sm);
+    object-fit: contain;
+    border: 1px solid var(--color-border);
+  }
+
+  .image-meta-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .loaded-filename {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 180px;
+  }
+
+  .btn-change-image {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-brand);
+    cursor: pointer;
+    z-index: 10;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-change-image:hover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.08);
+  }
+
+  /* Guidelines Box */
+  .guidelines-ref-box {
+    padding: 1rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .guidelines-title {
+    font-size: 0.875rem;
+    color: var(--color-text);
+  }
+
+  .guidelines-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  /* Right Column: Results & Mockup */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Empty State Placeholder */
+  .empty-state-card {
+    min-height: 340px;
+    padding: 2rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .empty-icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .empty-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .empty-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    max-width: 320px;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Calculated Results Display Box */
+  .results-display-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Verdict Status Banner */
+  .verdict-banner {
+    padding: 1rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .verdict-banner.success-verdict {
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  .verdict-banner.warning-verdict {
+    border-color: rgba(245, 158, 11, 0.4);
+    background: rgba(245, 158, 11, 0.08);
+  }
+
+  .verdict-banner.danger-verdict {
+    border-color: rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.08);
+  }
+
+  .verdict-icon {
+    font-size: 1.5rem;
+  }
+
+  .verdict-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .verdict-title {
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+
+  .verdict-desc {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  /* 4 Metrics Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* YouTube Feed Timestamp Mockup */
+  .timestamp-mockup-card {
+    padding: 1rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .mockup-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mockup-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .mockup-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .mockup-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: #000000;
+    border: 1px solid var(--color-border);
+  }
+
+  .mockup-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .youtube-timestamp-overlay {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.85);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    letter-spacing: 0.03em;
+    font-family: var(--font-body);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .mockup-help-text {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input') as HTMLInputElement | null;
+    const dropzonePrompt = document.getElementById('dropzone-prompt');
+    const imageLoadedPreview = document.getElementById('image-loaded-preview');
+    const loadedImgElement = document.getElementById('loaded-img-element') as HTMLImageElement | null;
+    const loadedFilename = document.getElementById('loaded-filename');
+    const btnChangeImage = document.getElementById('btn-change-image');
+
+    // Audit Results Displays
+    const emptyStateCard = document.getElementById('empty-state-card');
+    const resultsDisplayBox = document.getElementById('results-display-box');
+    const verdictBanner = document.getElementById('verdict-banner');
+    const verdictIcon = document.getElementById('verdict-icon');
+    const verdictTitle = document.getElementById('verdict-title');
+    const verdictDesc = document.getElementById('verdict-desc');
+
+    const resDimensions = document.getElementById('res-dimensions');
+    const resDimensionsSub = document.getElementById('res-dimensions-sub');
+    const resRatio = document.getElementById('res-ratio');
+    const resRatioSub = document.getElementById('res-ratio-sub');
+    const resFileSize = document.getElementById('res-file-size');
+    const resFileSizeSub = document.getElementById('res-file-size-sub');
+    const resFormat = document.getElementById('res-format');
+    const mockupImgElement = document.getElementById('mockup-img-element') as HTMLImageElement | null;
+
+    if (!dropzone || !fileInput) return;
+
+    // Drag and Drop Events
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('dragover');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('dragover');
+      }, false);
+    });
+
+    dropzone.addEventListener('drop', (e: DragEvent) => {
+      const dt = e.dataTransfer;
+      if (dt && dt.files && dt.files.length > 0) {
+        handleImageFile(dt.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files && fileInput.files.length > 0) {
+        handleImageFile(fileInput.files[0]);
+      }
+    });
+
+    if (btnChangeImage) {
+      btnChangeImage.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fileInput.value = '';
+        if (dropzonePrompt) dropzonePrompt.style.display = 'flex';
+        if (imageLoadedPreview) imageLoadedPreview.style.display = 'none';
+        if (resultsDisplayBox) resultsDisplayBox.style.display = 'none';
+        if (emptyStateCard) emptyStateCard.style.display = 'flex';
+      });
+    }
+
+    // Process Selected Image File
+    function handleImageFile(file: File) {
+      if (!file || !file.type.startsWith('image/')) {
+        alert('Please select a valid image file (PNG, JPG, WEBP, or GIF).');
+        return;
+      }
+
+      const fileSizeMB = file.size / (1024 * 1024);
+      const fileSizeKB = Math.round(file.size / 1024);
+      const fileExt = file.name.split('.').pop()?.toUpperCase() || 'IMAGE';
+
+      if (loadedFilename) loadedFilename.textContent = file.name;
+
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        const dataUrl = evt.target?.result as string;
+        
+        if (loadedImgElement) loadedImgElement.src = dataUrl;
+        if (mockupImgElement) mockupImgElement.src = dataUrl;
+
+        // Create HTMLImageElement to read intrinsic width & height
+        const img = new Image();
+        img.onload = () => {
+          const width = img.naturalWidth;
+          const height = img.naturalHeight;
+
+          runAudit(width, height, fileSizeMB, fileSizeKB, fileExt);
+
+          // Reveal Image Preview & Audit Results
+          if (dropzonePrompt) dropzonePrompt.style.display = 'none';
+          if (imageLoadedPreview) imageLoadedPreview.style.display = 'flex';
+          if (emptyStateCard) emptyStateCard.style.display = 'none';
+          if (resultsDisplayBox) {
+            resultsDisplayBox.style.display = 'flex';
+            if (window.innerWidth < 992) {
+              resultsDisplayBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        };
+        img.src = dataUrl;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Run Full Sizing & Aspect Ratio Audit
+    function runAudit(w: number, h: number, sizeMB: number, sizeKB: number, format: string) {
+      // Calculate aspect ratio
+      const rawRatio = w / h;
+      const targetRatio = 16 / 9; // ~1.7777777777777777
+      const isExact169 = Math.abs(rawRatio - targetRatio) < 0.05;
+
+      // Simplify Ratio String
+      const gcdVal = gcd(w, h);
+      const aspectW = Math.round(w / gcdVal);
+      const aspectH = Math.round(h / gcdVal);
+      const ratioStr = (aspectW <= 32 && aspectH <= 32) ? `${aspectW}:${aspectH}` : isExact169 ? '16:9' : `${rawRatio.toFixed(2)}:1`;
+
+      // Validation Checks
+      const isSizeOk = sizeMB <= 2.0;
+      const isMinResOk = w >= 640;
+      const isIdealRes = w === 1280 && h === 720;
+
+      // Format File Size String
+      const sizeDisplayStr = sizeMB >= 1.0 ? `${sizeMB.toFixed(2)} MB` : `${sizeKB.toLocaleString()} KB`;
+
+      // Update Metric Cards Text
+      if (resDimensions) resDimensions.textContent = `${w.toLocaleString()} x ${h.toLocaleString()} px`;
+      if (resDimensionsSub) {
+        if (isIdealRes) {
+          resDimensionsSub.textContent = 'Ideal 1280x720';
+          resDimensionsSub.style.color = 'var(--color-brand)';
+        } else if (isMinResOk) {
+          resDimensionsSub.textContent = 'Above 640px Min';
+          resDimensionsSub.style.color = 'var(--color-brand)';
+        } else {
+          resDimensionsSub.textContent = 'Too Small (<640px)';
+          resDimensionsSub.style.color = 'var(--color-danger, #ef4444)';
+        }
+      }
+
+      if (resRatio) resRatio.textContent = ratioStr;
+      if (resRatioSub) {
+        if (isExact169) {
+          resRatioSub.textContent = 'Standard 16:9';
+          resRatioSub.style.color = 'var(--color-brand)';
+        } else {
+          resRatioSub.textContent = 'Non-Standard Ratio';
+          resRatioSub.style.color = 'var(--color-warning, #f59e0b)';
+        }
+      }
+
+      if (resFileSize) resFileSize.textContent = sizeDisplayStr;
+      if (resFileSizeSub) {
+        if (isSizeOk) {
+          resFileSizeSub.textContent = 'Under 2.0 MB Limit';
+          resFileSizeSub.style.color = 'var(--color-brand)';
+        } else {
+          resFileSizeSub.textContent = 'Exceeds 2 MB Limit!';
+          resFileSizeSub.style.color = 'var(--color-danger, #ef4444)';
+        }
+      }
+
+      if (resFormat) resFormat.textContent = format;
+
+      // Determine Final Verdict Status Banner
+      if (verdictBanner && verdictTitle && verdictDesc && verdictIcon) {
+        verdictBanner.className = 'verdict-banner';
+
+        if (!isSizeOk) {
+          verdictBanner.classList.add('danger-verdict');
+          verdictIcon.textContent = '❌';
+          verdictTitle.textContent = 'File Exceeds 2 MB Upload Limit!';
+          verdictDesc.textContent = `Your file size is ${sizeDisplayStr}. YouTube will reject custom thumbnail uploads larger than 2 MB. Please compress your image.`;
+        } else if (!isMinResOk) {
+          verdictBanner.classList.add('danger-verdict');
+          verdictIcon.textContent = '❌';
+          verdictTitle.textContent = 'Resolution Below Minimum (640px)!';
+          verdictDesc.textContent = `Your thumbnail width is ${w}px. YouTube requires thumbnails to be at least 640 pixels wide.`;
+        } else if (!isExact169) {
+          verdictBanner.classList.add('warning-verdict');
+          verdictIcon.textContent = '⚠️';
+          verdictTitle.textContent = 'Non-Standard Aspect Ratio!';
+          verdictDesc.textContent = `Your thumbnail aspect ratio is ${ratioStr} instead of standard 16:9. YouTube will display black letterbox bars on the sides.`;
+        } else if (isIdealRes && isSizeOk) {
+          verdictBanner.classList.add('success-verdict');
+          verdictIcon.textContent = '✅';
+          verdictTitle.textContent = 'Perfect YouTube Thumbnail Sizing!';
+          verdictDesc.textContent = 'Your graphic matches YouTube\'s official 1280x720 dimensions, 16:9 aspect ratio, and 2 MB file size specifications.';
+        } else {
+          verdictBanner.classList.add('success-verdict');
+          verdictIcon.textContent = '✅';
+          verdictTitle.textContent = 'Valid 16:9 YouTube Thumbnail!';
+          verdictDesc.textContent = `Your image matches the 16:9 aspect ratio and is within YouTube\'s file size limit. Recommended dimensions are 1280 x 720 px.`;
+        }
+      }
+    }
+
+    // Greatest Common Divisor Helper
+    function gcd(a: number, b: number): number {
+      return b === 0 ? a : gcd(b, a % b);
+    }
+  });
+</script>

@@ -1,0 +1,925 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the maximum character limit for YouTube video descriptions?",
+    answer: "YouTube allows up to 5,000 characters per video description. This generous limit provides ample space for detailed summaries, video chapter timestamps, social links, affiliate disclaimers, and SEO keywords."
+  },
+  {
+    question: "Why are the first 150 characters of a YouTube description so important?",
+    answer: "YouTube displays only the first 100 to 150 characters of your description in search results, subscriber feeds, and under the video player before truncating text behind a '...more' button. Placing your primary hook or key message upfront maximizes click-through rates."
+  },
+  {
+    question: "How do you add clickable timestamps or video chapters in a YouTube description?",
+    answer: "To create clickable video chapters, list timestamps starting with 0:00 (e.g. '0:00 Intro', '1:45 Tip 1', '4:30 Summary'). Ensure you include at least 3 timestamps of at least 10 seconds each."
+  },
+  {
+    question: "How many links can you put in a YouTube description?",
+    answer: "YouTube does not limit the exact number of URLs in a description, provided total characters remain under 5,000. However, ensure all links use full HTTPS protocols so they remain clickable on desktop and mobile."
+  },
+  {
+    question: "How many hashtags should you include in a YouTube description?",
+    answer: "While YouTube allows hashtags within the 5,000-character limit, YouTube's algorithm typically index the first 3 to 5 hashtags. Including more than 15 hashtags will cause YouTube to ignore all hashtags on your post."
+  },
+  {
+    question: "Do YouTube descriptions affect video SEO and search rankings?",
+    answer: "Yes! YouTube's search and recommendation algorithms index video descriptions to understand your video's topic, context, and semantic keywords. Naturally incorporating primary search keywords in the first 3 sentences boosts discovery."
+  }
+];
+---
+
+<ToolLayout
+  title="YouTube Description Character Counter - Count Characters, Words & Links"
+  description="Free YouTube Description Character Counter. Audit your 5,000 character limit, 150-character search snippet crop, links, timestamps, hashtags, and word count."
+  toolName="YouTube Description Character Counter"
+  toolDescription="Count characters, words, links, timestamps, and hashtags in your YouTube description. Audit YouTube's 5,000-character limit and 150-character search fold snippet."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: Input Editor & Action Buttons -->
+      <form class="calc-form" id="desc-form" onsubmit="return false;">
+        <div class="form-group">
+          <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem;">
+            <label for="desc-input" class="input-label" style="margin: 0;">Write or Paste Your YouTube Description</label>
+            
+            <!-- Quick Format Actions Toolbar -->
+            <div class="format-toolbar" style="display: flex; gap: 0.25rem; flex-wrap: wrap;">
+              <button type="button" class="format-btn" id="btn-uppercase" title="Convert to ALL CAPS">UPPERCASE</button>
+              <button type="button" class="format-btn" id="btn-lowercase" title="Convert to lowercase">lowercase</button>
+              <button type="button" class="format-btn" id="btn-titlecase" title="Convert to Title Case">Title Case</button>
+              <button type="button" class="format-btn" id="btn-cleanspace" title="Trim extra spaces">Clean Spacing</button>
+            </div>
+          </div>
+          <textarea 
+            id="desc-input" 
+            class="editor-textarea" 
+            placeholder="Type or paste your YouTube video description here..."
+            rows="9"
+          >In this video, you'll learn 5 actionable strategies to grow your YouTube channel in 2026. 🚀
+
+📌 Timestamps:
+0:00 - Introduction
+1:20 - Tip 1: Hook Optimization
+4:15 - Tip 2: Thumbnail CTR
+8:10 - Tip 3: Audience Retention
+
+🔗 Useful Links:
+Subscribe for more creator tools: https://creatorsfeel.com
+
+#youtube #contentcreator #growth</textarea>
+        </div>
+
+        <!-- Prominent Main Action Buttons Row -->
+        <div class="main-actions-row">
+          <button type="button" id="btn-copy-desc" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+            </svg>
+            <span id="copy-btn-text">Copy Description</span>
+          </button>
+          <button type="button" id="btn-clear-desc" class="calc-btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+            </svg>
+            Clear All
+          </button>
+        </div>
+      </form>
+
+      <!-- Right Column: Visual Progress Ring & Audit Results -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- 5,000 Character Progress Ring Container -->
+        <div class="progress-ring-card">
+          <div class="ring-wrapper">
+            <svg class="progress-ring-svg" width="130" height="130" viewBox="0 0 130 130">
+              <circle class="ring-bg" cx="65" cy="65" r="54" stroke-width="8"></circle>
+              <circle id="progress-ring-circle" class="ring-fill" cx="65" cy="65" r="54" stroke-width="8" stroke-dasharray="339.292" stroke-dashoffset="339.292"></circle>
+            </svg>
+            <div class="ring-center-text">
+              <span id="ring-remaining-num" class="ring-num">5000</span>
+              <span class="ring-label">Left</span>
+            </div>
+          </div>
+
+          <div class="ring-meta">
+            <span id="ring-percentage" class="ring-pct-badge">0 / 5,000 (0% used)</span>
+            <span id="ring-status-msg" class="ring-status-text">YouTube 5,000 Limit</span>
+          </div>
+        </div>
+
+        <!-- YouTube Search Snippet Fold Preview Card -->
+        <div class="snippet-preview-card">
+          <div class="snippet-header-row">
+            <span class="snippet-title">YouTube Search Result Snippet Preview</span>
+            <span class="snippet-badge">First 150 Chars</span>
+          </div>
+          <div class="snippet-body-box" id="snippet-body-box">
+            <!-- Dynamically populated JS preview -->
+          </div>
+        </div>
+
+        <!-- 6 Audit Metrics Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-value" id="res-total-chars">0</span>
+            <span class="metric-label">Total Characters</span>
+            <span class="metric-sub text-muted">With spaces</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="res-snippet-fold">Safe</span>
+            <span class="metric-label">Search Fold Crop</span>
+            <span class="metric-sub text-muted">First 150 chars</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="res-total-words">0</span>
+            <span class="metric-label">Total Words</span>
+            <span class="metric-sub text-muted">Word count</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="res-links-count">0</span>
+            <span class="metric-label">Detected Links</span>
+            <span class="metric-sub text-muted">HTTPS URLs</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="res-chapter-count">0</span>
+            <span class="metric-label">Timestamps</span>
+            <span class="metric-sub text-muted">0:00 Chapters</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="res-hashtag-count">0</span>
+            <span class="metric-label">Hashtags</span>
+            <span class="metric-sub text-muted">#hashtag count</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is a YouTube Description Character Counter?</h2>
+      <p>
+        A <strong>YouTube Description Character Counter</strong> is a specialized writing, auditing, and SEO tool designed for YouTube creators. It allows you to draft, edit, and optimize video descriptions while monitoring character counts against YouTube's official limits in real time.
+      </p>
+      <p>
+        Whether you are writing long-form video summaries, inserting chapter timestamps, embedding affiliate link disclaimers, or placing targeted SEO keywords, our <strong>YouTube description character count</strong> utility ensures your copy stays within character boundaries and avoids search snippet truncation.
+      </p>
+
+      <h2>Official YouTube Description Character Limit (5,000 Characters)</h2>
+      <p>
+        YouTube enforces a maximum limit of <strong>5,000 characters per video description</strong>. This limit includes all letters, numbers, spaces, line breaks, emojis, and URL links.
+      </p>
+      <p>
+        If your description exceeds 5,000 characters, YouTube will display an error message and block you from saving the video metadata. Keeping track of your <strong>YouTube description character limit</strong> prevents last-minute publishing delays.
+      </p>
+
+      <h2>Why the First 150 Characters of Your YouTube Description Matter Most</h2>
+      <p>
+        While YouTube allows 5,000 characters, only the first <strong>100 to 150 characters</strong> appear in YouTube search results, subscriber notifications, and below the video player before a user clicks <em>"...more"</em>.
+      </p>
+
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Description Section</th>
+              <th>Character Range</th>
+              <th>Optimization Strategy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Primary Hook (Above Fold)</strong></td>
+              <td>0 – 150 Characters</td>
+              <td>Primary search keyword, compelling value proposition, hook</td>
+            </tr>
+            <tr>
+              <td><strong>Video Summary & Timestamps</strong></td>
+              <td>151 – 1,500 Characters</td>
+              <td>Detailed outline, 0:00 chapter markers, key takeaways</td>
+            </tr>
+            <tr>
+              <td><strong>Links & Social CTAs</strong></td>
+              <td>1,501 – 3,500 Characters</td>
+              <td>Subscribe link, website URLs, affiliate disclaimers</td>
+            </tr>
+            <tr>
+              <td><strong>Secondary Keywords & Tags</strong></td>
+              <td>3,501 – 5,000 Characters</td>
+              <td>Channel bio, related video links, 3-5 #hashtags</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>How to Structure a High-Converting YouTube Description</h2>
+      <p>
+        Top-performing creators follow a structured framework to maximize click-through rates and search visibility:
+      </p>
+      <ol>
+        <li><strong>Lead With Your Primary Keyword:</strong> Include your target search phrase in the first 25 words of your description.</li>
+        <li><strong>Insert Chapter Timestamps:</strong> Always start your first chapter timestamp at <code>0:00</code> to enable YouTube's automatic video segments.</li>
+        <li><strong>Include Clickable HTTPS Links:</strong> Always include <code>https://</code> on website links so they render as clickable deep links.</li>
+        <li><strong>Limit Hashtags to 3-5 Relevant Tags:</strong> Include 3 targeted hashtags at the bottom of your description.</li>
+      </ol>
+
+      <h2>Adding Timestamps and Video Chapters in YouTube Descriptions</h2>
+      <p>
+        Video chapters divide your video into structured segments with individual preview thumbnails. To enable automatic chapters, adhere to YouTube's chapter rules:
+      </p>
+      <ul>
+        <li>The first timestamp must start at <code>0:00</code>.</li>
+        <li>Your description must contain at least 3 timestamps in ascending order.</li>
+        <li>Each chapter segment must be at least 10 seconds long.</li>
+      </ul>
+
+      <h2>How to Optimize YouTube Description Links and CTA Buttons</h2>
+      <p>
+        Including clear call-to-actions (CTAs) and external links drives website traffic and affiliate revenue:
+      </p>
+      <ul>
+        <li><strong>Subscribe Link:</strong> Use an auto-subscribe link format: <code>https://youtube.com/channel/YOUR_ID?sub_confirmation=1</code>.</li>
+        <li><strong>Shortened URLs:</strong> Use clean, trusted URL shorteners to keep link character counts manageable.</li>
+        <li><strong>Affiliate Disclaimers:</strong> Always include FTC-compliant disclosures when placing monetization or sponsor links.</li>
+      </ul>
+
+      <h2>How to Use the YouTube Description Character Counter</h2>
+      <ol>
+        <li><strong>Type or Paste Description:</strong> Enter your draft text into the main editor above.</li>
+        <li><strong>Monitor 5,000 Limit Ring:</strong> Check our live SVG progress ring to ensure your copy is under 5,000 characters.</li>
+        <li><strong>Audit Search Snippet Crop:</strong> Inspect our right-hand search snippet card to verify your opening 150-character hook.</li>
+        <li><strong>Copy & Publish:</strong> Click <strong>Copy Description</strong> and paste into YouTube Studio.</li>
+      </ol>
+
+      <h2>YouTube Description SEO: Keyword Placement and Density</h2>
+      <p>
+        YouTube's search algorithm scans your video description to index relevant terms. Naturally incorporating LSI (Latent Semantic Indexing) keywords in the first 300 words signals video relevance to YouTube's recommendation engine.
+      </p>
+
+      <h2>Common YouTube Description Mistakes That Hurt Video Search Ranking</h2>
+      <ul>
+        <li><strong>Keyword Stuffing:</strong> Pasting raw lists of 100 unrelated keywords. YouTube considers this spam and may penalize your video.</li>
+        <li><strong>Missing 0:00 Timestamp:</strong> Starting timestamps at 0:15 instead of 0:00, which disables automatic video chapters.</li>
+        <li><strong>Exceeding Title & Tag Limits:</strong> Audit video title limits with our <a href="/tools/youtube-title-character-counter">YouTube Title Character Counter</a> and inspect mobile title crops with our <a href="/tools/youtube-title-length-checker">YouTube Title Length Checker</a>.</li>
+        <li><strong>Generating Metadata Tags:</strong> Build high-converting video tags with our <a href="/tools/youtube-tag-generator">YouTube Tag Generator</a> and build clean descriptions with our <a href="/tools/youtube-description-formatter">YouTube Description Formatter</a>.</li>
+      </ul>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/youtube-timestamp-generator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Timestamp Generator</div>
+          <div class="tool-link-desc">Format compliant YouTube video description chapters and deep link share timestamps.</div>
+        </a>
+        <a href="/tools/youtube-description-formatter" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Description Formatter</div>
+          <div class="tool-link-desc">Format YouTube descriptions with clean line breaks, bold headers, and structured bullet lists.</div>
+        </a>
+        <a href="/tools/youtube-title-character-counter" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Title Character Counter</div>
+          <div class="tool-link-desc">Audit the 100-character title limit and optimize title length for click-through rate.</div>
+        </a>
+        <a href="/tools/youtube-title-length-checker" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Title Length Checker</div>
+          <div class="tool-link-desc">Preview title truncation across desktop and mobile YouTube search results.</div>
+        </a>
+        <a href="/tools/youtube-tag-generator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Tag Generator</div>
+          <div class="tool-link-desc">Generate SEO tags and metadata tags for YouTube videos and Shorts.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Editor */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .input-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .editor-textarea {
+    width: 100%;
+    min-height: 220px;
+    padding: 1rem;
+    font-family: var(--font-body);
+    font-size: 0.975rem;
+    line-height: 1.55;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .editor-textarea:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .format-btn {
+    padding: 0.25rem 0.55rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .format-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  /* Prominent Main Action Buttons Row */
+  .main-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .calc-btn-primary {
+    flex: 2;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Right Column: Progress Ring & Audit Results */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Progress Ring Container Card */
+  .progress-ring-card {
+    padding: 1.1rem 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .ring-wrapper {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .progress-ring-svg {
+    transform: rotate(-90deg);
+  }
+
+  .ring-bg {
+    fill: none;
+    stroke: var(--color-border);
+  }
+
+  .ring-fill {
+    fill: none;
+    stroke: var(--color-brand);
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s ease, stroke 0.3s ease;
+  }
+
+  .ring-center-text {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ring-num {
+    font-size: 1.35rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-text);
+    line-height: 1;
+  }
+
+  .ring-label {
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    margin-top: 0.1rem;
+  }
+
+  .ring-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .ring-pct-badge {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-brand);
+  }
+
+  .ring-status-text {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  /* YouTube Search Snippet Card */
+  .snippet-preview-card {
+    padding: 1rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .snippet-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .snippet-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .snippet-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .snippet-body-box {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--color-text);
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+
+  .fold-truncate-more {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  /* 6 Metrics Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 576px) {
+    .metrics-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const descInput = document.getElementById('desc-input') as HTMLTextAreaElement | null;
+    const progressCircle = document.getElementById('progress-ring-circle') as SVGCircleElement | null;
+    const ringRemainingNum = document.getElementById('ring-remaining-num');
+    const ringPercentage = document.getElementById('ring-percentage');
+    const ringStatusMsg = document.getElementById('ring-status-msg');
+    const snippetBodyBox = document.getElementById('snippet-body-box');
+
+    // Case formatting buttons
+    const btnUppercase = document.getElementById('btn-uppercase');
+    const btnLowercase = document.getElementById('btn-lowercase');
+    const btnTitlecase = document.getElementById('btn-titlecase');
+    const btnCleanspace = document.getElementById('btn-cleanspace');
+    const btnCopy = document.getElementById('btn-copy-desc');
+    const copyBtnText = document.getElementById('copy-btn-text');
+    const btnClear = document.getElementById('btn-clear-desc');
+
+    // Metrics Displays
+    const resTotalChars = document.getElementById('res-total-chars');
+    const resSnippetFold = document.getElementById('res-snippet-fold');
+    const resTotalWords = document.getElementById('res-total-words');
+    const resLinksCount = document.getElementById('res-links-count');
+    const resChapterCount = document.getElementById('res-chapter-count');
+    const resHashtagCount = document.getElementById('res-hashtag-count');
+
+    if (!descInput) return;
+
+    const maxChars = 5000;
+    const circumference = 2 * Math.PI * 54; // ~339.292
+
+    // Real-Time Audit Function
+    function auditDescription() {
+      if (!descInput) return;
+
+      const text = descInput.value;
+      const charCount = text.length;
+      const remaining = maxChars - charCount;
+      const pctUsed = Math.min(100, (charCount / maxChars) * 100);
+
+      // SVG Progress Ring Animation
+      if (progressCircle) {
+        const offset = circumference - (pctUsed / 100) * circumference;
+        progressCircle.style.strokeDashoffset = `${Math.max(0, offset)}`;
+
+        if (charCount > maxChars) {
+          progressCircle.style.stroke = 'var(--color-danger, #ef4444)';
+        } else if (pctUsed > 85) {
+          progressCircle.style.stroke = 'var(--color-warning, #f59e0b)';
+        } else {
+          progressCircle.style.stroke = 'var(--color-brand, #6366f1)';
+        }
+      }
+
+      // Ring Text Updates
+      if (ringRemainingNum) ringRemainingNum.textContent = remaining >= 0 ? remaining.toLocaleString() : `-${Math.abs(remaining).toLocaleString()}`;
+      if (ringPercentage) ringPercentage.textContent = `${charCount.toLocaleString()} / 5,000 (${pctUsed.toFixed(0)}% used)`;
+      if (ringStatusMsg) {
+        if (charCount > maxChars) {
+          ringStatusMsg.textContent = 'Exceeds 5,000 Limit!';
+          ringStatusMsg.style.color = 'var(--color-danger, #ef4444)';
+        } else {
+          ringStatusMsg.textContent = 'YouTube 5,000 Limit';
+          ringStatusMsg.style.color = 'var(--color-text-muted)';
+        }
+      }
+
+      // Word count
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+
+      // Detected HTTPS Links count
+      const links = text.match(/https?:\/\/[^\s]+/gi) || [];
+
+      // Timestamps count (e.g. 0:00, 01:23, 10:45)
+      const timestamps = text.match(/\b\d{1,2}:\d{2}\b/g) || [];
+
+      // Hashtags count
+      const hashtags = text.match(/#[a-zA-Z0-9_\u0080-\uFFFF]+/g) || [];
+
+      // Update 6 Audit Metric Cards
+      if (resTotalChars) resTotalChars.textContent = charCount.toLocaleString();
+
+      const snippetFoldLength = 150;
+      if (resSnippetFold) {
+        if (charCount <= snippetFoldLength) {
+          resSnippetFold.textContent = 'Safe';
+          resSnippetFold.style.color = 'var(--color-brand)';
+        } else {
+          resSnippetFold.textContent = 'Truncated';
+          resSnippetFold.style.color = 'var(--color-warning, #f59e0b)';
+        }
+      }
+
+      if (resTotalWords) resTotalWords.textContent = words.toLocaleString();
+      if (resLinksCount) resLinksCount.textContent = links.length.toString();
+      if (resChapterCount) resChapterCount.textContent = timestamps.length.toString();
+      if (resHashtagCount) resHashtagCount.textContent = hashtags.length.toString();
+
+      // Update YouTube Search Snippet Card
+      if (snippetBodyBox) {
+        if (!text.trim()) {
+          snippetBodyBox.innerHTML = '<span class="text-muted" style="font-style: italic;">Search snippet preview will appear here...</span>';
+        } else if (charCount <= snippetFoldLength) {
+          snippetBodyBox.textContent = text;
+        } else {
+          const visibleHook = text.slice(0, snippetFoldLength);
+          snippetBodyBox.innerHTML = `${escapeHtml(visibleHook)}<span class="fold-truncate-more">...</span>`;
+        }
+      }
+    }
+
+    function escapeHtml(str: string): string {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Attach Input Event Listeners
+    ['input', 'change', 'keyup'].forEach(evt => {
+      descInput.addEventListener(evt, auditDescription);
+    });
+
+    // Toolbar 1: UPPERCASE
+    if (btnUppercase) {
+      btnUppercase.addEventListener('click', () => {
+        descInput.value = descInput.value.toUpperCase();
+        auditDescription();
+      });
+    }
+
+    // Toolbar 2: lowercase
+    if (btnLowercase) {
+      btnLowercase.addEventListener('click', () => {
+        descInput.value = descInput.value.toLowerCase();
+        auditDescription();
+      });
+    }
+
+    // Toolbar 3: Title Case
+    if (btnTitlecase) {
+      btnTitlecase.addEventListener('click', () => {
+        descInput.value = descInput.value.replace(/\w\S*/g, (txt) => {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        auditDescription();
+      });
+    }
+
+    // Toolbar 4: Clean Spacing
+    if (btnCleanspace) {
+      btnCleanspace.addEventListener('click', () => {
+        descInput.value = descInput.value
+          .split('\n')
+          .map(line => line.replace(/[ \t]+/g, ' ').trim())
+          .join('\n');
+        auditDescription();
+      });
+    }
+
+    // Copy Description Handler
+    if (btnCopy) {
+      btnCopy.addEventListener('click', () => {
+        navigator.clipboard.writeText(descInput.value).then(() => {
+          if (copyBtnText) copyBtnText.textContent = 'Copied!';
+          setTimeout(() => {
+            if (copyBtnText) copyBtnText.textContent = 'Copy Description';
+          }, 2000);
+        });
+      });
+    }
+
+    // Clear All Handler
+    if (btnClear) {
+      btnClear.addEventListener('click', () => {
+        descInput.value = '';
+        auditDescription();
+        descInput.focus();
+      });
+    }
+
+    // Initial Audit
+    auditDescription();
+  });
+</script>
