@@ -1,0 +1,1149 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is HEIC format and why does Apple use it on iPhone?",
+    answer: "HEIC (High Efficiency Image Format) is an image container format introduced by Apple in iOS 11. It uses advanced HEVC compression to store high-quality iPhone photos at roughly half the file size of traditional JPEG images."
+  },
+  {
+    question: "Why should I convert HEIC images to WebP format for my website?",
+    answer: "WebP is Google's modern image format designed specifically for the web. While HEIC photos cannot be opened by Windows PCs, Android web browsers, or standard websites, WebP is natively supported by 98%+ of all web browsers and delivers 30-80% smaller file sizes than JPG."
+  },
+  {
+    question: "Is my private iPhone photo uploaded or stored on any server?",
+    answer: "No. Our HEIC to WebP Converter processes all image decoding and canvas conversion locally inside your web browser using HTML5 APIs. Your photos and personal media are never uploaded to any remote server."
+  },
+  {
+    question: "Will converting HEIC to WebP reduce photo visual quality?",
+    answer: "Our converter uses smart lossy WebP encoding (85-92% quality threshold) that reduces file size dramatically while maintaining crisp pixel clarity, sharp edges, and vibrant color balance indistinguishable to the human eye."
+  },
+  {
+    question: "Can I convert HEIF images as well as HEIC images?",
+    answer: "Yes! HEIF (High Efficiency Image File Format) and HEIC are structurally identical image containers. Our tool converts both .heic and .heif images from iPhones, iPads, Macs, and Canon cameras into WebP."
+  },
+  {
+    question: "What devices and operating systems support WebP images?",
+    answer: "WebP images are supported natively across all modern web browsers (Google Chrome, Apple Safari, Mozilla Firefox, Microsoft Edge, Opera), iOS, Android, macOS, Windows 10/11, and content management systems like WordPress."
+  }
+];
+---
+
+<ToolLayout
+  title="HEIC to WebP Converter - Convert iPhone Photos to WebP Online Free"
+  description="Free online HEIC to WebP Converter. Convert Apple iPhone HEIC/HEIF photos to WebP format instantly in your browser with 1-click download."
+  toolName="HEIC to WebP Converter"
+  toolDescription="Convert Apple iPhone HEIC/HEIF images to lightweight WebP format for web performance, fast page speed, and browser compatibility."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- Include lightweight client-side HEIC decoder script for non-Safari browsers -->
+    <script is:inline src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: File Upload & Controls -->
+      <div class="calc-form">
+        
+        <!-- Drag & Drop Zone -->
+        <div class="dropzone-wrap" id="dropzone">
+          <input type="file" id="file-input" class="file-input-hidden" accept=".heic, .heif, image/heic, image/heif, image/png, image/jpeg" />
+          
+          <div class="dropzone-content" id="dropzone-prompt">
+            <div class="upload-icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="upload-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+              </svg>
+            </div>
+            <strong class="dropzone-title">Drag & Drop HEIC / HEIF Image Here</strong>
+            <p class="dropzone-desc">or <span class="browse-link">browse iPhone photo file</span> from your device</p>
+            <span class="file-types-badge">Apple HEIC, HEIF • Client-side Private</span>
+          </div>
+
+          <!-- Uploaded File Preview Bar (hidden initially) -->
+          <div class="loaded-file-bar" id="loaded-file-bar" style="display: none;">
+            <img id="loaded-thumb-img" class="loaded-thumb" alt="Loaded HEIC Preview" />
+            <div class="file-info">
+              <span class="file-name-text" id="loaded-filename">photo.heic</span>
+              <span class="file-size-text" id="loaded-filesize">2.4 MB</span>
+            </div>
+            <button type="button" class="btn-clear-file" id="btn-clear-file">Change Photo</button>
+          </div>
+        </div>
+
+        <!-- Quality & Compression Options -->
+        <div class="form-group">
+          <label for="quality-select" class="input-label">WebP Compression Quality</label>
+          <select id="quality-select" class="quality-select-input">
+            <option value="0.88" selected>High Quality (88% - Recommended)</option>
+            <option value="0.95">Maximum Quality (95% - Ultra Sharp)</option>
+            <option value="0.75">High Compression (75% - Smallest File Size)</option>
+          </select>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions-row">
+          <button type="button" id="btn-convert" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+            Convert to WebP
+          </button>
+          <button type="button" id="btn-clear-all" class="calc-btn-secondary">Clear All</button>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Audit Metrics & Converted WebP Preview -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- Empty State Card -->
+        <div class="empty-state-card" id="empty-state-card">
+          <div class="empty-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="empty-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+            </svg>
+          </div>
+          <strong class="empty-title">Waiting for HEIC Photo Upload</strong>
+          <p class="empty-desc">Drag and drop or browse an Apple HEIC/HEIF photo on the left to convert it instantly into optimized Google WebP format.</p>
+        </div>
+
+        <!-- Calculated Results Display Box (Hidden before upload) -->
+        <div class="results-display-box" id="results-display-box" style="display: none;">
+          
+          <!-- Verdict Status Banner -->
+          <div class="verdict-banner success-verdict" id="verdict-banner">
+            <span class="verdict-icon" id="verdict-icon">✅</span>
+            <div class="verdict-text-wrap">
+              <strong class="verdict-title" id="verdict-title">Successfully Converted to WebP!</strong>
+              <span class="verdict-desc" id="verdict-desc">Your image was processed locally with WebP compression.</span>
+            </div>
+          </div>
+
+          <!-- 4 Metric Cards Grid -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-value" id="res-dimensions">0 x 0</span>
+              <span class="metric-label">Resolution</span>
+              <span class="metric-sub" id="res-dim-sub">Image Size</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-orig-size">0 MB</span>
+              <span class="metric-label">Original HEIC</span>
+              <span class="metric-sub">Input Size</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-webp-size">0 MB</span>
+              <span class="metric-label">Converted WebP</span>
+              <span class="metric-sub" id="res-webp-sub">Output Size</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-savings">-0%</span>
+              <span class="metric-label">File Reduction</span>
+              <span class="metric-sub" id="res-savings-sub">Size Savings</span>
+            </div>
+          </div>
+
+          <!-- Converted WebP Image Preview Card -->
+          <div class="webp-preview-card">
+            <div class="preview-header-row">
+              <span class="preview-title">Converted WebP Image Preview</span>
+              <span class="preview-badge">.WebP Format</span>
+            </div>
+            
+            <div class="preview-stage">
+              <img id="converted-webp-img" class="webp-preview-img" alt="Converted WebP Preview" />
+            </div>
+          </div>
+
+          <!-- Output Download Action Button -->
+          <div class="output-actions-row">
+            <button type="button" id="btn-download-webp" class="calc-btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+              Download WebP Image
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is a HEIC to WebP Converter?</h2>
+      <p>
+        A <strong>HEIC to WebP Converter</strong> is a high-performance web application that transforms Apple High Efficiency Image Container (<code>.heic</code> / <code>.heif</code>) files into Google WebP (<code>.webp</code>) graphics directly inside your web browser.
+      </p>
+      <p>
+        Because iPhone photos saved in HEIC format cannot be opened natively on Windows PCs, Android smartphones, or standard web design software, using a <strong>HEIC to WebP converter online</strong> ensures your photos become 100% compatible across all web browsers while shrinking file sizes for maximum website loading speed.
+      </p>
+
+      <h2>Understanding Image Formats: Apple HEIC vs Google WebP</h2>
+      <p>
+        Both HEIC and WebP are modern next-generation image formats, but they serve different ecosystems:
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Feature Parameter</th>
+              <th>Apple HEIC / HEIF (.heic)</th>
+              <th>Google WebP (.webp)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Primary Ecosystem</strong></td>
+              <td>Apple iOS, iPadOS, macOS Camera Capture</td>
+              <td><strong>Universal Web Standard & Search Engines</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Browser Compatibility</strong></td>
+              <td>Safari only (Incompatible with Windows & Android)</td>
+              <td><strong>98%+ Universal Browser Support</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Compression Efficiency</strong></td>
+              <td>50% smaller than legacy JPG</td>
+              <td><strong>30-80% smaller than JPG & PNG</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Alpha Transparency</strong></td>
+              <td>Supported (Depth maps, bursts)</td>
+              <td>Supported (Lossy & Lossless transparency)</td>
+            </tr>
+            <tr>
+              <td><strong>Web Page Speed & SEO</strong></td>
+              <td>Unsupported by Web Vitals</td>
+              <td><strong>Google Recommended Format for Core Web Vitals</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Why Convert iPhone HEIC Images to WebP?</h2>
+      <p>
+        When you shoot photos on an iPhone, iOS automatically compresses photos in HEIC format. While HEIC is excellent for device storage, web creators and website owners must <strong>convert HEIC image to WebP</strong> for four major advantages:
+      </p>
+      <ol>
+        <li><strong>Universal Web Compatibility:</strong> WebP images load seamlessly on Google Chrome, Apple Safari, Mozilla Firefox, Microsoft Edge, Opera, and mobile Android devices.</li>
+        <li><strong>Faster Web Page Load Times:</strong> WebP image files are up to 60-80% smaller than uncompressed photos, boosting Google PageSpeed Insights scores.</li>
+        <li><strong>Improved SEO & Core Web Vitals:</strong> Image optimization directly reduces Largest Contentful Paint (LCP) metrics, improving search engine rankings.</li>
+        <li><strong>100% Client-Side Privacy:</strong> Our conversion engine operates entirely within your local browser sandbox without uploading photos to external servers.</li>
+      </ol>
+
+      <h2>How to Convert HEIC to WebP Online Step-by-Step</h2>
+      <ol>
+        <li><strong>Upload your HEIC Photo:</strong> Drag and drop your <code>.heic</code> or <code>.heif</code> file into the dropzone above, or click to browse files from your iPhone, Mac, or PC.</li>
+        <li><strong>Select Quality Preset:</strong> Choose between High Quality (88%), Maximum Quality (95%), or High Compression (75%).</li>
+        <li><strong>Click Convert:</strong> Click <strong>Convert to WebP</strong> to initiate client-side processing.</li>
+        <li><strong>Download Image:</strong> Inspect your reduced file size metrics and click <strong>Download WebP Image</strong> to save the optimized file.</li>
+      </ol>
+
+      <h2>How Our HEIC to WebP Converter Works</h2>
+      <p>
+        Our <strong>HEIC image converter</strong> utilizes modern WebAssembly and HTML5 Canvas APIs:
+      </p>
+      <p>
+        When an image is loaded, the browser decodes HEIC pixel buffer data onto an invisible HTML5 canvas element. The canvas then encodes pixel data into a compressed WebP binary blob using native browser GPU acceleration before triggering a direct download link.
+      </p>
+
+      <h2>Benefits of WebP Images for Web Speed and SEO</h2>
+      <p>
+        Google officially recommends WebP for all web graphics. Compared to traditional PNG and JPG formats, WebP provides lossy and lossless compression with alpha channel transparency, resulting in crisp imagery at a fraction of the bandwidth cost.
+      </p>
+
+      <h2>HEIC Compatibility Issues on Windows, Android, and Browsers</h2>
+      <p>
+        Opening a HEIC file on Windows 10/11 requires purchasing paid codec extensions from the Microsoft Store. Android devices and standard content management systems (CMS) like WordPress frequently throw <em>"File type not supported"</em> errors when uploading raw HEIC photos. Converting to WebP solves all compatibility barriers instantly.
+      </p>
+
+      <h2>Tips for Optimizing Image Sizes Without Losing Quality</h2>
+      <ul>
+        <li><strong>Aim for 85-90% Quality:</strong> Setting WebP quality between 85% and 90% delivers maximum visual fidelity while reducing file size by 50% or more.</li>
+        <li><strong>Pair Images with Web Tooling:</strong> Combine optimized WebP images with custom video metadata created with our <a href="/tools/youtube-thumbnail-size-checker">YouTube Thumbnail Size Checker</a>, clean URL structures built with our <a href="/tools/url-slug-generator">URL Slug Generator</a>, and formatted descriptions created with our <a href="/tools/youtube-description-formatter">YouTube Description Formatter</a>.</li>
+      </ul>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/youtube-thumbnail-size-checker" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Thumbnail Size Checker</div>
+          <div class="tool-link-desc">Audit thumbnail resolution (1280x720), 16:9 aspect ratio, and 2 MB file size limits.</div>
+        </a>
+        <a href="/tools/url-slug-generator" class="tool-link-card glass">
+          <div class="tool-link-title">URL Slug Generator</div>
+          <div class="tool-link-desc">Convert video titles and headings into clean, SEO-friendly web URL slugs.</div>
+        </a>
+        <a href="/tools/youtube-title-length-checker" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Title Length Checker</div>
+          <div class="tool-link-desc">Preview title truncation across desktop and mobile search results.</div>
+        </a>
+        <a href="/tools/youtube-description-formatter" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Description Formatter</div>
+          <div class="tool-link-desc">Format YouTube descriptions with clean line breaks, bold headers, and bullet lists.</div>
+        </a>
+        <a href="/tools/srt-to-vtt-converter" class="tool-link-card glass">
+          <div class="tool-link-title">SRT to VTT Converter</div>
+          <div class="tool-link-desc">Convert legacy SubRip (.srt) subtitle files into HTML5 W3C WebVTT (.vtt) format.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Column: Form & Controls */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  .dropzone-wrap {
+    min-height: 200px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-fast);
+  }
+
+  .dropzone-wrap:hover, .dropzone-wrap.dragover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.05);
+  }
+
+  .file-input-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .dropzone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .upload-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .upload-svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dropzone-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .dropzone-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .browse-link {
+    color: var(--color-brand);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .file-types-badge {
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Loaded File Bar */
+  .loaded-file-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    gap: 0.75rem;
+  }
+
+  .loaded-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .file-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .file-name-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .file-size-text {
+    font-size: 0.725rem;
+    color: var(--color-text-muted);
+  }
+
+  .btn-clear-file {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-brand);
+    cursor: pointer;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .input-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .quality-select-input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+  }
+
+  /* Actions Row */
+  .actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .calc-btn-primary {
+    flex: 2;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Right Column: Results & WebP Card */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Empty State Placeholder */
+  .empty-state-card {
+    min-height: 340px;
+    padding: 2rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .empty-icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .empty-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .empty-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    max-width: 320px;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Results Display Box */
+  .results-display-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Verdict Status Banner */
+  .verdict-banner {
+    padding: 0.9rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .verdict-banner.success-verdict {
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  .verdict-banner.danger-verdict {
+    border-color: rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.08);
+  }
+
+  .verdict-icon {
+    font-size: 1.4rem;
+  }
+
+  .verdict-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .verdict-title {
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+
+  .verdict-desc {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  /* 4 Metrics Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* WebP Preview Card */
+  .webp-preview-card {
+    padding: 1rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .preview-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .preview-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .preview-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .preview-stage {
+    width: 100%;
+    max-height: 260px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .webp-preview-img {
+    max-width: 100%;
+    max-height: 260px;
+    object-fit: contain;
+  }
+
+  .output-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  declare const heic2any: any;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input') as HTMLInputElement | null;
+    const dropzonePrompt = document.getElementById('dropzone-prompt');
+    const loadedFileBar = document.getElementById('loaded-file-bar');
+    const loadedThumbImg = document.getElementById('loaded-thumb-img') as HTMLImageElement | null;
+    const loadedFilename = document.getElementById('loaded-filename');
+    const loadedFilesize = document.getElementById('loaded-filesize');
+    const btnClearFile = document.getElementById('btn-clear-file');
+    const qualitySelect = document.getElementById('quality-select') as HTMLSelectElement | null;
+
+    const btnConvert = document.getElementById('btn-convert');
+    const btnClearAll = document.getElementById('btn-clear-all');
+
+    // Audit Displays
+    const emptyStateCard = document.getElementById('empty-state-card');
+    const resultsDisplayBox = document.getElementById('results-display-box');
+    const verdictBanner = document.getElementById('verdict-banner');
+    const verdictIcon = document.getElementById('verdict-icon');
+    const verdictTitle = document.getElementById('verdict-title');
+    const verdictDesc = document.getElementById('verdict-desc');
+
+    const resDimensions = document.getElementById('res-dimensions');
+    const resOrigSize = document.getElementById('res-orig-size');
+    const resWebpSize = document.getElementById('res-webp-size');
+    const resSavings = document.getElementById('res-savings');
+    const convertedWebpImg = document.getElementById('converted-webp-img') as HTMLImageElement | null;
+    const btnDownloadWebp = document.getElementById('btn-download-webp');
+
+    if (!dropzone || !fileInput) return;
+
+    let currentFile: File | null = null;
+    let generatedBlobUrl: string | null = null;
+    let activeDownloadName = 'image.webp';
+
+    // Drag & Drop Handling
+    ['dragenter', 'dragover'].forEach(evtName => {
+      dropzone.addEventListener(evtName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(evtName => {
+      dropzone.addEventListener(evtName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('dragover');
+      });
+    });
+
+    dropzone.addEventListener('drop', (e: DragEvent) => {
+      const dt = e.dataTransfer;
+      if (dt && dt.files && dt.files.length > 0) {
+        handleFileSelection(dt.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files && fileInput.files.length > 0) {
+        handleFileSelection(fileInput.files[0]);
+      }
+    });
+
+    if (btnClearFile) {
+      btnClearFile.addEventListener('click', (e) => {
+        e.stopPropagation();
+        resetFormState();
+      });
+    }
+
+    if (btnClearAll) {
+      btnClearAll.addEventListener('click', resetFormState);
+    }
+
+    function resetFormState() {
+      currentFile = null;
+      if (fileInput) fileInput.value = '';
+      if (dropzonePrompt) dropzonePrompt.style.display = 'flex';
+      if (loadedFileBar) loadedFileBar.style.display = 'none';
+      if (resultsDisplayBox) resultsDisplayBox.style.display = 'none';
+      if (emptyStateCard) emptyStateCard.style.display = 'flex';
+      if (generatedBlobUrl) {
+        URL.revokeObjectURL(generatedBlobUrl);
+        generatedBlobUrl = null;
+      }
+      activeDownloadName = 'image.webp';
+    }
+
+    function handleFileSelection(file: File) {
+      if (!file) return;
+
+      currentFile = file;
+      const mbSize = (file.size / (1024 * 1024)).toFixed(2);
+      if (loadedFilename) loadedFilename.textContent = file.name;
+      if (loadedFilesize) loadedFilesize.textContent = `${mbSize} MB`;
+
+      const baseName = file.name.replace(/\.[^/.]+$/, "");
+      activeDownloadName = `${baseName}.webp`;
+
+      if (dropzonePrompt) dropzonePrompt.style.display = 'none';
+      if (loadedFileBar) loadedFileBar.style.display = 'flex';
+
+      // Auto convert on file selection
+      processConversion();
+    }
+
+    // Convert HEIC file to WebP
+    async function processConversion() {
+      if (!currentFile) {
+        alert('Please select or drag an HEIC image file first.');
+        return;
+      }
+
+      const quality = parseFloat(qualitySelect?.value || '0.88');
+      const origSizeMB = currentFile.size / (1024 * 1024);
+
+      try {
+        // Show converting status
+        showStatusVerdict('⏳ Processing HEIC Photo...', 'Converting your HEIC image to WebP format in browser...');
+
+        let imageElement: HTMLImageElement;
+
+        // Step 1: Attempt native decoding or fallback via heic2any
+        try {
+          imageElement = await loadNativeImage(currentFile);
+        } catch (nativeErr) {
+          // Fallback to heic2any client decoder
+          if (typeof heic2any !== 'undefined') {
+            const conversionResult = await heic2any({
+              blob: currentFile,
+              toType: 'image/jpeg',
+              quality: 0.95
+            });
+            const blob = Array.isArray(conversionResult) ? conversionResult[0] : conversionResult;
+            imageElement = await loadBlobToImage(blob);
+          } else {
+            throw new Error('HEIC image format is not natively supported by this browser. Please use Safari or chrome with WebAssembly enabled.');
+          }
+        }
+
+        // Step 2: Render image onto HTML5 canvas & export WebP blob
+        const canvas = document.createElement('canvas');
+        canvas.width = imageElement.naturalWidth || imageElement.width;
+        canvas.height = imageElement.naturalHeight || imageElement.height;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error('Failed to create HTML5 canvas context.');
+
+        ctx.drawImage(imageElement, 0, 0);
+
+        canvas.toBlob((webpBlob) => {
+          if (!webpBlob) {
+            showErrorVerdict('Conversion Failed', 'Could not generate WebP blob from canvas.');
+            return;
+          }
+
+          if (generatedBlobUrl) URL.revokeObjectURL(generatedBlobUrl);
+          generatedBlobUrl = URL.createObjectURL(webpBlob);
+
+          const webpSizeMB = webpBlob.size / (1024 * 1024);
+          const savingsPct = Math.round(((origSizeMB - webpSizeMB) / origSizeMB) * 100);
+
+          // Update UI
+          if (convertedWebpImg) convertedWebpImg.src = generatedBlobUrl;
+          if (resDimensions) resDimensions.textContent = `${canvas.width} x ${canvas.height} px`;
+          if (resOrigSize) resOrigSize.textContent = `${origSizeMB.toFixed(2)} MB`;
+          if (resWebpSize) resWebpSize.textContent = `${webpSizeMB.toFixed(2)} MB`;
+          if (resSavings) {
+            if (savingsPct > 0) {
+              resSavings.textContent = `-${savingsPct}%`;
+              resSavings.style.color = 'var(--color-brand)';
+            } else {
+              resSavings.textContent = `+${Math.abs(savingsPct)}%`;
+              resSavings.style.color = 'var(--color-text-muted)';
+            }
+          }
+
+          if (emptyStateCard) emptyStateCard.style.display = 'none';
+          if (resultsDisplayBox) {
+            resultsDisplayBox.style.display = 'flex';
+            if (window.innerWidth < 992) {
+              resultsDisplayBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+
+          showSuccessVerdict(
+            'Successfully Converted to WebP!',
+            `Image converted to WebP with ${savingsPct > 0 ? savingsPct + '% size savings' : 'optimal resolution'}.`
+          );
+        }, 'image/webp', quality);
+
+      } catch (err: any) {
+        showErrorVerdict('HEIC Decoding Warning', err.message || 'Unable to decode HEIC file. Please select a valid HEIC/HEIF image.');
+      }
+    }
+
+    function loadNativeImage(file: File): Promise<HTMLImageElement> {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          resolve(img);
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          reject(new Error('Native image decode failed'));
+        };
+        img.src = url;
+      });
+    }
+
+    function loadBlobToImage(blob: Blob): Promise<HTMLImageElement> {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(blob);
+        const img = new Image();
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          resolve(img);
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          reject(new Error('Blob image decode failed'));
+        };
+        img.src = url;
+      });
+    }
+
+    function showStatusVerdict(title: string, desc: string) {
+      if (verdictBanner && verdictTitle && verdictDesc && verdictIcon) {
+        verdictBanner.className = 'verdict-banner';
+        verdictIcon.textContent = '🔄';
+        verdictTitle.textContent = title;
+        verdictDesc.textContent = desc;
+      }
+    }
+
+    function showSuccessVerdict(title: string, desc: string) {
+      if (verdictBanner && verdictTitle && verdictDesc && verdictIcon) {
+        verdictBanner.className = 'verdict-banner success-verdict';
+        verdictIcon.textContent = '✅';
+        verdictTitle.textContent = title;
+        verdictDesc.textContent = desc;
+      }
+    }
+
+    function showErrorVerdict(title: string, desc: string) {
+      if (verdictBanner && verdictTitle && verdictDesc && verdictIcon) {
+        verdictBanner.className = 'verdict-banner danger-verdict';
+        verdictIcon.textContent = '⚠️';
+        verdictTitle.textContent = title;
+        verdictDesc.textContent = desc;
+      }
+    }
+
+    if (btnConvert) {
+      btnConvert.addEventListener('click', processConversion);
+    }
+
+    if (qualitySelect) {
+      qualitySelect.addEventListener('change', () => {
+        if (currentFile) processConversion();
+      });
+    }
+
+    // Download WebP Image Handler
+    if (btnDownloadWebp) {
+      btnDownloadWebp.addEventListener('click', () => {
+        if (!generatedBlobUrl) return;
+
+        const a = document.createElement('a');
+        a.href = generatedBlobUrl;
+        a.download = activeDownloadName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    }
+  });
+</script>

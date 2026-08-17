@@ -1,0 +1,1325 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "How do I split an image into a 3x3 grid for Instagram?",
+    answer: "Upload your image to our free Image Splitter, select the '3x3 Insta Grid' preset (3 rows and 3 columns), and click 'Split Image'. Download all 9 tile images as a ZIP file, then post them to Instagram starting from the bottom-right tile to the top-left tile."
+  },
+  {
+    question: "How do I create a seamless 3-part panorama for an Instagram carousel?",
+    answer: "Upload your wide panoramic photo, click the '3x1 Panorama' preset (1 row and 3 columns), and click 'Split Image'. Download the 3 sliced images and upload them as a multi-photo swipeable carousel post on Instagram."
+  },
+  {
+    question: "Is my image uploaded or saved on any server?",
+    answer: "No. Our online Image Splitter uses HTML5 Canvas technology to crop and slice your images locally inside your web browser. Your images and personal files are never sent to any server."
+  },
+  {
+    question: "Does splitting an image reduce picture resolution or quality?",
+    answer: "No. Our tool cuts the original pixel data without shrinking or resampling, preserving 100% of the original source resolution and sharp clarity."
+  },
+  {
+    question: "What image file formats are supported?",
+    answer: "You can upload JPG, PNG, WEBP, GIF, and HEIC images. You can choose to export your split tile images in lossless PNG or high-quality JPEG formats."
+  },
+  {
+    question: "Can I download all split image slices together in a single ZIP file?",
+    answer: "Yes! Click the 'Download All Slices (ZIP)' button to package all generated grid tiles into a single organized ZIP archive file with 1-click."
+  }
+];
+---
+
+<ToolLayout
+  title="Image Splitter - Split Images into Grids & Tiles Online Free"
+  description="Free online Image Splitter tool. Split photos into 3x3 grids, 3x1 Instagram panoramas, or custom row & column tiles. 100% browser-side with batch ZIP download."
+  toolName="Image Splitter"
+  toolDescription="Split images into grid tiles, vertical strips, or horizontal slices for Instagram carousels, panoramas, banners, and digital graphics."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- JSZip for batch zip downloading -->
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: File Upload & Grid Controls -->
+      <div class="calc-form">
+        
+        <!-- Drag & Drop Zone -->
+        <div class="dropzone-wrap" id="dropzone">
+          <input type="file" id="file-input" class="file-input-hidden" accept="image/*" />
+          
+          <div class="dropzone-content" id="dropzone-prompt">
+            <div class="upload-icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="upload-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v16.5h16.5V3.75H3.75Zm4.5 4.5h7.5v7.5h-7.5v-7.5Z" />
+              </svg>
+            </div>
+            <strong class="dropzone-title">Drag & Drop Image Here</strong>
+            <p class="dropzone-desc">or <span class="browse-link">browse picture file</span> from your device</p>
+            <span class="file-types-badge">PNG, JPG, WEBP • Max 50 MB</span>
+          </div>
+
+          <!-- Uploaded File Preview Bar (hidden initially) -->
+          <div class="loaded-file-bar" id="loaded-file-bar" style="display: none;">
+            <img id="loaded-thumb-img" class="loaded-thumb" alt="Loaded Image Preview" />
+            <div class="file-info">
+              <span class="file-name-text" id="loaded-filename">image.png</span>
+              <span class="file-size-text" id="loaded-filesize">1.8 MB</span>
+            </div>
+            <button type="button" class="btn-clear-file" id="btn-clear-file">Change Image</button>
+          </div>
+        </div>
+
+        <!-- Quick Presets Bar -->
+        <div class="presets-wrap">
+          <span class="presets-label">Quick Split Presets:</span>
+          <div class="presets-pills">
+            <button type="button" class="preset-btn" data-rows="3" data-cols="3">3×3 Grid</button>
+            <button type="button" class="preset-btn" data-rows="1" data-cols="3">3×1 Panorama</button>
+            <button type="button" class="preset-btn" data-rows="2" data-cols="2">2×2 Square</button>
+            <button type="button" class="preset-btn" data-rows="1" data-cols="2">2×1 Split</button>
+            <button type="button" class="preset-btn" data-rows="4" data-cols="1">4×1 Rows</button>
+          </div>
+        </div>
+
+        <!-- Custom Rows & Columns Controls -->
+        <div class="grid-controls-row">
+          <div class="form-group flex-1">
+            <label for="input-rows" class="input-label">Rows (Vertical)</label>
+            <input type="number" id="input-rows" class="grid-num-input" min="1" max="10" value="3" />
+          </div>
+
+          <div class="form-group flex-1">
+            <label for="input-cols" class="input-label">Columns (Horizontal)</label>
+            <input type="number" id="input-cols" class="grid-num-input" min="1" max="10" value="3" />
+          </div>
+
+          <div class="form-group flex-1">
+            <label for="input-format" class="input-label">Output Format</label>
+            <select id="input-format" class="grid-select-input">
+              <option value="png" selected>PNG (Lossless)</option>
+              <option value="jpeg">JPG (High Quality)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions-row">
+          <button type="button" id="btn-split" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M12 7.5v9m-4.5-4.5h9" />
+            </svg>
+            Split Image
+          </button>
+          <button type="button" id="btn-clear-all" class="calc-btn-secondary">Clear All</button>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Audit Metrics, Grid Preview & Slices Gallery -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- Empty State Card -->
+        <div class="empty-state-card" id="empty-state-card">
+          <div class="empty-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="empty-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 8.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25A2.25 2.25 0 0 1 13.5 8.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+            </svg>
+          </div>
+          <strong class="empty-title">Waiting for Image Upload</strong>
+          <p class="empty-desc">Upload or drag an image on the left to split it into grid tiles, 3x1 panoramas, or custom row & column slices.</p>
+        </div>
+
+        <!-- Calculated Results Display Box (Hidden before upload) -->
+        <div class="results-display-box" id="results-display-box" style="display: none;">
+          
+          <!-- Verdict Status Banner -->
+          <div class="verdict-banner success-verdict" id="verdict-banner">
+            <span class="verdict-icon" id="verdict-icon">✅</span>
+            <div class="verdict-text-wrap">
+              <strong class="verdict-title" id="verdict-title">Image Successfully Split!</strong>
+              <span class="verdict-desc" id="verdict-desc">Generated sliced tile images ready for instant download.</span>
+            </div>
+          </div>
+
+          <!-- 4 Metric Cards Grid -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-value" id="res-orig-dims">0 x 0</span>
+              <span class="metric-label">Original Resolution</span>
+              <span class="metric-sub">Width x Height</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-grid-layout">3 x 3</span>
+              <span class="metric-label">Grid Layout</span>
+              <span class="metric-sub">Rows x Cols</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-tile-dims">0 x 0</span>
+              <span class="metric-label">Tile Resolution</span>
+              <span class="metric-sub">Per Slice</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-total-tiles">9</span>
+              <span class="metric-label">Total Slices</span>
+              <span class="metric-sub">Tile Count</span>
+            </div>
+          </div>
+
+          <!-- Live Grid Overlay Interactive Preview -->
+          <div class="overlay-stage-card">
+            <div class="stage-header-row">
+              <span class="stage-title">Grid Overlay Preview</span>
+              <span class="stage-badge">Live Slice Map</span>
+            </div>
+            
+            <div class="stage-canvas-wrapper" id="stage-canvas-wrapper">
+              <canvas id="grid-overlay-canvas" class="grid-overlay-canvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Generated Slices Gallery -->
+          <div class="slices-gallery-card">
+            <div class="gallery-header-row">
+              <span class="gallery-title">Generated Slice Tiles</span>
+              <span class="gallery-sub" id="gallery-count-text">Click tile to download individually</span>
+            </div>
+            
+            <div class="tiles-grid" id="tiles-grid">
+              <!-- Dynamically populated JS tile thumbnails -->
+            </div>
+          </div>
+
+          <!-- Output Actions Row -->
+          <div class="output-actions-row">
+            <button type="button" id="btn-download-zip" class="calc-btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+              Download All Slices (ZIP)
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is an Image Splitter?</h2>
+      <p>
+        An <strong>Image Splitter</strong> is a versatile photo editing utility designed to slice, crop, and divide a single image into multiple grid tiles, vertical strips, or horizontal rows.
+      </p>
+      <p>
+        Whether you are creating a 3x3 Instagram grid layout, a seamless swipeable 3x1 panorama carousel, or slicing large graphics for web development, using an <strong>image splitter online</strong> lets you split photos fast without opening complex software like Photoshop or GIMP.
+      </p>
+
+      <h2>How to Split an Image Online Step-by-Step</h2>
+      <ol>
+        <li><strong>Upload your Image:</strong> Drag and drop your image file (PNG, JPG, WEBP) into the upload box above, or click to select a photo from your phone or computer.</li>
+        <li><strong>Select Grid Dimensions or Presets:</strong> Choose a preset (e.g. <em>3x3 Grid</em>, <em>3x1 Panorama</em>, <em>2x2 Square</em>) or enter custom Row and Column values.</li>
+        <li><strong>Click Split Image:</strong> Our client-side engine calculates exact pixel boundaries, renders grid lines, and crops individual image tiles.</li>
+        <li><strong>Download Your Slices:</strong> Click <strong>Download All Slices (ZIP)</strong> to save a complete archive of all tiles, or click any individual tile thumbnail to download it separately.</li>
+      </ol>
+
+      <h2>Popular Use Cases for Splitting Images</h2>
+      <p>
+        Content creators, social media managers, and web designers use <strong>photo splitter</strong> tools for various creative workflows:
+      </p>
+
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Use Case</th>
+              <th>Recommended Grid Layout</th>
+              <th>Ideal Application</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Instagram Profile Grid (Giant Square)</strong></td>
+              <td>3 Rows × 3 Columns (9 Slices)</td>
+              <td>Transforms your Instagram profile grid into a multi-post artwork showcase.</td>
+            </tr>
+            <tr>
+              <td><strong>Instagram Carousel Panorama</strong></td>
+              <td>1 Row × 3 Columns (3 Slices)</td>
+              <td>Creates a seamless multi-photo swipeable post without visible cuts.</td>
+            </tr>
+            <tr>
+              <td><strong>Grid Layout Collages</strong></td>
+              <td>2 Rows × 2 Columns (4 Slices)</td>
+              <td>Ideal for side-by-side product showcases and mood boards.</td>
+            </tr>
+            <tr>
+              <td><strong>Website Banner Slicing</strong></td>
+              <td>1 Row × 4 Columns (4 Strips)</td>
+              <td>Slices wide hero banners for responsive web layout integration.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Understanding Grid, Vertical, and Horizontal Image Splitting</h2>
+      <ul>
+        <li><strong>Grid Splitting (Rows × Columns):</strong> Divides an image equally along both X and Y axes (e.g. 3x3 = 9 square tiles).</li>
+        <li><strong>Vertical Strip Splitting (Columns Only):</strong> Slices an image horizontally into vertical strips (1 Row × N Columns). Ideal for carousel swipe cards.</li>
+        <li><strong>Horizontal Strip Splitting (Rows Only):</strong> Slices an image vertically into horizontal strips (N Rows × 1 Column). Ideal for scrolling infographics.</li>
+      </ul>
+
+      <h2>How Our Online Image Splitter Tool Works</h2>
+      <p>
+        Our <strong>split image online</strong> engine executes 100% inside your web browser using HTML5 Canvas APIs:
+      </p>
+      <p>
+        When an image is loaded, the browser computes precise pixel dimensions (`Width / Columns` and `Height / Rows`). Sub-canvas contexts extract each tile's bounding box using zero-loss pixel cropping, exporting clean PNG or JPEG blobs directly into your browser's memory without sending data over the network.
+      </p>
+
+      <h2>How to Create Instagram Carousel Panoramas and 3x3 Grids</h2>
+      <p>
+        To publish a seamless 3-part panorama carousel on Instagram:
+      </p>
+      <ol>
+        <li>Create a wide panoramic image with a 3:1 aspect ratio (e.g. 3240 x 1080 pixels).</li>
+        <li>Select <strong>3×1 Panorama</strong> in our image splitter and click <strong>Split Image</strong>.</li>
+        <li>Download the 3 sliced tile images.</li>
+        <li>Open Instagram, select multi-photo post, and pick the 3 tiles in left-to-right sequence.</li>
+      </ol>
+
+      <h2>PNG vs JPG: Choosing the Right Format for Split Images</h2>
+      <ul>
+        <li><strong>PNG (Lossless):</strong> Best for illustrations, text graphics, vectors, and high-contrast digital art where sharp edges are essential.</li>
+        <li><strong>JPG / JPEG (High Quality):</strong> Best for real-life photography, portraits, and landscapes to maintain smaller file sizes while preserving vivid colors.</li>
+      </ul>
+
+      <h2>Tips for Preserving Image Quality When Slicing Photos</h2>
+      <ul>
+        <li><strong>Start with High-Resolution Source Files:</strong> Always upload high-resolution source photos (e.g. 3000px+ width) to ensure individual tiles remain crisp on mobile devices.</li>
+        <li><strong>Pair with Web Tooling:</strong> Optimize your web images further with our <a href="/tools/heic-to-webp-converter">HEIC to WebP Converter</a>, audit YouTube thumbnail specs with our <a href="/tools/youtube-thumbnail-size-checker">YouTube Thumbnail Size Checker</a>, and generate SEO-friendly web links with our <a href="/tools/url-slug-generator">URL Slug Generator</a>.</li>
+      </ul>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/heic-to-webp-converter" class="tool-link-card glass">
+          <div class="tool-link-title">HEIC to WebP Converter</div>
+          <div class="tool-link-desc">Convert Apple iPhone HEIC/HEIF images into lightweight WebP graphics.</div>
+        </a>
+        <a href="/tools/youtube-thumbnail-size-checker" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Thumbnail Size Checker</div>
+          <div class="tool-link-desc">Audit thumbnail resolution (1280x720), 16:9 aspect ratio, and file size limits.</div>
+        </a>
+        <a href="/tools/url-slug-generator" class="tool-link-card glass">
+          <div class="tool-link-title">URL Slug Generator</div>
+          <div class="tool-link-desc">Convert video titles and headings into clean, SEO-friendly web URL slugs.</div>
+        </a>
+        <a href="/tools/youtube-title-length-checker" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Title Length Checker</div>
+          <div class="tool-link-desc">Preview title truncation across desktop and mobile search results.</div>
+        </a>
+        <a href="/tools/instagram-line-break-generator" class="tool-link-card glass">
+          <div class="tool-link-title">Instagram Line Break Generator</div>
+          <div class="tool-link-desc">Add clean, invisible U+2800 line breaks and paragraph spacing to social posts.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Controls */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    width: 100%;
+  }
+
+  .dropzone-wrap {
+    min-height: 180px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-fast);
+  }
+
+  .dropzone-wrap:hover, .dropzone-wrap.dragover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.05);
+  }
+
+  .file-input-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .dropzone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .upload-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .upload-svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dropzone-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .dropzone-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .browse-link {
+    color: var(--color-brand);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .file-types-badge {
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Loaded File Bar */
+  .loaded-file-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    gap: 0.75rem;
+  }
+
+  .loaded-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .file-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .file-name-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .file-size-text {
+    font-size: 0.725rem;
+    color: var(--color-text-muted);
+  }
+
+  .btn-clear-file {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-brand);
+    cursor: pointer;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+
+  /* Presets Bar */
+  .presets-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .presets-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .presets-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .preset-btn {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .preset-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.08);
+  }
+
+  /* Grid Dimension Inputs */
+  .grid-controls-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .flex-1 {
+    flex: 1;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .input-label {
+    font-size: 0.825rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .grid-num-input, .grid-select-input {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .grid-num-input:focus, .grid-select-input:focus {
+    border-color: var(--color-brand);
+  }
+
+  /* Actions Row */
+  .actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .calc-btn-primary {
+    flex: 2;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Right Column: Results & Stage */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Empty State Placeholder */
+  .empty-state-card {
+    min-height: 340px;
+    padding: 2rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .empty-icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .empty-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .empty-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    max-width: 320px;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Results Display Box */
+  .results-display-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Verdict Banner */
+  .verdict-banner {
+    padding: 0.9rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .verdict-banner.success-verdict {
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  .verdict-icon {
+    font-size: 1.4rem;
+  }
+
+  .verdict-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .verdict-title {
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+
+  .verdict-desc {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  /* 4 Metrics Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Overlay Stage */
+  .overlay-stage-card {
+    padding: 1rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .stage-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .stage-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .stage-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .stage-canvas-wrapper {
+    width: 100%;
+    max-height: 260px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .grid-overlay-canvas {
+    max-width: 100%;
+    max-height: 260px;
+    object-fit: contain;
+  }
+
+  /* Slices Gallery Card */
+  .slices-gallery-card {
+    padding: 1rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .gallery-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .gallery-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .gallery-sub {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+
+  .tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+
+  :global(.tile-item) {
+    position: relative;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global(.tile-img) {
+    width: 100%;
+    height: 70px;
+    object-fit: cover;
+  }
+
+  :global(.tile-btn) {
+    width: 100%;
+    padding: 0.25rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: var(--color-bg-alt);
+    border: none;
+    border-top: 1px solid var(--color-border);
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  :global(.tile-btn:hover) {
+    background: rgba(99, 102, 241, 0.1);
+  }
+
+  .output-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  declare const JSZip: any;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input') as HTMLInputElement | null;
+    const dropzonePrompt = document.getElementById('dropzone-prompt');
+    const loadedFileBar = document.getElementById('loaded-file-bar');
+    const loadedThumbImg = document.getElementById('loaded-thumb-img') as HTMLImageElement | null;
+    const loadedFilename = document.getElementById('loaded-filename');
+    const loadedFilesize = document.getElementById('loaded-filesize');
+    const btnClearFile = document.getElementById('btn-clear-file');
+
+    const inputRows = document.getElementById('input-rows') as HTMLInputElement | null;
+    const inputCols = document.getElementById('input-cols') as HTMLInputElement | null;
+    const inputFormat = document.getElementById('input-format') as HTMLSelectElement | null;
+    const presetBtns = document.querySelectorAll('.preset-btn');
+
+    const btnSplit = document.getElementById('btn-split');
+    const btnClearAll = document.getElementById('btn-clear-all');
+
+    // Audit Displays
+    const emptyStateCard = document.getElementById('empty-state-card');
+    const resultsDisplayBox = document.getElementById('results-display-box');
+    const resOrigDims = document.getElementById('res-orig-dims');
+    const resGridLayout = document.getElementById('res-grid-layout');
+    const resTileDims = document.getElementById('res-tile-dims');
+    const resTotalTiles = document.getElementById('res-total-tiles');
+
+    const gridOverlayCanvas = document.getElementById('grid-overlay-canvas') as HTMLCanvasElement | null;
+    const tilesGrid = document.getElementById('tiles-grid');
+    const btnDownloadZip = document.getElementById('btn-download-zip');
+
+    if (!dropzone || !fileInput) return;
+
+    let loadedImageObj: HTMLImageElement | null = null;
+    let loadedFileName = 'image';
+    let generatedTileBlobs: { name: string; blob: Blob; url: string }[] = [];
+
+    // Drag & Drop Handling
+    ['dragenter', 'dragover'].forEach(evtName => {
+      dropzone.addEventListener(evtName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(evtName => {
+      dropzone.addEventListener(evtName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('dragover');
+      });
+    });
+
+    dropzone.addEventListener('drop', (e: DragEvent) => {
+      const dt = e.dataTransfer;
+      if (dt && dt.files && dt.files.length > 0) {
+        handleFileSelection(dt.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files && fileInput.files.length > 0) {
+        handleFileSelection(fileInput.files[0]);
+      }
+    });
+
+    if (btnClearFile) btnClearFile.addEventListener('click', resetState);
+    if (btnClearAll) btnClearAll.addEventListener('click', resetState);
+
+    // Preset Buttons
+    presetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const r = btn.getAttribute('data-rows');
+        const c = btn.getAttribute('data-cols');
+        if (r && inputRows) inputRows.value = r;
+        if (c && inputCols) inputCols.value = c;
+        if (loadedImageObj) processImageSplitting();
+      });
+    });
+
+    function resetState() {
+      loadedImageObj = null;
+      if (fileInput) fileInput.value = '';
+      if (dropzonePrompt) dropzonePrompt.style.display = 'flex';
+      if (loadedFileBar) loadedFileBar.style.display = 'none';
+      if (resultsDisplayBox) resultsDisplayBox.style.display = 'none';
+      if (emptyStateCard) emptyStateCard.style.display = 'flex';
+      cleanupBlobUrls();
+    }
+
+    function cleanupBlobUrls() {
+      generatedTileBlobs.forEach(t => URL.revokeObjectURL(t.url));
+      generatedTileBlobs = [];
+    }
+
+    function handleFileSelection(file: File) {
+      if (!file || !file.type.startsWith('image/')) {
+        alert('Please select a valid image file (PNG, JPG, WEBP).');
+        return;
+      }
+
+      const mbSize = (file.size / (1024 * 1024)).toFixed(2);
+      if (loadedFilename) loadedFilename.textContent = file.name;
+      if (loadedFilesize) loadedFilesize.textContent = `${mbSize} MB`;
+      loadedFileName = file.name.replace(/\.[^/.]+$/, "");
+
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        const dataUrl = evt.target?.result as string;
+        if (loadedThumbImg) loadedThumbImg.src = dataUrl;
+
+        const img = new Image();
+        img.onload = () => {
+          loadedImageObj = img;
+          if (dropzonePrompt) dropzonePrompt.style.display = 'none';
+          if (loadedFileBar) loadedFileBar.style.display = 'flex';
+          processImageSplitting();
+        };
+        img.src = dataUrl;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // High-Accuracy Canvas Image Slicing Engine
+    async function processImageSplitting() {
+      if (!loadedImageObj) return;
+
+      const rows = Math.max(1, Math.min(10, parseInt(inputRows?.value || '3', 10)));
+      const cols = Math.max(1, Math.min(10, parseInt(inputCols?.value || '3', 10)));
+      const format = inputFormat?.value || 'png';
+      const ext = format === 'jpeg' ? 'jpg' : 'png';
+      const mime = format === 'jpeg' ? 'image/jpeg' : 'image/png';
+
+      const imgW = loadedImageObj.naturalWidth || loadedImageObj.width;
+      const imgH = loadedImageObj.naturalHeight || loadedImageObj.height;
+
+      const tileW = Math.floor(imgW / cols);
+      const tileH = Math.floor(imgH / rows);
+
+      cleanupBlobUrls();
+
+      // Update Audit Cards
+      if (resOrigDims) resOrigDims.textContent = `${imgW} x ${imgH} px`;
+      if (resGridLayout) resGridLayout.textContent = `${rows} x ${cols}`;
+      if (resTileDims) resTileDims.textContent = `${tileW} x ${tileH} px`;
+      if (resTotalTiles) resTotalTiles.textContent = `${rows * cols}`;
+
+      // Render Grid Overlay Preview Stage
+      if (gridOverlayCanvas) {
+        gridOverlayCanvas.width = imgW;
+        gridOverlayCanvas.height = imgH;
+        const ctx = gridOverlayCanvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(loadedImageObj, 0, 0);
+
+          // Draw Grid Overlay Lines
+          ctx.strokeStyle = '#6366f1';
+          ctx.lineWidth = Math.max(2, Math.floor(imgW / 300));
+
+          // Vertical lines
+          for (let c = 1; c < cols; c++) {
+            ctx.beginPath();
+            ctx.moveTo(c * tileW, 0);
+            ctx.lineTo(c * tileW, imgH);
+            ctx.stroke();
+          }
+
+          // Horizontal lines
+          for (let r = 1; r < rows; r++) {
+            ctx.beginPath();
+            ctx.moveTo(0, r * tileH);
+            ctx.lineTo(imgW, r * tileH);
+            ctx.stroke();
+          }
+
+          // Draw Tile Index Numbers
+          let tileNum = 1;
+          const fontSize = Math.max(16, Math.floor(tileH / 4));
+          ctx.font = `bold ${fontSize}px sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+
+          for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+              const centerX = c * tileW + tileW / 2;
+              const centerY = r * tileH + tileH / 2;
+
+              // Number Badge Circle
+              ctx.fillStyle = 'rgba(99, 102, 241, 0.85)';
+              ctx.beginPath();
+              ctx.arc(centerX, centerY, fontSize * 0.8, 0, 2 * Math.PI);
+              ctx.fill();
+
+              ctx.fillStyle = '#ffffff';
+              ctx.fillText(`${tileNum}`, centerX, centerY);
+              tileNum++;
+            }
+          }
+        }
+      }
+
+      // Generate Tile Slices
+      if (tilesGrid) tilesGrid.innerHTML = '';
+      let tileIndex = 1;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const tileCanvas = document.createElement('canvas');
+          tileCanvas.width = tileW;
+          tileCanvas.height = tileH;
+          const tileCtx = tileCanvas.getContext('2d');
+
+          if (tileCtx) {
+            tileCtx.drawImage(
+              loadedImageObj,
+              c * tileW, r * tileH, tileW, tileH,
+              0, 0, tileW, tileH
+            );
+
+            const blob: Blob = await new Promise(res => tileCanvas.toBlob(b => res(b!), mime, 0.92));
+            const blobUrl = URL.createObjectURL(blob);
+            const tileFileName = `${loadedFileName}_tile_${tileIndex}.${ext}`;
+
+            generatedTileBlobs.push({
+              name: tileFileName,
+              blob: blob,
+              url: blobUrl
+            });
+
+            // Create Tile Gallery Item
+            const tileCard = document.createElement('div');
+            tileCard.className = 'tile-item';
+
+            const tileImg = document.createElement('img');
+            tileImg.className = 'tile-img';
+            tileImg.src = blobUrl;
+            tileImg.alt = `Tile ${tileIndex}`;
+
+            const tileBtn = document.createElement('button');
+            tileBtn.type = 'button';
+            tileBtn.className = 'tile-btn';
+            tileBtn.textContent = `Tile #${tileIndex} (Save)`;
+            tileBtn.addEventListener('click', () => {
+              downloadSingleBlob(blobUrl, tileFileName);
+            });
+
+            tileCard.appendChild(tileImg);
+            tileCard.appendChild(tileBtn);
+            if (tilesGrid) tilesGrid.appendChild(tileCard);
+
+            tileIndex++;
+          }
+        }
+      }
+
+      if (emptyStateCard) emptyStateCard.style.display = 'none';
+      if (resultsDisplayBox) {
+        resultsDisplayBox.style.display = 'flex';
+        if (window.innerWidth < 992) {
+          resultsDisplayBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+
+    function downloadSingleBlob(url: string, filename: string) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // Trigger image re-splitting when inputs change
+    if (inputRows) inputRows.addEventListener('change', () => { if (loadedImageObj) processImageSplitting(); });
+    if (inputCols) inputCols.addEventListener('change', () => { if (loadedImageObj) processImageSplitting(); });
+    if (inputFormat) inputFormat.addEventListener('change', () => { if (loadedImageObj) processImageSplitting(); });
+    if (btnSplit) btnSplit.addEventListener('click', processImageSplitting);
+
+    // Download All Slices (ZIP)
+    if (btnDownloadZip) {
+      btnDownloadZip.addEventListener('click', async () => {
+        if (generatedTileBlobs.length === 0) return;
+
+        if (typeof JSZip !== 'undefined') {
+          const zip = new JSZip();
+          generatedTileBlobs.forEach(tile => {
+            zip.file(tile.name, tile.blob);
+          });
+
+          const zipBlob = await zip.generateAsync({ type: 'blob' });
+          const zipUrl = URL.createObjectURL(zipBlob);
+          downloadSingleBlob(zipUrl, `${loadedFileName}_split_tiles.zip`);
+          setTimeout(() => URL.revokeObjectURL(zipUrl), 3000);
+        } else {
+          // Fallback sequential download
+          generatedTileBlobs.forEach((tile, i) => {
+            setTimeout(() => {
+              downloadSingleBlob(tile.url, tile.name);
+            }, i * 300);
+          });
+        }
+      });
+    }
+  });
+</script>

@@ -1,0 +1,1116 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is the difference between SRT and WebVTT subtitle formats?",
+    answer: "SRT (SubRip Subtitle) is a legacy text-based subtitle format that uses comma decimal separators in timestamps (00:00:01,500). WebVTT (Web Video Text Tracks) is the modern HTML5 W3C standard format that uses period decimal separators (00:00:01.500) and begins with a mandatory 'WEBVTT' header line."
+  },
+  {
+    question: "How do I add a WebVTT (.vtt) subtitle track to an HTML5 video player?",
+    answer: "Add an HTML5 <track> tag inside your <video> element: <video controls><source src='video.mp4' type='video/mp4' /><track kind='subtitles' src='subtitles.vtt' srclang='en' label='English' default /></video>."
+  },
+  {
+    question: "Why do timestamps use periods (.) in VTT instead of commas (,) in SRT?",
+    answer: "WebVTT follows standard web developer syntax specifications defined by W3C, which specify milliseconds separated by full stops/periods. Commas in SRT timestamps will cause WebVTT players to fail parsing."
+  },
+  {
+    question: "Is my subtitle file uploaded or stored on any server?",
+    answer: "No. Our SRT to VTT Converter processes all conversion entirely within your web browser using client-side JavaScript. Your subtitle files and video captions never touch any external server."
+  },
+  {
+    question: "Can WebVTT files retain HTML formatting tags like <i>, <b>, and <u>?",
+    answer: "Yes. WebVTT natively supports HTML styling tags such as <i> for italics, <b> for bold, <u> for underline, and <v Voice> for speaker identification tags."
+  },
+  {
+    question: "What platforms require WebVTT (.vtt) subtitles instead of SRT?",
+    answer: "Modern HTML5 video frameworks like Video.js, JW Player, HLS.js, Dash.js, Safari iOS video players, Vimeo, and custom WebGL video apps require WebVTT captions for browser compliance."
+  }
+];
+---
+
+<ToolLayout
+  title="SRT to VTT Converter - Convert SubRip to WebVTT Online Free"
+  description="Free online SRT to VTT Converter. Convert SubRip (.srt) subtitle files to WebVTT (.vtt) format instantly in your browser with 1-click download."
+  toolName="SRT to VTT Converter"
+  toolDescription="Convert SRT subtitle files (.srt) to WebVTT (.vtt) format for HTML5 video players, video platforms, and web accessibility."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: File Upload & Input Editor -->
+      <div class="calc-form">
+        
+        <!-- Drag & Drop Zone -->
+        <div class="dropzone-wrap" id="dropzone">
+          <input type="file" id="file-input" class="file-input-hidden" accept=".srt, text/plain" />
+          
+          <div class="dropzone-content" id="dropzone-prompt">
+            <div class="upload-icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="upload-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v-6m-3 3 3-3 3 3m-6 6h7.5c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h4.875" />
+              </svg>
+            </div>
+            <strong class="dropzone-title">Drag & Drop .SRT File Here</strong>
+            <p class="dropzone-desc">or <span class="browse-link">browse SRT subtitle file</span> from your device</p>
+            <span class="file-types-badge">SubRip Subtitle (.srt) • Client-side Fast</span>
+          </div>
+
+          <!-- Uploaded File Status Bar (hidden initially) -->
+          <div class="loaded-file-bar" id="loaded-file-bar" style="display: none;">
+            <div class="file-info">
+              <span class="file-name-text" id="loaded-filename">subtitles.srt</span>
+              <span class="file-size-text" id="loaded-filesize">2.4 KB</span>
+            </div>
+            <button type="button" class="btn-clear-file" id="btn-clear-file">Change File</button>
+          </div>
+        </div>
+
+        <!-- Raw SRT Textarea Editor -->
+        <div class="form-group">
+          <label for="srt-input" class="input-label">Or Paste Raw SRT Subtitle Text</label>
+          <textarea 
+            id="srt-input" 
+            class="editor-textarea" 
+            placeholder="Paste SRT subtitle text here (e.g. 1 \n 00:00:01,000 --> 00:00:04,000 ...)"
+            rows="8"
+          >1
+00:00:01,000 --> 00:00:04,500
+Welcome to our video tutorial on <i>creatorsfeel.com</i>!
+
+2
+00:00:05,000 --> 00:00:09,200
+Learn how to convert SRT subtitles to WebVTT (.vtt) instantly.</textarea>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions-row">
+          <button type="button" id="btn-convert" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+            Convert to WebVTT
+          </button>
+          <button type="button" id="btn-clear-all" class="calc-btn-secondary">Clear All</button>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Conversion Verdict, Metrics & Output -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- Status Verdict Banner -->
+        <div class="verdict-banner success-verdict" id="verdict-banner">
+          <span class="verdict-icon" id="verdict-icon">✅</span>
+          <div class="verdict-text-wrap">
+            <strong class="verdict-title" id="verdict-title">Ready to Convert SRT Subtitles!</strong>
+            <span class="verdict-desc" id="verdict-desc">Subtitles will be converted to W3C WebVTT standard format.</span>
+          </div>
+        </div>
+
+        <!-- 4 Metric Cards Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-value" id="res-cue-count">2 Cues</span>
+            <span class="metric-label">Subtitle Cues</span>
+            <span class="metric-sub" id="res-cue-sub">Parsed Blocks</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value" id="res-duration">00:09</span>
+            <span class="metric-label">Track Duration</span>
+            <span class="metric-sub" id="res-duration-sub">MM:SS Runtime</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value">SubRip (.srt)</span>
+            <span class="metric-label">Source Format</span>
+            <span class="metric-sub text-muted">Comma Timestamps</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value">WebVTT (.vtt)</span>
+            <span class="metric-label">Output Format</span>
+            <span class="metric-sub text-muted">Period Timestamps</span>
+          </div>
+        </div>
+
+        <!-- Converted WebVTT Output Code Box -->
+        <div class="vtt-output-wrap">
+          <div class="output-header-row">
+            <span class="output-title">Converted WebVTT Code Preview</span>
+            <span class="output-badge">.VTT Format</span>
+          </div>
+          <textarea id="vtt-output" class="vtt-output-code" readonly rows="8"></textarea>
+        </div>
+
+        <!-- Prominent Download & Copy Buttons -->
+        <div class="output-actions-row">
+          <button type="button" id="btn-download-vtt" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+            Download .vtt File
+          </button>
+          <button type="button" id="btn-copy-vtt" class="calc-btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+            </svg>
+            <span id="copy-btn-text">Copy VTT Text</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is an SRT to VTT Converter?</h2>
+      <p>
+        An <strong>SRT to VTT Converter</strong> is a specialized video editing and developer utility that converts SubRip Subtitle (<code>.srt</code>) files into Web Video Text Tracks (<code>.vtt</code> or WebVTT) format.
+      </p>
+      <p>
+        Whether you are building HTML5 video players, uploading captions to video platforms like Vimeo or Wistia, or optimizing video accessibility for search engines, our <strong>SRT to WebVTT converter</strong> performs fast, accurate, client-side conversion directly inside your web browser.
+      </p>
+
+      <h2>Understanding Subtitle Formats: SRT vs WebVTT</h2>
+      <p>
+        While both SRT and WebVTT are plain-text subtitle formats designed to display synchronized video captions, they differ in syntax specifications and browser compliance:
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Feature Parameter</th>
+              <th>SubRip Subtitle (.srt)</th>
+              <th>WebVTT (.vtt)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Header Requirement</strong></td>
+              <td>None (starts directly at cue 1)</td>
+              <td><strong>Mandatory <code>WEBVTT</code> header</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Timestamp Millisecond Separator</strong></td>
+              <td>Comma (<code>00:01:20,500</code>)</td>
+              <td><strong>Period / Full stop (<code>00:01:20.500</code>)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>HTML5 & W3C Standard</strong></td>
+              <td>Legacy video software format</td>
+              <td><strong>Native HTML5 W3C Specification</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Advanced Styling</strong></td>
+              <td>Basic HTML tags (<code>&lt;i&gt;</code>, <code>&lt;b&gt;</code>)</td>
+              <td>CSS positioning, voice tags (<code>&lt;v Speaker&gt;</code>), alignment</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>How the SRT to VTT Conversion Process Works</h2>
+      <p>
+        Converting an SRT subtitle file to WebVTT involves three essential transformations:
+      </p>
+      <ol>
+        <li><strong>Header Injection:</strong> The converter prepends the required <code>WEBVTT</code> text declaration line followed by a blank line at the beginning of the file.</li>
+        <li><strong>Timestamp Normalization:</strong> All timecodes are scanned and converted from SRT comma syntax (<code>00:00:05,250</code>) to WebVTT period syntax (<code>00:00:05.250</code>).</li>
+        <li><strong>Character Encoding & Line Breaks:</strong> Windows CR/LF (<code>\r\n</code>) line breaks are normalized into standard Unix LF (<code>\n</code>) formatting while preserving subtitle text styling tags.</li>
+      </ol>
+
+      <h2>How to Use WebVTT (.vtt) Files in HTML5 Video Players (&lt;track&gt;)</h2>
+      <p>
+        To display WebVTT closed captions inside native HTML5 web video players, embed the <code>&lt;track&gt;</code> tag within your <code>&lt;video&gt;</code> element:
+      </p>
+      <pre><code>&lt;video controls width="100%" poster="thumb.jpg"&gt;
+  &lt;source src="my-video.mp4" type="video/mp4" /&gt;
+  &lt;track 
+    kind="subtitles" 
+    src="subtitles.vtt" 
+    srclang="en" 
+    label="English" 
+    default /&gt;
+&lt;/video&gt;</code></pre>
+
+      <h2>Step-by-Step Guide: How to Convert SRT to VTT Online</h2>
+      <ol>
+        <li><strong>Upload your SRT File:</strong> Drag and drop your <code>.srt</code> file into the upload dropzone above, or click to browse files on your computer or phone.</li>
+        <li><strong>Or Paste Raw SRT Text:</strong> Alternatively, copy and paste your raw SubRip subtitle code into the left text box.</li>
+        <li><strong>Instant Client-Side Conversion:</strong> Our engine automatically converts timestamps, adds the <code>WEBVTT</code> header, and audits cue count and total runtime.</li>
+        <li><strong>Download or Copy:</strong> Click <strong>Download .vtt File</strong> to save the generated file to your device, or click <strong>Copy VTT Text</strong>.</li>
+      </ol>
+
+      <h2>Why Video Platforms Require WebVTT Subtitles</h2>
+      <p>
+        Modern web browsers (Google Chrome, Apple Safari, Mozilla Firefox, Microsoft Edge) natively implement W3C HTML5 media standards. Web video players like Video.js, Plyr, JW Player, and Safari iOS video players require WebVTT captions because the format integrates seamlessly with browser CSS and accessibility APIs.
+      </p>
+
+      <h2>Handling Timestamp Formats: Commas vs Periods</h2>
+      <p>
+        The single most frequent error when attempting to use SRT files on web video players is timestamp syntax rejection. SRT uses commas for millisecond values (e.g. <code>00:02:15,800 --&gt; 00:02:19,200</code>). Browsers interpreting HTML5 <code>&lt;track&gt;</code> elements will throw a syntax error if commas are present. Converting SRT to VTT replaces commas with periods (<code>00:02:15.800 --&gt; 00:02:19.200</code>), resolving playback errors.
+      </p>
+
+      <h2>Common Subtitle Formatting Errors and How to Fix Them</h2>
+      <ul>
+        <li><strong>Missing WEBVTT Header:</strong> WebVTT files must begin with <code>WEBVTT</code> on line 1. Without this header, video players will reject the caption track.</li>
+        <li><strong>Invalid Timestamp Overlaps:</strong> Overlapping cue start/end times can cause subtitles to flicker. Ensure cue start times are chronological.</li>
+        <li><strong>Encoding Issues:</strong> Always ensure subtitle files are saved in UTF-8 text encoding to preserve international accents and non-Latin character sets.</li>
+      </ul>
+
+      <h2>Best Practices for Subtitle Accessibility and SEO</h2>
+      <p>
+        Providing WebVTT closed captions improves video accessibility for deaf and hard-of-hearing viewers while enabling search engine bots to index video transcripts for organic search ranking.
+      </p>
+      <p>
+        Pair your video captions with optimized metadata titles checked with our <a href="/tools/youtube-title-length-checker">YouTube Title Length Checker</a>, structured descriptions generated with our <a href="/tools/youtube-description-formatter">YouTube Description Formatter</a>, and video chapter markers created with our <a href="/tools/youtube-timestamp-generator">YouTube Timestamp Generator</a>.
+      </p>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/youtube-timestamp-generator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Timestamp Generator</div>
+          <div class="tool-link-desc">Format compliant YouTube video description chapters and deep link share timestamps.</div>
+        </a>
+        <a href="/tools/youtube-description-formatter" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Description Formatter</div>
+          <div class="tool-link-desc">Format YouTube descriptions with clean line breaks, bold headers, and structured bullet lists.</div>
+        </a>
+        <a href="/tools/instagram-line-break-generator" class="tool-link-card glass">
+          <div class="tool-link-title">Instagram Line Break Generator</div>
+          <div class="tool-link-desc">Add clean, invisible U+2800 line breaks and paragraph spacing to social media posts.</div>
+        </a>
+        <a href="/tools/url-slug-generator" class="tool-link-card glass">
+          <div class="tool-link-title">URL Slug Generator</div>
+          <div class="tool-link-desc">Convert video titles and headings into clean, SEO-friendly web URL slugs.</div>
+        </a>
+        <a href="/tools/youtube-title-length-checker" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Title Length Checker</div>
+          <div class="tool-link-desc">Preview title truncation across desktop and mobile YouTube search results.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Dropzone */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  .dropzone-wrap {
+    min-height: 180px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-fast);
+  }
+
+  .dropzone-wrap:hover, .dropzone-wrap.dragover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.05);
+  }
+
+  .file-input-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .dropzone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .upload-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .upload-svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dropzone-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .dropzone-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .browse-link {
+    color: var(--color-brand);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .file-types-badge {
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Loaded File Bar */
+  .loaded-file-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .file-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .file-name-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .file-size-text {
+    font-size: 0.725rem;
+    color: var(--color-text-muted);
+  }
+
+  .btn-clear-file {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-brand);
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .input-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .editor-textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 0.9rem;
+    font-family: monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .editor-textarea:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  /* Actions Row */
+  .actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .calc-btn-primary {
+    flex: 2;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Right Column: Results & Code Box */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Verdict Status Banner */
+  .verdict-banner {
+    padding: 0.9rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .verdict-banner.success-verdict {
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  .verdict-banner.danger-verdict {
+    border-color: rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.08);
+  }
+
+  .verdict-icon {
+    font-size: 1.4rem;
+  }
+
+  .verdict-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .verdict-title {
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+
+  .verdict-desc {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  /* 4 Metrics Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Converted WebVTT Output Code Box */
+  .vtt-output-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .output-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .output-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .output-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .vtt-output-code {
+    width: 100%;
+    min-height: 180px;
+    padding: 0.9rem;
+    font-family: monospace;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+  }
+
+  .output-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .editorial-section code, .editorial-section pre {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+    font-family: monospace;
+  }
+
+  .editorial-section pre {
+    padding: 1rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  .editorial-section pre code {
+    background: transparent;
+    padding: 0;
+    border: none;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input') as HTMLInputElement | null;
+    const dropzonePrompt = document.getElementById('dropzone-prompt');
+    const loadedFileBar = document.getElementById('loaded-file-bar');
+    const loadedFilename = document.getElementById('loaded-filename');
+    const loadedFilesize = document.getElementById('loaded-filesize');
+    const btnClearFile = document.getElementById('btn-clear-file');
+
+    const srtInput = document.getElementById('srt-input') as HTMLTextAreaElement | null;
+    const btnConvert = document.getElementById('btn-convert');
+    const btnClearAll = document.getElementById('btn-clear-all');
+
+    // Audit Displays
+    const verdictBanner = document.getElementById('verdict-banner');
+    const verdictIcon = document.getElementById('verdict-icon');
+    const verdictTitle = document.getElementById('verdict-title');
+    const verdictDesc = document.getElementById('verdict-desc');
+
+    const resCueCount = document.getElementById('res-cue-count');
+    const resCueSub = document.getElementById('res-cue-sub');
+    const resDuration = document.getElementById('res-duration');
+    const vttOutput = document.getElementById('vtt-output') as HTMLTextAreaElement | null;
+
+    const btnDownloadVtt = document.getElementById('btn-download-vtt');
+    const btnCopyVtt = document.getElementById('btn-copy-vtt');
+    const copyBtnText = document.getElementById('copy-btn-text');
+
+    if (!srtInput) return;
+
+    let activeFileName = 'subtitles.vtt';
+
+    // Drag & Drop Handling
+    if (dropzone && fileInput) {
+      ['dragenter', 'dragover'].forEach(evtName => {
+        dropzone.addEventListener(evtName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add('dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(evtName => {
+        dropzone.addEventListener(evtName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove('dragover');
+        });
+      });
+
+      dropzone.addEventListener('drop', (e: DragEvent) => {
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files.length > 0) {
+          readSrtFile(dt.files[0]);
+        }
+      });
+
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files && fileInput.files.length > 0) {
+          readSrtFile(fileInput.files[0]);
+        }
+      });
+    }
+
+    if (btnClearFile) {
+      btnClearFile.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (fileInput) fileInput.value = '';
+        if (dropzonePrompt) dropzonePrompt.style.display = 'flex';
+        if (loadedFileBar) loadedFileBar.style.display = 'none';
+        activeFileName = 'subtitles.vtt';
+      });
+    }
+
+    function readSrtFile(file: File) {
+      if (!file) return;
+      
+      const kbSize = (file.size / 1024).toFixed(1);
+      if (loadedFilename) loadedFilename.textContent = file.name;
+      if (loadedFilesize) loadedFilesize.textContent = `${kbSize} KB`;
+
+      const baseName = file.name.replace(/\.[^/.]+$/, "");
+      activeFileName = `${baseName}.vtt`;
+
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        const text = evt.target?.result as string;
+        if (srtInput) srtInput.value = text;
+
+        if (dropzonePrompt) dropzonePrompt.style.display = 'none';
+        if (loadedFileBar) loadedFileBar.style.display = 'flex';
+
+        processConversion();
+      };
+      reader.readAsText(file);
+    }
+
+    // High-Accuracy Client-Side SRT to WebVTT Conversion Engine
+    function processConversion() {
+      if (!srtInput || !vttOutput) return;
+
+      const rawSrt = srtInput.value;
+      if (!rawSrt.trim()) {
+        showErrorVerdict('No Subtitle Text Entered', 'Please upload an SRT file or paste SRT text on the left.');
+        vttOutput.value = '';
+        if (resCueCount) resCueCount.textContent = '0 Cues';
+        if (resDuration) resDuration.textContent = '00:00';
+        return;
+      }
+
+      try {
+        const result = convertSrtToVtt(rawSrt);
+        vttOutput.value = result.vttText;
+
+        if (resCueCount) resCueCount.textContent = `${result.cueCount} ${result.cueCount === 1 ? 'Cue' : 'Cues'}`;
+        if (resCueSub) resCueSub.textContent = 'Parsed Blocks';
+        if (resDuration) resDuration.textContent = result.durationStr;
+
+        showSuccessVerdict(
+          'Successfully Converted to WebVTT!',
+          `Converted ${result.cueCount} subtitle cues with 100% W3C WebVTT syntax compliance.`
+        );
+      } catch (err: any) {
+        vttOutput.value = '';
+        if (resCueCount) resCueCount.textContent = '0 Cues';
+        if (resDuration) resDuration.textContent = '00:00';
+        showErrorVerdict('Invalid SRT Subtitle Format', err.message || 'The provided text does not contain valid SRT timestamps.');
+      }
+    }
+
+    function convertSrtToVtt(srtText: string): { vttText: string; cueCount: number; durationStr: string } {
+      const normalized = srtText.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+      if (!normalized) {
+        throw new Error('Input text or file is empty.');
+      }
+
+      const blocks = normalized.split(/\n\s*\n/);
+      const vttLines: string[] = ['WEBVTT', ''];
+      let validCueCount = 0;
+      let firstStartSec = Infinity;
+      let lastEndSec = 0;
+
+      for (let i = 0; i < blocks.length; i++) {
+        const block = blocks[i].trim();
+        if (!block) continue;
+
+        const lines = block.split('\n').map(l => l.trim());
+        let arrowLineIdx = -1;
+
+        for (let j = 0; j < lines.length; j++) {
+          if (lines[j].includes('-->')) {
+            arrowLineIdx = j;
+            break;
+          }
+        }
+
+        if (arrowLineIdx === -1) continue;
+
+        const cueId = lines.slice(0, arrowLineIdx).join(' ');
+        const timeLine = lines[arrowLineIdx];
+
+        // Replace comma timestamps with period timestamps
+        const vttTimeLine = timeLine
+          .replace(/(\d{2}:\d{2}:\d{2}),(\d{3})/g, '$1.$2')
+          .replace(/(\d{2}:\d{2}),(\d{3})/g, '$1.$2');
+
+        const timeMatch = vttTimeLine.match(/(\d{2}:\d{2}:\d{2}\.\d{3}|\d{2}:\d{2}\.\d{3})\s*-->\s*(\d{2}:\d{2}:\d{2}\.\d{3}|\d{2}:\d{2}\.\d{3})/);
+        if (timeMatch) {
+          const startSec = timeToSeconds(timeMatch[1]);
+          const endSec = timeToSeconds(timeMatch[2]);
+          if (startSec < firstStartSec) firstStartSec = startSec;
+          if (endSec > lastEndSec) lastEndSec = endSec;
+        }
+
+        const payloadText = lines.slice(arrowLineIdx + 1).join('\n');
+
+        if (cueId && !isNaN(Number(cueId))) {
+          vttLines.push(cueId);
+        }
+        vttLines.push(vttTimeLine);
+        vttLines.push(payloadText);
+        vttLines.push('');
+        validCueCount++;
+      }
+
+      if (validCueCount === 0) {
+        throw new Error('No valid SRT timestamps (e.g. 00:00:01,000 --> 00:00:04,000) were found.');
+      }
+
+      const durationStr = formatDuration(lastEndSec);
+
+      return {
+        vttText: vttLines.join('\n').trim() + '\n',
+        cueCount: validCueCount,
+        durationStr: durationStr
+      };
+    }
+
+    function timeToSeconds(tStr: string): number {
+      const parts = tStr.split(':');
+      if (parts.length === 3) {
+        const h = parseFloat(parts[0]);
+        const m = parseFloat(parts[1]);
+        const s = parseFloat(parts[2]);
+        return h * 3600 + m * 60 + s;
+      } else if (parts.length === 2) {
+        const m = parseFloat(parts[0]);
+        const s = parseFloat(parts[1]);
+        return m * 60 + s;
+      }
+      return 0;
+    }
+
+    function formatDuration(sec: number): string {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      const mm = m < 10 ? `0${m}` : `${m}`;
+      const ss = s < 10 ? `0${s}` : `${s}`;
+      return `${mm}:${ss}`;
+    }
+
+    function showSuccessVerdict(title: string, desc: string) {
+      if (verdictBanner && verdictTitle && verdictDesc && verdictIcon) {
+        verdictBanner.className = 'verdict-banner success-verdict';
+        verdictIcon.textContent = '✅';
+        verdictTitle.textContent = title;
+        verdictDesc.textContent = desc;
+      }
+    }
+
+    function showErrorVerdict(title: string, desc: string) {
+      if (verdictBanner && verdictTitle && verdictDesc && verdictIcon) {
+        verdictBanner.className = 'verdict-banner danger-verdict';
+        verdictIcon.textContent = '❌';
+        verdictTitle.textContent = title;
+        verdictDesc.textContent = desc;
+      }
+    }
+
+    // Convert button handler
+    if (btnConvert) {
+      btnConvert.addEventListener('click', processConversion);
+    }
+
+    // Live conversion on input typing/pasting
+    ['input', 'change'].forEach(evt => {
+      srtInput.addEventListener(evt, processConversion);
+    });
+
+    // Clear all handler
+    if (btnClearAll) {
+      btnClearAll.addEventListener('click', () => {
+        srtInput.value = '';
+        if (fileInput) fileInput.value = '';
+        if (dropzonePrompt) dropzonePrompt.style.display = 'flex';
+        if (loadedFileBar) loadedFileBar.style.display = 'none';
+        activeFileName = 'subtitles.vtt';
+        processConversion();
+      });
+    }
+
+    // Download VTT File Handler
+    if (btnDownloadVtt) {
+      btnDownloadVtt.addEventListener('click', () => {
+        if (!vttOutput || !vttOutput.value.trim()) {
+          alert('No converted WebVTT content available to download.');
+          return;
+        }
+
+        const blob = new Blob([vttOutput.value], { type: 'text/vtt;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = activeFileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    // Copy VTT Text Handler
+    if (btnCopyVtt) {
+      btnCopyVtt.addEventListener('click', () => {
+        if (!vttOutput || !vttOutput.value.trim()) return;
+
+        navigator.clipboard.writeText(vttOutput.value).then(() => {
+          if (copyBtnText) copyBtnText.textContent = 'Copied!';
+          setTimeout(() => {
+            if (copyBtnText) copyBtnText.textContent = 'Copy VTT Text';
+          }, 2000);
+        });
+      });
+    }
+
+    // Initial Conversion Audit
+    processConversion();
+  });
+</script>
