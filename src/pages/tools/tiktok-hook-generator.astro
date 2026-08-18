@@ -1,0 +1,999 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is a TikTok video hook?",
+    answer: "A TikTok hook is the opening 1 to 3 seconds of a short-form video (verbal, visual, or text on screen) designed to capture viewer attention immediately and prevent users from scrolling past your content."
+  },
+  {
+    question: "Why are the first 3 seconds of a TikTok video so critical?",
+    answer: "TikTok's algorithm prioritizes watch time and 3-second retention rate. If users scroll away in the first 2 seconds, TikTok stops recommending your video to new audiences on the For You Page (FYP)."
+  },
+  {
+    question: "How long should a TikTok hook be?",
+    answer: "An effective verbal or text-on-screen hook should be concise—typically between 5 to 12 words (spoken in under 3 seconds). Short, punchy hooks deliver maximum intrigue with minimal cognitive load."
+  },
+  {
+    question: "Can I use these hooks on Instagram Reels and YouTube Shorts?",
+    answer: "Yes! Short-form video algorithms across TikTok, Instagram Reels, and YouTube Shorts share identical watch time retention metrics. Our generated hooks work seamlessly across all vertical video platforms."
+  },
+  {
+    question: "Should I speak the hook out loud or write it on screen?",
+    answer: "For maximum retention, do both! Combining verbal speech with bold, on-screen text captions caters to both silent scrollers and audio listeners, increasing 3-second retention by up to 40%."
+  },
+  {
+    question: "What makes a TikTok hook go viral?",
+    answer: "Viral hooks leverage high-emotion psychological triggers: curiosity gaps, pain points, bold counter-intuitive claims, or personal transformation stories that compel viewers to stay for the payoff."
+  }
+];
+---
+
+<ToolLayout
+  title="TikTok Hook Generator - Generate Viral Video Hooks Free"
+  description="Free online TikTok Hook Generator. Generate high-converting curiosity, pain-point, and viral video hooks for TikTok, Instagram Reels, and YouTube Shorts."
+  toolName="TikTok Hook Generator"
+  toolDescription="Generate high-retention TikTok hooks, viral video openers, curiosity headlines, and pain-point hooks for short-form videos."
+  category="Writing Tools"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: Input Form & Controls -->
+      <form class="calc-form" id="hook-form" onsubmit="return false;">
+        
+        <div class="form-group">
+          <label for="topic-input" class="input-label">Enter Your Video Topic or Idea</label>
+          <input 
+            type="text" 
+            id="topic-input" 
+            class="topic-text-input" 
+            placeholder="e.g. growing on TikTok, productivity hacks, fitness tips" 
+            value="growing your TikTok account"
+          />
+        </div>
+
+        <!-- Quick Preset Topic Pills -->
+        <div class="presets-wrap">
+          <span class="presets-label">Popular Example Topics:</span>
+          <div class="presets-pills">
+            <button type="button" class="preset-pill-btn" data-topic="growing on TikTok">TikTok Growth</button>
+            <button type="button" class="preset-pill-btn" data-topic="productivity hacks">Productivity Hacks</button>
+            <button type="button" class="preset-pill-btn" data-topic="fitness routines">Fitness Routines</button>
+            <button type="button" class="preset-pill-btn" data-topic="small business marketing">Small Business</button>
+            <button type="button" class="preset-pill-btn" data-topic="content creation tips">Content Creation</button>
+          </div>
+        </div>
+
+        <!-- Hook Category Angle Selector -->
+        <div class="form-group">
+          <label for="category-select" class="input-label">Select Hook Style / Angle</label>
+          <select id="category-select" class="category-select-input">
+            <option value="all" selected>All Hook Angles (Comprehensive Mix)</option>
+            <option value="curiosity">Curiosity & Secret ("Stop scrolling if...")</option>
+            <option value="pain">Pain Point & Problem ("If you're struggling with...")</option>
+            <option value="bold">Bold & Controversial ("Unpopular opinion: ...")</option>
+            <option value="story">Story & Personal Result ("How I went from 0 to...")</option>
+            <option value="howto">Actionable & How-To ("3 simple steps to...")</option>
+          </select>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions-row">
+          <button type="button" id="btn-generate" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+            </svg>
+            Generate TikTok Hooks
+          </button>
+          <button type="button" id="btn-clear-all" class="calc-btn-secondary">Clear All</button>
+        </div>
+
+      </form>
+
+      <!-- Right Column: Audit Metrics & Generated Hooks Feed -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- Ungenerated Empty State Card -->
+        <div class="empty-state-card" id="empty-state-card">
+          <div class="empty-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="empty-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+            </svg>
+          </div>
+          <strong class="empty-title">Waiting for Video Topic</strong>
+          <p class="empty-desc">Enter your video topic on the left and click <strong>Generate TikTok Hooks</strong> to get high-converting 3-second openers.</p>
+        </div>
+
+        <!-- Generated Hooks Results Container (Hidden initially) -->
+        <div class="results-display-box" id="results-display-box" style="display: none;">
+          
+          <!-- Verdict Status Banner -->
+          <div class="verdict-banner success-verdict" id="verdict-banner">
+            <span class="verdict-icon">⚡</span>
+            <div class="verdict-text-wrap">
+              <strong class="verdict-title" id="verdict-title">Generated TikTok Hooks!</strong>
+              <span class="verdict-desc" id="verdict-desc">High-retention video openers ready for TikTok, Reels, and Shorts.</span>
+            </div>
+          </div>
+
+          <!-- 4 Metric Cards Grid -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-value" id="res-hook-count">12 Hooks</span>
+              <span class="metric-label">Generated Hooks</span>
+              <span class="metric-sub">Varied Openers</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-hook-style">All Angles</span>
+              <span class="metric-label">Content Style</span>
+              <span class="metric-sub">Hook Angle</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value">95% High</span>
+              <span class="metric-label">Est. Retention</span>
+              <span class="metric-sub">3-Sec Watch Rate</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value">Multi-Platform</span>
+              <span class="metric-label">Compatibility</span>
+              <span class="metric-sub">TikTok/Reels/Shorts</span>
+            </div>
+          </div>
+
+          <!-- Generated Hooks Feed List -->
+          <div class="hooks-feed-list" id="hooks-feed-list">
+            <!-- Dynamically populated JS hook cards -->
+          </div>
+
+          <!-- Batch Copy Action Row -->
+          <div class="output-actions-row">
+            <button type="button" id="btn-copy-all" class="calc-btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+              </svg>
+              <span id="copy-all-btn-text">Copy All Hooks</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is a TikTok Hook Generator?</h2>
+      <p>
+        A <strong>TikTok Hook Generator</strong> is a specialized short-form video copywriting tool designed for creators, influencers, and social media marketers. It generates high-converting opening statements, curiosity gaps, and pain-point visual headlines tailored specifically to your video topic.
+      </p>
+      <p>
+        Whether you are producing educational TikToks, product reviews, personal vlogs, or viral Shorts, using a <strong>free TikTok hook generator</strong> ensures your video grabs attention in the critical opening 3 seconds before users scroll past.
+      </p>
+
+      <h2>Why the First 3 Seconds of a TikTok Video Matter Most</h2>
+      <p>
+        Short-form video algorithms on TikTok, Instagram Reels, and YouTube Shorts prioritize <strong>watch time retention</strong> above all other metrics.
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Retention Metric</th>
+              <th>Algorithm Impact</th>
+              <th>Optimization Strategy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>3-Second Watch Rate</strong></td>
+              <td>Determines whether TikTok pushes your video beyond the initial 300-viewer test group onto the FYP.</td>
+              <td>Use bold verbal hooks combined with animated text on screen.</td>
+            </tr>
+            <tr>
+              <td><strong>Average Watch Time</strong></td>
+              <td>Signals high content value, triggering multi-wave algorithmic distribution.</td>
+              <td>Create a curiosity gap where the answer is revealed at the end.</td>
+            </tr>
+            <tr>
+              <td><strong>Completion Rate (%)</strong></td>
+              <td>The #1 ranking signal for viral 100k+ view videos on short-form feeds.</td>
+              <td>Keep overall video length tight (15-30s max) with zero fluff.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>The Anatomy of a High-Converting TikTok Hook</h2>
+      <p>
+        Every viral <strong>TikTok hook idea</strong> consists of three core components working simultaneously:
+      </p>
+      <ol>
+        <li><strong>The Verbal Hook:</strong> The opening sentence spoken out loud within 1.5 seconds.</li>
+        <li><strong>The Visual On-Screen Text:</strong> Bold, high-contrast captions placed in the upper-middle third of the video frame.</li>
+        <li><strong>The Curiosity Gap:</strong> Posing a question, problem, or counter-intuitive claim that makes scrolling away feel like leaving a story unfinished.</li>
+      </ol>
+
+      <h2>6 Powerful TikTok Hook Angles to Skyrocket Engagement</h2>
+      <ul>
+        <li><strong>The Negative Pattern Interrupt:</strong> <em>"Stop doing X right now if you want Y."</em> (Triggers instant urgency and fear of missing out).</li>
+        <li><strong>The Secret / Insider Tip:</strong> <em>"Nobody is talking about this hidden hack for X..."</em> (Positioning your content as exclusive knowledge).</li>
+        <li><strong>The Relatable Pain Point:</strong> <em>"If you're struggling with X, watch this before you scroll."</em> (Directly addresses a specific audience problem).</li>
+        <li><strong>The Bold Statement / Myth Busting:</strong> <em>"Unpopular opinion: Everything you've been told about X is a lie."</em> (Generates controversy and comment section debates).</li>
+        <li><strong>The Transformation Story:</strong> <em>"How I went from zero to X in 90 days."</em> (Builds authority and social proof).</li>
+        <li><strong>The Actionable How-To:</strong> <em>"3 simple steps to master X in 2026."</em> (Delivers immediate tangible value).</li>
+      </ul>
+
+      <h2>How to Use the TikTok Hook Generator Step-by-Step</h2>
+      <ol>
+        <li><strong>Enter Your Video Topic:</strong> Type your core subject or niche keyword (e.g. <code>productivity hacks</code>, <code>growing on TikTok</code>) into the input box above.</li>
+        <li><strong>Select Hook Angle:</strong> Choose your preferred tone (Curiosity, Pain Point, Bold, Story, or How-To).</li>
+        <li><strong>Click Generate:</strong> Our engine creates 10+ tailored, high-retention video openers.</li>
+        <li><strong>Copy & Record:</strong> Click <strong>Copy Hook</strong> on your favorite option, record your verbal opener, and add bold on-screen text.</li>
+      </ol>
+
+      <h2>Proven TikTok Hook Ideas for Different Content Niches</h2>
+      <p>
+        Different audiences respond to distinct psychological hooks:
+      </p>
+      <ul>
+        <li><strong>Business & Finance:</strong> <em>"The #1 mistake costing you thousands in your business..."</em></li>
+        <li><strong>Fitness & Wellness:</strong> <em>"If you're trying to lose weight, stop doing this exercise..."</em></li>
+        <li><strong>Tech & Software:</strong> <em>"This free website feels illegal to know for productivity..."</em></li>
+        <li><strong>Beauty & Fashion:</strong> <em>"The secret 2-minute routine that completely fixed my skin..."</em></li>
+      </ul>
+
+      <h2>How to Match Visual Hooks with Verbal Hooks</h2>
+      <p>
+        A great verbal hook is twice as effective when paired with a visual movement or action in the first frame:
+      </p>
+      <ul>
+        <li>Start the video mid-action (walking into frame, pointing at screen, pouring a drink).</li>
+        <li>Use rapid text animations or bold yellow/white captions.</li>
+        <li>Change camera angles or zoom levels right as you state the key payoff.</li>
+      </ul>
+
+      <h2>Common TikTok Hook Mistakes That Ruin Video Retention</h2>
+      <ul>
+        <li><strong>Long Introductions:</strong> Saying <em>"Hey guys, welcome back to my channel today I want to talk about..."</em> instantly kills retention. Start directly with the hook.</li>
+        <li><strong>Slow Pacing:</strong> Pausing or stuttering in the first 2 seconds. Record multiple takes until your opener is fast and energetic.</li>
+        <li><strong>Pairing with Other Creator Tools:</strong> Combine your viral hooks with optimized captions generated by our <a href="/tools/tiktok-caption-generator">TikTok Caption Generator</a>, audit profile bios with our <a href="/tools/tiktok-bio-generator">TikTok Bio Generator</a>, and analyze account engagement rates with our <a href="/tools/tiktok-engagement-calculator">TikTok Engagement Calculator</a>.</li>
+      </ul>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/tiktok-caption-generator" class="tool-link-card glass">
+          <div class="tool-link-title">TikTok Caption Generator</div>
+          <div class="tool-link-desc">Generate engaging captions, call-to-actions, and trending hashtags for TikTok videos.</div>
+        </a>
+        <a href="/tools/tiktok-bio-generator" class="tool-link-card glass">
+          <div class="tool-link-title">TikTok Bio Generator</div>
+          <div class="tool-link-desc">Craft catchy, high-converting TikTok profile bios tailored to your niche.</div>
+        </a>
+        <a href="/tools/tiktok-engagement-calculator" class="tool-link-card glass">
+          <div class="tool-link-title">TikTok Engagement Calculator</div>
+          <div class="tool-link-desc">Calculate TikTok engagement rate per video based on likes, comments, and shares.</div>
+        </a>
+        <a href="/tools/youtube-clickbait-title-generator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Clickbait Title Generator</div>
+          <div class="tool-link-desc">Generate high-CTR, curiosity-driven titles tailored to your video topic.</div>
+        </a>
+        <a href="/tools/cta-generator" class="tool-link-card glass">
+          <div class="tool-link-title">Call-To-Action (CTA) Generator</div>
+          <div class="tool-link-desc">Create powerful CTA phrases to boost comments, shares, and follower growth.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Controls */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    width: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .input-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .topic-text-input, .category-select-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .topic-text-input:focus, .category-select-input:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  /* Presets Bar */
+  .presets-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .presets-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .presets-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .preset-pill-btn {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .preset-pill-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.08);
+  }
+
+  /* Actions Row */
+  .actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .calc-btn-primary {
+    flex: 2;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Right Column: Results & Hooks List */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Empty State Placeholder */
+  .empty-state-card {
+    min-height: 340px;
+    padding: 2rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .empty-icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .empty-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .empty-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    max-width: 320px;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Results Display Box */
+  .results-display-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Verdict Banner */
+  .verdict-banner {
+    padding: 0.9rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .verdict-banner.success-verdict {
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  .verdict-icon {
+    font-size: 1.4rem;
+  }
+
+  .verdict-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .verdict-title {
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+
+  .verdict-desc {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  /* 4 Metrics Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Hooks Feed List Container */
+  .hooks-feed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 0.35rem;
+  }
+
+  :global(.hook-item-card) {
+    padding: 0.9rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color var(--transition-fast);
+  }
+
+  :global(.hook-item-card:hover) {
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  :global(.hook-text-wrap) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  :global(.hook-angle-badge) {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  :global(.hook-content-text) {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  :global(.copy-hook-btn) {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.4rem !important;
+    padding: 0.45rem 0.85rem !important;
+    min-height: 36px !important;
+    font-size: 0.825rem !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    border: 1px solid rgba(99, 102, 241, 0.4) !important;
+    border-radius: var(--radius-md) !important;
+    background: var(--color-bg-alt) !important;
+    color: var(--color-brand) !important;
+    cursor: pointer !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    transition: all var(--transition-fast) !important;
+  }
+
+  :global(.copy-hook-btn:hover) {
+    border-color: var(--color-brand) !important;
+    background: rgba(99, 102, 241, 0.08) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  :global(.copy-hook-btn.copied-state) {
+    border-color: #10b981 !important;
+    color: #10b981 !important;
+    background: rgba(16, 185, 129, 0.08) !important;
+  }
+
+  @media (max-width: 576px) {
+    :global(.hook-item-card) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+
+    :global(.copy-hook-btn) {
+      width: 100% !important;
+      min-height: 40px !important;
+    }
+  }
+
+  .output-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  interface HookTemplate {
+    category: string;
+    angleName: string;
+    template: (t: string) => string;
+  }
+
+  const hookTemplates: HookTemplate[] = [
+    // Curiosity & Secret
+    { category: 'curiosity', angleName: 'Curiosity & Secret', template: t => `Stop scrolling if you want to master ${t} in 2026.` },
+    { category: 'curiosity', angleName: 'Curiosity & Secret', template: t => `Nobody is talking about this secret hack for ${t}...` },
+    { category: 'curiosity', angleName: 'Curiosity & Secret', template: t => `If you knew what I know about ${t}, you'd do this immediately.` },
+    { category: 'curiosity', angleName: 'Curiosity & Secret', template: t => `Here is the ${t} trick that 99% of people miss.` },
+    { category: 'curiosity', angleName: 'Curiosity & Secret', template: t => `I tested ${t} for 30 days and the result completely shocked me.` },
+    
+    // Pain Point & Problem
+    { category: 'pain', angleName: 'Pain Point & Problem', template: t => `If you're struggling with ${t}, watch this before you scroll.` },
+    { category: 'pain', angleName: 'Pain Point & Problem', template: t => `Why 90% of people fail at ${t} (and how to fix it).` },
+    { category: 'pain', angleName: 'Pain Point & Problem', template: t => `Are you still doing ${t} the old way? Big mistake.` },
+    { category: 'pain', angleName: 'Pain Point & Problem', template: t => `The real reason your ${t} isn't working right now.` },
+    { category: 'pain', angleName: 'Pain Point & Problem', template: t => `3 huge mistakes you're making with ${t} without realizing it.` },
+
+    // Bold & Controversial
+    { category: 'bold', angleName: 'Bold & Controversial', template: t => `Unpopular opinion: Everything you've been told about ${t} is wrong.` },
+    { category: 'bold', angleName: 'Bold & Controversial', template: t => `Stop doing ${t} right now if you want real results.` },
+    { category: 'bold', angleName: 'Bold & Controversial', template: t => `I'm going to get hate for this, but here's the truth about ${t}.` },
+    { category: 'bold', angleName: 'Bold & Controversial', template: t => `Why most advice about ${t} is completely useless.` },
+    { category: 'bold', angleName: 'Bold & Controversial', template: t => `Don't start ${t} until you watch this video.` },
+
+    // Story & Personal Result
+    { category: 'story', angleName: 'Story & Personal Result', template: t => `How I transformed my ${t} from zero to top 1% in 90 days.` },
+    { category: 'story', angleName: 'Story & Personal Result', template: t => `The exact blueprint I used to fix ${t} forever.` },
+    { category: 'story', angleName: 'Story & Personal Result', template: t => `The biggest lesson I learned from failing at ${t}.` },
+    { category: 'story', angleName: 'Story & Personal Result', template: t => `This one simple mindset shift completely changed my ${t}.` },
+    { category: 'story', angleName: 'Story & Personal Result', template: t => `What happened when I tried ${t} for 7 days straight.` },
+
+    // Actionable & How-To
+    { category: 'howto', angleName: 'Actionable & How-To', template: t => `3 simple steps to master ${t} faster than anyone else.` },
+    { category: 'howto', angleName: 'Actionable & How-To', template: t => `The 1-minute daily habit that will revolutionize your ${t}.` },
+    { category: 'howto', angleName: 'Actionable & How-To', template: t => `Save this video if you want the easiest way to do ${t}.` },
+    { category: 'howto', angleName: 'Actionable & How-To', template: t => `How to do ${t} like a pro (even if you're a complete beginner).` },
+    { category: 'howto', angleName: 'Actionable & How-To', template: t => `Here is your ultimate step-by-step checklist for ${t}.` }
+  ];
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const topicInput = document.getElementById('topic-input') as HTMLInputElement | null;
+    const categorySelect = document.getElementById('category-select') as HTMLSelectElement | null;
+    const presetBtns = document.querySelectorAll('.preset-pill-btn');
+
+    const btnGenerate = document.getElementById('btn-generate');
+    const btnClearAll = document.getElementById('btn-clear-all');
+
+    // Audit Displays
+    const emptyStateCard = document.getElementById('empty-state-card');
+    const resultsDisplayBox = document.getElementById('results-display-box');
+    const verdictTitle = document.getElementById('verdict-title');
+    const verdictDesc = document.getElementById('verdict-desc');
+
+    const resHookCount = document.getElementById('res-hook-count');
+    const resHookStyle = document.getElementById('res-hook-style');
+    const hooksFeedList = document.getElementById('hooks-feed-list');
+
+    const btnCopyAll = document.getElementById('btn-copy-all');
+    const copyAllBtnText = document.getElementById('copy-all-btn-text');
+
+    if (!topicInput) return;
+
+    let currentGeneratedHooks: string[] = [];
+
+    // Presets Handlers
+    presetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const topic = btn.getAttribute('data-topic');
+        if (topic && topicInput) {
+          topicInput.value = topic;
+          generateHooks();
+        }
+      });
+    });
+
+    if (btnClearAll) {
+      btnClearAll.addEventListener('click', () => {
+        topicInput.value = '';
+        currentGeneratedHooks = [];
+        if (resultsDisplayBox) resultsDisplayBox.style.display = 'none';
+        if (emptyStateCard) emptyStateCard.style.display = 'flex';
+        topicInput.focus();
+      });
+    }
+
+    // High-Retention Hook Generation Algorithm
+    function generateHooks() {
+      if (!topicInput) return;
+
+      const rawTopic = topicInput.value.trim();
+      if (!rawTopic) {
+        alert('Please enter a video topic or idea.');
+        return;
+      }
+
+      const category = categorySelect?.value || 'all';
+      const cleanTopic = rawTopic.toLowerCase();
+
+      // Filter templates based on category angle
+      const filtered = category === 'all'
+        ? hookTemplates
+        : hookTemplates.filter(h => h.category === category);
+
+      currentGeneratedHooks = [];
+
+      if (hooksFeedList) hooksFeedList.innerHTML = '';
+
+      filtered.forEach((item, idx) => {
+        const hookText = item.template(cleanTopic);
+        currentGeneratedHooks.push(hookText);
+
+        // Render Hook Card Item
+        const card = document.createElement('div');
+        card.className = 'hook-item-card';
+
+        const textWrap = document.createElement('div');
+        textWrap.className = 'hook-text-wrap';
+
+        const badge = document.createElement('span');
+        badge.className = 'hook-angle-badge';
+        badge.textContent = item.angleName;
+
+        const content = document.createElement('div');
+        content.className = 'hook-content-text';
+        content.textContent = hookText;
+
+        textWrap.appendChild(badge);
+        textWrap.appendChild(content);
+
+        // Outlined Copy Button
+        const copyBtn = document.createElement('button');
+        copyBtn.type = 'button';
+        copyBtn.className = 'copy-hook-btn';
+        copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" style="width:16px;height:16px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" /></svg><span>Copy Hook</span>`;
+
+        copyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(hookText).then(() => {
+            copyBtn.classList.add('copied-state');
+            copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px;height:16px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg><span>Copied!</span>`;
+            setTimeout(() => {
+              copyBtn.classList.remove('copied-state');
+              copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" style="width:16px;height:16px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" /></svg><span>Copy Hook</span>`;
+            }, 1800);
+          });
+        });
+
+        card.appendChild(textWrap);
+        card.appendChild(copyBtn);
+        if (hooksFeedList) hooksFeedList.appendChild(card);
+      });
+
+      // Update Audit Cards
+      if (resHookCount) resHookCount.textContent = `${filtered.length} Hooks`;
+      if (resHookStyle) {
+        resHookStyle.textContent = category === 'all' ? 'All Angles' : categorySelect?.options[categorySelect.selectedIndex].text.split(' ')[0] || 'Selected';
+      }
+
+      if (verdictTitle) verdictTitle.textContent = `Generated ${filtered.length} Viral Hooks!`;
+      if (verdictDesc) verdictDesc.textContent = `Tailored opener hooks for "${rawTopic}".`;
+
+      if (emptyStateCard) emptyStateCard.style.display = 'none';
+      if (resultsDisplayBox) {
+        resultsDisplayBox.style.display = 'flex';
+        if (window.innerWidth < 992) {
+          resultsDisplayBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+
+    if (btnGenerate) btnGenerate.addEventListener('click', generateHooks);
+    if (categorySelect) categorySelect.addEventListener('change', generateHooks);
+
+    // Copy All Hooks Handler
+    if (btnCopyAll) {
+      btnCopyAll.addEventListener('click', () => {
+        if (currentGeneratedHooks.length === 0) return;
+        const allText = currentGeneratedHooks.join('\n\n');
+        navigator.clipboard.writeText(allText).then(() => {
+          if (copyAllBtnText) copyAllBtnText.textContent = 'Copied All!';
+          setTimeout(() => {
+            if (copyAllBtnText) copyAllBtnText.textContent = 'Copy All Hooks';
+          }, 2000);
+        });
+      });
+    }
+
+    // Initial Generation
+    generateHooks();
+  });
+</script>

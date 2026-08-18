@@ -1,0 +1,1447 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is an online video trimmer?",
+    answer: "An online video trimmer is a web-based tool that allows you to cut out unwanted parts from the beginning, middle, or end of a video file directly inside your browser without needing complex video editing software."
+  },
+  {
+    question: "What is the difference between trimming and cutting a video?",
+    answer: "Trimming refers to removing unwanted footage from the start or end of a single video clip (e.g. shortening a 60-second video to 15 seconds). Cutting involves splitting a video into multiple segments or removing a section from the middle."
+  },
+  {
+    question: "Does trimming a video reduce its video resolution or quality?",
+    answer: "No. Our video trimmer preserves your source video's original pixel dimensions (such as 1080p Full HD or 4K UHD) and maintains high-bitrate encoding to ensure your trimmed clip looks crisp and vibrant."
+  },
+  {
+    question: "Is my uploaded video file saved on any server?",
+    answer: "No. Our Online Video Trimmer processes all video decoding, frame rendering, and re-encoding locally in your browser memory using HTML5 Canvas, Web Audio, and MediaRecorder APIs. Your footage is never uploaded to any remote server."
+  },
+  {
+    question: "How do I trim a video for Instagram Stories, TikTok, or YouTube Shorts?",
+    answer: "Upload your video, set your start and end points to fit within platform limits (e.g. under 60 seconds for YouTube Shorts or under 15 seconds for quick Instagram Stories), preview the selection, and click 'Trim Video' to download the trimmed clip."
+  },
+  {
+    question: "What video formats are supported by this trimmer?",
+    answer: "You can upload and trim all popular digital video formats including MP4, WebM, MOV (Apple QuickTime), MKV, M4V, and AVI."
+  }
+];
+---
+
+<ToolLayout
+  title="Online Video Trimmer - Trim & Cut Videos Online Free"
+  description="Free Online Video Trimmer tool. Trim, cut, and crop video start and end points directly in your browser. 100% private, fast, with instant preview and download."
+  toolName="Online Video Trimmer"
+  toolDescription="Trim, cut, and clip video start and end points online. Cut MP4, WebM, and MOV videos in your browser with 100% client-side privacy."
+  category="Calculators"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: Upload, Player & Timeline Controls -->
+      <div class="calc-form">
+        
+        <!-- Drag & Drop Zone -->
+        <div class="dropzone-wrap" id="dropzone">
+          <input type="file" id="file-input" class="file-input-hidden" accept="video/*, .mp4, .webm, .mov, .mkv, .m4v, .avi" />
+          
+          <div class="dropzone-content" id="dropzone-prompt">
+            <div class="upload-icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="upload-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+              </svg>
+            </div>
+            <strong class="dropzone-title">Drag & Drop Video to Trim</strong>
+            <p class="dropzone-desc">or <span class="browse-link">browse video file</span> from your device</p>
+            <span class="file-types-badge">MP4, WebM, MOV, MKV • 100% Client-Side Private</span>
+          </div>
+
+          <!-- Uploaded Video Preview Bar (hidden initially) -->
+          <div class="loaded-file-bar" id="loaded-file-bar" style="display: none;">
+            <div class="file-info">
+              <span class="file-name-text" id="loaded-filename">video.mp4</span>
+              <span class="file-size-text" id="loaded-filesize">0 MB • 00:00 Duration</span>
+            </div>
+            <button type="button" class="btn-clear-file" id="btn-clear-file">Change Video</button>
+          </div>
+        </div>
+
+        <!-- Interactive Trimmer Timeline & Player (Hidden before upload) -->
+        <div class="trimmer-editor-box" id="trimmer-editor-box" style="display: none;">
+          
+          <!-- Source Video Scrubber Player -->
+          <div class="source-player-wrap">
+            <video id="source-video-player" class="source-video-player" controls playsinline></video>
+          </div>
+
+          <!-- Trim Selection Badge -->
+          <div class="trim-stats-badge">
+            <span class="trim-badge-label">Selected Trim:</span>
+            <strong class="trim-badge-val" id="trim-duration-badge">00:00.00 / 00:00.00</strong>
+          </div>
+
+          <!-- Dual Timecode Controls Row -->
+          <div class="timecode-controls-grid">
+            <div class="timecode-card">
+              <label for="input-start-time" class="timecode-label">Start Point</label>
+              <div class="timecode-input-row">
+                <input type="text" id="input-start-time" class="timecode-input" value="00:00.00" />
+                <button type="button" class="btn-set-time" id="btn-set-start">Set Current</button>
+              </div>
+            </div>
+
+            <div class="timecode-card">
+              <label for="input-end-time" class="timecode-label">End Point</label>
+              <div class="timecode-input-row">
+                <input type="text" id="input-end-time" class="timecode-input" value="00:00.00" />
+                <button type="button" class="btn-set-time" id="btn-set-end">Set Current</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preview Selection Action -->
+          <button type="button" id="btn-preview-trim" class="btn-preview-selection">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg-sm">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+            </svg>
+            Preview Selected Trim
+          </button>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions-row">
+          <button type="button" id="btn-trim-video" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.25" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m7.848 8.25 1.536.887M7.848 8.25a3 3 0 1 1-5.196-3 3 3 0 0 1 5.196 3Zm1.536.887a2.165 2.165 0 0 1 1.083 1.863v2.25a2.165 2.165 0 0 1-1.083 1.863l-1.536.887m0 0a3 3 0 1 1-5.196 3 3 3 0 0 1 5.196-3Zm1.536-.887 6.464-3.732M19.5 12l-9.964 5.75M19.5 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+            </svg>
+            Trim Video
+          </button>
+          <button type="button" id="btn-clear-all" class="calc-btn-secondary">Clear All</button>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Audit Metrics, Progress & Trimmed Result -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- Empty State Card -->
+        <div class="empty-state-card" id="empty-state-card">
+          <div class="empty-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="empty-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m7.848 8.25 1.536.887M7.848 8.25a3 3 0 1 1-5.196-3 3 3 0 0 1 5.196 3Zm1.536.887a2.165 2.165 0 0 1 1.083 1.863v2.25a2.165 2.165 0 0 1-1.083 1.863l-1.536.887m0 0a3 3 0 1 1-5.196 3 3 3 0 0 1 5.196-3Zm1.536-.887 6.464-3.732M19.5 12l-9.964 5.75M19.5 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+            </svg>
+          </div>
+          <strong class="empty-title">Waiting for Video Upload</strong>
+          <p class="empty-desc">Upload or drag a video file on the left to set custom start and end points and trim your clip with 100% browser-side privacy.</p>
+        </div>
+
+        <!-- Live Trimming Progress Card (Visible during processing) -->
+        <div class="progress-card" id="progress-card" style="display: none;">
+          <div class="progress-header">
+            <span class="progress-title" id="progress-status-text">⏳ Trimming Video...</span>
+            <span class="progress-pct" id="progress-pct-text">0%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+          <span class="progress-sub" id="progress-sub-text">Extracting selected video frames locally...</span>
+        </div>
+
+        <!-- Calculated Results Display Box (Hidden initially) -->
+        <div class="results-display-box" id="results-display-box" style="display: none;">
+          
+          <!-- Verdict Status Banner -->
+          <div class="verdict-banner success-verdict" id="verdict-banner">
+            <span class="verdict-icon">✂️</span>
+            <div class="verdict-text-wrap">
+              <strong class="verdict-title" id="verdict-title">Video Trimmed Successfully!</strong>
+              <span class="verdict-desc" id="verdict-desc">Your clip was trimmed and rendered in real time.</span>
+            </div>
+          </div>
+
+          <!-- 4 Metric Cards Grid -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-value" id="res-trim-duration">00:00</span>
+              <span class="metric-label">Trimmed Duration</span>
+              <span class="metric-sub">Output Clip</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-orig-duration">00:00</span>
+              <span class="metric-label">Original Duration</span>
+              <span class="metric-sub">Source Video</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-trimmed-size">0 MB</span>
+              <span class="metric-label">Output Size</span>
+              <span class="metric-sub" id="res-size-sub">Trimmed File</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-resolution">1920 × 1080</span>
+              <span class="metric-label">Resolution</span>
+              <span class="metric-sub">Full Quality</span>
+            </div>
+          </div>
+
+          <!-- Trimmed Video Player Preview Card -->
+          <div class="player-stage-card">
+            <div class="stage-header-row">
+              <span class="stage-title">Trimmed Video Preview</span>
+              <span class="stage-badge" id="player-badge">Web-Ready Format</span>
+            </div>
+            
+            <div class="player-wrapper">
+              <video id="trimmed-video-player" class="trimmed-video-player" controls playsinline></video>
+            </div>
+          </div>
+
+          <!-- Download Action Button -->
+          <div class="output-actions-row">
+            <button type="button" id="btn-download-trimmed" class="calc-btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+              Download Trimmed Video
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is an Online Video Trimmer?</h2>
+      <p>
+        An <strong>Online Video Trimmer</strong> is an easy-to-use digital video editing tool that enables creators, marketers, educators, and social media managers to trim video files online directly in their web browser.
+      </p>
+      <p>
+        Instead of installing heavy desktop editing applications like Adobe Premiere Pro, Final Cut Pro, or DaVinci Resolve just to shorten a 30-second clip, using a <strong>free video trimmer</strong> lets you set precise start and end points in seconds with instant video playback preview and 1-click downloads.
+      </p>
+
+      <h2>How to Trim Video Files Online Step-by-Step</h2>
+      <ol>
+        <li><strong>Upload your Video:</strong> Drag and drop your video file (MP4, WebM, MOV, MKV) into the upload box above, or select a video from your smartphone or computer.</li>
+        <li><strong>Set Start and End Points:</strong> Play your video in the scrubber player and click <strong>Set Current</strong> at your desired start and end times, or enter exact timecodes manually.</li>
+        <li><strong>Preview Your Selection:</strong> Click <strong>Preview Selected Trim</strong> to verify the exact clip boundaries before rendering.</li>
+        <li><strong>Click Trim Video:</strong> Our browser engine extracts the chosen segment frame-by-frame using hardware-accelerated HTML5 Canvas and MediaRecorder APIs.</li>
+        <li><strong>Download Your Trimmed Video:</strong> Play the finished video in the output preview player and click <strong>Download Trimmed Video</strong> to save the file.</li>
+      </ol>
+
+      <h2>Video Trimming vs Video Cutting: What Is the Difference?</h2>
+      <p>
+        While the terms are often used interchangeably, trimming and cutting serve distinct editing goals:
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Editing Action</th>
+              <th>Primary Function</th>
+              <th>Common Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Video Trimming</strong></td>
+              <td>Removing unwanted footage from the beginning or end of a single continuous clip.</td>
+              <td>Shortening a long recording to fit a 15-second Instagram Story or 60-second TikTok.</td>
+            </tr>
+            <tr>
+              <td><strong>Video Cutting / Splitting</strong></td>
+              <td>Dividing a video into multiple separate pieces or slicing out a mistake in the middle.</td>
+              <td>Removing an awkward pause or cough from an interview recording.</td>
+            </tr>
+            <tr>
+              <td><strong>Video Cropping</strong></td>
+              <td>Altering the visible canvas dimensions or aspect ratio (e.g. 16:9 to 9:16).</td>
+              <td>Reframing horizontal widescreen video for vertical mobile screens.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>How Our Online Video Trimmer Works (100% Client-Side)</h2>
+      <p>
+        Most web video editors upload your entire video file to a third-party cloud server, which consumes massive amounts of bandwidth and creates potential privacy risks.
+      </p>
+      <p>
+        Our <strong>video cutter online</strong> works 100% client-side inside your browser sandbox:
+      </p>
+      <p>
+        When you select start and end timestamps, the browser seeks directly to the start timecode. An offscreen HTML5 canvas renders each video frame at native resolution while Web Audio extracts the synchronized audio track. The stream is recorded into an optimized WebM/MP4 binary container in local device memory, guaranteeing total privacy and instant processing speed.
+      </p>
+
+      <h2>Popular Use Cases for Trimming Videos Online</h2>
+      <ul>
+        <li><strong>Social Media Content Repurposing:</strong> Trim key highlights from long YouTube videos or webinars to create viral clips for TikTok, Instagram Reels, and YouTube Shorts.</li>
+        <li><strong>Removing Awkward Intros & Outros:</strong> Cut out countdown timers, silence, or screen setup pauses from Zoom recordings and live stream captures.</li>
+        <li><strong>Email & Messaging Attachments:</strong> Trim video length to shrink file sizes below Gmail's 25 MB and Discord's 10 MB attachment caps.</li>
+        <li><strong>Tutorial & Presentation Snippets:</strong> Extract short 10-to-20-second product demonstrations to embed inside slide decks or blog tutorials.</li>
+      </ul>
+
+      <h2>Supported Video Formats and Quality Considerations</h2>
+      <p>
+        Our online video trimmer supports all widely used container formats:
+      </p>
+      <ul>
+        <li><strong>MP4 (.mp4):</strong> The universal standard for web, mobile, and television playback.</li>
+        <li><strong>WebM (.webm):</strong> Google's high-efficiency open web video format optimized for fast streaming.</li>
+        <li><strong>MOV (.mov):</strong> Apple QuickTime video captured from iPhones, iPads, and Mac devices.</li>
+        <li><strong>MKV & M4V:</strong> High-definition video containers commonly used for screen recordings and digital broadcasts.</li>
+      </ul>
+
+      <h2>Why Browser-Based Video Trimming Protects Your Privacy</h2>
+      <p>
+        When working with confidential business presentations, personal family moments, or unreleased creator footage, uploading videos to unknown servers is a major security concern.
+      </p>
+      <p>
+        Because CreatorsFeel's video trimmer executes all code locally on your device, your video files never touch an external server or cloud database.
+      </p>
+
+      <h2>Best Practices and Tips for Precise Video Trimming</h2>
+      <ul>
+        <li><strong>Use Millisecond Precision:</strong> Enter exact fractional seconds (e.g. <code>00:14.50</code>) to cut precisely on dialogue pauses or scene transitions.</li>
+        <li><strong>Combine with Creator Tools:</strong> Compress your trimmed video further with our <a href="/tools/video-compressor">Video Compressor</a>, generate chapter timestamps with our <a href="/tools/youtube-timestamp-generator">YouTube Timestamp Generator</a>, and verify video thumbnail sizing with our <a href="/tools/youtube-thumbnail-size-checker">YouTube Thumbnail Size Checker</a>.</li>
+      </ul>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/video-compressor" class="tool-link-card glass">
+          <div class="tool-link-title">Video Compressor</div>
+          <div class="tool-link-desc">Reduce video file size by up to 70% for Discord, email, WhatsApp, and websites.</div>
+        </a>
+        <a href="/tools/youtube-timestamp-generator" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Timestamp Generator</div>
+          <div class="tool-link-desc">Create clickable chapter timestamps and timecode markers for YouTube descriptions.</div>
+        </a>
+        <a href="/tools/youtube-thumbnail-size-checker" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Thumbnail Size Checker</div>
+          <div class="tool-link-desc">Audit thumbnail resolution (1280x720), 16:9 ratio, and 2 MB file size limit.</div>
+        </a>
+        <a href="/tools/image-dimensions-checker" class="tool-link-card glass">
+          <div class="tool-link-title">Image Dimensions Checker</div>
+          <div class="tool-link-desc">Check exact pixel width, height, aspect ratio, and megapixels in your browser.</div>
+        </a>
+        <a href="/tools/url-slug-generator" class="tool-link-card glass">
+          <div class="tool-link-title">URL Slug Generator</div>
+          <div class="tool-link-desc">Convert video titles and article headings into clean, SEO-friendly web URLs.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Controls */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    width: 100%;
+  }
+
+  .dropzone-wrap {
+    min-height: 160px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-fast);
+  }
+
+  .dropzone-wrap:hover, .dropzone-wrap.dragover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.05);
+  }
+
+  .file-input-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .dropzone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .upload-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .upload-svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dropzone-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .dropzone-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .browse-link {
+    color: var(--color-brand);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .file-types-badge {
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Loaded File Bar */
+  .loaded-file-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    gap: 0.75rem;
+  }
+
+  .file-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .file-name-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .file-size-text {
+    font-size: 0.725rem;
+    color: var(--color-text-muted);
+  }
+
+  .btn-clear-file {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-brand);
+    cursor: pointer;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+
+  /* Trimmer Editor Box */
+  .trimmer-editor-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .source-player-wrap {
+    width: 100%;
+    max-height: 240px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .source-video-player {
+    max-width: 100%;
+    max-height: 240px;
+    outline: none;
+  }
+
+  .trim-stats-badge {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+  }
+
+  .trim-badge-label {
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+
+  .trim-badge-val {
+    color: var(--color-brand);
+    font-weight: 800;
+  }
+
+  .timecode-controls-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+  }
+
+  .timecode-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .timecode-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .timecode-input-row {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .timecode-input {
+    width: 100%;
+    padding: 0.55rem 0.65rem;
+    font-size: 0.85rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .btn-set-time {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-set-time:hover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.08);
+  }
+
+  .btn-preview-selection {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-preview-selection:hover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.08);
+  }
+
+  .btn-svg-sm {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Actions Row */
+  .actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .calc-btn-primary {
+    flex: 2;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* Right Column: Results & Progress */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Empty State Placeholder */
+  .empty-state-card {
+    min-height: 340px;
+    padding: 2rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .empty-icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .empty-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .empty-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    max-width: 320px;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Progress Card */
+  .progress-card {
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .progress-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .progress-pct {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--color-brand);
+  }
+
+  .progress-bar-bg {
+    width: 100%;
+    height: 10px;
+    background: var(--color-bg);
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gradient-brand);
+    border-radius: 999px;
+    transition: width 0.15s ease-out;
+  }
+
+  .progress-sub {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Results Display Box */
+  .results-display-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Verdict Status Banner */
+  .verdict-banner {
+    padding: 0.9rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .verdict-banner.success-verdict {
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  .verdict-icon {
+    font-size: 1.4rem;
+  }
+
+  .verdict-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .verdict-title {
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+
+  .verdict-desc {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  /* 4 Metrics Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Video Player Stage */
+  .player-stage-card {
+    padding: 1rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .stage-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .stage-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .stage-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .player-wrapper {
+    width: 100%;
+    max-height: 260px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: #000000;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .trimmed-video-player {
+    max-width: 100%;
+    max-height: 260px;
+    outline: none;
+  }
+
+  .output-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input') as HTMLInputElement | null;
+    const dropzonePrompt = document.getElementById('dropzone-prompt');
+    const loadedFileBar = document.getElementById('loaded-file-bar');
+    const loadedFilename = document.getElementById('loaded-filename');
+    const loadedFilesize = document.getElementById('loaded-filesize');
+    const btnClearFile = document.getElementById('btn-clear-file');
+
+    const trimmerEditorBox = document.getElementById('trimmer-editor-box');
+    const sourceVideoPlayer = document.getElementById('source-video-player') as HTMLVideoElement | null;
+    const trimDurationBadge = document.getElementById('trim-duration-badge');
+
+    const inputStartTime = document.getElementById('input-start-time') as HTMLInputElement | null;
+    const inputEndTime = document.getElementById('input-end-time') as HTMLInputElement | null;
+    const btnSetStart = document.getElementById('btn-set-start');
+    const btnSetEnd = document.getElementById('btn-set-end');
+    const btnPreviewTrim = document.getElementById('btn-preview-trim');
+
+    const btnTrimVideo = document.getElementById('btn-trim-video');
+    const btnClearAll = document.getElementById('btn-clear-all');
+
+    // Results & Progress Displays
+    const emptyStateCard = document.getElementById('empty-state-card');
+    const progressCard = document.getElementById('progress-card');
+    const progressStatusText = document.getElementById('progress-status-text');
+    const progressPctText = document.getElementById('progress-pct-text');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const progressSubText = document.getElementById('progress-sub-text');
+
+    const resultsDisplayBox = document.getElementById('results-display-box');
+    const resTrimDuration = document.getElementById('res-trim-duration');
+    const resOrigDuration = document.getElementById('res-orig-duration');
+    const resTrimmedSize = document.getElementById('res-trimmed-size');
+    const resResolution = document.getElementById('res-resolution');
+
+    const trimmedVideoPlayer = document.getElementById('trimmed-video-player') as HTMLVideoElement | null;
+    const btnDownloadTrimmed = document.getElementById('btn-download-trimmed');
+
+    if (!dropzone || !fileInput) return;
+
+    let currentVideoFile: File | null = null;
+    let sourceVideoUrl: string | null = null;
+    let trimmedBlobUrl: string | null = null;
+    let outputDownloadName = 'trimmed_video.webm';
+    let isProcessing = false;
+    let totalDuration = 0;
+
+    // Drag & Drop Handling
+    ['dragenter', 'dragover'].forEach(evtName => {
+      dropzone.addEventListener(evtName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(evtName => {
+      dropzone.addEventListener(evtName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('dragover');
+      });
+    });
+
+    dropzone.addEventListener('drop', (e: DragEvent) => {
+      const dt = e.dataTransfer;
+      if (dt && dt.files && dt.files.length > 0) {
+        handleFileSelection(dt.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files && fileInput.files.length > 0) {
+        handleFileSelection(fileInput.files[0]);
+      }
+    });
+
+    if (btnClearFile) btnClearFile.addEventListener('click', resetState);
+    if (btnClearAll) btnClearAll.addEventListener('click', resetState);
+
+    function resetState() {
+      currentVideoFile = null;
+      isProcessing = false;
+      totalDuration = 0;
+      if (fileInput) fileInput.value = '';
+      if (sourceVideoUrl) {
+        URL.revokeObjectURL(sourceVideoUrl);
+        sourceVideoUrl = null;
+      }
+      if (trimmedBlobUrl) {
+        URL.revokeObjectURL(trimmedBlobUrl);
+        trimmedBlobUrl = null;
+      }
+      if (sourceVideoPlayer) sourceVideoPlayer.src = '';
+      if (trimmedVideoPlayer) trimmedVideoPlayer.src = '';
+      if (dropzonePrompt) dropzonePrompt.style.display = 'flex';
+      if (loadedFileBar) loadedFileBar.style.display = 'none';
+      if (trimmerEditorBox) trimmerEditorBox.style.display = 'none';
+      if (progressCard) progressCard.style.display = 'none';
+      if (resultsDisplayBox) resultsDisplayBox.style.display = 'none';
+      if (emptyStateCard) emptyStateCard.style.display = 'flex';
+    }
+
+    function formatTime(seconds: number): string {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      const ms = Math.floor((seconds % 1) * 100);
+      return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
+    }
+
+    function parseTime(timeStr: string): number {
+      const parts = timeStr.trim().split(':');
+      if (parts.length === 2) {
+        const mins = parseFloat(parts[0]) || 0;
+        const secs = parseFloat(parts[1]) || 0;
+        return mins * 60 + secs;
+      }
+      return parseFloat(timeStr) || 0;
+    }
+
+    function updateTrimBadge() {
+      if (!inputStartTime || !inputEndTime || !trimDurationBadge) return;
+      const start = parseTime(inputStartTime.value);
+      const end = parseTime(inputEndTime.value);
+      const selected = Math.max(0, end - start);
+      trimDurationBadge.textContent = `${formatTime(selected)} / ${formatTime(totalDuration)}`;
+    }
+
+    function handleFileSelection(file: File) {
+      if (!file || !file.type.startsWith('video/')) {
+        alert('Please upload a valid video file (MP4, WebM, MOV, MKV).');
+        return;
+      }
+
+      currentVideoFile = file;
+      const mbSize = (file.size / (1024 * 1024)).toFixed(2);
+      if (loadedFilename) loadedFilename.textContent = file.name;
+      outputDownloadName = `trimmed_${file.name.replace(/\.[^/.]+$/, "")}.webm`;
+
+      if (sourceVideoUrl) URL.revokeObjectURL(sourceVideoUrl);
+      sourceVideoUrl = URL.createObjectURL(file);
+
+      if (sourceVideoPlayer) {
+        sourceVideoPlayer.src = sourceVideoUrl;
+        sourceVideoPlayer.onloadedmetadata = () => {
+          totalDuration = sourceVideoPlayer.duration || 1;
+          const durStr = formatTime(totalDuration);
+
+          if (loadedFilesize) {
+            loadedFilesize.textContent = `${mbSize} MB • ${durStr} Duration`;
+          }
+
+          if (inputStartTime) inputStartTime.value = '00:00.00';
+          if (inputEndTime) inputEndTime.value = durStr;
+          updateTrimBadge();
+
+          if (dropzonePrompt) dropzonePrompt.style.display = 'none';
+          if (loadedFileBar) loadedFileBar.style.display = 'flex';
+          if (trimmerEditorBox) trimmerEditorBox.style.display = 'flex';
+        };
+      }
+    }
+
+    // Set Start / End Buttons
+    if (btnSetStart && sourceVideoPlayer && inputStartTime) {
+      btnSetStart.addEventListener('click', () => {
+        const cur = sourceVideoPlayer.currentTime;
+        inputStartTime.value = formatTime(cur);
+        updateTrimBadge();
+      });
+    }
+
+    if (btnSetEnd && sourceVideoPlayer && inputEndTime) {
+      btnSetEnd.addEventListener('click', () => {
+        const cur = sourceVideoPlayer.currentTime;
+        inputEndTime.value = formatTime(cur);
+        updateTrimBadge();
+      });
+    }
+
+    if (inputStartTime) inputStartTime.addEventListener('input', updateTrimBadge);
+    if (inputEndTime) inputEndTime.addEventListener('input', updateTrimBadge);
+
+    // Preview Trim Selection
+    let previewInterval: any = null;
+    if (btnPreviewTrim && sourceVideoPlayer && inputStartTime && inputEndTime) {
+      btnPreviewTrim.addEventListener('click', async () => {
+        const start = parseTime(inputStartTime.value);
+        const end = parseTime(inputEndTime.value);
+
+        if (end <= start) {
+          alert('End time must be greater than Start time.');
+          return;
+        }
+
+        sourceVideoPlayer.currentTime = start;
+        await sourceVideoPlayer.play();
+
+        if (previewInterval) clearInterval(previewInterval);
+        previewInterval = setInterval(() => {
+          if (sourceVideoPlayer.currentTime >= end) {
+            sourceVideoPlayer.pause();
+            clearInterval(previewInterval);
+          }
+        }, 50);
+      });
+    }
+
+    // High-Precision Client-Side Video Trimming Engine
+    async function startTrimming() {
+      if (!currentVideoFile || !sourceVideoUrl || !sourceVideoPlayer || !inputStartTime || !inputEndTime) {
+        alert('Please upload a video file first.');
+        return;
+      }
+
+      const startTime = parseTime(inputStartTime.value);
+      const endTime = parseTime(inputEndTime.value);
+
+      if (endTime <= startTime) {
+        alert('End time must be greater than Start time.');
+        return;
+      }
+
+      if (isProcessing) return;
+      isProcessing = true;
+
+      // Show Progress UI
+      if (emptyStateCard) emptyStateCard.style.display = 'none';
+      if (resultsDisplayBox) resultsDisplayBox.style.display = 'none';
+      if (progressCard) progressCard.style.display = 'flex';
+      updateProgress(0, 'Preparing video trimmer...');
+
+      try {
+        const video = document.createElement('video');
+        video.src = sourceVideoUrl;
+        video.muted = false;
+        video.crossOrigin = 'anonymous';
+        video.playsInline = true;
+
+        await new Promise((res) => {
+          video.onloadedmetadata = res;
+        });
+
+        const targetW = video.videoWidth || 1280;
+        const targetH = video.videoHeight || 720;
+        const trimDuration = endTime - startTime;
+
+        // Setup Offscreen Canvas
+        const canvas = document.createElement('canvas');
+        canvas.width = targetW;
+        canvas.height = targetH;
+        const ctx = canvas.getContext('2d', { alpha: false });
+        if (!ctx) throw new Error('Canvas 2D context creation failed.');
+
+        // Setup MediaStream
+        const stream = canvas.captureStream(30);
+
+        // Setup Audio Stream
+        let audioContext: AudioContext | null = null;
+        try {
+          audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+          const source = audioContext.createMediaElementSource(video);
+          const destination = audioContext.createMediaStreamDestination();
+          source.connect(destination);
+          const audioTrack = destination.stream.getAudioTracks()[0];
+          if (audioTrack) {
+            stream.addTrack(audioTrack);
+          }
+        } catch (e) {
+          console.warn('Audio extraction warning:', e);
+        }
+
+        // Determine Supported MimeType
+        let mimeType = 'video/webm';
+        if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')) {
+          mimeType = 'video/webm;codecs=vp9,opus';
+        } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')) {
+          mimeType = 'video/webm;codecs=vp8,opus';
+        }
+
+        const recorder = new MediaRecorder(stream, {
+          mimeType,
+          videoBitsPerSecond: 2500000,
+          audioBitsPerSecond: 96000
+        });
+
+        const recordedChunks: Blob[] = [];
+        recorder.ondataavailable = (e) => {
+          if (e.data && e.data.size > 0) {
+            recordedChunks.push(e.data);
+          }
+        };
+
+        // Seek to start time
+        video.currentTime = startTime;
+        await new Promise((res) => {
+          video.onseeked = res;
+        });
+
+        let isEnded = false;
+        recorder.start(100);
+        await video.play();
+
+        const renderFrame = () => {
+          if (isEnded) return;
+
+          ctx.drawImage(video, 0, 0, targetW, targetH);
+          const progressTime = video.currentTime - startTime;
+          const pct = Math.min(99, Math.max(0, Math.round((progressTime / trimDuration) * 100)));
+          updateProgress(pct, `Trimming video frames... (${pct}%)`);
+
+          if (video.currentTime >= endTime || video.ended || video.paused) {
+            if (!isEnded) {
+              isEnded = true;
+              video.pause();
+              recorder.stop();
+            }
+          } else {
+            requestAnimationFrame(renderFrame);
+          }
+        };
+
+        requestAnimationFrame(renderFrame);
+
+        // Wait for recorder to finish
+        await new Promise((res) => {
+          recorder.onstop = res;
+        });
+
+        if (audioContext) {
+          audioContext.close();
+        }
+
+        // Finalize Trimmed Blob
+        const trimmedBlob = new Blob(recordedChunks, { type: mimeType });
+        if (trimmedBlobUrl) URL.revokeObjectURL(trimmedBlobUrl);
+        trimmedBlobUrl = URL.createObjectURL(trimmedBlob);
+
+        const trimmedSizeMB = (trimmedBlob.size / (1024 * 1024)).toFixed(2);
+
+        // Update UI Results
+        if (resTrimDuration) resTrimDuration.textContent = formatTime(trimDuration);
+        if (resOrigDuration) resOrigDuration.textContent = formatTime(totalDuration);
+        if (resTrimmedSize) resTrimmedSize.textContent = `${trimmedSizeMB} MB`;
+        if (resResolution) resResolution.textContent = `${targetW} × ${targetH}`;
+
+        if (trimmedVideoPlayer) {
+          trimmedVideoPlayer.src = trimmedBlobUrl;
+        }
+
+        if (progressCard) progressCard.style.display = 'none';
+        if (resultsDisplayBox) {
+          resultsDisplayBox.style.display = 'flex';
+          if (window.innerWidth < 992) {
+            resultsDisplayBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+
+        isProcessing = false;
+
+      } catch (err: any) {
+        isProcessing = false;
+        alert(`Trimming Error: ${err.message || 'Unable to trim video file.'}`);
+        if (progressCard) progressCard.style.display = 'none';
+        if (emptyStateCard) emptyStateCard.style.display = 'flex';
+      }
+    }
+
+    function updateProgress(pct: number, msg: string) {
+      if (progressPctText) progressPctText.textContent = `${pct}%`;
+      if (progressBarFill) progressBarFill.style.width = `${pct}%`;
+      if (progressStatusText) progressStatusText.textContent = msg;
+    }
+
+    if (btnTrimVideo) {
+      btnTrimVideo.addEventListener('click', startTrimming);
+    }
+
+    // Download Trimmed Video Handler
+    if (btnDownloadTrimmed) {
+      btnDownloadTrimmed.addEventListener('click', () => {
+        if (!trimmedBlobUrl) return;
+
+        const a = document.createElement('a');
+        a.href = trimmedBlobUrl;
+        a.download = outputDownloadName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    }
+  });
+</script>

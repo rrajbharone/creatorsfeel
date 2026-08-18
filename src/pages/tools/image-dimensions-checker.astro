@@ -1,0 +1,1263 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What are image dimensions and how are they measured?",
+    answer: "Image dimensions represent the physical width and height of a digital image measured in pixels (px). For example, an image with dimensions of 1920 × 1080 px is 1920 pixels wide and 1080 pixels tall."
+  },
+  {
+    question: "What is image aspect ratio and how is it calculated?",
+    answer: "An image's aspect ratio is the proportional relationship between its width and its height, expressed as two numbers separated by a colon (e.g. 16:9, 1:1, 4:3). It is calculated by dividing both the width and height by their greatest common divisor (GCD)."
+  },
+  {
+    question: "What is the difference between image dimensions and image file size?",
+    answer: "Image dimensions refer to the pixel resolution (e.g. 1920 × 1080 pixels), whereas file size refers to the amount of digital storage space the image occupies on disk (e.g. 1.5 MB or 500 KB). Two images with identical pixel dimensions can have vastly different file sizes depending on compression and file format."
+  },
+  {
+    question: "How do I check image dimensions on a mobile phone?",
+    answer: "You can simply upload your photo into our free Image Dimensions Checker on any mobile device (iPhone, iPad, or Android). The tool instantly reads the raw pixel data and displays the exact width, height, aspect ratio, and megapixels without reducing image quality."
+  },
+  {
+    question: "Is my uploaded image sent to any remote server?",
+    answer: "No. Our Image Dimensions Checker operates 100% locally inside your web browser using HTML5 Canvas and File API technology. Your photos, screenshots, and graphics never leave your device, ensuring complete privacy."
+  },
+  {
+    question: "What image file formats does this tool support?",
+    answer: "Our tool supports all standard digital image formats including PNG, JPG, JPEG, WEBP, GIF, SVG, AVIF, BMP, and ICO."
+  }
+];
+---
+
+<ToolLayout
+  title="Image Dimensions Checker - Check Image Size, Width, Height & Aspect Ratio Online"
+  description="Free online Image Dimensions Checker. Instantly check image width, height in pixels, aspect ratio, file size, megapixels, and format with 100% browser-side privacy."
+  toolName="Image Dimensions Checker"
+  toolDescription="Check image width, height, resolution in pixels, aspect ratio, file size, format, and social media dimensions compatibility instantly in your browser."
+  category="Calculators"
+  faqs={faqs}
+>
+  <!-- Main Calculator Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: Upload & Inspection Controls -->
+      <div class="calc-form">
+        
+        <!-- Drag & Drop Zone -->
+        <div class="dropzone-wrap" id="dropzone">
+          <input type="file" id="file-input" class="file-input-hidden" accept="image/*" />
+          
+          <div class="dropzone-content" id="dropzone-prompt">
+            <div class="upload-icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="upload-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+              </svg>
+            </div>
+            <strong class="dropzone-title">Drag & Drop Image to Check Dimensions</strong>
+            <p class="dropzone-desc">or <span class="browse-link">browse photo file</span> from your device</p>
+            <span class="file-types-badge">PNG, JPG, WEBP, GIF, SVG, AVIF • 100% Local & Private</span>
+          </div>
+
+          <!-- Uploaded File Preview Bar (hidden initially) -->
+          <div class="loaded-file-bar" id="loaded-file-bar" style="display: none;">
+            <img id="loaded-thumb-img" class="loaded-thumb" alt="Loaded Image Preview" />
+            <div class="file-info">
+              <span class="file-name-text" id="loaded-filename">image.png</span>
+              <span class="file-size-text" id="loaded-filesize">1.4 MB</span>
+            </div>
+            <button type="button" class="btn-clear-file" id="btn-clear-file">Change Image</button>
+          </div>
+        </div>
+
+        <!-- Sample Dimension Tests Quick Bar -->
+        <div class="presets-wrap">
+          <span class="presets-label">Test Sample Dimensions:</span>
+          <div class="presets-pills">
+            <button type="button" class="preset-pill-btn" data-w="1920" data-h="1080" data-label="1920×1080 (16:9 FHD)">1920×1080 (16:9)</button>
+            <button type="button" class="preset-pill-btn" data-w="1080" data-h="1080" data-label="1080×1080 (1:1 Square)">1080×1080 (1:1)</button>
+            <button type="button" class="preset-pill-btn" data-w="1080" data-h="1920" data-label="1080×1920 (9:16 Vertical)">1080×1920 (9:16)</button>
+            <button type="button" class="preset-pill-btn" data-w="1200" data-h="630" data-label="1200×630 (OG Social Banner)">1200×630 (OG Banner)</button>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions-row">
+          <button type="button" id="btn-analyze" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            Check Dimensions
+          </button>
+          <button type="button" id="btn-clear-all" class="calc-btn-secondary">Clear All</button>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Audit Metrics & Live Image Inspection -->
+      <div class="calc-results" id="results-wrapper">
+        
+        <!-- Empty State Card -->
+        <div class="empty-state-card" id="empty-state-card">
+          <div class="empty-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="empty-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+            </svg>
+          </div>
+          <strong class="empty-title">Waiting for Image Upload</strong>
+          <p class="empty-desc">Upload or drag an image on the left to instantly check its exact pixel width, height, aspect ratio, file size, and social media fit.</p>
+        </div>
+
+        <!-- Calculated Results Display Box (Hidden initially) -->
+        <div class="results-display-box" id="results-display-box" style="display: none;">
+          
+          <!-- Verdict Status Banner -->
+          <div class="verdict-banner success-verdict" id="verdict-banner">
+            <span class="verdict-icon">📐</span>
+            <div class="verdict-text-wrap">
+              <strong class="verdict-title" id="verdict-title">Image Dimensions Analyzed!</strong>
+              <span class="verdict-desc" id="verdict-desc">Exact pixel resolution and aspect ratio computed in real time.</span>
+            </div>
+          </div>
+
+          <!-- 6 Metric Cards Grid -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-value" id="res-dims">0 × 0 px</span>
+              <span class="metric-label">Dimensions (W × H)</span>
+              <span class="metric-sub">Exact Pixel Size</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-aspect-ratio">16:9</span>
+              <span class="metric-label">Aspect Ratio</span>
+              <span class="metric-sub" id="res-aspect-name">Widescreen</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-megapixels">0.00 MP</span>
+              <span class="metric-label">Resolution</span>
+              <span class="metric-sub" id="res-total-pixels">0 Total Pixels</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-file-size">0 KB</span>
+              <span class="metric-label">File Size</span>
+              <span class="metric-sub" id="res-bytes">0 Bytes</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-orientation">Landscape</span>
+              <span class="metric-label">Orientation</span>
+              <span class="metric-sub">Image Layout</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-value" id="res-format">PNG</span>
+              <span class="metric-label">File Format</span>
+              <span class="metric-sub" id="res-mime">image/png</span>
+            </div>
+          </div>
+
+          <!-- Live Image Preview Stage with Dimensions Overlay Badge -->
+          <div class="preview-stage-card">
+            <div class="stage-header-row">
+              <span class="stage-title">Image Preview & Dimensions Tag</span>
+              <span class="stage-badge" id="preview-badge-dims">0 × 0 px</span>
+            </div>
+            
+            <div class="preview-canvas-wrapper">
+              <img id="preview-img-display" class="preview-img-display" alt="Analyzed Image Preview" />
+            </div>
+          </div>
+
+          <!-- Social Media & Web Platform Fit Checklist -->
+          <div class="platform-fit-card">
+            <div class="fit-header-row">
+              <strong class="fit-title">Social Media & Web Dimension Fit</strong>
+              <span class="fit-sub">Standard Recommended Formats</span>
+            </div>
+            
+            <div class="fit-list" id="fit-list">
+              <!-- Dynamically populated JS fit items -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is an Image Dimensions Checker?</h2>
+      <p>
+        An <strong>Image Dimensions Checker</strong> is a free online tool that inspects digital images to determine their exact <strong>width, height, aspect ratio, resolution in megapixels, file size, and format</strong> without needing desktop editing software like Photoshop or GIMP.
+      </p>
+      <p>
+        Whether you are optimizing images for a website, preparing graphics for social media posts, or auditing media for responsive web design, using an <strong>image dimensions checker online</strong> ensures your photos meet the precise pixel requirements of modern display standards.
+      </p>
+
+      <h2>How to Check Image Dimensions Online Step-by-Step</h2>
+      <ol>
+        <li><strong>Upload your Image:</strong> Drag and drop your image file (PNG, JPG, WEBP, GIF, SVG, AVIF) into the upload box above, or click to browse files from your computer or smartphone.</li>
+        <li><strong>Instant Inspection:</strong> The tool automatically decodes the image header and pixel buffer in your browser sandbox.</li>
+        <li><strong>Review Dimension Metrics:</strong> View the exact width (px), height (px), simplified aspect ratio (e.g. 16:9, 1:1), megapixels (MP), and exact file size in bytes.</li>
+        <li><strong>Check Social Media Compatibility:</strong> Consult the built-in platform fit audit to verify if your image matches standard sizes for YouTube, Instagram, TikTok, Twitter, and Open Graph banners.</li>
+      </ol>
+
+      <h2>Understanding Image Width, Height, and Pixels</h2>
+      <p>
+        Digital images are composed of individual colored squares called <strong>pixels</strong> arranged in a grid:
+      </p>
+      <ul>
+        <li><strong>Width:</strong> The total horizontal count of pixels from the left edge to the right edge.</li>
+        <li><strong>Height:</strong> The total vertical count of pixels from the top edge to the bottom edge.</li>
+        <li><strong>Total Pixels & Megapixels:</strong> Multiplying width by height gives the total pixel count. Dividing by 1,000,000 gives the image resolution in Megapixels (MP). For example, a <code>3840 × 2160</code> 4K UHD image contains 8,294,400 pixels (8.29 MP).</li>
+      </ul>
+
+      <h2>Image Aspect Ratio Explained: 16:9, 1:1, 4:3, and 9:16</h2>
+      <p>
+        The <strong>aspect ratio</strong> describes the proportional relationship between width and height. Maintaining the correct aspect ratio prevents images from appearing distorted, stretched, or squashed when published.
+      </p>
+
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Aspect Ratio</th>
+              <th>Orientation</th>
+              <th>Common Dimensions (px)</th>
+              <th>Primary Platform & Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>16:9</strong></td>
+              <td>Widescreen (Landscape)</td>
+              <td>1920×1080, 1280×720, 3840×2160</td>
+              <td>YouTube Videos & Thumbnails, Desktop Monitors, TVs</td>
+            </tr>
+            <tr>
+              <td><strong>1:1</strong></td>
+              <td>Square</td>
+              <td>1080×1080, 1200×1200</td>
+              <td>Instagram Feed Posts, Profile Pictures, Product Photos</td>
+            </tr>
+            <tr>
+              <td><strong>9:16</strong></td>
+              <td>Full Vertical</td>
+              <td>1080×1920, 720×1280</td>
+              <td>TikTok Videos, Instagram Stories & Reels, YouTube Shorts</td>
+            </tr>
+            <tr>
+              <td><strong>4:5</strong></td>
+              <td>Portrait</td>
+              <td>1080×1350</td>
+              <td>Instagram Vertical Feed Posts (Maximum Screen Real Estate)</td>
+            </tr>
+            <tr>
+              <td><strong>1.91:1</strong></td>
+              <td>Horizontal Banner</td>
+              <td>1200×630</td>
+              <td>Open Graph (OG) Social Share Banners, Facebook Links</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Image Resolution vs File Size: What Is the Difference?</h2>
+      <p>
+        Many creators confuse <strong>image dimensions (resolution)</strong> with <strong>file size</strong>:
+      </p>
+      <ul>
+        <li><strong>Image Resolution:</strong> The physical pixel dimensions (e.g. <code>2400 × 1600 px</code>). Higher dimensions provide more detail when zoomed in or printed.</li>
+        <li><strong>File Size:</strong> The amount of storage bytes required to store the file on disk (e.g. <code>2.4 MB</code> vs <code>350 KB</code>). Compression algorithms like WebP and MozJPEG can reduce file size by 70% while keeping the exact same pixel dimensions.</li>
+      </ul>
+
+      <h2>Standard Image Dimensions for Social Media and Web (2026 Cheat Sheet)</h2>
+      <p>
+        Here are the most frequently used digital image dimensions across major platforms:
+      </p>
+      <ul>
+        <li><strong>YouTube:</strong> Thumbnails (<code>1280 × 720 px</code>, 16:9), Channel Banner (<code>2560 × 1440 px</code>).</li>
+        <li><strong>Instagram:</strong> Square Post (<code>1080 × 1080 px</code>, 1:1), Portrait Post (<code>1080 × 1350 px</code>, 4:5), Story / Reel (<code>1080 × 1920 px</code>, 9:16).</li>
+        <li><strong>TikTok:</strong> Full Vertical Video & Cover (<code>1080 × 1920 px</code>, 9:16).</li>
+        <li><strong>Twitter / X:</strong> Feed Post Image (<code>1200 × 675 px</code>, 16:9), Header Banner (<code>1500 × 500 px</code>, 3:1).</li>
+        <li><strong>Website & SEO:</strong> Open Graph Social Share Image (<code>1200 × 630 px</code>, 1.91:1), Hero Banner (<code>1920 × 1080 px</code>).</li>
+      </ul>
+
+      <h2>Why Checking Image Dimensions Is Critical for Web Performance & SEO</h2>
+      <p>
+        Uploading oversized images (e.g. <code>5000 × 4000 px</code> uncompressed camera raw files) to a website severely damages Google Core Web Vitals scores. Oversized images cause:
+      </p>
+      <ol>
+        <li><strong>High Largest Contentful Paint (LCP):</strong> Heavy images slow down page rendering on mobile connections.</li>
+        <li><strong>Cumulative Layout Shift (CLS):</strong> Unspecified image dimensions cause layout jumps as pages load.</li>
+        <li><strong>Bandwidth Waste:</strong> Mobile visitors consume unnecessary mobile data downloading desktop-scale images.</li>
+      </ol>
+
+      <h2>How Our Online Image Dimensions Checker Works (100% Client-Side)</h2>
+      <p>
+        Our <strong>photo dimensions checker</strong> runs entirely in your browser using HTML5 Canvas and JavaScript File APIs:
+      </p>
+      <p>
+        When you drop an image, the browser reads the file buffer directly into an in-memory <code>Image()</code> object, extracting its <code>naturalWidth</code> and <code>naturalHeight</code> in milliseconds. Because processing occurs entirely client-side, your images remain completely private and are never uploaded to an external server.
+      </p>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/youtube-thumbnail-size-checker" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Thumbnail Size Checker</div>
+          <div class="tool-link-desc">Verify YouTube thumbnail dimensions (1280x720), 16:9 ratio, and 2 MB file size limit.</div>
+        </a>
+        <a href="/tools/image-splitter" class="tool-link-card glass">
+          <div class="tool-link-title">Image Splitter</div>
+          <div class="tool-link-desc">Split images into 3x3 grids, 3x1 swipeable panoramas, or custom tile slices.</div>
+        </a>
+        <a href="/tools/heic-to-webp-converter" class="tool-link-card glass">
+          <div class="tool-link-title">HEIC to WebP Converter</div>
+          <div class="tool-link-desc">Convert Apple iPhone HEIC/HEIF photos to lightweight WebP images for fast page speed.</div>
+        </a>
+        <a href="/tools/url-slug-generator" class="tool-link-card glass">
+          <div class="tool-link-title">URL Slug Generator</div>
+          <div class="tool-link-desc">Generate clean, SEO-optimized URL slugs for web pages and article titles.</div>
+        </a>
+        <a href="/tools/youtube-description-character-counter" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Description Character Counter</div>
+          <div class="tool-link-desc">Count characters, words, timestamps, and audit YouTube's 5,000-character limit.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2-Column Grid Layout */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Controls */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    width: 100%;
+  }
+
+  .dropzone-wrap {
+    min-height: 180px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-fast);
+  }
+
+  .dropzone-wrap:hover, .dropzone-wrap.dragover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.05);
+  }
+
+  .file-input-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .dropzone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .upload-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .upload-svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dropzone-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .dropzone-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .browse-link {
+    color: var(--color-brand);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .file-types-badge {
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Loaded File Bar */
+  .loaded-file-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    gap: 0.75rem;
+  }
+
+  .loaded-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .file-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .file-name-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .file-size-text {
+    font-size: 0.725rem;
+    color: var(--color-text-muted);
+  }
+
+  .btn-clear-file {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-brand);
+    cursor: pointer;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+
+  /* Presets Bar */
+  .presets-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .presets-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .presets-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .preset-pill-btn {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .preset-pill-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.08);
+  }
+
+  /* Actions Row */
+  .actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .calc-btn-primary {
+    flex: 2;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Right Column: Results & Inspection Cards */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Empty State Placeholder */
+  .empty-state-card {
+    min-height: 340px;
+    padding: 2rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .empty-icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .empty-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .empty-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    max-width: 320px;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Results Display Box */
+  .results-display-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  /* Verdict Status Banner */
+  .verdict-banner {
+    padding: 0.9rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .verdict-banner.success-verdict {
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  .verdict-icon {
+    font-size: 1.4rem;
+  }
+
+  .verdict-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .verdict-title {
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+
+  .verdict-desc {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  /* 6 Metrics Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 576px) {
+    .metrics-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .metric-card {
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .metric-value {
+    font-size: 1.05rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--color-brand);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 0.2rem;
+  }
+
+  .metric-sub {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Preview Stage Card */
+  .preview-stage-card {
+    padding: 1rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .stage-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .stage-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .stage-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .preview-canvas-wrapper {
+    width: 100%;
+    max-height: 260px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .preview-img-display {
+    max-width: 100%;
+    max-height: 260px;
+    object-fit: contain;
+  }
+
+  /* Platform Fit Card */
+  .platform-fit-card {
+    padding: 1rem 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .fit-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .fit-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .fit-sub {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+
+  .fit-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+  }
+
+  @media (min-width: 640px) {
+    .fit-list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  :global(.fit-item) {
+    padding: 0.5rem 0.65rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.775rem;
+  }
+
+  :global(.fit-name) {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  :global(.fit-tag) {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.1rem 0.4rem;
+    border-radius: var(--radius-sm);
+  }
+
+  :global(.fit-tag.matched) {
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+  }
+
+  :global(.fit-tag.unmatched) {
+    background: var(--color-bg-alt);
+    color: var(--color-text-muted);
+  }
+
+  /* Editorial Content Styles */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-section p {
+    margin-bottom: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  interface PlatformPreset {
+    name: string;
+    width: number;
+    height: number;
+    ratio: string;
+  }
+
+  const platformPresets: PlatformPreset[] = [
+    { name: 'YouTube Thumbnail (1280×720)', width: 1280, height: 720, ratio: '16:9' },
+    { name: 'Full HD Widescreen (1920×1080)', width: 1920, height: 1080, ratio: '16:9' },
+    { name: 'Instagram Square Post (1080×1080)', width: 1080, height: 1080, ratio: '1:1' },
+    { name: 'Instagram Portrait (1080×1350)', width: 1080, height: 1350, ratio: '4:5' },
+    { name: 'TikTok / Story / Reel (1080×1920)', width: 1080, height: 1920, ratio: '9:16' },
+    { name: 'Open Graph / Facebook (1200×630)', width: 1200, height: 630, ratio: '40:21' },
+    { name: 'Twitter / X Post (1200×675)', width: 1200, height: 675, ratio: '16:9' },
+    { name: 'Twitter Header Banner (1500×500)', width: 1500, height: 500, ratio: '3:1' }
+  ];
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input') as HTMLInputElement | null;
+    const dropzonePrompt = document.getElementById('dropzone-prompt');
+    const loadedFileBar = document.getElementById('loaded-file-bar');
+    const loadedThumbImg = document.getElementById('loaded-thumb-img') as HTMLImageElement | null;
+    const loadedFilename = document.getElementById('loaded-filename');
+    const loadedFilesize = document.getElementById('loaded-filesize');
+    const btnClearFile = document.getElementById('btn-clear-file');
+    const presetBtns = document.querySelectorAll('.preset-pill-btn');
+
+    const btnAnalyze = document.getElementById('btn-analyze');
+    const btnClearAll = document.getElementById('btn-clear-all');
+
+    // Audit Displays
+    const emptyStateCard = document.getElementById('empty-state-card');
+    const resultsDisplayBox = document.getElementById('results-display-box');
+    const verdictTitle = document.getElementById('verdict-title');
+    const verdictDesc = document.getElementById('verdict-desc');
+
+    const resDims = document.getElementById('res-dims');
+    const resAspectRatio = document.getElementById('res-aspect-ratio');
+    const resAspectName = document.getElementById('res-aspect-name');
+    const resMegapixels = document.getElementById('res-megapixels');
+    const resTotalPixels = document.getElementById('res-total-pixels');
+    const resFileSize = document.getElementById('res-file-size');
+    const resBytes = document.getElementById('res-bytes');
+    const resOrientation = document.getElementById('res-orientation');
+    const resFormat = document.getElementById('res-format');
+    const resMime = document.getElementById('res-mime');
+
+    const previewBadgeDims = document.getElementById('preview-badge-dims');
+    const previewImgDisplay = document.getElementById('preview-img-display') as HTMLImageElement | null;
+    const fitList = document.getElementById('fit-list');
+
+    if (!dropzone || !fileInput) return;
+
+    let currentFileObj: File | null = null;
+    let loadedImageElement: HTMLImageElement | null = null;
+
+    // Drag & Drop Handling
+    ['dragenter', 'dragover'].forEach(evtName => {
+      dropzone.addEventListener(evtName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(evtName => {
+      dropzone.addEventListener(evtName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('dragover');
+      });
+    });
+
+    dropzone.addEventListener('drop', (e: DragEvent) => {
+      const dt = e.dataTransfer;
+      if (dt && dt.files && dt.files.length > 0) {
+        handleFileSelection(dt.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files && fileInput.files.length > 0) {
+        handleFileSelection(fileInput.files[0]);
+      }
+    });
+
+    if (btnClearFile) btnClearFile.addEventListener('click', resetState);
+    if (btnClearAll) btnClearAll.addEventListener('click', resetState);
+
+    // Preset Sample Testing Buttons
+    presetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const w = parseInt(btn.getAttribute('data-w') || '1920', 10);
+        const h = parseInt(btn.getAttribute('data-h') || '1080', 10);
+        const label = btn.getAttribute('data-label') || 'Sample Test';
+        createSampleImageAndAnalyze(w, h, label);
+      });
+    });
+
+    function resetState() {
+      currentFileObj = null;
+      loadedImageElement = null;
+      if (fileInput) fileInput.value = '';
+      if (dropzonePrompt) dropzonePrompt.style.display = 'flex';
+      if (loadedFileBar) loadedFileBar.style.display = 'none';
+      if (resultsDisplayBox) resultsDisplayBox.style.display = 'none';
+      if (emptyStateCard) emptyStateCard.style.display = 'flex';
+    }
+
+    function handleFileSelection(file: File) {
+      if (!file || !file.type.startsWith('image/')) {
+        alert('Please select a valid image file (PNG, JPG, WEBP, GIF, SVG, AVIF).');
+        return;
+      }
+
+      currentFileObj = file;
+      const mbSize = (file.size / (1024 * 1024)).toFixed(2);
+      const kbSize = (file.size / 1024).toFixed(1);
+      const displaySize = file.size > 1024 * 1024 ? `${mbSize} MB` : `${kbSize} KB`;
+
+      if (loadedFilename) loadedFilename.textContent = file.name;
+      if (loadedFilesize) loadedFilesize.textContent = displaySize;
+
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        const dataUrl = evt.target?.result as string;
+        if (loadedThumbImg) loadedThumbImg.src = dataUrl;
+
+        const img = new Image();
+        img.onload = () => {
+          loadedImageElement = img;
+          if (dropzonePrompt) dropzonePrompt.style.display = 'none';
+          if (loadedFileBar) loadedFileBar.style.display = 'flex';
+          analyzeImage(img.naturalWidth || img.width, img.naturalHeight || img.height, file.name, file.size, file.type, dataUrl);
+        };
+        img.src = dataUrl;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function createSampleImageAndAnalyze(w: number, h: number, label: string) {
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        // Draw sample gradient canvas
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, '#6366f1');
+        grad.addColorStop(1, '#a855f7');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `bold ${Math.max(24, Math.floor(h / 14))}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(`${w} × ${h} px`, w / 2, h / 2);
+      }
+
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+        const dataUrl = canvas.toDataURL('image/png');
+        if (loadedThumbImg) loadedThumbImg.src = dataUrl;
+        if (loadedFilename) loadedFilename.textContent = `${w}x${h}_sample.png`;
+        if (loadedFilesize) loadedFilesize.textContent = `${(blob.size / 1024).toFixed(1)} KB`;
+        if (dropzonePrompt) dropzonePrompt.style.display = 'none';
+        if (loadedFileBar) loadedFileBar.style.display = 'flex';
+        analyzeImage(w, h, `${w}x${h}_sample.png`, blob.size, 'image/png', dataUrl);
+      }, 'image/png');
+    }
+
+    function getGcd(a: number, b: number): number {
+      return b === 0 ? a : getGcd(b, a % b);
+    }
+
+    function calculateAspectRatio(w: number, h: number): { ratio: string; name: string } {
+      const gcd = getGcd(w, h);
+      const rW = w / gcd;
+      const rH = h / gcd;
+      const decimal = (w / h).toFixed(2);
+      const decNum = parseFloat(decimal);
+
+      if ((rW === 16 && rH === 9) || (decNum >= 1.77 && decNum <= 1.79)) return { ratio: '16:9', name: 'Widescreen (16:9)' };
+      if ((rW === 9 && rH === 16) || (decNum >= 0.55 && decNum <= 0.57)) return { ratio: '9:16', name: 'Vertical / Story / Reel' };
+      if (rW === 1 && rH === 1) return { ratio: '1:1', name: 'Square (1:1)' };
+      if (rW === 4 && rH === 3 || (decNum >= 1.32 && decNum <= 1.34)) return { ratio: '4:3', name: 'Standard Photo (4:3)' };
+      if (rW === 3 && rH === 2 || (decNum >= 1.49 && decNum <= 1.51)) return { ratio: '3:2', name: 'Classic 35mm (3:2)' };
+      if (rW === 4 && rH === 5 || (decNum >= 0.79 && decNum <= 0.81)) return { ratio: '4:5', name: 'Instagram Portrait (4:5)' };
+      if (decNum >= 1.89 && decNum <= 1.93) return { ratio: '1.91:1', name: 'Open Graph Banner' };
+      if (rW <= 30 && rH <= 30) return { ratio: `${rW}:${rH}`, name: `Custom Ratio (${decimal}:1)` };
+      return { ratio: `${decimal}:1`, name: `Aspect Ratio (${decimal}:1)` };
+    }
+
+    function analyzeImage(width: number, height: number, filename: string, sizeBytes: number, mimeType: string, dataUrl: string) {
+      const totalPixels = width * height;
+      const megapixels = (totalPixels / 1000000).toFixed(2);
+      const aspect = calculateAspectRatio(width, height);
+      const orientation = width > height ? 'Landscape' : width < height ? 'Portrait' : 'Square';
+
+      const ext = filename.split('.').pop()?.toUpperCase() || 'IMAGE';
+      const mbSize = (sizeBytes / (1024 * 1024)).toFixed(2);
+      const kbSize = (sizeBytes / 1024).toFixed(1);
+      const formattedSize = sizeBytes > 1024 * 1024 ? `${mbSize} MB` : `${kbSize} KB`;
+
+      // Update Audit Metric Cards
+      if (resDims) resDims.textContent = `${width} × ${height} px`;
+      if (resAspectRatio) resAspectRatio.textContent = aspect.ratio;
+      if (resAspectName) resAspectName.textContent = aspect.name;
+      if (resMegapixels) resMegapixels.textContent = `${megapixels} MP`;
+      if (resTotalPixels) resTotalPixels.textContent = `${totalPixels.toLocaleString()} Total Pixels`;
+      if (resFileSize) resFileSize.textContent = formattedSize;
+      if (resBytes) resBytes.textContent = `${sizeBytes.toLocaleString()} Bytes`;
+      if (resOrientation) resOrientation.textContent = orientation;
+      if (resFormat) resFormat.textContent = ext;
+      if (resMime) resMime.textContent = mimeType || 'image/*';
+
+      // Update Preview Card
+      if (previewBadgeDims) previewBadgeDims.textContent = `${width} × ${height} px • ${aspect.ratio}`;
+      if (previewImgDisplay) previewImgDisplay.src = dataUrl;
+
+      // Update Social Media Platform Fit Checklist
+      if (fitList) {
+        fitList.innerHTML = '';
+        const decRatio = parseFloat((width / height).toFixed(2));
+
+        platformPresets.forEach(preset => {
+          const isExact = width === preset.width && height === preset.height;
+          const targetDec = parseFloat((preset.width / preset.height).toFixed(2));
+          const isRatioMatch = Math.abs(decRatio - targetDec) < 0.03;
+
+          const item = document.createElement('div');
+          item.className = 'fit-item';
+
+          const nameSpan = document.createElement('span');
+          nameSpan.className = 'fit-name';
+          nameSpan.textContent = preset.name;
+
+          const tagSpan = document.createElement('span');
+          if (isExact) {
+            tagSpan.className = 'fit-tag matched';
+            tagSpan.textContent = 'Exact Fit ✓';
+          } else if (isRatioMatch) {
+            tagSpan.className = 'fit-tag matched';
+            tagSpan.textContent = 'Ratio Match ✓';
+          } else {
+            tagSpan.className = 'fit-tag unmatched';
+            tagSpan.textContent = 'Different Ratio';
+          }
+
+          item.appendChild(nameSpan);
+          item.appendChild(tagSpan);
+          fitList.appendChild(item);
+        });
+      }
+
+      if (verdictTitle) verdictTitle.textContent = `${width} × ${height} px (${aspect.ratio})`;
+      if (verdictDesc) verdictDesc.textContent = `${filename} • ${formattedSize} • ${megapixels} MP • ${orientation}`;
+
+      if (emptyStateCard) emptyStateCard.style.display = 'none';
+      if (resultsDisplayBox) {
+        resultsDisplayBox.style.display = 'flex';
+        if (window.innerWidth < 992) {
+          resultsDisplayBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+
+    if (btnAnalyze) {
+      btnAnalyze.addEventListener('click', () => {
+        if (loadedImageElement) {
+          const w = loadedImageElement.naturalWidth || loadedImageElement.width;
+          const h = loadedImageElement.naturalHeight || loadedImageElement.height;
+          analyzeImage(w, h, currentFileObj?.name || 'image.png', currentFileObj?.size || 0, currentFileObj?.type || 'image/png', loadedImageElement.src);
+        } else {
+          alert('Please upload an image first or click one of the sample test buttons.');
+        }
+      });
+    }
+  });
+</script>
