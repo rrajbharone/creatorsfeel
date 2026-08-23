@@ -3,23 +3,43 @@ import ToolLayout from '../../layouts/ToolLayout.astro';
 
 const faqs = [
   {
-    question: "How does the Influencer Rate Calculator estimate earnings?",
-    answer: "Our calculator uses industry-standard benchmarks based on follower count, average engagement/views, social platform, creator niche, and content type. It calculates a baseline rate and adjusts it using multipliers for high-value niches (like finance or tech) and engagement health."
+    question: "How do you calculate standard influencer rates?",
+    answer: "Influencer rates are calculated using a combination of follower volume, average view engagement, content format, industry niche multipliers, and commercial usage rights. Industry baselines typically start around $10 per 1,000 followers on Instagram, $6 per 1,000 followers on TikTok, and $20 to $35+ per 1,000 views on YouTube."
   },
   {
-    question: "Which niches pay the highest influencer rates?",
-    answer: "Finance, technology, business, and software-as-a-service (SaaS) niches command the highest CPMs (Cost Per Mille) due to higher customer lifetime value. Lifestyle, gaming, and entertainment niches generally have lower CPMs but higher audience volumes."
+    question: "Which influencer niches command the highest sponsorship rates?",
+    answer: "Finance, investing, business software (B2B SaaS), real estate, and technology command the highest sponsorship rates due to high customer lifetime values (LTV). Lifestyle, fashion, and beauty have moderate rates with high deal volume, while general gaming and entertainment have lower CPMs but large audience reach."
   },
   {
-    question: "What is a media kit and why do I need one?",
-    answer: "A media kit is a resume for creators. It showcases your stats (followers, engagement rate, audience demographics), past partnerships, and rates. You can copy the generated brand pitch from this calculator to start pitching sponsors."
+    question: "What is the difference between organic posting and paid usage rights?",
+    answer: "Organic posting covers publishing branded content once to your own followers on your feed or channel. Paid usage rights (whitelisting or dark posting) give the brand legal permission to run your content as paid ads from their ad account or your handle, for which creators charge an additional 30% to 100%+ licensing fee."
+  },
+  {
+    question: "How much should a micro-influencer charge for a sponsored post?",
+    answer: "Micro-influencers (10,000 to 50,000 followers) typically charge between $150 and $600 for a static post or short-form video on Instagram or TikTok, and $500 to $1,500+ for a dedicated YouTube video integration, depending on engagement rate and niche."
+  },
+  {
+    question: "What should be included in an influencer media kit?",
+    answer: "A professional media kit should include your bio and niche, verified follower counts across platforms, average engagement rate and video views, audience demographics (age, gender, top geographic countries), past brand partners/case studies, and clear starting package options."
+  },
+  {
+    question: "Should influencers ever accept gifted products instead of payment?",
+    answer: "Gifted product collaborations are acceptable for beginner nano-influencers looking to build an initial portfolio or when receiving high-value luxury goods ($1,000+ items). However, established creators should charge monetary fees, as creating and editing content requires professional time, production skills, and gives brands access to your audience."
+  },
+  {
+    question: "What is an exclusivity clause and how much should it cost?",
+    answer: "An exclusivity clause prevents an influencer from collaborating with or mentioning competing brands for a specified period (e.g., 30 to 90 days). Because exclusivity restricts future earning potential, creators should charge an extra 20% to 50%+ on top of their base rate."
+  },
+  {
+    question: "How do I negotiate when a brand offers a budget below my rate?",
+    answer: "Instead of simply lowering your price, adjust the scope of deliverables. For example, if a brand cannot afford a dedicated YouTube video and Instagram Reel, counter-offer with a single YouTube mid-roll integration or an Instagram Story set that matches their budget."
   }
 ];
 ---
 
 <ToolLayout
-  title="Influencer Rate Calculator - Estimate Sponsorship Pricing"
-  description="Calculate your estimated sponsorship rates for Instagram, YouTube, and TikTok. Get CPM projections and export a ready-to-use brand pitch template."
+  title="Influencer Rate Calculator - Calculate Sponsorship Pricing & CPM"
+  description="Free influencer rate calculator. Calculate sponsorship pricing for Instagram, YouTube, and TikTok based on followers, engagement rate, and niche benchmarks."
   toolName="Influencer Rate Calculator"
   toolDescription="Input your metrics to estimate your earnings per post, calculate CPM, and generate a copy-paste brand outreach pitch."
   category="Calculators"
@@ -118,35 +138,442 @@ const faqs = [
   </div>
 
   <div slot="about" class="editorial-content">
-    <h2>How Influencer Sponsorship Pricing Works</h2>
-    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
-      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        💡 <strong>Want to optimize your metrics?</strong> Read our comprehensive guide on <a href="/blog/ultimate-brand-collaboration-guide" style="color: var(--color-brand); text-decoration: underline;">Ultimate Brand Collaboration Guide & Influencer Campaign Outlines</a> to learn how to pitch brands, structure campaigns, and write outreach pitches.
+    <h2>The Complete Guide to Influencer Sponsorship Rates & Pricing Strategy</h2>
+    <p>
+      The creator economy has matured into a multi-billion dollar commercial industry. Brands and marketing agencies no longer view influencer marketing as an experimental tactic; it is now a cornerstone of modern customer acquisition and brand awareness.
+    </p>
+    <p>
+      However, one of the most persistent hurdles for creators across Instagram, YouTube, TikTok, and LinkedIn is determining <strong>how much to charge for brand collaborations</strong>. Pricing too low leads to creator burnout, undercompensates your labor, and depresses market standards. Pricing too high without supporting analytics risks scaring away potential sponsors.
+    </p>
+    <p>
+      Our interactive <strong>Influencer Rate Calculator</strong> takes the guesswork out of rate estimation. By analyzing your follower count, real engagement volume, social platform, content niche, and deliverable format, the tool calculates accurate market-rate sponsorship valuations, projected CPMs, and provides an instant brand outreach pitch template.
+    </p>
+
+    <div class="callout-box">
+      <div class="callout-title">
+        <span>💡</span> In-Depth Brand Collaboration Guide
+      </div>
+      <p style="margin: 0; font-size: 0.95rem;">
+        Master the nuances of pitching, contracts, and negotiation strategies in our complete guide: <a href="/blog/ultimate-brand-collaboration-guide">Ultimate Brand Collaboration Guide & Influencer Campaign Outlines</a>.
       </p>
     </div>
 
+    <h2>What is an Influencer Rate & Why Pricing Correctly Matters</h2>
     <p>
-      Influencer pricing is no longer a guessing game. Brands evaluate creators based on their projected conversions and target reach. The primary metrics that dictate how much you can charge are:
+      An <strong>influencer rate</strong> is the baseline fee a content creator charges a brand partner to produce, edit, and publish sponsored content to their audience.
+    </p>
+    <p>
+      Unlike traditional advertising where media space is purchased from a network, influencer pricing compensates creators for four distinct assets:
     </p>
     <ul>
-      <li><strong>Follower Demographics and Niche:</strong> Highly specialized niches (like finance or enterprise tech) attract business audiences, which commands high CPMs. General entertainment niches have larger follower numbers but lower relative advertiser payouts.</li>
-      <li><strong>Engagement Quality:</strong> High engagement rates signal that your followers trust your recommendations. If you have 50,000 followers but only get 100 views per post, brands will negotiate your rates down.</li>
-      <li><strong>Content Creation Effort:</strong> A quick Instagram Story with a link takes less time than scripting, editing, and uploading a 15-minute dedicated YouTube review. Accordingly, dedicated videos fetch up to 2.2x our base rates.</li>
+      <li><strong>Audience Access:</strong> Direct, targeted exposure to a pre-built community of engaged followers who trust the creator's voice.</li>
+      <li><strong>Creative Production:</strong> Concept scripting, high-definition videography, lighting, voiceover recording, and professional post-production editing.</li>
+      <li><strong>Implied Endorsement & Social Proof:</strong> The personal credibility and authenticity the creator transfers to the featured product or service.</li>
+      <li><strong>Commercial Usage Rights:</strong> The intellectual property rights that dictate where and how long the brand can utilize the creator's content.</li>
     </ul>
 
-    <h2>Negotiation Strategy for Creators</h2>
+    <h2>The 7 Core Influencer Pricing Models</h2>
     <p>
-      Use the rates generated here as a starting baseline. When pitching brands, focus on the value you deliver rather than just raw numbers:
+      Influencers structure their fees across several commercial payment models:
     </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>1. Flat-Fee Per Deliverable (Static Post / Photo)</h3>
+        <p>
+          A single fixed fee charged for a standalone static image, carousel, or graphic post. Ideal for visual lifestyle showcases, aesthetic styling, or product flat-lays on Instagram.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>2. Short-Form Video (Instagram Reel / TikTok)</h3>
+        <p>
+          A 30-to-60 second vertical video integrating the sponsor's product. Because short-form video requires dynamic editing and delivers viral algorithmic reach, it commands a <strong>1.4x to 1.6x multiplier</strong> over static posts.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>3. Dedicated Long-Form Video / YouTube Integration</h3>
+        <p>
+          • <strong>Dedicated Review (10-15+ mins):</strong> The entire video focuses on the brand's product, fetching a <strong>2.0x to 2.5x multiplier</strong>.
+          <br />
+          • <strong>Integrated Mid-Roll Shoutout (60-90 secs):</strong> A natural ad placement within a broader thematic video, typically priced around 50% to 65% of a fully dedicated video.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>4. Ephemeral Story Sets with Direct Link Stickers</h3>
+        <p>
+          A series of 3 to 5 Story frames with clickable link stickers. Stories offer high click-through rates (CTR) and immediate conversions despite disappearing after 24 hours.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>5. Multi-Deliverable Package Bundles</h3>
+        <p>
+          Combining multiple formats across platforms (e.g., <em>1 YouTube Integration + 1 Instagram Reel + 3 Story frames with links</em>). Bundles increase total campaign value while providing sponsors with comprehensive multi-touch attribution.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>6. Monthly Brand Ambassadorship Retainers</h3>
+        <p>
+          Ongoing multi-month partnerships where the creator delivers a predetermined bundle of monthly assets in exchange for guaranteed, recurring monthly revenue.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>7. Paid Usage Rights & Whitelisting (Dark Posting)</h3>
+        <p>
+          Granting the sponsor permission to run paid ads through the creator's handle or utilize the video across brand ad channels. Standard licensing fees range from <strong>30% to 100%+</strong> of the base creation fee per 30 to 90 days.
+        </p>
+      </div>
+    </div>
+
+    <h2>Key Factors That Influence Influencer Pricing</h2>
+    <p>
+      Influencer sponsorship valuations are determined by six primary metrics:
+    </p>
+
+    <div class="table-responsive-wrapper">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th>Influencer Tier</th>
+            <th>Follower Range</th>
+            <th>Typical Engagement Rate</th>
+            <th>Primary Value Proposition</th>
+            <th>Average Post Pricing Range</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Nano-Influencer</strong></td>
+            <td>1,000 – 10,000</td>
+            <td>5.0% – 10.0%+</td>
+            <td>Hyper-niche community trust, strong peer influence</td>
+            <td>$50 – $250</td>
+          </tr>
+          <tr>
+            <td><strong>Micro-Influencer</strong></td>
+            <td>10,000 – 50,000</td>
+            <td>3.0% – 6.0%</td>
+            <td>High engagement, cost-efficient conversions</td>
+            <td>$200 – $750</td>
+          </tr>
+          <tr>
+            <td><strong>Mid-Tier Influencer</strong></td>
+            <td>50,000 – 500,000</td>
+            <td>2.0% – 4.0%</td>
+            <td>Balanced reach and high-quality production value</td>
+            <td>$600 – $3,500</td>
+          </tr>
+          <tr>
+            <td><strong>Macro-Influencer</strong></td>
+            <td>500,000 – 1,000,000</td>
+            <td>1.5% – 3.0%</td>
+            <td>Mass brand awareness, rapid campaign velocity</td>
+            <td>$3,000 – $10,000</td>
+          </tr>
+          <tr>
+            <td><strong>Mega / Elite Creator</strong></td>
+            <td>1,000,000+</td>
+            <td>1.0% – 2.5%</td>
+            <td>Celebrity-level reach, nationwide brand impact</td>
+            <td>$10,000 – $50,000+</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Niche Commercial Value Multipliers</h3>
+    <p>
+      Sponsorship rates vary widely based on the economic value of the target audience:
+    </p>
+    <ul>
+      <li><strong>Finance, Investing & Crypto (1.8x Multiplier):</strong> High customer lifetime values for brokerages and credit cards command the industry's highest CPMs.</li>
+      <li><strong>Tech, SaaS & Hardware (1.6x Multiplier):</strong> High annual subscription contracts allow tech brands to pay premium creator fees.</li>
+      <li><strong>Business & Entrepreneurship (1.5x Multiplier):</strong> Highly sought-after B2B decision-makers and founders.</li>
+      <li><strong>Health, Fitness & Wellness (1.2x Multiplier):</strong> High repeat purchase frequency for supplements, apparel, and equipment.</li>
+      <li><strong>Beauty & Skincare (1.1x Multiplier):</strong> Visual transformation format with consistent direct-to-consumer demand.</li>
+      <li><strong>Lifestyle & Fashion (1.0x Baseline):</strong> Broad consumer reach with massive brand deal volume.</li>
+      <li><strong>Gaming & Esports (0.9x Multiplier):</strong> Large audience scale but younger demographic with lower immediate disposable income.</li>
+    </ul>
+
+    <h2>How This Influencer Rate Calculator Works</h2>
+    <p>
+      Our calculator uses a dynamic 4-stage algorithmic model:
+    </p>
+    <div class="formula-box">
+      Final Rate = Base Platform Value × Niche Multiplier × Format Multiplier × Engagement Health Index
+    </div>
+    <ul>
+      <li><strong>Base Platform Value:</strong> Establishes baseline pricing benchmarks ($10/1k followers on Instagram, $6/1k followers on TikTok, $25/1k views on YouTube).</li>
+      <li><strong>Niche Multiplier:</strong> Adjusts pricing from 0.9x (Gaming) up to 1.8x (Finance) based on audience commercial value.</li>
+      <li><strong>Format Multiplier:</strong> Scales rates from 0.5x (Story frame) to 2.2x (Dedicated integration) according to production complexity.</li>
+      <li><strong>Engagement Health Index:</strong> Rewards creators whose engagement rate exceeds industry baselines (up to +50% bonus) and adjusts down for inactive follower counts.</li>
+    </ul>
+
+    <h2>Step-by-Step Guide: How to Use the Calculator Effectively</h2>
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Select Your Platform</h3>
+        <p>
+          Choose from <strong>Instagram</strong>, <strong>YouTube</strong>, or <strong>TikTok</strong> to load platform-specific valuation algorithms.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Enter Follower & Engagement Metrics</h3>
+        <p>
+          Input your total follower count and average engagement (average likes + comments for Instagram/TikTok, or average 30-day views for YouTube).
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Select Your Niche & Deliverable Format</h3>
+        <p>
+          Pick your content vertical (e.g., Tech, Finance, Beauty) and requested format (Feed Post, Story, Reel, Dedicated Video).
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Review Valuations & Copy Your Brand Pitch</h3>
+        <p>
+          Click <strong>Calculate Estimated Rate</strong> to view your estimated rate range, median recommended quote, pricing tier, and copy the customized brand outreach email template.
+        </p>
+      </div>
+    </div>
+
+    <h2>4 Realistic Rate Calculation Scenarios</h2>
+    <p>
+      Review these real-world examples to see how creator metrics translate into sponsorship quotes:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Scenario A: Micro Instagram Beauty Influencer</h3>
+        <p><strong>Metrics:</strong> 25,000 Followers | 1,800 Avg. Engagements (7.2% ER) | Format: Instagram Reel</p>
+        <ul>
+          <li><strong>Baseline Calculation:</strong> $250 base × 1.1 (Beauty) × 1.4 (Reel) × 1.47 (High ER) = <strong>$566 Median Rate</strong></li>
+          <li><strong>Suggested Quote Range:</strong> $450 – $700 per Reel</li>
+          <li><strong>Takeaway:</strong> Exceptional engagement rates allow micro-creators to charge near mid-tier rates.</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Scenario B: Mid-Tier TikTok Tech Creator</h3>
+        <p><strong>Metrics:</strong> 85,000 Followers | 5,500 Avg. Engagements (6.4% ER) | Format: Dedicated Review</p>
+        <ul>
+          <li><strong>Baseline Calculation:</strong> $510 base × 1.6 (Tech) × 2.2 (Dedicated) × 1.24 (ER Index) = <strong>$2,225 Median Rate</strong></li>
+          <li><strong>Suggested Quote Range:</strong> $1,780 – $2,780 per dedicated video</li>
+          <li><strong>Takeaway:</strong> Tech niche multipliers dramatically boost short-form video sponsorship value.</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Scenario C: Macro YouTube Finance Channel</h3>
+        <p><strong>Metrics:</strong> 180,000 Subscribers | 40,000 Avg. Views per Video | Format: Dedicated Mid-Roll</p>
+        <ul>
+          <li><strong>Baseline Calculation:</strong> $1,000 base × 1.8 (Finance) × 2.2 (Dedicated) = <strong>$3,960 Median Rate</strong></li>
+          <li><strong>Suggested Quote Range:</strong> $3,200 – $4,950 per integration</li>
+          <li><strong>Takeaway:</strong> YouTube pricing is driven by verifiable video views rather than total subscriber counts.</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Scenario D: Multi-Platform Fitness Creator Retainer</h3>
+        <p><strong>Deliverables:</strong> 2 Instagram Reels + 1 TikTok Video + 4 Story sets monthly</p>
+        <ul>
+          <li><strong>Asset Valuation:</strong> $1,200 (Reels) + $500 (TikTok) + $400 (Stories) = $2,100/mo base value</li>
+          <li><strong>Retainer Discount (15% for 3-month commitment):</strong> <strong>$1,785 / month ($5,355 total contract)</strong></li>
+          <li><strong>Takeaway:</strong> Retainers provide creators with revenue stability and offer brands cost savings.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Tips to Set Competitive & Profitable Rates</h2>
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>1. Always Price in a Range</h3>
+        <p>
+          Quote using a starting range (e.g., <em>'$800 – $1,200 depending on exact creative scope and usage terms'</em>). This provides flexibility to negotiate deliverables without cutting your unit price.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>2. Charge Separately for Paid Usage Rights</h3>
+        <p>
+          Never include digital ad whitelisting in your base organic rate. Standard industry practice is charging an extra <strong>30% for 30 days</strong> or <strong>50% for 90 days</strong> of paid ad usage.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>3. Establish a Non-Negotiable Project Floor</h3>
+        <p>
+          Set a minimum fee threshold (e.g., minimum $200 per project) to cover communication time, contract review, and invoicing admin.
+        </p>
+      </div>
+    </div>
+
+    <h2>Common Mistakes Influencers Make When Pricing Services</h2>
+    <div class="callout-box warning">
+      <div class="callout-title">
+        <span>⚠️</span> Critical Pricing Pitfalls
+      </div>
+      <p style="margin: 0; font-size: 0.95rem;">
+        Avoid these common pricing mistakes to protect your brand, maintain profitability, and avoid legal disputes.
+      </p>
+    </div>
+
+    <ul>
+      <li><strong>Pricing Exclusively on Follower Count:</strong> Ignoring actual view counts and engagement metrics leads to overquoting dead accounts or undercharging hyper-engaged communities.</li>
+      <li><strong>Falling for the 'Free Product Gifted' Trap:</strong> Brands offering free $30 leggings in exchange for a dedicated video that takes 6 hours to script and edit.</li>
+      <li><strong>Granting Perpetual, In-Perpetuity Usage Rights:</strong> Allowing brands to use your face on their billboards or paid digital ads forever without ongoing royalty fees.</li>
+      <li><strong>Agreeing to Free Category Exclusivity:</strong> Agreeing not to work with any other tech brand for 6 months without demanding an exclusivity surcharge.</li>
+      <li><strong>Failing to Set Revision Limits:</strong> Not defining contract terms (e.g., maximum 2 rounds of minor edits), leading to endless reshoots.</li>
+    </ul>
+
+    <h2>Best Practices for Negotiating & Closing Brand Deals</h2>
     <ol>
-      <li><strong>Highlight your core statistics:</strong> Share your average engagement rate if it beats the platform average.</li>
-      <li><strong>Bundle formats:</strong> Brands love multi-platform packages. Offer a dedicated YouTube video + an Instagram Reel package to command premium deals.</li>
-      <li><strong>Create a dedicated Media Kit:</strong> Keep your pricing transparent, neat, and highly professional to set yourself apart from amateur accounts.</li>
+      <li><strong>Focus on Brand ROI in Your Pitch:</strong> Highlight past campaign case studies, average click-through rates (CTR), and audience conversion intent.</li>
+      <li><strong>Negotiate Deliverable Scope, Not Price:</strong> If a sponsor says <em>'We only have an $800 budget'</em> and your rate is $1,200 for a Reel, offer 3 Story frames with link stickers instead of slashing your Reel rate.</li>
+      <li><strong>Follow Up Professionally:</strong> Brands receive hundreds of pitches weekly. Send a polite follow-up 4 to 5 business days after initial outreach.</li>
     </ol>
   </div>
 </ToolLayout>
 
 <style>
+  /* Formula and Table responsiveness fixes */
+  .formula-box {
+    background: var(--color-bg-alt);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    margin: 1.25rem 0;
+    font-family: monospace;
+    font-size: clamp(0.85rem, 3.2vw, 1.05rem);
+    text-align: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    color: var(--color-brand);
+    font-weight: 600;
+    line-height: 1.8;
+  }
+
+  /* Responsive Table Styling */
+  .table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1.5rem 0;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+  }
+
+  .content-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.92rem;
+    min-width: 520px;
+  }
+
+  .content-table th {
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    font-weight: 700;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .content-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .content-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .content-table tr:hover td {
+    background: rgba(99, 102, 241, 0.03);
+    color: var(--color-text);
+  }
+
+  /* Step guide styling */
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.35rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.15rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  /* Callout box styling */
+  .callout-box {
+    margin: 1.5rem 0;
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-brand);
+  }
+
+  .callout-box.tip {
+    border-left-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  .callout-box.warning {
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+  }
+
+  .callout-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .calc-card {
     padding: var(--space-md);
     border-radius: var(--radius-lg);
@@ -368,6 +795,40 @@ const faqs = [
     display: none !important;
   }
 
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h2) {
+    margin-top: 2.25rem;
+    margin-bottom: 0.85rem;
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+
+  .editorial-content :global(h3) {
+    margin-top: 1.75rem;
+    margin-bottom: 0.65rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .editorial-content :global(p) {
+    color: var(--color-text-muted);
+    margin-bottom: 1.15rem;
+    line-height: 1.75;
+    font-size: 0.98rem;
+  }
+
+  .editorial-content :global(code) {
+    background: var(--color-bg-alt);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.88em;
+    border: 1px solid var(--color-border);
+    color: var(--color-brand);
+  }
+
   /* Mobile styling overrides to remove nested borders and make results high-contrast & responsive */
   @media (max-width: 767px) {
     .calc-results {
@@ -418,6 +879,15 @@ const faqs = [
       padding: 0.75rem !important;
       height: 120px !important;
     }
+
+    .content-table {
+      font-size: 0.85rem;
+    }
+
+    .content-table th, 
+    .content-table td {
+      padding: 0.7rem 0.75rem;
+    }
   }
 
   /* Responsive Rules */
@@ -426,14 +896,6 @@ const faqs = [
       grid-template-columns: 1fr 1fr;
       align-items: start;
     }
-  }
-
-  /* Slotted editorial heading spacing fixes */
-  .editorial-content :global(h3) {
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    font-size: 1.25rem;
-    color: var(--color-text);
   }
 </style>
 

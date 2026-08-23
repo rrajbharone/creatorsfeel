@@ -3,24 +3,36 @@ import ToolLayout from '../../layouts/ToolLayout.astro';
 
 const faqs = [
   {
-    question: "What is Cost Per Engagement (CPE) in marketing?",
-    answer: "Cost Per Engagement (CPE) is a digital marketing pricing model where advertisers only pay when a user actively engages with an ad or social post. Engagements can include likes, comments, shares, link clicks, retweets, saves, or video views, rather than simple passive impressions."
+    question: "What is Cost Per Engagement (CPE) and how is it calculated?",
+    answer: "Cost Per Engagement (CPE) is a marketing efficiency metric that measures the exact cost incurred for every active interaction generated on an ad or social media post. It is calculated using the formula: CPE = Total Campaign Spend / Total Engagements. Engagements include likes, comments, shares, saves, retweets, video plays, and link clicks."
   },
   {
-    question: "How do you calculate Cost Per Engagement (CPE)?",
-    answer: "To calculate CPE, divide the total cost of the campaign by the total number of engagements recorded. The mathematical formula is: CPE = Total Budget / Total Engagements."
+    question: "What is the difference between CPE, CPC, and CPM?",
+    answer: "CPM (Cost Per Mille) charges for every 1,000 passive impressions (views) regardless of interaction. CPC (Cost Per Click) only charges when a user clicks a destination URL link. CPE (Cost Per Engagement) charges whenever a user actively interacts with the content (such as liking, commenting, sharing, saving, or swiping a carousel)."
   },
   {
-    question: "What is a good benchmark for Cost Per Engagement?",
-    answer: "CPE benchmarks vary significantly by platform, industry, and ad type. Generally, a CPE between $0.10 and $0.50 is considered average, while highly optimized campaigns or organic posts can see rates below $0.05. B2B campaigns on LinkedIn typically have higher CPE rates ($1.00 - $3.00) due to niche targeting."
+    question: "What is considered a good or healthy Cost Per Engagement benchmark?",
+    answer: "Across mainstream social platforms, a CPE between $0.05 and $0.20 is considered highly efficient, while $0.20 to $0.50 is standard for Facebook and Instagram promotions. For professional B2B platforms like LinkedIn, standard CPEs range higher ($1.20 to $3.00) due to high-value executive targeting and high customer lifetime values (LTV)."
   },
   {
-    question: "What is the difference between CPC and CPE?",
-    answer: "CPC (Cost Per Click) only counts link clicks that direct users to an external website or landing page. CPE (Cost Per Engagement) counts all types of interactive touchpoints, including social signals (likes, reactions, comments, retweets) and media interactions (expands, video pauses) alongside link clicks."
+    question: "What specific actions count as an engagement?",
+    answer: "Engagements encompass all active user touchpoints: social signals (likes, reactions, comments, replies), content distribution (shares, reposts, retweets), content curation (saves, bookmarks, favorites), media interactions (video views, carousel swipes, audio unmutes), and direct actions (profile visits, link clicks, sticker taps)."
   },
   {
-    question: "Why should a campaign focus on CPE?",
-    answer: "A CPE bidding model ensures your advertising spend goes toward interested users who actively engage with your content. It is ideal for brand awareness, community building, viral content promotion, and boosting organic algorithm metrics on social platforms."
+    question: "Why is Cost Per Engagement often a safer metric than CPM?",
+    answer: "In CPM campaigns, advertisers pay for ad impressions even if the user rapidly scrolls past without noticing the content. In CPE models or analysis, advertisers only measure or pay for users who demonstrate verified interest by actively interacting with the creative."
+  },
+  {
+    question: "How can brands use CPE to evaluate influencer collaborations?",
+    answer: "Brands can divide an influencer's sponsorship fee by their verified average engagements (likes, comments, shares, saves) across past sponsored posts. A lower historical CPE indicates an engaged, responsive community, providing proof of campaign cost-effectiveness."
+  },
+  {
+    question: "How do carousel posts help lower Cost Per Engagement?",
+    answer: "Multi-slide carousels encourage users to swipe through multiple frames. Because each swipe, save, or comment is recorded as an active user interaction, carousels generate multiple engagement opportunities per impression, drastically lowering the effective CPE."
+  },
+  {
+    question: "Can a campaign have a low CPE but still fail to generate sales?",
+    answer: "Yes. If an ad creative is highly entertaining or click-baity, it may generate thousands of low-cost likes and comments (low CPE) from users who have zero purchasing intent. CPE must always be analyzed alongside downstream conversion metrics like Cost Per Acquisition (CAC) and Return on Ad Spend (ROAS)."
   }
 ];
 
@@ -32,7 +44,7 @@ const breadcrumbs = [
 ---
 
 <ToolLayout
-  title="Cost Per Engagement (CPE) Calculator - Audit Social Ad Campaign ROI"
+  title="Cost Per Engagement (CPE) Calculator - Social Ad & Influencer ROI Tool"
   description="Free online Cost Per Engagement (CPE) calculator. Calculate marketing budget, total engagements, or campaign CPE rate instantly. Audit FB promos, Instagram ads, and social media ROI."
   toolName="Cost Per Engagement Calculator"
   toolDescription="Analyze ad performance metrics. Toggle between calculating CPE, campaign budget, or total engagements instantly with optional engagement breakdowns."
@@ -208,73 +220,394 @@ const breadcrumbs = [
   </div>
 
   <!-- Editorial slot -->
-  <div slot="about" class="editorial-content" class="seo-content-section">
-    <h2>Complete Guide to Cost Per Engagement (CPE) Marketing Optimization</h2>
-    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
-      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        💡 <strong>Want to optimize your metrics?</strong> Read our comprehensive guide on <a href="/blog/cost-per-engagement-calculator-guide" style="color: var(--color-brand); text-decoration: underline;">Cost Per Engagement Metrics & Campaign ROI Optimizations</a> to learn how to track cost per click, interaction ratios, and paid amplification efficiency.
+  <div slot="about" class="editorial-content">
+    <h2>The Complete Guide to Cost Per Engagement (CPE) & Campaign Efficiency</h2>
+    <p>
+      In modern social media marketing and influencer advertising, tracking simple impressions is no longer sufficient to evaluate campaign success. Billions of automated programmatic impressions are served daily across feeds, but impressions only measure how many screens an asset rendered on—not whether anyone stopped to look, read, or care.
+    </p>
+    <p>
+      To measure genuine audience attention and affinity, digital marketers and content creators rely on <strong>Cost Per Engagement (CPE)</strong>. By quantifying the financial investment required to generate active user participation—such as likes, comments, shares, video plays, saves, and link clicks—CPE provides an undeniable gauge of creative resonance and budget efficiency.
+    </p>
+    <p>
+      Our interactive <strong>Cost Per Engagement Calculator</strong> empowers you to analyze past marketing spend, forecast required campaign budgets, or estimate interaction volumes with precision.
+    </p>
+
+    <div class="callout-box">
+      <div class="callout-title">
+        <span>💡</span> Campaign Strategy & Optimization
+      </div>
+      <p style="margin: 0; font-size: 0.95rem;">
+        Looking to lower ad acquisition costs and scale creative performance? Read our in-depth strategy guide: <a href="/blog/cost-per-engagement-calculator-guide">Cost Per Engagement Metrics & Campaign ROI Optimizations</a>.
       </p>
     </div>
 
+    <h2>What is Cost Per Engagement (CPE) and Why Does It Matter?</h2>
     <p>
-      In social media campaigns and digital promotions, tracking how audiences engage with your posts is key to evaluating investment efficiency. The <strong>Cost Per Engagement Calculator</strong> offers a streamlined interface to calculate the true cost of every interaction. Whether auditing standard Facebook promotions, checking media shares, or verifying Instagram ad returns, this utility helps you spend efficiently.
+      <strong>Cost Per Engagement (CPE)</strong> is a digital marketing performance and bidding metric that calculates the average dollar amount spent to generate a single verified user interaction with an advertisement or social media post.
     </p>
     <p>
-      By shifting attention from broad impressions (views) to active engagements (likes, comments, clicks, and saves), marketers ensure that budgets map to tangible audience interactions rather than simple layout exposure.
+      Unlike passive view-based advertising, CPE shifts the focus toward active consumer participation. CPE is critical for two key industry stakeholders:
+    </p>
+    <ul>
+      <li><strong>For Brands & Advertisers:</strong> CPE ensures marketing capital is not wasted on unengaged impressions. It identifies top-performing creative assets and allows media buyers to shift ad spend toward high-intent audiences, directly lowering Customer Acquisition Costs (CAC).</li>
+      <li><strong>For Creators & Influencers:</strong> Knowing your historical CPE allows you to prove your audience's loyalty and responsiveness. Presenting low CPE averages (e.g., $0.10 to $0.20 per interaction) in your media kit gives you massive leverage to justify premium sponsorship rates.</li>
+    </ul>
+
+    <h2>How Cost Per Engagement is Calculated</h2>
+    <p>
+      The core mathematical formula for calculating Cost Per Engagement is straightforward:
     </p>
 
     <div class="formula-box">
-      CPE = Total Campaign Cost / Total Engagements 📊
+      Cost Per Engagement (CPE) = Total Campaign Spend / Total Engagements
+      <br />
+      Cost Per 1,000 Engagements (CPKE) = CPE × 1,000
     </div>
 
-    <h2>How to Calculate Cost Per Engagement</h2>
+    <h3>What Actions Count as an Engagement?</h3>
     <p>
-      To find your campaign's CPE, divide your total spend by the number of interactions recorded:
-    </p>
-    <ul>
-      <li><strong>Total Campaign Spend:</strong> The overall budget used.</li>
-      <li><strong>Total Engagements:</strong> The total sum of social actions (Likes + Comments + Shares + Link Clicks + Saves).</li>
-    </ul>
-    <p>
-      For example, if you run a Facebook promotion with a budget of $100 and generate 500 likes, comments, and clicks combined, your calculation is:
-      <br />
-      <code>$100 / 500 = $0.20 CPE</code>
+      An engagement represents any conscious, active interaction a user takes with your content rather than passively scrolling past it. Across major social platforms, engagements include:
     </p>
 
-    <h2>Benchmark CPE Rates Across Social Media Channels</h2>
-    <div class="table-responsive">
-      <table style="width: 100%; min-width: 550px; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>1. Social Signals & Feedback (Likes, Reactions & Comments)</h3>
+        <p>
+          Direct approval and conversation. Double-tapping an Instagram post, reacting on Facebook or LinkedIn, or typing a thoughtful comment reflects high audience resonance.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>2. Content Amplification (Shares, Reposts & Retweets)</h3>
+        <p>
+          The highest form of social advocacy. When users share your post to their personal Stories, repost to their feed, or send it via Direct Message (DM), they organically amplify your reach at zero additional media cost.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>3. High-Intent Curation (Saves, Bookmarks & Favorites)</h3>
+        <p>
+          Saving a post on Instagram, TikTok, or Pinterest indicates strong long-term value. Users bookmark tutorials, product recommendations, and recipes to revisit later, making saves a strong indicator of future purchasing intent.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>4. Media Consumption (Video Views, Swipes & Expands)</h3>
+        <p>
+          Active consumption behaviors, including watching 3+ seconds of video, unmuting audio, swiping through multi-frame carousel slides, and tapping image expands.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>5. Direct-Response Actions (Link Clicks & Sticker Taps)</h3>
+        <p>
+          Clicking destination URLs, tapping Instagram Story link stickers, visiting creator bios, or expanding lead generation forms.
+        </p>
+      </div>
+    </div>
+
+    <h2>CPE vs CPC vs CPM: Strategic Differences & When to Use Each</h2>
+    <p>
+      To build an efficient marketing strategy, you must know when to buy or evaluate media based on CPE, CPC, or CPM:
+    </p>
+
+    <div class="table-responsive-wrapper">
+      <table class="content-table">
         <thead>
-          <tr style="border-bottom: 2px solid var(--color-border); background: var(--color-bg-alt);">
-            <th style="padding: 0.75rem;">Social Media Platform</th>
-            <th style="padding: 0.75rem;">Average CPE Benchmarks</th>
-            <th style="padding: 0.75rem;">Primary Engagement Formats</th>
+          <tr>
+            <th>Metric</th>
+            <th>Full Name</th>
+            <th>Pricing Model</th>
+            <th>Primary Objective</th>
+            <th>Best Use Case</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="border-bottom: 1px solid var(--color-border);">
-            <td style="padding: 0.75rem; font-weight: 600;">Facebook Ads</td>
-            <td style="padding: 0.75rem;">$0.12 - $0.35</td>
-            <td style="padding: 0.75rem;">Reactions, Comments, Shares, Link clicks</td>
+          <tr>
+            <td><strong>CPM</strong></td>
+            <td>Cost Per Mille</td>
+            <td>Cost per 1,000 impressions (views)</td>
+            <td>Top-of-Funnel Brand Reach</td>
+            <td>Mass awareness campaigns, brand launches, and PR announcements where maximum visibility is the sole objective.</td>
           </tr>
-          <tr style="border-bottom: 1px solid var(--color-border);">
-            <td style="padding: 0.75rem; font-weight: 600;">Instagram Ads</td>
-            <td style="padding: 0.75rem;">$0.15 - $0.45</td>
-            <td style="padding: 0.75rem;">Likes, Comments, Shares, Saves, Story clicks</td>
+          <tr>
+            <td><strong>CPC</strong></td>
+            <td>Cost Per Click</td>
+            <td>Cost per outbound website click</td>
+            <td>Direct Website Traffic</td>
+            <td>E-commerce product pages, lead capture funnels, and app downloads requiring external site visits.</td>
           </tr>
-          <tr style="border-bottom: 1px solid var(--color-border);">
-            <td style="padding: 0.75rem; font-weight: 600;">LinkedIn Ads</td>
-            <td style="padding: 0.75rem;">$1.20 - $2.80</td>
-            <td style="padding: 0.75rem;">Reactions, Document downloads, Link clicks</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--color-border);">
-            <td style="padding: 0.75rem; font-weight: 600;">TikTok Promos</td>
-            <td style="padding: 0.75rem;">$0.04 - $0.15</td>
-            <td style="padding: 0.75rem;">Hearts, Comments, Video views (3s/6s), Shares</td>
+          <tr>
+            <td><strong>CPE</strong></td>
+            <td>Cost Per Engagement</td>
+            <td>Cost per active social interaction</td>
+            <td>Audience Affinity & Proof</td>
+            <td>Social proof building, viral video distribution, community growth, and algorithmic feed acceleration.</td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <h3>Why CPE is Often More Reliable Than CPM</h3>
+    <p>
+      In a standard CPM campaign, an advertiser pays for ad space even if the ad renders below the fold on a desktop screen or is scrolled past in under half a second on mobile. Under a CPE framework, budget is tied directly to users who demonstrate active attention, shifting the risk away from the buyer and ensuring media spend maps directly to human engagement.
+    </p>
+
+    <h2>Key Factors That Dictate Cost Per Engagement</h2>
+    <p>
+      Your campaign CPE is influenced by five core variables:
+    </p>
+
+    <h3>1. Platform Algorithm & Feed Formats</h3>
+    <p>
+      Different social networks generate vastly different interaction costs. TikTok and Instagram Reels benefit from algorithmic video feeds that generate low-cost interactions ($0.04 – $0.15 CPE), while professional B2B platforms like LinkedIn command higher costs ($1.20 – $2.80 CPE) due to executive audience targeting.
+    </p>
+
+    <h3>2. Creative Format: Carousels & Short-Form Video</h3>
+    <p>
+      Multi-slide carousel posts consistently yield the lowest CPEs across social media. Because every individual swipe through a 5-to-10-slide deck registers as an engagement, a single user often generates 4 to 8 interactions on one impression.
+    </p>
+
+    <h3>3. The First 3 Seconds (Hook Strength)</h3>
+    <p>
+      For video ads and organic clips, the vast majority of drop-offs happen in the first three seconds. A compelling visual or auditory hook stops the scroll and dramatically increases watch time, shares, and comments, driving CPE downward.
+    </p>
+
+    <h3>4. Audience Niche & Buyer Intent</h3>
+    <p>
+      General lifestyle, meme, and entertainment niches have large audiences and low interaction costs. Conversely, specialized high-ticket verticals (B2B SaaS, Real Estate, Wealth Management) have smaller, high-LTV audiences that naturally operate at higher baseline CPEs.
+    </p>
+
+    <h3>5. Clear Call-to-Action (CTA) Prompts</h3>
+    <p>
+      Explicitly guiding viewers on how to engage (e.g., <em>'Drop your thoughts below'</em> or <em>'Save this checklist for your next shoot'</em>) can increase total engagement volume by 30% to 50% without increasing ad spend.
+    </p>
+
+    <h2>How This Cost Per Engagement Calculator Works</h2>
+    <p>
+      Our calculator offers three distinct mathematical modes to suit your planning or auditing needs:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Mode 1: Calculate CPE (Performance Audit)</h3>
+        <p>
+          Input your total spend and total engagements to determine your exact Cost Per Engagement, Cost Per 1,000 Engagements (CPKE), and automated performance benchmark rating.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Mode 2: Calculate Budget (Campaign Forecasting)</h3>
+        <p>
+          Input your target CPE rate and desired engagement goal to forecast the total marketing spend required to hit your objective.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Mode 3: Calculate Engagements (Volume Expectation)</h3>
+        <p>
+          Input your allocated budget and target CPE to project the total volume of social interactions your campaign should generate.
+        </p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Guide: How to Use the Calculator Effectively</h2>
+    <p>
+      Follow these simple steps to analyze your campaigns in seconds:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Choose Your Calculation Target</h3>
+        <p>
+          Select the tab at the top: <strong>Calculate CPE</strong> to audit a finished campaign, <strong>Calculate Budget</strong> to forecast necessary ad spend, or <strong>Calculate Engagements</strong> to project interaction volume.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Choose Your Engagement Input Mode</h3>
+        <p>
+          Select <strong>Simple Total Input</strong> to enter an aggregate number of interactions, or switch to <strong>Detailed Breakdown</strong> to itemize Likes, Comments, Shares, Link Clicks, and Saves separately.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Enter Campaign Financials & Metrics</h3>
+        <p>
+          Input your total campaign spend (or target CPE) and your verified engagement numbers from your social media analytics dashboard.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Execute & Review Performance Analysis</h3>
+        <p>
+          Click <strong>Calculate Metrics</strong> to review your unit cost, cost per thousand engagements (CPKE), and automated efficiency rating (*Highly Efficient*, *Average ROI*, or *High Cost*).
+        </p>
+      </div>
+    </div>
+
+    <h2>Realistic CPE Calculation Scenarios Across Platforms</h2>
+    <p>
+      To see how Cost Per Engagement benchmarks apply in real-world marketing, review these four multi-platform scenarios:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Scenario A: Instagram Influencer Carousel Collaboration (Beauty & Skincare)</h3>
+        <p><strong>Campaign Spend:</strong> $800.00 Creator Fee</p>
+        <ul>
+          <li><strong>Interactions:</strong> 3,200 Likes + 450 Comments + 850 Saves + 500 Story Link Taps = <strong>5,000 Total Engagements</strong></li>
+          <li><strong>CPE Calculation:</strong> <code>$800.00 / 5,000 = $0.160 CPE</code></li>
+          <li><strong>Cost Per 1,000 Engagements:</strong> $160.00 CPKE</li>
+          <li><strong>Assessment:</strong> <strong>Highly Efficient ($0.160)</strong> — Exceptional audience trust and high save velocity.</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Scenario B: TikTok Spark Ads Viral Product Launch (Athletic Apparel)</h3>
+        <p><strong>Campaign Spend:</strong> $450.00 Paid Ad Spend</p>
+        <ul>
+          <li><strong>Interactions:</strong> 4,500 Video Plays (6s+) + 1,200 Hearts + 150 Comments + 200 Shares = <strong>6,050 Total Engagements</strong></li>
+          <li><strong>CPE Calculation:</strong> <code>$450.00 / 6,050 = $0.074 CPE</code></li>
+          <li><strong>Cost Per 1,000 Engagements:</strong> $74.38 CPKE</li>
+          <li><strong>Assessment:</strong> <strong>Highly Efficient ($0.074)</strong> — Strong organic viral lift reducing paid ad cost.</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Scenario C: LinkedIn Sponsored Article & Document Ad (B2B SaaS)</h3>
+        <p><strong>Campaign Spend:</strong> $1,200.00 Meta/LinkedIn Ad Spend</p>
+        <ul>
+          <li><strong>Interactions:</strong> 280 Reactions + 65 Comments + 110 Whitepaper Downloads + 145 Link Clicks = <strong>600 Total Engagements</strong></li>
+          <li><strong>CPE Calculation:</strong> <code>$1,200.00 / 600 = $2.000 CPE</code></li>
+          <li><strong>Cost Per 1,000 Engagements:</strong> $2,000.00 CPKE</li>
+          <li><strong>Assessment:</strong> <strong>Standard B2B Benchmark ($2.000)</strong> — High unit cost justified by $5,000+ enterprise deal values.</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Scenario D: YouTube Integrated Sponsorship Engagement Audit (Tech Gear)</h3>
+        <p><strong>Campaign Spend:</strong> $1,500.00 Sponsorship Fee</p>
+        <ul>
+          <li><strong>Interactions:</strong> 450 Comment Discussions + 350 Description Link Clicks + 200 Social Shares = <strong>1,000 Total Engagements</strong></li>
+          <li><strong>CPE Calculation:</strong> <code>$1,500.00 / 1,000 = $1.500 CPE</code></li>
+          <li><strong>Cost Per 1,000 Engagements:</strong> $1,500.00 CPKE</li>
+          <li><strong>Assessment:</strong> <strong>Solid High-Intent Return ($1.500)</strong> — High buyer intent and long evergreen search shelf-life.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Platform CPE Benchmark Reference Matrix</h3>
+    <div class="table-responsive-wrapper">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th>Platform & Channel</th>
+            <th>Efficient Benchmark</th>
+            <th>Average Industry Range</th>
+            <th>Primary Engagement Types</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>TikTok Organic & Spark Ads</strong></td>
+            <td>&lt; $0.05</td>
+            <td>$0.04 – $0.15</td>
+            <td>Video views (3s/6s), Likes, Comments, Shares</td>
+          </tr>
+          <tr>
+            <td><strong>Instagram Reels & Carousels</strong></td>
+            <td>&lt; $0.15</td>
+            <td>$0.12 – $0.40</td>
+            <td>Saves, Carousel Swipes, Comments, Link Stickers</td>
+          </tr>
+          <tr>
+            <td><strong>Facebook Promoted Posts</strong></td>
+            <td>&lt; $0.12</td>
+            <td>$0.10 – $0.35</td>
+            <td>Reactions, Comments, Shares, Link Clicks</td>
+          </tr>
+          <tr>
+            <td><strong>YouTube Sponsored Integrations</strong></td>
+            <td>&lt; $1.00</td>
+            <td>$0.80 – $2.50</td>
+            <td>Description Clicks, Pinned Comments, Shares</td>
+          </tr>
+          <tr>
+            <td><strong>LinkedIn B2B Sponsored Content</strong></td>
+            <td>&lt; $1.50</td>
+            <td>$1.20 – $3.00</td>
+            <td>Document Downloads, Reactions, Qualified Clicks</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Actionable Strategies to Lower Your Cost Per Engagement</h2>
+    <p>
+      If your campaigns are yielding high CPE numbers, implement these proven performance optimizations:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>1. Prioritize Multi-Slide Carousel Formats</h3>
+        <p>
+          Carousels generate higher engagement rates than single images because users swipe multiple times. Structure your carousels as educational frameworks, before-and-after case studies, or step-by-step checklists.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>2. Front-Load the First 3 Seconds with a High-Stakes Hook</h3>
+        <p>
+          Eliminate slow video introductions. Open with a compelling visual question, bold contrarian statement, or immediate product transformation to stop scrollers in their tracks.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>3. Prompt Comment Discussions with Open-Ended Questions</h3>
+        <p>
+          Close your captions with a specific, engaging prompt (e.g., <em>'Which of these 3 setups do you prefer? A, B, or C?'</em>). Lowering friction to comment triggers algorithm boosts that drive organic reach.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>4. Refine Audience Segmentation to Prevent Ad Fatigue</h3>
+        <p>
+          Broad, untargeted audiences scroll past ads, driving up CPE. Segment campaigns using custom lookalike audiences, engaged page interaction retargeting, and verified interest clusters.
+        </p>
+      </div>
+    </div>
+
+    <h2>Common Mistakes When Calculating or Interpreting CPE</h2>
+    <p>
+      Avoid these common pitfalls that distort engagement analytics:
+    </p>
+
+    <div class="callout-box warning">
+      <div class="callout-title">
+        <span>⚠️</span> Critical Metric Pitfalls
+      </div>
+      <p style="margin: 0; font-size: 0.95rem;">
+        Avoid these analytical mistakes to ensure accurate reporting and sound budget allocation.
+      </p>
+    </div>
+
+    <ul>
+      <li><strong>Treating Passive Impressions as Engagements:</strong> Counting mere impressions as interactions skews your calculation and gives a false perception of engagement efficiency.</li>
+      <li><strong>Ignoring Engagement Quality & Sentiment:</strong> A viral post receiving thousands of angry comments or bot spam may have an ultra-low CPE, but it harms brand equity. Always audit qualitative feedback.</li>
+      <li><strong>Failing to Connect CPE with Downstream Sales:</strong> A campaign with a low CPE ($0.05) is unprofitable if none of those engaged users ever convert into paying customers. Track CPE alongside Customer Acquisition Cost (CAC).</li>
+      <li><strong>Comparing B2C Consumer Benchmarks with B2B Enterprise Metrics:</strong> A $2.00 CPE on LinkedIn for an enterprise software product is often far more profitable than a $0.05 CPE on TikTok for a $10 novelty item. Always evaluate CPE in context with product margins.</li>
+    </ul>
+
+    <h2>Best Practices for Making Data-Driven Decisions with CPE</h2>
+    <p>
+      To maximize your marketing ROI using Cost Per Engagement data:
+    </p>
+    <ol>
+      <li><strong>Audit Creator Partnerships Before Signing Contracts:</strong> Request historical engagement data from potential influencer partners to calculate their baseline CPE before agreeing to flat sponsorship fees.</li>
+      <li><strong>Cut Underperforming Ad Creatives Early:</strong> When running paid social campaigns, identify ad variants with CPEs 50% above your account average within the first 48 hours and reallocate budget to top performers.</li>
+      <li><strong>Use CPE to Guide Organic Content Calendars:</strong> Track the organic CPE equivalent of your weekly posts to double down on the formats, topics, and hooks your community loves most.</li>
+    </ol>
   </div>
 </ToolLayout>
 
@@ -548,7 +881,41 @@ const breadcrumbs = [
     margin: 0;
   }
 
-  /* Editorial formulas block */
+  /* Step guide styling */
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.35rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.15rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
   .formula-box {
     background: var(--color-bg-alt);
     padding: 1.25rem;
@@ -556,7 +923,7 @@ const breadcrumbs = [
     border: 1px solid var(--color-border);
     margin: 1.25rem 0;
     font-family: monospace;
-    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+    font-size: clamp(0.85rem, 3.2vw, 1.05rem);
     text-align: center;
     overflow-x: auto;
     white-space: nowrap;
@@ -564,19 +931,121 @@ const breadcrumbs = [
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    color: var(--color-brand);
+    font-weight: 600;
+    line-height: 1.8;
   }
 
-  .table-responsive {
+  /* Responsive Table Styling */
+  .table-responsive-wrapper {
     width: 100%;
-    max-width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     margin: 1.5rem 0;
-    box-sizing: border-box;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+  }
+
+  .content-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.92rem;
+    min-width: 520px;
+  }
+
+  .content-table th {
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    font-weight: 700;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .content-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .content-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .content-table tr:hover td {
+    background: rgba(99, 102, 241, 0.03);
+    color: var(--color-text);
+  }
+
+  /* Callout box styling */
+  .callout-box {
+    margin: 1.5rem 0;
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-brand);
+  }
+
+  .callout-box.tip {
+    border-left-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  .callout-box.warning {
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+  }
+
+  .callout-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .hidden {
     display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h2) {
+    margin-top: 2.25rem;
+    margin-bottom: 0.85rem;
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+
+  .editorial-content :global(h3) {
+    margin-top: 1.75rem;
+    margin-bottom: 0.65rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .editorial-content :global(p) {
+    color: var(--color-text-muted);
+    margin-bottom: 1.15rem;
+    line-height: 1.75;
+    font-size: 0.98rem;
+  }
+
+  .editorial-content :global(code) {
+    background: var(--color-bg-alt);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.88em;
+    border: 1px solid var(--color-border);
+    color: var(--color-brand);
   }
 
   /* Responsive Mobile Overrides */
@@ -629,6 +1098,15 @@ const breadcrumbs = [
       padding-bottom: 1rem !important;
       align-items: center !important;
     }
+
+    .content-table {
+      font-size: 0.85rem;
+    }
+
+    .content-table th, 
+    .content-table td {
+      padding: 0.7rem 0.75rem;
+    }
   }
 
   @media (min-width: 1024px) {
@@ -637,14 +1115,6 @@ const breadcrumbs = [
       align-items: start;
       gap: 2.5rem;
     }
-  }
-
-  /* Slotted editorial heading spacing fixes */
-  .editorial-content :global(h3) {
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    font-size: 1.25rem;
-    color: var(--color-text);
   }
 </style>
 

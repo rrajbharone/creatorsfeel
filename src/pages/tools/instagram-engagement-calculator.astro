@@ -3,23 +3,43 @@ import ToolLayout from '../../layouts/ToolLayout.astro';
 
 const faqs = [
   {
-    question: "What is a good engagement rate on Instagram?",
-    answer: "For most accounts, an engagement rate between 3% and 6% is considered good. Higher than 6% is excellent, while rates below 1.5% may suggest you need to work on content relevance, hashtags, or clearing out inactive accounts."
+    question: "What is considered a good engagement rate on Instagram?",
+    answer: "For most accounts, an engagement rate between 3.0% and 6.0% is considered good and healthy. Rates above 6.0% are excellent, while rates between 1.5% and 3.0% are average. Accounts with engagement rates below 1.5% often suffer from inactive followers, bot traffic, or algorithmic fatigue."
   },
   {
-    question: "How is the Instagram engagement rate calculated?",
-    answer: "We use the standard industry formula: (Average Likes + Average Comments per post) divided by total Follower Count, multiplied by 100. This measures how active your actual audience is relative to your total size."
+    question: "How is Instagram engagement rate calculated?",
+    answer: "The industry standard formula calculates engagement by followers: Engagement Rate = ((Average Likes + Average Comments per post) / Total Follower Count) × 100. For internal profile audits, creators also calculate engagement by reach: ((Total Likes + Comments + Saves + Shares) / Unique Accounts Reached) × 100."
   },
   {
-    question: "Why does my engagement rate drop as my account grows?",
-    answer: "This is a natural platform trend. As follower size grows, Instagram's algorithm distributes content to a broader audience, which often leads to lower relative engagement percentages. Micro-creators (under 10k followers) typically have the highest engagement rates."
+    question: "Why does engagement rate decrease as follower count grows?",
+    answer: "This is a natural social media dynamic. As an account expands from micro to macro scale, Instagram's algorithm distributes content to broader, less uniform audience segments. Additionally, older accounts accumulate inactive or dormant users over time, causing engagement percentage to naturally compress."
+  },
+  {
+    question: "Which Instagram post format generates the highest engagement?",
+    answer: "Instagram Reels generate the highest overall reach, shares, and viral discovery. Meanwhile, multi-slide Carousels generate the highest save rates, dwell time, and comment depth because users swipe through slides multiple times."
+  },
+  {
+    question: "How many posts should I analyze to calculate an accurate engagement rate?",
+    answer: "It is best practice to sample the last 12 to 18 regular feed posts, excluding extreme viral outliers or paid boosted ads. Averaging a 12-post sample provides a normalized, reliable representation of consistent audience activity."
+  },
+  {
+    question: "Do saves and shares count toward Instagram engagement?",
+    answer: "Yes, saves and shares are heavily weighted by Instagram's ranking algorithm. While public viewers cannot see save counts on your posts, creators can view them in Instagram Professional Insights and should include them when calculating True Engagement Rate for brand media kits."
+  },
+  {
+    question: "How do brands evaluate Instagram engagement rates for sponsorships?",
+    answer: "Brands use engagement rate to calculate potential return on investment (ROI). A micro-creator with 20,000 followers and a 6% engagement rate (1,200 active interactions) often drives more sponsored product sales than a 100,000-follower creator with a 0.5% engagement rate (500 interactions)."
+  },
+  {
+    question: "How can I remove ghost followers to fix a low engagement rate?",
+    answer: "You can identify ghost followers by auditing accounts that have no profile picture, zero posts, follow thousands of accounts, or haven't interacted with your posts in over 90 days. Manually removing or soft-blocking these accounts removes them from your denominator, immediately restoring engagement health."
   }
 ];
 ---
 
 <ToolLayout
-  title="Instagram Engagement Calculator - Audit Profile Health"
-  description="Calculate your Instagram engagement rate. Analyze account health, get personalized feedback grades, and discover actionable strategies to grow."
+  title="Instagram Engagement Calculator - Calculate Engagement Rate & Health"
+  description="Free Instagram engagement calculator. Calculate your exact Instagram engagement rate, analyze post interactions, and compare your score against industry benchmarks."
   toolName="Instagram Engagement Calculator"
   toolDescription="Analyze your average post likes, comments, and followers to calculate your real audience engagement rate."
   category="Calculators"
@@ -89,35 +109,491 @@ const faqs = [
   </div>
 
   <div slot="about" class="editorial-content">
-    <h2>Why Instagram Engagement is More Important Than Followers</h2>
-    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
-      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        💡 <strong>Want to optimize your metrics?</strong> Read our comprehensive guide on <a href="/blog/how-to-calculate-engagement-rate" style="color: var(--color-brand); text-decoration: underline;">How to Calculate Instagram Engagement Rates & Profile Audits</a> to learn how to evaluate impressions, comments weight, and follower quality.
+    <h2>The Complete Guide to Instagram Engagement Rate & Profile Auditing</h2>
+    <p>
+      In the modern social media landscape, vanity metrics are obsolete. For years, creators and businesses evaluated their Instagram success solely by total follower count. However, as platform algorithms matured and influencer marketing became a multi-billion dollar enterprise, brands discovered a fundamental truth: <strong>follower count is just reach potential, but engagement rate is real influence</strong>.
+    </p>
+    <p>
+      An account with 10,000 hyper-engaged followers consistently outperforms an account with 100,000 passive or disengaged followers in conversions, community trust, and algorithmic feed priority.
+    </p>
+    <p>
+      Our interactive <strong>Instagram Engagement Calculator</strong> allows you to audit the health of any public profile, benchmark performance against industry standards, analyze like-to-comment ratios, and discover data-driven strategies to increase interactions.
+    </p>
+
+    <div class="callout-box">
+      <div class="callout-title">
+        <span>💡</span> Comprehensive Engagement & Monetization Suite
+      </div>
+      <p style="margin: 0; font-size: 0.95rem;">
+        Looking to monetize your engagement? Calculate your post earnings with our <a href="/tools/instagram-money-calculator">Instagram Money Calculator</a>, price Story integrations with our <a href="/tools/instagram-story-reel-calculator">Instagram Story & Reel Rate Calculator</a>, or learn how to pitch brands in our <a href="/blog/how-to-calculate-engagement-rate">Instagram Engagement Rate Audit Guide</a>.
       </p>
     </div>
 
+    <h2>What is Instagram Engagement Rate and Why Does It Matter?</h2>
     <p>
-      For years, follower count was the gold standard metric. However, brands and algorithms have evolved. Today, engagement rate is the single most important indicator of a creator's influence:
+      <strong>Instagram Engagement Rate (ER)</strong> is a quantitative performance metric that measures the percentage of your audience that actively interacts with your content (via likes, comments, saves, and shares) relative to your overall follower size or unique reach.
     </p>
+
+    <h3>Why Engagement Rate is Crucial for Creators and Brands</h3>
     <ul>
-      <li><strong>Algorithmic Reach:</strong> Instagram's feed algorithm prioritizes content that users actively comment on, share, and save. High initial engagement triggers wider distribution on the Explore page and Reel feeds.</li>
-      <li><strong>Real Brand ROI:</strong> A creator with 10,000 followers and a 6% engagement rate (600 active users) is often more valuable to a brand than a creator with 100,000 followers and a 0.5% engagement rate (500 active users) because active audiences convert at higher rates.</li>
-      <li><strong>Audience Authenticity:</strong> Low engagement rates often signal inactive followers, bot accounts, or mismatched target audience demographics.</li>
+      <li><strong>Algorithmic Feed Distribution:</strong> Instagram's ranking algorithm rewards posts that generate rapid interaction velocity. Posts with high engagement within the first 60 minutes are pushed to the top of follower feeds, the Explore page, and the Reels tab.</li>
+      <li><strong>Brand Sponsorship Valuation:</strong> Marketers evaluate creators based on conversion potential. High engagement rates prove your community genuinely trusts your recommendations, allowing you to command premium sponsorship rates.</li>
+      <li><strong>Audience Quality Audit:</strong> A disproportionately low engagement rate (e.g., under 0.8% on a 50k account) instantly flags ghost followers, purchased bot accounts, or chronic algorithmic fatigue.</li>
     </ul>
 
-    <h2>How to Improve Your Instagram Engagement Rate</h2>
+    <h2>How Instagram Engagement Rate is Calculated: The Core Formulas</h2>
     <p>
-      If your engagement audit grade is "Average" or "Poor", don't panic. You can take immediate, structural steps to boost interactions:
+      There are three standard methodologies used to calculate Instagram engagement:
     </p>
+
+    <div class="formula-box">
+      1. Standard ER (By Followers) = ((Average Likes + Average Comments) / Total Followers) × 100
+      <br />
+      2. True ER (All Interactions) = ((Likes + Comments + Saves + Shares) / Total Followers) × 100
+      <br />
+      3. Reach-Based ER (ERR) = ((Total Post Interactions) / Unique Accounts Reached) × 100
+    </div>
+
+    <h3>Understanding the Formulas</h3>
+    <ul>
+      <li><strong>Formula 1 (Standard Public ER):</strong> The universal benchmark used by marketing agencies and our calculator. Because saves and shares are private to the account owner, public audits utilize average likes and comments.</li>
+      <li><strong>Formula 2 (True Comprehensive ER):</strong> Used internally by creators inside their professional dashboard, capturing high-intent saves and DM shares.</li>
+      <li><strong>Formula 3 (Engagement Rate by Reach - ERR):</strong> Measures how many people who actually saw the post decided to engage. This isolates content quality from algorithmic distribution fluctuations.</li>
+    </ul>
+
+    <h2>Engagement Rate vs. Reach vs. Impressions: Metric Definitions</h2>
+    <p>
+      To properly interpret your analytics, distinguish between these related metrics:
+    </p>
+
+    <div class="table-responsive-wrapper">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Type</th>
+            <th>Definition</th>
+            <th>Strategic Importance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Engagement Rate</strong></td>
+            <td>Ratio (%)</td>
+            <td>Percentage of audience actively interacting with content.</td>
+            <td>Measures community connection, trust, and algorithmic favor.</td>
+          </tr>
+          <tr>
+            <td><strong>Reach</strong></td>
+            <td>Count (Gross)</td>
+            <td>Total number of unique individual accounts that viewed your post.</td>
+            <td>Measures unique brand awareness and viral discovery.</td>
+          </tr>
+          <tr>
+            <td><strong>Impressions</strong></td>
+            <td>Count (Gross)</td>
+            <td>Total number of times your content was displayed on screen.</td>
+            <td>Measures total exposure volume (includes repeat views).</td>
+          </tr>
+          <tr>
+            <td><strong>Saves</strong></td>
+            <td>Action (Private)</td>
+            <td>Number of users bookmarking content to their private collections.</td>
+            <td>Strongest signal of educational value and evergreen utility.</td>
+          </tr>
+          <tr>
+            <td><strong>Shares</strong></td>
+            <td>Action (Private)</td>
+            <td>Number of users sending your post via DMs or to their Stories.</td>
+            <td>Strongest catalyst for organic viral follower acquisition.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Instagram Engagement Rate Benchmarks by Follower Tier & Niche</h2>
+    <p>
+      Engagement rate naturally compresses as follower count increases. Compare your score against industry norms:
+    </p>
+
+    <div class="table-responsive-wrapper">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th>Influencer Tier</th>
+            <th>Follower Count</th>
+            <th>Average ER Benchmark</th>
+            <th>High / Excellent ER</th>
+            <th>Primary Content Dynamics</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Nano-Creator</strong></td>
+            <td>1,000 – 10,000</td>
+            <td>4.0% – 7.0%</td>
+            <td>8.0%+</td>
+            <td>Tight-knit community, high friend/peer connection</td>
+          </tr>
+          <tr>
+            <td><strong>Micro-Creator</strong></td>
+            <td>10,000 – 50,000</td>
+            <td>2.5% – 5.0%</td>
+            <td>6.0%+</td>
+            <td>Strong niche authority, active comment discussions</td>
+          </tr>
+          <tr>
+            <td><strong>Mid-Tier Creator</strong></td>
+            <td>50,000 – 500,000</td>
+            <td>1.5% – 3.5%</td>
+            <td>4.5%+</td>
+            <td>Broad niche reach, balanced viral Reel distribution</td>
+          </tr>
+          <tr>
+            <td><strong>Macro-Creator</strong></td>
+            <td>500,000 – 1,000,000</td>
+            <td>1.0% – 2.5%</td>
+            <td>3.0%+</td>
+            <td>Mass audience, higher passive viewership percentage</td>
+          </tr>
+          <tr>
+            <td><strong>Mega / Celebrity</strong></td>
+            <td>1,000,000+</td>
+            <td>0.8% – 1.8%</td>
+            <td>2.5%+</td>
+            <td>Mainstream exposure, lower individual comment engagement</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Industry Niche Engagement Variations</h3>
+    <ul>
+      <li><strong>Education, Finance & Tech (3.5% – 6.5% Avg):</strong> High save and comment rates due to informative guides and technical breakdowns.</li>
+      <li><strong>Health, Fitness & Wellness (3.0% – 5.5% Avg):</strong> Strong community accountability, workout saves, and transformation shares.</li>
+      <li><strong>Beauty, Fashion & Lifestyle (2.0% – 4.0% Avg):</strong> High visual likes and outfit saves; moderate comment depth.</li>
+      <li><strong>Travel & Photography (2.5% – 4.5% Avg):</strong> High aesthetic appreciation and destination saves.</li>
+      <li><strong>General Entertainment & Memes (1.0% – 2.5% Avg):</strong> Huge share volume via DMs but lower like-to-follower conversion.</li>
+    </ul>
+
+    <h2>Key Factors That Influence Instagram Engagement</h2>
+    <p>
+      Your engagement rate is governed by five foundational variables:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>1. Content Format Selection (Reels vs. Carousels vs. Single Posts)</h3>
+        <p>
+          • <strong>Reels:</strong> Drive mass non-follower reach and viral shares.
+          <br />
+          • <strong>Carousels:</strong> Drive maximum saves and dwell time. If a user doesn't swipe through a carousel on their first feed impression, Instagram often re-serves the second slide on their next app opening, giving you a double engagement opportunity.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>2. The 3-Second Hook & Caption Copywriting</h3>
+        <p>
+          A compelling visual or text hook stops feed scrolling. Captions that tell a story or ask specific, easy-to-answer questions encourage meaningful comments over generic emojis.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>3. Comment Response Velocity</h3>
+        <p>
+          Responding to comments within the first 60 minutes of publishing creates active conversational threads. This doubles total comment counts and signals strong community activity to the algorithm.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>4. Follower List Health (Ghost Followers & Bot Purging)</h3>
+        <p>
+          If 40% of your followers are inactive bot accounts, your total interactions are divided by an inflated follower denominator, artificially depressing your calculated engagement rate.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>5. Timing & Audience Peak Activity Hours</h3>
+        <p>
+          Publishing when your core demographic is actively scrolling ensures immediate interaction momentum.
+        </p>
+      </div>
+    </div>
+
+    <h2>How This Instagram Engagement Calculator Works</h2>
+    <p>
+      Our audit tool delivers an instant diagnostic analysis:
+    </p>
+    <ul>
+      <li><strong>Normalized 12-Post Sample:</strong> Inputting the average likes and comments across your last 12 posts removes temporary outlier distortions.</li>
+      <li><strong>Engagement Percentage & Health Grade:</strong> Instantly categorizes your profile into *Excellent (6%+)*, *Good (3%–6%)*, *Average (1.5%–3%)*, or *Poor (<1.5%)*.</li>
+      <li><strong>Like-to-Comment Ratio:</strong> Analyzes comment depth (healthy ratios range between 15:1 and 35:1).</li>
+      <li><strong>Tailored Growth Insights:</strong> Provides customized tactical recommendations based on your specific audit performance.</li>
+    </ul>
+
+    <h2>Step-by-Step Guide: How to Use the Tool Effectively</h2>
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Gather Your 12-Post Metrics</h3>
+        <p>
+          Open your Instagram profile on mobile or desktop. Look at your last 12 regular feed posts (exclude pinned posts if they are months old, and exclude paid ad promotions).
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Enter Total Followers</h3>
+        <p>
+          Input your exact follower count in the <strong>Total Followers</strong> field.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Input Average Likes and Comments</h3>
+        <p>
+          Sum the likes of the 12 posts and divide by 12. Enter this in <strong>Average Likes</strong>. Repeat for comments in <strong>Average Comments</strong>.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Click Analyze Engagement Health</h3>
+        <p>
+          Click the button to receive your engagement rate percentage, health classification badge, interaction sum, like-to-comment ratio, and strategic insights.
+        </p>
+      </div>
+    </div>
+
+    <h2>4 Realistic Engagement Calculation Scenarios</h2>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Scenario A: Micro Fitness Coach Profile</h3>
+        <p><strong>Metrics:</strong> 18,000 Followers | 820 Avg. Likes | 65 Avg. Comments</p>
+        <ul>
+          <li><strong>Calculation:</strong> <code>((820 + 65) / 18,000) × 100 = 4.92% ER</code></li>
+          <li><strong>Ratio:</strong> 13:1 Like-to-Comment Ratio</li>
+          <li><strong>Audit Grade:</strong> <strong>Good / Healthy (4.92%)</strong> — High community engagement ideal for fitness coaching conversions and brand partnerships.</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Scenario B: Nano Tech Reviewer Profile</h3>
+        <p><strong>Metrics:</strong> 4,500 Followers | 340 Avg. Likes | 38 Avg. Comments</p>
+        <ul>
+          <li><strong>Calculation:</strong> <code>((340 + 38) / 4,500) × 100 = 8.40% ER</code></li>
+          <li><strong>Ratio:</strong> 9:1 Like-to-Comment Ratio</li>
+          <li><strong>Audit Grade:</strong> <strong>Excellent (8.40%)</strong> — Supercharged engagement rate typical of authentic nano-creator communities.</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Scenario C: Stagnant Mid-Tier Brand Account</h3>
+        <p><strong>Metrics:</strong> 65,000 Followers | 310 Avg. Likes | 12 Avg. Comments</p>
+        <ul>
+          <li><strong>Calculation:</strong> <code>((310 + 12) / 65,000) × 100 = 0.50% ER</code></li>
+          <li><strong>Ratio:</strong> 26:1 Like-to-Comment Ratio</li>
+          <li><strong>Audit Grade:</strong> <strong>Poor / Algorithmic Fatigue (0.50%)</strong> — Indicates severe follower disconnect or accumulated ghost followers. Requires an immediate content revamp.</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Scenario D: Macro Lifestyle Influencer</h3>
+        <p><strong>Metrics:</strong> 450,000 Followers | 8,500 Avg. Likes | 240 Avg. Comments</p>
+        <ul>
+          <li><strong>Calculation:</strong> <code>((8,500 + 240) / 450,000) × 100 = 1.94% ER</code></li>
+          <li><strong>Ratio:</strong> 35:1 Like-to-Comment Ratio</li>
+          <li><strong>Audit Grade:</strong> <strong>Average / Standard (1.94%)</strong> — Normal, acceptable baseline for large macro accounts.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Actionable Tips to Boost Your Instagram Engagement</h2>
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>1. Structure Carousels for Maximum Saves</h3>
+        <p>
+          Design carousels with 7 to 10 slides that provide step-by-step solutions or checklists. Add a final slide that explicitly prompts users: <em>'Save this post for later reference'</em>.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>2. Use Interactive Story Stickers Daily</h3>
+        <p>
+          Use Polls, Quizzes, Sliders, and Question boxes on Stories every day. Story interactions train the algorithm to prioritize your account in user feeds.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>3. Write Captions That Demand Specific Replies</h3>
+        <p>
+          Avoid vague CTAs like <em>'Thoughts?'</em>. Instead, ask binary or targeted questions: <em>'Which setup would you pick: Option A or Option B? Tell me in the comments'</em>.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>4. Clean Out Ghost & Inactive Accounts</h3>
+        <p>
+          Periodically review your follower list. Removing bot accounts and inactive profiles reduces your follower denominator, immediately boosting your calculated engagement rate.
+        </p>
+      </div>
+    </div>
+
+    <h2>Common Mistakes When Calculating Engagement Rate</h2>
+    <div class="callout-box warning">
+      <div class="callout-title">
+        <span>⚠️</span> Analytical Mistakes to Avoid
+      </div>
+      <p style="margin: 0; font-size: 0.95rem;">
+        Avoid these common evaluation errors to ensure accurate profile audits and brand reporting.
+      </p>
+    </div>
+
+    <ul>
+      <li><strong>Calculating from a Single Viral Post:</strong> A single viral Reel with 50,000 likes on a 5,000-follower account does not represent consistent community engagement. Always average 12 or more posts.</li>
+      <li><strong>Ignoring Saves and Shares:</strong> Over-focusing on likes while neglecting high-intent saves and direct message shares.</li>
+      <li><strong>Joining Engagement Pods:</strong> Using fake reciprocal comment groups creates artificial vanity spikes that brand analytics tools easily detect.</li>
+      <li><strong>Panicking as Account Scales:</strong> Expecting a 500,000-follower account to maintain an 8% engagement rate. Percentage compression is a natural mathematical reality.</li>
+    </ul>
+
+    <h2>Best Practices for Using Engagement Data to Secure Brand Deals</h2>
     <ol>
-      <li><strong>Optimize Your Call-to-Actions (CTAs):</strong> Don't just post content; invite responses. Ask specific questions, run polls, or prompt users to tag friends in the comment section.</li>
-      <li><strong>Reply Promptly to Comments:</strong> The algorithm rewards rapid-fire conversations. Replying within the first 60 minutes of posting boosts feed prominence.</li>
-      <li><strong>Prioritize Saves and Shares:</strong> Design educational carousels, infographics, or relatable reels. Users share items that resonate and save items they want to reference later, which strongly weights algorithm rankings.</li>
+      <li><strong>Highlight Your Engagement Rate in Media Kits:</strong> Feature your verified engagement rate prominently on page one of your rate card alongside average likes, comments, and saves.</li>
+      <li><strong>Showcase Like-to-Comment Depth:</strong> Use a balanced ratio (15:1 to 30:1) to prove genuine conversational engagement over passive auto-likes.</li>
+      <li><strong>Pitch Micro-Engagement Advantage:</strong> Emphasize how your high engagement rate delivers higher commercial ROI and lower cost-per-conversion compared to larger, disengaged accounts.</li>
     </ol>
   </div>
 </ToolLayout>
 
 <style>
+  /* Formula and Table responsiveness fixes */
+  .formula-box {
+    background: var(--color-bg-alt);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    margin: 1.25rem 0;
+    font-family: monospace;
+    font-size: clamp(0.85rem, 3.2vw, 1.05rem);
+    text-align: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    color: var(--color-brand);
+    font-weight: 600;
+    line-height: 1.8;
+  }
+
+  /* Responsive Table Styling */
+  .table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1.5rem 0;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+  }
+
+  .content-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.92rem;
+    min-width: 520px;
+  }
+
+  .content-table th {
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    font-weight: 700;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .content-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .content-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .content-table tr:hover td {
+    background: rgba(99, 102, 241, 0.03);
+    color: var(--color-text);
+  }
+
+  /* Step guide styling */
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.35rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.15rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  /* Callout box styling */
+  .callout-box {
+    margin: 1.5rem 0;
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-brand);
+  }
+
+  .callout-box.tip {
+    border-left-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  .callout-box.warning {
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+  }
+
+  .callout-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .calc-card {
     padding: var(--space-md);
     border-radius: var(--radius-lg);
@@ -297,6 +773,7 @@ const faqs = [
     font-size: 0.85rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
+    color: var(--color-text);
   }
 
   .insight-desc {
@@ -307,6 +784,40 @@ const faqs = [
 
   .hidden {
     display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h2) {
+    margin-top: 2.25rem;
+    margin-bottom: 0.85rem;
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+
+  .editorial-content :global(h3) {
+    margin-top: 1.75rem;
+    margin-bottom: 0.65rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .editorial-content :global(p) {
+    color: var(--color-text-muted);
+    margin-bottom: 1.15rem;
+    line-height: 1.75;
+    font-size: 0.98rem;
+  }
+
+  .editorial-content :global(code) {
+    background: var(--color-bg-alt);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.88em;
+    border: 1px solid var(--color-border);
+    color: var(--color-brand);
   }
 
   /* Mobile styling overrides to remove nested borders and make results high-contrast & responsive */
@@ -355,6 +866,15 @@ const faqs = [
     .insight-box {
       padding: 0.5rem 0 0 !important;
     }
+
+    .content-table {
+      font-size: 0.85rem;
+    }
+
+    .content-table th, 
+    .content-table td {
+      padding: 0.7rem 0.75rem;
+    }
   }
 
   /* Responsive Rules */
@@ -363,14 +883,6 @@ const faqs = [
       grid-template-columns: 1fr 1fr;
       align-items: start;
     }
-  }
-
-  /* Slotted editorial heading spacing fixes */
-  .editorial-content :global(h3) {
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    font-size: 1.25rem;
-    color: var(--color-text);
   }
 </style>
 

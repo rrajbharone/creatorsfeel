@@ -3,31 +3,43 @@ import ToolLayout from '../../layouts/ToolLayout.astro';
 
 const faqs = [
   {
-    question: "What is the character limit on Bluesky?",
-    answer: "The maximum limit for a single post on Bluesky is 300 characters. This is slightly longer than Twitter/X's 280-character limit for free accounts."
+    question: "What is the official character limit for a Bluesky post?",
+    answer: "The official character limit for a standard post on Bluesky is exactly 300 characters. This limit applies equally to original posts, replies within threads, and quote posts across all user accounts."
   },
   {
-    question: "How do links affect the character count on Bluesky?",
-    answer: "Unlike Twitter which counts all links as 23 characters, Bluesky counts the actual number of characters in the URL string unless you use link cards (rich cards) or the rich text facets API. Our tool counts the exact character length of URLs to be safe."
+    question: "How do links and URLs count toward the 300-character limit on Bluesky?",
+    answer: "Bluesky counts the literal number of characters in the URL string as entered in the text box unless it is resolved as a rich link card facet. Every letter, slash, and query parameter in a raw link consumes part of your 300-character budget, which is why using clean domains or link shorteners is recommended."
   },
   {
-    question: "What happens if my post exceeds 300 characters?",
-    answer: "If your post is longer than 300 characters, the Bluesky app will not allow you to publish it. You will need to shorten the text or split it into multiple posts to create a thread."
+    question: "What is the character limit for a Bluesky profile bio and display name?",
+    answer: "A Bluesky profile biography has a maximum limit of 256 characters. Display names can be up to 64 characters long, while your handle can contain up to 253 characters depending on whether you use a custom domain or the default .bsky.social suffix."
   },
   {
-    question: "Does Bluesky support formatting like bold or italics?",
-    answer: "No, Bluesky's editor does not natively support rich text formatting like bold or italics. However, you can use hashtags, mentions (@handle), and URLs which are converted into clickable links."
+    question: "How does image alt text work on Bluesky and is there a character limit?",
+    answer: "Bluesky strongly emphasizes accessibility and provides a generous limit of up to 10,000 characters per image description (alt text). This allows creators to write rich, descriptive context for visual media without consuming any of the main post's 300-character text budget."
   },
   {
-    question: "Is there a limit on how many links I can add?",
-    answer: "There is no strict limit on the number of links you can add, but each character in the link counts toward your 300-character budget, leaving less space for your main text."
+    question: "How do emojis count in the Bluesky character limit?",
+    answer: "Standard emojis count as individual characters against your 300-character allowance. However, complex multi-part emojis (such as emojis with skin tone modifiers or compound family emojis) are counted based on their underlying Unicode grapheme clusters."
+  },
+  {
+    question: "Can I create long-form threads on Bluesky if my idea exceeds 300 characters?",
+    answer: "Yes. If your content exceeds 300 characters, you can create a connected thread by publishing your initial hook post and immediately replying to it with sequential 300-character segments. This breaks long-form thoughts into easily digestible, highly shareable micro-updates."
+  },
+  {
+    question: "Does Bluesky support markdown, bold, or italic text formatting?",
+    answer: "The native Bluesky post composer does not include formatting buttons for bold or italic text. However, links, user mentions (@handle), and hashtags (#tag) are automatically parsed into interactive rich text facets."
+  },
+  {
+    question: "Why should I use an external character counter before posting to Bluesky?",
+    answer: "Drafting in an external character counter prevents frustrating post truncation errors, lets you test visual line breaks and emoji placement in a live mockup, audits word and whitespace metrics, and helps you optimize your opening hook before publishing live to the network."
   }
 ];
 ---
 
 <ToolLayout
-  title="Bluesky Character Counter - Free Post Length Tracker"
-  description="Audit your Bluesky posts with our free character limit tracker. Count characters, words, spaces, and parse links in real-time."
+  title="Bluesky Character Counter - Free Post Length & Limit Tracker"
+  description="Audit your Bluesky posts with our free character counter. Track the 300-character limit, count words, spaces, links, and preview live layouts in real-time."
   toolName="Bluesky Character Counter"
   toolDescription="Write perfect Bluesky posts. Track the strict 300-character budget in real-time, view stats for words and spaces, and preview your post layout."
   category="Writing Tools"
@@ -162,75 +174,368 @@ const faqs = [
   </div>
 
   <div slot="about" class="editorial-content">
-    <h2>Bluesky Character Counter: Real-Time Post Length Audit</h2>
-    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
-      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        🦋 <strong>Want to master growth strategies on the Bluesky app?</strong> Read our comprehensive strategy guide on <a href="/blog/bluesky-character-counter-guide" style="color: var(--color-brand); text-decoration: underline;">Bluesky Character Limits & Thread Optimization</a> to learn how to write micro-blog copies, place link tags, and build threads.
+    <h2>The Ultimate Guide to Bluesky Character Limits & Post Optimization</h2>
+    <p>
+      In the rapidly expanding ecosystem of decentralized social media, <strong>Bluesky</strong> has emerged as a premier destination for real-time commentary, breaking news, tech discussions, and community-driven conversations. Built on the open, federated <strong>AT Protocol (Authenticated Transfer Protocol)</strong>, Bluesky gives users unprecedented control over their identity, algorithms, and content feeds.
+    </p>
+    <p>
+      At the heart of the Bluesky reading experience is a strict, intentional constraint: the <strong>300-character post limit</strong>. While slightly more spacious than traditional micro-blogging platforms, this concise boundary means that every single character, space, emoji, and link matters. To capture attention, spark replies, and expand your audience across custom algorithmic feeds, mastering the craft of 300-character copywriting is essential.
+    </p>
+    <p>
+      Our free, interactive <strong>Bluesky Character Counter</strong> eliminates guesswork. It provides real-time character audits, word and whitespace tracking, link detection, and an authentic live post preview mockup so you can polish your updates to perfection before hitting publish.
+    </p>
+
+    <div class="callout-box">
+      <div class="callout-title">
+        <span>🦋</span> Strategy Deep Dive
+      </div>
+      <p style="margin: 0; font-size: 0.95rem;">
+        Looking to grow your following and master custom algorithm feeds? Read our comprehensive strategy guide: <a href="/blog/bluesky-character-counter-guide">Bluesky Character Limits & Thread Optimization Strategies</a>.
       </p>
     </div>
 
-    <h3>Introduction</h3>
+    <h2>Official Bluesky Character Limits: Complete Platform Specifications</h2>
     <p>
-      Bluesky, a decentralized micro-blogging platform built on the AT Protocol, has emerged as a major space for real-time text updates, news sharing, and developer discussions. Unlike platforms that allow massive text boxes, Bluesky restricts posts to a strict budget of <strong>300 characters</strong>. Naming link cards, mentions, and tags within this window requires auditing characters. This free <strong>bluesky character counter</strong> makes writing drafts easy.
+      To write effectively on Bluesky, creators and social media managers must understand the exact character boundaries that govern every part of a user profile and post format. Below is the complete, official breakdown of character restrictions across the platform:
     </p>
 
-    <h3>How to Use This Tool</h3>
+    <div class="table-responsive-wrapper">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th>Element / Format</th>
+            <th>Character Limit</th>
+            <th>Key Formatting & Technical Rules</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Standard Post (Skeet)</strong></td>
+            <td><strong>300 Characters</strong></td>
+            <td>Includes all letters, numbers, punctuation, spaces, emojis, and raw URL strings.</td>
+          </tr>
+          <tr>
+            <td><strong>Thread Reply</strong></td>
+            <td><strong>300 Characters</strong></td>
+            <td>Each individual response in a thread has its own independent 300-character budget.</td>
+          </tr>
+          <tr>
+            <td><strong>Quote Post Commentary</strong></td>
+            <td><strong>300 Characters</strong></td>
+            <td>Your added commentary gets a full 300 characters; the embedded post does not reduce your count.</td>
+          </tr>
+          <tr>
+            <td><strong>Profile Biography (Bio)</strong></td>
+            <td><strong>256 Characters</strong></td>
+            <td>Displayed on your main profile; supports line breaks, hashtags, and clickable @mentions.</td>
+          </tr>
+          <tr>
+            <td><strong>Display Name</strong></td>
+            <td><strong>64 Characters</strong></td>
+            <td>The public nickname shown above your handle; supports emojis, symbols, and custom text.</td>
+          </tr>
+          <tr>
+            <td><strong>User Handle / Domain</strong></td>
+            <td><strong>Up to 253 Characters</strong></td>
+            <td>Supports standard <code>.bsky.social</code> handles or custom self-hosted domain handles (RFC 1035).</td>
+          </tr>
+          <tr>
+            <td><strong>Image Alt Text (Accessibility)</strong></td>
+            <td><strong>10,000 Characters</strong></td>
+            <td>Generous description allowance per attached image; does not count against your 300-character post limit.</td>
+          </tr>
+          <tr>
+            <td><strong>Custom Feed Title</strong></td>
+            <td><strong>50 Characters</strong></td>
+            <td>The headline name given to custom algorithmic feeds built on the AT Protocol.</td>
+          </tr>
+          <tr>
+            <td><strong>Custom Feed Description</strong></td>
+            <td><strong>300 Characters</strong></td>
+            <td>Summary text explaining what content or keywords your custom feed aggregates.</td>
+          </tr>
+          <tr>
+            <td><strong>Starter Pack Name & Description</strong></td>
+            <td><strong>50 / 300 Characters</strong></td>
+            <td>Used when curating recommended follow lists and starter feeds for new users.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>How This Bluesky Character Counter Works</h2>
     <p>
-      To write drafts and check character counts, follow these instructions:
+      Our Bluesky Character Counter is engineered specifically for the technical nuances of the AT Protocol and modern web typography. Unlike simple word counters that perform generic string splits, this tool delivers precision metrics:
+    </p>
+
+    <h3>1. Real-Time Grapheme Cluster & Emoji Parsing</h3>
+    <p>
+      In modern digital communication, emojis are indispensable. However, complex emojis (such as combined family units or emojis with skin tone and gender modifiers) consist of multiple Unicode code points and zero-width joiners (ZWJ). Our counter accurately measures characters using standard string length metrics to ensure your draft matches the exact verification logic of the Bluesky app.
+    </p>
+
+    <h3>2. Exact Link & URL String Measurement</h3>
+    <p>
+      Unlike other platforms that automatically wrap every link into a fixed 23-character wrapper, Bluesky counts the actual character length of unshortened URLs in the text body unless converted into rich link facets. Our counter detects active URLs using robust regex patterns and audits their exact character consumption.
+    </p>
+
+    <h3>3. Dynamic Visual Warnings & Live Mockup Synchronization</h3>
+    <p>
+      As you compose your post, the tool updates four core metrics simultaneously: total words, total whitespace characters, active URL links, and remaining characters. If your text exceeds 300 characters, the progress bar and status badge switch to high-visibility crimson warnings, highlighting the exact point where truncation will occur.
+    </p>
+
+    <h2>Step-by-Step Guide: How to Use the Bluesky Character Counter</h2>
+    <p>
+      Drafting clean, high-impact micro-blog posts takes seconds with our streamlined workflow:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Draft or Paste Your Text</h3>
+        <p>
+          Type your ideas directly into the main editor workspace or paste pre-written drafts from your notes app or social media planner. The tool begins analyzing your text instantaneously on your device with zero server latency.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Add Visual Emojis with One Click</h3>
+        <p>
+          Use the <strong>Quick Insert Emoji Panel</strong> below the text area to drop popular engagement emojis (📌, ✨, 🦋, 💡, 🔥, 👀, 🚀, 👇, 💯) directly into your cursor position without opening external virtual keyboards.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Monitor Character Space & Metrics</h3>
+        <p>
+          Check the <strong>Post Metrics Audit</strong> cards on the right. Track your remaining character budget (starting at 300) to ensure your message fits neatly within the threshold. Review word count and total spaces to gauge content density.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Inspect the Live Bluesky Mockup</h3>
+        <p>
+          Review how your post appears in the realistic Bluesky card preview. Inspect your line breaks, check visual breathing room, and ensure your core takeaway or link is immediately visible before readers would need to scroll.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 5: Copy and Publish</h3>
+        <p>
+          Click <strong>Copy Post Text</strong> to instantly copy your finished, character-compliant draft to your clipboard. Paste it straight into the Bluesky mobile app or web composer and publish with total confidence.
+        </p>
+      </div>
+    </div>
+
+    <h2>Key Benefits of Using a Dedicated Bluesky Character Counter</h2>
+    <p>
+      Relying on guesswork while composing posts inside basic text editors often leads to wasted time and lower engagement. Here is why serious creators and brands use a dedicated counter:
+    </p>
+
+    <ul>
+      <li><strong>Prevents Embarrassing Post Rejections:</strong> Discovering that your post is 305 characters after crafting a polished sentence forces hasty, awkward edits. Drafting in a dedicated counter ensures you hit the 300 mark every time.</li>
+      <li><strong>Maximizes Hook Impact:</strong> With only 300 characters to work with, a counter forces you to trim filler words, eliminate weak adverbs, and front-load your most exciting insight.</li>
+      <li><strong>Enables Seamless Thread Planning:</strong> When outlining a multi-post educational thread, you can easily break complex ideas into balanced 250-to-290-character segments, ensuring consistent flow from the opening hook to the conclusion.</li>
+      <li><strong>Accurate URL & Tag Budgeting:</strong> Links and hashtags eat up character space quickly. Using a counter allows you to see exactly how much room remains for your core commentary after inserting essential links.</li>
+      <li><strong>Protects Visual Whitespace:</strong> Paragraph line breaks count as characters. By planning in our counter, you can balance informative copy with clean whitespace without running out of room.</li>
+    </ul>
+
+    <h2>Proven Copywriting Formulas for 300-Character Posts</h2>
+    <p>
+      Writing within a 300-character constraint is an art form. To help you craft high-converting, viral updates, here are four battle-tested structural formulas you can deploy immediately:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Formula 1: The 'Hook + Value + CTA' Framework</h3>
+        <p><strong>Structure:</strong> Intriguing statement $\rightarrow$ Core benefit or insight $\rightarrow$ Actionable link or question.</p>
+        <p style="font-family: monospace; font-size: 0.9rem; background: var(--color-bg); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--color-border); color: var(--color-text);">
+          "Most creators overcomplicate SEO.<br /><br />Here are 3 quick fixes that doubled our organic reach:<br />1. Target commercial intent<br />2. Fix mobile layout speeds<br />3. Add descriptive alt text<br /><br />Full breakdown: yoursite.com 🚀"
+        </p>
+        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0;">Character Count: ~245 characters | Buffer Remaining: 55 characters</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Formula 2: The Contrarian Perspective</h3>
+        <p><strong>Structure:</strong> Challenge conventional wisdom $\rightarrow$ Explain why $\rightarrow$ Invite dialogue.</p>
+        <p style="font-family: monospace; font-size: 0.9rem; background: var(--color-bg); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--color-border); color: var(--color-text);">
+          "Unpopular opinion: Posting 5 times a day is hurting your growth.<br /><br />On Bluesky, one well-timed, thoughtful post in a dedicated custom feed will outperform a dozen low-effort updates.<br /><br />Quality > Volume. What's your take? 👇"
+        </p>
+        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0;">Character Count: ~252 characters | Buffer Remaining: 48 characters</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Formula 3: The Curated Resource Drop</h3>
+        <p><strong>Structure:</strong> Announce curated collection $\rightarrow$ List items with emojis $\rightarrow$ Bookmark prompt.</p>
+        <p style="font-family: monospace; font-size: 0.9rem; background: var(--color-bg); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--color-border); color: var(--color-text);">
+          "5 free tools every remote writer needs today:<br /><br />✨ Hemingway App (Clarity)<br />✨ CreatorsFeel (Character Counts)<br />✨ Unsplash (Visuals)<br />✨ Notion (Outlines)<br />✨ LanguageTool (Grammar)<br /><br />Bookmark this post for your next writing session! 📌"
+        </p>
+        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0;">Character Count: ~268 characters | Buffer Remaining: 32 characters</p>
+      </div>
+
+      <div class="step-item">
+        <h3>Formula 4: The Micro-Case Study</h3>
+        <p><strong>Structure:</strong> The baseline problem $\rightarrow$ The action taken $\rightarrow$ The tangible result.</p>
+        <p style="font-family: monospace; font-size: 0.9rem; background: var(--color-bg); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--color-border); color: var(--color-text);">
+          "We tested two different opening hooks across 50 posts on Bluesky:<br /><br />• Generic headlines: 1.2% engagement<br />• Question-led hooks: 4.8% engagement<br /><br />Curiosity sparks conversations. Ask questions that invite readers to share their stories. 💡"
+        </p>
+        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0;">Character Count: ~262 characters | Buffer Remaining: 38 characters</p>
+      </div>
+    </div>
+
+    <h2>Common Mistakes Affiliates, Creators, and Brands Make on Bluesky</h2>
+    <p>
+      Because Bluesky has its own distinct community culture and technical architecture, transferring habits from older social networks without adjustment can stifle your growth. Avoid these frequent missteps:
+    </p>
+
+    <div class="callout-box warning">
+      <div class="callout-title">
+        <span>⚠️</span> Pitfalls That Hurt Reach and Engagement
+      </div>
+      <p style="margin: 0; font-size: 0.95rem;">
+        Bluesky users value authentic discussion over automated broadcasting. Steer clear of spammy formatting and excessive promotional tactics.
+      </p>
+    </div>
+
+    <ul>
+      <li><strong>Pasting Long, Raw Tracking URLs:</strong> Dropping a raw affiliate link with 80 characters of UTM parameters instantly devours over a quarter of your 300-character budget. Use clean, direct domain links or branded shortlinks to preserve character space.</li>
+      <li><strong>Hashtag Stuffing:</strong> Unlike older platforms where posts ended with 10 to 15 hashtags, Bluesky relies primarily on full-text search indexing and custom algorithmic feeds. Using more than 1 or 2 relevant hashtags looks cluttered and wastes character space that could be used for meaningful commentary.</li>
+      <li><strong>Wall-of-Text Formatting:</strong> Writing a solid 300-character block of text without a single line break makes your update difficult to read on mobile devices. Always break your thoughts into 2 or 3 scannable mini-paragraphs.</li>
+      <li><strong>Burying the Lead / Weak Opening Sentence:</strong> Feeds scroll rapidly. If your first 50 characters fail to capture interest, readers will scroll past before reaching your valuable conclusion.</li>
+      <li><strong>Neglecting Image Descriptions (Alt Text):</strong> Bluesky's community is deeply committed to digital accessibility. Posts with images lacking alt text frequently receive lower engagement and fewer reposts. Take advantage of the 10,000-character alt text allowance for every visual asset.</li>
+      <li><strong>Treating Posts as One-Way Broadcasts:</strong> Publishing promotional links without participating in the reply section limits your visibility. Replying thoughtfully to comments on your posts significantly boosts conversational velocity.</li>
+    </ul>
+
+    <h2>Best Practices for Driving Maximum Reach on Bluesky</h2>
+    <p>
+      To build a loyal, active following on the AT Protocol, align your publishing strategy with the network's unique discovery mechanisms:
+    </p>
+
+    <h3>1. Optimize for Custom Algorithmic Feeds</h3>
+    <p>
+      One of Bluesky's standout features is its ecosystem of user-created custom feeds (e.g., 'Tech Leaders', 'Designers', 'Science & Climate', 'BookSky'). These feeds curate content using specific keyword filters and regex patterns. By naturally including niche-relevant terms in your 300-character copy, your posts automatically populate these targeted discovery feeds.
+    </p>
+
+    <h3>2. Master the Art of Thread Construction</h3>
+    <p>
+      When your insights cannot be contained within a single post, turn your idea into a multi-part thread:
+    </p>
+    <ul>
+      <li><strong>Post 1 (The Hook):</strong> Devote the entire 300 characters to a compelling hook that promises a specific outcome or reveals an exciting premise. Conclude with a clear indication that more follows (e.g., <em>'A quick breakdown 🧵👇'</em>).</li>
+      <li><strong>Middle Posts (The Substance):</strong> Deliver one standalone insight per 300-character segment. Make sure each reply can stand on its own merit if reposted individually.</li>
+      <li><strong>Final Post (The Wrap-Up):</strong> Summarize the main takeaway, provide your resource link, and invite readers to repost the first post or share their perspectives.</li>
+    </ul>
+
+    <h3>3. Leverage Quote Posts for Commentary</h3>
+    <p>
+      Quote posting is one of the primary conversational drivers on Bluesky. When quote-posting another user's content, use your 300 characters to add unique value, provide counter-examples, or ask thought-provoking questions rather than just saying <em>'Great post!'</em>.
+    </p>
+
+    <h2>How Character Optimization Directly Improves Reach and Engagement</h2>
+    <p>
+      In social media algorithms, user engagement signals dictate distribution. Tight, character-optimized posts outperform bloated updates for three clear psychological and technical reasons:
+    </p>
+
+    <div class="table-responsive-wrapper">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th>Optimization Factor</th>
+            <th>Impact on Readers</th>
+            <th>Algorithmic Benefit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>High Information Density</strong></td>
+            <td>Readers absorb the core message in under 4 seconds.</td>
+            <td>Higher completion rates and faster initial engagement signals.</td>
+          </tr>
+          <tr>
+            <td><strong>Clean Visual Formatting</strong></td>
+            <td>Line breaks prevent eye fatigue on mobile screens.</td>
+            <td>Increased dwell time as readers comfortably parse your points.</td>
+          </tr>
+          <tr>
+            <td><strong>Strategic Whitespace Buffer</strong></td>
+            <td>Leaves room for clean @mentions and link cards.</td>
+            <td>Cleaner link preview rendering without awkward text truncation.</td>
+          </tr>
+          <tr>
+            <td><strong>Clear Call-to-Conversation</strong></td>
+            <td>Specific ending questions encourage immediate replies.</td>
+            <td>Drives reply chain depth, boosting the post into 'Popular With Friends' feeds.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Bluesky vs Other Micro-Blogging Platforms: Character Limit Comparison</h2>
+    <p>
+      How does Bluesky's 300-character boundary compare to other major text-first networks? Here is a side-by-side comparative reference:
+    </p>
+
+    <div class="table-responsive-wrapper">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>Standard Character Limit</th>
+            <th>Link Counting Behavior</th>
+            <th>Primary Content Style</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Bluesky</strong></td>
+            <td><strong>300 Characters</strong></td>
+            <td>Literal URL character length (or rich card facet)</td>
+            <td>Punchy, conversational, decentralized topic feeds</td>
+          </tr>
+          <tr>
+            <td><strong>Twitter / X</strong></td>
+            <td><strong>280 Characters</strong> (Free accounts)</td>
+            <td>All links counted as 23 characters (t.co)</td>
+            <td>Fast-paced micro-updates & paid long-form articles</td>
+          </tr>
+          <tr>
+            <td><strong>Meta Threads</strong></td>
+            <td><strong>500 Characters</strong></td>
+            <td>Literal character count</td>
+            <td>Medium-length casual updates & visual carousels</td>
+          </tr>
+          <tr>
+            <td><strong>Mastodon</strong></td>
+            <td><strong>500 Characters</strong> (Default standard)</td>
+            <td>Varies by server instance (usually 500)</td>
+            <td>Federated community discussions & technical notes</td>
+          </tr>
+          <tr>
+            <td><strong>LinkedIn</strong></td>
+            <td><strong>3,000 Characters</strong></td>
+            <td>Literal character count</td>
+            <td>Long-form professional essays & career insights</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Bluesky's 300-character sweet spot provides the ideal balance: it is spacious enough to share a complete, nuanced insight with bullet points and line breaks, yet concise enough to maintain a brisk, engaging feed tempo.
+    </p>
+
+    <h2>Summary Checklist for Every Bluesky Post</h2>
+    <p>
+      Before publishing your next update to Bluesky, run through this quick 5-point quality audit:
     </p>
     <ol>
-      <li><strong>Input Text:</strong> Start typing or paste your post copy into the active workspace editor.</li>
-      <li><strong>Review Progress:</strong> Watch the character count badge (showing X / 300) and the visual progress bar.</li>
-      <li><strong>Audit Metrics:</strong> Check stats for total words, spaces, link counts, and remaining character space.</li>
-      <li><strong>Live Mockup Preview:</strong> Review how your post will render in the light-themed Bluesky post mockup card.</li>
-      <li><strong>Copy Draft:</strong> Click <strong>Copy Post Text</strong> to save your finished update.</li>
+      <li><strong>Character Check:</strong> Does your total text length stay safely under 300 characters?</li>
+      <li><strong>Opening Hook:</strong> Does the first sentence compel the reader to stop scrolling?</li>
+      <li><strong>Whitespace:</strong> Have you used line breaks to separate ideas into scannable chunks?</li>
+      <li><strong>Link Cleanliness:</strong> Is your link properly formatted with unnecessary tracking bloat removed?</li>
+      <li><strong>Accessibility:</strong> If attaching an image, have you filled out the 10,000-character alt text description?</li>
     </ol>
-
-    <h3>What is Bluesky Character Counter</h3>
     <p>
-      A <strong>bluesky character counter</strong> or <strong>bluesky length checker</strong> is an interactive writing tool designed to verify post lengths. It counts every character (including letters, numbers, spaces, and punctuation) to make sure updates fit within Bluesky's character limit.
+      Bookmark our free <strong>Bluesky Character Counter</strong> and keep it open in your browser workspace to streamline your writing process, perfect your drafts, and build an influential presence across the decentralized web.
     </p>
-
-    <h3>How Does It Work?</h3>
-    <p>
-      The tool parses text strings in real-time to generate counts:
-    </p>
-    <ul>
-      <li><strong>Punctuation & Emojis:</strong> Measures emoji characters accurately (certain emojis count as multiple bytes under UTF-16, but Bluesky handles standard emojis as single characters).</li>
-      <li><strong>Link Facet Audits:</strong> Counts URL lengths. Bluesky counts the exact characters of links unless converted into rich links.</li>
-      <li><strong>Real-time Stats:</strong> Dynamically calculates words, whitespace counts, and links using regex matching.</li>
-    </ul>
-
-    <h3>Example Calculation</h3>
-    <p>
-      Let's look at how a Bluesky post budget is calculated:
-    </p>
-    <p>
-      <strong>Draft Post Content:</strong><br />
-      `"Excited to share our new design updates for creators feel! Check out the details here: creatorsfeel.com #design"`
-    </p>
-    <p>
-      <strong>Character Budget Breakdown:</strong><br />
-      ✦ Main Hook: `"Excited to share our new design updates for creators feel! Check out the details here: "` $\rightarrow$ <strong>86 characters</strong>.<br />
-      ✦ URL Link: `"creatorsfeel.com"` $\rightarrow$ <strong>16 characters</strong>.<br />
-      ✦ Hashtag: `" #design"` $\rightarrow$ <strong>8 characters</strong>.<br />
-      ✦ Total Characters: `86 + 16 + 8 = 110 characters`.<br />
-      ✦ Remaining characters: `300 - 110 = 190 characters`.
-    </p>
-    <p>
-      This draft uses 110 characters, leaving a budget of 190 characters. It will publish cleanly.
-    </p>
-
-    <h3>Who Should Use This Tool?</h3>
-    <p>
-      This <strong>free bluesky post length tracker</strong> is designed for:
-    </p>
-    <ul>
-      <li><strong>Content Creators & Writers:</strong> Keeping updates short, punchy, and formatted.</li>
-      <li><strong>Social Media Managers:</strong> Reviewing scheduled updates before bulk scheduling.</li>
-      <li><strong>Journalists & Publishers:</strong> Sharing news headlines and linking back to publications.</li>
-      <li><strong>Developer & Tech Teams:</strong> Formatting release updates and sharing repository links.</li>
-    </ul>
   </div>
 </ToolLayout>
 
@@ -375,12 +680,147 @@ const faqs = [
     transform: scale(1.1);
   }
 
-  /* Slotted editorial heading spacing fixes */
-  .editorial-content :global(h3) {
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    font-size: 1.25rem;
+  /* Step guide styling */
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.35rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.15rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  /* Responsive Table Styling */
+  .table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1.5rem 0;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+  }
+
+  .content-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.92rem;
+    min-width: 520px;
+  }
+
+  .content-table th {
+    background: var(--color-bg-alt);
     color: var(--color-text);
+    font-weight: 700;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .content-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .content-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .content-table tr:hover td {
+    background: rgba(99, 102, 241, 0.03);
+    color: var(--color-text);
+  }
+
+  /* Callout box styling */
+  .callout-box {
+    margin: 1.5rem 0;
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-brand);
+  }
+
+  .callout-box.tip {
+    border-left-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  .callout-box.warning {
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+  }
+
+  .callout-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h2) {
+    margin-top: 2.25rem;
+    margin-bottom: 0.85rem;
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+
+  .editorial-content :global(h3) {
+    margin-top: 1.75rem;
+    margin-bottom: 0.65rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .editorial-content :global(p) {
+    color: var(--color-text-muted);
+    margin-bottom: 1.15rem;
+    line-height: 1.75;
+    font-size: 0.98rem;
+  }
+
+  .editorial-content :global(code) {
+    background: var(--color-bg-alt);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.88em;
+    border: 1px solid var(--color-border);
+    color: var(--color-brand);
   }
 
   /* Responsive Queries */
@@ -392,6 +832,15 @@ const faqs = [
     
     .emoji-selector-panel {
       justify-content: center;
+    }
+
+    .content-table {
+      font-size: 0.85rem;
+    }
+
+    .content-table th, 
+    .content-table td {
+      padding: 0.7rem 0.75rem;
     }
   }
 

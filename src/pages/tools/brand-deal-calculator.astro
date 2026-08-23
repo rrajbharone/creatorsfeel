@@ -3,27 +3,43 @@ import ToolLayout from '../../layouts/ToolLayout.astro';
 
 const faqs = [
   {
-    question: "How does a Brand Deal Calculator estimate pricing?",
-    answer: "A brand deal calculator uses platform-specific baseline CPM (Cost Per Mille) averages. These baselines are multiplied by your average video views or post impressions, then adjusted by niche value, engagement rate multipliers, and deliverable formats (like a dedicated YouTube video versus an integrated mention)."
+    question: "How does a Brand Deal Calculator estimate sponsorship pricing?",
+    answer: "A brand deal calculator uses platform-specific baseline CPM (Cost Per Mille) averages. These baselines are multiplied by your active average video views or post impressions, then adjusted by niche value multipliers, deliverable format weights (such as a dedicated video versus an integrated mention), and audience engagement rate tiers."
   },
   {
-    question: "What are the typical CPM baselines for each platform?",
-    answer: "Average industry CPMs vary: YouTube commands a premium ($25 - $45 CPM) due to search value and long video lifespans; Instagram Reels average $30 - $60 CPM; TikTok views are highly algorithm-driven and quick-lived, typically averaging $10 - $25 CPM."
+    question: "What are the typical CPM baselines across YouTube, TikTok, and Instagram?",
+    answer: "Industry CPM benchmarks vary significantly by platform: YouTube commands premium rates ($25 - $45+ CPM) due to long video lifespans and evergreen search traffic; Instagram Reels and Carousels average $30 - $60 CPM due to high lifestyle purchasing intent; while TikTok averages $12 - $25 CPM due to high view volatility and fast content turnover."
   },
   {
     question: "How do deliverable formats (Dedicated vs. Integrated) affect my rate?",
-    answer: "A dedicated video (where the entire content is focused on the sponsor) is priced at 100% of your rate. An integrated mention (a 30 to 60-second segment within a regular video) requires less custom scripting and is usually priced at 40% to 60% of a dedicated video's rate."
+    answer: "A dedicated video (where the entire content is focused on the sponsor's product or service) is priced at 100% of your rate. An integrated mention (a 30 to 60-second segment within a regular video) requires less custom scripting and is typically priced at 40% to 60% of a dedicated video's rate."
   },
   {
-    question: "Should I base my rates on my follower count or average views?",
-    answer: "You should always base your baseline rates on your average views. Followers only measure past reach, whereas average views reflect active audience impressions and are what brands look for when pricing campaigns."
+    question: "Should I base my rates on follower count or active average views?",
+    answer: "You should always base your rates on active average views. Follower count is a vanity metric that measures past reach, whereas average views over your last 15 to 30 posts reflect real-time active impressions, which is the primary metric brands use to evaluate campaign ROI."
+  },
+  {
+    question: "How much extra should I charge for paid ad usage rights (whitelisting)?",
+    answer: "If a brand wants permission to run paid ads through your handle (dark posting) or use your video in their paid advertising campaigns, you should charge an additional usage licensing fee of 20% to 50% of your base fee per 30-day period. Never grant perpetual usage rights for free."
+  },
+  {
+    question: "What is an exclusivity clause and how much should I charge for it?",
+    answer: "An exclusivity clause prevents you from promoting competing brands within a specific industry for a defined timeframe (e.g., 30, 60, or 90 days). Because exclusivity limits your ability to accept other sponsorships, you should charge a 20% to 50% premium on top of your standard fee."
+  },
+  {
+    question: "How do niche categories affect my sponsorship rate?",
+    answer: "Niches with high customer lifetime values (LTV)—such as Business, Personal Finance, Tech, and B2B SaaS—command a 1.5x to 2.0x pricing multiplier. Health, Fitness, and Food command a 1.2x multiplier, while broad Gaming and Entertainment typically operate at baseline or slightly discounted CPMs."
+  },
+  {
+    question: "How do I handle revisions in a brand deal contract?",
+    answer: "Standard brand deal contracts should include one round of minor revisions (such as trimming audio or clarifying a product feature). Major reshoots due to brand script changes or additional revision rounds should be billed at an hourly rate or a 15% to 25% revision surcharge."
   }
 ];
 ---
 
 <ToolLayout
-  title="Brand Deal Calculator - Influencer Sponsorship Rates Tool"
-  description="Calculate your brand deal sponsorship rates for YouTube, TikTok, and Instagram. Free online influencer pricing calculator with custom platform benchmarks."
+  title="Brand Deal Calculator - Influencer Sponsorship Pricing Tool"
+  description="Calculate your sponsored brand deal rates for YouTube, TikTok, and Instagram. Free online influencer pricing calculator with custom platform CPM benchmarks."
   toolName="Brand Deal Calculator"
   toolDescription="Determine your sponsored campaign rates. Toggle between YouTube, TikTok, and Instagram to calculate authentic pricing ranges and export brand pitch templates."
   category="Calculators"
@@ -85,7 +101,6 @@ const faqs = [
             </label>
           </div>
           <select id="deliverable-format" class="form-input">
-            <!-- YouTube options by default -->
             <option value="youtube_dedicated" selected>Dedicated Video (100% Sponsorship)</option>
             <option value="youtube_integrated">Integrated Mention (30s - 60s Segment)</option>
           </select>
@@ -174,7 +189,7 @@ const faqs = [
               <h5 class="pitch-title">Brands Outreach Template</h5>
               <button type="button" class="copy-pitch-btn" id="copy-pitch-btn" title="Copy template text">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 16px; height: 16px;">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H5.25M16.5 5.25h.008v.008H16.5V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25ZM9 10.5c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v10.5c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V10.5Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H5.25M16.5 5.25h.008v.008H16.5V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25Zm-3 0h.008v.008h-.008V5.25ZM9 10.5c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v10.5c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V10.5Z" />
                 </svg>
                 Copy Pitch
               </button>
@@ -187,37 +202,420 @@ const faqs = [
   </div>
 
   <div slot="about" class="editorial-content">
-    <h2>Determining Your Sponsored Brand Deal Value</h2>
-    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
-      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        💡 <strong>Want to optimize your metrics?</strong> Read our comprehensive guide on <a href="/blog/brand-deal-calculator-guide" style="color: var(--color-brand); text-decoration: underline;">Brand Deal Pricing Guidelines & Sponsorship Negotiation Strategies</a> to learn how to price dedicated integrations, account for production complexity, and negotiate pitches.
+    <h2>The Ultimate Guide to Brand Deal Pricing & Sponsorship Valuation</h2>
+    <p>
+      For modern digital creators, landing sponsored brand deals represents the most lucrative, high-margin monetization channel in the creator economy. Whether you produce long-form video essays on YouTube, viral vertical clips on TikTok, or aesthetic carousels on Instagram, direct brand collaborations allow you to monetize your audience trust without relying exclusively on platform ad-revenue splits.
+    </p>
+    <p>
+      However, knowing exactly <strong>how much to charge for a brand deal</strong> is one of the greatest challenges creators face. Underpricing your work leads to burnout and thousands of dollars in lost income, while overquoting without justifying your value can cause brands to walk away.
+    </p>
+    <p>
+      Our <strong>Brand Deal Calculator</strong> bridges this gap. By utilizing real-time platform CPM baselines, niche commercial purchasing multipliers, engagement weights, and deliverable format adjustments, this tool calculates accurate, market-tested pricing ranges and automatically generates a ready-to-send brand outreach pitch template.
+    </p>
+
+    <div class="callout-box">
+      <div class="callout-title">
+        <span>💼</span> Deep Dive Sponsorship Guide
+      </div>
+      <p style="margin: 0; font-size: 0.95rem;">
+        Master the art of sponsorship contracts, pitch emails, and rate negotiation strategies with our comprehensive companion guide: <a href="/blog/brand-deal-calculator-guide">Brand Deal Pricing Guidelines & Sponsorship Negotiation Strategies</a>.
       </p>
     </div>
 
+    <h2>What is a Brand Deal and How Does It Work for Creators?</h2>
     <p>
-      Negotiating with brands requires knowing your worth. Influencers often struggle to establish standard rates, resulting in leaving money on the table. Our <strong>influencer brand deal calculator</strong> handles calculations across YouTube, TikTok, and Instagram to offer realistic and authentic rates.
+      A <strong>brand deal</strong> (also known as a sponsored collaboration or influencer partnership) is a commercial agreement where a business pays a content creator to produce and publish content featuring the brand's product, software, or service.
     </p>
     <p>
-      Calculations account for the unique strengths of each social network:
-    </p>
-    <ul>
-      <li><strong>YouTube Brand Deals:</strong> Commends higher CPMs ($25 - $45) because long-form video content has lasting search engine reach. An <strong>integrated mention</strong> is generally priced lower than a full <strong>dedicated video</strong>.</li>
-      <li><strong>Instagram Brand Deals:</strong> Instagram Reels are pushed algorithmically, while Story slides are best suited for driving direct conversions with links.</li>
-      <li><strong>TikTok Brand Deals:</strong> Views are highly volatile, hence CPM baselines ($10 - $25) are lower, but high-virality potential compensates for the lower rates.</li>
-    </ul>
-
-    <div class="formula-box">
-      Base Price = (Average Views * Baseline CPM * Niche Multiplier * Format Multiplier) / 1000
-    </div>
-
-    <h2>Factors that Influence Sponsorship Value</h2>
-    <p>
-      Your baseline rates calculated by our tool are further adjusted by:
+      Unlike traditional display ads, brand deals leverage the authentic connection and social proof that creators cultivate with their communities. A standard brand deal workflow typically follows five key milestones:
     </p>
     <ol>
-      <li><strong>Audience Engagement:</strong> Active communities (engagement rate >4%) show high intent, adding a 1.2x premium multiplier.</li>
-      <li><strong>Premium Niches:</strong> Business, Tech, and Finance niches target high-LTV buyers, translating to a 1.5x pricing increase.</li>
-      <li><strong>Deliverable complexity:</strong> Video editing, scripting, usage rights, and brand exclusivity will add to your final invoice amount.</li>
+      <li><strong>Outreach & Inbound Inquiries:</strong> The brand contacts the creator (or the creator pitches the brand) with a campaign brief outlining target deliverables, campaign goals, and timeline.</li>
+      <li><strong>Rate Negotiation & Scope of Work:</strong> The creator quotes their fee based on expected impressions, niche alignment, usage rights, and deliverable formats.</li>
+      <li><strong>Contract Execution & Deposit:</strong> Both parties sign an agreement defining deliverable specs, approval deadlines, exclusivity terms, and payment terms (typically 50% upfront, 50% upon publication).</li>
+      <li><strong>Content Production & Creative Approval:</strong> The creator produces the draft, submits it for brand review, and implements any agreed minor revisions.</li>
+      <li><strong>Publication & Performance Reporting:</strong> The creator posts the sponsored asset with required FTC disclosures, tracks link clicks and engagement, and delivers a post-campaign analytics report.</li>
+    </ol>
+
+    <h2>Different Types of Brand Deals & Sponsored Deliverables</h2>
+    <p>
+      Brand collaborations take many forms depending on the marketing funnel stage and platform:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>1. Dedicated Sponsored Videos (100% Sponsor Focus)</h3>
+        <p>
+          The entire video or post revolves around the brand's product. Common formats include full product reviews, unboxings, deep-dive software tutorials, and multi-step routine demonstrations. Because 100% of the audience's attention is focused on the sponsor, dedicated content commands the highest baseline rate.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>2. Integrated Mentions (30-to-60-Second In-Video Ad Segments)</h3>
+        <p>
+          The creator incorporates a 30-to-60-second sponsored segment within an organic, non-sponsored video (popular on YouTube). The sponsor shares screen time with regular content, making it less intrusive and typically priced at 40% to 60% of a dedicated video's rate.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>3. Social Media Reels & Short-Form TikTok Clips</h3>
+        <p>
+          High-energy, vertical video assets engineered for algorithmic distribution. These deliverables capitalize on rapid organic reach, making them ideal for viral product launches and brand discovery campaigns.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>4. Instagram Story Sequences (With Direct Link Stickers)</h3>
+        <p>
+          A series of 3 to 5 ephemeral 24-hour Story slides featuring product unboxing, personal testimony, and interactive link stickers. While short-lived, Stories drive exceptionally high direct-response conversion rates.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>5. Multi-Slide Carousels & Infographics</h3>
+        <p>
+          A permanent swipe-through photo or graphic deck on Instagram or LinkedIn. Ideal for educational breakdowns, step-by-step guides, and visual before-and-after comparisons.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>6. Long-Term Brand Ambassadorships & Retainers</h3>
+        <p>
+          Recurring multi-month partnerships where a creator commits to a regular cadence of monthly deliverables (e.g., 1 dedicated video and 3 Story sequences per month). Retainers provide creators with predictable recurring revenue while delivering sustained audience reinforcement for the brand.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>7. Whitelisting, Paid Ad Usage Rights & UGC Creation</h3>
+        <p>
+          The brand licenses the creator's video to run as a paid targeted advertisement directly from the creator's handle (Meta Partnership Ads / TikTok Spark Ads), or hires the creator purely for User-Generated Content (UGC) to be posted exclusively on the brand's official channels.
+        </p>
+      </div>
+    </div>
+
+    <h2>How Creators Calculate & Estimate Brand Deal Rates</h2>
+    <p>
+      In the modern creator economy, pricing has evolved away from simple follower counts toward <strong>reach-based performance metrics</strong>:
+    </p>
+
+    <h3>The Outdated '1% Rule' vs Modern CPM Pricing</h3>
+    <p>
+      Historically, creators used the simplistic rule of charging $100 per 10,000 followers ($10 per 1,000 followers). However, algorithmic feeds on TikTok, Instagram, and YouTube mean follower count no longer guarantees views. A creator with 100,000 followers might average only 3,000 views per post, while a creator with 10,000 followers might consistently generate 40,000 views.
+    </p>
+    <p>
+      Today, professional agencies price collaborations using <strong>Cost Per Mille (CPM)</strong>—the cost to buy 1,000 impressions:
+    </p>
+
+    <div class="formula-box">
+      Base Sponsorship Rate = (Average Views × Platform Baseline CPM) / 1,000
+    </div>
+
+    <h2>Key Factors That Influence Brand Deal Pricing</h2>
+    <p>
+      Our calculator adjusts your baseline rate using four core industry multipliers:
+    </p>
+
+    <div class="table-responsive-wrapper">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th>Pricing Factor</th>
+            <th>Standard Benchmark</th>
+            <th>Pricing Impact & Multipliers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>YouTube Baseline CPM</strong></td>
+            <td>$25.00 – $45.00 CPM</td>
+            <td>Highest CPM due to long-form attention, high production effort, and evergreen search engine rankings.</td>
+          </tr>
+          <tr>
+            <td><strong>Instagram Baseline CPM</strong></td>
+            <td>$30.00 – $60.00 CPM</td>
+            <td>Strong lifestyle purchasing intent, aesthetic appeal, and direct link-sticker conversion capabilities.</td>
+          </tr>
+          <tr>
+            <td><strong>TikTok Baseline CPM</strong></td>
+            <td>$12.00 – $25.00 CPM</td>
+            <td>Lower CPM due to view volatility and shorter content lifespan, compensated by viral breakout potential.</td>
+          </tr>
+          <tr>
+            <td><strong>Business, Tech & Finance Niche</strong></td>
+            <td>Premium Purchasing Power</td>
+            <td><strong>1.5x – 2.0x Multiplier</strong> (High Customer Lifetime Value / B2B buyers).</td>
+          </tr>
+          <tr>
+            <td><strong>Health, Fitness & Food Niche</strong></td>
+            <td>Mid-Tier Purchasing Power</td>
+            <td><strong>1.2x Multiplier</strong> (Strong repeat consumable buying behavior).</td>
+          </tr>
+          <tr>
+            <td><strong>Lifestyle, Fashion & Art Niche</strong></td>
+            <td>Standard Baseline</td>
+            <td><strong>1.0x Baseline</strong> (Broad consumer audience).</td>
+          </tr>
+          <tr>
+            <td><strong>Gaming & General Entertainment</strong></td>
+            <td>Broad Audience / Low Margin</td>
+            <td><strong>0.8x Multiplier</strong> (Large impressions but lower immediate conversion rates).</td>
+          </tr>
+          <tr>
+            <td><strong>High Engagement Rate (>4.0%)</strong></td>
+            <td>Active Community</td>
+            <td><strong>+20% Premium</strong> (Audience demonstrates high trust and interaction).</td>
+          </tr>
+          <tr>
+            <td><strong>Low Engagement Rate (&lt;1.5%)</strong></td>
+            <td>Passive Community</td>
+            <td><strong>-15% Adjustment</strong> (Lower audience interaction rate).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>How This Brand Deal Calculator Works</h2>
+    <p>
+      Our calculator combines platform CPM models, deliverable weights, niche factors, and engagement rates into an integrated mathematical engine:
+    </p>
+
+    <div class="formula-box">
+      Calculated CPM = Platform Base CPM × Niche Multiplier × Format Multiplier × Engagement Multiplier
+      <br />
+      Cost Per View (CPV) = Calculated CPM / 1,000
+      <br />
+      Suggested Sponsorship Range = (Average Views × Calculated CPM / 1,000) ± 15% Variance
+    </div>
+
+    <h3>Automatic Creator Tier Categorization</h3>
+    <p>
+      The calculator categorizes creators into standard industry tiers:
+    </p>
+    <ul>
+      <li><strong>Nano-Influencer (Under 1,000 followers):</strong> Niche community, high local trust.</li>
+      <li><strong>Micro-Influencer (1,000 to 10,000 followers):</strong> Highly engaged niche audience, excellent conversion rates.</li>
+      <li><strong>Mid-Tier Creator (10,000 to 100,000 followers):</strong> Established reach, professional production quality.</li>
+      <li><strong>Macro-Influencer (100,000 to 500,000 followers):</strong> Broad regional authority, major brand campaign anchor.</li>
+      <li><strong>Mega-Influencer (500,000+ followers):</strong> Household celebrity reach, massive cultural awareness driver.</li>
+    </ul>
+
+    <h2>Step-by-Step Guide: How to Use the Brand Deal Calculator</h2>
+    <p>
+      Follow these six simple steps to calculate your market rate and export a brand pitch template:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Select Your Platform</h3>
+        <p>
+          Click the tab at the top for <strong>YouTube</strong>, <strong>TikTok</strong>, or <strong>Instagram</strong>. The calculator will automatically adjust its deliverable options and CPM benchmarks.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Enter Your Audience Size</h3>
+        <p>
+          Input your total subscriber or follower count on that platform.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Enter Average Post Views</h3>
+        <p>
+          Input your median view count across your last 15 to 30 posts. If left blank, the tool automatically estimates views using standard platform view ratios (15% for YouTube, 12% for TikTok, 15% for Instagram Reels).
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Select Deliverable Format & Niche</h3>
+        <p>
+          Choose your contracted format (e.g., dedicated video, integrated mention, Reel, or Story sequence) and your content niche to apply specific commercial multipliers.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 5: Enter Your Engagement Rate</h3>
+        <p>
+          Input your average engagement rate percentage (standard is between 1.5% and 3.5%).
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 6: Review Pricing & Copy Your Brand Pitch</h3>
+        <p>
+          Click <strong>Calculate Deal Value</strong> to view your recommended low-to-high pricing range, calculated CPM, and suggested CPV. Use the <strong>Copy Pitch</strong> button to export a professionally formatted brand outreach pitch email.
+        </p>
+      </div>
+    </div>
+
+    <h2>Realistic Brand Deal Calculation Examples</h2>
+    <p>
+      Here is how pricing benchmarks apply across real-world creator scenarios:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Scenario A: Micro-Influencer on Instagram (Beauty & Lifestyle)</h3>
+        <p><strong>Profile:</strong> 8,500 Followers | 1,800 Average Reel Views | 4.2% Engagement Rate | Lifestyle Niche</p>
+        <ul>
+          <li><strong>Format:</strong> Dedicated Instagram Reel ($30 base CPM)</li>
+          <li><strong>Adjustments:</strong> 1.0x Niche × 1.0x Format × 1.2x Engagement Multiplier = <strong>$36.00 Calculated CPM</strong></li>
+          <li><strong>Baseline Value:</strong> <code>(1,800 × $36.00) / 1,000</code> = $64.80</li>
+          <li><strong>Recommended Rate Range:</strong> <strong>$55.00 – $75.00 per Reel</strong></li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Scenario B: Growing Tech & Coding YouTuber (Business & Software)</h3>
+        <p><strong>Profile:</strong> 42,000 Subscribers | 10,500 Average Views | 2.8% Engagement Rate | Business/Tech Niche</p>
+        <ul>
+          <li><strong>Format:</strong> 60-Second Integrated Mention (0.5x format weight, $35 base CPM)</li>
+          <li><strong>Adjustments:</strong> 1.5x Niche × 0.5x Format × 1.0x Engagement = <strong>$26.25 Calculated CPM</strong></li>
+          <li><strong>Baseline Value:</strong> <code>(10,500 × $26.25) / 1,000</code> = $275.63</li>
+          <li><strong>Recommended Rate Range:</strong> <strong>$235.00 – $315.00 for Integrated Mention</strong> ($470.00 – $630.00 for Dedicated Video)</li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Scenario C: Mid-Tier Fitness & Nutrition Creator on TikTok</h3>
+        <p><strong>Profile:</strong> 110,000 Followers | 32,000 Average Views | 3.6% Engagement Rate | Fitness Niche</p>
+        <ul>
+          <li><strong>Format:</strong> Dedicated TikTok Video (1.0x format weight, $18 base CPM)</li>
+          <li><strong>Adjustments:</strong> 1.2x Niche × 1.0x Format × 1.0x Engagement = <strong>$21.60 Calculated CPM</strong></li>
+          <li><strong>Baseline Value:</strong> <code>(32,000 × $21.60) / 1,000</code> = $691.20</li>
+          <li><strong>Recommended Rate Range:</strong> <strong>$590.00 – $795.00 per TikTok Video</strong></li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>Scenario D: Established YouTube Creator (Personal Finance & Investing)</h3>
+        <p><strong>Profile:</strong> 180,000 Subscribers | 45,000 Average Views | 3.2% Engagement Rate | Finance Niche</p>
+        <ul>
+          <li><strong>Format:</strong> Dedicated Video (1.0x format weight, $35 base CPM)</li>
+          <li><strong>Adjustments:</strong> 1.5x Niche × 1.0x Format × 1.0x Engagement = <strong>$52.50 Calculated CPM</strong></li>
+          <li><strong>Baseline Value:</strong> <code>(45,000 × $52.50) / 1,000</code> = $2,362.50</li>
+          <li><strong>Recommended Rate Range:</strong> <strong>$2,010.00 – $2,715.00 for Dedicated Video</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Creator Tier vs Pricing Reference Matrix</h3>
+    <div class="table-responsive-wrapper">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th>Creator Tier</th>
+            <th>Audience Size</th>
+            <th>YouTube (Integrated / Dedicated)</th>
+            <th>Instagram (Reel / Story)</th>
+            <th>TikTok (Dedicated Video)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Nano-Creator</strong></td>
+            <td>500 – 5,000</td>
+            <td>$50 – $150 / $100 – $300</td>
+            <td>$40 – $120 / $15 – $40</td>
+            <td>$25 – $75</td>
+          </tr>
+          <tr>
+            <td><strong>Micro-Creator</strong></td>
+            <td>5,000 – 25,000</td>
+            <td>$150 – $450 / $300 – $900</td>
+            <td>$120 – $400 / $40 – $100</td>
+            <td>$75 – $250</td>
+          </tr>
+          <tr>
+            <td><strong>Mid-Tier Creator</strong></td>
+            <td>25,000 – 100,000</td>
+            <td>$450 – $1,500 / $900 – $3,000</td>
+            <td>$400 – $1,200 / $100 – $350</td>
+            <td>$250 – $900</td>
+          </tr>
+          <tr>
+            <td><strong>Macro-Creator</strong></td>
+            <td>100,000 – 500,000</td>
+            <td>$1,500 – $6,000 / $3,000 – $12,000</td>
+            <td>$1,200 – $4,500 / $350 – $1,200</td>
+            <td>$900 – $3,500</td>
+          </tr>
+          <tr>
+            <td><strong>Mega-Creator</strong></td>
+            <td>500,000+</td>
+            <td>$6,000 – $25,000+ / $12,000 – $50,000+</td>
+            <td>$4,500 – $20,000+ / $1,200 – $5,000+</td>
+            <td>$3,500 – $15,000+</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Pro Tips to Price and Negotiate Your Brand Deals Correctly</h2>
+    <p>
+      To maximize your deal revenue and build long-term brand relationships, apply these proven negotiation strategies:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>1. Always Offer Multi-Tiered Deliverable Packages</h3>
+        <p>
+          Never quote a single flat price for one deliverable. Offer three structured options in your pitch (e.g., <em>Option A: 1 Dedicated Reel ($500)</em> | <em>Option B: 1 Reel + 3 Stories + Bio Link ($700)</em> | <em>Option C: 2 Reels + 6 Stories + 30-Day Paid Whitelisting ($1,200)</em>). Packaging anchors your value and encourages brands to choose higher-tier options.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>2. Itemize and Charge for Usage Rights & Licensing</h3>
+        <p>
+          Your baseline quote covers organic posting on your profile only. If a brand wants to run your video as a paid ad (Meta Partnership Ads or TikTok Spark Ads), charge an additional <strong>30% to 50% licensing fee per 30-day usage window</strong>.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>3. Protect Your Schedule with Rush Fees & Revision Limits</h3>
+        <p>
+          Include clear boundaries in your contract: specify that the fee includes <strong>one round of minor creative revisions</strong>, and charge a <strong>25% to 50% rush fee</strong> for campaigns requiring content turnaround in under 7 business days.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>4. Negotiate Deliverables Instead of Dropping Price</h3>
+        <p>
+          If a brand says your rate is over their budget, do not simply discount your price. Instead, reduce the deliverables to match their budget (e.g., <em>'If your budget is $400 instead of $600, I can provide 1 Reel and 1 Story instead of the full 3-Story package.'</em>). This preserves your rate integrity.
+        </p>
+      </div>
+    </div>
+
+    <h2>Common Mistakes Creators Make While Quoting Brand Deals</h2>
+    <p>
+      Avoid these common pitfalls that cost creators thousands of dollars in lost income:
+    </p>
+
+    <div class="callout-box warning">
+      <div class="callout-title">
+        <span>⚠️</span> Costly Sponsorship Mistakes
+      </div>
+      <p style="margin: 0; font-size: 0.95rem;">
+        Steer clear of these common contract and pricing errors to safeguard your creative time and income.
+      </p>
+    </div>
+
+    <ul>
+      <li><strong>Pricing Based on Vanity Follower Counts:</strong> Quoting high rates based on 100k followers when your recent videos average 2k views leads to dissatisfied brands and negative campaign ROI. Always anchor pricing to consistent median views.</li>
+      <li><strong>Giving Away Unlimited Usage Rights (In Perpetuity):</strong> Signing contracts granting brands perpetual commercial usage allows them to run ads featuring your face for years without paying another dollar. Always limit usage rights to 30, 60, or 90 days.</li>
+      <li><strong>Failing to Account for Production Overhead:</strong> Forgetting to factor in camera gear, studio lighting, editing time, software subscriptions, props, and taxes leaves you with little net profit.</li>
+      <li><strong>Working Without Upfront Deposits:</strong> Publishing sponsored content before receiving an upfront deposit (standard: 50% on signing) exposes you to payment delays and non-payment risk.</li>
+      <li><strong>Promoting Products You Don't Believe In:</strong> Endorsing low-quality products for quick cash alienates your audience and destroys the organic trust that makes your channel valuable in the first place.</li>
+    </ul>
+
+    <h2>Best Practices for Landing and Managing Successful Brand Deals</h2>
+    <p>
+      To transition from sporadic sponsorships into a thriving full-time creator business, implement these professional standards:
+    </p>
+    <ol>
+      <li><strong>Maintain an Updated Media Kit:</strong> Keep a concise 2-page media kit detailing your audience demographics (age, location, gender split), verified engagement rates, and case studies from past brand partnerships.</li>
+      <li><strong>Personalize Every Brand Outreach Pitch:</strong> When pitching brands, cite a specific recent product launch or campaign they ran, explain why your audience aligns with their target customer, and propose a concrete creative concept.</li>
+      <li><strong>Deliver Post-Campaign Performance Reports:</strong> Within 7 days of posting, send the brand a clean analytics wrap-up report with verified screenshots of impressions, link clicks, watch time, and positive community comments. This professional follow-up is the #1 driver of recurring sponsorship retainers.</li>
     </ol>
   </div>
 </ToolLayout>
@@ -508,6 +906,41 @@ const faqs = [
     box-sizing: border-box;
   }
 
+  /* Step guide styling */
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.35rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.15rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
   .formula-box {
     background: var(--color-bg-alt);
     padding: 1.25rem;
@@ -515,7 +948,7 @@ const faqs = [
     border: 1px solid var(--color-border);
     margin: 1.25rem 0;
     font-family: monospace;
-    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+    font-size: clamp(0.85rem, 3.2vw, 1.05rem);
     text-align: center;
     overflow-x: auto;
     white-space: nowrap;
@@ -523,10 +956,121 @@ const faqs = [
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    color: var(--color-brand);
+    font-weight: 600;
+    line-height: 1.8;
+  }
+
+  /* Responsive Table Styling */
+  .table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1.5rem 0;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+  }
+
+  .content-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.92rem;
+    min-width: 520px;
+  }
+
+  .content-table th {
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    font-weight: 700;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .content-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .content-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .content-table tr:hover td {
+    background: rgba(99, 102, 241, 0.03);
+    color: var(--color-text);
+  }
+
+  /* Callout box styling */
+  .callout-box {
+    margin: 1.5rem 0;
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-brand);
+  }
+
+  .callout-box.tip {
+    border-left-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  .callout-box.warning {
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+  }
+
+  .callout-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .hidden {
     display: none !important;
+  }
+
+  /* Slotted editorial heading spacing fixes */
+  .editorial-content :global(h2) {
+    margin-top: 2.25rem;
+    margin-bottom: 0.85rem;
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+
+  .editorial-content :global(h3) {
+    margin-top: 1.75rem;
+    margin-bottom: 0.65rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .editorial-content :global(p) {
+    color: var(--color-text-muted);
+    margin-bottom: 1.15rem;
+    line-height: 1.75;
+    font-size: 0.98rem;
+  }
+
+  .editorial-content :global(code) {
+    background: var(--color-bg-alt);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.88em;
+    border: 1px solid var(--color-border);
+    color: var(--color-brand);
   }
 
   /* Responsive Mobile Overrides */
@@ -571,6 +1115,15 @@ const faqs = [
       padding-bottom: 1rem !important;
       align-items: center !important;
     }
+
+    .content-table {
+      font-size: 0.85rem;
+    }
+
+    .content-table th, 
+    .content-table td {
+      padding: 0.7rem 0.75rem;
+    }
   }
 
   @media (min-width: 1024px) {
@@ -579,14 +1132,6 @@ const faqs = [
       align-items: start;
       gap: 2.5rem;
     }
-  }
-
-  /* Slotted editorial heading spacing fixes */
-  .editorial-content :global(h3) {
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    font-size: 1.25rem;
-    color: var(--color-text);
   }
 </style>
 

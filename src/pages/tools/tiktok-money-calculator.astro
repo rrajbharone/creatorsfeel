@@ -1,0 +1,971 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "How much does TikTok pay per 1,000 views?",
+    answer: "TikTok's Creator Fund pays approximately $0.02–$0.04 per 1,000 views. The TikTok Creator Rewards Program (for videos over 1 minute) pays significantly more — around $0.40–$1.00 per 1,000 views. Earnings vary by niche, audience location, video length, and completion rate."
+  },
+  {
+    question: "What is TikTok CPM and how does it affect earnings?",
+    answer: "CPM (Cost Per Mille) is the amount advertisers pay per 1,000 ad impressions. As a creator, your effective CPM typically ranges from $0.02 to $0.05 on the Creator Fund. High-value niches like finance, software, and health can command higher CPMs from brand deals, often $10–$50+ per 1,000 views."
+  },
+  {
+    question: "Are these TikTok earnings estimates accurate?",
+    answer: "These estimates are directional ranges based on publicly reported Creator Fund and Creator Rewards Program payout data. Actual earnings depend heavily on your account's region, niche, video watch time, and the specific monetization programs you are enrolled in."
+  },
+  {
+    question: "What TikTok monetization programs are included in this calculator?",
+    answer: "The calculator estimates earnings from TikTok's Creator Fund and Creator Rewards Program. It does not include brand deal income or TikTok LIVE gifts, which can significantly increase total earnings for creators with large followings."
+  },
+  {
+    question: "How many views do I need to make money on TikTok?",
+    answer: "To join the TikTok Creator Fund you need at least 10,000 followers and 100,000 video views in the past 30 days. For the Creator Rewards Program you need at least 10,000 followers and videos must be over 1 minute long. A creator averaging 100,000 views per video with 10 posts per month can realistically earn $20–$400+ monthly from platform programs alone."
+  },
+  {
+    question: "Does engagement rate affect TikTok earnings?",
+    answer: "Yes. A higher engagement rate signals quality content to the algorithm, leading to more FYP distribution, higher view counts, and better ad CPMs. Creators with 5%+ engagement rates tend to attract higher-paying brand deals."
+  }
+];
+---
+
+<ToolLayout
+  title="TikTok Money Calculator - Estimate Your TikTok Earnings"
+  description="Free TikTok Money Calculator. Estimate your monthly TikTok earnings based on views, post frequency, and CPM. Instant results, no login required."
+  toolName="TikTok Money Calculator"
+  toolDescription="Estimate your monthly TikTok earnings from views and post frequency. See a realistic min–max earnings range based on Creator Fund and Creator Rewards data."
+  category="Calculators"
+  faqs={faqs}
+>
+  <div slot="calculator" class="calc-card glass">
+
+    <div class="calc-grid">
+
+      <!-- Left: Inputs -->
+      <div class="calc-form">
+
+        <div class="form-group">
+          <label for="avg-views" class="input-label">
+            Average Views Per Video
+            <span class="label-hint">Your typical views per post</span>
+          </label>
+          <input
+            type="number"
+            id="avg-views"
+            class="calc-input"
+            placeholder="e.g. 50000"
+            min="0"
+            value="50000"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="videos-per-month" class="input-label">
+            Videos Posted Per Month
+            <span class="label-hint">How many videos you publish monthly</span>
+          </label>
+          <input
+            type="number"
+            id="videos-per-month"
+            class="calc-input"
+            placeholder="e.g. 15"
+            min="0"
+            value="15"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="video-length" class="input-label">
+            Typical Video Length
+            <span class="label-hint">Longer videos qualify for Creator Rewards Program</span>
+          </label>
+          <select id="video-length" class="calc-input">
+            <option value="short">Under 1 minute (Creator Fund rates)</option>
+            <option value="long" selected>1 minute or longer (Creator Rewards rates)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="engagement-rate" class="input-label">
+            Engagement Rate
+            <span class="label-hint">Likes + comments + shares ÷ views × 100</span>
+          </label>
+          <select id="engagement-rate" class="calc-input">
+            <option value="low">Below 3% — Low engagement</option>
+            <option value="average" selected>3%–6% — Average engagement</option>
+            <option value="high">6%–12% — High engagement</option>
+            <option value="viral">12%+ — Viral / exceptional</option>
+          </select>
+        </div>
+
+        <button type="button" id="btn-calculate" class="calc-btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33" />
+          </svg>
+          Calculate Earnings
+        </button>
+
+      </div>
+
+      <!-- Right: Results -->
+      <div class="calc-results">
+
+        <!-- Empty State -->
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33" />
+            </svg>
+          </div>
+          <strong>Enter your stats to see your earnings estimate</strong>
+          <p>Fill in your average views and posting frequency on the left, then click Calculate Earnings.</p>
+        </div>
+
+        <!-- Results Box -->
+        <div class="results-box" id="results-box" style="display:none;">
+
+          <!-- Monthly Range Banner -->
+          <div class="earnings-banner">
+            <div class="earnings-banner-label">Estimated Monthly Earnings</div>
+            <div class="earnings-range">
+              <span class="range-min" id="range-min">$0</span>
+              <span class="range-dash">–</span>
+              <span class="range-max" id="range-max">$0</span>
+            </div>
+            <div class="earnings-banner-sub" id="earnings-sub">From TikTok platform programs</div>
+          </div>
+
+          <!-- Metric Cards -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-value" id="res-total-views">0</span>
+              <span class="metric-label">Monthly Views</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-value" id="res-per-video">$0</span>
+              <span class="metric-label">Est. Per Video</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-value" id="res-cpm-used">$0.03</span>
+              <span class="metric-label">CPM Applied</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-value" id="res-engagement-label">Average</span>
+              <span class="metric-label">Engagement Tier</span>
+            </div>
+          </div>
+
+          <!-- Brand Deal Bonus Note -->
+          <div class="brand-note" id="brand-note">
+            <span class="brand-note-icon">💡</span>
+            <div>
+              <strong>Add brand deal income:</strong> Creators at your view level typically charge <span id="brand-deal-range">$200–$1,500</span> per sponsored post. Total monthly potential: <span id="brand-total-range" class="brand-highlight">$200–$2,000</span>.
+            </div>
+          </div>
+
+          <!-- Reset Button -->
+          <button type="button" id="btn-reset" class="btn-reset">Reset Calculator</button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- About / SEO Content -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+
+      <h2>How Much Can You Actually Earn on TikTok?</h2>
+      <p>
+        TikTok earnings are one of the most misunderstood topics in the creator economy. You see headlines about creators making thousands of dollars a month, and you wonder: is that realistic for me? The honest answer is — it depends heavily on the monetization programs you use, your video length, your niche, and your audience's location.
+      </p>
+      <p>
+        This guide breaks down exactly how TikTok pays creators, what the real CPM numbers look like, and what you can do to meaningfully increase your monthly income from the platform.
+      </p>
+
+      <h2>How the TikTok Creator Fund and Creator Rewards Program Work</h2>
+      <p>
+        TikTok introduced the <strong>Creator Fund</strong> in 2020 as the platform's first direct payment program for creators. It pays eligible creators based on video views, but the rates are notoriously low — typically between <strong>$0.02 and $0.04 per 1,000 views</strong>. That means a video with 1 million views might earn you just $20 to $40 directly from the fund.
+      </p>
+      <p>
+        In 2023, TikTok launched the <strong>Creator Rewards Program</strong> (formerly called the Creativity Program Beta) as a direct replacement — and upgrade — to the original Creator Fund. The payout rates are dramatically better: creators report earning between <strong>$0.40 and $1.00 per 1,000 views</strong> for qualifying videos. That's 10 to 25 times more per view than the original program.
+      </p>
+      <p>
+        The key requirement for Creator Rewards is that your videos must be <strong>at least 1 minute long</strong> and meet TikTok's originality and quality standards. Repurposed content, duets, and stitches generally do not qualify for full Creator Rewards payouts.
+      </p>
+
+      <h3>Eligibility Requirements</h3>
+      <p>To join either program, your account must meet these minimum thresholds:</p>
+      <ul>
+        <li>Be at least 18 years old</li>
+        <li>Have a minimum of <strong>10,000 followers</strong></li>
+        <li>Have accumulated at least <strong>100,000 video views in the last 30 days</strong></li>
+        <li>Be based in an eligible country (US, UK, Germany, France, Japan, South Korea, and Brazil are currently included)</li>
+        <li>Have a personal account in good standing (no violations)</li>
+      </ul>
+
+      <h2>TikTok CPM Rates: What Do Creators Actually Get Paid?</h2>
+      <p>
+        CPM stands for Cost Per Mille, which is the amount earned per 1,000 views. Here is how TikTok's effective CPM breaks down by program and context:
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Program</th>
+              <th>CPM Range</th>
+              <th>High-Value Niches</th>
+              <th>Low-Value Niches</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Creator Fund</strong></td>
+              <td>$0.02 – $0.04</td>
+              <td>Up to $0.06</td>
+              <td>$0.01 – $0.02</td>
+            </tr>
+            <tr>
+              <td><strong>Creator Rewards Program</strong></td>
+              <td>$0.40 – $1.00</td>
+              <td>Up to $1.50+</td>
+              <td>$0.20 – $0.40</td>
+            </tr>
+            <tr>
+              <td><strong>Brand Deal (Sponsored Post)</strong></td>
+              <td>$10 – $50+ per 1K views</td>
+              <td>Finance, SaaS, Health</td>
+              <td>General lifestyle</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        It is worth noting that TikTok does not pay a fixed CPM — the actual rate fluctuates daily based on advertiser demand, seasonality (Q4 rates are higher), and your content's performance metrics such as watch time and completion rate.
+      </p>
+
+      <h2>Factors That Affect Your TikTok Earnings</h2>
+      <p>
+        Two creators with identical view counts can earn very different amounts. Here is what actually determines your TikTok income:
+      </p>
+
+      <h3>1. Video Length</h3>
+      <p>
+        This is the single biggest factor. Short videos under 60 seconds are locked into the original Creator Fund rates. Videos over 1 minute qualify for the Creator Rewards Program, which can pay 10–25x more per view. If you are still posting 15–30 second clips and wondering why earnings are disappointing, this is likely why.
+      </p>
+
+      <h3>2. Watch Time and Completion Rate</h3>
+      <p>
+        TikTok's algorithm and payout system reward videos that hold viewer attention. A 90-second video where 70% of viewers watch to the end signals high-quality content and earns more than a 90-second video with a 20% completion rate. Focus on hooks, pacing, and storytelling to keep viewers watching.
+      </p>
+
+      <h3>3. Audience Location</h3>
+      <p>
+        Advertisers pay significantly more to reach audiences in the United States, United Kingdom, Australia, and Canada. A creator whose audience is primarily based in the US will earn noticeably more per 1,000 views than a creator with an equivalent view count but an audience concentrated in lower-CPC markets. You cannot fully control this, but targeting English-language content naturally attracts higher-value audiences.
+      </p>
+
+      <h3>4. Content Niche</h3>
+      <p>
+        Finance, technology, software, health, fitness, education, and business are high-CPM niches because advertisers in those sectors have larger budgets and pay more per impression. Entertainment and comedy content tends to have lower CPMs — though it can drive very high view volumes that compensate through scale.
+      </p>
+
+      <h3>5. Engagement Rate</h3>
+      <p>
+        TikTok rewards highly engaging content with broader For You Page distribution. More distribution means more views, which directly increases earnings. Additionally, brands offering sponsorships look at engagement rates when deciding what to pay — a creator with 50,000 views and 8% engagement will command higher brand deal rates than one with 50,000 views and 1% engagement.
+      </p>
+
+      <h3>6. Originality and Content Quality</h3>
+      <p>
+        TikTok's Creator Rewards Program explicitly penalizes or excludes content that is duplicated, repurposed from other platforms, or low-effort. Original, well-produced content scores higher on TikTok's quality assessment and earns more from the program.
+      </p>
+
+      <h2>Realistic Earnings Examples by View Level</h2>
+      <p>
+        To ground the numbers in reality, here are monthly earnings estimates for creators at different view levels using the Creator Rewards Program (1-minute+ videos):
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Avg. Views Per Video</th>
+              <th>Videos/Month</th>
+              <th>Monthly Views</th>
+              <th>Est. Monthly Earnings</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10,000</td>
+              <td>15</td>
+              <td>150,000</td>
+              <td>$60 – $150</td>
+            </tr>
+            <tr>
+              <td>50,000</td>
+              <td>15</td>
+              <td>750,000</td>
+              <td>$300 – $750</td>
+            </tr>
+            <tr>
+              <td>200,000</td>
+              <td>20</td>
+              <td>4,000,000</td>
+              <td>$1,600 – $4,000</td>
+            </tr>
+            <tr>
+              <td>500,000</td>
+              <td>20</td>
+              <td>10,000,000</td>
+              <td>$4,000 – $10,000</td>
+            </tr>
+            <tr>
+              <td>1,000,000+</td>
+              <td>20</td>
+              <td>20,000,000+</td>
+              <td>$8,000 – $20,000+</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        These figures are from the Creator Rewards Program. If you are on the original Creator Fund, divide these numbers by roughly 15 to 20 to get a realistic estimate.
+      </p>
+
+      <h2>All the Ways to Make Money on TikTok</h2>
+      <p>
+        Platform-based earnings are just one piece of the TikTok income puzzle. Smart creators combine multiple revenue streams:
+      </p>
+
+      <h3>TikTok Creator Fund / Creator Rewards Program</h3>
+      <p>Direct per-view payments from TikTok. Best for creators focused on long-form, original content. This is what our calculator estimates.</p>
+
+      <h3>TikTok LIVE Gifts</h3>
+      <p>
+        During live streams, followers can send virtual gifts purchased with TikTok coins. Creators convert these gifts into Diamonds, which are redeemable for real money. TikTok takes approximately 50% of the value. Popular LIVE creators can earn $500 to $5,000+ per month from gifts alone, completely separate from video view earnings.
+      </p>
+
+      <h3>TikTok Series</h3>
+      <p>
+        The Series feature lets creators paywall exclusive content behind a one-time purchase fee (ranging from $0.99 to $189.99 per series). This is ideal for educators, coaches, and niche experts who can package deep-dive content for a paying audience.
+      </p>
+
+      <h3>TikTok Shop (Creator Affiliate)</h3>
+      <p>
+        TikTok Shop allows creators to tag products in their videos and earn a commission (typically 5–20%) on every sale generated through their content. This is one of the fastest-growing income streams on the platform, with top creators earning thousands of dollars monthly purely from affiliate commissions without any formal brand deal.
+      </p>
+
+      <h3>Brand Deals and Sponsored Content</h3>
+      <p>
+        Brand sponsorships are where serious TikTok money is made. Brands pay creators directly to feature their products or services in videos. Typical rates based on average view counts:
+      </p>
+      <ul>
+        <li><strong>5,000–20,000 avg views:</strong> $50–$200 per post</li>
+        <li><strong>20,000–100,000 avg views:</strong> $200–$800 per post</li>
+        <li><strong>100,000–500,000 avg views:</strong> $800–$3,500 per post</li>
+        <li><strong>500,000+ avg views:</strong> $3,500–$15,000+ per post</li>
+      </ul>
+
+      <h3>Driving Traffic to External Businesses</h3>
+      <p>
+        Many of TikTok's highest earners use the platform primarily as a traffic channel — driving followers to a course, coaching program, newsletter, Etsy shop, or SaaS product. A creator with 100,000 views per video can generate significant revenue without relying on TikTok's direct payments at all.
+      </p>
+
+      <h2>Common Myths About TikTok Earnings — Debunked</h2>
+
+      <h3>Myth: "More followers = more money"</h3>
+      <p>
+        <strong>Reality:</strong> TikTok's payment programs are entirely view-based, not follower-based. A creator with 500,000 followers but 5,000 views per video earns less than a creator with 50,000 followers averaging 200,000 views per video. Focus on content quality and distribution, not follower count.
+      </p>
+
+      <h3>Myth: "Going viral makes you rich"</h3>
+      <p>
+        <strong>Reality:</strong> A single viral video with 10 million views on the Creator Fund earns roughly $200–$400. That is meaningful, but not life-changing. Sustainable TikTok income comes from consistent volume — dozens of videos generating solid views every month, not one lucky hit.
+      </p>
+
+      <h3>Myth: "TikTok pays the same as YouTube"</h3>
+      <p>
+        <strong>Reality:</strong> YouTube pays creators significantly more per view through its AdSense program — typically $1–$10 RPM for most niches, compared to TikTok's Creator Rewards range of $0.40–$1.00 RPM. YouTube also benefits from search-based longevity, meaning videos continue earning for years. TikTok videos have a shorter earning window.
+      </p>
+
+      <h3>Myth: "You need millions of followers to earn real money"</h3>
+      <p>
+        <strong>Reality:</strong> A creator with 25,000 highly engaged followers in a niche like personal finance or software can earn more than a general creator with 500,000 followers through brand deals, TikTok Shop commissions, and converting followers to paying customers outside the platform.
+      </p>
+
+      <h2>How to Use This TikTok Money Calculator Effectively</h2>
+      <p>
+        To get the most accurate estimate from this tool, follow these steps:
+      </p>
+      <ol>
+        <li><strong>Calculate your real average views:</strong> Look at your last 15–20 videos in TikTok Analytics and take the mean view count. Exclude any outlier viral videos that are not representative of your typical performance.</li>
+        <li><strong>Use your actual posting frequency:</strong> If you currently post 8 videos per month, enter 8 — not your goal of 20. The calculator is for estimating current earnings, not aspirational ones.</li>
+        <li><strong>Select the correct video length:</strong> This is the most impactful setting. If most of your videos are under 60 seconds, choose "Under 1 minute." If you consistently post tutorials, vlogs, or storytelling content over 60 seconds, choose "1 minute or longer."</li>
+        <li><strong>Choose an honest engagement tier:</strong> Check TikTok Analytics for your average like, comment, and share rates. If you are unsure, "Average (3–6%)" is a safe starting point for most creators.</li>
+        <li><strong>Review the brand deal estimate:</strong> The calculator also shows a realistic brand deal income range based on your view level. Use this to understand how much additional income is realistically available to you through sponsorships.</li>
+      </ol>
+      <p>
+        Remember, these figures are estimates based on reported Creator Rewards Program payout data. Actual earnings may be higher or lower depending on TikTok's current advertiser demand, your specific content quality score, and seasonal factors.
+      </p>
+
+      <h2>Tips to Increase Your TikTok Earnings</h2>
+      <ul>
+        <li><strong>Switch to longer videos:</strong> Moving from sub-60-second clips to 1–3 minute videos and joining the Creator Rewards Program is the single highest-ROI change most creators can make.</li>
+        <li><strong>Post consistently in a niche:</strong> The algorithm rewards accounts with a clear content identity. Pick 1–2 topics and go deep rather than posting about everything.</li>
+        <li><strong>Optimize your first 3 seconds:</strong> TikTok's algorithm tracks whether viewers stay or scroll away in the first few seconds. A strong, specific hook dramatically improves completion rates and therefore CPM.</li>
+        <li><strong>Use the TikTok Creator Marketplace:</strong> This is TikTok's official platform for connecting creators with brand deals. Completing your profile and keeping it updated puts you in front of brands actively looking for creators in your niche.</li>
+        <li><strong>Promote your TikTok Shop link:</strong> If you are in an eligible region, add shoppable products to your videos and earn affiliate commissions without needing a single brand relationship.</li>
+        <li><strong>Analyze what works:</strong> Use TikTok's built-in analytics to track which videos perform above your average. Double down on those formats, topics, and structures.</li>
+      </ul>
+
+      <h2>Explore More TikTok Creator Tools</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/tiktok-engagement-calculator" class="tool-link-card glass">
+          <div class="tool-link-title">TikTok Engagement Calculator</div>
+          <div class="tool-link-desc">Calculate your exact TikTok engagement rate by followers or views.</div>
+        </a>
+        <a href="/tools/tiktok-hook-generator" class="tool-link-card glass">
+          <div class="tool-link-title">TikTok Hook Generator</div>
+          <div class="tool-link-desc">Generate high-retention opening hooks for your TikTok videos.</div>
+        </a>
+        <a href="/tools/tiktok-caption-generator" class="tool-link-card glass">
+          <div class="tool-link-title">TikTok Caption Generator</div>
+          <div class="tool-link-desc">Create engaging captions with relevant hashtags for TikTok posts.</div>
+        </a>
+        <a href="/tools/tiktok-bio-generator" class="tool-link-card glass">
+          <div class="tool-link-title">TikTok Bio Generator</div>
+          <div class="tool-link-desc">Write a compelling TikTok profile bio that converts profile visitors.</div>
+        </a>
+        <a href="/tools/instagram-money-calculator" class="tool-link-card glass">
+          <div class="tool-link-title">Instagram Money Calculator</div>
+          <div class="tool-link-desc">Estimate your Instagram earnings from posts, Reels, and brand deals.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+
+</ToolLayout>
+
+
+
+<style>
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+  }
+
+  @media (min-width: 900px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* Form */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .input-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-text);
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .label-hint {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+
+  .calc-input {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .calc-input:focus {
+    border-color: var(--color-brand);
+  }
+
+  .calc-btn-primary {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: opacity var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99,102,241,0.25);
+    margin-top: 0.25rem;
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.94;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99,102,241,0.35);
+  }
+
+  .btn-svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  /* Results */
+  .calc-results {
+    width: 100%;
+  }
+
+  /* Empty State */
+  .empty-state {
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    color: var(--color-text-muted);
+  }
+
+  .empty-state strong {
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .empty-state p {
+    font-size: 0.85rem;
+    max-width: 280px;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .empty-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(99,102,241,0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* Results Box */
+  .results-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Earnings Banner */
+  .earnings-banner {
+    padding: 1.5rem 1.25rem;
+    border-radius: var(--radius-md);
+    background: var(--gradient-brand);
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .earnings-banner-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .earnings-range {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .range-min, .range-max {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    font-weight: 900;
+    font-family: var(--font-heading);
+    line-height: 1;
+  }
+
+  .range-dash {
+    font-size: 1.5rem;
+    font-weight: 400;
+    opacity: 0.7;
+  }
+
+  .earnings-banner-sub {
+    font-size: 0.78rem;
+    opacity: 0.8;
+  }
+
+  /* Metric Cards */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+  }
+
+  .metric-card {
+    padding: 0.85rem 0.75rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.2rem;
+  }
+
+  .metric-value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--color-brand);
+    font-family: var(--font-heading);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  /* Brand Deal Note */
+  .brand-note {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.9rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    font-size: 0.85rem;
+    color: var(--color-text);
+    line-height: 1.5;
+  }
+
+  .brand-note-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  .brand-highlight {
+    font-weight: 700;
+    color: var(--color-brand);
+  }
+
+  .btn-reset {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-reset:hover {
+    color: var(--color-text);
+    border-color: var(--color-border-hover);
+  }
+
+  /* Editorial Content Section */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2.75rem;
+    margin-bottom: 1.15rem;
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 800;
+    line-height: 1.3;
+    color: var(--color-text);
+  }
+
+  .editorial-section h2:first-of-type {
+    margin-top: 1rem;
+  }
+
+  .editorial-section h3 {
+    margin-top: 2.25rem;
+    margin-bottom: 0.85rem;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-text);
+  }
+
+  .editorial-section h4 {
+    margin-top: 1.75rem;
+    margin-bottom: 0.65rem;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+
+  .editorial-section p {
+    margin-top: 0;
+    margin-bottom: 1.35rem;
+    color: var(--color-text);
+    line-height: 1.75;
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-top: 0.5rem;
+    margin-bottom: 1.6rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.65rem;
+    line-height: 1.65;
+  }
+
+  .editorial-section strong {
+    color: var(--color-text);
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.75rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) td {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 600px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.3rem;
+    font-size: 0.95rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btnCalculate = document.getElementById('btn-calculate');
+    const btnReset = document.getElementById('btn-reset');
+    const emptyState = document.getElementById('empty-state');
+    const resultsBox = document.getElementById('results-box');
+
+    const inputViews = document.getElementById('avg-views') as HTMLInputElement | null;
+    const inputVideos = document.getElementById('videos-per-month') as HTMLInputElement | null;
+    const selectLength = document.getElementById('video-length') as HTMLSelectElement | null;
+    const selectEngagement = document.getElementById('engagement-rate') as HTMLSelectElement | null;
+
+    const elRangeMin = document.getElementById('range-min');
+    const elRangeMax = document.getElementById('range-max');
+    const elSub = document.getElementById('earnings-sub');
+    const elTotalViews = document.getElementById('res-total-views');
+    const elPerVideo = document.getElementById('res-per-video');
+    const elCpmUsed = document.getElementById('res-cpm-used');
+    const elEngLabel = document.getElementById('res-engagement-label');
+    const elBrandRange = document.getElementById('brand-deal-range');
+    const elBrandTotal = document.getElementById('brand-total-range');
+
+    // CPM ranges per program type (per 1,000 views, in USD)
+    const cpmRanges = {
+      short: { min: 0.020, max: 0.040 }, // Creator Fund
+      long:  { min: 0.400, max: 1.000 }, // Creator Rewards Program
+    };
+
+    // Engagement multiplier on CPM (higher engagement = slightly higher effective CPM)
+    const engMult: Record<string, { label: string; mult: number }> = {
+      low:     { label: 'Low (<3%)',      mult: 0.80 },
+      average: { label: 'Average (3–6%)', mult: 1.00 },
+      high:    { label: 'High (6–12%)',   mult: 1.25 },
+      viral:   { label: 'Viral (12%+)',   mult: 1.60 },
+    };
+
+    // Brand deal ranges (per sponsored post, USD) based on average views
+    function brandDealRange(avgViews: number): { min: number; max: number } {
+      if (avgViews < 10_000)  return { min: 50,   max: 200  };
+      if (avgViews < 50_000)  return { min: 150,  max: 600  };
+      if (avgViews < 200_000) return { min: 500,  max: 2000 };
+      if (avgViews < 1_000_000) return { min: 1500, max: 6000 };
+      return { min: 5000, max: 20000 };
+    }
+
+    function formatMoney(val: number): string {
+      if (val < 1) return '<$1';
+      if (val >= 1000) return '$' + (val / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+      return '$' + Math.round(val).toLocaleString();
+    }
+
+    function formatViews(val: number): string {
+      if (val >= 1_000_000) return (val / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+      if (val >= 1_000) return (val / 1_000).toFixed(0) + 'K';
+      return val.toLocaleString();
+    }
+
+    function calculate() {
+      const avgViews = parseFloat(inputViews?.value || '0');
+      const videosPerMonth = parseFloat(inputVideos?.value || '0');
+      const videoLength = selectLength?.value || 'long';
+      const engKey = selectEngagement?.value || 'average';
+
+      if (!avgViews || !videosPerMonth || avgViews < 0 || videosPerMonth < 0) {
+        alert('Please enter valid positive numbers for views and video count.');
+        return;
+      }
+
+      const totalViews = avgViews * videosPerMonth;
+      const { min: cpmMin, max: cpmMax } = cpmRanges[videoLength as 'short' | 'long'];
+      const { label: engLabel, mult } = engMult[engKey] || engMult.average;
+
+      const effectiveCpmMin = cpmMin * mult;
+      const effectiveCpmMax = cpmMax * mult;
+
+      const earningsMin = (totalViews / 1000) * effectiveCpmMin;
+      const earningsMax = (totalViews / 1000) * effectiveCpmMax;
+      const perVideoMin = (avgViews / 1000) * effectiveCpmMin;
+      const perVideoMax = (avgViews / 1000) * effectiveCpmMax;
+      const avgCpm = ((effectiveCpmMin + effectiveCpmMax) / 2);
+
+      const brand = brandDealRange(avgViews);
+      const brandMonthlyMin = brand.min; // 1 deal per month conservative
+      const brandMonthlyMax = brand.max * 2; // up to 2 deals
+
+      // Update DOM
+      if (elRangeMin) elRangeMin.textContent = formatMoney(earningsMin);
+      if (elRangeMax) elRangeMax.textContent = formatMoney(earningsMax);
+      if (elSub) elSub.textContent = videoLength === 'long' ? 'From TikTok Creator Rewards Program' : 'From TikTok Creator Fund';
+      if (elTotalViews) elTotalViews.textContent = formatViews(totalViews);
+      if (elPerVideo) elPerVideo.textContent = `${formatMoney(perVideoMin)}–${formatMoney(perVideoMax)}`;
+      if (elCpmUsed) elCpmUsed.textContent = `$${effectiveCpmMin.toFixed(2)}–$${effectiveCpmMax.toFixed(2)}`;
+      if (elEngLabel) elEngLabel.textContent = engLabel;
+      if (elBrandRange) elBrandRange.textContent = `${formatMoney(brand.min)}–${formatMoney(brand.max)}`;
+      if (elBrandTotal) elBrandTotal.textContent = `${formatMoney(earningsMin + brandMonthlyMin)}–${formatMoney(earningsMax + brandMonthlyMax)}`;
+
+      // Show results
+      if (emptyState) emptyState.style.display = 'none';
+      if (resultsBox) resultsBox.style.display = 'flex';
+    }
+
+    function reset() {
+      if (inputViews) inputViews.value = '50000';
+      if (inputVideos) inputVideos.value = '15';
+      if (selectLength) selectLength.value = 'long';
+      if (selectEngagement) selectEngagement.value = 'average';
+      if (emptyState) emptyState.style.display = 'flex';
+      if (resultsBox) resultsBox.style.display = 'none';
+    }
+
+    if (btnCalculate) btnCalculate.addEventListener('click', calculate);
+    if (btnReset) btnReset.addEventListener('click', reset);
+
+    // Auto-calculate on load with defaults
+    calculate();
+  });
+</script>

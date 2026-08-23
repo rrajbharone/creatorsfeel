@@ -3,33 +3,45 @@ import ToolLayout from '../../layouts/ToolLayout.astro';
 
 const faqs = [
   {
-    question: "What is the maximum length of a Discord bio?",
-    answer: "The strict character limit for a Discord bio (the 'About Me' section) is 190 characters. If your bio is longer, it will get cropped and you will not be able to save it."
+    question: "What is the official character limit for a Discord bio?",
+    answer: "The strict character limit for a Discord bio (the 'About Me' profile section) is 190 characters. If your text exceeds 190 characters, Discord will prevent you from saving your profile or will abruptly truncate the content."
   },
   {
-    question: "Can I use formatting like bold or links in my Discord bio?",
-    answer: "Yes, Discord bios support basic Markdown formatting. You can use asterisks for bold (**bold**) or italics (*italics*), underscores for underline (__underline__), and custom hyperlinks using standard markdown syntax."
+    question: "Can I use Markdown formatting in my Discord bio?",
+    answer: "Yes, Discord bios support standard Markdown formatting. You can use asterisks for bold (**bold**) and italics (*italics*), underscores for underline (__underline__), tildes for strikethrough (~~strikethrough~~), backticks for code (`code`), vertical bars for spoilers (||spoiler||), and standard markdown hyperlinks."
   },
   {
-    question: "Are emojis counted towards the character limit?",
-    answer: "Yes, emojis count towards the 190-character limit. Custom emojis from servers can count as more characters because their underlying format includes the emoji name and ID (e.g. <:emojiname:123456789012345678>)."
+    question: "Do emojis count against the 190-character Discord bio limit?",
+    answer: "Yes, all emojis count toward your 190-character budget. Standard Unicode emojis consume 1 to 2 characters. However, custom server emojis consume significantly more space (25 to 35+ characters) because Discord stores their raw code format, such as <:emoji_name:123456789012345678>."
   },
   {
-    question: "Can I add server invite links to my bio?",
-    answer: "Yes, you can paste server invite links or external social links into your Discord bio. However, keep in mind that URLs consume your 190-character budget quickly."
+    question: "Can I set different Discord bios for different servers?",
+    answer: "Yes, users with an active Discord Nitro subscription can configure 'Server Profiles' (Per-Server Profiles). This allows you to set a professional or tech-focused bio in programming servers while keeping a casual or gaming bio in your community and gaming servers."
   },
   {
-    question: "Is this bio generator free to use?",
-    answer: "Yes, our Discord Bio Generator is 100% free to use. You can generate as many bio variations as you like without any limits or registration requirements."
+    question: "How do I add clickable links to my Discord bio?",
+    answer: "You can paste URLs directly (e.g., https://yourlink.com) or use markdown link formatting: [Click Here](https://yourlink.com). To conserve your 190-character budget, use shortened URLs or a unified bio-link tree."
+  },
+  {
+    question: "Why does my Discord bio look broken with custom emojis?",
+    answer: "Custom server emojis only render if you share a mutual server where that emoji is hosted, or if you have Discord Nitro allowing global emoji usage. If an emoji is deleted from its host server, it will revert to raw text code."
+  },
+  {
+    question: "What should I include in a gaming Discord bio?",
+    answer: "An effective gaming bio should include your main games, preferred in-game roles/agents, competitive rank, time zone or peak active hours, and communication preferences (e.g., 'Mic available for ranked queue')."
+  },
+  {
+    question: "Is this Discord Bio Generator free to use?",
+    answer: "Yes, our Discord Bio Generator is 100% free with no account creation or usage limits. You can generate unlimited bio variations across all tones and styles."
   }
 ];
 ---
 
 <ToolLayout
-  title="Discord Bio Generator - Free Custom Profile Ideas"
-  description="Generate cool, unique, and custom Discord bios for your profile. Optimize bios for gaming, aesthetic, cyberpunk, and witty themes."
+  title="Discord Bio Generator - Aesthetic, Gaming & Cool About Me Ideas"
+  description="Generate cool, unique, and aesthetic Discord bios for your profile. Create custom About Me ideas for gaming, coding, funny, and professional Discord profiles."
   toolName="Discord Bio Generator"
-  toolDescription="Create unique Discord bios under the strict 190-character limit. Customize by tone, toggle emojis or sparkles, and preview on a profile card."
+  toolDescription="Create unique Discord bios under the strict 190-character limit. Customize by tone, toggle emojis or sparkles, and preview on a live profile card."
   category="Writing Tools"
   faqs={faqs}
 >
@@ -127,8 +139,8 @@ const faqs = [
               </div>
 
               <div>
-                <strong style="color: #ffffff; text-transform: uppercase; font-size: 0.68rem; display: block; margin-bottom: 4px;">Discord Member Since</strong>
-                <span>July 15, 2026</span>
+                <strong style="color: #ffffff; text-transform: uppercase; font-size: 0.68rem; display: block; margin-bottom: 4px;">Discord Community</strong>
+                <span>Active Member</span>
               </div>
             </div>
           </div>
@@ -156,88 +168,342 @@ const faqs = [
   </div>
 
   <div slot="about" class="editorial-content">
-    <h2>Discord Bio Generator: Write Creative Profile About Me Text</h2>
-    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
-      <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        🎮 <strong>Looking for a search-compliant username to pair with your new bio?</strong> Try our free <a href="/tools/discord-username-generator" style="color: var(--color-brand); text-decoration: underline;">Discord Username Generator</a> to secure a unique handle using aesthetic gaming niches.
+    <h2>The Complete Guide to Discord Bios & Profile Optimization</h2>
+    <p>
+      In the modern digital landscape, Discord has evolved far beyond a casual voice chat app for gamers. It has transformed into the primary community hub for developers, content creators, gaming esports teams, crypto/web3 guilds, study groups, and professional creative agencies.
+    </p>
+    <p>
+      Whenever you speak in a voice channel, send a message in a community server, or join a new guild, your profile card is the first thing other users inspect. Your <strong>"About Me" bio</strong> is your digital handshake. It conveys your personality, highlights your primary games or coding skills, establishes communication boundaries, and showcases your external social media links.
+    </p>
+    <p>
+      However, fitting your personality, hobbies, formatting symbols, and links into Discord's strict <strong>190-character limit</strong> can be frustrating. Our interactive <strong>Discord Bio Generator</strong> automatically builds creative, character-compliant bios tailored to your specific aesthetic and persona.
+    </p>
+
+    <div class="callout-box">
+      <div class="callout-title">
+        <span>🎮</span> Complete Discord Identity Suite
+      </div>
+      <p style="margin: 0; font-size: 0.95rem;">
+        Looking for a matching username or server branding? Explore our companion tools: <a href="/tools/discord-username-generator">Discord Username Generator</a>, <a href="/tools/discord-server-name-generator">Discord Server Name Generator</a>, and <a href="/tools/discord-emoji-generator">Discord Emoji Generator</a>.
       </p>
     </div>
 
-    <h3>Introduction</h3>
+    <h2>Discord Bio Limits & Formatting Rules</h2>
     <p>
-      In the digital era of communication, your Discord profile is your personal billboard. Whether you are chatting in server channels, networking with developers, or looking for teammate groupings, your "About Me" bio section defines how others perceive you. However, compiling a bio that captures your interest, lists your social accounts, and uses cool formatting options while fitting inside a tight character limit is difficult. Our free, interactive <strong>discord bio generator</strong> is designed to build creative, formatted bios automatically.
+      Crafting an effective Discord bio requires understanding the technical boundaries of the "About Me" profile box:
     </p>
 
-    <h3>How to Use This Tool</h3>
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>1. The Strict 190-Character Budget</h3>
+        <p>
+          Discord enforces a hard character ceiling of <strong>190 characters</strong> (including spaces, line breaks, and formatting tags). If your bio is 191 characters, Discord will block you from saving changes. Every word, symbol, and URL must be chosen intentionally.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>2. Full Markdown Formatting Support</h3>
+        <p>
+          Discord bios support native Markdown syntax, allowing you to stylize text with bolding, italics, code blocks, and hidden spoilers:
+        </p>
+        <ul>
+          <li><strong>Bold Text:</strong> <code>**your text**</code></li>
+          <li><strong>Italic Text:</strong> <code>*your text*</code> or <code>_your text_</code></li>
+          <li><strong>Underlined Text:</strong> <code>__your text__</code></li>
+          <li><strong>Strikethrough:</strong> <code>~~your text~~</code></li>
+          <li><strong>Inline Code Block:</strong> <code>`your text`</code></li>
+          <li><strong>Spoiler Tag:</strong> <code>||your text||</code></li>
+          <li><strong>Blockquote:</strong> <code>&gt; your text</code></li>
+          <li><strong>Clickable Hyperlink:</strong> <code>[Link Label](https://yoururl.com)</code></li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>3. Unicode Emojis vs. Custom Server Emojis</h3>
+        <p>
+          Standard Unicode emojis (e.g., 🎮, ☕, 💻, ✦) count as 1 to 2 characters. However, custom server emojis consume <strong>25 to 35+ characters</strong> because Discord parses them as <code>&lt;:emoji_name:123456789012345678&gt;</code>. If you are on a tight character budget, prefer standard Unicode emojis.
+        </p>
+      </div>
+    </div>
+
+    <h3>Discord Bio Markdown Formatting Cheat Sheet</h3>
+    <div class="table-responsive-wrapper">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th>Style / Effect</th>
+            <th>Markdown Syntax Example</th>
+            <th>Rendered Appearance</th>
+            <th>Character Cost Overhead</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Bold</strong></td>
+            <td><code>**Gamer**</code></td>
+            <td><strong>Gamer</strong></td>
+            <td>+4 characters</td>
+          </tr>
+          <tr>
+            <td><strong>Italics</strong></td>
+            <td><code>*Cozy Vibes*</code></td>
+            <td><em>Cozy Vibes</em></td>
+            <td>+2 characters</td>
+          </tr>
+          <tr>
+            <td><strong>Underline</strong></td>
+            <td><code>__Developer__</code></td>
+            <td><u>Developer</u></td>
+            <td>+4 characters</td>
+          </tr>
+          <tr>
+            <td><strong>Strikethrough</strong></td>
+            <td><code>~~Noob~~ Pro</code></td>
+            <td><del>Noob</del> Pro</td>
+            <td>+4 characters</td>
+          </tr>
+          <tr>
+            <td><strong>Inline Code</strong></td>
+            <td><code>`TypeScript`</code></td>
+            <td><code>TypeScript</code></td>
+            <td>+2 characters</td>
+          </tr>
+          <tr>
+            <td><strong>Spoiler Tag</strong></td>
+            <td><code>||Secret Rank||</code></td>
+            <td>Hidden black bar</td>
+            <td>+4 characters</td>
+          </tr>
+          <tr>
+            <td><strong>Hyperlink</strong></td>
+            <td><code>[Portfolio](https://cf.gg)</code></td>
+            <td>Clickable link</td>
+            <td>+4 chars + URL length</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>8 Popular Styles of Discord Bios (With Examples)</h2>
     <p>
-      To write and audit custom Discord bios in real-time, follow these simple directions:
+      Depending on your primary Discord communities, select a bio style that fits your persona:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>1. Gaming & Competitive Esports</h3>
+        <p>
+          Best for FPS players, MMO raiders, and ranked grinders looking for team queues.
+        </p>
+        <ul>
+          <li><code>🎮 Valorant Immortal 2 | Duelist Main | DM to queue ranked | mic on 🎙️</code></li>
+          <li><code>Apex predator in Apex Legends. Powered by cold brew & bad decisions. ☕🏆</code></li>
+          <li><code>✦ CS2 / Rust enthusiast // Carrying teams since 2018 // GG vibes only ⚡</code></li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>2. Aesthetic, Cozy & Lo-Fi</h3>
+        <p>
+          Soft, minimalist aesthetic featuring pastel symbols, nature emojis, and calm quotes.
+        </p>
+        <ul>
+          <li><code>✦ cozy vibes only ✦ loves matcha, rain & lo-fi beats ✦ reading sci-fi ☁️☕</code></li>
+          <li><code>stargazing ✦ pixel art lover ✦ chill gaming sessions 🌙 | she/her 🌾</code></li>
+          <li><code>✿ flower garden keeper ✿ quiet thoughts & warm tea ✦ gentle days ☁️</code></li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>3. Cyberpunk, Tech & Developer</h3>
+        <p>
+          Ideal for software engineers, bot creators, tech enthusiasts, and Linux users.
+        </p>
+        <ul>
+          <li><code>[system]: online // full-stack dev // building with `Astro` & `TypeScript` 💻</code></li>
+          <li><code>netrunner status: code, coffee, and bug fixing. 🤖 | GitHub: cf.gg/dev</code></li>
+          <li><code>glitching through cyberspace // backend engineer // terminal native 🌐⚡</code></li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>4. Funny, Witty & Sarcastic</h3>
+        <p>
+          Humorous one-liners designed to make community members laugh when clicking your card.
+        </p>
+        <ul>
+          <li><code>Professionally lazy. Expert in gaming and making terrible life decisions. 🫠</code></li>
+          <li><code>My brain has 47 open tabs, and 46 are playing random music. 💀 DM at own risk.</code></li>
+          <li><code>I put the 'pro' in procrastination. Sponsoring coffee companies since birth. ☕</code></li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>5. Professional, Freelancer & Agency</h3>
+        <p>
+          Clean, authoritative bios for freelancers, server moderators, and business owners.
+        </p>
+        <ul>
+          <li><code>Product Designer & 3D Artist | Open for freelance commissions 💼 | portfolio: cf.gg</code></li>
+          <li><code>Community Director @ CreatorGuild | Inquiries: contact@creatorsfeel.com 🤝</code></li>
+          <li><code>Video Editor & Motion Designer // DM for rates & availability // 5+ yrs exp 🎬</code></li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>6. Minimalist & Clean</h3>
+        <p>
+          Sparse, elegant layouts that deliver maximum impact with minimal clutter.
+        </p>
+        <ul>
+          <li><code>music • photography • design | EST time zone | he/him</code></li>
+          <li><code>twenty-something • creative soul • chasing sunsets 🌙</code></li>
+          <li><code>offline is the new luxury • barista • vinyl collector ☕</code></li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>7. Anime & Manga Enthusiast</h3>
+        <p>
+          Showcase favorite series, character tropes, and Japanese aesthetic symbols.
+        </p>
+        <ul>
+          <li><code>✦ Jujutsu Kaisen & Berserk lover // wandering ronin // 100+ manga read ⚔️</code></li>
+          <li><code>living in an anime opening 🌸 | Studio Ghibli soundtrack on repeat 🎧</code></li>
+        </ul>
+      </div>
+
+      <div class="step-item">
+        <h3>8. Content Creator & Streamer</h3>
+        <p>
+          Drive server traffic directly to your livestreams, YouTube videos, or podcast.
+        </p>
+        <ul>
+          <li><code>🔴 Live on Twitch Tue/Thu @ 7PM EST! | Variety streamer & horror enthusiast 🎮</code></li>
+          <li><code>YouTube Creator (50k+) // Talking tech & gear // Watch latest vid: cf.gg/yt 🎬</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>How This Discord Bio Generator Works</h2>
+    <p>
+      Our generator simplifies bio creation through an automated 4-stage engine:
+    </p>
+    <ul>
+      <li><strong>Keyword Parsing:</strong> Takes your seed interests, favorite games, or job titles and extracts key concepts.</li>
+      <li><strong>Tone Synthesis:</strong> Maps your input into curated linguistic structures designed for specific aesthetics (Gaming, Cozy, Cyber, Witty, Professional).</li>
+      <li><strong>Decoration Layering:</strong> Optionally weaves Unicode symbols (<code>✦ ✧ ✿</code>), thematic emojis, and markdown links into the copy.</li>
+      <li><strong>Character Limit Safety Audit:</strong> Programmatically trims and verifies that every output strictly conforms to the 190-character maximum so it never breaks on Discord.</li>
+    </ul>
+
+    <h2>Step-by-Step Guide: How to Use the Tool Effectively</h2>
+    <p>
+      Follow this simple workflow to update your Discord profile in under two minutes:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>Step 1: Enter Your Keywords or Hobbies</h3>
+        <p>
+          Type a few terms separated by commas into the <strong>Keywords or Hobbies</strong> field (e.g., <em>'valorant, coffee, web developer'</em> or <em>'reading, tea, graphic design'</em>).
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 2: Select Your Bio Tone</h3>
+        <p>
+          Choose from <strong>Gaming / Competitive</strong>, <strong>Aesthetic / Cozy</strong>, <strong>Cyberpunk / Tech</strong>, <strong>Funny / Witty</strong>, or <strong>Professional / Business</strong>.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 3: Toggle Decorative Enhancements</h3>
+        <p>
+          Check or uncheck boxes for <strong>Include Emojis</strong>, <strong>Include Sparkles/Decorations</strong>, or <strong>Include Social Link Template</strong> based on your visual preference.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 4: Generate & Preview on the Discord Mockup Card</h3>
+        <p>
+          Click <strong>Generate Bios</strong> to create a list of custom bios. Click any bio card to instantly preview how it renders inside the dark-mode Discord profile mockup on the right.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>Step 5: Copy & Paste Into Discord</h3>
+        <p>
+          Click the <strong>Copy Bio</strong> chip button. In your Discord app, navigate to <strong>User Settings ⚙️ $\rightarrow$ Profiles $\rightarrow$ About Me</strong>, paste your bio, and click <strong>Save Changes</strong>.
+        </p>
+      </div>
+    </div>
+
+    <h2>Tips for Writing an Attractive & Unique Discord Bio</h2>
+    <p>
+      Elevate your Discord presence with these profile design techniques:
+    </p>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <h3>1. Use Vertical Dividers to Organize Information</h3>
+        <p>
+          Use clean symbols like vertical pipes (<code>|</code>), bullet points (<code>•</code>), slashes (<code>//</code>), or sparkles (<code>✦</code>) to separate hobbies, time zones, and social links. This creates instant scannability on mobile screens.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>2. State Communication & DM Preferences</h3>
+        <p>
+          Let other server members know how to interact with you (e.g., <em>'DMs open for game invites'</em>, <em>'DMs closed / ping in server'</em>, or <em>'DM for business inquiries only'</em>).
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>3. Shorten Long Social URLs</h3>
+        <p>
+          A long URL like <code>https://instagram.com/yourverylongusername</code> wastes 45+ characters. Use a short custom domain, a link-in-bio service, or clean markdown text: <code>[Instagram](https://yoururl.com)</code>.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <h3>4. Coordinate Banner, Avatar & Bio Palette</h3>
+        <p>
+          Match your Discord banner color and avatar theme with your bio's emoji palette (e.g., pairing a purple cyberpunk banner with neon emojis like 👾⚡💜).
+        </p>
+      </div>
+    </div>
+
+    <h2>Common Mistakes to Avoid in Discord Bios</h2>
+    <p>
+      Avoid these common formatting errors that diminish profile appeal:
+    </p>
+
+    <div class="callout-box warning">
+      <div class="callout-title">
+        <span>⚠️</span> Common Profile Pitfalls
+      </div>
+      <p style="margin: 0; font-size: 0.95rem;">
+        Avoid these formatting and design errors to ensure your bio displays cleanly across desktop, tablet, and mobile devices.
+      </p>
+    </div>
+
+    <ul>
+      <li><strong>Exceeding 190 Characters:</strong> Trying to paste text that is too long, resulting in Discord rejecting the save or cutting off crucial contact info.</li>
+      <li><strong>Using Unreadable 'Zalgo' or Cursive Fonts:</strong> Using third-party Unicode font generators (e.g., 𝓒𝓾𝓻𝓼𝓲𝓿𝓮) makes your bio illegible on Android devices and completely breaks accessibility for screen readers.</li>
+      <li><strong>Unclosed Markdown Formatting Tags:</strong> Forgetting to close bold or italic asterisks (e.g., typing <code>**Developer</code> without the closing <code>**</code>), leaving raw asterisks visible.</li>
+      <li><strong>Overfilling with Custom Server Emojis:</strong> If you leave the server where a custom emoji is hosted, the emoji breaks into a raw ID string like <code>&lt;:pepe:849201948291048&gt;</code>.</li>
+      <li><strong>Cluttering with Excessive Negative Warnings:</strong> Filling your entire bio with hostile warnings (e.g., <em>'Don't talk to me unless...'</em>) drives away potential friends and gaming partners.</li>
+    </ul>
+
+    <h2>How a Great Discord Bio Helps You Stand Out</h2>
+    <p>
+      A well-crafted Discord bio provides tangible social benefits:
     </p>
     <ol>
-      <li><strong>Keywords & Hobbies:</strong> Enter a few keywords, details, or hobbies that describe you.</li>
-      <li><strong>Tone Selection:</strong> Choose a tone style that fits your persona (Gaming, Cozy/Aesthetic, Cyberpunk/Tech, Witty, or Professional).</li>
-      <li><strong>Toggles:</strong> Check options to insert custom emoji layouts, sparkle designs, or social link place-markers.</li>
-      <li><strong>Generate List:</strong> Click <strong>Generate Bios</strong> to construct 5 custom bio variations.</li>
-      <li><strong>Mockup & Copy:</strong> Click any generated bio block to see it previewed in the Discord card mockup, and click the copy chip button to save it.</li>
+      <li><strong>Fast-Track Server Verification:</strong> Many gated gaming and professional communities require staff to review applicant profiles. A complete bio proves you are a genuine human, not a spam bot.</li>
+      <li><strong>Effortless Icebreakers:</strong> When community members click your profile, common interests (like shared games or favorite anime) give them an instant conversation starter.</li>
+      <li><strong>Inbound Freelance Leads:</strong> In developer and design servers, having a crisp bio showcasing your tech stack and portfolio link routinely generates organic client inquiries.</li>
     </ol>
-
-    <h3>What is Discord Bio</h3>
-    <p>
-      A <strong>discord bio</strong> (officially known as the "About Me" box) is a text space in your user profile card. It supports up to 190 characters of text, emojis, links, and markdown formatting. It lets you display details about who you are, what games you play, what servers you run, or where else people can find you online.
-    </p>
-
-    <h3>How Does It Work?</h3>
-    <p>
-      The generator merges your seed hobbies with pre-formatted structure scripts:
-    </p>
-    <ul>
-      <li><strong>Keyword Parsing:</strong> Cleans up your hobbies list and integrates them into natural, conversational phrases.</li>
-      <li><strong>Decoration Integration:</strong> Adds aesthetic borders, line separators, or emojis based on your selections.</li>
-      <li><strong>Character Cap Auditing:</strong> Cuts off sentences cleanly before they hit 190 characters to avoid browser saving crashes.</li>
-    </ul>
-
-    <h3>Example Calculation</h3>
-    <p>
-      Let's look at how a custom bio character budget is calculated:
-    </p>
-    <p>
-      <strong>Input Description:</strong> `"loves gaming, developer"`<br />
-      <strong>Tone:</strong> `"Gaming / Competitive"`<br />
-      <strong>Toggles:</strong> `"Include Emojis"`, `"Include Sparkles"`, `"Include Social Link Template"`
-    </p>
-    <p>
-      <strong>Bio Construction Process:</strong><br />
-      ✦ Base copy: `"*Loves gaming & developing*"` $\rightarrow$ <strong>26 characters</strong> (with markdown italics).<br />
-      ✦ Sparkle decorations: `"✧ ✦ ✧"` $\rightarrow$ <strong>5 characters</strong>.<br />
-      ✦ Emojis: `"🎮💻"` $\rightarrow$ <strong>4 characters</strong> (standard emojis count as 2 UTF-16 bytes).<br />
-      ✦ Social link: `"| links: cf.gg"` $\rightarrow$ <strong>15 characters</strong>.<br />
-      ✦ Combined output: `"✧ Loves gaming & developing ✧ 🎮💻 | links: cf.gg"` $\rightarrow$ <strong>50 characters</strong>.<br />
-      ✦ Compliance audit: `50 < 190 characters`.
-    </p>
-    <p>
-      This bio fits within Discord's 190-character limit with a remaining budget of 140 characters.
-    </p>
-
-    <h3>Features</h3>
-    <p>
-      This <strong>free discord bio generator</strong> offers several tools:
-    </p>
-    <ul>
-      <li><strong>Interactive Profile Preview Mockup:</strong> Review how your bio wraps, displays, and fits inside a dark-themed Discord card.</li>
-      <li><strong>Real-Time Character Count Safety:</strong> Every generated option is pre-audited to ensure it never exceeds the 190-character ceiling.</li>
-      <li><strong>Markdown Ready Formatting:</strong> Generates italic hooks and clean column dividers automatically.</li>
-      <li><strong>Pill-Shaped Tactile Copy Buttons:</strong> Instantly copy your favorite bio with a single click.</li>
-    </ul>
-
-    <h3>Who Should Use This Tool?</h3>
-    <p>
-      This generator is designed for:
-    </p>
-    <ul>
-      <li><strong>Esports Competitors:</strong> Listing roles (e.g. `Duelist main`), team names, and social links.</li>
-      <li><strong>Aesthetic Community Profiles:</strong> Writing soft, cozy bios with aesthetic emojis.</li>
-      <li><strong>Software Developers:</strong> Showing programming stacks (e.g. `Astro / TS`) and linking to GitHub repositories.</li>
-      <li><strong>Writers & Creatives:</strong> Creating witty, humorous bios to showcase personality.</li>
-    </ul>
   </div>
 </ToolLayout>
 
@@ -430,16 +696,151 @@ const faqs = [
     border-color: var(--color-brand);
   }
 
+  /* Step guide styling */
+  .step-guide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-item {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 1.35rem;
+    border-radius: var(--radius-md);
+  }
+
+  .step-item h3 {
+    margin-top: 0 !important;
+    font-size: 1.15rem;
+    color: var(--color-brand);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .step-item ul {
+    margin-bottom: 0 !important;
+    margin-left: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  /* Responsive Table Styling */
+  .table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1.5rem 0;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+  }
+
+  .content-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.92rem;
+    min-width: 520px;
+  }
+
+  .content-table th {
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    font-weight: 700;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .content-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .content-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .content-table tr:hover td {
+    background: rgba(99, 102, 241, 0.03);
+    color: var(--color-text);
+  }
+
+  /* Callout box styling */
+  .callout-box {
+    margin: 1.5rem 0;
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-brand);
+  }
+
+  .callout-box.tip {
+    border-left-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  .callout-box.warning {
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+  }
+
+  .callout-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .hidden {
     display: none !important;
   }
 
   /* Slotted editorial heading spacing fixes */
-  .editorial-content :global(h3) {
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    font-size: 1.25rem;
+  .editorial-content :global(h2) {
+    margin-top: 2.25rem;
+    margin-bottom: 0.85rem;
+    font-size: 1.55rem;
+    font-weight: 800;
     color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+
+  .editorial-content :global(h3) {
+    margin-top: 1.75rem;
+    margin-bottom: 0.65rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .editorial-content :global(p) {
+    color: var(--color-text-muted);
+    margin-bottom: 1.15rem;
+    line-height: 1.75;
+    font-size: 0.98rem;
+  }
+
+  .editorial-content :global(code) {
+    background: var(--color-bg-alt);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.88em;
+    border: 1px solid var(--color-border);
+    color: var(--color-brand);
   }
 
   /* Responsive Queries */
@@ -447,6 +848,15 @@ const faqs = [
     .calc-card {
       padding: 1.25rem !important;
       border-radius: 18px !important;
+    }
+
+    .content-table {
+      font-size: 0.85rem;
+    }
+
+    .content-table th, 
+    .content-table td {
+      padding: 0.7rem 0.75rem;
     }
   }
 

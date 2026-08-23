@@ -8,6 +8,7 @@ export const GET: APIRoute = async (context) => {
   const staticPages = [
     '',
     '/tools',
+    '/tools/tiktok-money-calculator',
     '/tools/instagram-engagement-calculator',
     '/tools/influencer-rate-calculator',
     '/tools/youtube-title-length-checker',
