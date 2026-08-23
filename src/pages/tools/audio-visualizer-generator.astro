@@ -1,0 +1,1670 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is an audio visualizer and how does it work?",
+    answer: "An audio visualizer is a digital animation tool that translates sound frequencies into dynamic visual waveforms, circular spectrum bars, or pulsing sound rings in real time. It allows musicians, podcasters, and creators to convert audio tracks (MP3/WAV) into engaging video clips for social media."
+  },
+  {
+    question: "How do I turn a podcast clip or song into an Instagram Reel or TikTok video?",
+    answer: "Upload your MP3 or WAV audio snippet to our Audio Visualizer Generator, select the '9:16 Vertical' aspect ratio, upload your podcast cover art or logo, pick a neon waveform color, and click 'Export Video'. The tool generates a ready-to-post video clip with moving sound waves."
+  },
+  {
+    question: "Which aspect ratio should I choose for my video visualizer?",
+    answer: "Choose 16:9 Landscape for YouTube and desktop videos, 9:16 Vertical for TikTok, Instagram Reels, and YouTube Shorts, or 1:1 Square for classic Instagram feed carousels, Twitter/X posts, and Facebook feeds."
+  },
+  {
+    question: "Is my audio file or artwork uploaded to any remote server?",
+    answer: "No. Our Audio Visualizer Generator runs 100% locally in your web browser using HTML5 Canvas, Web Audio API, and MediaRecorder. Your audio tracks, voice recordings, and images never leave your computer or phone."
+  },
+  {
+    question: "What audio and image formats are supported?",
+    answer: "You can upload MP3, WAV, M4A, AAC, and OGG audio files, and JPG, PNG, WebP, and SVG images for your center logo and custom background."
+  },
+  {
+    question: "How long does it take to render and download the visualizer video?",
+    answer: "Because rendering happens in real time directly inside your browser via hardware acceleration, exporting takes exactly the duration of your audio clip. Once playback finishes, your high-definition video is ready for instant download."
+  }
+];
+---
+
+<ToolLayout
+  title="Audio Visualizer Generator - Turn Audio into Video Online Free"
+  description="Free online Audio Visualizer Generator. Convert MP3 and WAV audio into dynamic video visualizers with custom artwork for YouTube, TikTok, and Instagram Reels."
+  toolName="Audio Visualizer Generator"
+  toolDescription="Turn audio files and music into animated video visualizers. Customize waveforms, add center artwork, and export web-ready videos directly in your browser."
+  category="Calculators"
+  faqs={faqs}
+>
+  <!-- Main Visualizer Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid Layout -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: Controls & Uploads -->
+      <div class="calc-form">
+        
+        <!-- Audio File Upload Box -->
+        <div class="form-group">
+          <label class="input-label">1. Upload Audio File (MP3 / WAV)</label>
+          <div class="dropzone-box" id="audio-dropzone">
+            <input type="file" id="audio-input" class="file-hidden-input" accept="audio/*, .mp3, .wav, .m4a, .ogg, .aac" />
+            
+            <div class="dropzone-idle" id="audio-idle">
+              <div class="dropzone-icon-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="dropzone-svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" />
+                </svg>
+              </div>
+              <strong class="dropzone-heading">Choose or drop audio file</strong>
+              <span class="dropzone-sub">MP3, WAV, M4A up to 50MB</span>
+            </div>
+
+            <!-- Loaded Audio Info Bar -->
+            <div class="loaded-bar" id="audio-loaded-bar" style="display: none;">
+              <div class="loaded-info">
+                <span class="loaded-title" id="audio-filename">audio.mp3</span>
+                <span class="loaded-meta" id="audio-filemeta">0:00 • 0.0 MB</span>
+              </div>
+              <button type="button" class="btn-change-file" id="btn-change-audio">Change</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Optional Center Logo / Artwork Upload -->
+        <div class="form-group">
+          <label class="input-label">2. Center Artwork / Logo (Optional)</label>
+          <div class="dropzone-box" id="logo-dropzone">
+            <input type="file" id="logo-input" class="file-hidden-input" accept="image/*, .png, .jpg, .jpeg, .webp, .svg" />
+            
+            <div class="dropzone-idle" id="logo-idle">
+              <div class="dropzone-icon-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="dropzone-svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                </svg>
+              </div>
+              <strong class="dropzone-heading">Upload cover art or avatar</strong>
+              <span class="dropzone-sub">Square image recommended (PNG, JPG)</span>
+            </div>
+
+            <!-- Loaded Logo Bar -->
+            <div class="loaded-bar" id="logo-loaded-bar" style="display: none;">
+              <img id="logo-thumb" class="loaded-thumb" alt="Center artwork thumbnail" />
+              <div class="loaded-info">
+                <span class="loaded-title" id="logo-filename">cover.png</span>
+                <span class="loaded-meta">Center Artwork Active</span>
+              </div>
+              <button type="button" class="btn-change-file btn-remove-logo" id="btn-remove-logo">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visualizer Settings Grid -->
+        <div class="settings-row-grid">
+          
+          <!-- Visualizer Style -->
+          <div class="form-group">
+            <label for="select-style" class="input-label">Visualizer Style</label>
+            <select id="select-style" class="calc-select">
+              <option value="circular" selected>Circular Spectrum Bars (Radial)</option>
+              <option value="linear">Linear Waveform Spectrum (Bottom)</option>
+              <option value="pulse">Glowing Radial Pulse (Ring)</option>
+            </select>
+          </div>
+
+          <!-- Aspect Ratio -->
+          <div class="form-group">
+            <label for="select-ratio" class="input-label">Video Aspect Ratio</label>
+            <select id="select-ratio" class="calc-select">
+              <option value="16-9" selected>16:9 Landscape (YouTube / Desktop)</option>
+              <option value="9-16">9:16 Vertical (TikTok / Reels / Shorts)</option>
+              <option value="1-1">1:1 Square (Instagram / Twitter)</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Color Customizer Grid -->
+        <div class="colors-row-grid">
+          
+          <!-- Visualizer Wave Color -->
+          <div class="form-group">
+            <label for="color-wave" class="input-label">Waveform Color</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="color-wave" class="calc-color-input" value="#6366f1" />
+              <div class="preset-colors">
+                <button type="button" class="color-dot" style="background: #6366f1;" data-color="#6366f1" title="Indigo"></button>
+                <button type="button" class="color-dot" style="background: #06b6d4;" data-color="#06b6d4" title="Cyan"></button>
+                <button type="button" class="color-dot" style="background: #f97316;" data-color="#f97316" title="Sunset Orange"></button>
+                <button type="button" class="color-dot" style="background: #10b981;" data-color="#10b981" title="Emerald Green"></button>
+                <button type="button" class="color-dot" style="background: #ec4899;" data-color="#ec4899" title="Neon Pink"></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Background Color -->
+          <div class="form-group">
+            <label for="color-bg" class="input-label">Background Color</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="color-bg" class="calc-color-input" value="#0f172a" />
+              <div class="preset-colors">
+                <button type="button" class="color-dot" style="background: #0f172a;" data-color="#0f172a" title="Dark Slate"></button>
+                <button type="button" class="color-dot" style="background: #000000;" data-color="#000000" title="Pure Black"></button>
+                <button type="button" class="color-dot" style="background: #1e1b4b;" data-color="#1e1b4b" title="Deep Indigo"></button>
+                <button type="button" class="color-dot" style="background: #18181b;" data-color="#18181b" title="Charcoal"></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Optional Text Overlays -->
+        <div class="settings-row-grid">
+          <div class="form-group">
+            <label for="input-title" class="input-label">Track Title (Optional)</label>
+            <input type="text" id="input-title" class="calc-text-input" placeholder="e.g. Episode 10: Creator Secrets" />
+          </div>
+
+          <div class="form-group">
+            <label for="input-artist" class="input-label">Artist / Host (Optional)</label>
+            <input type="text" id="input-artist" class="calc-text-input" placeholder="e.g. CreatorsFeel Podcast" />
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons-row">
+          <button type="button" id="btn-toggle-preview" class="calc-btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+            </svg>
+            <span id="txt-preview-btn">Play Preview</span>
+          </button>
+          
+          <button type="button" id="btn-export-video" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+            </svg>
+            Export Video (.webm)
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Live Visualizer Stage & Results -->
+      <div class="calc-results">
+        
+        <!-- Live Visualizer Canvas Stage Card -->
+        <div class="canvas-stage-card">
+          <div class="stage-header">
+            <span class="stage-title">Live Visualizer Preview</span>
+            <span class="stage-badge" id="canvas-aspect-badge">16:9 Landscape</span>
+          </div>
+
+          <div class="canvas-viewport" id="canvas-viewport">
+            <canvas id="visualizer-canvas" class="visualizer-canvas" width="1280" height="720"></canvas>
+            
+            <!-- Canvas Placeholder Hint before audio load -->
+            <div class="canvas-placeholder" id="canvas-placeholder">
+              <div class="placeholder-pulse-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="placeholder-svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" />
+                </svg>
+              </div>
+              <strong>Upload an audio track to preview visualizer</strong>
+              <p>Supports MP3, WAV, M4A with animated sound frequencies</p>
+            </div>
+          </div>
+
+          <audio id="audio-player" class="hidden-audio" playsinline></audio>
+        </div>
+
+        <!-- Export Recording Progress Card (Shown during recording) -->
+        <div class="progress-card" id="export-progress-card" style="display: none;">
+          <div class="progress-header">
+            <span class="progress-title" id="progress-status-text">🔴 Recording Visualizer Video...</span>
+            <span class="progress-pct" id="progress-pct-text">0%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+          <span class="progress-sub" id="progress-sub-text">Capturing audio and canvas frames in real time...</span>
+        </div>
+
+        <!-- Exported Video Result Card (Shown after export completes) -->
+        <div class="result-card" id="export-result-card" style="display: none;">
+          
+          <div class="verdict-banner success-verdict">
+            <span class="verdict-icon">🎬</span>
+            <div class="verdict-text-wrap">
+              <strong class="verdict-title">Visualizer Video Ready!</strong>
+              <span class="verdict-desc">Rendered with synchronized audio and high-definition canvas graphics.</span>
+            </div>
+          </div>
+
+          <!-- Video Preview Player -->
+          <div class="player-wrapper">
+            <video id="output-video-player" class="output-video-player" controls playsinline></video>
+          </div>
+
+          <!-- Download Action -->
+          <button type="button" id="btn-download-video" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+            Download Video (.webm)
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is an Audio Visualizer?</h2>
+      <p>
+        An <strong>Audio Visualizer</strong> is a dynamic multimedia tool that translates audio signals and sound frequencies into real-time visual motion graphics. By analyzing rhythmic bass pulses, mid-range vocals, and treble frequencies, an audio visualizer animates glowing waveforms, circular frequency spectrum bars, and pulsating rings synchronized with your music or podcast audio.
+      </p>
+      <p>
+        For digital creators, podcasters, independent musicians, and beatmakers, an <strong>audio to video generator</strong> solves a major distribution challenge: social media algorithms on YouTube, Instagram, TikTok, and Twitter prioritize video content while completely ignoring raw audio files. By converting audio into engaging visualizer videos, creators can distribute podcasts, audiobooks, songs, and voice clips across all major video platforms effortlessly.
+      </p>
+
+      <h2>How to Create an Audio Visualizer Video Online Step-by-Step</h2>
+      <ol>
+        <li><strong>Upload Your Audio Track:</strong> Select an MP3, WAV, or M4A audio file from your device. Our tool automatically inspects audio duration and prepares the frequency analyzer.</li>
+        <li><strong>Add Center Artwork or Logo:</strong> Upload your podcast cover art, album cover, brand logo, or avatar to anchor the center of the visualizer.</li>
+        <li><strong>Choose Visualizer Style & Aspect Ratio:</strong> Select between Circular Spectrum Bars, Linear Waveform Spectrum, or Glowing Radial Pulse. Pick 16:9 for YouTube, 9:16 for TikTok/Reels/Shorts, or 1:1 for Instagram feeds.</li>
+        <li><strong>Customize Colors & Title:</strong> Pick custom waveform and background colors, and optionally enter your Track Title and Artist name.</li>
+        <li><strong>Preview & Export:</strong> Click <strong>Play Preview</strong> to test the sound wave animations in real time. When ready, click <strong>Export Video (.webm)</strong> to record and download your video.</li>
+      </ol>
+
+      <h2>Choosing the Best Aspect Ratio: YouTube (16:9) vs TikTok/Reels (9:16) vs Instagram (1:1)</h2>
+      <p>
+        Formatting your video visualizer to match your target platform's native canvas ensures maximum engagement and prevents awkward black letterboxing bars:
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Aspect Ratio</th>
+              <th>Pixel Dimensions</th>
+              <th>Best Social Media Platforms</th>
+              <th>Recommended Content Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>16:9 Landscape</strong></td>
+              <td>1280 × 720 (HD)</td>
+              <td>YouTube, Facebook Watch, LinkedIn, Website Embeds</td>
+              <td>Full podcast episodes, lofi music streams, album streams</td>
+            </tr>
+            <tr>
+              <td><strong>9:16 Vertical</strong></td>
+              <td>720 × 1280 (HD)</td>
+              <td>TikTok, Instagram Reels, YouTube Shorts, Snapchat</td>
+              <td>Viral podcast snippets, 30-second beat previews, hooks</td>
+            </tr>
+            <tr>
+              <td><strong>1:1 Square</strong></td>
+              <td>720 × 720</td>
+              <td>Instagram Feed, Twitter / X, LinkedIn Carousel</td>
+              <td>Quote clips, voiceover previews, single track promos</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Podcasts, Music & Beats: How Creators Use Audiograms for Social Growth</h2>
+      <p>
+        Audio content alone does not get shared natively on social feeds. Turning audio into video visualizers (also known as <em>audiograms</em>) unlocks several proven growth advantages:
+      </p>
+      <ul>
+        <li><strong>Repurposing Long-Form Podcasts:</strong> Clip out the most dramatic 30-to-60-second moment of an interview, turn it into a 9:16 vertical visualizer with our tool, and use it as a teaser reel to drive full episode listens.</li>
+        <li><strong>Music Producer Beat Showcases:</strong> Beatmakers and instrumental producers use circular spectrum visualizers to showcase new instrumentals on YouTube and TikTok without needing expensive music video production.</li>
+        <li><strong>Voiceover & Audiobook Teasers:</strong> Voice actors and authors share snippets of new chapter releases with moving waveforms to build pre-launch anticipation.</li>
+      </ul>
+
+      <h2>How Browser-Based Web Audio Frequency Analysis Works (100% Private)</h2>
+      <p>
+        Traditional video renderers require uploading your heavy audio files to remote cloud render farms, waiting in long processing queues, and risking unreleased intellectual property.
+      </p>
+      <p>
+        Our <strong>free online audio visualizer</strong> operates 100% client-side inside your browser:
+      </p>
+      <p>
+        When you play audio, the Web Audio API creates an <code>AnalyserNode</code> that executes a Fast Fourier Transform (FFT) on your sound data at 60 frames per second. An HTML5 canvas reads these frequency bins in real time, animating dynamic bar heights and glowing gradients. When you click Export, the browser uses the native <code>MediaRecorder</code> API to capture canvas frames and audio streams directly into a clean, web-ready video container without a single byte leaving your device.
+      </p>
+
+      <h2>Design Tips for Creating Engaging Sound Waveforms and Cover Art</h2>
+      <ul>
+        <li><strong>Use High-Contrast Color Schemes:</strong> Pair a dark studio background (such as deep slate <code>#0f172a</code> or charcoal <code>#18181b</code>) with neon accent waveforms (electric cyan, vibrant indigo, or warm sunset orange) to make frequency bars pop.</li>
+        <li><strong>Choose High-Resolution Center Artwork:</strong> Use crisp 500×500px square cover art. Our visualizer automatically applies smooth circular masking and subtle drop shadows.</li>
+        <li><strong>Keep Text Short and Legible:</strong> Add a punchy episode title or track name that clearly communicates value to scrolling viewers.</li>
+      </ul>
+
+      <h2>Why Video Visualizers Outperform Static Images on Social Media</h2>
+      <p>
+        Static album artwork posted on video platforms quickly gets scrolled past. Social media algorithms are engineered to measure watch time and screen motion. Dynamic sound waveforms give viewers immediate visual confirmation that audio is actively playing, significantly increasing average view duration and click-through rates.
+      </p>
+
+      <h2>Best Practices for Optimizing Audiogram Audio and Video Quality</h2>
+      <p>
+        Combine your visualizer workflow with our creator suite to maximize video performance:
+      </p>
+      <ul>
+        <li>Create captivating podcast intro scripts with our <a href="/tools/podcast-intro-generator">Podcast Intro Generator</a>.</li>
+        <li>Hook viewers in the first 3 seconds using viral video hooks from our <a href="/tools/tiktok-hook-generator">TikTok Hook Generator</a>.</li>
+        <li>Verify thumbnail pixel sizing and social compliance with the <a href="/tools/youtube-thumbnail-size-checker">YouTube Thumbnail Size Checker</a>.</li>
+        <li>Trim audio and video segments with pinpoint precision using our <a href="/tools/online-video-trimmer">Online Video Trimmer</a>.</li>
+        <li>Compress finished video exports for ultra-fast web delivery using the <a href="/tools/video-compressor">Video Compressor</a>.</li>
+      </ul>
+
+      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/podcast-intro-generator" class="tool-link-card glass">
+          <div class="tool-link-title">Podcast Intro Generator</div>
+          <div class="tool-link-desc">Create catchy podcast intro voiceover scripts with sound cues and tone selectors.</div>
+        </a>
+        <a href="/tools/tiktok-hook-generator" class="tool-link-card glass">
+          <div class="tool-link-title">TikTok Hook Generator</div>
+          <div class="tool-link-desc">Generate high-retention opening hooks for short-form viral videos and reels.</div>
+        </a>
+        <a href="/tools/youtube-thumbnail-size-checker" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Thumbnail Size Checker</div>
+          <div class="tool-link-desc">Audit thumbnail resolution (1280x720), 16:9 ratio, and 2 MB file size limit.</div>
+        </a>
+        <a href="/tools/online-video-trimmer" class="tool-link-card glass">
+          <div class="tool-link-title">Online Video Trimmer</div>
+          <div class="tool-link-desc">Trim, cut, and clip video start and end points with 100% browser-side privacy.</div>
+        </a>
+        <a href="/tools/video-compressor" class="tool-link-card glass">
+          <div class="tool-link-title">Video Compressor</div>
+          <div class="tool-link-desc">Compress video files directly in your browser with zero quality loss.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.15fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Controls */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    width: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .input-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  /* Dropzone Boxes */
+  .dropzone-box {
+    min-height: 100px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-fast);
+    box-sizing: border-box;
+  }
+
+  .dropzone-box:hover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.04);
+  }
+
+  .file-hidden-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .dropzone-idle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .dropzone-icon-wrap {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dropzone-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .dropzone-heading {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .dropzone-sub {
+    font-size: 0.725rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Loaded File Bar */
+  .loaded-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    gap: 0.75rem;
+    box-sizing: border-box;
+  }
+
+  .loaded-thumb {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .loaded-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .loaded-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .loaded-meta {
+    font-size: 0.725rem;
+    color: var(--color-text-muted);
+  }
+
+  .btn-change-file {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-brand);
+    cursor: pointer;
+    z-index: 10;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-change-file:hover {
+    border-color: var(--color-brand);
+  }
+
+  .btn-remove-logo {
+    color: #ef4444;
+  }
+
+  .btn-remove-logo:hover {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+  }
+
+  /* Form Grids */
+  .settings-row-grid, .colors-row-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  @media (min-width: 600px) {
+    .settings-row-grid, .colors-row-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .calc-select, .calc-text-input {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .calc-select:focus, .calc-text-input:focus {
+    border-color: var(--color-brand);
+  }
+
+  /* Color Picker Controls */
+  .color-picker-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 0.35rem 0.5rem;
+    box-sizing: border-box;
+  }
+
+  .calc-color-input {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 4px;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .preset-colors {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex: 1;
+    overflow-x: auto;
+  }
+
+  .color-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    padding: 0;
+    transition: transform var(--transition-fast);
+  }
+
+  .color-dot:hover {
+    transform: scale(1.15);
+  }
+
+  /* Action Buttons */
+  .action-buttons-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+
+  @media (min-width: 600px) {
+    .action-buttons-row {
+      flex-direction: row;
+    }
+  }
+
+  .calc-btn-primary {
+    flex: 1.5;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .calc-btn-secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg);
+  }
+
+  .btn-svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  /* Right Column: Canvas Stage & Results */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    width: 100%;
+  }
+
+  .canvas-stage-card {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-sizing: border-box;
+  }
+
+  .stage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .stage-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .stage-badge {
+    font-size: 0.725rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Responsive Canvas Letterbox Viewport */
+  .canvas-viewport {
+    position: relative;
+    width: 100%;
+    background: #000000;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    transition: aspect-ratio 0.2s ease;
+  }
+
+  .canvas-viewport.ratio-9-16 {
+    aspect-ratio: 9 / 16;
+    max-height: 480px;
+    margin: 0 auto;
+  }
+
+  .canvas-viewport.ratio-1-1 {
+    aspect-ratio: 1 / 1;
+    max-height: 420px;
+    margin: 0 auto;
+  }
+
+  .visualizer-canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .canvas-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(15, 23, 42, 0.92);
+    padding: 1.5rem;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+  }
+
+  .placeholder-pulse-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .placeholder-svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .canvas-placeholder strong {
+    color: #ffffff;
+    font-size: 0.95rem;
+  }
+
+  .canvas-placeholder p {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  .hidden-audio {
+    display: none;
+  }
+
+  /* Progress Card */
+  .progress-card {
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .progress-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .progress-pct {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--color-brand);
+  }
+
+  .progress-bar-bg {
+    width: 100%;
+    height: 10px;
+    background: var(--color-bg);
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gradient-brand);
+    border-radius: 999px;
+    transition: width 0.15s ease-out;
+  }
+
+  .progress-sub {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Result Output Card */
+  .result-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.15rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+  }
+
+  .verdict-banner {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .verdict-icon {
+    font-size: 1.35rem;
+  }
+
+  .verdict-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .verdict-title {
+    font-size: 0.9rem;
+    color: var(--color-text);
+  }
+
+  .verdict-desc {
+    font-size: 0.775rem;
+    color: var(--color-text-muted);
+  }
+
+  .player-wrapper {
+    width: 100%;
+    max-height: 280px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: #000000;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .output-video-player {
+    max-width: 100%;
+    max-height: 280px;
+    outline: none;
+  }
+
+  /* Editorial Content Section */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2.75rem;
+    margin-bottom: 1.15rem;
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 800;
+    line-height: 1.3;
+    color: var(--color-text);
+  }
+
+  .editorial-section h2:first-of-type {
+    margin-top: 1rem;
+  }
+
+  .editorial-section h3 {
+    margin-top: 2.25rem;
+    margin-bottom: 0.85rem;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-text);
+  }
+
+  .editorial-section p {
+    margin-top: 0;
+    margin-bottom: 1.35rem;
+    color: var(--color-text);
+    line-height: 1.75;
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-top: 0.5rem;
+    margin-bottom: 1.6rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.65rem;
+    line-height: 1.65;
+  }
+
+  .editorial-section strong {
+    color: var(--color-text);
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.75rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Inputs & Elements
+    const audioInput = document.getElementById('audio-input') as HTMLInputElement | null;
+    const audioIdle = document.getElementById('audio-idle');
+    const audioLoadedBar = document.getElementById('audio-loaded-bar');
+    const audioFilename = document.getElementById('audio-filename');
+    const audioFilemeta = document.getElementById('audio-filemeta');
+    const btnChangeAudio = document.getElementById('btn-change-audio');
+
+    const logoInput = document.getElementById('logo-input') as HTMLInputElement | null;
+    const logoIdle = document.getElementById('logo-idle');
+    const logoLoadedBar = document.getElementById('logo-loaded-bar');
+    const logoFilename = document.getElementById('logo-filename');
+    const logoThumb = document.getElementById('logo-thumb') as HTMLImageElement | null;
+    const btnRemoveLogo = document.getElementById('btn-remove-logo');
+
+    const selectStyle = document.getElementById('select-style') as HTMLSelectElement | null;
+    const selectRatio = document.getElementById('select-ratio') as HTMLSelectElement | null;
+    const colorWave = document.getElementById('color-wave') as HTMLInputElement | null;
+    const colorBg = document.getElementById('color-bg') as HTMLInputElement | null;
+    const inputTitle = document.getElementById('input-title') as HTMLInputElement | null;
+    const inputArtist = document.getElementById('input-artist') as HTMLInputElement | null;
+
+    const btnTogglePreview = document.getElementById('btn-toggle-preview');
+    const txtPreviewBtn = document.getElementById('txt-preview-btn');
+    const btnExportVideo = document.getElementById('btn-export-video');
+
+    const canvasViewport = document.getElementById('canvas-viewport');
+    const canvas = document.getElementById('visualizer-canvas') as HTMLCanvasElement | null;
+    const canvasPlaceholder = document.getElementById('canvas-placeholder');
+    const canvasAspectBadge = document.getElementById('canvas-aspect-badge');
+    const audioPlayer = document.getElementById('audio-player') as HTMLAudioElement | null;
+
+    const exportProgressCard = document.getElementById('export-progress-card');
+    const progressStatusText = document.getElementById('progress-status-text');
+    const progressPctText = document.getElementById('progress-pct-text');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const progressSubText = document.getElementById('progress-sub-text');
+
+    const exportResultCard = document.getElementById('export-result-card');
+    const outputVideoPlayer = document.getElementById('output-video-player') as HTMLVideoElement | null;
+    const btnDownloadVideo = document.getElementById('btn-download-video');
+
+    if (!canvas || !audioPlayer) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // State Variables
+    let audioFile: File | null = null;
+    let audioSrcUrl: string | null = null;
+    let logoImage: HTMLImageElement | null = null;
+    let audioContext: AudioContext | null = null;
+    let analyserNode: AnalyserNode | null = null;
+    let audioSourceNode: MediaElementAudioSourceNode | null = null;
+    let isPreviewPlaying = false;
+    let isRecording = false;
+    let animFrameId: number | null = null;
+    let exportedBlobUrl: string | null = null;
+
+    let waveColor = '#6366f1';
+    let bgColor = '#0f172a';
+    let currentStyle = 'circular';
+    let currentRatio = '16-9';
+    let trackTitle = '';
+    let trackArtist = '';
+
+    // Color preset pill clicks
+    document.querySelectorAll<HTMLButtonElement>('.color-dot').forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const color = dot.getAttribute('data-color') || '#6366f1';
+        const parent = dot.closest('.form-group');
+        if (parent?.contains(colorWave) && colorWave) {
+          colorWave.value = color;
+          waveColor = color;
+        } else if (parent?.contains(colorBg) && colorBg) {
+          colorBg.value = color;
+          bgColor = color;
+        }
+        drawFrame();
+      });
+    });
+
+    if (colorWave) {
+      colorWave.addEventListener('input', () => {
+        waveColor = colorWave.value;
+        drawFrame();
+      });
+    }
+
+    if (colorBg) {
+      colorBg.addEventListener('input', () => {
+        bgColor = colorBg.value;
+        drawFrame();
+      });
+    }
+
+    if (inputTitle) {
+      inputTitle.addEventListener('input', () => {
+        trackTitle = inputTitle.value.trim();
+        drawFrame();
+      });
+    }
+
+    if (inputArtist) {
+      inputArtist.addEventListener('input', () => {
+        trackArtist = inputArtist.value.trim();
+        drawFrame();
+      });
+    }
+
+    if (selectStyle) {
+      selectStyle.addEventListener('change', () => {
+        currentStyle = selectStyle.value;
+        drawFrame();
+      });
+    }
+
+    // Aspect Ratio Changer
+    if (selectRatio && canvas && canvasViewport && canvasAspectBadge) {
+      selectRatio.addEventListener('change', () => {
+        currentRatio = selectRatio.value;
+        canvasViewport.classList.remove('ratio-9-16', 'ratio-1-1');
+
+        if (currentRatio === '9-16') {
+          canvas.width = 720;
+          canvas.height = 1280;
+          canvasViewport.classList.add('ratio-9-16');
+          canvasAspectBadge.textContent = '9:16 Vertical (TikTok/Reels)';
+        } else if (currentRatio === '1-1') {
+          canvas.width = 720;
+          canvas.height = 720;
+          canvasViewport.classList.add('ratio-1-1');
+          canvasAspectBadge.textContent = '1:1 Square (Instagram)';
+        } else {
+          canvas.width = 1280;
+          canvas.height = 720;
+          canvasAspectBadge.textContent = '16:9 Landscape (YouTube)';
+        }
+        drawFrame();
+      });
+    }
+
+    // Handle Audio File Selection
+    if (audioInput) {
+      audioInput.addEventListener('change', () => {
+        if (audioInput.files && audioInput.files.length > 0) {
+          loadAudioFile(audioInput.files[0]);
+        }
+      });
+    }
+
+    if (btnChangeAudio && audioInput) {
+      btnChangeAudio.addEventListener('click', (e) => {
+        e.stopPropagation();
+        audioInput.click();
+      });
+    }
+
+    function formatTime(seconds: number): string {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function loadAudioFile(file: File) {
+      if (!file || !file.type.startsWith('audio/')) {
+        alert('Please upload a valid audio file (MP3, WAV, M4A).');
+        return;
+      }
+
+      audioFile = file;
+      const mbSize = (file.size / (1024 * 1024)).toFixed(1);
+      if (audioFilename) audioFilename.textContent = file.name;
+
+      if (audioSrcUrl) URL.revokeObjectURL(audioSrcUrl);
+      audioSrcUrl = URL.createObjectURL(file);
+      audioPlayer.src = audioSrcUrl;
+
+      audioPlayer.onloadedmetadata = () => {
+        const dur = formatTime(audioPlayer.duration || 0);
+        if (audioFilemeta) audioFilemeta.textContent = `${dur} • ${mbSize} MB`;
+        if (audioIdle) audioIdle.style.display = 'none';
+        if (audioLoadedBar) audioLoadedBar.style.display = 'flex';
+        if (canvasPlaceholder) canvasPlaceholder.style.display = 'none';
+        drawFrame();
+      };
+    }
+
+    // Handle Logo Artwork Selection
+    if (logoInput) {
+      logoInput.addEventListener('change', () => {
+        if (logoInput.files && logoInput.files.length > 0) {
+          const file = logoInput.files[0];
+          const img = new Image();
+          img.src = URL.createObjectURL(file);
+          img.onload = () => {
+            logoImage = img;
+            if (logoThumb) logoThumb.src = img.src;
+            if (logoFilename) logoFilename.textContent = file.name;
+            if (logoIdle) logoIdle.style.display = 'none';
+            if (logoLoadedBar) logoLoadedBar.style.display = 'flex';
+            drawFrame();
+          };
+        }
+      });
+    }
+
+    if (btnRemoveLogo && logoInput) {
+      btnRemoveLogo.addEventListener('click', (e) => {
+        e.stopPropagation();
+        logoImage = null;
+        logoInput.value = '';
+        if (logoIdle) logoIdle.style.display = 'flex';
+        if (logoLoadedBar) logoLoadedBar.style.display = 'none';
+        drawFrame();
+      });
+    }
+
+    // Init Web Audio API
+    function initWebAudio() {
+      if (audioContext) return;
+      try {
+        audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        analyserNode = audioContext.createAnalyser();
+        analyserNode.fftSize = 256;
+        analyserNode.smoothingTimeConstant = 0.8;
+
+        audioSourceNode = audioContext.createMediaElementSource(audioPlayer);
+        audioSourceNode.connect(analyserNode);
+        analyserNode.connect(audioContext.destination);
+      } catch (e) {
+        console.warn('AudioContext init warning:', e);
+      }
+    }
+
+    // Render Canvas Frame
+    function drawFrame() {
+      if (!ctx || !canvas) return;
+      const w = canvas.width;
+      const h = canvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+
+      // 1. Draw Background
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, w, h);
+
+      // Subtle Radial Ambient Glow in background
+      const glowGrad = ctx.createRadialGradient(cx, cy, 10, cx, cy, Math.max(w, h) * 0.6);
+      glowGrad.addColorStop(0, waveColor + '25'); // 15% opacity
+      glowGrad.addColorStop(1, 'transparent');
+      ctx.fillStyle = glowGrad;
+      ctx.fillRect(0, 0, w, h);
+
+      // 2. Fetch Frequency Data
+      let freqArray = new Uint8Array(64);
+      if (analyserNode && !audioPlayer.paused) {
+        analyserNode.getByteFrequencyData(freqArray);
+      } else {
+        // Idle ambient data
+        for (let i = 0; i < 64; i++) {
+          freqArray[i] = 12 + Math.sin(i * 0.3) * 8;
+        }
+      }
+
+      // 3. Render Visualizer Style
+      if (currentStyle === 'circular') {
+        drawCircularVisualizer(ctx, cx, cy, freqArray);
+      } else if (currentStyle === 'linear') {
+        drawLinearVisualizer(ctx, w, h, freqArray);
+      } else if (currentStyle === 'pulse') {
+        drawPulseVisualizer(ctx, cx, cy, freqArray);
+      }
+
+      // 4. Draw Center Logo / Artwork
+      const logoRadius = Math.min(w, h) * 0.16;
+      if (logoImage && logoImage.complete) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(cx, cy, logoRadius, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(logoImage, cx - logoRadius, cy - logoRadius, logoRadius * 2, logoRadius * 2);
+        ctx.restore();
+
+        // Border around logo
+        ctx.beginPath();
+        ctx.arc(cx, cy, logoRadius, 0, Math.PI * 2);
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = waveColor;
+        ctx.shadowColor = waveColor;
+        ctx.shadowBlur = 12;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      } else if (currentStyle === 'circular' || currentStyle === 'pulse') {
+        // Default glowing core if no logo
+        ctx.beginPath();
+        ctx.arc(cx, cy, logoRadius * 0.7, 0, Math.PI * 2);
+        ctx.fillStyle = waveColor + '30';
+        ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = waveColor;
+        ctx.stroke();
+      }
+
+      // 5. Draw Track Title and Artist Text
+      if (trackTitle || trackArtist) {
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+        ctx.shadowBlur = 8;
+
+        if (trackTitle) {
+          ctx.font = `bold ${Math.round(h * 0.042)}px system-ui, sans-serif`;
+          ctx.fillStyle = '#ffffff';
+          const titleY = currentStyle === 'linear' ? h * 0.28 : h * 0.85;
+          ctx.fillText(trackTitle, cx, titleY);
+        }
+
+        if (trackArtist) {
+          ctx.font = `600 ${Math.round(h * 0.028)}px system-ui, sans-serif`;
+          ctx.fillStyle = '#94a3b8';
+          const artistY = currentStyle === 'linear' ? h * 0.34 : h * 0.90;
+          ctx.fillText(trackArtist, cx, artistY);
+        }
+        ctx.restore();
+      }
+    }
+
+    // Circular Spectrum Bars
+    function drawCircularVisualizer(ctx: CanvasRenderingContext2D, cx: number, cy: number, freqArray: Uint8Array) {
+      const radius = Math.min(cx, cy) * 0.38;
+      const barsCount = 64;
+      const angleStep = (Math.PI * 2) / barsCount;
+
+      ctx.save();
+      for (let i = 0; i < barsCount; i++) {
+        const value = freqArray[i % freqArray.length] || 10;
+        const barHeight = (value / 255) * (Math.min(cx, cy) * 0.45) + 4;
+        const angle = i * angleStep;
+
+        const x1 = cx + Math.cos(angle) * radius;
+        const y1 = cy + Math.sin(angle) * radius;
+        const x2 = cx + Math.cos(angle) * (radius + barHeight);
+        const y2 = cy + Math.sin(angle) * (radius + barHeight);
+
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineWidth = Math.max(3, (radius * Math.PI) / barsCount - 2);
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = waveColor;
+        ctx.shadowColor = waveColor;
+        ctx.shadowBlur = 8;
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // Linear Spectrum Bars (Bottom Anchored)
+    function drawLinearVisualizer(ctx: CanvasRenderingContext2D, w: number, h: number, freqArray: Uint8Array) {
+      const barsCount = 48;
+      const barWidth = (w * 0.85) / barsCount;
+      const startX = w * 0.075;
+      const baseY = h * 0.88;
+
+      ctx.save();
+      for (let i = 0; i < barsCount; i++) {
+        const value = freqArray[i % freqArray.length] || 10;
+        const barHeight = (value / 255) * (h * 0.45) + 4;
+        const x = startX + i * barWidth;
+
+        const barGrad = ctx.createLinearGradient(x, baseY, x, baseY - barHeight);
+        barGrad.addColorStop(0, waveColor);
+        barGrad.addColorStop(1, waveColor + 'cc');
+
+        ctx.fillStyle = barGrad;
+        ctx.shadowColor = waveColor;
+        ctx.shadowBlur = 6;
+        ctx.fillRect(x + 2, baseY - barHeight, barWidth - 4, barHeight);
+      }
+      ctx.restore();
+    }
+
+    // Glowing Radial Pulse (Ring)
+    function drawPulseVisualizer(ctx: CanvasRenderingContext2D, cx: number, cy: number, freqArray: Uint8Array) {
+      const baseRadius = Math.min(cx, cy) * 0.36;
+      let sum = 0;
+      for (let i = 0; i < freqArray.length; i++) sum += freqArray[i];
+      const avg = sum / freqArray.length;
+      const pulseRadius = baseRadius + (avg / 255) * 45;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, pulseRadius, 0, Math.PI * 2);
+      ctx.lineWidth = 6;
+      ctx.strokeStyle = waveColor;
+      ctx.shadowColor = waveColor;
+      ctx.shadowBlur = 24;
+      ctx.stroke();
+
+      // Outer delicate echo ring
+      ctx.beginPath();
+      ctx.arc(cx, cy, pulseRadius + 16, 0, Math.PI * 2);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = waveColor + '66';
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Animation Loop
+    function animateLoop() {
+      drawFrame();
+      if (isPreviewPlaying || isRecording) {
+        animFrameId = requestAnimationFrame(animateLoop);
+      }
+    }
+
+    // Preview Toggle
+    if (btnTogglePreview && txtPreviewBtn) {
+      btnTogglePreview.addEventListener('click', async () => {
+        if (!audioFile) {
+          alert('Please upload an audio file (MP3/WAV) first.');
+          return;
+        }
+
+        initWebAudio();
+        if (audioContext && audioContext.state === 'suspended') {
+          await audioContext.resume();
+        }
+
+        if (isPreviewPlaying) {
+          audioPlayer.pause();
+          isPreviewPlaying = false;
+          txtPreviewBtn.textContent = 'Play Preview';
+          if (animFrameId) cancelAnimationFrame(animFrameId);
+          drawFrame();
+        } else {
+          audioPlayer.play();
+          isPreviewPlaying = true;
+          txtPreviewBtn.textContent = 'Pause Preview';
+          animateLoop();
+        }
+      });
+
+      audioPlayer.addEventListener('ended', () => {
+        isPreviewPlaying = false;
+        txtPreviewBtn.textContent = 'Play Preview';
+        if (animFrameId) cancelAnimationFrame(animFrameId);
+        drawFrame();
+      });
+    }
+
+    // High-Performance Client-Side Video Export (MediaRecorder)
+    if (btnExportVideo) {
+      btnExportVideo.addEventListener('click', async () => {
+        if (!audioFile || !audioSrcUrl) {
+          alert('Please upload an audio file first before exporting video.');
+          return;
+        }
+
+        if (isRecording) return;
+        isRecording = true;
+
+        initWebAudio();
+        if (audioContext && audioContext.state === 'suspended') {
+          await audioContext.resume();
+        }
+
+        // Pause preview if playing
+        audioPlayer.pause();
+        isPreviewPlaying = false;
+        if (txtPreviewBtn) txtPreviewBtn.textContent = 'Play Preview';
+
+        if (exportResultCard) exportResultCard.style.display = 'none';
+        if (exportProgressCard) exportProgressCard.style.display = 'flex';
+        updateProgress(0, 'Preparing canvas stream & audio recorder...');
+
+        try {
+          // 1. Capture Canvas Stream
+          const stream = canvas.captureStream(30);
+
+          // 2. Add Audio Stream to Canvas Video Stream
+          if (audioContext && audioSourceNode) {
+            const dest = audioContext.createMediaStreamDestination();
+            audioSourceNode.connect(dest);
+            const audioTrack = dest.stream.getAudioTracks()[0];
+            if (audioTrack) {
+              stream.addTrack(audioTrack);
+            }
+          }
+
+          // 3. Determine MimeType
+          let mimeType = 'video/webm';
+          if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')) {
+            mimeType = 'video/webm;codecs=vp9,opus';
+          } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')) {
+            mimeType = 'video/webm;codecs=vp8,opus';
+          }
+
+          const recorder = new MediaRecorder(stream, {
+            mimeType,
+            videoBitsPerSecond: 3000000,
+            audioBitsPerSecond: 128000
+          });
+
+          const recordedChunks: Blob[] = [];
+          recorder.ondataavailable = (e) => {
+            if (e.data && e.data.size > 0) {
+              recordedChunks.push(e.data);
+            }
+          };
+
+          // Reset audio to start
+          audioPlayer.currentTime = 0;
+          recorder.start(100);
+          await audioPlayer.play();
+          animateLoop();
+
+          const totalDuration = audioPlayer.duration || 10;
+
+          // Progress tracker
+          const progressInterval = setInterval(() => {
+            if (!isRecording) {
+              clearInterval(progressInterval);
+              return;
+            }
+            const pct = Math.min(99, Math.round((audioPlayer.currentTime / totalDuration) * 100));
+            updateProgress(pct, `Recording visualizer video... (${pct}%)`);
+          }, 150);
+
+          // On Audio Finish
+          await new Promise((resolve) => {
+            audioPlayer.onended = () => {
+              clearInterval(progressInterval);
+              recorder.stop();
+              resolve(true);
+            };
+          });
+
+          // Wait for recorder to finalize
+          await new Promise((resolve) => {
+            recorder.onstop = resolve;
+          });
+
+          // Finalize Video Blob
+          const videoBlob = new Blob(recordedChunks, { type: mimeType });
+          if (exportedBlobUrl) URL.revokeObjectURL(exportedBlobUrl);
+          exportedBlobUrl = URL.createObjectURL(videoBlob);
+
+          if (outputVideoPlayer) {
+            outputVideoPlayer.src = exportedBlobUrl;
+          }
+
+          if (exportProgressCard) exportProgressCard.style.display = 'none';
+          if (exportResultCard) {
+            exportResultCard.style.display = 'flex';
+            if (window.innerWidth < 992) {
+              exportResultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+
+          isRecording = false;
+
+        } catch (err: any) {
+          isRecording = false;
+          alert(`Export Error: ${err.message || 'Unable to record visualizer video.'}`);
+          if (exportProgressCard) exportProgressCard.style.display = 'none';
+        }
+      });
+    }
+
+    function updateProgress(pct: number, msg: string) {
+      if (progressPctText) progressPctText.textContent = `${pct}%`;
+      if (progressBarFill) progressBarFill.style.width = `${pct}%`;
+      if (progressStatusText) progressStatusText.textContent = msg;
+    }
+
+    // Download Video Handler
+    if (btnDownloadVideo) {
+      btnDownloadVideo.addEventListener('click', () => {
+        if (!exportedBlobUrl) return;
+        const a = document.createElement('a');
+        a.href = exportedBlobUrl;
+        const name = audioFile ? audioFile.name.replace(/\.[^/.]+$/, "") : 'visualizer';
+        a.download = `${name}_visualizer.webm`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    }
+
+    // Initial canvas render
+    drawFrame();
+  });
+</script>

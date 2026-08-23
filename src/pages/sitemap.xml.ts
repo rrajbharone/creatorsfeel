@@ -31,6 +31,8 @@ export const GET: APIRoute = async (context) => {
     '/tools/youtube-tag-generator',
     '/tools/youtube-timestamp-generator',
     '/tools/youtube-rpm-calculator',
+    '/tools/video-frame-grabber',
+    '/tools/audio-visualizer-generator',
     '/tools/online-video-trimmer',
     '/tools/video-compressor',
     '/tools/image-dimensions-checker',

@@ -1,0 +1,1691 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const faqs = [
+  {
+    question: "What is a Video Frame Grabber and how does it work?",
+    answer: "A Video Frame Grabber is a browser-based tool that extracts exact, individual video frames and saves them as high-resolution still images (PNG or JPG). It uses HTML5 Canvas APIs to capture the full native sensor resolution of the video file (such as 4K 3840×2160 or 1080p 1920×1080) without the compression or display scaling loss of regular computer screenshots."
+  },
+  {
+    question: "Why should I use a frame grabber instead of taking a screenshot?",
+    answer: "Standard computer screenshots only capture your monitor's current display resolution and scale factor, often including player UI controls, black bars, and compression artifacts. Our Video Frame Grabber reads the raw video stream directly, delivering true uncompressed pixels at the exact native dimensions of the original video."
+  },
+  {
+    question: "How do I navigate frame-by-frame to find the perfect micro-moment?",
+    answer: "Use our micro-step frame buttons (-0.04s and +0.04s) to advance or rewind one frame at a time (standard 24fps/30fps interval). You can also use your keyboard's left and right arrow keys to jump through frames until you locate the exact blur-free moment."
+  },
+  {
+    question: "Which format should I choose: PNG or JPG?",
+    answer: "Choose PNG for maximum lossless clarity, sharp graphics, text overlays, and YouTube thumbnail creation in Photoshop. Choose JPG if you need smaller file sizes for quick social media sharing or email delivery."
+  },
+  {
+    question: "Is my video uploaded to any server or kept private?",
+    answer: "Your video is 100% private. All decoding, playback, and frame extraction occur entirely within your device's web browser using native client-side APIs. Not a single frame or byte is ever transmitted or stored on any external server."
+  },
+  {
+    question: "What video file formats are supported?",
+    answer: "Our tool supports all major browser-compatible video formats including MP4 (H.264 / AAC), WebM (VP8 / VP9), and MOV (QuickTime) files across desktop, tablet, and mobile devices."
+  },
+  {
+    question: "Can I extract 4K Ultra HD frames from my videos?",
+    answer: "Yes! If you upload a 4K UHD video (3840×2160), our frame grabber extracts crisp 8.3-megapixel still images at full 3840×2160 resolution regardless of whether you are viewing on a 1080p laptop or a mobile phone screen."
+  }
+];
+---
+
+<ToolLayout
+  title="Video Frame Grabber - Extract High-Res Images from Video Free"
+  description="Free online Video Frame Grabber. Extract full-resolution still images and photos from MP4, WebM, and MOV videos in PNG or JPG. 100% private, browser-based frame extractor."
+  toolName="Video Frame Grabber"
+  toolDescription="Extract crisp, high-resolution still photos and frames from your videos. Step frame-by-frame with micro-precision and download lossless PNG or JPG images instantly."
+  category="Calculators"
+  faqs={faqs}
+>
+  <!-- Main Frame Grabber Studio Interface -->
+  <div slot="calculator" class="calc-card glass">
+    
+    <!-- 2-Column Desktop Grid Layout -->
+    <div class="calc-grid">
+      
+      <!-- Left Column: Video Player & Extraction Controls -->
+      <div class="calc-form">
+        
+        <!-- Video Upload Dropzone -->
+        <div class="form-group" id="group-upload">
+          <label class="input-label">1. Upload Video File</label>
+          <div class="dropzone-box" id="video-dropzone">
+            <input type="file" id="video-input" class="file-hidden-input" accept="video/mp4, video/webm, video/quicktime, video/mov, .mp4, .webm, .mov" />
+            
+            <div class="dropzone-idle" id="video-idle">
+              <div class="dropzone-icon-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="dropzone-svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+                </svg>
+              </div>
+              <strong class="dropzone-heading">Choose or drop video file</strong>
+              <span class="dropzone-sub">MP4, WebM, MOV up to 500MB • 100% Client-Side</span>
+            </div>
+
+            <!-- Loaded Video Header Bar -->
+            <div class="loaded-bar" id="video-loaded-bar" style="display: none;">
+              <div class="loaded-info">
+                <span class="loaded-title" id="video-filename">video.mp4</span>
+                <span class="loaded-meta" id="video-filemeta">0:00 • 0.0 MB</span>
+              </div>
+              <button type="button" class="btn-change-file" id="btn-change-video">Change</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video Player Stage (Shown after video load) -->
+        <div class="player-stage-card" id="player-stage-card" style="display: none;">
+          
+          <!-- Native Video Element Container -->
+          <div class="video-container" id="video-container">
+            <video id="source-video" class="source-video" playsinline preload="auto"></video>
+            
+            <!-- Video Overlay Controls -->
+            <div class="video-overlay-badge" id="video-timecode-badge">00:00.000</div>
+          </div>
+
+          <!-- Custom Scrubbing & Timeline Controls -->
+          <div class="timeline-controls-wrap">
+            
+            <div class="timeline-row">
+              <input
+                type="range"
+                id="timeline-slider"
+                class="timeline-slider"
+                min="0"
+                max="100"
+                step="0.01"
+                value="0"
+              />
+            </div>
+
+            <div class="time-display-row">
+              <span class="time-current" id="time-current">00:00.000</span>
+              <span class="time-total" id="time-total">00:00.000</span>
+            </div>
+
+            <!-- Frame-by-Frame Stepping Toolbar -->
+            <div class="stepping-toolbar">
+              <button type="button" class="step-btn" id="btn-jump-back" title="Jump Backward 1s">
+                <span class="step-icon">⏮</span> −1s
+              </button>
+              
+              <button type="button" class="step-btn step-btn-micro" id="btn-step-back" title="Step Back 1 Frame (-0.04s)">
+                <span class="step-icon">◀</span> −1 Frame
+              </button>
+
+              <button type="button" class="step-btn step-btn-play" id="btn-play-pause" title="Play / Pause">
+                <span id="txt-play-pause">▶ Play</span>
+              </button>
+
+              <button type="button" class="step-btn step-btn-micro" id="btn-step-fwd" title="Step Forward 1 Frame (+0.04s)">
+                +1 Frame <span class="step-icon">▶</span>
+              </button>
+
+              <button type="button" class="step-btn" id="btn-jump-fwd" title="Jump Forward 1s">
+                +1s <span class="step-icon">⏭</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Format & Quality Settings -->
+        <div class="format-settings-grid" id="format-settings-grid" style="display: none;">
+          
+          <div class="form-group">
+            <label for="select-format" class="input-label">Image Output Format</label>
+            <select id="select-format" class="calc-select">
+              <option value="png" selected>PNG (Lossless Clarity - Best for Thumbnails)</option>
+              <option value="jpeg">JPG (Compressed - Smaller File Size)</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="group-jpg-quality" style="display: none;">
+            <div class="setting-label-row">
+              <label for="slider-quality" class="input-label">JPG Quality</label>
+              <span class="setting-val-badge" id="val-quality">92%</span>
+            </div>
+            <input type="range" id="slider-quality" class="calc-range" min="50" max="100" step="1" value="92" />
+          </div>
+
+        </div>
+
+        <!-- Capture Frame Action Button -->
+        <div class="capture-action-wrap" id="capture-action-wrap" style="display: none;">
+          <button type="button" id="btn-capture-frame" class="calc-btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+            </svg>
+            Capture Current Frame
+          </button>
+        </div>
+
+        <!-- Video Metadata Specs Badges -->
+        <div class="metrics-grid" id="video-metrics-grid" style="display: none;">
+          <div class="metric-card">
+            <span class="metric-value" id="spec-resolution">-- × --</span>
+            <span class="metric-label">Native Resolution</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value" id="spec-duration">0:00</span>
+            <span class="metric-label">Video Length</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value" id="spec-aspect">16:9</span>
+            <span class="metric-label">Aspect Ratio</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value" id="spec-fps">~30 FPS</span>
+            <span class="metric-label">Est. Frame Rate</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Latest Captured Frame & Gallery -->
+      <div class="calc-results">
+        
+        <!-- Empty Placeholder State (Before capture) -->
+        <div class="empty-state-card" id="empty-state-card">
+          <div class="empty-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="empty-svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+            </svg>
+          </div>
+          <strong class="empty-title">No Frames Captured Yet</strong>
+          <p class="empty-desc">Upload a video, pause or step to your desired frame, and click "Capture Current Frame" to extract high-resolution stills.</p>
+        </div>
+
+        <!-- Latest Captured Frame Card (Shown after capture) -->
+        <div class="latest-frame-card" id="latest-frame-card" style="display: none;">
+          
+          <div class="frame-card-header">
+            <div class="frame-title-wrap">
+              <span class="frame-badge-success">Latest Frame Grabbed</span>
+              <span class="frame-timecode-tag" id="latest-timecode">00:00.000</span>
+            </div>
+            <span class="frame-res-tag" id="latest-res">1920 × 1080</span>
+          </div>
+
+          <!-- Frame Preview Image -->
+          <div class="frame-img-preview-wrap">
+            <img id="latest-frame-img" class="latest-frame-img" alt="Captured video frame preview" />
+          </div>
+
+          <!-- Download Action Button -->
+          <div class="frame-download-row">
+            <a id="btn-download-latest" class="calc-btn-primary download-link" download="frame.png">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+              Download Full-Res Still
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Captured Frames Gallery Strip -->
+        <div class="gallery-card" id="gallery-card" style="display: none;">
+          
+          <div class="gallery-header">
+            <div class="gallery-title-wrap">
+              <span class="gallery-title">Captured Gallery</span>
+              <span class="gallery-count-badge" id="gallery-count">0 frames</span>
+            </div>
+            <div class="gallery-header-actions">
+              <button type="button" class="btn-download-all" id="btn-download-all" title="Download all captured frames">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-mini-svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+                Download All
+              </button>
+              <button type="button" class="btn-clear-gallery" id="btn-clear-gallery" title="Clear all frames">Clear All</button>
+            </div>
+          </div>
+
+          <div class="gallery-grid" id="gallery-grid">
+            <!-- Captured frame thumbnail cards rendered dynamically -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Hidden Offscreen Canvas for True Native Extraction -->
+    <canvas id="offscreen-canvas" style="display: none;"></canvas>
+
+  </div>
+
+  <!-- Editorial & SEO Content Slot -->
+  <div slot="about" class="editorial-content">
+    <section class="editorial-section">
+      
+      <h2>What Is a Video Frame Grabber?</h2>
+      <p>
+        A <strong>Video Frame Grabber</strong> (also called a video to image extractor or frame capture tool) is a specialized application that extracts individual photographic still images from a video stream with pixel-for-pixel accuracy. Rather than relying on approximate screen captures, a frame grabber decodes the video's internal frame timeline, allowing creators to isolate a single 1/30th or 1/60th of a second micro-moment and save it as an uncompressed, full-resolution image file.
+      </p>
+      <p>
+        Whether you are designing a high-CTR YouTube thumbnail, pulling color grading reference stills for a film project, extracting sports biomechanics data, or creating social media photo posts from 4K drone footage, our <strong>free online video frame grabber</strong> delivers instant, lossless image extraction directly inside your web browser.
+      </p>
+
+      <h2>How to Extract High-Resolution Stills from Any Video Step-by-Step</h2>
+      <ol>
+        <li><strong>Upload Your Video:</strong> Drag and drop your MP4, WebM, or MOV video file into the dropzone above. The video loads instantly with 100% browser-side privacy.</li>
+        <li><strong>Scrub to the Approximate Moment:</strong> Use the interactive timeline slider to scrub forward to the scene you want to capture.</li>
+        <li><strong>Use Micro-Step Navigation:</strong> Click the <strong>-1 Frame (-0.04s)</strong> or <strong>+1 Frame (+0.04s)</strong> buttons (or use keyboard arrow keys) to step through individual frames until you find a moment free of unwanted motion blur.</li>
+        <li><strong>Select Output Format:</strong> Choose <strong>PNG</strong> for lossless pixel fidelity (recommended for YouTube thumbnails) or <strong>JPG</strong> for smaller file sizes.</li>
+        <li><strong>Click Capture Current Frame:</strong> Extract the frame instantly at original video resolution (e.g. 1080p, 1440p, or 4K UHD).</li>
+        <li><strong>Download Your Still:</strong> Click <strong>Download Full-Res Still</strong> or grab multiple frames from the built-in gallery strip below.</li>
+      </ol>
+
+      <h2>Top Use Cases for Content Creators & Filmmakers</h2>
+
+      <h3>1. High-CTR YouTube Thumbnail Creation</h3>
+      <p>
+        YouTube thumbnails determine over 80% of a viewer's decision to click on your video. Rather than staging a separate photoshoot with different lighting and wardrobe, top creators scrub through their 4K recording to pull authentic, high-emotion facial expressions and dynamic action shots to use as thumbnail backgrounds.
+      </p>
+
+      <h3>2. Film Editing & Color Grading Reference Stills</h3>
+      <p>
+        Directors of photography (DPs) and colorists regularly extract uncompressed stills from raw footage to create look-books, client approval sheets, and lighting continuity logs across multiple shooting days.
+      </p>
+
+      <h3>3. Social Media Carousel & Photo Posts</h3>
+      <p>
+        Repurposing video into photo carousels on Instagram, LinkedIn, Pinterest, and Twitter/X is one of the fastest ways to scale social reach. A single 10-minute video can yield 15 to 20 high-quality photographic stills suitable for multi-platform distribution.
+      </p>
+
+      <h3>4. Sports Coaching, Motion Analysis & Proof Extraction</h3>
+      <p>
+        Athletes, golf coaches, and fitness creators use frame-by-frame extraction to analyze swing mechanics, running form, and weightlifting bar paths at specific millisecond intervals.
+      </p>
+
+      <h2>Why Canvas Frame Grabbing Outperforms Standard OS Screenshots</h2>
+      <p>
+        Many creators attempt to capture video stills by pausing a media player and pressing <code>Print Screen</code> or <code>Cmd + Shift + 4</code>. Here is why native canvas frame extraction is fundamentally superior:
+      </p>
+      <div class="table-responsive">
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Standard OS Screenshot</th>
+              <th>CreatorsFeel Frame Grabber</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Captured Resolution</strong></td>
+              <td>Limited to your monitor's display scaling (often 720p or downscaled)</td>
+              <td><strong>True 100% Native Video Resolution (1080p, 4K UHD, 8K)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Interface Artifacts</strong></td>
+              <td>Captures player scrubbers, timestamps, mouse cursor, and play buttons</td>
+              <td><strong>Zero UI Overlays — 100% Clean Video Stream</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Color Accuracy</strong></td>
+              <td>Subject to monitor ICC color profiles and operating system display tone-mapping</td>
+              <td><strong>Lossless RGB / sRGB Video Buffer Extraction</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Aspect Ratio Distortion</strong></td>
+              <td>Captures black letterbox/pillarbox bars</td>
+              <td><strong>Extracts exact video dimensions with no padding</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Precision Navigation</strong></td>
+              <td>Difficult to pause on exact millisecond</td>
+              <td><strong>Precision ±0.04s Frame-by-Frame Navigation</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Best Practices for Crisp, Blur-Free Video Stills</h2>
+      <ul>
+        <li><strong>Understand Shutter Speed vs Motion Blur:</strong> Videos shot with a standard 180-degree shutter rule (e.g. 1/50s at 24fps) have natural motion blur on fast-moving subjects. Step backward 2 to 3 frames to find moments where the subject's head or hands momentarily pause between motions.</li>
+        <li><strong>Shoot at Higher Frame Rates for Action:</strong> If you plan to extract stills from sports or fast vlogs, record in 60fps or 120fps with a fast shutter speed (1/250s or higher) to ensure razor-sharp freeze frames.</li>
+        <li><strong>Always Select PNG for Graphics & Editing:</strong> PNG uses lossless DEFLATE compression, preserving subtle skin tones and edge sharpness needed for Photoshop masking and cutout tools.</li>
+      </ul>
+
+      <h2>Zero Server Uploads: 100% Client-Side Privacy and Speed</h2>
+      <p>
+        Unlike cloud-based conversion websites that require you to upload hundreds of megabytes over slow internet connections and store your private footage on third-party servers, our <strong>Video Frame Grabber</strong> processes everything locally in memory.
+      </p>
+      <p>
+        The tool uses hardware-accelerated HTML5 video decoding to render frames directly onto an offscreen HTML5 <code>&lt;canvas&gt;</code> element, converting the raw canvas buffer into a high-speed data blob. Your videos never leave your computer, laptop, tablet, or smartphone.
+      </p>
+
+      <h2>Complementary Creator Tools on CreatorsFeel</h2>
+      <p>
+        Streamline your entire post-production and publishing workflow with our suite of free creator tools:
+      </p>
+      <ul>
+        <li>Check thumbnail resolution and file compliance with the <a href="/tools/youtube-thumbnail-size-checker">YouTube Thumbnail Size Checker</a>.</li>
+        <li>Cut and trim video start and end points using the <a href="/tools/online-video-trimmer">Online Video Trimmer</a>.</li>
+        <li>Reduce large video file sizes without losing quality with our <a href="/tools/video-compressor">Video Compressor</a>.</li>
+        <li>Inspect image dimensions and aspect ratios with the <a href="/tools/image-dimensions-checker">Image Dimensions Checker</a>.</li>
+        <li>Convert audio clips and music into dynamic waveforms using the <a href="/tools/audio-visualizer-generator">Audio Visualizer Generator</a>.</li>
+      </ul>
+
+      <h2>Explore More Free Creator Tools</h2>
+      <div class="internal-links-grid">
+        <a href="/tools/youtube-thumbnail-size-checker" class="tool-link-card glass">
+          <div class="tool-link-title">YouTube Thumbnail Size Checker</div>
+          <div class="tool-link-desc">Verify 1280x720 resolution, 16:9 aspect ratio, and 2MB file size limits for thumbnails.</div>
+        </a>
+        <a href="/tools/online-video-trimmer" class="tool-link-card glass">
+          <div class="tool-link-title">Online Video Trimmer</div>
+          <div class="tool-link-desc">Cut, trim, and clip MP4, WebM, and MOV video clips directly in your browser.</div>
+        </a>
+        <a href="/tools/video-compressor" class="tool-link-card glass">
+          <div class="tool-link-title">Video Compressor</div>
+          <div class="tool-link-desc">Compress video files for Discord, email, and social media with 100% privacy.</div>
+        </a>
+        <a href="/tools/image-dimensions-checker" class="tool-link-card glass">
+          <div class="tool-link-title">Image Dimensions Checker</div>
+          <div class="tool-link-desc">Audit width, height, resolution, and aspect ratio for any image or screenshot.</div>
+        </a>
+        <a href="/tools/audio-visualizer-generator" class="tool-link-card glass">
+          <div class="tool-link-title">Audio Visualizer Generator</div>
+          <div class="tool-link-desc">Convert MP3 music and podcast audio into animated video waveforms and audiograms.</div>
+        </a>
+      </div>
+
+    </section>
+  </div>
+</ToolLayout>
+
+<style>
+  /* Base Card Container */
+  .calc-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .calc-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.05fr);
+      align-items: start;
+    }
+  }
+
+  /* Left Form & Controls */
+  .calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    width: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .input-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  /* Dropzone Boxes */
+  .dropzone-box {
+    min-height: 110px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-fast);
+    box-sizing: border-box;
+  }
+
+  .dropzone-box:hover {
+    border-color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.04);
+  }
+
+  .file-hidden-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .dropzone-idle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .dropzone-icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dropzone-svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .dropzone-heading {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .dropzone-sub {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Loaded File Bar */
+  .loaded-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    gap: 0.75rem;
+    box-sizing: border-box;
+  }
+
+  .loaded-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .loaded-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .loaded-meta {
+    font-size: 0.725rem;
+    color: var(--color-text-muted);
+  }
+
+  .btn-change-file {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-alt);
+    color: var(--color-brand);
+    cursor: pointer;
+    z-index: 10;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-change-file:hover {
+    border-color: var(--color-brand);
+  }
+
+  /* Player Stage Card */
+  .player-stage-card {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-sizing: border-box;
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    background: #000000;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 380px;
+  }
+
+  .source-video {
+    width: 100%;
+    max-height: 380px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .video-overlay-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-family: monospace;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    pointer-events: none;
+  }
+
+  /* Timeline & Stepping Controls */
+  .timeline-controls-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .timeline-row {
+    width: 100%;
+  }
+
+  .timeline-slider {
+    width: 100%;
+    accent-color: var(--color-brand);
+    cursor: pointer;
+  }
+
+  .time-display-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    font-family: monospace;
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+
+  .stepping-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    padding-top: 0.25rem;
+  }
+
+  .step-btn {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.775rem;
+    font-weight: 700;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: all var(--transition-fast);
+  }
+
+  .step-btn:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  .step-btn-micro {
+    background: var(--color-bg-alt);
+  }
+
+  .step-btn-play {
+    background: var(--gradient-brand);
+    color: #ffffff;
+    border: none;
+    padding: 0.4rem 0.9rem;
+  }
+
+  .step-btn-play:hover {
+    color: #ffffff;
+    opacity: 0.95;
+  }
+
+  .step-icon {
+    font-size: 0.75rem;
+  }
+
+  /* Format Grid */
+  .format-settings-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  @media (min-width: 600px) {
+    .format-settings-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .calc-select {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .calc-select:focus {
+    border-color: var(--color-brand);
+  }
+
+  .setting-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .setting-val-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-brand);
+  }
+
+  .calc-range {
+    width: 100%;
+    accent-color: var(--color-brand);
+    cursor: pointer;
+  }
+
+  /* Capture Button */
+  .capture-action-wrap {
+    width: 100%;
+  }
+
+  .calc-btn-primary {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+
+  .calc-btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .btn-svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  /* Video Specs Metrics Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+  }
+
+  .metric-card {
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.15rem;
+  }
+
+  .metric-value {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--color-brand);
+    font-family: var(--font-heading);
+    line-height: 1.1;
+  }
+
+  .metric-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  /* Right Column: Empty State & Frames */
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    width: 100%;
+  }
+
+  .empty-state-card {
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    color: var(--color-text-muted);
+  }
+
+  .empty-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .empty-title {
+    font-size: 1rem;
+    color: var(--color-text);
+  }
+
+  .empty-desc {
+    font-size: 0.825rem;
+    max-width: 300px;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Latest Frame Card */
+  .latest-frame-card {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-sizing: border-box;
+  }
+
+  .frame-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .frame-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .frame-badge-success {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .frame-timecode-tag {
+    font-size: 0.75rem;
+    font-family: monospace;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .frame-res-tag {
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .frame-img-preview-wrap {
+    width: 100%;
+    background: #000000;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 320px;
+  }
+
+  .latest-frame-img {
+    max-width: 100%;
+    max-height: 320px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .frame-download-row {
+    width: 100%;
+  }
+
+  /* Gallery Card */
+  .gallery-card {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    padding: 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    box-sizing: border-box;
+  }
+
+  .gallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .gallery-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .gallery-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .gallery-count-badge {
+    font-size: 0.725rem;
+    font-weight: 700;
+    color: var(--color-brand);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .gallery-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-download-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.775rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--gradient-brand);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 6px rgba(99, 102, 241, 0.2);
+  }
+
+  .btn-download-all:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+  }
+
+  .btn-mini-svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .btn-clear-gallery {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    padding: 0.3rem 0.6rem;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-clear-gallery:hover {
+    color: #ef4444;
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.06);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: 0.35rem;
+  }
+
+  @media (min-width: 600px) {
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Dynamically Rendered Gallery Items (Global Scope for client-side JS) */
+  :global(.gallery-item-card) {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  :global(.gallery-item-card:hover) {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  :global(.gallery-thumb-wrap) {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000000;
+    overflow: hidden;
+  }
+
+  :global(.gallery-thumb-img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.2s ease;
+  }
+
+  :global(.gallery-item-card:hover .gallery-thumb-img) {
+    transform: scale(1.03);
+  }
+
+  :global(.gallery-format-badge) {
+    position: absolute;
+    top: 0.35rem;
+    left: 0.35rem;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  :global(.gallery-item-meta) {
+    padding: 0.5rem 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.35rem;
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+  }
+
+  :global(.gallery-timecode) {
+    font-size: 0.725rem;
+    font-family: monospace;
+    font-weight: 700;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global(.gallery-actions) {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  :global(.gallery-btn-action) {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all var(--transition-fast);
+    box-sizing: border-box;
+  }
+
+  :global(.action-svg) {
+    width: 14px !important;
+    height: 14px !important;
+    max-width: 14px !important;
+    max-height: 14px !important;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  :global(.gallery-btn-download) {
+    color: var(--color-brand);
+  }
+
+  :global(.gallery-btn-download:hover) {
+    background: var(--color-brand);
+    color: #ffffff;
+    border-color: var(--color-brand);
+    transform: scale(1.08);
+  }
+
+  :global(.gallery-btn-del) {
+    color: var(--color-text-muted);
+  }
+
+  :global(.gallery-btn-del:hover) {
+    color: #ef4444;
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+    transform: scale(1.08);
+  }
+
+  /* Editorial Content Section */
+  .editorial-section {
+    padding-top: 1.5rem;
+  }
+
+  .editorial-section h2 {
+    margin-top: 2.75rem;
+    margin-bottom: 1.15rem;
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 800;
+    line-height: 1.3;
+    color: var(--color-text);
+  }
+
+  .editorial-section h2:first-of-type {
+    margin-top: 1rem;
+  }
+
+  .editorial-section h3 {
+    margin-top: 2.25rem;
+    margin-bottom: 0.85rem;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-text);
+  }
+
+  .editorial-section p {
+    margin-top: 0;
+    margin-bottom: 1.35rem;
+    color: var(--color-text);
+    line-height: 1.75;
+  }
+
+  .editorial-section ul, .editorial-section ol {
+    margin-top: 0.5rem;
+    margin-bottom: 1.6rem;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-section li {
+    margin-bottom: 0.65rem;
+    line-height: 1.65;
+  }
+
+  .editorial-section strong {
+    color: var(--color-text);
+  }
+
+  .editorial-section code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    margin: 1.75rem 0;
+  }
+
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .editorial-table th, .editorial-table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .editorial-table th {
+    background: var(--color-bg-alt);
+    font-weight: 700;
+  }
+
+  .editorial-table tr:nth-child(even) {
+    background: var(--color-bg-alt);
+  }
+
+  .internal-links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .internal-links-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-link-card {
+    display: block;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tool-link-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand);
+  }
+
+  .tool-link-title {
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: 0.35rem;
+  }
+
+  .tool-link-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // DOM Elements
+    const videoInput = document.getElementById('video-input') as HTMLInputElement | null;
+    const videoIdle = document.getElementById('video-idle');
+    const videoLoadedBar = document.getElementById('video-loaded-bar');
+    const videoFilename = document.getElementById('video-filename');
+    const videoFilemeta = document.getElementById('video-filemeta');
+    const btnChangeVideo = document.getElementById('btn-change-video');
+
+    const playerStageCard = document.getElementById('player-stage-card');
+    const sourceVideo = document.getElementById('source-video') as HTMLVideoElement | null;
+    const videoTimecodeBadge = document.getElementById('video-timecode-badge');
+    const timelineSlider = document.getElementById('timeline-slider') as HTMLInputElement | null;
+    const timeCurrent = document.getElementById('time-current');
+    const timeTotal = document.getElementById('time-total');
+
+    const btnJumpBack = document.getElementById('btn-jump-back');
+    const btnStepBack = document.getElementById('btn-step-back');
+    const btnPlayPause = document.getElementById('btn-play-pause');
+    const txtPlayPause = document.getElementById('txt-play-pause');
+    const btnStepFwd = document.getElementById('btn-step-fwd');
+    const btnJumpFwd = document.getElementById('btn-jump-fwd');
+
+    const formatSettingsGrid = document.getElementById('format-settings-grid');
+    const selectFormat = document.getElementById('select-format') as HTMLSelectElement | null;
+    const groupJpgQuality = document.getElementById('group-jpg-quality');
+    const sliderQuality = document.getElementById('slider-quality') as HTMLInputElement | null;
+    const valQuality = document.getElementById('val-quality');
+
+    const captureActionWrap = document.getElementById('capture-action-wrap');
+    const btnCaptureFrame = document.getElementById('btn-capture-frame');
+
+    const videoMetricsGrid = document.getElementById('video-metrics-grid');
+    const specResolution = document.getElementById('spec-resolution');
+    const specDuration = document.getElementById('spec-duration');
+    const specAspect = document.getElementById('spec-aspect');
+    const specFps = document.getElementById('spec-fps');
+
+    const emptyStateCard = document.getElementById('empty-state-card');
+    const latestFrameCard = document.getElementById('latest-frame-card');
+    const latestTimecode = document.getElementById('latest-timecode');
+    const latestRes = document.getElementById('latest-res');
+    const latestFrameImg = document.getElementById('latest-frame-img') as HTMLImageElement | null;
+    const btnDownloadLatest = document.getElementById('btn-download-latest') as HTMLAnchorElement | null;
+
+    const galleryCard = document.getElementById('gallery-card');
+    const galleryCount = document.getElementById('gallery-count');
+    const galleryGrid = document.getElementById('gallery-grid');
+    const btnClearGallery = document.getElementById('btn-clear-gallery');
+
+    const offscreenCanvas = document.getElementById('offscreen-canvas') as HTMLCanvasElement | null;
+
+    if (!sourceVideo || !offscreenCanvas) return;
+    const ctx = offscreenCanvas.getContext('2d');
+
+    // State Variables
+    let videoFile: File | null = null;
+    let videoSrcUrl: string | null = null;
+    let isSeeking = false;
+    const capturedFrames: Array<{ id: string; time: number; timeStr: string; dataUrl: string; format: string; res: string }> = [];
+
+    // Format millisecond time string (HH:MM:SS.mmm or MM:SS.mmm)
+    function formatTimecode(seconds: number): string {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      const ms = Math.floor((seconds % 1) * 1000);
+      return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(3, '0')}`;
+    }
+
+    // Greatest Common Divisor for Aspect Ratio
+    function gcd(a: number, b: number): number {
+      return b === 0 ? a : gcd(b, a % b);
+    }
+
+    function getAspectRatio(w: number, h: number): string {
+      if (!w || !h) return '16:9';
+      const d = gcd(w, h);
+      const rw = w / d;
+      const rh = h / d;
+      if (rw === 16 && rh === 9) return '16:9 Landscape';
+      if (rw === 9 && rh === 16) return '9:16 Vertical';
+      if (rw === 1 && rh === 1) return '1:1 Square';
+      if (rw === 4 && rh === 3) return '4:3 Standard';
+      return `${rw}:${rh}`;
+    }
+
+    // Video Upload Handler
+    if (videoInput) {
+      videoInput.addEventListener('change', () => {
+        if (videoInput.files && videoInput.files.length > 0) {
+          loadVideoFile(videoInput.files[0]);
+        }
+      });
+    }
+
+    if (btnChangeVideo && videoInput) {
+      btnChangeVideo.addEventListener('click', (e) => {
+        e.stopPropagation();
+        videoInput.click();
+      });
+    }
+
+    function loadVideoFile(file: File) {
+      if (!file || !file.type.startsWith('video/')) {
+        alert('Please select a valid video file (MP4, WebM, MOV).');
+        return;
+      }
+
+      videoFile = file;
+      const mbSize = (file.size / (1024 * 1024)).toFixed(1);
+      if (videoFilename) videoFilename.textContent = file.name;
+
+      if (videoSrcUrl) URL.revokeObjectURL(videoSrcUrl);
+      videoSrcUrl = URL.createObjectURL(file);
+      sourceVideo.src = videoSrcUrl;
+
+      sourceVideo.onloadedmetadata = () => {
+        const dur = sourceVideo.duration || 0;
+        const width = sourceVideo.videoWidth || 1920;
+        const height = sourceVideo.videoHeight || 1080;
+
+        if (videoFilemeta) videoFilemeta.textContent = `${formatTimecode(dur).split('.')[0]} • ${mbSize} MB`;
+        if (timeTotal) timeTotal.textContent = formatTimecode(dur);
+        if (timelineSlider) {
+          timelineSlider.max = dur.toString();
+          timelineSlider.value = '0';
+        }
+
+        // Populate Metadata Specs
+        if (specResolution) specResolution.textContent = `${width} × ${height}`;
+        if (specDuration) specDuration.textContent = formatTimecode(dur).split('.')[0];
+        if (specAspect) specAspect.textContent = getAspectRatio(width, height);
+        if (specFps) specFps.textContent = width >= 3840 ? '4K UHD' : width >= 1920 ? 'Full HD 1080p' : 'Standard HD';
+
+        // Reveal Studio Panels
+        if (videoIdle) videoIdle.style.display = 'none';
+        if (videoLoadedBar) videoLoadedBar.style.display = 'flex';
+        if (playerStageCard) playerStageCard.style.display = 'flex';
+        if (formatSettingsGrid) formatSettingsGrid.style.display = 'grid';
+        if (captureActionWrap) captureActionWrap.style.display = 'block';
+        if (videoMetricsGrid) videoMetricsGrid.style.display = 'grid';
+
+        updateTimeDisplays(0);
+      };
+    }
+
+    function updateTimeDisplays(currentTime: number) {
+      const tc = formatTimecode(currentTime);
+      if (timeCurrent) timeCurrent.textContent = tc;
+      if (videoTimecodeBadge) videoTimecodeBadge.textContent = tc;
+    }
+
+    // Video Playback & Timeline Listeners
+    sourceVideo.addEventListener('timeupdate', () => {
+      if (!isSeeking && timelineSlider) {
+        timelineSlider.value = sourceVideo.currentTime.toString();
+        updateTimeDisplays(sourceVideo.currentTime);
+      }
+    });
+
+    sourceVideo.addEventListener('play', () => {
+      if (txtPlayPause) txtPlayPause.textContent = '⏸ Pause';
+    });
+
+    sourceVideo.addEventListener('pause', () => {
+      if (txtPlayPause) txtPlayPause.textContent = '▶ Play';
+    });
+
+    if (timelineSlider) {
+      timelineSlider.addEventListener('input', () => {
+        isSeeking = true;
+        const targetTime = parseFloat(timelineSlider.value);
+        sourceVideo.currentTime = targetTime;
+        updateTimeDisplays(targetTime);
+      });
+
+      timelineSlider.addEventListener('change', () => {
+        isSeeking = false;
+      });
+    }
+
+    // Step Toolbar Actions
+    function seekDelta(seconds: number) {
+      sourceVideo.pause();
+      const newTime = Math.max(0, Math.min(sourceVideo.duration || 0, sourceVideo.currentTime + seconds));
+      sourceVideo.currentTime = newTime;
+      if (timelineSlider) timelineSlider.value = newTime.toString();
+      updateTimeDisplays(newTime);
+    }
+
+    if (btnJumpBack) btnJumpBack.addEventListener('click', () => seekDelta(-1.0));
+    if (btnStepBack) btnStepBack.addEventListener('click', () => seekDelta(-0.0416)); // ~1 frame at 24/30fps
+    if (btnStepFwd) btnStepFwd.addEventListener('click', () => seekDelta(0.0416));
+    if (btnJumpFwd) btnJumpFwd.addEventListener('click', () => seekDelta(1.0));
+
+    if (btnPlayPause) {
+      btnPlayPause.addEventListener('click', () => {
+        if (sourceVideo.paused) {
+          sourceVideo.play();
+        } else {
+          sourceVideo.pause();
+        }
+      });
+    }
+
+    // Format & Quality Controls
+    if (selectFormat && groupJpgQuality) {
+      selectFormat.addEventListener('change', () => {
+        groupJpgQuality.style.display = selectFormat.value === 'jpeg' ? 'flex' : 'none';
+      });
+    }
+
+    if (sliderQuality && valQuality) {
+      sliderQuality.addEventListener('input', () => {
+        valQuality.textContent = `${sliderQuality.value}%`;
+      });
+    }
+
+    // Frame Extraction Logic
+    if (btnCaptureFrame) {
+      btnCaptureFrame.addEventListener('click', () => {
+        if (!sourceVideo || !ctx || !offscreenCanvas) return;
+        sourceVideo.pause();
+
+        const width = sourceVideo.videoWidth || 1920;
+        const height = sourceVideo.videoHeight || 1080;
+        const curTime = sourceVideo.currentTime || 0;
+        const timeStr = formatTimecode(curTime);
+
+        // Configure offscreen canvas to match native video resolution
+        offscreenCanvas.width = width;
+        offscreenCanvas.height = height;
+
+        // Draw native video frame
+        ctx.drawImage(sourceVideo, 0, 0, width, height);
+
+        // Convert to selected format
+        const format = selectFormat?.value || 'png';
+        const quality = format === 'jpeg' ? (parseInt(sliderQuality?.value || '92', 10) / 100) : 1.0;
+        const mimeType = format === 'jpeg' ? 'image/jpeg' : 'image/png';
+        const dataUrl = offscreenCanvas.toDataURL(mimeType, quality);
+
+        const frameItem = {
+          id: 'frame_' + Date.now(),
+          time: curTime,
+          timeStr: timeStr,
+          dataUrl: dataUrl,
+          format: format.toUpperCase(),
+          res: `${width}×${height}`
+        };
+
+        capturedFrames.unshift(frameItem);
+        renderLatestFrame(frameItem);
+        renderGallery();
+      });
+    }
+
+    function renderLatestFrame(item: { timeStr: string; dataUrl: string; format: string; res: string }) {
+      if (emptyStateCard) emptyStateCard.style.display = 'none';
+      if (latestFrameCard) latestFrameCard.style.display = 'flex';
+
+      if (latestTimecode) latestTimecode.textContent = item.timeStr;
+      if (latestRes) latestRes.textContent = `${item.res} • ${item.format}`;
+      if (latestFrameImg) latestFrameImg.src = item.dataUrl;
+
+      if (btnDownloadLatest) {
+        btnDownloadLatest.href = item.dataUrl;
+        const baseName = videoFile ? videoFile.name.replace(/\.[^/.]+$/, "") : 'frame';
+        const cleanTc = item.timeStr.replace(/[:.]/g, '-');
+        btnDownloadLatest.download = `${baseName}_frame_${cleanTc}.${item.format.toLowerCase()}`;
+      }
+    }
+
+    const btnDownloadAll = document.getElementById('btn-download-all');
+
+    function renderGallery() {
+      if (!galleryCard || !galleryGrid || !galleryCount) return;
+
+      if (capturedFrames.length === 0) {
+        galleryCard.style.display = 'none';
+        return;
+      }
+
+      galleryCard.style.display = 'flex';
+      galleryCount.textContent = `${capturedFrames.length} ${capturedFrames.length === 1 ? 'frame' : 'frames'}`;
+      galleryGrid.innerHTML = '';
+
+      capturedFrames.forEach((frame, idx) => {
+        const card = document.createElement('div');
+        card.className = 'gallery-item-card';
+
+        const baseName = videoFile ? videoFile.name.replace(/\.[^/.]+$/, "") : 'frame';
+        const cleanTc = frame.timeStr.replace(/[:.]/g, '-');
+        const filename = `${baseName}_frame_${cleanTc}.${frame.format.toLowerCase()}`;
+
+        card.innerHTML = `
+          <div class="gallery-thumb-wrap">
+            <img src="${frame.dataUrl}" class="gallery-thumb-img" alt="Captured frame at ${frame.timeStr}" />
+            <span class="gallery-format-badge">${frame.format}</span>
+          </div>
+          <div class="gallery-item-meta">
+            <span class="gallery-timecode" title="${frame.timeStr}">${frame.timeStr}</span>
+            <div class="gallery-actions">
+              <a href="${frame.dataUrl}" download="${filename}" class="gallery-btn-action gallery-btn-download" title="Download Frame (${frame.format})">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="action-svg" style="width: 14px; height: 14px; display: block; flex-shrink: 0;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+              </a>
+              <button type="button" class="gallery-btn-action gallery-btn-del" data-id="${frame.id}" title="Delete Frame">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="action-svg" style="width: 14px; height: 14px; display: block; flex-shrink: 0;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+
+        const delBtn = card.querySelector('.gallery-btn-del');
+        if (delBtn) {
+          delBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = delBtn.getAttribute('data-id');
+            const foundIdx = capturedFrames.findIndex(f => f.id === id);
+            if (foundIdx > -1) {
+              capturedFrames.splice(foundIdx, 1);
+              renderGallery();
+              if (capturedFrames.length === 0) {
+                if (latestFrameCard) latestFrameCard.style.display = 'none';
+                if (emptyStateCard) emptyStateCard.style.display = 'flex';
+              } else {
+                renderLatestFrame(capturedFrames[0]);
+              }
+            }
+          });
+        }
+
+        galleryGrid.appendChild(card);
+      });
+    }
+
+    if (btnDownloadAll) {
+      btnDownloadAll.addEventListener('click', () => {
+        if (capturedFrames.length === 0) return;
+
+        capturedFrames.forEach((frame, idx) => {
+          setTimeout(() => {
+            const a = document.createElement('a');
+            a.href = frame.dataUrl;
+            const baseName = videoFile ? videoFile.name.replace(/\.[^/.]+$/, "") : 'frame';
+            const cleanTc = frame.timeStr.replace(/[:.]/g, '-');
+            a.download = `${baseName}_frame_${cleanTc}.${frame.format.toLowerCase()}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          }, idx * 180);
+        });
+      });
+    }
+
+    if (btnClearGallery) {
+      btnClearGallery.addEventListener('click', () => {
+        capturedFrames.length = 0;
+        renderGallery();
+        if (latestFrameCard) latestFrameCard.style.display = 'none';
+        if (emptyStateCard) emptyStateCard.style.display = 'flex';
+      });
+    }
+
+    // Keyboard Arrow Shortcuts for Fast Frame Grabbing
+    window.addEventListener('keydown', (e) => {
+      // Don't trigger if user is in an input or select
+      if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'SELECT') return;
+
+      if (!sourceVideo || !videoFile) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (sourceVideo.paused) {
+          sourceVideo.play();
+        } else {
+          sourceVideo.pause();
+        }
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        seekDelta(-0.0416);
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        seekDelta(0.0416);
+      }
+    });
+
+  });
+</script>
