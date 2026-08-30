@@ -18,24 +18,32 @@ try {
 
 const featuredTools = [
   {
-    title: 'Instagram Engagement Calculator',
-    description: 'Audit your Instagram profile health. Compute engagement rates, like-to-comment ratios, and performance tiers.',
-    href: '/tools/instagram-engagement-calculator',
-    badge: 'Popular',
-    badgeType: 'success' as const,
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" /></svg>`
+    title: 'Twitter Hashtag Counter',
+    description: 'Count and optimize tweet hashtag density.',
+    href: '/tools/twitter-hashtag-counter',
+    badge: 'New',
+    badgeType: 'brand' as const,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5-3.9 19.5m-2.1-19.5-3.9 19.5" /></svg>`
   },
   {
-    title: 'Influencer Rate Calculator',
-    description: 'Estimate your sponsored post rates based on followers, engagement, format, and niche. Export brand pitch templates.',
-    href: '/tools/influencer-rate-calculator',
-    badge: 'Trending',
+    title: 'YouTube Watch Time Calculator',
+    description: 'Track progress toward 4,000 watch hours.',
+    href: '/tools/youtube-watch-time-calculator',
+    badge: 'New',
     badgeType: 'brand' as const,
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>`
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>`
+  },
+  {
+    title: 'Audio Visualizer Generator',
+    description: 'Create animated audio waveforms from MP3s.',
+    href: '/tools/audio-visualizer-generator',
+    badge: 'New',
+    badgeType: 'brand' as const,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" /></svg>`
   },
   {
     title: 'YouTube Title Checker',
-    description: 'Check your titles for optimal character counts. Preview YouTube search layouts and scan for power keywords.',
+    description: 'Check title length, SEO score, and power words.',
     href: '/tools/youtube-title-length-checker',
     badge: 'New',
     badgeType: 'info' as const,
@@ -296,7 +304,13 @@ const featuredTools = [
   }
 
   /* Grids */
-  .tools-grid, .categories-grid {
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .categories-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -438,13 +452,27 @@ const featuredTools = [
     }
   }
 
+  @media (min-width: 640px) {
+    .tools-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+  }
+
   @media (min-width: 768px) {
-    .tools-grid, .why-grid, .blog-grid {
+    .why-grid, .blog-grid {
       grid-template-columns: repeat(3, 1fr);
     }
 
     .categories-grid {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .tools-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.25rem;
     }
   }
 </style>
