@@ -4,39 +4,59 @@ import ToolLayout from '../../layouts/ToolLayout.astro';
 const faqs = [
   {
     question: "What is a URL slug?",
-    answer: "A URL slug is the user-readable part of a web address that comes at the very end of the URL, identifying a specific page (e.g., 'url-slug-generator')."
+    answer: "A URL slug is the user-readable section at the very end of a web address (for example, 'url-slug-generator' in 'creatorsfeel.com/tools/url-slug-generator'). It identifies a specific page using descriptive words rather than database IDs or arbitrary query parameters."
   },
   {
-    question: "Why should I remove stop words from SEO slugs?",
-    answer: "Removing stop words (like 'a', 'the', 'and', 'for') makes the slug shorter, cleaner, and easier for search engines and users to read, which helps boost SEO ranking signals."
+    question: "Why are hyphens preferred over underscores in URL slugs?",
+    answer: "Search engines like Google specifically treat hyphens (-) as word separators (reading 'url-slug' as two distinct words: 'url' and 'slug'). Conversely, underscores (_) are treated as character joiners (reading 'url_slug' as a single compound string 'urlslug'). Using hyphens ensures clear readability and proper keyword recognition."
   },
   {
-    question: "Should I use hyphens or underscores in URL slugs?",
-    answer: "You should always use hyphens (-) as word separators in URL slugs. Search engines like Google treat hyphens as spaces, whereas underscores (_) are treated as single characters, joining the words together."
+    question: "Should I remove stop words from every URL slug?",
+    answer: "Not necessarily. Removing common stop words like 'a', 'the', 'in', 'to', and 'for' helps keep URLs short, focused, and punchy. However, you should retain stop words whenever omitting them alters the intended meaning or grammatical clarity of your title (such as 'room-for-rent' or 'to-be-or-not-to-be')."
   },
   {
-    question: "How long should a URL slug be?",
-    answer: "It is best to keep URL slugs under 50-60 characters or between 3 and 5 words. Shorter slugs are easier to share, look cleaner in search results, and prevent truncation."
+    question: "What is the recommended length for an SEO-friendly URL slug?",
+    answer: "The ideal length for a URL slug is between 3 to 5 words, or roughly 30 to 60 characters. Keeping slugs concise prevents truncation in mobile browser address bars and search engine results pages (SERPs)."
   },
   {
     question: "Can URL slugs contain uppercase letters?",
-    answer: "No, URL slugs should always be lowercase. Using uppercase letters can cause server routing issues, duplicate content flags, or broken links on some hosting platforms."
+    answer: "No, URL slugs should always be strictly lowercase. Web servers running on Linux or Unix treat uppercase and lowercase characters as separate URLs. Using mixed casing can cause 404 broken links, duplicate content penalties, and canonical confusion."
+  },
+  {
+    question: "Can I change a URL slug after publishing a page?",
+    answer: "Yes, but doing so alters the page address. If your page is already indexed or has incoming backlinks from other websites, you must set up a permanent 301 redirect from the old URL to the new URL to preserve your search equity and avoid broken links."
+  },
+  {
+    question: "What characters are not permitted in a clean URL slug?",
+    answer: "URL slugs should never contain spaces, punctuation marks, emojis, or reserved URL symbols such as '?', '#', '%', '&', '+', and '@'. These symbols either break URL routing or get percent-encoded into messy, unreadable strings like '%20'."
+  },
+  {
+    question: "Does having keywords in a URL slug guarantee higher Google rankings?",
+    answer: "No. While including your primary keyword in the URL slug provides a helpful relevance signal to search engines and reassures users about page content, it is only one minor factor among hundreds in search algorithms. It does not guarantee high rankings on its own."
+  },
+  {
+    question: "What is the difference between a URL slug and a permalink?",
+    answer: "A permalink is the complete, permanent URL of a specific page (e.g., 'https://creatorsfeel.com/tools/url-slug-generator'). The URL slug is only the final editable segment of that permalink ('url-slug-generator')."
+  },
+  {
+    question: "How do URL slugs work in WordPress and other content management systems?",
+    answer: "In WordPress and similar platforms, the system automatically drafts a default slug from your post title. You can customize this slug under the 'Permalink' panel before publishing to ensure it is clean, lowercase, and hyphen-separated."
   }
 ];
 ---
 
 <ToolLayout
   title="URL Slug Generator - Free SEO Slug Maker"
-  description="Generate clean, readable, and search-optimized URL slugs. Convert page titles to slugs, strip stop-words, and preview Google search snippets."
+  description="Generate clean, readable, and search-optimized URL slugs instantly. Convert page titles and text into lowercase, hyphen-separated SEO-friendly URLs."
   toolName="URL Slug Generator"
   toolDescription="Sanitize text strings and page titles into search-engine-friendly URL slugs. Clean up characters, remove prepositions, and optimize URL structure."
   category="Writing Tools"
   faqs={faqs}
 >
   <div slot="calculator" class="calc-card glass">
-    <!-- Main Advanced Grid Layout -->
+    <!-- Main Responsive Grid Layout -->
     <div class="calc-grid">
-      <!-- Left Column: Settings and Input Forms -->
+      <!-- Left Column: Input Form & Controls -->
       <div class="calc-form-column">
         <form class="calc-form" id="generator-form" onsubmit="return false;">
           <!-- Input String / Title -->
@@ -74,113 +94,65 @@ const faqs = [
               SEO Slug Settings
             </label>
 
-            <!-- Checkbox 1: Remove Stop Words -->
-            <label class="checkbox-container" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.92rem; font-weight: 600; color: var(--color-text);">
-              <input type="checkbox" id="stop-words-check" checked style="width: 17px; height: 17px; accent-color: var(--color-brand);" />
-              Remove common stop words (a, the, to, in, etc.)
+            <!-- Checkbox 1: Remove Stop Words (Unchecked by default) -->
+            <label class="checkbox-container">
+              <input type="checkbox" id="stop-words-check" />
+              <span>Remove common stop words (a, the, to, in, etc.)</span>
             </label>
 
             <!-- Checkbox 2: Remove Numbers -->
-            <label class="checkbox-container" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.92rem; font-weight: 600; color: var(--color-text);">
-              <input type="checkbox" id="numbers-check" style="width: 17px; height: 17px; accent-color: var(--color-brand);" />
-              Strip digits and numbers
+            <label class="checkbox-container">
+              <input type="checkbox" id="numbers-check" />
+              <span>Strip digits and numbers</span>
             </label>
           </div>
 
           <div class="form-actions">
-            <button type="button" id="generate-btn" class="calc-btn" style="width: 100%;">Generate Slug</button>
-            <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Fields</button>
+            <button type="button" id="generate-btn" class="calc-btn">Generate Slug</button>
+            <button type="button" id="calc-reset-btn" class="calc-btn-secondary">Reset Fields</button>
           </div>
         </form>
       </div>
 
-      <!-- Right Column: Interactive Sandbox Editor & Google Mockup -->
-      <div class="calc-editor-column">
-        <!-- Live Google Search snippet mockup -->
-        <div class="google-mockup glass" style="background: var(--color-bg-alt); border: 1.5px solid var(--color-border); border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; text-align: left;">
-          <span style="font-size: 0.65rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.25rem; margin-bottom: 0.25rem; display: block;">Google Search Snippet Preview</span>
-          
-          <!-- URL breadcrumb line -->
-          <div style="font-size: 0.78rem; color: var(--color-text-muted); display: flex; align-items: center; gap: 0.25rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-            <span>creatorsfeel.com</span>
-            <span>›</span>
-            <span>tools</span>
-            <span>›</span>
-            <span id="mockup-slug-display" style="color: var(--color-text); font-weight: 600;">easy-tips-improve-seo</span>
-          </div>
-
-          <!-- Page Title -->
-          <a href="#" onclick="return false;" style="font-size: 1.15rem; font-weight: 600; color: #1a0dab; text-decoration: none; line-height: 1.2; display: block; margin: 0.15rem 0;">10 Easy Tips to Improve SEO in 2026!</a>
-
-          <!-- Page snippet description description -->
-          <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.4; margin: 0;">
-            Discover the best ways to structure page URLs and meta tags. Audit formatting rules and check character limit compliance using our free tools.
-          </p>
-        </div>
-
-        <!-- Sandbox Active Workspace Editor -->
-        <div class="sandbox-box glass">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text); text-transform: uppercase;">Active Slug Sandbox</span>
-            <span id="sandbox-counter" style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted);">20 / 60</span>
-          </div>
-          
-          <textarea id="sandbox-input" class="form-input" style="height: 60px; resize: none; line-height: 1.4; font-size: 0.95rem; font-family: monospace; padding-top: 0.5rem;" placeholder="Refine your slug manually here..."></textarea>
-
-          <!-- Visual character budget progress bar -->
-          <div class="progress-bar-container" style="background: var(--color-border); height: 6px; border-radius: 4px; overflow: hidden; margin: 0.5rem 0;">
-            <div id="progress-bar-fill" style="width: 33.3%; height: 100%; background: var(--color-brand); transition: all var(--transition-fast);"></div>
-          </div>
-
-          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-            <button type="button" id="copy-active-btn" class="calc-btn" style="flex: 1.2; height: 42px; font-size: 0.85rem;">Copy URL Slug</button>
-            <button type="button" id="clear-sandbox-btn" class="calc-btn-secondary" style="flex: 0.8; height: 42px; font-size: 0.85rem;">Clear</button>
-          </div>
-        </div>
-
-        <!-- Suggestions Drawer Panel -->
-        <div class="suggestions-drawer" id="suggestions-box" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
-          <h4 style="margin: 0; font-size: 0.9rem; font-weight: 700; color: var(--color-text); text-transform: uppercase; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem;">Alternative Slug Variations</h4>
-          
-          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-            <!-- Card Option A -->
-            <div class="option-card">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                <span class="opt-label">Option A (Optimized SEO)</span>
-                <span id="opt-1-badge" class="opt-badge">0 / 60</span>
-              </div>
-              <p id="opt-1-val" class="opt-text">easy-tips-improve-seo</p>
-              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-1-val">Load to Sandbox</button>
-                <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-1-val">Copy</button>
-              </div>
+      <!-- Right Column: Generated Slug Output & Workspace -->
+      <div class="calc-result-column">
+        <div class="slug-result-card glass">
+          <div class="slug-result-header">
+            <div class="slug-header-left">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+              </svg>
+              <span class="slug-result-title">Generated URL Slug</span>
             </div>
-
-            <!-- Card Option B -->
-            <div class="option-card">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                <span class="opt-label">Option B (Exact Match)</span>
-                <span id="opt-2-badge" class="opt-badge">0 / 60</span>
-              </div>
-              <p id="opt-2-val" class="opt-text">10-easy-tips-to-improve-seo-in-2026</p>
-              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-2-val">Load to Sandbox</button>
-                <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-2-val">Copy</button>
-              </div>
+            <div class="slug-badges">
+              <span id="slug-counter" class="counter-badge">0 / 60 chars</span>
             </div>
+          </div>
 
-            <!-- Card Option C -->
-            <div class="option-card">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                <span class="opt-label">Option C (Ultra Short)</span>
-                <span id="opt-3-badge" class="opt-badge">0 / 60</span>
-              </div>
-              <p id="opt-3-val" class="opt-text">improve-seo-tips</p>
-              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-3-val">Load to Sandbox</button>
-                <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-3-val">Copy</button>
-              </div>
+          <div class="slug-input-wrapper">
+            <textarea id="slug-output" class="form-input slug-textarea" rows="2" placeholder="Your generated URL slug will appear here..."></textarea>
+          </div>
+
+          <!-- Progress & Status Indicator -->
+          <div class="slug-health">
+            <div class="progress-bar-container">
+              <div id="progress-bar-fill" class="progress-bar-fill"></div>
             </div>
+            <div class="slug-status-row">
+              <span id="slug-status-text" class="slug-status-text">Optimal SEO length (recommended under 60 characters)</span>
+              <span id="slug-word-count" class="slug-word-count">0 words</span>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="slug-actions">
+            <button type="button" id="copy-slug-btn" class="calc-btn copy-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="btn-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+              </svg>
+              <span id="copy-btn-text">Copy URL Slug</span>
+            </button>
+            <button type="button" id="clear-slug-btn" class="calc-btn-secondary clear-btn">Clear</button>
           </div>
         </div>
       </div>
@@ -188,78 +160,164 @@ const faqs = [
   </div>
 
   <div slot="about" class="editorial-content">
-    <h2>URL Slug Generator: Sanitize and Clean Up Page Titles for SEO</h2>
-    <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
+    <h2>URL Slug Generator: How to Create Clean, SEO-Friendly URLs</h2>
+    <div class="strategy-callout">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        🔗 <strong>Looking to optimize your URL structures?</strong> Read our comprehensive strategy guide on <a href="/blog/url-slug-generator-guide" style="color: var(--color-brand); text-decoration: underline;">URL Slugs & SEO Best Practices</a> to learn how to structure directories, remove prepositions, and redirect links safely.
+        🔗 <strong>Looking to dive deeper into URL architecture?</strong> Read our comprehensive strategy guide on <a href="/blog/url-slug-generator-guide">URL Slugs & SEO Best Practices</a> to discover directory structures, 301 redirection rules, and permalink management.
       </p>
     </div>
 
-    <h3>Introduction</h3>
+    <h2>What Is a URL Slug and Why Does It Matter for SEO?</h2>
     <p>
-      Creating clean and descriptive web addresses is a fundamental part of search engine optimization. Search engines use page URLs to determine topic relevance, and clean slugs look more trustworthy when shared on social media or email. This free <strong>url slug generator</strong> automatically converts your page titles into sanitized, lowercase, hyphen-separated address formats.
+      A <strong>URL slug</strong> is the final, human-readable portion of a web address that identifies a specific page or post. In the web address <code>https://creatorsfeel.com/tools/url-slug-generator</code>, the segment <code>url-slug-generator</code> is the page slug. It serves as an intuitive address label that replaces database records, product IDs, and cryptic query parameters (such as <code>?post=14092&cat=6</code>) with clear, understandable words.
     </p>
-
-    <h3>What is URL Slug?</h3>
     <p>
-      A <strong>url slug</strong> (or simply a slug) is the specific section of a web address that identifies a page in human-readable words instead of database IDs. For example, in the URL <code>creatorsfeel.com/tools/url-slug-generator</code>, the segment <code>url-slug-generator</code> is the page slug.
+      While a full web address (or permalink) encompasses the protocol (<code>https://</code>), domain name (<code>creatorsfeel.com</code>), and directory subfolders (<code>/tools/</code>), the slug is the unique identifier you control whenever you create a new article, product page, or landing page.
     </p>
-
-    <h3>How to Use This Tool</h3>
     <p>
-      To write clean URL slugs, follow these instructions:
-    </p>
-    <ol>
-      <li><strong>Input Title:</strong> Paste your article heading or page title in the top text field.</li>
-      <li><strong>Select Separator:</strong> Choose hyphens, underscores, or pluses to connect words. Hyphens are recommended.</li>
-      <li><strong>Configure Filters:</strong> Check the box to remove prepositions and conjunctions (stop words) or strip digits.</li>
-      <li><strong>Generate Slug:</strong> Click <strong>Generate Slug</strong> to calculate three alternative templates.</li>
-      <li><strong>Sandbox Edit & Copy:</strong> Select a template to edit in the Sandbox text field, check character counts against recommendations, and copy the result.</li>
-    </ol>
-
-    <h3>How Does It Work?</h3>
-    <p>
-      The tool sanitizes titles using structured formatting rules:
+      Crafting an <strong>SEO-friendly URL slug</strong> matters for several practical reasons:
     </p>
     <ul>
-      <li><strong>Case Normalization:</strong> Converts all letters to lowercase to prevent server routing errors.</li>
-      <li><strong>Accented Character Stripping:</strong> Replaces accented letters (like é, ü, or ç) with standard equivalents (e, u, c).</li>
-      <li><strong>Special Character Removal:</strong> Strips punctuation, parentheses, brackets, exclamation marks, and symbols.</li>
-      <li><strong>Word Conjunction Filters:</strong> Strips prepositions and conjunctions to make slugs short and punchy.</li>
+      <li><strong>User Trust and Click-Through Rate (CTR):</strong> When people view a search engine result or receive a link in an email, a clean, descriptive slug immediately clarifies what the destination page is about. Clean links look professional, reduce hesitation, and encourage clicks.</li>
+      <li><strong>Search Engine Relevance Signals:</strong> Major search engines like Google and Bing examine URLs to better understand the contextual subject matter of a page. Having your primary keyword within the slug provides a modest, helpful topical signal.</li>
+      <li><strong>Anchor Text Context:</strong> Frequently, users paste raw URLs directly into forums, blogs, or social messaging apps. When your URL contains a descriptive slug, the raw link acts as its own contextual anchor text, improving link equity without needing manual hyperlinks.</li>
+      <li><strong>Accessibility and Readability:</strong> Screen readers and assistive technology read hyphen-separated words with natural pauses, making website navigation seamless for visually impaired users.</li>
     </ul>
 
-    <h3>Example Calculation</h3>
+    <h2>How Our URL Slug Generator Works</h2>
     <p>
-      Let's look at how a page title is cleaned up step-by-step:
+      This free online <strong>slug generator</strong> takes any headline, article title, or raw string and converts it into a web-safe, normalized URL slug in real time. The conversion pipeline applies consistent formatting rules designed around modern search engine specifications and web standards:
     </p>
+    <ol>
+      <li><strong>Accented Character Normalization:</strong> The tool uses Unicode normalization (NFD) to safely strip diacritics and accents. Letters like <code>é</code>, <code>ñ</code>, <code>ü</code>, and <code>ç</code> are automatically transformed into standard Latin characters (<code>e</code>, <code>n</code>, <code>u</code>, <code>c</code>), preventing server decoding issues.</li>
+      <li><strong>Case Normalization:</strong> All characters are converted to lowercase. This eliminates routing errors and duplicate content indexing caused by case-sensitive web servers.</li>
+      <li><strong>Special Character Stripping:</strong> Punctuation, currency symbols, quotation marks, exclamation marks, and emojis are stripped away to prevent ugly percent-encoded strings (such as <code>%20</code> or <code>%3F</code>).</li>
+      <li><strong>Hyphen Delimitation:</strong> Consecutive whitespace characters are collapsed into clean, uniform separators (hyphens by default).</li>
+      <li><strong>Configurable Filtering:</strong> You can optionally strip numbers or remove prepositions and conjunctions (stop words) with a single click.</li>
+    </ol>
     <p>
-      <strong>Input Heading:</strong> "How to structure and optimize URLs for SEO in 2026!"
-    </p>
-    <p>
-      <strong>Step 1: Lowercase conversion & special character stripping</strong><br />
-      `"how to structure and optimize urls for seo in 2026"`
-    </p>
-    <p>
-      <strong>Step 2: Stop word removal (to, and, for, in)</strong><br />
-      `"how structure optimize urls seo 2026"`
-    </p>
-    <p>
-      <strong>Step 3: Hyphen replacement</strong><br />
-      `"how-structure-optimize-urls-seo-2026"`
-    </p>
-    <p>
-      This result is under 50 characters, making it highly readable and optimized for search engine indexing.
+      All processing happens client-side directly in your browser. No text is transmitted over external servers, ensuring instant performance, zero latency, and complete privacy for unreleased article drafts.
     </p>
 
-    <h3>Who Should Use This Tool?</h3>
+    <h2>Key Elements of an SEO-Friendly URL</h2>
     <p>
-      This <strong>free url slug generator</strong> or <strong>seo slug generator</strong> is designed for:
+      Creating a <strong>clean URL slug</strong> requires adhering to standard web conventions. Here are the core building blocks every digital creator, marketer, and webmaster should follow:
+    </p>
+
+    <h3>1. Use Hyphens, Never Underscores</h3>
+    <p>
+      Search engines treat hyphens (<code>-</code>) as word boundaries. For example, Google reads <code>seo-slug-generator</code> as three separate words: <em>seo</em>, <em>slug</em>, and <em>generator</em>. In contrast, underscores (<code>_</code>) are treated as character joiners, meaning <code>seo_slug_generator</code> is interpreted as a single unbroken string (<em>seosluggenerator</em>). Always default to hyphens for standard web addresses.
+    </p>
+
+    <h3>2. Keep URLs Strictly Lowercase</h3>
+    <p>
+      Web servers running Linux or Unix are case-sensitive. While <code>creatorsfeel.com/tools/URL-Slug</code> and <code>creatorsfeel.com/tools/url-slug</code> might point to the same content on some systems, search engines may index them as two distinct pages. This leads to split ranking signals and duplicate content warnings. Standardizing on lowercase prevents these errors entirely.
+    </p>
+
+    <h3>3. Target 3 to 5 Words (Under 60 Characters)</h3>
+    <p>
+      Shorter URLs are easier to remember, copy, and share. Long, rambling slugs often get truncated in search snippet breadcrumbs and mobile address bars. Aim for a slug length between 30 and 60 characters (roughly 3 to 5 key terms). Our built-in character health bar provides a real-time visual indicator to help you stay within this optimal window.
+    </p>
+
+    <h3>4. Front-Load Primary Keywords Naturally</h3>
+    <p>
+      Include your primary target search query near the beginning of your slug. If your article title is "10 Incredible Tips on How to Make Delicious Homemade Pizza", the essential keyword is "homemade pizza". A focused slug like <code>homemade-pizza-tips</code> is far more effective than repeating the entire headline verbatim.
+    </p>
+
+    <h3>5. Eliminate Special Characters and Emojis</h3>
+    <p>
+      Characters such as <code>&</code>, <code>?</code>, <code>#</code>, <code>/</code>, <code>%</code>, and emojis have reserved functions in URL specifications. If left in a slug, browsers encode them into illegible hex strings. A clean slug should only contain alphanumeric characters (<code>a-z</code>, <code>0-9</code>) and hyphens.
+    </p>
+
+    <h2>Should You Remove Stop Words from a URL Slug?</h2>
+    <p>
+      Stop words are common grammatical words such as <em>a, an, the, in, on, to, for, and, of, with,</em> and <em>at</em>. Whether you should remove stop words from a URL slug depends on readability and context:
     </p>
     <ul>
-      <li><strong>Bloggers & Content Writers:</strong> Keeping article URLs clean and shareable.</li>
-      <li><strong>SEO Managers:</strong> Optimizing landing page and directory structures.</li>
-      <li><strong>Web Developers:</strong> Batch-cleaning page titles during migrations.</li>
-      <li><strong>Digital Marketers:</strong> Designing readable tracking links.</li>
+      <li><strong>When to Remove Stop Words:</strong> For long, complex blog titles, stripping stop words creates a punchier, more compact slug that highlights the core topic. For example, converting <em>"The Best Ways to Travel in Europe on a Budget"</em> into <code>best-ways-travel-europe-budget</code> keeps the URL concise without losing topical clarity.</li>
+      <li><strong>When to Keep Stop Words:</strong> If omitting stop words alters the intended meaning or makes the phrase sound awkward, keep them intact. For instance, titles like <em>"To Be or Not To Be"</em> or <em>"Room for Rent"</em> lose their clear meaning if reduced to <code>be-not-be</code> or <code>room-rent</code>.</li>
+    </ul>
+    <p>
+      Because both approaches have valid use cases, our <strong>URL slug maker</strong> keeps the stop words filter unchecked by default. This leaves the choice in your hands—you can generate an exact match slug or enable the filter whenever you need a streamlined, keyword-dense permalink.
+    </p>
+
+    <h2>Practical Examples: Before and After Slug Optimization</h2>
+    <p>
+      To see how raw headlines translate into polished, SEO-friendly permalinks, review these typical optimization scenarios:
+    </p>
+
+    <div class="table-responsive-wrapper">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th>Page Title / Content Type</th>
+            <th>Raw / Poorly Formatted Slug</th>
+            <th>Optimized SEO Slug</th>
+            <th>Why It Is Better</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Blog Guide:</strong><br />15 Easy Ways You Can Improve Website SEO in 2026!</td>
+            <td><code>15_easy_ways_you_can_improve_website_seo_in_2026!</code></td>
+            <td><code>improve-website-seo</code></td>
+            <td>Removes punctuation, uses hyphens, and drops unnecessary filler words for a timeless, focused permalink.</td>
+          </tr>
+          <tr>
+            <td><strong>E-Commerce Product:</strong><br />Men's Vintage Leather Bifold Wallet (Dark Brown) - $49</td>
+            <td><code>men's-vintage-leather-bifold-wallet-(dark-brown)---$49</code></td>
+            <td><code>mens-vintage-leather-wallet-brown</code></td>
+            <td>Strips currency signs, apostrophes, and brackets. Keeps essential product attributes under 40 characters.</td>
+          </tr>
+          <tr>
+            <td><strong>How-To Tutorial:</strong><br />How to Clean a Cast Iron Skillet Without Damaging It?</td>
+            <td><code>how-to-clean-a-cast-iron-skillet-without-damaging-it</code></td>
+            <td><code>clean-cast-iron-skillet</code></td>
+            <td>Trims excessive length while targeting the exact high-intent search query users type into Google.</td>
+          </tr>
+          <tr>
+            <td><strong>Local Service Page:</strong><br />Best Emergency Plumbers in Austin, TX - 24/7 Service</td>
+            <td><code>best-emergency-plumbers-in-austin,-tx---24/7-service</code></td>
+            <td><code>emergency-plumbers-austin-tx</code></td>
+            <td>Eliminates commas, slashes, and redundant words to create a clean local landing page slug.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Step-by-Step Guide: How to Create the Perfect URL Slug</h2>
+    <p>
+      Follow this reliable workflow whenever publishing fresh content or configuring new directory pages:
+    </p>
+    <ol>
+      <li><strong>Identify the Primary Search Intent:</strong> Determine the exact target keyword or topic your page addresses before drafting the URL.</li>
+      <li><strong>Draft a Focused Working Slug:</strong> Paste your working title into the input field above.</li>
+      <li><strong>Select Your Delimiter:</strong> Stick with the standard hyphen unless your technical infrastructure specifically mandates another separator.</li>
+      <li><strong>Evaluate Stop Words:</strong> If the generated slug is longer than 50 characters, check the <em>Remove common stop words</em> option to condense the phrase.</li>
+      <li><strong>Review the Character Budget:</strong> Ensure your slug stays within the optimal green health threshold (under 60 characters) to prevent display truncation.</li>
+      <li><strong>Copy and Publish:</strong> Click <strong>Copy URL Slug</strong> and paste the result into your CMS or framework route.</li>
+    </ol>
+
+    <h2>Common URL Slug Mistakes to Avoid</h2>
+    <p>
+      Even experienced webmasters occasionally encounter URL structuring pitfalls. Avoid these common blunders:
+    </p>
+    <ul>
+      <li><strong>Changing Slugs Without 301 Redirects:</strong> Never change the slug of an existing, indexed page without setting up a permanent 301 redirect. Failing to redirect causes incoming links to land on 404 error pages, destroying accumulated search rankings and user trust.</li>
+      <li><strong>Keyword Stuffing:</strong> Repeating terms multiple times (e.g., <code>best-running-shoes-shoes-for-running-cheap-shoes</code>) triggers search engine spam filters and looks untrustworthy to users. Keep it natural.</li>
+      <li><strong>Including Dates in Evergreen Content:</strong> Adding years (such as <code>best-productivity-apps-2024</code>) into permalinks forces you to either keep an outdated year in the URL or establish redirects when updating the article in future years. Omit dates for evergreen guides.</li>
+      <li><strong>Overly Deep Folder Structures:</strong> Avoid nesting pages under too many directories (e.g., <code>/blog/archive/categories/marketing/2026/09/slug</code>). A flatter structure (e.g., <code>/blog/slug</code>) is easier to crawl and interpret.</li>
+      <li><strong>Using Non-ASCII or Raw Unicode Characters:</strong> Non-English characters should be transliterated into Latin characters whenever possible to ensure universal compatibility across older browsers and social sharing bots.</li>
+    </ul>
+
+    <h2>URL Slugs Across Platforms: WordPress, Shopify, and Custom Stacks</h2>
+    <p>
+      Different content management systems handle permalinks in slightly different ways:
+    </p>
+    <ul>
+      <li><strong>WordPress:</strong> In WordPress, ensure your global permalink structure is set to <code>Post name</code> (<code>/%postname%/</code>) under <em>Settings &gt; Permalinks</em>. Avoid the default <em>Plain</em> (<code>/?p=123</code>) structure. When writing a post, customize the URL slug in the right-hand document sidebar under the <em>Summary</em> tab.</li>
+      <li><strong>Shopify & E-Commerce:</strong> Shopify organizes URLs under fixed prefixes like <code>/products/</code> and <code>/collections/</code>. You can customize the ending slug (the handle) at the very bottom of each product edit screen under <em>Search engine listing preview</em>.</li>
+      <li><strong>Static Site Generators & Headless Frameworks:</strong> Modern platforms like Astro, Next.js, and Hugo frequently rely on file-based routing. The slug is defined by the Markdown or MDX file name or specified explicitly in the document frontmatter (e.g., <code>slug: my-post-title</code>). Using our generator ensures clean file naming conventions across developer repositories.</li>
     </ul>
   </div>
 </ToolLayout>
@@ -283,7 +341,7 @@ const faqs = [
     max-width: 100% !important;
   }
 
-  .calc-form-column, .calc-editor-column {
+  .calc-form-column, .calc-result-column {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -333,10 +391,38 @@ const faqs = [
     flex-shrink: 0;
   }
 
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--color-text);
+    user-select: none;
+  }
+
+  .checkbox-container input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-brand);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
   .form-actions {
     display: flex;
     gap: 1rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .form-actions .calc-btn,
+  .form-actions .calc-btn-secondary {
+    flex: 1;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .calc-btn-secondary {
@@ -355,88 +441,348 @@ const faqs = [
     background: var(--color-bg-alt);
   }
 
-  /* Sandbox Container CSS */
-  .sandbox-box {
-    border: 1px solid var(--color-border);
-    padding: 1.25rem;
-    border-radius: 16px;
+  /* Result Card Styling */
+  .slug-result-card {
+    border: 1.5px solid var(--color-border);
+    padding: 1.5rem;
+    border-radius: 20px;
     background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-sizing: border-box !important;
+    width: 100% !important;
   }
 
-  /* Suggestion Cards CSS */
-  .option-card {
-    background: var(--color-bg-alt);
+  .slug-result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .slug-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .slug-result-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .counter-badge {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    padding: 3px 10px;
+    border-radius: 20px;
     border: 1px solid var(--color-border);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .slug-input-wrapper {
+    width: 100%;
+  }
+
+  .slug-textarea {
+    min-height: 72px;
+    resize: vertical;
+    line-height: 1.5;
+    font-size: 1.05rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    padding: 0.85rem 1rem;
+    background: var(--color-bg);
     border-radius: 12px;
-    padding: 1rem;
+    color: var(--color-brand);
+    font-weight: 600;
+    word-break: break-all;
+    transition: border-color var(--transition-fast);
+  }
+
+  .slug-health {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
 
-  .opt-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
+  .progress-bar-container {
+    background: var(--color-border);
+    height: 6px;
+    border-radius: 4px;
+    overflow: hidden;
   }
 
-  .opt-badge {
-    font-size: 0.72rem;
-    font-weight: 700;
+  .progress-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--color-brand);
+    transition: width var(--transition-fast), background-color var(--transition-fast);
+  }
+
+  .slug-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
     color: var(--color-text-muted);
   }
 
-  .opt-text {
-    margin: 0;
-    font-size: 0.9rem;
+  .slug-word-count {
     font-weight: 600;
-    color: var(--color-text);
-    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .slug-actions {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .copy-btn {
+    flex: 1.5;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .clear-btn {
+    flex: 0.7;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  .btn-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  /* Page & Layout Viewport Containment */
+  :global(.tool-page-container) {
+    max-width: 100% !important;
+    overflow-x: clip;
+  }
+
+  :global(.tool-content-grid) {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  :global(.tool-editorial) {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow-wrap: break-word;
     word-break: break-word;
   }
 
-  .mock-btn-mini {
-    height: 28px;
-    padding: 0 0.75rem;
-    border-radius: 4px;
-    border: 1px solid var(--color-brand);
-    background: var(--color-brand);
-    color: white;
-    font-weight: 600;
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all var(--transition-fast);
+  :global(.tool-faqs) {
+    min-width: 0 !important;
+    max-width: 100% !important;
   }
 
-  .mock-btn-mini.secondary {
-    border-color: var(--color-border);
-    background: transparent;
-    color: var(--color-text);
+  :global(.faq-question),
+  :global(.faq-answer p) {
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    max-width: 100%;
   }
 
-  .mock-btn-mini.secondary:hover {
-    background: var(--color-bg);
+  /* Slotted editorial content container */
+  .editorial-content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
-  /* Slotted editorial heading spacing fixes */
-  .editorial-content :global(h3) {
+  /* Universal text wrapping for headings, paragraphs, lists, links */
+  .editorial-content :global(h2) {
     margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    font-size: 1.25rem;
+    margin-bottom: 0.85rem;
+    font-size: 1.5rem;
     color: var(--color-text);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    max-width: 100%;
+  }
+
+  .editorial-content :global(h3) {
+    margin-top: 1.5rem;
+    margin-bottom: 0.65rem;
+    font-size: 1.2rem;
+    color: var(--color-text);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    max-width: 100%;
+  }
+
+  .editorial-content :global(p),
+  .editorial-content :global(li),
+  .editorial-content :global(a),
+  .editorial-content :global(span),
+  .editorial-content :global(strong),
+  .editorial-content :global(em) {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    max-width: 100%;
+  }
+
+  .editorial-content :global(ul),
+  .editorial-content :global(ol) {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Safe breaking for inline code, URLs, and technical strings */
+  .editorial-content :global(code) {
+    background: var(--color-bg-alt);
+    color: var(--color-brand);
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.88em;
+    border: 1px solid var(--color-border);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+    white-space: normal;
+    display: inline;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  /* Strategy callout banner */
+  .strategy-callout {
+    margin: 1.5rem 0;
+    background: var(--color-bg-alt);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-brand);
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* Table container with isolated horizontal touch-scrolling */
+  .table-responsive-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+  }
+
+  .content-table {
+    width: 100%;
+    min-width: 500px;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    text-align: left;
+    background: var(--color-bg-alt);
+    border: none;
+    box-sizing: border-box;
+  }
+
+  .content-table th,
+  .content-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .content-table th {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .content-table td code {
+    overflow-wrap: anywhere;
+    word-break: break-all;
+    white-space: normal;
+  }
+
+  .content-table tr:last-child td {
+    border-bottom: none;
   }
 
   /* Responsive Queries */
   @media (max-width: 767px) {
     .calc-card {
-      padding: 1.25rem !important;
+      padding: 1.25rem 1rem !important;
       border-radius: 18px !important;
     }
-    
+
+    .slug-result-card {
+      padding: 1.15rem 0.9rem;
+      border-radius: 16px;
+    }
+
     .form-actions {
       flex-direction: column;
       gap: 0.75rem;
+      width: 100%;
+    }
+
+    .slug-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+    }
+
+    .form-actions .calc-btn,
+    .form-actions .calc-btn-secondary,
+    .copy-btn,
+    .clear-btn {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex: none;
+      box-sizing: border-box !important;
+    }
+
+    .content-table {
+      min-width: 440px;
+    }
+
+    .content-table th,
+    .content-table td {
+      padding: 0.65rem 0.75rem;
+      font-size: 0.82rem;
+    }
+
+    .editorial-content :global(ul),
+    .editorial-content :global(ol) {
+      margin-left: 1.25rem !important;
+      padding-left: 0 !important;
     }
   }
 
@@ -449,7 +795,7 @@ const faqs = [
 
   @media (min-width: 1024px) {
     .calc-grid {
-      grid-template-columns: 1fr 1.1fr;
+      grid-template-columns: 1fr 1fr;
       align-items: start;
       gap: 2.25rem;
     }
@@ -467,26 +813,17 @@ const faqs = [
     const generateBtn = document.getElementById('generate-btn');
     const resetBtn = document.getElementById('calc-reset-btn');
 
-    // Google Preview Mockup Elements
-    const mockupSlugDisplay = document.getElementById('mockup-slug-display');
-
-    // Sandbox workspace
-    const sandboxInput = document.getElementById('sandbox-input') as HTMLTextAreaElement;
-    const sandboxCounter = document.getElementById('sandbox-counter');
+    // Result Elements
+    const slugOutput = document.getElementById('slug-output') as HTMLTextAreaElement;
+    const slugCounter = document.getElementById('slug-counter');
+    const slugStatusText = document.getElementById('slug-status-text');
+    const slugWordCount = document.getElementById('slug-word-count');
     const progressBarFill = document.getElementById('progress-bar-fill');
-    const copyActiveBtn = document.getElementById('copy-active-btn');
-    const clearSandboxBtn = document.getElementById('clear-sandbox-btn');
+    const copySlugBtn = document.getElementById('copy-slug-btn');
+    const copyBtnText = document.getElementById('copy-btn-text');
+    const clearSlugBtn = document.getElementById('clear-slug-btn');
 
-    // Alternative Displays
-    const opt1Val = document.getElementById('opt-1-val');
-    const opt2Val = document.getElementById('opt-2-val');
-    const opt3Val = document.getElementById('opt-3-val');
-
-    const opt1Badge = document.getElementById('opt-1-badge');
-    const opt2Badge = document.getElementById('opt-2-badge');
-    const opt3Badge = document.getElementById('opt-3-badge');
-
-    // Clean Stop words helper list
+    // Common Stop Words
     const STOP_WORDS = new Set([
       'a', 'about', 'above', 'after', 'again', 'against', 'all', 'am', 'an', 'and', 'any', 'are', 'arent',
       'as', 'at', 'be', 'because', 'been', 'before', 'being', 'below', 'between', 'both', 'but', 'by',
@@ -505,18 +842,18 @@ const faqs = [
       'your', 'yours', 'yourself', 'yourselves'
     ]);
 
-    // Sanitization logic helper
+    // Sanitization logic
     const slugify = (text: string, sep: string, removeStop: boolean, removeNum: boolean): string => {
-      // 1. Lowercase & Normalize diacritics
+      // 1. Lowercase & Normalize diacritics / accented characters
       let str = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-      // 2. Remove special characters (keep words and spaces)
+      // 2. Remove special characters (keep words, spaces, hyphens)
       str = str.replace(/[^a-z0-9\s-]/g, '');
 
       // 3. Split into words
       let words = str.split(/\s+/).filter(w => w.length > 0);
 
-      // 4. Filter Stop Words
+      // 4. Filter stop words
       if (removeStop) {
         words = words.filter(w => !STOP_WORDS.has(w));
       }
@@ -526,163 +863,125 @@ const faqs = [
         words = words.filter(w => !/^\d+$/.test(w));
       }
 
-      // 6. Join using separator
+      // 6. Join using chosen separator
       return words.join(sep);
     };
 
-    // Live Sandbox update
-    const updateSandbox = () => {
-      const text = sandboxInput?.value || '';
+    // Update health & indicators
+    const updateSlugHealth = () => {
+      const text = slugOutput?.value || '';
       const len = text.length;
-
-      // Update Mockup Slug
-      if (mockupSlugDisplay) {
-        mockupSlugDisplay.textContent = text || 'your-page-slug';
-      }
+      const sep = separatorSelect?.value || '-';
+      const words = text ? text.split(new RegExp(`[\\s\\${sep}]+`)).filter(Boolean) : [];
+      const wordCount = words.length;
 
       // Update counters
-      if (sandboxCounter) {
-        sandboxCounter.textContent = `${len} / 60`;
-        sandboxCounter.style.color = len > 60 ? '#f59e0b' : 'var(--color-text-muted)';
+      if (slugCounter) {
+        slugCounter.textContent = `${len} / 60 chars`;
+        if (len > 80) {
+          slugCounter.style.color = '#ef4444';
+        } else if (len > 60) {
+          slugCounter.style.color = '#f59e0b';
+        } else {
+          slugCounter.style.color = 'var(--color-text-muted)';
+        }
       }
 
-      // Update progress bar
+      if (slugWordCount) {
+        slugWordCount.textContent = `${wordCount} ${wordCount === 1 ? 'word' : 'words'}`;
+      }
+
+      // Update progress bar & status text
       if (progressBarFill) {
         const percent = Math.min((len / 60) * 100, 100);
         progressBarFill.style.width = `${percent}%`;
-        
-        if (len > 80) {
-          progressBarFill.style.backgroundColor = '#ef4444'; // too long
-        } else if (len > 60) {
-          progressBarFill.style.backgroundColor = '#f59e0b'; // warning
-        } else {
+
+        if (len === 0) {
           progressBarFill.style.backgroundColor = 'var(--color-brand)';
+          if (slugStatusText) slugStatusText.textContent = 'Enter text to generate an SEO slug';
+        } else if (len > 80) {
+          progressBarFill.style.backgroundColor = '#ef4444';
+          if (slugStatusText) slugStatusText.textContent = 'Slug is quite long (over 80 chars) — consider shortening';
+        } else if (len > 60) {
+          progressBarFill.style.backgroundColor = '#f59e0b';
+          if (slugStatusText) slugStatusText.textContent = 'Slug is slightly long (over 60 chars)';
+        } else {
+          progressBarFill.style.backgroundColor = '#10b981';
+          if (slugStatusText) slugStatusText.textContent = 'Optimal SEO length (under 60 characters)';
         }
       }
     };
-    sandboxInput?.addEventListener('input', updateSandbox);
 
-    // Dynamic generation
-    const generateSlugs = () => {
+    // Generate slug from input fields
+    const generateSlug = () => {
       const val = (valueInput?.value || '').trim();
       const sep = separatorSelect?.value || '-';
       const removeStop = stopWordsCheck?.checked || false;
       const removeNum = numbersCheck?.checked || false;
 
       if (!val) {
-        alert("Please enter a title or string to slugify.");
+        if (slugOutput) slugOutput.value = '';
+        updateSlugHealth();
         return;
       }
 
-      // Generate 3 variations
-      // A. Optimized (based on current checkboxes)
-      const slugA = slugify(val, sep, removeStop, removeNum);
-      
-      // B. Exact Match (all words kept, numbers kept)
-      const slugB = slugify(val, sep, false, false);
-
-      // C. Ultra Short (top 3 key words, stop words removed)
-      let wordsA = val.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s-]/g, '').split(/\s+/).filter(w => w.length > 0 && !STOP_WORDS.has(w));
-      if (removeNum) {
-        wordsA = wordsA.filter(w => !/^\d+$/.test(w));
+      const result = slugify(val, sep, removeStop, removeNum);
+      if (slugOutput) {
+        slugOutput.value = result;
       }
-      const slugC = wordsA.slice(0, 3).join(sep);
-
-      // Populate Sandbox with Option A
-      if (sandboxInput) {
-        sandboxInput.value = slugA;
-        updateSandbox();
-      }
-
-      // Update Suggestion displays
-      const options = [slugA, slugB, slugC];
-      const vals = [opt1Val, opt2Val, opt3Val];
-      const badges = [opt1Badge, opt2Badge, opt3Badge];
-
-      options.forEach((opt, idx) => {
-        const vBlock = vals[idx];
-        const bBlock = badges[idx];
-
-        if (vBlock) vBlock.textContent = opt;
-        if (bBlock) {
-          const len = opt.length;
-          bBlock.textContent = `${len} / 60`;
-          bBlock.style.color = len > 60 ? '#f59e0b' : '';
-        }
-      });
-
-      // Scroll directly to the results / editor sandbox column
-      const editorCol = document.querySelector('.calc-editor-column');
-      if (editorCol) {
-        editorCol.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      updateSlugHealth();
     };
 
-    generateBtn?.addEventListener('click', generateSlugs);
+    // Event listeners for real-time reactivity
+    valueInput?.addEventListener('input', generateSlug);
+    separatorSelect?.addEventListener('change', generateSlug);
+    stopWordsCheck?.addEventListener('change', generateSlug);
+    numbersCheck?.addEventListener('change', generateSlug);
 
-    // Load to sandbox buttons
-    document.querySelectorAll('.load-sandbox-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetId = btn.getAttribute('data-target');
-        if (!targetId || !sandboxInput) return;
-        const textBlock = document.getElementById(targetId);
-        if (textBlock) {
-          sandboxInput.value = textBlock.textContent || '';
-          updateSandbox();
+    // Direct edit in the output area
+    slugOutput?.addEventListener('input', updateSlugHealth);
+
+    // Explicit button trigger
+    generateBtn?.addEventListener('click', generateSlug);
+
+    // Copy to clipboard
+    copySlugBtn?.addEventListener('click', () => {
+      const text = slugOutput?.value || '';
+      if (!text) {
+        return;
+      }
+
+      navigator.clipboard.writeText(text).then(() => {
+        if (copyBtnText) {
+          const originalText = copyBtnText.textContent;
+          copyBtnText.textContent = 'Copied to Clipboard! ✓';
+          setTimeout(() => {
+            copyBtnText.textContent = originalText;
+          }, 2000);
         }
       });
     });
 
-    // Direct copies buttons
-    document.querySelectorAll('.copy-direct-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetId = btn.getAttribute('data-target');
-        if (!targetId) return;
-        const textBlock = document.getElementById(targetId);
-        const text = textBlock?.textContent || '';
-        if (!text) return;
-
-        navigator.clipboard.writeText(text).then(() => {
-          const originalText = btn.textContent;
-          btn.textContent = 'Copied! ✓';
-          setTimeout(() => {
-            btn.textContent = originalText;
-          }, 1500);
-        });
-      });
-    });
-
-    // Sandbox Copy
-    copyActiveBtn?.addEventListener('click', () => {
-      const text = sandboxInput?.value || '';
-      if (!text) return alert("Sandbox is empty!");
-      
-      navigator.clipboard.writeText(text).then(() => {
-        const originalText = copyActiveBtn.textContent;
-        copyActiveBtn.textContent = 'Copied to Clipboard! ✓';
-        setTimeout(() => {
-          copyActiveBtn.textContent = originalText;
-        }, 1500);
-      });
-    });
-
-    // Clear Sandbox
-    clearSandboxBtn?.addEventListener('click', () => {
-      if (sandboxInput) {
-        sandboxInput.value = '';
-        updateSandbox();
+    // Clear slug
+    clearSlugBtn?.addEventListener('click', () => {
+      if (slugOutput) {
+        slugOutput.value = '';
+        updateSlugHealth();
       }
     });
 
-    // Reset Fields
+    // Reset all fields
     resetBtn?.addEventListener('click', () => {
       if (valueInput) valueInput.value = '';
-      if (sandboxInput) sandboxInput.value = '';
-      updateSandbox();
+      if (separatorSelect) separatorSelect.value = '-';
+      if (stopWordsCheck) stopWordsCheck.checked = false;
+      if (numbersCheck) numbersCheck.checked = false;
+      if (slugOutput) slugOutput.value = '';
+      updateSlugHealth();
     });
 
-    // Initialize
-    updateSandbox();
+    // Initialize on page load
+    generateSlug();
   };
 
   setupUrlSlugGenerator();
