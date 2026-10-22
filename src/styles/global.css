@@ -37,12 +37,13 @@
   /* Accent Colors (Constant across themes) */
   --color-brand: #6366f1; /* Indigo */
   --color-brand-hover: #4f46e5;
+  --color-brand-light: #818cf8;
   --color-accent: #a855f7; /* Purple */
   --color-accent-light: #c084fc;
   --color-success: #10b981; /* Emerald */
-  --color-warning: #d97706; /* Amber - darkened for better contrast */
-  --color-danger: #dc2626; /* Red - darkened for better contrast */
-  --color-info: #0284c7; /* Sky - darkened for better contrast */
+  --color-warning: #d97706; /* Amber */
+  --color-danger: #dc2626; /* Red */
+  --color-info: #0284c7; /* Sky */
 
   /* Gradient Schemes */
   --gradient-brand: linear-gradient(135deg, var(--color-brand) 0%, var(--color-accent) 100%);
@@ -53,38 +54,74 @@
 :root, [data-theme="light"] {
   --color-bg: #f9fafb;
   --color-bg-alt: #ffffff;
-  --color-bg-card: rgba(255, 255, 255, 0.8);
-  --color-bg-card-hover: rgba(255, 255, 255, 0.95);
-  --color-bg-nav: rgba(249, 250, 251, 0.85);
-  --color-text: #111827;
-  --color-text-muted: #374151; /* Darkened slate-700 for high accessibility contrast (WCAG AA compliant) */
+  --color-bg-card: #ffffff;
+  --color-bg-card-hover: #f8fafc;
+  --color-bg-elevated: #ffffff;
+  --color-bg-input: #ffffff;
+  --color-bg-nav: #ffffff;
+  --color-bg-footer: #0f172a;
+  --color-bg-subtle: #f8fafc;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-text-subtle: #94a3b8;
   --color-text-inverse: #ffffff;
-  --color-border: #cbd5e1; /* Darker border from #e5e7eb to make sections pop */
-  --color-border-hover: #94a3b8; /* Darker border hover */
-  --color-shadow: rgba(0, 0, 0, 0.06);
+  --color-border: #e2e8f0;
+  --color-border-hover: #cbd5e1;
+  --color-border-subtle: #f1f5f9;
+  --color-shadow: rgba(15, 23, 42, 0.05);
   --color-shadow-hover: rgba(99, 102, 241, 0.1);
-  --glass-bg: rgba(255, 255, 255, 0.65);
-  --glass-border: rgba(15, 23, 42, 0.12); /* Semi-transparent slate border instead of light white */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: #e2e8f0;
   --glow-opacity: 0.05;
+
+  /* Specific Section Tokens */
+  --hero-bg-gradient: linear-gradient(180deg, #f8faff 0%, #f0f6ff 100%);
+  --hero-border: #edf2f9;
+  --benefits-bg: #f0f3ff;
+  --benefits-border: #e0e7ff;
+  --benefits-box-bg: #ffffff;
+  --cta-bg-gradient: linear-gradient(135deg, #5b4fe8 0%, #4338ca 50%, #3b82f6 100%);
+  --dropdown-bg: #ffffff;
+  --dropdown-border: #e2e8f0;
+  --dropdown-hover: #f8faff;
+  --dropdown-footer: #f8fafc;
 }
 
-/* Dark Theme Variables */
+/* Attractive Gray-Based Dark Theme Variables (No Pure Black) */
 [data-theme="dark"] {
-  --color-bg: #030712;
-  --color-bg-alt: #0b0f19;
-  --color-bg-card: rgba(17, 24, 39, 0.65);
-  --color-bg-card-hover: rgba(31, 41, 55, 0.85);
-  --color-bg-nav: rgba(3, 7, 18, 0.85);
-  --color-text: #f9fafb;
-  --color-text-muted: #cbd5e1; /* Lightened slate-300 for high accessibility contrast */
+  --color-bg: #202124;               /* Main page background */
+  --color-bg-alt: #181A1B;           /* Header & elevated surfaces */
+  --color-bg-card: #2B2D30;          /* Cards & elevated sections */
+  --color-bg-card-hover: #33363B;
+  --color-bg-elevated: #2B2D30;
+  --color-bg-input: #303238;         /* Inputs & dropdowns */
+  --color-bg-nav: #181A1B;           /* Header navigation */
+  --color-bg-footer: #181A1B;        /* Footer */
+  --color-bg-subtle: #2B2D30;
+  --color-text: #F1F3F4;             /* Primary text */
+  --color-text-muted: #B8BEC7;       /* Secondary text */
+  --color-text-subtle: #8A929E;      /* Tertiary / placeholder */
   --color-text-inverse: #111827;
-  --color-border: #374151; /* Lighter/clearer border in dark mode from #1f2937 */
-  --color-border-hover: #4b5563;
-  --color-shadow: rgba(0, 0, 0, 0.4);
-  --color-shadow-hover: rgba(99, 102, 241, 0.2);
-  --glass-bg: rgba(17, 24, 39, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.14); /* Brighter glowing border in dark mode */
-  --glow-opacity: 0.15;
+  --color-border: #41444A;           /* Subtle gray borders */
+  --color-border-hover: #5A5E66;
+  --color-border-subtle: #36383E;
+  --color-shadow: rgba(0, 0, 0, 0.35);
+  --color-shadow-hover: rgba(99, 102, 241, 0.25);
+  --glass-bg: rgba(43, 45, 48, 0.85);
+  --glass-border: #41444A;
+  --glow-opacity: 0.12;
+
+  /* Specific Section Tokens */
+  --hero-bg-gradient: linear-gradient(180deg, #181A1B 0%, #202124 100%);
+  --hero-border: #36383E;
+  --benefits-bg: #2B2D30;
+  --benefits-border: #41444A;
+  --benefits-box-bg: #303238;
+  --cta-bg-gradient: linear-gradient(135deg, #4338ca 0%, #312e81 50%, #1e3a8a 100%);
+  --dropdown-bg: #2B2D30;
+  --dropdown-border: #41444A;
+  --dropdown-hover: #33363B;
+  --dropdown-footer: #26272B;
 }
 
 /* Fluid Typography Rules */
@@ -185,7 +222,7 @@ img, svg {
 /* Premium 3D Bevel & Shadow Border for Interactive Tools */
 .calc-card {
   position: relative;
-  background: var(--color-bg-alt) !important;
+  background: var(--color-bg-card) !important;
   border: 1.5px solid var(--color-border) !important;
   border-bottom: 5px solid var(--color-border-hover) !important;
   box-shadow: 
@@ -197,12 +234,14 @@ img, svg {
 }
 
 [data-theme="dark"] .calc-card {
+  background: var(--color-bg-card) !important;
+  border-color: var(--color-border) !important;
   border-bottom-color: var(--color-brand) !important;
   box-shadow: 
-    0 30px 60px -15px rgba(0, 0, 0, 0.7),
-    0 15px 30px -10px rgba(99, 102, 241, 0.15),
-    inset 0 1.5px 0 0 rgba(255, 255, 255, 0.12),
-    inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.4) !important;
+    0 20px 40px -15px rgba(0, 0, 0, 0.5),
+    0 10px 20px -10px rgba(99, 102, 241, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.3) !important;
 }
 
 .calc-card:hover {
@@ -216,10 +255,10 @@ img, svg {
 
 [data-theme="dark"] .calc-card:hover {
   box-shadow: 
-    0 40px 80px -20px rgba(0, 0, 0, 0.8),
-    0 20px 40px -15px rgba(99, 102, 241, 0.22),
-    inset 0 1.5px 0 0 rgba(255, 255, 255, 0.18),
-    inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.5) !important;
+    0 25px 50px -15px rgba(0, 0, 0, 0.6),
+    0 15px 30px -10px rgba(99, 102, 241, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.4) !important;
 }
 
 /* Premium Glow Grid Background */
@@ -267,7 +306,7 @@ img, svg {
   width: 100%;
   height: 48px;
   padding: 0 1rem;
-  background: var(--color-bg);
+  background: var(--color-bg-input, var(--color-bg));
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   color: var(--color-text);

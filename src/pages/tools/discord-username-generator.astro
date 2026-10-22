@@ -8,7 +8,7 @@ const faqs = [
   },
   {
     question: "How does the Display Name differ from the Username on Discord?",
-    answer: "Your Username is globally unique, lowercase, and used to log in or add friends (e.g. @shadow_gamer). Your Display Name is non-unique, can contain capital letters, emojis, and spaces, and is what other users see in servers (e.g. Shadow Gamer 🔥)."
+    answer: "Your Username is globally unique, lowercase, and used to log in or add friends (e.g. @shadow_gamer). Your Display Name is non-unique, can contain capital letters, emojis, and spaces, and is what other users see in servers (e.g. Shadow Gamer)."
   },
   {
     question: "Can I use special characters in my Discord username?",
@@ -47,7 +47,7 @@ const faqs = [
               </svg>
               Seed Keyword / Name
             </label>
-            <input type="text" id="seed-input" class="form-input" placeholder="e.g. shadow, neon, alex" value="cyber" />
+            <input type="text" id="seed-input" class="form-input" placeholder="Enter keywords or base name..." value="cyber" />
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
@@ -116,7 +116,7 @@ const faqs = [
             <div style="font-size: 0.78rem; display: flex; flex-direction: column; gap: 0.75rem; color: #b9bbbe;">
               <div>
                 <strong style="color: #ffffff; text-transform: uppercase; font-size: 0.68rem; display: block; margin-bottom: 4px;">About Me</strong>
-                <span id="discord-bio-text">Customizing my server settings. Add me to chat! 🎮</span>
+                <span id="discord-bio-text">Customizing my server settings. Add me to chat!</span>
               </div>
 
               <div>
@@ -148,7 +148,7 @@ const faqs = [
     <h2>Discord Username Generator: Optimize Your Gaming Identity</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        🎮 <strong>Looking for branding strategies and server nickname ideas?</strong> Read our comprehensive guide on <a href="/blog/discord-username-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Discord Username Ideas & Account Rebranding</a> to learn how to claim cool names, audit requirements, and design profiles.
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m7 3 3 18"/><path d="m14 3 3 18"/><path d="M3 8.5h18"/><path d="M3 14h18"/></svg> <strong>Looking for branding strategies and server nickname ideas?</strong> Read our comprehensive guide on <a href="/blog/discord-username-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Discord Username Ideas & Account Rebranding</a> to learn how to claim cool names, audit requirements, and design profiles.
       </p>
     </div>
 
@@ -195,10 +195,10 @@ const faqs = [
     </p>
     <p>
       <strong>Rules Check & Optimization Process:</strong><br />
-      ✦ Conversion to Lowercase: `"alex tech"` $\rightarrow$ `"alex_tech"` (Replaces spaces with underscore separator).<br />
-      ✦ Cyberpunk suffix append: `"alex_tech_cyber"` (Adds style modifier).<br />
-      ✦ Length Audit: `"alex_tech_cyber"` contains 15 characters, which is between the 2-32 limit.<br />
-      ✦ Characters Check: Contains only lowercase characters `a-z` and underscores `_`. No consecutive periods.
+      • Conversion to Lowercase: `"alex tech"` $\rightarrow$ `"alex_tech"` (Replaces spaces with underscore separator).<br />
+      • Cyberpunk suffix append: `"alex_tech_cyber"` (Adds style modifier).<br />
+      • Length Audit: `"alex_tech_cyber"` contains 15 characters, which is between the 2-32 limit.<br />
+      • Characters Check: Contains only lowercase characters `a-z` and underscores `_`. No consecutive periods.
     </p>
     <p>
       The generated username is `@alex_tech_cyber`. It complies with Discord's rules.
@@ -594,7 +594,7 @@ const faqs = [
       navigator.clipboard.writeText(username).then(() => {
         const btn = chip.querySelector('.chip-btn') as HTMLElement;
         if (btn) {
-          btn.textContent = 'Copied! ✓';
+          btn.textContent = "Copied!";
           setTimeout(() => {
             btn.textContent = 'Copy';
           }, 1200);

@@ -47,7 +47,7 @@ const faqs = [
               </svg>
               Profile @Handle
             </label>
-            <input type="text" id="handle-input" class="form-input" placeholder="e.g. content_reviewer" value="creators_feel" />
+            <input type="text" id="handle-input" class="form-input" placeholder="Enter channel niche or role..." value="creators_feel" />
           </div>
 
           <!-- Video Topic/Niche -->
@@ -58,7 +58,7 @@ const faqs = [
               </svg>
               What is the video niche / topic?
             </label>
-            <input type="text" id="value-input" class="form-input" placeholder="e.g. productivity hacks, cooking channels" value="productivity hacks" required />
+            <input type="text" id="value-input" class="form-input" placeholder="Enter video topic or theme..." value="productivity hacks" required />
           </div>
 
           <!-- Comment Intent -->
@@ -136,7 +136,7 @@ const faqs = [
                 <!-- Creator heart display -->
                 <div style="display: flex; align-items: center; gap: 0.2rem; cursor: pointer; margin-left: 0.5rem;" id="creator-heart">
                   <div style="width: 18px; height: 18px; border-radius: 50%; background: var(--color-brand); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.5rem; font-weight: 900;">Y</div>
-                  <span style="font-size: 0.65rem; color: #ef4444;">♥️</span>
+                  <span style="font-size: 0.65rem; color: #ef4444;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#ef4444;"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span>
                 </div>
               </div>
             </div>
@@ -157,22 +157,7 @@ const faqs = [
             <div id="progress-bar-fill" style="width: 1%; height: 100%; background: var(--color-brand); transition: all var(--transition-fast);"></div>
           </div>
 
-          <!-- Quick Emoji Panel -->
-          <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem;">
-            <span style="font-size: 0.65rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Insert Emoji:</span>
-            <div class="emoji-selector-panel" id="emoji-picker-container">
-              <button type="button" class="emoji-btn">🔥</button>
-              <button type="button" class="emoji-btn">👏</button>
-              <button type="button" class="emoji-btn">🙌</button>
-              <button type="button" class="emoji-btn">💡</button>
-              <button type="button" class="emoji-btn">💯</button>
-              <button type="button" class="emoji-btn">🚀</button>
-              <button type="button" class="emoji-btn">👀</button>
-              <button type="button" class="emoji-btn">👇</button>
-              <button type="button" class="emoji-btn">👍</button>
-              <button type="button" class="emoji-btn">⭐</button>
-            </div>
-          </div>
+          
 
           <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
             <button type="button" id="copy-active-btn" class="calc-btn" style="flex: 1.2; height: 42px; font-size: 0.85rem;">Copy Comment</button>
@@ -191,7 +176,7 @@ const faqs = [
                 <span class="opt-label">Option A (Friendly & Supportive)</span>
                 <span id="opt-1-badge" class="opt-badge">0 / 10000</span>
               </div>
-              <p id="opt-1-val" class="opt-text">Great productivity hacks! The formatting of the calendar technique was super helpful. Keep up the excellent work! 🙌</p>
+              <p id="opt-1-val" class="opt-text">Great productivity hacks! The formatting of the calendar technique was super helpful. Keep up the excellent work!</p>
               <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
                 <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-1-val">Load to Sandbox</button>
                 <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-1-val">Copy</button>
@@ -204,7 +189,7 @@ const faqs = [
                 <span class="opt-label">Option B (Analytical & Detailed)</span>
                 <span id="opt-2-badge" class="opt-badge">0 / 10000</span>
               </div>
-              <p id="opt-2-val" class="opt-text">Excellent summary of productivity hacks. Removing distractions is highly effective. What tool do you recommend for blocking apps? 💡</p>
+              <p id="opt-2-val" class="opt-text">Excellent summary of productivity hacks. Removing distractions is highly effective. What tool do you recommend for blocking apps?</p>
               <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
                 <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-2-val">Load to Sandbox</button>
                 <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-2-val">Copy</button>
@@ -217,7 +202,7 @@ const faqs = [
                 <span class="opt-label">Option C (Short & Witty)</span>
                 <span id="opt-3-badge" class="opt-badge">0 / 10000</span>
               </div>
-              <p id="opt-3-val" class="opt-text">Need to try these productivity hacks immediately! Simple yet game-changing. 🚀</p>
+              <p id="opt-3-val" class="opt-text">Need to try these productivity hacks immediately! Simple yet game-changing.</p>
               <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
                 <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-3-val">Load to Sandbox</button>
                 <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-3-val">Copy</button>
@@ -233,7 +218,7 @@ const faqs = [
     <h2>YouTube Comment Generator: Write High-Value Video Comments</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        💬 <strong>Looking to maximize community engagement?</strong> Read our comprehensive strategy guide on <a href="/blog/youtube-comment-generator-guide" style="color: var(--color-brand); text-decoration: underline;">YouTube Comments & Community Growth</a> to learn how to structure formatting, secure pinned status, and drive organic link clicks.
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> <strong>Looking to maximize community engagement?</strong> Read our comprehensive strategy guide on <a href="/blog/youtube-comment-generator-guide" style="color: var(--color-brand); text-decoration: underline;">YouTube Comments & Community Growth</a> to learn how to structure formatting, secure pinned status, and drive organic link clicks.
       </p>
     </div>
 
@@ -276,17 +261,17 @@ const faqs = [
     </p>
     <p>
       <strong>Input Parameters:</strong><br />
-      ✦ Video Niche: "productivity hacks"<br />
-      ✦ Comment Intent: "Opinion"<br />
-      ✦ Tone: "Analytical & Detailed"
+      • Video Niche: "productivity hacks"<br />
+      • Comment Intent: "Opinion"<br />
+      • Tone: "Analytical & Detailed"
     </p>
     <p>
       <strong>Comment Layout:</strong><br />
-      "Excellent summary of productivity hacks. Removing distractions is highly effective. What tool do you recommend for blocking apps? 💡"<br />
-      ✦ Hook: "Excellent summary of productivity hacks." (Praise)<br />
-      ✦ Body: "Removing distractions is highly effective." (Value Observation)<br />
-      ✦ Close: "What tool do you recommend for blocking apps? 💡" (Question CTA)<br />
-      ✦ Total Character Count: <strong>132 characters</strong>. This is under the 200-character threshold, preventing truncation behind a 'Read more' button on mobile screens.
+      "Excellent summary of productivity hacks. Removing distractions is highly effective. What tool do you recommend for blocking apps?"<br />
+      • Hook: "Excellent summary of productivity hacks." (Praise)<br />
+      • Body: "Removing distractions is highly effective." (Value Observation)<br />
+      • Close: "What tool do you recommend for blocking apps?" (Question CTA)<br />
+      • Total Character Count: <strong>132 characters</strong>. This is under the 200-character threshold, preventing truncation behind a 'Read more' button on mobile screens.
     </p>
 
     <h3>Who Should Use This Tool?</h3>
@@ -614,16 +599,16 @@ const faqs = [
 
       if (intent === 'Complimentary') {
         if (tone === 'Friendly') {
-          options[0] = `Great ${val} content! Your formatting and explanation was super helpful. Keep it up! 🙌`;
-          options[1] = `This video on ${val} deserves way more views. Really appreciate the clean breakdown! ⭐`;
-          options[2] = `Amazing explanation! You made ${val} look so simple. 🔥`;
+          options[0] = `Great ${val} content! Your formatting and explanation was super helpful. Keep it up!`;
+          options[1] = `This video on ${val} deserves way more views. Really appreciate the clean breakdown!`;
+          options[2] = `Amazing explanation! You made ${val} look so simple.`;
         } else if (tone === 'Analytical') {
           options[0] = `Solid breakdown of ${val}. The structured tips on application were particularly informative.`;
           options[1] = `Really clear details on ${val}. Your systematic process makes this approach highly actionable.`;
           options[2] = `Excellent educational value on ${val}. Thanks for parsing the complex concepts.`;
         } else if (tone === 'Humorous') {
-          options[0] = `Finally, a video on ${val} that didn't put me to sleep! 😂 Love your presentation style.`;
-          options[1] = `Came for the ${val} tips, stayed for the jokes. Super entertaining work! 🚀`;
+          options[0] = `Finally, a video on ${val} that didn't put me to sleep! Love your presentation style.`;
+          options[1] = `Came for the ${val} tips, stayed for the jokes. Super entertaining work!`;
           options[2] = `My productivity increased just by watching you describe ${val} haha!`;
         } else { // Professional
           options[0] = `Highly informative analysis on ${val}. Thank you for organizing this reference.`;
@@ -631,15 +616,15 @@ const faqs = [
           options[2] = `Appreciate the professional perspective on ${val}. Great tutorial.`;
         }
       } else if (intent === 'Question') {
-        options[0] = `Loved the tips on ${val}. How do you balance this technique when starting out? 🤔`;
-        options[1] = `This breakdown of ${val} was super interesting. Do you recommend any specific tools for beginners? 💡`;
+        options[0] = `Loved the tips on ${val}. How do you balance this technique when starting out?`;
+        options[1] = `This breakdown of ${val} was super interesting. Do you recommend any specific tools for beginners?`;
         options[2] = `Great video! I've struggled with ${val} in the past. What is the most common mistake you see?`;
       } else if (intent === 'Opinion') {
-        options[0] = `Good points on ${val}. In my experience, keeping the setup simple is key to consistency. 💯`;
+        options[0] = `Good points on ${val}. In my experience, keeping the setup simple is key to consistency.`;
         options[1] = `Strong arguments regarding ${val}. I think focusing on clean layouts holds the most value.`;
         options[2] = `Interesting view on ${val}. We usually see complex setups, so this minimal style is refreshing.`;
       } else { // constructive feedback
-        options[0] = `Great video on ${val}! The audio was a bit low in the middle, but the tips were top notch! 👍`;
+        options[0] = `Great video on ${val}! The audio was a bit low in the middle, but the tips were top notch!`;
         options[1] = `Valuable advice on ${val}. It would be awesome if you showed more screen examples next time.`;
         options[2] = `Nice tutorial! A quick summary list at the end would make this perfect. Thanks!`;
       }
@@ -718,7 +703,7 @@ const faqs = [
 
         navigator.clipboard.writeText(text).then(() => {
           const originalText = btn.textContent;
-          btn.textContent = 'Copied! ✓';
+          btn.textContent = "Copied!";
           setTimeout(() => {
             btn.textContent = originalText;
           }, 1500);
@@ -733,7 +718,7 @@ const faqs = [
       
       navigator.clipboard.writeText(text).then(() => {
         const originalText = copyActiveBtn.textContent;
-        copyActiveBtn.textContent = 'Copied to Clipboard! ✓';
+        copyActiveBtn.textContent = "Copied to Clipboard!";
         setTimeout(() => {
           copyActiveBtn.textContent = originalText;
         }, 1500);

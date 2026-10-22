@@ -1,478 +1,1485 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Card from '../components/Card.astro';
-import CategoryCard from '../components/CategoryCard.astro';
-import { getCollection } from 'astro:content';
+import HeroIllustration from '../components/HeroIllustration.astro';
 
-// Fetch latest blog posts (sorted by date, limit to 3)
-let blogPosts = [];
-try {
-  const allPosts = await getCollection('blog');
-  blogPosts = allPosts
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-    .slice(0, 3);
-} catch (e) {
-  // Fallback in case collections are not yet populated
-  blogPosts = [];
-}
-
-const featuredTools = [
+// Categories matching the reference design (6 cards)
+const categories = [
   {
-    title: 'Twitter Hashtag Counter',
-    description: 'Count and optimize tweet hashtag density.',
-    href: '/tools/twitter-hashtag-counter',
-    badge: 'New',
-    badgeType: 'brand' as const,
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5-3.9 19.5m-2.1-19.5-3.9 19.5" /></svg>`
+    title: 'YouTube Tools',
+    description: 'Thumbnails, tags, titles & more',
+    href: '/tools?q=youtube',
+    bg: '#fef2f2',
+    border: '#fee2e2',
+    iconColor: '#ef4444',
+    icon: `<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`
   },
   {
-    title: 'YouTube Watch Time Calculator',
-    description: 'Track progress toward 4,000 watch hours.',
-    href: '/tools/youtube-watch-time-calculator',
-    badge: 'New',
-    badgeType: 'brand' as const,
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>`
+    title: 'Instagram Tools',
+    description: 'Reels, captions, hashtags & more',
+    href: '/tools?q=instagram',
+    bg: '#fdf2f8',
+    border: '#fce7f3',
+    iconColor: '#ec4899',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`
   },
   {
-    title: 'Audio Visualizer Generator',
-    description: 'Create animated audio waveforms from MP3s.',
-    href: '/tools/audio-visualizer-generator',
-    badge: 'New',
-    badgeType: 'brand' as const,
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" /></svg>`
+    title: 'TikTok Tools',
+    description: 'Videos, hashtags, captions & more',
+    href: '/tools?q=tiktok',
+    bg: '#f8fafc',
+    border: '#e2e8f0',
+    iconColor: '#0f172a',
+    icon: `<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>`
   },
   {
-    title: 'YouTube Title Checker',
-    description: 'Check title length, SEO score, and power words.',
-    href: '/tools/youtube-title-length-checker',
-    badge: 'New',
-    badgeType: 'info' as const,
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" /></svg>`
+    title: 'Image Tools',
+    description: 'Resize, compress, convert & more',
+    href: '/tools?q=image',
+    bg: '#f0fdf4',
+    border: '#dcfce7',
+    iconColor: '#10b981',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`
+  },
+  {
+    title: 'SEO Tools',
+    description: 'Keywords, meta tags & more',
+    href: '/tools?cat=Writing%20Tools',
+    bg: '#eff6ff',
+    border: '#dbeafe',
+    iconColor: '#3b82f6',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>`
+  },
+  {
+    title: 'General Tools',
+    description: 'Productivity, utilities & more',
+    href: '/tools',
+    bg: '#fffbeb',
+    border: '#fef3c7',
+    iconColor: '#f59e0b',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`
   }
 ];
+
+// Featured Tools matching the 8 cards in reference
+const featuredTools = [
+  {
+    title: 'YouTube Thumbnail Downloader',
+    description: 'Download high-quality thumbnails from YouTube videos.',
+    href: '/tools/youtube-thumbnail-size-checker',
+    iconBg: '#ef4444',
+    icon: `<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`
+  },
+  {
+    title: 'Instagram Hashtag Generator',
+    description: 'Find the best hashtags to increase your reach and engagement.',
+    href: '/tools/instagram-hashtag-counter',
+    iconBg: '#ec4899',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`
+  },
+  {
+    title: 'TikTok Video Downloader',
+    description: 'Download TikTok videos and generate viral hooks without watermark.',
+    href: '/tools/tiktok-hook-generator',
+    iconBg: '#0f172a',
+    icon: `<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>`
+  },
+  {
+    title: 'Image Compressor',
+    description: 'Reduce image and video size without losing quality.',
+    href: '/tools/video-compressor',
+    iconBg: '#10b981',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`
+  },
+  {
+    title: 'Video Caption Generator',
+    description: 'Create catchy, search-optimized captions for your videos in seconds.',
+    href: '/tools/tiktok-caption-generator',
+    iconBg: '#3b82f6',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="13" y2="13"/></svg>`
+  },
+  {
+    title: 'Keyword Research Tool',
+    description: 'Find relevant keywords for your content and SEO.',
+    href: '/tools/youtube-keyword-generator',
+    iconBg: '#8b5cf6',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`
+  },
+  {
+    title: 'Meta Tag Generator',
+    description: 'Generate SEO meta tags and video tags for better rankings.',
+    href: '/tools/youtube-tag-generator',
+    iconBg: '#f59e0b',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`
+  },
+  {
+    title: 'Blog Title Generator',
+    description: 'Get creative, high-CTR blog and video title ideas instantly.',
+    href: '/tools/youtube-clickbait-title-generator',
+    iconBg: '#e11d48',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`
+  }
+];
+
+// Latest Articles matching the 4 cards in reference
+const articles = [
+  {
+    platform: 'YouTube',
+    tagColor: '#ef4444',
+    bgGradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%)',
+    icon: `<svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`,
+    title: 'How to Get More Views on YouTube in 2026 (Proven Tips)',
+    date: 'Oct 12, 2026',
+    href: '/blog/how-much-youtube-pays-for-1-million-views'
+  },
+  {
+    platform: 'Instagram',
+    tagColor: '#ec4899',
+    bgGradient: 'linear-gradient(135deg, #f43f5e 0%, #d946ef 50%, #8b5cf6 100%)',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="36" height="36"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`,
+    title: 'Best Instagram Caption Ideas for More Engagement',
+    date: 'Oct 10, 2026',
+    href: '/blog/how-to-calculate-engagement-rate'
+  },
+  {
+    platform: 'TikTok',
+    tagColor: '#0f172a',
+    bgGradient: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #f43f5e 100%)',
+    icon: `<svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>`,
+    title: 'TikTok Hashtags That Actually Work in 2026',
+    date: 'Oct 8, 2026',
+    href: '/blog/tiktok-engagement-calculator-guide'
+  },
+  {
+    platform: 'SEO',
+    tagColor: '#2563eb',
+    bgGradient: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%)',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="36" height="36"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><text x="7" y="12" font-family="'Outfit', sans-serif" font-size="6" font-weight="800" fill="currentColor">SEO</text></svg>`,
+    title: '10 Simple SEO Tips for Creators (That Really Work)',
+    date: 'Oct 5, 2026',
+    href: '/blog/meta-description-length-checker-guide'
+  }
+];
+
+// Comprehensive index for instant live search dropdown in hero
+const searchIndex = [
+  { title: 'YouTube Thumbnail Downloader', href: '/tools/youtube-thumbnail-size-checker', cat: 'YouTube', desc: 'Download and check thumbnail dimensions' },
+  { title: 'Instagram Hashtag Generator', href: '/tools/instagram-hashtag-counter', cat: 'Instagram', desc: 'Find hashtags to maximize reach' },
+  { title: 'TikTok Video Downloader & Hooks', href: '/tools/tiktok-hook-generator', cat: 'TikTok', desc: 'Generate retention hooks and openers' },
+  { title: 'Video & Image Compressor', href: '/tools/video-compressor', cat: 'Media', desc: 'Compress media without quality loss' },
+  { title: 'Video Caption Generator', href: '/tools/tiktok-caption-generator', cat: 'Writing', desc: 'Search-optimized captions and tags' },
+  { title: 'Keyword Research Tool', href: '/tools/youtube-keyword-generator', cat: 'SEO', desc: 'Find high-volume search keywords' },
+  { title: 'Meta Tag Generator', href: '/tools/youtube-tag-generator', cat: 'SEO', desc: 'Generate ranking tags and metadata' },
+  { title: 'Blog Title Generator', href: '/tools/youtube-clickbait-title-generator', cat: 'Writing', desc: 'Create high-CTR headline ideas' },
+  { title: 'Instagram Engagement Calculator', href: '/tools/instagram-engagement-calculator', cat: 'Instagram', desc: 'Calculate true engagement rate' },
+  { title: 'YouTube Watch Time Calculator', href: '/tools/youtube-watch-time-calculator', cat: 'YouTube', desc: 'Track progress toward 4,000 hours' },
+  { title: 'Brand Deal Calculator', href: '/tools/brand-deal-calculator', cat: 'Monetization', desc: 'Estimate sponsorship deal rates' },
+  { title: 'Online Video Trimmer', href: '/tools/online-video-trimmer', cat: 'Media', desc: 'Trim and cut video clips in browser' },
+  { title: 'YouTube CPM Calculator', href: '/tools/youtube-cpm-calculator', cat: 'YouTube', desc: 'Estimate CPM and net earnings' },
+  { title: 'TikTok Money Calculator', href: '/tools/tiktok-money-calculator', cat: 'TikTok', desc: 'Estimate monthly creator payouts' }
+];
+
+const breadcrumbs = [{ name: 'Home', item: '/' }];
 ---
 
-<BaseLayout>
-  <!-- Hero Section -->
-  <section class="hero-section text-center">
+<BaseLayout
+  title="CreatorsFeel - Everything You Need To Create, Grow & Succeed"
+  description="CreatorsFeel provides free tools, resources and helpful guides to make your content creation journey easier, faster and more productive. Save time, optimize your content and grow your audience."
+  breadcrumbs={breadcrumbs}
+  canonicalUrl="https://creatorsfeel.com"
+  hideGlow={true}
+>
+  <!-- 1. HERO SECTION (Matching Reference) -->
+  <section class="hero-section">
     <div class="container hero-container">
-      <h1 class="hero-title">Create Better. Analyze Faster. <span class="text-gradient">Grow Smarter.</span></h1>
-      <p class="hero-desc text-muted">
-        Unlock premium, ad-free analytics tools designed to audit engagement, estimate sponsored rates, and optimize titles for maximum reach. Built for creators, influencers, and digital marketers.
-      </p>
-      <div class="hero-actions">
-        <a href="/tools" class="hero-btn-primary">Explore All Tools</a>
-        <a href="/blog" class="hero-btn-secondary">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor" style="width: 18px; height: 18px; margin-right: 0.5rem; color: var(--color-brand); flex-shrink: 0;">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-          </svg>
-          Read Creator Guides
-        </a>
+      <!-- Left Column: Content, Headline, Search, Popular Chips -->
+      <div class="hero-content">
+        <!-- Small Pill Label -->
+        <div class="hero-pill-badge">
+          Tools &bull; Resources &bull; Growth
+        </div>
+
+        <!-- Large Bold Headline -->
+        <h1 class="hero-title">
+          Everything You Need<br />
+          To <span class="text-purple-highlight">Create, Grow &amp; Succeed</span>
+        </h1>
+
+        <!-- Short Description -->
+        <p class="hero-subtitle">
+          CreatorsFeel provides free tools, resources and helpful guides to make your content creation journey easier, faster and more productive. Save time, optimize your content and grow your audience.
+        </p>
+
+        <!-- Wide Tool Search Field with Purple "Explore Tools" Button -->
+        <div class="hero-search-container" id="hero-search-wrapper">
+          <form action="/tools" method="GET" class="hero-search-form" role="search" aria-label="Search Creator Tools">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.637 10.637Z" />
+            </svg>
+            <input
+              type="search"
+              name="q"
+              id="hero-search-input"
+              class="hero-search-input"
+              placeholder="Search creator tools and calculators..."
+              autocomplete="off"
+            />
+            <button type="submit" class="hero-explore-btn">
+              <span>Explore Tools</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+            </button>
+          </form>
+
+          <!-- Live Search Dropdown -->
+          <div id="hero-search-dropdown" class="hero-search-dropdown hidden">
+            <div class="dropdown-header">Quick Results</div>
+            <div id="dropdown-results-list" class="dropdown-results-list"></div>
+            <div class="dropdown-footer">
+              <a href="/tools" class="dropdown-view-all">View all 80+ tools in directory &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Popular Tool Suggestion Chips -->
+        <div class="hero-popular-chips">
+          <span class="popular-label">Popular:</span>
+          <a href="/tools/youtube-thumbnail-size-checker" class="popular-chip">YouTube Thumbnail</a>
+          <a href="/tools/instagram-hashtag-counter" class="popular-chip">Hashtag Generator</a>
+          <a href="/tools/video-compressor" class="popular-chip">Video Compressor</a>
+          <a href="/tools/tiktok-caption-generator" class="popular-chip">Caption Generator</a>
+        </div>
+      </div>
+
+      <!-- Right Column: Creator Artwork Illustration -->
+      <div class="hero-artwork-col">
+        <HeroIllustration />
       </div>
     </div>
   </section>
 
-  <!-- Featured Tools Section -->
-  <section class="featured-section">
+  <!-- 2. EXPLORE TOOLS BY CATEGORY (Matching Reference: 6 Cards) -->
+  <section class="section-categories">
     <div class="container">
-      <div class="section-header text-center">
-        <h2 class="section-title">Featured Creator Tools</h2>
-        <p class="section-subtitle text-muted">Try our core tools built for instant social media optimization.</p>
+      <div class="section-header-row">
+        <div>
+          <h2 class="section-title">Explore Tools by Category</h2>
+          <p class="section-subtitle">Find the right tool for your needs. From video editing to SEO, we've got you covered.</p>
+        </div>
+        <a href="/tools" class="view-all-link">
+          <span>View All Tools</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+        </a>
       </div>
 
-      <div class="tools-grid">
-        {featuredTools.map(tool => (
-          <Card 
-            title={tool.title} 
-            description={tool.description} 
-            href={tool.href}
-            badge={tool.badge}
-            badgeType={tool.badgeType}
-            icon={tool.icon}
-          />
+      <div class="categories-grid-6">
+        {categories.map(cat => (
+          <a 
+            href={cat.href} 
+            class="category-pastel-card" 
+            style={`background-color: ${cat.bg}; border-color: ${cat.border};`}
+          >
+            <div class="category-icon-square" style={`background-color: ${cat.iconColor};`}>
+              <div class="category-svg-icon" set:html={cat.icon} />
+            </div>
+            <h3 class="category-card-title">{cat.title}</h3>
+            <p class="category-card-desc">{cat.description}</p>
+          </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Browse by Category Section -->
-  <section class="categories-section">
+  <!-- 3. FEATURED TOOLS (Matching Reference: 8 Cards in 4x2 Grid) -->
+  <section class="section-featured">
     <div class="container">
-      <div class="section-header text-center">
-        <h2 class="section-title">Explore Creator Directories</h2>
-        <p class="section-subtitle text-muted">Find the right specialized utility to audit performance and audit layouts.</p>
+      <div class="section-header-row">
+        <div>
+          <h2 class="section-title">Featured Tools</h2>
+          <p class="section-subtitle">Most popular and useful tools for creators, handpicked for you.</p>
+        </div>
+        <a href="/tools" class="view-all-link">
+          <span>View All Tools</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+        </a>
       </div>
 
-      <div class="categories-grid">
-        <CategoryCard 
-          title="Calculators & Analytics"
-          description="Audit interaction statistics, calculate engagement rates, evaluate post-earnings, and map sponsored campaign CPMs."
-          icon={`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" /></svg>`}
-          count={17}
-          href="/tools?cat=Calculators"
-        />
-        <CategoryCard 
-          title="Writing & SEO Tools"
-          description="Scan titles for character limit thresholds, capitalization guidelines, power trigger words, and layout crop warnings."
-          icon={`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" /></svg>`}
-          count={41}
-          href="/tools?cat=Writing%20Tools"
-        />
+      <div class="featured-tools-grid">
+        {featuredTools.map(tool => (
+          <a href={tool.href} class="featured-tool-card">
+            <div class="tool-card-icon-square" style={`background-color: ${tool.iconBg};`}>
+              <div class="tool-svg-icon" set:html={tool.icon} />
+            </div>
+            <h3 class="tool-card-title">{tool.title}</h3>
+            <p class="tool-card-desc">{tool.description}</p>
+            <div class="tool-card-arrow-circle" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14m-7-7 7 7-7 7"/>
+              </svg>
+            </div>
+          </a>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Why Choose Us Section -->
-  <section class="why-us-section" id="why-choose-us">
+  <!-- 4. CREATOR BENEFITS BANNER (Matching Reference) -->
+  <section class="section-benefits">
     <div class="container">
-      <div class="section-header text-center">
-        <h2 class="section-title">Why Creators Choose Us</h2>
-        <p class="section-subtitle text-muted">A premium toolset built around privacy, speed, and clean metrics.</p>
-      </div>
+      <div class="benefits-banner">
+        <!-- Top Right Handwritten Decoration: Your Growth Our Mission -->
+        <div class="banner-mission-note" aria-hidden="true">
+          <span class="mission-text-1">Your Growth</span>
+          <span class="mission-text-2">Our Mission</span>
+          <svg class="mission-arrow" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 6 C20 16, 16 22, 10 24" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" />
+            <path d="M14 18 L10 24 L18 24" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
 
-      <div class="why-grid">
-        <div class="why-card glass">
-          <div class="why-icon-box" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="why-icon"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-          </div>
-          <h3>Instant Calculations</h3>
-          <p class="text-muted">No loading states or page refreshes. Get your metrics in real-time as you enter your figures.</p>
+        <div class="benefits-left-col">
+          <span class="benefits-label">Why CreatorsFeel?</span>
+          <h2 class="benefits-heading">
+            Built for Creators, <span class="text-purple-highlight">by Creators</span>
+          </h2>
+          <p class="benefits-desc">
+            We understand the challenges you face. That's why we create simple, practical and free tools to help you save time, improve your content and focus on what you do best &mdash; creating.
+          </p>
         </div>
-        <div class="why-card glass">
-          <div class="why-icon-box" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="why-icon"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+
+        <div class="benefits-right-col">
+          <!-- 1. Save Time -->
+          <div class="benefit-item">
+            <div class="benefit-icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.2" width="20" height="20">
+                <path d="m13 2-2 10h7l-4 10 2-10H9l4-10z" />
+              </svg>
+            </div>
+            <h4 class="benefit-item-title">Save Time</h4>
+            <p class="benefit-item-desc">Get things done faster with our tools.</p>
           </div>
-          <h3>100% Privacy Focused</h3>
-          <p class="text-muted">We process all calculations locally in your browser. We never store, log, or resell your profile statistics.</p>
-        </div>
-        <div class="why-card glass">
-          <div class="why-icon-box" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="why-icon"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+
+          <!-- 2. Grow Faster -->
+          <div class="benefit-item">
+            <div class="benefit-icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.2" width="20" height="20">
+                <path d="M18 20V10M12 20V4M6 20v-6" />
+              </svg>
+            </div>
+            <h4 class="benefit-item-title">Grow Faster</h4>
+            <p class="benefit-item-desc">Optimize your content and reach more people.</p>
           </div>
-          <h3>Premium & Ad-Free</h3>
-          <p class="text-muted">A clean, dark-mode friendly user interface optimized for maximum readability. No paywalls or annoying ads.</p>
+
+          <!-- 3. 100% Free -->
+          <div class="benefit-item">
+            <div class="benefit-icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.2" width="20" height="20">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+              </svg>
+            </div>
+            <h4 class="benefit-item-title">100% Free</h4>
+            <p class="benefit-item-desc">No hidden costs, no subscriptions.</p>
+          </div>
+
+          <!-- 4. Creator Focused -->
+          <div class="benefit-item">
+            <div class="benefit-icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.2" width="20" height="20">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+            </div>
+            <h4 class="benefit-item-title">Creator Focused</h4>
+            <p class="benefit-item-desc">Built specifically for creators like you.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Latest Blog Posts Section -->
-  {blogPosts.length > 0 && (
-    <section class="latest-blog-section">
-      <div class="container">
-        <div class="section-header text-center">
-          <h2 class="section-title">Latest Creator Insights</h2>
-          <p class="section-subtitle text-muted">Practical strategies, platform updates, and copywriting templates.</p>
+  <!-- 5. LATEST ARTICLES (Matching Reference: 4 Cards in 1 Row) -->
+  <section class="section-articles">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <h2 class="section-title">Latest Articles</h2>
+          <p class="section-subtitle">Tips, guides and resources to help you create better content and grow your audience.</p>
         </div>
-
-        <div class="blog-grid">
-          {blogPosts.map(post => (
-            <article class="blog-card glass">
-              {post.data.image && (
-                <img src={post.data.image} alt={post.data.title} class="blog-card-img" loading="lazy" />
-              )}
-              <div class="blog-card-content">
-                <div class="blog-card-meta">
-                  <time datetime={post.data.pubDate.toISOString()}>
-                    {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                  </time>
-                  <span>&bull;</span>
-                  <span>By {post.data.author}</span>
-                </div>
-                <h3 class="blog-card-title"><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
-                <p class="blog-card-desc text-muted">{post.data.description}</p>
-                <a href={`/blog/${post.id}`} class="blog-read-more">Read Article &rarr;</a>
-              </div>
-            </article>
-          ))}
-        </div>
+        <a href="/blog" class="view-all-link">
+          <span>View All Articles</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+        </a>
       </div>
-    </section>
-  )}
 
-  <!-- Call to Action Section -->
-  <section class="cta-section text-center">
-    <div class="container cta-container glass">
-      <h2 class="cta-title">Ready to Optimize Your Content?</h2>
-      <p class="cta-desc text-muted">
-        Stop guessing your sponsorship rates or video titles. Access all our calculators and checklists now.
-      </p>
-      <a href="/tools" class="cta-btn">Get Started Now &rarr;</a>
+      <div class="articles-grid-4">
+        {articles.map(art => (
+          <a href={art.href} class="article-card">
+            <div class="article-thumb-banner" style={`background: ${art.bgGradient};`}>
+              <div class="article-thumb-icon" set:html={art.icon} />
+            </div>
+            <div class="article-card-body">
+              <span class="article-tag-badge" style={`color: ${art.tagColor}; background-color: ${art.tagColor}15;`}>
+                {art.platform}
+              </span>
+              <h3 class="article-card-title">{art.title}</h3>
+              <p class="article-card-date">{art.date}</p>
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
+
+  <!-- 6. FINAL CTA BANNER (Matching Reference: Gradient Banner with Rocket) -->
+  <section class="section-cta">
+    <div class="container">
+      <div class="cta-gradient-banner">
+        <div class="cta-left-content">
+          <div class="cta-rocket-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" width="28" height="28">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="cta-banner-title">Ready to take your content to the next level?</h2>
+            <p class="cta-banner-subtitle">Explore our free tools and start creating, growing and achieving your goals today.</p>
+          </div>
+        </div>
+
+        <a href="/tools" class="cta-banner-btn">
+          <span>Explore All Tools</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search Index for Instant Hero Search -->
+  <script type="application/json" id="hero-search-data" set:html={JSON.stringify(searchIndex)} />
 </BaseLayout>
 
 <style>
-  /* Hero Section */
-  .hero-section {
-    padding-top: var(--space-xl);
-    padding-bottom: var(--space-xl);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-container {
-    max-width: 800px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .hero-title {
-    line-height: 1.1;
-  }
-
-  .text-gradient {
-    background: var(--gradient-brand);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .hero-desc {
-    font-size: 1.15rem;
-    line-height: 1.6;
-    max-width: 650px;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  /* =========================================================
+     GLOBAL LAYOUT & REUSABLE STYLES (Theme Variables)
+     ========================================================= */
+  .container {
     width: 100%;
-    margin-top: 1rem;
+    max-width: 1220px;
+    margin: 0 auto;
+    padding-left: clamp(1rem, 3vw, 2rem);
+    padding-right: clamp(1rem, 3vw, 2rem);
+    box-sizing: border-box;
   }
 
-  .hero-btn-primary {
-    height: 48px;
-    background: var(--gradient-brand);
-    color: var(--color-text-inverse);
-    font-weight: 600;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 2rem;
-    transition: all var(--transition-normal);
+  .text-purple-highlight {
+    color: var(--color-brand, #4f46e5);
   }
 
-  .hero-btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  :global([data-theme="dark"]) .text-purple-highlight {
+    color: var(--color-brand-light, #818cf8);
   }
 
-  .hero-btn-secondary {
-    height: 48px;
-    border: 1.5px solid var(--color-border);
-    color: var(--color-text);
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
-    font-weight: 600;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 2rem;
-    transition: all var(--transition-normal);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  }
-
-  .hero-btn-secondary:hover {
-    border-color: var(--color-brand);
-    background: rgba(255, 255, 255, 0.06);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.15); /* Brand shadow glow */
-  }
-
-  /* Section Headers */
-  .featured-section, .categories-section, .why-us-section, .latest-blog-section, .cta-section {
-    padding-top: var(--space-xl);
-    padding-bottom: var(--space-xl);
-  }
-
-  .section-header {
-    margin-bottom: var(--space-lg);
-  }
-
-  .section-title {
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.01em;
-  }
-
-  .section-subtitle {
-    font-size: 1.1rem;
-  }
-
-  /* Grids */
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-  }
-
-  .categories-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  /* Why Us Grid */
-  .why-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .why-card {
-    padding: 2rem;
-    border-radius: var(--radius-lg);
+  .section-header-row {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .why-icon-box {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-md);
-    background: var(--gradient-glow);
-    border: 1px solid var(--glass-border);
-    color: var(--color-brand);
-    margin-bottom: 1rem;
-    flex-shrink: 0;
-  }
-
-  .why-icon-box :global(svg) {
-    width: 24px;
-    height: 24px;
-  }
-
-  /* Blog Cards */
-  .blog-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .blog-card {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .blog-card-img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-  }
-
-  .blog-card-content {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    flex-grow: 1;
-  }
-
-  .blog-card-meta {
-    display: flex;
     gap: 0.5rem;
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-  }
-
-  .blog-card-title {
-    font-size: 1.2rem;
-  }
-
-  .blog-card-desc {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    flex-grow: 1;
-  }
-
-  .blog-read-more {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--color-brand);
-    align-self: flex-start;
-  }
-
-  /* CTA Section */
-  .cta-container {
-    padding: var(--space-lg);
-    border-radius: var(--radius-lg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.25rem;
-    max-width: 900px;
-  }
-
-  .cta-title {
-    letter-spacing: -0.01em;
-  }
-
-  .cta-desc {
-    max-width: 550px;
-    font-size: 1.05rem;
-  }
-
-  .cta-btn {
-    height: 48px;
-    background: var(--gradient-brand);
-    color: var(--color-text-inverse);
-    font-weight: 600;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 2rem;
-    transition: all var(--transition-normal);
-  }
-
-  .cta-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px var(--color-shadow-hover);
-  }
-
-  /* Responsive Rules */
-  @media (min-width: 480px) {
-    .hero-actions {
-      flex-direction: row;
-      justify-content: center;
-    }
-    
-    .hero-btn-primary, .hero-btn-secondary {
-      width: auto;
-    }
+    margin-bottom: 1.75rem;
   }
 
   @media (min-width: 640px) {
-    .tools-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
+    .section-header-row {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
     }
   }
 
-  @media (min-width: 768px) {
-    .why-grid, .blog-grid {
+  .section-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 3vw, 1.75rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    letter-spacing: -0.015em;
+    margin: 0 0 0.35rem 0;
+  }
+
+  .section-subtitle {
+    font-size: 0.925rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-brand, #4f46e5);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+
+  .view-all-link:hover {
+    transform: translateX(2px);
+    color: var(--color-brand-hover, #4338ca);
+  }
+
+  :global([data-theme="dark"]) .view-all-link {
+    color: var(--color-brand-light, #818cf8);
+  }
+
+  /* =========================================================
+     1. HERO SECTION (Theme Aware Background)
+     ========================================================= */
+  .hero-section {
+    background: var(--hero-bg-gradient, linear-gradient(180deg, #f8faff 0%, #f0f6ff 100%));
+    border-bottom: 1px solid var(--hero-border, #edf2f9);
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
+    overflow: hidden;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .hero-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  @media (min-width: 960px) {
+    .hero-container {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+  }
+
+  @media (min-width: 1120px) {
+    .hero-container {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .hero-pill-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.9rem;
+    border-radius: 9999px;
+    background: #ede9fe;
+    color: #4f46e5;
+    font-size: 0.775rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.25rem;
+  }
+
+  :global([data-theme="dark"]) .hero-pill-badge {
+    background: rgba(99, 102, 241, 0.2);
+    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+  }
+
+  .hero-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(2.1rem, 4.5vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 1.15rem 0;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+    line-height: 1.6;
+    color: var(--color-text-muted, #64748b);
+    max-width: 540px;
+    margin: 0 0 1.75rem 0;
+  }
+
+  /* Wide Tool Search Field */
+  .hero-search-container {
+    position: relative;
+    width: 100%;
+    max-width: 580px;
+    margin-bottom: 1rem;
+  }
+
+  .hero-search-form {
+    display: flex;
+    align-items: center;
+    background: var(--color-bg-input, #ffffff);
+    border: 1px solid var(--color-border, #cbd5e1);
+    border-radius: 12px;
+    padding: 5px;
+    box-shadow: 0 4px 15px var(--color-shadow, rgba(15, 23, 42, 0.05));
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .hero-search-form:focus-within {
+    border-color: var(--color-brand, #4f46e5);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+
+  .search-icon {
+    margin-left: 0.85rem;
+    color: var(--color-text-subtle, #94a3b8);
+    flex-shrink: 0;
+  }
+
+  .hero-search-input {
+    flex: 1 1 auto;
+    height: 44px;
+    padding: 0 0.75rem;
+    font-size: 16px; /* Prevents auto-zoom on mobile */
+    color: var(--color-text, #0f172a);
+    border: none;
+    background: transparent;
+    outline: none;
+    min-width: 0;
+  }
+
+  .hero-search-input::placeholder {
+    color: var(--color-text-subtle, #94a3b8);
+    font-size: 0.9rem;
+  }
+
+  .hero-explore-btn {
+    height: 44px;
+    padding: 0 1.35rem;
+    background: #4f46e5;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+
+  .hero-explore-btn:hover {
+    background: #4338ca;
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 440px) {
+    .hero-explore-btn span {
+      display: none;
+    }
+    .hero-explore-btn {
+      padding: 0 0.9rem;
+    }
+  }
+
+  /* Live Search Dropdown */
+  .hero-search-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--dropdown-bg, #ffffff);
+    border: 1px solid var(--dropdown-border, #e2e8f0);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px var(--color-shadow, rgba(0, 0, 0, 0.1));
+    z-index: 50;
+    overflow: hidden;
+  }
+
+  .hero-search-dropdown.hidden {
+    display: none;
+  }
+
+  .dropdown-header {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text-muted, #64748b);
+    border-bottom: 1px solid var(--color-border-subtle, #f1f5f9);
+  }
+
+  .dropdown-results-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global(.search-result-item) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border-subtle, #f8fafc);
+    transition: background 0.15s ease;
+  }
+
+  :global(.search-result-item:hover), :global(.search-result-item.selected) {
+    background: var(--dropdown-hover, #f8faff);
+  }
+
+  :global(.search-result-info) {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  :global(.search-result-title) {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text, #0f172a);
+  }
+
+  :global(.search-result-desc) {
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  :global(.search-result-cat) {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-brand, #4f46e5);
+    background: rgba(99, 102, 241, 0.12);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  :global([data-theme="dark"]) .search-result-cat {
+    color: #818cf8;
+    background: rgba(99, 102, 241, 0.25);
+  }
+
+  .dropdown-footer {
+    padding: 0.5rem 1rem;
+    background: var(--dropdown-footer, #f8fafc);
+    text-align: center;
+    border-top: 1px solid var(--color-border-subtle, #f1f5f9);
+  }
+
+  .dropdown-view-all {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-brand, #4f46e5);
+    text-decoration: none;
+  }
+
+  :global([data-theme="dark"]) .dropdown-view-all {
+    color: var(--color-brand-light, #818cf8);
+  }
+
+  /* Popular Chips */
+  .hero-popular-chips {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    font-size: 0.825rem;
+  }
+
+  .popular-label {
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+    margin-right: 0.2rem;
+  }
+
+  .popular-chip {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    color: var(--color-text-muted, #475569);
+    font-size: 0.775rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .popular-chip:hover {
+    color: var(--color-brand, #4f46e5);
+    border-color: var(--color-border-hover, #cbd5e1);
+    background: var(--color-bg-card-hover, #f8faff);
+  }
+
+  :global([data-theme="dark"]) .popular-chip:hover {
+    color: var(--color-brand-light, #818cf8);
+  }
+
+  .hero-artwork-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* =========================================================
+     2. EXPLORE TOOLS BY CATEGORY (6 Pastel Cards)
+     ========================================================= */
+  .section-categories {
+    padding: clamp(3rem, 5vw, 4rem) 0;
+    background: var(--color-bg, #ffffff);
+    transition: background 0.2s ease;
+  }
+
+  .categories-grid-6 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  @media (min-width: 680px) {
+    .categories-grid-6 {
       grid-template-columns: repeat(3, 1fr);
     }
+  }
 
-    .categories-grid {
+  @media (min-width: 1040px) {
+    .categories-grid-6 {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+
+  .category-pastel-card {
+    padding: 1.5rem 1.15rem;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .category-pastel-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--color-shadow-hover, rgba(15, 23, 42, 0.06));
+  }
+
+  :global([data-theme="dark"]) .category-pastel-card {
+    background-color: var(--color-bg-card, #2B2D30) !important;
+    border-color: var(--color-border, #41444A) !important;
+  }
+
+  :global([data-theme="dark"]) .category-pastel-card:hover {
+    background-color: var(--color-bg-card-hover, #33363B) !important;
+    border-color: var(--color-border-hover, #5A5E66) !important;
+  }
+
+  .category-icon-square {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    margin-bottom: 1.15rem;
+    flex-shrink: 0;
+  }
+
+  .category-card-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.35rem 0;
+  }
+
+  .category-card-desc {
+    font-size: 0.775rem;
+    line-height: 1.4;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* =========================================================
+     3. FEATURED TOOLS (8 Cards in 4x2 Grid)
+     ========================================================= */
+  .section-featured {
+    padding: clamp(2.5rem, 5vw, 3.5rem) 0;
+    background: var(--color-bg, #ffffff);
+    transition: background 0.2s ease;
+  }
+
+  .featured-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 580px) {
+    .featured-tools-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  @media (min-width: 1024px) {
-    .tools-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 1.25rem;
+  @media (min-width: 1040px) {
+    .featured-tools-grid {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
+
+  .featured-tool-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 12px;
+    padding: 1.35rem 1.25rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+
+  .featured-tool-card:hover {
+    border-color: var(--color-border-hover, #cbd5e1);
+    background: var(--color-bg-card-hover, #f8fafc);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px var(--color-shadow-hover, rgba(15, 23, 42, 0.06));
+  }
+
+  .tool-card-icon-square {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    margin-bottom: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .tool-card-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.4rem 0;
+    line-height: 1.3;
+    padding-right: 1.5rem;
+  }
+
+  .tool-card-desc {
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .tool-card-arrow-circle {
+    position: absolute;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--color-bg-subtle, #f1f5f9);
+    color: var(--color-text-muted, #64748b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, transform 0.15s ease, color 0.15s ease;
+  }
+
+  .featured-tool-card:hover .tool-card-arrow-circle {
+    background: rgba(99, 102, 241, 0.2);
+    color: var(--color-brand-light, #818cf8);
+    transform: translateX(2px);
+  }
+
+  /* =========================================================
+     4. CREATOR BENEFITS BANNER (Theme-Aware)
+     ========================================================= */
+  .section-benefits {
+    padding: clamp(2rem, 4vw, 3rem) 0;
+    background: var(--color-bg, #ffffff);
+    transition: background 0.2s ease;
+  }
+
+  .benefits-banner {
+    background: var(--benefits-bg, #f0f3ff);
+    border: 1px solid var(--benefits-border, #e0e7ff);
+    border-radius: 20px;
+    padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  @media (min-width: 960px) {
+    .benefits-banner {
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: center;
+      gap: 3rem;
+    }
+  }
+
+  /* Handwritten "Your Growth Our Mission" Note */
+  .banner-mission-note {
+    display: none;
+    position: absolute;
+    top: 1.25rem;
+    right: 2rem;
+    text-align: right;
+    pointer-events: none;
+  }
+
+  @media (min-width: 960px) {
+    .banner-mission-note {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+  }
+
+  .mission-text-1, .mission-text-2 {
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-brand, #4f46e5);
+  }
+
+  :global([data-theme="dark"]) .mission-text-1,
+  :global([data-theme="dark"]) .mission-text-2 {
+    color: var(--color-brand-light, #818cf8);
+  }
+
+  .mission-arrow {
+    margin-right: 0.5rem;
+    margin-top: 2px;
+  }
+
+  .benefits-left-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .benefits-label {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    background: var(--benefits-box-bg, #ffffff);
+    color: var(--color-brand, #4f46e5);
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.85rem;
+    box-shadow: 0 1px 3px rgba(79, 70, 229, 0.08);
+  }
+
+  :global([data-theme="dark"]) .benefits-label {
+    color: var(--color-brand-light, #818cf8);
+    box-shadow: none;
+    border: 1px solid var(--color-border, #41444A);
+  }
+
+  .benefits-heading {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    margin: 0 0 0.85rem 0;
+  }
+
+  .benefits-desc {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-muted, #475569);
+    margin: 0;
+    max-width: 440px;
+  }
+
+  .benefits-right-col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 480px) {
+    .benefits-right-col {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem 1rem;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .benefits-right-col {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  .benefit-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .benefit-icon-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--benefits-box-bg, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.65rem;
+    box-shadow: 0 2px 6px rgba(79, 70, 229, 0.08);
+    flex-shrink: 0;
+  }
+
+  :global([data-theme="dark"]) .benefit-icon-circle {
+    box-shadow: none;
+    border: 1px solid var(--color-border, #41444A);
+  }
+
+  .benefit-item-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.25rem 0;
+  }
+
+  .benefit-item-desc {
+    font-size: 0.775rem;
+    line-height: 1.45;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* =========================================================
+     5. LATEST ARTICLES (4 Cards in 1 Row)
+     ========================================================= */
+  .section-articles {
+    padding: clamp(2.5rem, 5vw, 3.5rem) 0;
+    background: var(--color-bg, #ffffff);
+    transition: background 0.2s ease;
+  }
+
+  .articles-grid-4 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 580px) {
+    .articles-grid-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1040px) {
+    .articles-grid-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .article-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+  }
+
+  .article-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--color-shadow-hover, rgba(15, 23, 42, 0.06));
+    border-color: var(--color-border-hover, #cbd5e1);
+  }
+
+  .article-thumb-banner {
+    width: 100%;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    flex-shrink: 0;
+  }
+
+  .article-card-body {
+    padding: 1rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex-grow: 1;
+  }
+
+  .article-tag-badge {
+    align-self: flex-start;
+    padding: 0.15rem 0.55rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .article-card-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-text, #0f172a);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .article-card-date {
+    font-size: 0.75rem;
+    color: var(--color-text-subtle, #94a3b8);
+    margin: auto 0 0 0;
+    padding-top: 0.4rem;
+  }
+
+  /* =========================================================
+     6. FINAL CTA BANNER (Horizontal Gradient Banner)
+     ========================================================= */
+  .section-cta {
+    padding: clamp(2rem, 4vw, 3.5rem) 0 clamp(3rem, 5vw, 4.5rem);
+    background: var(--color-bg, #ffffff);
+    transition: background 0.2s ease;
+  }
+
+  .cta-gradient-banner {
+    background: var(--cta-bg-gradient, linear-gradient(135deg, #5b4fe8 0%, #4338ca 50%, #3b82f6 100%));
+    border-radius: 16px;
+    padding: clamp(1.75rem, 4vw, 2.25rem) clamp(1.5rem, 4vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.2);
+  }
+
+  @media (min-width: 820px) {
+    .cta-gradient-banner {
+      flex-direction: row;
+      text-align: left;
+    }
+  }
+
+  .cta-left-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+  }
+
+  @media (min-width: 640px) {
+    .cta-left-content {
+      flex-direction: row;
+      text-align: left;
+    }
+  }
+
+  .cta-rocket-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .cta-banner-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.25rem 0;
+  }
+
+  .cta-banner-subtitle {
+    font-size: 0.875rem;
+    color: #e0e7ff;
+    margin: 0;
+  }
+
+  .cta-banner-btn {
+    height: 44px;
+    padding: 0 1.5rem;
+    background: #ffffff;
+    color: #4f46e5;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .cta-banner-btn:hover {
+    background: #f8fafc;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+
+  :global([data-theme="dark"]) .cta-banner-btn {
+    background: #F1F3F4;
+    color: #312e81;
+  }
+
+  :global([data-theme="dark"]) .cta-banner-btn:hover {
+    background: #ffffff;
+  }
 </style>
+
+<script>
+  const setupHeroSearch = () => {
+    const input = document.getElementById('hero-search-input') as HTMLInputElement | null;
+    const dropdown = document.getElementById('hero-search-dropdown');
+    const resultsContainer = document.getElementById('dropdown-results-list');
+    const searchDataScript = document.getElementById('hero-search-data');
+    const searchWrapper = document.getElementById('hero-search-wrapper');
+
+    if (!input || !dropdown || !resultsContainer || !searchDataScript) return;
+
+    let tools: Array<{ title: string; href: string; cat: string; desc: string }> = [];
+    try {
+      tools = JSON.parse(searchDataScript.textContent || '[]');
+    } catch {
+      tools = [];
+    }
+
+    let selectedIndex = -1;
+
+    const render = (items: typeof tools) => {
+      resultsContainer.innerHTML = '';
+      selectedIndex = -1;
+
+      if (items.length === 0) {
+        resultsContainer.innerHTML = `
+          <div style="padding: 1rem; text-align: center; font-size: 0.85rem; color: #64748b;">
+            No tools found. Press <strong>Enter</strong> to explore full directory.
+          </div>
+        `;
+        dropdown.classList.remove('hidden');
+        return;
+      }
+
+      items.slice(0, 5).forEach((tool, idx) => {
+        const item = document.createElement('a');
+        item.href = tool.href;
+        item.className = 'search-result-item';
+        item.setAttribute('data-idx', idx.toString());
+        item.innerHTML = `
+          <div class="search-result-info">
+            <span class="search-result-title">${tool.title}</span>
+            <span class="search-result-desc">${tool.desc}</span>
+          </div>
+          <span class="search-result-cat">${tool.cat}</span>
+        `;
+        resultsContainer.appendChild(item);
+      });
+
+      dropdown.classList.remove('hidden');
+    };
+
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      if (!q) {
+        dropdown.classList.add('hidden');
+        return;
+      }
+      const matched = tools.filter(t => 
+        t.title.toLowerCase().includes(q) ||
+        t.desc.toLowerCase().includes(q) ||
+        t.cat.toLowerCase().includes(q)
+      );
+      render(matched);
+    });
+
+    input.addEventListener('focus', () => {
+      if (input.value.trim()) {
+        const q = input.value.trim().toLowerCase();
+        render(tools.filter(t => t.title.toLowerCase().includes(q)));
+      }
+    });
+
+    input.addEventListener('keydown', (e) => {
+      const items = resultsContainer.querySelectorAll('.search-result-item');
+      if (items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex + 1) % items.length;
+        updateSelected(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+        updateSelected(items);
+      } else if (e.key === 'Enter' && selectedIndex >= 0) {
+        e.preventDefault();
+        const el = items[selectedIndex] as HTMLAnchorElement;
+        if (el?.href) window.location.href = el.href;
+      } else if (e.key === 'Escape') {
+        dropdown.classList.add('hidden');
+      }
+    });
+
+    const updateSelected = (items: NodeListOf<Element>) => {
+      items.forEach((item, idx) => {
+        if (idx === selectedIndex) {
+          item.classList.add('selected');
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+    };
+
+    document.addEventListener('click', (e) => {
+      if (searchWrapper && !searchWrapper.contains(e.target as Node)) {
+        dropdown.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== input && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName || '')) {
+        e.preventDefault();
+        input.focus();
+        input.select();
+      }
+    });
+  };
+
+  setupHeroSearch();
+  document.addEventListener('astro:after-swap', setupHeroSearch);
+</script>

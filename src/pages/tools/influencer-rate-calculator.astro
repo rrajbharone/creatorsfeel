@@ -1,1081 +1,2177 @@
 ---
-import ToolLayout from '../../layouts/ToolLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const faqs = [
   {
-    question: "How do you calculate standard influencer rates?",
-    answer: "Influencer rates are calculated using a combination of follower volume, average view engagement, content format, industry niche multipliers, and commercial usage rights. Industry baselines typically start around $10 per 1,000 followers on Instagram, $6 per 1,000 followers on TikTok, and $20 to $35+ per 1,000 views on YouTube."
+    question: "How much do influencers charge per post on average?",
+    answer: "Influencer pricing varies by audience scale, verifiable views, and content format. Nano-influencers (1,000 to 10,000 followers) generally charge between $40 and $150 per post or Reel. Micro-influencers (10,000 to 50,000 followers) charge $150 to $600. Mid-tier creators (50,000 to 500,000 followers) command $600 to $3,500, while macro-influencers (500,000+ followers) charge $3,500 to $10,000+ per deliverable, with long-form YouTube integrations commanding higher pricing."
   },
   {
-    question: "Which influencer niches command the highest sponsorship rates?",
-    answer: "Finance, investing, business software (B2B SaaS), real estate, and technology command the highest sponsorship rates due to high customer lifetime values (LTV). Lifestyle, fashion, and beauty have moderate rates with high deal volume, while general gaming and entertainment have lower CPMs but large audience reach."
+    question: "Why do YouTube influencer rates differ from Instagram and TikTok?",
+    answer: "YouTube sponsorship rates are primarily calculated using average video views and cost-per-mille (CPM) benchmarks ($30 to $80+ per 1,000 views) rather than dormant subscriber counts. Because YouTube videos are evergreen and continue generating views, search traffic, and conversions for months or years, brands allocate significantly higher budgets for YouTube integrations compared to ephemeral social media feed posts."
   },
   {
-    question: "What is the difference between organic posting and paid usage rights?",
-    answer: "Organic posting covers publishing branded content once to your own followers on your feed or channel. Paid usage rights (whitelisting or dark posting) give the brand legal permission to run your content as paid ads from their ad account or your handle, for which creators charge an additional 30% to 100%+ licensing fee."
+    question: "How does engagement rate affect what an influencer can charge?",
+    answer: "A high engagement rate (typically 3% to 6%+ for micro-influencers) demonstrates genuine audience attention, strong trust, and purchase intent. Creators with healthy interaction ratios have the leverage to quote near or above premium rates, whereas accounts with inflated follower counts but low views and comments often struggle to negotiate above baseline minimum floor rates."
   },
   {
-    question: "How much should a micro-influencer charge for a sponsored post?",
-    answer: "Micro-influencers (10,000 to 50,000 followers) typically charge between $150 and $600 for a static post or short-form video on Instagram or TikTok, and $500 to $1,500+ for a dedicated YouTube video integration, depending on engagement rate and niche."
+    question: "What is the difference between an organic post rate and paid usage rights?",
+    answer: "An organic post rate covers creating and publishing sponsored content solely to your own audience on your profile or channel. Paid usage rights (ad whitelisting or Spark Ads) permit the brand to run your post as a paid digital advertisement from their ad account or your handle. Because paid ads scale the brand's commercial reach using your credibility, creators typically bill an extra 30% to 100%+ licensing fee per 30 to 90 days."
   },
   {
-    question: "What should be included in an influencer media kit?",
-    answer: "A professional media kit should include your bio and niche, verified follower counts across platforms, average engagement rate and video views, audience demographics (age, gender, top geographic countries), past brand partners/case studies, and clear starting package options."
+    question: "Should beginner creators accept gifted collaborations instead of payment?",
+    answer: "Gifted product collaborations can be helpful for beginner nano-influencers to test products, practice brand communications, and build initial portfolio case studies. However, once you have consistent views and an engaged community, you should transition to charging monetary fees, as concept scripting, filming, and post-production editing require real creative labor that drives commercial value for the sponsor."
   },
   {
-    question: "Should influencers ever accept gifted products instead of payment?",
-    answer: "Gifted product collaborations are acceptable for beginner nano-influencers looking to build an initial portfolio or when receiving high-value luxury goods ($1,000+ items). However, established creators should charge monetary fees, as creating and editing content requires professional time, production skills, and gives brands access to your audience."
-  },
-  {
-    question: "What is an exclusivity clause and how much should it cost?",
-    answer: "An exclusivity clause prevents an influencer from collaborating with or mentioning competing brands for a specified period (e.g., 30 to 90 days). Because exclusivity restricts future earning potential, creators should charge an extra 20% to 50%+ on top of their base rate."
-  },
-  {
-    question: "How do I negotiate when a brand offers a budget below my rate?",
-    answer: "Instead of simply lowering your price, adjust the scope of deliverables. For example, if a brand cannot afford a dedicated YouTube video and Instagram Reel, counter-offer with a single YouTube mid-roll integration or an Instagram Story set that matches their budget."
+    question: "How should creators negotiate if a brand requests category exclusivity?",
+    answer: "If a brand requests category exclusivity (barring you from partnering with competing companies in your niche for 30, 60, or 90 days), never grant it for free. Exclusivity restricts your future earning opportunities in your primary topic, so industry-standard contracts apply an additional 25% to 50%+ surcharge on top of your base deliverable rate."
   }
 ];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'Influencer Rate Calculator', item: '/tools/influencer-rate-calculator' }
+];
+
+const origin = Astro.site ? Astro.site.origin : "https://creatorsfeel.com";
+const canonicalUrl = new URL(Astro.url.pathname, origin).href;
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${canonicalUrl}#application`,
+      "name": "Influencer Rate Calculator",
+      "url": canonicalUrl,
+      "operatingSystem": "All",
+      "applicationCategory": "BusinessApplication",
+      "description": "Free Influencer Rate Calculator. Estimate minimum, recommended, and premium sponsored post rates for Instagram, TikTok, and YouTube in seconds.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonicalUrl}#faq`,
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    }
+  ]
+};
 ---
 
-<ToolLayout
-  title="Influencer Rate Calculator - Calculate Sponsorship Pricing & CPM"
-  description="Free influencer rate calculator. Calculate sponsorship pricing for Instagram, YouTube, and TikTok based on followers, engagement rate, and niche benchmarks."
-  toolName="Influencer Rate Calculator"
-  toolDescription="Input your metrics to estimate your earnings per post, calculate CPM, and generate a copy-paste brand outreach pitch."
-  category="Calculators"
+<BaseLayout
+  title="Influencer Rate Calculator - Instagram, TikTok & YouTube Rates"
+  description="Free Influencer Rate Calculator. Estimate minimum, recommended, and premium sponsored post rates for Instagram, TikTok, and YouTube in seconds."
+  canonicalUrl={canonicalUrl}
+  breadcrumbs={breadcrumbs}
   faqs={faqs}
 >
-  <div slot="calculator" class="calc-card glass">
-    <div class="calc-grid">
-      <!-- Inputs Form -->
-      <form class="calc-form" id="rate-form" onsubmit="return false;">
-        <div class="form-group">
-          <label for="platform">Social Media Platform</label>
-          <select id="platform" class="form-input" required>
-            <option value="instagram">Instagram</option>
-            <option value="youtube">YouTube</option>
-            <option value="tiktok">TikTok</option>
-          </select>
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify(softwareSchema)} />
+
+  <div class="tool-page-wrapper">
+    
+    <!-- 1. HERO SECTION -->
+    <header class="tool-hero-section">
+      <div class="container hero-inner">
+        
+        <!-- Breadcrumbs at top -->
+        <div class="hero-breadcrumbs">
+          <Breadcrumbs items={breadcrumbs} />
         </div>
 
-        <div class="form-group">
-          <label for="followers">Follower Count</label>
-          <input type="number" id="followers" class="form-input" placeholder="e.g., 25000" min="100" required />
+        <!-- Pill Badge with SVG Icon (Zero Emojis) -->
+        <div class="hero-badge">
+          <span class="badge-icon-tool">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tool-svg" aria-hidden="true">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </span>
+          <span class="badge-title">Creator Sponsorship & Monetization</span>
+          <span class="badge-pill-free">Free Tool</span>
         </div>
 
-        <div class="form-group">
-          <label for="engagement">Avg. Views / Post Engagement</label>
-          <input type="number" id="engagement" class="form-input" placeholder="e.g., 5000" min="10" required />
-          <span class="input-helper">For Instagram/TikTok: enter average likes + comments. For YouTube: enter average views.</span>
-        </div>
+        <!-- Main Headline -->
+        <h1 class="hero-headline">
+          Influencer <span class="gradient-text">Rate Calculator</span>
+        </h1>
 
-        <div class="form-group">
-          <label for="niche">Niche / Category</label>
-          <select id="niche" class="form-input" required>
-            <option value="lifestyle">Lifestyle & Fashion (1.0x)</option>
-            <option value="tech">Tech & Gadgets (1.6x)</option>
-            <option value="finance">Finance & Investing (1.8x)</option>
-            <option value="fitness">Fitness & Health (1.2x)</option>
-            <option value="gaming">Gaming & Esports (0.9x)</option>
-            <option value="travel">Travel & Adventure (1.3x)</option>
-            <option value="business">Business & Marketing (1.5x)</option>
-            <option value="beauty">Beauty & Makeup (1.1x)</option>
-          </select>
-        </div>
+        <!-- Short Description -->
+        <p class="hero-desc">
+          Estimate realistic sponsored post and video rates for Instagram, TikTok, and YouTube in seconds. Calculate minimum, recommended, and premium sponsorship pricing.
+        </p>
 
-        <div class="form-group">
-          <label for="format">Content Format</label>
-          <select id="format" class="form-input" required>
-            <option value="post">Feed Post / Photo (1.0x)</option>
-            <option value="story">Story with Link (0.5x)</option>
-            <option value="reel">Reel / Short Video (1.4x)</option>
-            <option value="dedicated">Dedicated Video / Integration (2.2x)</option>
-          </select>
-        </div>
-
-        <button type="button" id="calc-submit" class="calc-btn">Calculate Estimated Rate</button>
-      </form>
-
-      <!-- Results Display -->
-      <div class="calc-results" id="results-container">
-        <div class="empty-state text-center" id="results-empty">
-          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-          </svg>
-          <h3>Estimate Awaiting Input</h3>
-          <p class="text-muted">Enter your social media stats and niche parameters on the left to generate estimated rates.</p>
-        </div>
-
-        <div class="results-active hidden" id="results-content">
-          <div class="rate-range-box">
-            <h4 class="rate-label">Estimated Sponsorship Value</h4>
-            <div class="rate-range" id="res-range">$0 - $0</div>
-            <p class="rate-note text-muted">Suggested Starting Rate: <strong id="res-median" class="high-contrast-text">$0</strong> per post</p>
-          </div>
-
-          <div class="metrics-subgrid">
-            <div class="metric-card glass">
-              <span class="metric-title">Projected CPM</span>
-              <span class="metric-value" id="res-cpm">$0</span>
-            </div>
-            <div class="metric-card glass">
-              <span class="metric-title">Pricing Tier</span>
-              <span class="metric-value" id="res-tier">-</span>
-            </div>
-          </div>
-
-          <!-- Pitch Template Box -->
-          <div class="pitch-box">
-            <div class="pitch-header">
-              <span class="pitch-title">Outreach Brand Pitch Template</span>
-              <button class="copy-btn" id="copy-pitch-btn">Copy Pitch</button>
-            </div>
-            <textarea id="res-pitch" class="pitch-textarea" readonly aria-label="Generated brand pitch template"></textarea>
-          </div>
+        <!-- Feature Chips Row (Zero Emojis - Clean SVG Icons) -->
+        <div class="hero-features-row">
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Instant Rate Quotes
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            Instagram, TikTok & YouTube
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+            3-Tier Pricing Range
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            One-Click Copy
+          </span>
         </div>
       </div>
-    </div>
+    </header>
+
+    <!-- 2. MAIN TOOL SECTION (Container Max-Width 940px matching Twitter Hashtag Counter) -->
+    <section class="tool-main-section" aria-label="Influencer Rate Calculator Interface">
+      <div class="container tool-card-container">
+        
+        <!-- The Prominent SaaS Tool Card -->
+        <div class="saas-tool-card">
+          
+          <!-- Card Top Bar: Platform Selector -->
+          <div class="card-header-bar">
+            <div class="platform-meta">
+              <span class="platform-title">Social Media Platform</span>
+              <span class="platform-sub-text">Choose the platform for your sponsored content</span>
+            </div>
+
+            <!-- Platform Switcher Tabs (3 Platforms Only - Fully Responsive Grid on Mobile) -->
+            <div class="platform-tabs-row" role="radiogroup" aria-label="Select social media platform">
+              <button
+                type="button"
+                class="platform-tab active"
+                id="btn-platform-instagram"
+                data-platform="instagram"
+                aria-pressed="true"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="platform-icon" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+                <span>Instagram</span>
+              </button>
+
+              <button
+                type="button"
+                class="platform-tab"
+                id="btn-platform-tiktok"
+                data-platform="tiktok"
+                aria-pressed="false"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="platform-icon" aria-hidden="true">
+                  <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+                </svg>
+                <span>TikTok</span>
+              </button>
+
+              <button
+                type="button"
+                class="platform-tab"
+                id="btn-platform-youtube"
+                data-platform="youtube"
+                aria-pressed="false"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="platform-icon" aria-hidden="true">
+                  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                </svg>
+                <span>YouTube</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Form Inputs: Minimal & Intuitive (Only 3 Inputs) -->
+          <div class="calculator-inputs-grid">
+            
+            <!-- Field 1: Followers / Subscribers (Required) -->
+            <div class="input-field-group">
+              <div class="field-label-row">
+                <label for="calc-followers" class="field-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                  <span id="label-followers-text">Follower Count</span>
+                  <span class="badge-tag-required">Required</span>
+                </label>
+              </div>
+              <div class="input-wrapper">
+                <input
+                  type="number"
+                  id="calc-followers"
+                  class="styled-input"
+                  placeholder="Enter followers or subscribers"
+                  min="1"
+                  max="100000000"
+                  value="25000"
+                  aria-describedby="desc-followers"
+                />
+              </div>
+              <p class="field-helper-text" id="desc-followers">
+                Total followers or subscribers on your channel or profile.
+              </p>
+            </div>
+
+            <!-- Field 2: Content Type (Dropdown based on selected platform) -->
+            <div class="input-field-group">
+              <div class="field-label-row">
+                <label for="calc-content-type" class="field-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
+                    <line x1="7" y1="2" x2="7" y2="22"/>
+                    <line x1="17" y1="2" x2="17" y2="22"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                    <line x1="2" y1="7" x2="7" y2="7"/>
+                    <line x1="2" y1="17" x2="7" y2="17"/>
+                    <line x1="17" y1="17" x2="22" y2="17"/>
+                    <line x1="17" y1="7" x2="22" y2="7"/>
+                  </svg>
+                  <span>Content Type</span>
+                  <span class="badge-tag-required">Required</span>
+                </label>
+              </div>
+              <div class="select-wrapper">
+                <select id="calc-content-type" class="styled-select" aria-describedby="desc-content-type">
+                  <!-- Dynamically populated via JavaScript -->
+                </select>
+                <div class="select-chevron-box" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron-svg">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </div>
+              </div>
+              <p class="field-helper-text" id="desc-content-type">
+                Format of the sponsored content deliverable.
+              </p>
+            </div>
+
+            <!-- Field 3: Average Views (Optional) -->
+            <div class="input-field-group full-width-field">
+              <div class="field-label-row">
+                <label for="calc-views" class="field-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/>
+                  </svg>
+                  <span id="label-views-text">Average Views</span>
+                  <span class="badge-tag-optional">Optional</span>
+                </label>
+              </div>
+              <div class="input-wrapper">
+                <input
+                  type="number"
+                  id="calc-views"
+                  class="styled-input"
+                  placeholder="Enter average views per post"
+                  min="0"
+                  max="50000000"
+                  value="4500"
+                  aria-describedby="desc-views"
+                />
+              </div>
+              <p class="field-helper-text" id="desc-views">
+                Average views per video or post. Helps estimate video content rates more accurately.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Actions Bar: Live Status & Reset Button -->
+          <div class="card-actions-strip">
+            <div class="live-status-wrap">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="live-text">Live calculation • Updates smoothly as you type</span>
+            </div>
+
+            <button type="button" id="btn-reset-form" class="btn-reset-minimal" title="Reset fields to defaults">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="reset-svg" aria-hidden="true">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                <path d="M3 3v5h5"/>
+              </svg>
+              <span>Reset</span>
+            </button>
+          </div>
+
+          <!-- Horizontal Divider -->
+          <div class="card-divider" aria-hidden="true"></div>
+
+          <!-- Results Section -->
+          <div class="results-wrapper" id="results-wrapper" aria-live="polite">
+            
+            <!-- Empty State Fallback -->
+            <div class="empty-results-box hidden" id="results-empty">
+              <div class="empty-icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="empty-svg" aria-hidden="true">
+                  <line x1="12" y1="1" x2="12" y2="23"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </div>
+              <h3 class="empty-title">Enter Follower Count to View Estimated Rates</h3>
+              <p class="empty-sub">
+                Type your follower or subscriber count above to calculate minimum, recommended, and premium sponsorship pricing instantly.
+              </p>
+            </div>
+
+            <!-- Active Results Content -->
+            <div class="active-results-box" id="results-active">
+              
+              <!-- Results Header Bar: Selected Platform & Creator Tier -->
+              <div class="results-header-bar">
+                <div class="selection-pill" id="badge-selection">
+                  <span id="badge-platform-name">Instagram</span>
+                  <span class="pill-separator">•</span>
+                  <span id="badge-format-name">Reel</span>
+                </div>
+                <span class="tier-pill" id="badge-creator-tier">Micro-Creator</span>
+              </div>
+
+              <!-- 3 ESSENTIAL RESULT CARDS (Clean Minimal SaaS Style) -->
+              <div class="rates-result-grid">
+                
+                <!-- Card 1: Estimated Minimum Rate (Floor) -->
+                <div class="rate-card rate-card-min">
+                  <div class="rate-card-header">
+                    <span class="rate-card-label">Minimum Rate</span>
+                    <span class="rate-badge-tag tag-gray">Floor</span>
+                  </div>
+                  <div class="rate-card-value min-value" id="val-min-rate">$285</div>
+                  <div class="rate-card-sub">Lowest acceptable quote</div>
+                </div>
+
+                <!-- Card 2: Recommended Rate (The Hero Card) -->
+                <div class="rate-card rate-card-hero">
+                  <div class="rate-card-header">
+                    <span class="rate-card-label">Recommended Rate</span>
+                    <span class="rate-badge-tag tag-brand">Media Kit Quote</span>
+                  </div>
+                  <div class="rate-card-value hero-value" id="val-rec-rate">$380</div>
+                  <div class="rate-card-sub">Standard starting quote for brands</div>
+                </div>
+
+                <!-- Card 3: Estimated Premium Rate (Ceiling) -->
+                <div class="rate-card rate-card-max">
+                  <div class="rate-card-header">
+                    <span class="rate-card-label">Premium Rate</span>
+                    <span class="rate-badge-tag tag-purple">High Demand</span>
+                  </div>
+                  <div class="rate-card-value max-value" id="val-max-rate">$495</div>
+                  <div class="rate-card-sub">Rush turnaround or peak Q4 rate</div>
+                </div>
+
+              </div>
+
+              <!-- Context & Explanation Card -->
+              <div class="results-explanation-card">
+                <div class="explanation-title-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="exp-svg" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                  </svg>
+                  <strong class="exp-heading">Estimate Breakdown & Guidance</strong>
+                </div>
+
+                <p class="exp-summary" id="res-explanation-text">
+                  Estimated sponsorship rate for an <strong>Instagram Reel</strong> with <strong>25,000 followers</strong> and <strong>4,500 average views</strong>.
+                </p>
+
+                <p class="exp-disclaimer">
+                  <strong>Notice:</strong> Rates are sensible market estimates based on follower volume, verifiable views, and content production format. Actual sponsor compensation varies by content niche, audience location, engagement health, and brand negotiation. These figures represent pricing guidelines, not guaranteed earnings.
+                </p>
+              </div>
+
+              <!-- Action: One-Click Copy Rates Button -->
+              <div class="results-action-row">
+                <button type="button" id="btn-copy-rates" class="btn-copy-rates" title="Copy estimated rates to clipboard">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="copy-svg" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                  <span id="copy-rates-label">Copy Estimated Rates</span>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. COMPREHENSIVE EDITORIAL & SEO CONTENT (Max-Width 940px matching Twitter Hashtag Counter) -->
+    <section class="tool-content-section" aria-label="Influencer Sponsorship Rates Guide and Best Practices">
+      <div class="container content-inner-container">
+        
+        <!-- Editorial Articles & Guidelines Card -->
+        <div class="content-card">
+          
+          <div class="editorial-block">
+            <span class="content-pill">Creator Economics Guide</span>
+            
+            <h2>What Is an Influencer Rate Calculator and Who Should Use It?</h2>
+            <p>
+              An <strong>influencer rate calculator</strong> is a practical planning utility designed to help content creators, talent managers, and marketing agencies determine fair, realistic compensation for sponsored social media campaigns. Instead of pulling arbitrary figures from thin air or accepting lowball brand offers, creators use an <strong>influencer pricing calculator</strong> to evaluate what their audience access, creative storytelling, and personal endorsement are genuinely worth in the modern creator economy.
+            </p>
+            <p>
+              This tool is especially valuable for nano-influencers (1,000 to 10,000 followers) and micro-influencers (10,000 to 50,000 followers) who are transitioning from unpaid product gifting to formal monetary partnerships. It equally benefits established mid-tier creators, user-generated content (UGC) specialists, and brand collaboration coordinators seeking objective benchmarks for <strong>social media influencer rates</strong> before drafting campaign contracts or publishing media kits.
+            </p>
+
+            <h2>How to Estimate Influencer Pricing: Followers, Platforms, and Views</h2>
+            <p>
+              Accurate <strong>influencer sponsorship rates</strong> cannot be calculated through a single vanity metric. In our calculator, four interconnected variables formulate your baseline market valuation:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Follower or Subscriber Count:</strong> Establishes your foundational creator tier and potential gross reach ceiling.</li>
+              <li><strong>Social Platform:</strong> Influencer marketing pricing differs across platforms because each network utilizes distinct algorithmic distribution models, video formats, and user buying behaviors.</li>
+              <li><strong>Content Format Complexity:</strong> Formats that require multi-stage scripting, studio filming, lighting, and advanced post-production (such as a 10-minute dedicated YouTube video or a dynamic vertical Reel) naturally command higher fees than single static photos or 24-hour Story sets.</li>
+              <li><strong>Average Video Views:</strong> Modern advertiser budgets prioritize verified view volume over static follower tallies because view metrics reflect real-time active attention.</li>
+            </ul>
+            <p>
+              For example, consider two creators with 25,000 followers. Creator A publishes static images that reach only 1,500 accounts, while Creator B consistently generates 14,000 views on short-form video. When average views are included, Creator B provides substantially greater advertiser value and rightfully justifies higher <strong>sponsored post pricing</strong>.
+            </p>
+
+            <h2>Instagram vs. TikTok vs. YouTube: Why Sponsorship Rates Differ</h2>
+            <p>
+              Understanding why <strong>content creator rates</strong> vary between networks helps you pitch brand deals more effectively:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Instagram Influencer Rates:</strong> Instagram remains a leading commercial hub for direct-to-consumer (DTC) products, beauty, fashion, fitness, and lifestyle brands. High-retention vertical Reels command premium pricing because Instagram's recommendation algorithm distributes Reels beyond existing followers. Multi-slide carousels also perform strongly for educational content, whereas static posts offer steady visual catalog placement.</li>
+              <li><strong>TikTok Influencer Rates:</strong> TikTok delivers unmatched short-term virality, allowing high-quality videos to achieve rapid reach. However, because content consumption is fast-paced and individual video shelf-life is relatively brief, baseline <strong>TikTok influencer rates</strong> per follower are typically slightly lower than Instagram or YouTube. When a creator demonstrates consistent 5-figure view counts, their valuation scales rapidly through view-based pricing.</li>
+              <li><strong>YouTube Influencer Rates:</strong> YouTube commands the highest CPM benchmarks ($30 to $80+ per 1,000 views) in creator marketing. YouTube videos are evergreen assets indexed by Google and YouTube search engines, meaning a dedicated sponsor review or mid-roll integration can continue generating impressions, clicks, and affiliate sales for months or years after publishing.</li>
+            </ul>
+
+            <h2>Follower Count vs. Reach, Views, and Influencer Engagement Rate</h2>
+            <p>
+              When evaluating <strong>how much to charge as an influencer</strong>, creators must distinguish between four fundamental audience metrics:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Follower Count:</strong> The total number of accounts subscribed to your profile. While useful for broad tier categorization, follower count does not guarantee active eyeballs.</li>
+              <li><strong>Reach and Impressions:</strong> Reach represents the unique individual accounts that viewed your post, while impressions count the total number of times your content appeared on screens.</li>
+              <li><strong>Average Views:</strong> The verified count of completed video impressions. For short-form and long-form video sponsorships, average views represent the most defensible metric when negotiating rates.</li>
+              <li><strong>Influencer Engagement Rate:</strong> The percentage of viewers who actively interact through likes, comments, shares, saves, and link taps. A high engagement rate indicates strong community trust and high conversion potential. You can measure your exact interaction ratios with our <a href="/tools/instagram-engagement-calculator">Instagram Engagement Calculator</a> and <a href="/tools/tiktok-engagement-calculator">TikTok Engagement Calculator</a>.</li>
+            </ul>
+
+            <h2>Interpreting Minimum, Recommended, and Premium Rate Estimates</h2>
+            <p>
+              Rather than providing a single rigid price, our <strong>influencer marketing calculator</strong> delivers a three-tier range to help you navigate client negotiations:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Minimum Rate (Floor):</strong> Your walk-away threshold. This figure covers baseline scripting, filming labor, software subscriptions, and editing time so you never create sponsored assets at a personal financial loss.</li>
+              <li><strong>Recommended Rate (Media Kit Quote):</strong> Your target market-rate starting price. This is the primary figure to list on your official rate card or send in response to inbound collaboration inquiries.</li>
+              <li><strong>Premium Rate (Ceiling):</strong> A realistic high estimate for high-demand scenarios. Use your premium rate when sponsors request urgent turnarounds (under 48–72 hours), launch campaigns during competitive fourth-quarter (Q4) holiday surges, or demand complex creative production.</li>
+            </ul>
+
+            <h2>Key Factors That Influence Actual Brand Deal Rates</h2>
+            <p>
+              Beyond raw metrics, several qualitative and commercial factors determine final <strong>influencer collaboration pricing</strong>:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Content Niche Profitability:</strong> Advertisers in personal finance, enterprise software (SaaS), business tools, and real estate pay significantly higher CPMs because their customer lifetime value (LTV) is substantial. In contrast, broad entertainment and gaming niches often operate at lower CPMs because their audiences are younger and less transactional.</li>
+              <li><strong>Audience Geographic Location:</strong> Creators whose audiences are concentrated in Tier-1 consumer markets (such as the United States, United Kingdom, Canada, and Australia) command higher sponsor budgets than accounts with globally dispersed followings.</li>
+              <li><strong>Production Quality:</strong> Crisp 4K videography, studio lighting, clear wireless audio, and custom motion graphics instantly justify quotes well above standard follower baselines.</li>
+              <li><strong>Historical Conversion Proof:</strong> Creators who can demonstrate past campaign results—such as trackable click-through rates (CTR), promo code sales, or download volumes—hold tremendous leverage. You can model campaign returns with our <a href="/tools/brand-deal-calculator">Brand Deal Calculator</a>.</li>
+            </ul>
+
+            <h2>How to Prepare a Reasonable Starting Rate and Avoid Underpricing</h2>
+            <p>
+              Whether pitching your very first brand sponsor or updating an existing media kit, establishing clear commercial guidelines protects your professional reputation:
+            </p>
+            <div class="tip-card-box">
+              <div class="tip-item">
+                <strong>1. Base Quotes on Data, Not Emotions:</strong>
+                <p>Never base your opening quote on arbitrary desires. Ground your starting price in verifiable 30-day view analytics, platform averages, and content production hours.</p>
+              </div>
+              <div class="tip-item">
+                <strong>2. Quote per Deliverable, Not per Hour:</strong>
+                <p>Content creation cannot be billed like hourly manual labor. Sponsors are paying for your pre-built audience trust and intellectual property, not simply the minutes required to press record.</p>
+              </div>
+              <div class="tip-item">
+                <strong>3. Adjust Deliverable Scope Instead of Slashing Prices:</strong>
+                <p>If a brand states that your recommended rate exceeds their budget, avoid immediately discounting your fee. Instead, reduce the scope of work—for example, propose an integrated mid-roll or Story set rather than a full dedicated video.</p>
+              </div>
+              <div class="tip-item">
+                <strong>4. Define Revision Limits in Advance:</strong>
+                <p>Ensure your campaign agreement explicitly includes one round of minor revisions before publishing, with subsequent conceptual reshoots billed at an additional hourly or fixed rate.</p>
+              </div>
+            </div>
+
+            <h2>Why Usage Rights and Exclusivity Require Separate Negotiation</h2>
+            <p>
+              Two contract clauses frequently catch creators off guard and lead to significant undercompensation:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Paid Usage Rights (Whitelisting or Spark Ads):</strong> An organic sponsorship fee permits publishing content solely to your existing profile feed. If an advertiser requests permission to run your post as a paid digital advertisement from their ad account or your handle, they are utilizing your likeness to scale paid customer acquisition. Industry standards dictate billing an additional <strong>30% to 100%+ licensing fee</strong> per 30 to 90 days of paid ad usage.</li>
+              <li><strong>Category Exclusivity:</strong> If a brand requests that you refrain from partnering with any competing company in your vertical for 60 or 90 days, you are sacrificing potential income from other brands. Exclusivity should never be included for free; it warrants an additional <strong>25% to 50%+ surcharge</strong> on top of your base rate.</li>
+            </ul>
+
+            <h2>The Limitations of Online Estimates and Achieving Fair Collaborations</h2>
+            <p>
+              An online <strong>influencer rate calculator</strong> provides an objective, data-informed starting point, but it cannot know your unique relationship with your audience, your past sponsor retention rate, or specific campaign complexities. Actual rates will always fluctuate based on seasonal advertising budgets, brand negotiation leverage, and creative scope.
+            </p>
+            <p>
+              Ultimately, successful influencer marketing partnerships benefit both sides. When creators charge fair rates that justify thorough creative effort, and brands pay transparent fees that reflect real audience attention, both parties achieve authentic, high-converting collaborations that stand the test of time.
+            </p>
+
+          </div>
+
+          <!-- Frequently Asked Questions Accordion (6 High-Value FAQs) -->
+          <div class="faq-card-section">
+            <h2 class="faq-section-title">Frequently Asked Questions</h2>
+            <div class="faq-accordion-wrap">
+              {faqs.map(faq => (
+                <details class="faq-accordion-item">
+                  <summary class="faq-summary">
+                    <span class="faq-question-text">{faq.question}</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-chevron" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <div class="faq-body">
+                    <p>{faq.answer}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+
+          <!-- Related Tools Strip within Content Card (Clean Inline SVGs) -->
+          <div class="related-tools-block">
+            <div class="related-header-row">
+              <div>
+                <span class="content-pill">More Creator Tools</span>
+                <h3 class="related-title">Explore Related Sponsorship & Creator Tools</h3>
+              </div>
+              <a href="/tools" class="view-all-tools-btn">View All Tools &rarr;</a>
+            </div>
+
+            <div class="related-tools-grid">
+              <a href="/tools/instagram-engagement-calculator" class="tool-recommend-card">
+                <div class="recommend-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="recommend-svg" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                  </svg>
+                </div>
+                <div class="recommend-body">
+                  <h4 class="recommend-name">Instagram Engagement Calculator</h4>
+                  <p class="recommend-desc">Calculate your engagement rate based on likes, comments, and follower reach.</p>
+                </div>
+              </a>
+
+              <a href="/tools/tiktok-engagement-calculator" class="tool-recommend-card">
+                <div class="recommend-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="recommend-svg" aria-hidden="true">
+                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+                  </svg>
+                </div>
+                <div class="recommend-body">
+                  <h4 class="recommend-name">TikTok Engagement Calculator</h4>
+                  <p class="recommend-desc">Measure view-to-interaction ratios and profile engagement for brand pitches.</p>
+                </div>
+              </a>
+
+              <a href="/tools/youtube-cpm-calculator" class="tool-recommend-card">
+                <div class="recommend-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="recommend-svg" aria-hidden="true">
+                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                  </svg>
+                </div>
+                <div class="recommend-body">
+                  <h4 class="recommend-name">YouTube CPM Calculator</h4>
+                  <p class="recommend-desc">Estimate revenue per 1,000 views across video categories and audience regions.</p>
+                </div>
+              </a>
+
+              <a href="/tools/brand-deal-calculator" class="tool-recommend-card">
+                <div class="recommend-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="recommend-svg" aria-hidden="true">
+                    <line x1="12" y1="1" x2="12" y2="23"/>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                  </svg>
+                </div>
+                <div class="recommend-body">
+                  <h4 class="recommend-name">Brand Deal Calculator</h4>
+                  <p class="recommend-desc">Calculate sponsorship quotes, production overhead, and campaign profit margins.</p>
+                </div>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
   </div>
-
-  <div slot="about" class="editorial-content">
-    <h2>The Complete Guide to Influencer Sponsorship Rates & Pricing Strategy</h2>
-    <p>
-      The creator economy has matured into a multi-billion dollar commercial industry. Brands and marketing agencies no longer view influencer marketing as an experimental tactic; it is now a cornerstone of modern customer acquisition and brand awareness.
-    </p>
-    <p>
-      However, one of the most persistent hurdles for creators across Instagram, YouTube, TikTok, and LinkedIn is determining <strong>how much to charge for brand collaborations</strong>. Pricing too low leads to creator burnout, undercompensates your labor, and depresses market standards. Pricing too high without supporting analytics risks scaring away potential sponsors.
-    </p>
-    <p>
-      Our interactive <strong>Influencer Rate Calculator</strong> takes the guesswork out of rate estimation. By analyzing your follower count, real engagement volume, social platform, content niche, and deliverable format, the tool calculates accurate market-rate sponsorship valuations, projected CPMs, and provides an instant brand outreach pitch template.
-    </p>
-
-    <div class="callout-box">
-      <div class="callout-title">
-        <span>💡</span> In-Depth Brand Collaboration Guide
-      </div>
-      <p style="margin: 0; font-size: 0.95rem;">
-        Master the nuances of pitching, contracts, and negotiation strategies in our complete guide: <a href="/blog/ultimate-brand-collaboration-guide">Ultimate Brand Collaboration Guide & Influencer Campaign Outlines</a>.
-      </p>
-    </div>
-
-    <h2>What is an Influencer Rate & Why Pricing Correctly Matters</h2>
-    <p>
-      An <strong>influencer rate</strong> is the baseline fee a content creator charges a brand partner to produce, edit, and publish sponsored content to their audience.
-    </p>
-    <p>
-      Unlike traditional advertising where media space is purchased from a network, influencer pricing compensates creators for four distinct assets:
-    </p>
-    <ul>
-      <li><strong>Audience Access:</strong> Direct, targeted exposure to a pre-built community of engaged followers who trust the creator's voice.</li>
-      <li><strong>Creative Production:</strong> Concept scripting, high-definition videography, lighting, voiceover recording, and professional post-production editing.</li>
-      <li><strong>Implied Endorsement & Social Proof:</strong> The personal credibility and authenticity the creator transfers to the featured product or service.</li>
-      <li><strong>Commercial Usage Rights:</strong> The intellectual property rights that dictate where and how long the brand can utilize the creator's content.</li>
-    </ul>
-
-    <h2>The 7 Core Influencer Pricing Models</h2>
-    <p>
-      Influencers structure their fees across several commercial payment models:
-    </p>
-
-    <div class="step-guide">
-      <div class="step-item">
-        <h3>1. Flat-Fee Per Deliverable (Static Post / Photo)</h3>
-        <p>
-          A single fixed fee charged for a standalone static image, carousel, or graphic post. Ideal for visual lifestyle showcases, aesthetic styling, or product flat-lays on Instagram.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>2. Short-Form Video (Instagram Reel / TikTok)</h3>
-        <p>
-          A 30-to-60 second vertical video integrating the sponsor's product. Because short-form video requires dynamic editing and delivers viral algorithmic reach, it commands a <strong>1.4x to 1.6x multiplier</strong> over static posts.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>3. Dedicated Long-Form Video / YouTube Integration</h3>
-        <p>
-          • <strong>Dedicated Review (10-15+ mins):</strong> The entire video focuses on the brand's product, fetching a <strong>2.0x to 2.5x multiplier</strong>.
-          <br />
-          • <strong>Integrated Mid-Roll Shoutout (60-90 secs):</strong> A natural ad placement within a broader thematic video, typically priced around 50% to 65% of a fully dedicated video.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>4. Ephemeral Story Sets with Direct Link Stickers</h3>
-        <p>
-          A series of 3 to 5 Story frames with clickable link stickers. Stories offer high click-through rates (CTR) and immediate conversions despite disappearing after 24 hours.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>5. Multi-Deliverable Package Bundles</h3>
-        <p>
-          Combining multiple formats across platforms (e.g., <em>1 YouTube Integration + 1 Instagram Reel + 3 Story frames with links</em>). Bundles increase total campaign value while providing sponsors with comprehensive multi-touch attribution.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>6. Monthly Brand Ambassadorship Retainers</h3>
-        <p>
-          Ongoing multi-month partnerships where the creator delivers a predetermined bundle of monthly assets in exchange for guaranteed, recurring monthly revenue.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>7. Paid Usage Rights & Whitelisting (Dark Posting)</h3>
-        <p>
-          Granting the sponsor permission to run paid ads through the creator's handle or utilize the video across brand ad channels. Standard licensing fees range from <strong>30% to 100%+</strong> of the base creation fee per 30 to 90 days.
-        </p>
-      </div>
-    </div>
-
-    <h2>Key Factors That Influence Influencer Pricing</h2>
-    <p>
-      Influencer sponsorship valuations are determined by six primary metrics:
-    </p>
-
-    <div class="table-responsive-wrapper">
-      <table class="content-table">
-        <thead>
-          <tr>
-            <th>Influencer Tier</th>
-            <th>Follower Range</th>
-            <th>Typical Engagement Rate</th>
-            <th>Primary Value Proposition</th>
-            <th>Average Post Pricing Range</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Nano-Influencer</strong></td>
-            <td>1,000 – 10,000</td>
-            <td>5.0% – 10.0%+</td>
-            <td>Hyper-niche community trust, strong peer influence</td>
-            <td>$50 – $250</td>
-          </tr>
-          <tr>
-            <td><strong>Micro-Influencer</strong></td>
-            <td>10,000 – 50,000</td>
-            <td>3.0% – 6.0%</td>
-            <td>High engagement, cost-efficient conversions</td>
-            <td>$200 – $750</td>
-          </tr>
-          <tr>
-            <td><strong>Mid-Tier Influencer</strong></td>
-            <td>50,000 – 500,000</td>
-            <td>2.0% – 4.0%</td>
-            <td>Balanced reach and high-quality production value</td>
-            <td>$600 – $3,500</td>
-          </tr>
-          <tr>
-            <td><strong>Macro-Influencer</strong></td>
-            <td>500,000 – 1,000,000</td>
-            <td>1.5% – 3.0%</td>
-            <td>Mass brand awareness, rapid campaign velocity</td>
-            <td>$3,000 – $10,000</td>
-          </tr>
-          <tr>
-            <td><strong>Mega / Elite Creator</strong></td>
-            <td>1,000,000+</td>
-            <td>1.0% – 2.5%</td>
-            <td>Celebrity-level reach, nationwide brand impact</td>
-            <td>$10,000 – $50,000+</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3>Niche Commercial Value Multipliers</h3>
-    <p>
-      Sponsorship rates vary widely based on the economic value of the target audience:
-    </p>
-    <ul>
-      <li><strong>Finance, Investing & Crypto (1.8x Multiplier):</strong> High customer lifetime values for brokerages and credit cards command the industry's highest CPMs.</li>
-      <li><strong>Tech, SaaS & Hardware (1.6x Multiplier):</strong> High annual subscription contracts allow tech brands to pay premium creator fees.</li>
-      <li><strong>Business & Entrepreneurship (1.5x Multiplier):</strong> Highly sought-after B2B decision-makers and founders.</li>
-      <li><strong>Health, Fitness & Wellness (1.2x Multiplier):</strong> High repeat purchase frequency for supplements, apparel, and equipment.</li>
-      <li><strong>Beauty & Skincare (1.1x Multiplier):</strong> Visual transformation format with consistent direct-to-consumer demand.</li>
-      <li><strong>Lifestyle & Fashion (1.0x Baseline):</strong> Broad consumer reach with massive brand deal volume.</li>
-      <li><strong>Gaming & Esports (0.9x Multiplier):</strong> Large audience scale but younger demographic with lower immediate disposable income.</li>
-    </ul>
-
-    <h2>How This Influencer Rate Calculator Works</h2>
-    <p>
-      Our calculator uses a dynamic 4-stage algorithmic model:
-    </p>
-    <div class="formula-box">
-      Final Rate = Base Platform Value × Niche Multiplier × Format Multiplier × Engagement Health Index
-    </div>
-    <ul>
-      <li><strong>Base Platform Value:</strong> Establishes baseline pricing benchmarks ($10/1k followers on Instagram, $6/1k followers on TikTok, $25/1k views on YouTube).</li>
-      <li><strong>Niche Multiplier:</strong> Adjusts pricing from 0.9x (Gaming) up to 1.8x (Finance) based on audience commercial value.</li>
-      <li><strong>Format Multiplier:</strong> Scales rates from 0.5x (Story frame) to 2.2x (Dedicated integration) according to production complexity.</li>
-      <li><strong>Engagement Health Index:</strong> Rewards creators whose engagement rate exceeds industry baselines (up to +50% bonus) and adjusts down for inactive follower counts.</li>
-    </ul>
-
-    <h2>Step-by-Step Guide: How to Use the Calculator Effectively</h2>
-    <div class="step-guide">
-      <div class="step-item">
-        <h3>Step 1: Select Your Platform</h3>
-        <p>
-          Choose from <strong>Instagram</strong>, <strong>YouTube</strong>, or <strong>TikTok</strong> to load platform-specific valuation algorithms.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>Step 2: Enter Follower & Engagement Metrics</h3>
-        <p>
-          Input your total follower count and average engagement (average likes + comments for Instagram/TikTok, or average 30-day views for YouTube).
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>Step 3: Select Your Niche & Deliverable Format</h3>
-        <p>
-          Pick your content vertical (e.g., Tech, Finance, Beauty) and requested format (Feed Post, Story, Reel, Dedicated Video).
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>Step 4: Review Valuations & Copy Your Brand Pitch</h3>
-        <p>
-          Click <strong>Calculate Estimated Rate</strong> to view your estimated rate range, median recommended quote, pricing tier, and copy the customized brand outreach email template.
-        </p>
-      </div>
-    </div>
-
-    <h2>4 Realistic Rate Calculation Scenarios</h2>
-    <p>
-      Review these real-world examples to see how creator metrics translate into sponsorship quotes:
-    </p>
-
-    <div class="step-guide">
-      <div class="step-item">
-        <h3>Scenario A: Micro Instagram Beauty Influencer</h3>
-        <p><strong>Metrics:</strong> 25,000 Followers | 1,800 Avg. Engagements (7.2% ER) | Format: Instagram Reel</p>
-        <ul>
-          <li><strong>Baseline Calculation:</strong> $250 base × 1.1 (Beauty) × 1.4 (Reel) × 1.47 (High ER) = <strong>$566 Median Rate</strong></li>
-          <li><strong>Suggested Quote Range:</strong> $450 – $700 per Reel</li>
-          <li><strong>Takeaway:</strong> Exceptional engagement rates allow micro-creators to charge near mid-tier rates.</li>
-        </ul>
-      </div>
-
-      <div class="step-item">
-        <h3>Scenario B: Mid-Tier TikTok Tech Creator</h3>
-        <p><strong>Metrics:</strong> 85,000 Followers | 5,500 Avg. Engagements (6.4% ER) | Format: Dedicated Review</p>
-        <ul>
-          <li><strong>Baseline Calculation:</strong> $510 base × 1.6 (Tech) × 2.2 (Dedicated) × 1.24 (ER Index) = <strong>$2,225 Median Rate</strong></li>
-          <li><strong>Suggested Quote Range:</strong> $1,780 – $2,780 per dedicated video</li>
-          <li><strong>Takeaway:</strong> Tech niche multipliers dramatically boost short-form video sponsorship value.</li>
-        </ul>
-      </div>
-
-      <div class="step-item">
-        <h3>Scenario C: Macro YouTube Finance Channel</h3>
-        <p><strong>Metrics:</strong> 180,000 Subscribers | 40,000 Avg. Views per Video | Format: Dedicated Mid-Roll</p>
-        <ul>
-          <li><strong>Baseline Calculation:</strong> $1,000 base × 1.8 (Finance) × 2.2 (Dedicated) = <strong>$3,960 Median Rate</strong></li>
-          <li><strong>Suggested Quote Range:</strong> $3,200 – $4,950 per integration</li>
-          <li><strong>Takeaway:</strong> YouTube pricing is driven by verifiable video views rather than total subscriber counts.</li>
-        </ul>
-      </div>
-
-      <div class="step-item">
-        <h3>Scenario D: Multi-Platform Fitness Creator Retainer</h3>
-        <p><strong>Deliverables:</strong> 2 Instagram Reels + 1 TikTok Video + 4 Story sets monthly</p>
-        <ul>
-          <li><strong>Asset Valuation:</strong> $1,200 (Reels) + $500 (TikTok) + $400 (Stories) = $2,100/mo base value</li>
-          <li><strong>Retainer Discount (15% for 3-month commitment):</strong> <strong>$1,785 / month ($5,355 total contract)</strong></li>
-          <li><strong>Takeaway:</strong> Retainers provide creators with revenue stability and offer brands cost savings.</li>
-        </ul>
-      </div>
-    </div>
-
-    <h2>Tips to Set Competitive & Profitable Rates</h2>
-    <div class="step-guide">
-      <div class="step-item">
-        <h3>1. Always Price in a Range</h3>
-        <p>
-          Quote using a starting range (e.g., <em>'$800 – $1,200 depending on exact creative scope and usage terms'</em>). This provides flexibility to negotiate deliverables without cutting your unit price.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>2. Charge Separately for Paid Usage Rights</h3>
-        <p>
-          Never include digital ad whitelisting in your base organic rate. Standard industry practice is charging an extra <strong>30% for 30 days</strong> or <strong>50% for 90 days</strong> of paid ad usage.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>3. Establish a Non-Negotiable Project Floor</h3>
-        <p>
-          Set a minimum fee threshold (e.g., minimum $200 per project) to cover communication time, contract review, and invoicing admin.
-        </p>
-      </div>
-    </div>
-
-    <h2>Common Mistakes Influencers Make When Pricing Services</h2>
-    <div class="callout-box warning">
-      <div class="callout-title">
-        <span>⚠️</span> Critical Pricing Pitfalls
-      </div>
-      <p style="margin: 0; font-size: 0.95rem;">
-        Avoid these common pricing mistakes to protect your brand, maintain profitability, and avoid legal disputes.
-      </p>
-    </div>
-
-    <ul>
-      <li><strong>Pricing Exclusively on Follower Count:</strong> Ignoring actual view counts and engagement metrics leads to overquoting dead accounts or undercharging hyper-engaged communities.</li>
-      <li><strong>Falling for the 'Free Product Gifted' Trap:</strong> Brands offering free $30 leggings in exchange for a dedicated video that takes 6 hours to script and edit.</li>
-      <li><strong>Granting Perpetual, In-Perpetuity Usage Rights:</strong> Allowing brands to use your face on their billboards or paid digital ads forever without ongoing royalty fees.</li>
-      <li><strong>Agreeing to Free Category Exclusivity:</strong> Agreeing not to work with any other tech brand for 6 months without demanding an exclusivity surcharge.</li>
-      <li><strong>Failing to Set Revision Limits:</strong> Not defining contract terms (e.g., maximum 2 rounds of minor edits), leading to endless reshoots.</li>
-    </ul>
-
-    <h2>Best Practices for Negotiating & Closing Brand Deals</h2>
-    <ol>
-      <li><strong>Focus on Brand ROI in Your Pitch:</strong> Highlight past campaign case studies, average click-through rates (CTR), and audience conversion intent.</li>
-      <li><strong>Negotiate Deliverable Scope, Not Price:</strong> If a sponsor says <em>'We only have an $800 budget'</em> and your rate is $1,200 for a Reel, offer 3 Story frames with link stickers instead of slashing your Reel rate.</li>
-      <li><strong>Follow Up Professionally:</strong> Brands receive hundreds of pitches weekly. Send a polite follow-up 4 to 5 business days after initial outreach.</li>
-    </ol>
-  </div>
-</ToolLayout>
+</BaseLayout>
 
 <style>
-  /* Formula and Table responsiveness fixes */
-  .formula-box {
-    background: var(--color-bg-alt);
-    padding: 1.25rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    margin: 1.25rem 0;
-    font-family: monospace;
-    font-size: clamp(0.85rem, 3.2vw, 1.05rem);
+  /* =========================================================
+     PAGE WRAPPER & HERO SECTION (Matching Twitter Hashtag Counter)
+     ========================================================= */
+  .tool-page-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  .tool-hero-section {
+    padding-top: clamp(2rem, 5vw, 3.5rem);
+    padding-bottom: clamp(1.5rem, 3.5vw, 2.5rem);
+    background: linear-gradient(180deg, rgba(99, 102, 241, 0.04) 0%, rgba(248, 250, 252, 0) 100%);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
     text-align: center;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
-    max-width: 100%;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 820px;
+    margin: 0 auto;
+    padding-left: clamp(1rem, 3vw, 2rem);
+    padding-right: clamp(1rem, 3vw, 2rem);
     box-sizing: border-box;
-    color: var(--color-brand);
-    font-weight: 600;
-    line-height: 1.8;
   }
 
-  /* Responsive Table Styling */
-  .table-responsive-wrapper {
+  .hero-breadcrumbs {
     width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin: 1.5rem 0;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-card);
-  }
-
-  .content-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 0.92rem;
-    min-width: 520px;
-  }
-
-  .content-table th {
-    background: var(--color-bg-alt);
-    color: var(--color-text);
-    font-weight: 700;
-    padding: 0.85rem 1rem;
-    border-bottom: 1px solid var(--color-border);
-    white-space: nowrap;
-  }
-
-  .content-table td {
-    padding: 0.85rem 1rem;
-    border-bottom: 1px solid var(--color-border);
-    color: var(--color-text-muted);
-    line-height: 1.5;
-  }
-
-  .content-table tr:last-child td {
-    border-bottom: none;
-  }
-
-  .content-table tr:hover td {
-    background: rgba(99, 102, 241, 0.03);
-    color: var(--color-text);
-  }
-
-  /* Step guide styling */
-  .step-guide {
     display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    margin: 1.5rem 0;
+    justify-content: center;
+    margin-bottom: 1rem;
   }
 
-  .step-item {
-    background: var(--color-bg-alt);
-    border: 1px solid var(--color-border);
-    padding: 1.35rem;
-    border-radius: var(--radius-md);
-  }
-
-  .step-item h3 {
-    margin-top: 0 !important;
-    font-size: 1.15rem;
-    color: var(--color-brand);
-    margin-bottom: 0.5rem;
-  }
-
-  .step-item p {
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-  }
-
-  .step-item ul {
-    margin-bottom: 0 !important;
-    margin-left: 1.25rem !important;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-
-  /* Callout box styling */
-  .callout-box {
-    margin: 1.5rem 0;
-    background: var(--color-bg-alt);
-    padding: 1.25rem 1.5rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    border-left: 4px solid var(--color-brand);
-  }
-
-  .callout-box.tip {
-    border-left-color: #10b981;
-    background: rgba(16, 185, 129, 0.05);
-  }
-
-  .callout-box.warning {
-    border-left-color: #f59e0b;
-    background: rgba(245, 158, 11, 0.05);
-  }
-
-  .callout-title {
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--color-text);
-    margin-bottom: 0.5rem;
-    display: flex;
+  .hero-badge {
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-  }
-
-  .calc-card {
-    padding: var(--space-md);
-    border-radius: var(--radius-lg);
-  }
-
-  .calc-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-
-  .calc-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .form-group label {
-    font-size: 0.9rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    border: 1px solid #e0e7ff;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+    font-size: 0.8rem;
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--color-text, #0f172a);
+    margin-bottom: 1.25rem;
+    user-select: none;
   }
 
-  .form-input {
-    width: 100%;
-    height: 48px;
-    padding: 0 1rem;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    color: var(--color-text);
-    transition: all var(--transition-fast);
-  }
-
-  .form-input:focus {
-    border-color: var(--color-brand);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-  }
-
-  select.form-input {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234b5563' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 1.25rem;
-    padding-right: 2.5rem;
-  }
-
-  .input-helper {
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-  }
-
-  .calc-btn {
-    height: 48px;
-    background: var(--gradient-brand);
-    color: var(--color-text-inverse);
-    font-weight: 600;
-    border-radius: var(--radius-md);
-    cursor: pointer;
+  .badge-icon-tool {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: var(--color-brand, #4f46e5);
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all var(--transition-normal);
+    padding: 2px;
+    box-sizing: border-box;
   }
 
-  .calc-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px var(--color-shadow-hover);
+  .tool-svg {
+    width: 100%;
+    height: 100%;
   }
 
-  /* Results styling */
-  .calc-results {
+  .badge-pill-free {
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.1rem 0.45rem;
+    border-radius: 9999px;
+  }
+
+  .hero-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(2rem, 5.5vw, 3.25rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    margin: 0 0 1rem 0;
+    max-width: 720px;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-desc {
+    font-size: clamp(0.95rem, 2.5vw, 1.125rem);
+    color: var(--color-text-muted, #64748b);
+    line-height: 1.6;
+    margin: 0 0 1.5rem 0;
+    max-width: 640px;
+  }
+
+  .hero-features-row {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     justify-content: center;
-    min-height: 350px;
-    padding: 2rem;
-    border-radius: var(--radius-md);
-    background: var(--color-bg-alt);
-    border: 1px solid var(--color-border);
+    gap: 0.6rem;
   }
 
-  .empty-state {
-    display: flex;
-    flex-direction: column;
+  .feature-chip {
+    display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #e2e8f0;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: #475569;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   }
 
-  .empty-icon {
-    width: 48px;
-    height: 48px;
-    color: var(--color-text-muted);
+  .chip-svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-brand, #4f46e5);
+    flex-shrink: 0;
   }
 
-  .results-active {
+  /* =========================================================
+     2. MAIN TOOL SECTION & SAAS CARD (Max-Width 940px)
+     ========================================================= */
+  .tool-main-section {
+    padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+    background: var(--color-bg, #f8fafc);
+  }
+
+  .tool-card-container {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .saas-tool-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 24px;
+    box-shadow: 0 20px 45px -15px rgba(99, 102, 241, 0.08), 0 0 0 1px rgba(226, 232, 240, 0.6);
+    padding: clamp(1rem, 3.5vw, 2.5rem);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .rate-range-box {
-    text-align: center;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    padding: 1.5rem;
-    border-radius: var(--radius-md);
-  }
-
-  .rate-label {
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-muted);
-    margin-bottom: 0.5rem;
-  }
-
-  .rate-range {
-    font-family: var(--font-heading);
-    font-size: clamp(2rem, 5vw, 2.75rem);
-    font-weight: 800;
-    background: var(--gradient-brand);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.5rem;
-  }
-
-  .rate-note {
-    font-size: 0.95rem;
-  }
-
-  .high-contrast-text {
-    color: var(--color-text);
-  }
-
-  .metrics-subgrid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .metric-card {
-    padding: 1rem;
-    text-align: center;
-    border-radius: var(--radius-md);
+  /* Card Header Bar */
+  .card-header-bar {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    padding-bottom: 1.25rem;
   }
 
-  .metric-title {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-text-muted);
+  @media (min-width: 640px) {
+    .card-header-bar {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 
-  .metric-value {
-    font-family: var(--font-heading);
-    font-size: 1.25rem;
+  .platform-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .platform-title {
     font-weight: 700;
-    color: var(--color-text);
+    font-size: 0.95rem;
+    color: var(--color-text, #0f172a);
   }
 
-  .pitch-box {
+  .platform-sub-text {
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  /* Platform Switcher Tabs - Grid on Mobile to prevent overflow */
+  .platform-tabs-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.25rem;
+    background: #f1f5f9;
+    padding: 0.25rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 640px) {
+    .platform-tabs-row {
+      display: inline-flex;
+      width: auto;
+      gap: 0.4rem;
+      padding: 0.3rem;
+      border-radius: 14px;
+    }
+  }
+
+  .platform-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 0.5rem 0.2rem;
+    border-radius: 9px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--color-text-muted, #64748b);
+    font-size: clamp(0.72rem, 2.4vw, 0.825rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 640px) {
+    .platform-tab {
+      width: auto;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.825rem;
+      gap: 0.4rem;
+      border-radius: 10px;
+    }
+  }
+
+  .platform-tab:hover {
+    color: var(--color-text, #0f172a);
+  }
+
+  .platform-tab.active {
+    background: #ffffff;
+    color: var(--color-brand, #4f46e5);
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .platform-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  /* Form Inputs Grid */
+  .calculator-inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .calculator-inputs-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .full-width-field {
+      grid-column: span 2;
+    }
+  }
+
+  .input-field-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
 
-  .pitch-header {
+  .field-label-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
   }
 
-  .pitch-title {
-    font-size: 0.85rem;
+  .field-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
     font-weight: 600;
+    color: var(--color-text, #0f172a);
   }
 
-  .copy-btn {
-    font-size: 0.8rem;
+  .label-svg {
+    width: 15px;
+    height: 15px;
+    color: var(--color-brand, #4f46e5);
+    flex-shrink: 0;
+  }
+
+  .badge-tag-required {
+    font-size: 0.675rem;
+    font-weight: 700;
+    color: #4f46e5;
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.1rem 0.4rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+  }
+
+  .badge-tag-optional {
+    font-size: 0.675rem;
     font-weight: 600;
-    color: var(--color-text-inverse);
-    background: var(--color-brand);
-    padding: 0.35rem 0.75rem;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: all var(--transition-fast);
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 0.1rem 0.4rem;
+    border-radius: 9999px;
   }
 
-  .copy-btn:hover {
-    background: var(--color-brand-hover);
-  }
-
-  .pitch-textarea {
+  .input-wrapper,
+  .select-wrapper {
+    position: relative;
     width: 100%;
-    height: 140px;
-    padding: 0.75rem;
+  }
+
+  .styled-input,
+  .styled-select {
+    width: 100%;
+    height: 48px;
+    padding: 0 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border, #cbd5e1);
+    background: #ffffff;
+    color: var(--color-text, #0f172a);
+    font-size: 0.95rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .styled-input:focus,
+  .styled-select:focus {
+    border-color: var(--color-brand, #4f46e5);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .styled-select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 2.5rem;
+    cursor: pointer;
+  }
+
+  .select-chevron-box {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chevron-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .field-helper-text {
+    font-size: 0.775rem;
+    color: var(--color-text-muted, #64748b);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* Actions Strip */
+  .card-actions-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-top: 0.25rem;
+  }
+
+  .live-status-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    display: inline-block;
+  }
+
+  .btn-reset-minimal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 10px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    background: #ffffff;
+    color: var(--color-text-muted, #64748b);
+    font-size: 0.825rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-reset-minimal:hover {
+    color: var(--color-text, #0f172a);
+    border-color: #cbd5e1;
+    background: #f8fafc;
+  }
+
+  .reset-svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .card-divider {
+    height: 1px;
+    background: var(--color-border, #e2e8f0);
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  /* Results Section */
+  .results-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .empty-results-box {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    border-radius: 18px;
+    border: 1px dashed #cbd5e1;
+  }
+
+  .empty-results-box.hidden,
+  .active-results-box.hidden {
+    display: none;
+  }
+
+  .empty-icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #4f46e5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.85rem;
+  }
+
+  .empty-svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .empty-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.35rem 0;
+  }
+
+  .empty-sub {
     font-size: 0.85rem;
-    font-family: var(--font-body);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    color: var(--color-text-muted);
-    resize: none;
+    color: var(--color-text-muted, #64748b);
+    max-width: 440px;
+    margin: 0;
     line-height: 1.5;
   }
 
-  .hidden {
-    display: none !important;
+  .active-results-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
   }
 
-  /* Slotted editorial heading spacing fixes */
-  .editorial-content :global(h2) {
-    margin-top: 2.25rem;
-    margin-bottom: 0.85rem;
-    font-size: 1.55rem;
-    font-weight: 800;
-    color: var(--color-text);
-    letter-spacing: -0.02em;
+  .results-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
   }
 
-  .editorial-content :global(h3) {
-    margin-top: 1.75rem;
-    margin-bottom: 0.65rem;
-    font-size: 1.25rem;
+  .selection-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    font-size: 0.8rem;
     font-weight: 700;
-    color: var(--color-text);
+    color: var(--color-text, #0f172a);
   }
 
-  .editorial-content :global(p) {
-    color: var(--color-text-muted);
-    margin-bottom: 1.15rem;
-    line-height: 1.75;
-    font-size: 0.98rem;
+  .pill-separator {
+    color: #94a3b8;
   }
 
-  .editorial-content :global(code) {
-    background: var(--color-bg-alt);
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.88em;
-    border: 1px solid var(--color-border);
-    color: var(--color-brand);
+  .tier-pill {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #4f46e5;
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.3rem 0.65rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(99, 102, 241, 0.2);
   }
 
-  /* Mobile styling overrides to remove nested borders and make results high-contrast & responsive */
-  @media (max-width: 767px) {
-    .calc-results {
-      padding: 1.25rem !important;
-      background: var(--color-bg-alt) !important;
-      border: 1.5px solid var(--color-border) !important;
-    }
+  /* 3 Essential Result Cards Grid */
+  .rates-result-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 
-    .results-active {
-      gap: 1rem !important;
-    }
-
-    .rate-range-box, 
-    .metric-card, 
-    .pitch-textarea {
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      border-radius: 0 !important;
-      width: 100% !important;
-      max-width: 100% !important;
-    }
-
-    .rate-range-box {
-      text-align: center !important;
-      padding-bottom: 0.75rem !important;
-      border-bottom: 1px dashed var(--color-border) !important;
-    }
-
-    .metrics-subgrid {
-      grid-template-columns: 1fr 1fr !important;
-      gap: 0.75rem !important;
-      border-bottom: 1px dashed var(--color-border) !important;
-      padding-bottom: 0.75rem !important;
-    }
-
-    .metric-card {
-      text-align: center !important;
-      padding: 0.25rem 0 !important;
-    }
-
-    .pitch-textarea {
-      background: rgba(0, 0, 0, 0.02) !important;
-      border: 1px dashed var(--color-border) !important;
-      border-radius: var(--radius-sm) !important;
-      padding: 0.75rem !important;
-      height: 120px !important;
-    }
-
-    .content-table {
-      font-size: 0.85rem;
-    }
-
-    .content-table th, 
-    .content-table td {
-      padding: 0.7rem 0.75rem;
+  @media (min-width: 680px) {
+    .rates-result-grid {
+      grid-template-columns: 1fr 1.2fr 1fr;
+      align-items: stretch;
     }
   }
 
-  /* Responsive Rules */
-  @media (min-width: 768px) {
-    .calc-grid {
+  .rate-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+
+  .rate-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .rate-card-label {
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .rate-badge-tag {
+    font-size: 0.675rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+  }
+
+  .tag-gray {
+    background: #e2e8f0;
+    color: #475569;
+  }
+
+  .tag-brand {
+    background: rgba(99, 102, 241, 0.15);
+    color: #4f46e5;
+  }
+
+  .tag-purple {
+    background: rgba(168, 85, 247, 0.15);
+    color: #9333ea;
+  }
+
+  .rate-card-value {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--color-text, #0f172a);
+    margin: 0.25rem 0;
+  }
+
+  .hero-value {
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    color: var(--color-brand, #4f46e5);
+  }
+
+  .rate-card-sub {
+    font-size: 0.775rem;
+    color: var(--color-text-muted, #64748b);
+    line-height: 1.35;
+  }
+
+  .rate-card-hero {
+    background: #ffffff;
+    border-color: #c7d2fe;
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.12), 0 0 0 1px #818cf8;
+    position: relative;
+  }
+
+  /* Explanation Box */
+  .results-explanation-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.15rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .explanation-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .exp-svg {
+    width: 16px;
+    height: 16px;
+    color: var(--color-brand, #4f46e5);
+    flex-shrink: 0;
+  }
+
+  .exp-heading {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .exp-summary {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text, #334155);
+    margin: 0;
+  }
+
+  .exp-disclaimer {
+    font-size: 0.775rem;
+    line-height: 1.45;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* Copy Action Button */
+  .results-action-row {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn-copy-rates {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: 12px;
+    border: 1px solid #c7d2fe;
+    background: #ffffff;
+    color: var(--color-brand, #4f46e5);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+
+  @media (min-width: 480px) {
+    .btn-copy-rates {
+      width: auto;
+    }
+  }
+
+  .btn-copy-rates:hover {
+    background: #f5f7ff;
+    border-color: #818cf8;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+  }
+
+  .copy-svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  /* =========================================================
+     3. CONTENT & SEO GUIDE SECTION (Max-Width 940px)
+     ========================================================= */
+  .tool-content-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+    background: var(--color-bg, #f8fafc);
+  }
+
+  .content-inner-container {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .content-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 24px;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .content-pill {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #4f46e5);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  .editorial-block h2 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 2rem 0 0.85rem 0;
+  }
+
+  .editorial-block h2:first-of-type {
+    margin-top: 0;
+  }
+
+  .editorial-block p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text, #334155);
+    margin: 0 0 1.25rem 0;
+  }
+
+  .editorial-block p strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  .editorial-block a {
+    color: var(--color-brand, #4f46e5);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  .editorial-block a:hover {
+    color: #4338ca;
+  }
+
+  .styled-list {
+    margin: 0 0 1.5rem 1.25rem;
+    padding: 0;
+    color: var(--color-text, #334155);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .styled-list li {
+    margin-bottom: 0.65rem;
+  }
+
+  .styled-list strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  .tip-card-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .tip-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 1.15rem 1.25rem;
+  }
+
+  .tip-item strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--color-text, #0f172a);
+    margin-bottom: 0.35rem;
+  }
+
+  .tip-item p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #64748b);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* FAQ Accordion Styling */
+  .faq-card-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    border-top: 1px solid var(--color-border, #e2e8f0);
+    padding-top: 2rem;
+  }
+
+  .faq-section-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0;
+  }
+
+  .faq-accordion-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .faq-accordion-item {
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    background: #f8fafc;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+
+  .faq-accordion-item:hover {
+    border-color: #cbd5e1;
+  }
+
+  .faq-accordion-item[open] {
+    background: #ffffff;
+    border-color: #c7d2fe;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.05);
+  }
+
+  .faq-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-text, #0f172a);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand, #4f46e5);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 0.75rem;
+  }
+
+  .faq-accordion-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-body {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+  }
+
+  .faq-body p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* Related Tools Grid */
+  .related-tools-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-top: 1px solid var(--color-border, #e2e8f0);
+    padding-top: 2rem;
+  }
+
+  .related-header-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 600px) {
+    .related-header-row {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  .related-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0;
+  }
+
+  .view-all-tools-btn {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-brand, #4f46e5);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .view-all-tools-btn:hover {
+    color: #4338ca;
+    text-decoration: underline;
+  }
+
+  .related-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 600px) {
+    .related-tools-grid {
       grid-template-columns: 1fr 1fr;
-      align-items: start;
     }
+  }
+
+  .tool-recommend-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1rem 1.15rem;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .tool-recommend-card:hover {
+    background: #ffffff;
+    border-color: #c7d2fe;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .recommend-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #4f46e5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .recommend-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .recommend-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .recommend-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0;
+    transition: color 0.2s ease;
+  }
+
+  .tool-recommend-card:hover .recommend-name {
+    color: var(--color-brand, #4f46e5);
+  }
+
+  .recommend-desc {
+    font-size: 0.775rem;
+    line-height: 1.4;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* =========================================================
+     DARK MODE PARITY (:global([data-theme="dark"]))
+     ========================================================= */
+  :global([data-theme="dark"]) .tool-hero-section {
+    background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(32, 33, 36, 0) 100%);
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .hero-badge {
+    background: #2B2D30;
+    border-color: #41444A;
+    color: #F1F3F4;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  :global([data-theme="dark"]) .feature-chip {
+    background: #2B2D30;
+    border-color: #41444A;
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .tool-main-section,
+  :global([data-theme="dark"]) .tool-content-section {
+    background: #202124;
+  }
+
+  :global([data-theme="dark"]) .saas-tool-card,
+  :global([data-theme="dark"]) .content-card {
+    background: #2B2D30;
+    border-color: #41444A;
+    box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px #41444A;
+  }
+
+  :global([data-theme="dark"]) .card-header-bar,
+  :global([data-theme="dark"]) .card-divider,
+  :global([data-theme="dark"]) .faq-card-section,
+  :global([data-theme="dark"]) .related-tools-block {
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .platform-title,
+  :global([data-theme="dark"]) .field-label,
+  :global([data-theme="dark"]) .empty-title,
+  :global([data-theme="dark"]) .exp-heading,
+  :global([data-theme="dark"]) .editorial-block h2,
+  :global([data-theme="dark"]) .editorial-block p strong,
+  :global([data-theme="dark"]) .styled-list strong,
+  :global([data-theme="dark"]) .faq-section-title,
+  :global([data-theme="dark"]) .faq-summary,
+  :global([data-theme="dark"]) .related-title,
+  :global([data-theme="dark"]) .recommend-name,
+  :global([data-theme="dark"]) .tip-item strong {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .platform-sub-text,
+  :global([data-theme="dark"]) .field-helper-text,
+  :global([data-theme="dark"]) .live-text,
+  :global([data-theme="dark"]) .empty-sub,
+  :global([data-theme="dark"]) .rate-card-label,
+  :global([data-theme="dark"]) .rate-card-sub,
+  :global([data-theme="dark"]) .exp-disclaimer,
+  :global([data-theme="dark"]) .faq-body p,
+  :global([data-theme="dark"]) .recommend-desc,
+  :global([data-theme="dark"]) .tip-item p {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .platform-tabs-row {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .platform-tab {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .platform-tab:hover {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .platform-tab.active {
+    background: #2B2D30;
+    color: #818cf8;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .styled-input,
+  :global([data-theme="dark"]) .styled-select {
+    background: #202124;
+    border-color: #41444A;
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .styled-input:focus,
+  :global([data-theme="dark"]) .styled-select:focus {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+  }
+
+  :global([data-theme="dark"]) .btn-reset-minimal {
+    background: #202124;
+    border-color: #41444A;
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .btn-reset-minimal:hover {
+    background: #2B2D30;
+    color: #F1F3F4;
+    border-color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .empty-results-box {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .selection-pill {
+    background: #202124;
+    border-color: #41444A;
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .rate-card {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .rate-card-value {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .rate-card-hero {
+    background: #2B2D30;
+    border-color: #818cf8;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 1px #818cf8;
+  }
+
+  :global([data-theme="dark"]) .hero-value {
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .tag-gray {
+    background: #41444A;
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .results-explanation-card,
+  :global([data-theme="dark"]) .tip-item {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .exp-summary,
+  :global([data-theme="dark"]) .editorial-block p,
+  :global([data-theme="dark"]) .styled-list {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .editorial-block a {
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .editorial-block a:hover {
+    color: #a5b4fc;
+  }
+
+  :global([data-theme="dark"]) .btn-copy-rates {
+    background: #202124;
+    border-color: #41444A;
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .btn-copy-rates:hover {
+    background: #2B2D30;
+    border-color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .faq-accordion-item {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .faq-accordion-item[open] {
+    background: #2B2D30;
+    border-color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .tool-recommend-card {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .tool-recommend-card:hover {
+    background: #2B2D30;
+    border-color: #818cf8;
   }
 </style>
 
 <script>
+  interface FormatItem {
+    value: string;
+    label: string;
+  }
+
+  const FORMAT_OPTIONS: Record<string, FormatItem[]> = {
+    instagram: [
+      { value: 'reel', label: 'Instagram Reel (Short-Form Video)' },
+      { value: 'post', label: 'Static Feed Post (Single Photo)' },
+      { value: 'carousel', label: 'Carousel Post (Multi-Slide)' },
+      { value: 'story', label: 'Story Set (3 Frames with Link)' }
+    ],
+    tiktok: [
+      { value: 'video', label: 'TikTok Video (30–60 Seconds)' },
+      { value: 'series', label: 'Multi-Video Series (2+ Parts)' }
+    ],
+    youtube: [
+      { value: 'dedicated', label: 'Dedicated Video (Full Review)' },
+      { value: 'integration', label: 'Integrated Mid-Roll (60–90s)' },
+      { value: 'short', label: 'YouTube Short (Vertical Video)' }
+    ]
+  };
+
   const setupCalculator = () => {
-    const submitBtn = document.getElementById('calc-submit');
-    if (!submitBtn) return;
+    let currentPlatform = 'instagram';
 
-    const emptyState = document.getElementById('results-empty');
-    const contentState = document.getElementById('results-content');
-    
-    // Outputs
-    const resRange = document.getElementById('res-range');
-    const resMedian = document.getElementById('res-median');
-    const resCpm = document.getElementById('res-cpm');
-    const resTier = document.getElementById('res-tier');
-    const resPitch = document.getElementById('res-pitch') as HTMLTextAreaElement;
-    const copyBtn = document.getElementById('copy-pitch-btn');
+    // Interactive elements
+    const platformButtons = document.querySelectorAll('.platform-tab');
+    const followersInput = document.getElementById('calc-followers') as HTMLInputElement | null;
+    const formatSelect = document.getElementById('calc-content-type') as HTMLSelectElement | null;
+    const viewsInput = document.getElementById('calc-views') as HTMLInputElement | null;
+    const btnReset = document.getElementById('btn-reset-form');
+    const btnCopyRates = document.getElementById('btn-copy-rates');
 
-    // Niche multipliers
-    const nicheMultipliers: Record<string, number> = {
-      lifestyle: 1.0,
-      tech: 1.6,
-      finance: 1.8,
-      fitness: 1.2,
-      gaming: 0.9,
-      travel: 1.3,
-      business: 1.5,
-      beauty: 1.1
+    // Dynamic Labels
+    const labelFollowersText = document.getElementById('label-followers-text');
+    const labelViewsText = document.getElementById('label-views-text');
+    const descFollowers = document.getElementById('desc-followers');
+
+    // Result Containers
+    const resultsEmpty = document.getElementById('results-empty');
+    const resultsActive = document.getElementById('results-active');
+
+    // Result Displays
+    const badgePlatformName = document.getElementById('badge-platform-name');
+    const badgeFormatName = document.getElementById('badge-format-name');
+    const badgeCreatorTier = document.getElementById('badge-creator-tier');
+
+    const valMinRate = document.getElementById('val-min-rate');
+    const valRecRate = document.getElementById('val-rec-rate');
+    const valMaxRate = document.getElementById('val-max-rate');
+
+    const resExplanationText = document.getElementById('res-explanation-text');
+
+    if (!followersInput || !formatSelect) return;
+
+    // Populate format dropdown
+    const updateFormatDropdown = (platform: string) => {
+      formatSelect.innerHTML = '';
+      const options = FORMAT_OPTIONS[platform] || FORMAT_OPTIONS.instagram;
+      options.forEach(opt => {
+        const optionEl = document.createElement('option');
+        optionEl.value = opt.value;
+        optionEl.textContent = opt.label;
+        formatSelect.appendChild(optionEl);
+      });
     };
 
-    // Format multipliers
-    const formatMultipliers: Record<string, number> = {
-      post: 1.0,
-      story: 0.5,
-      reel: 1.4,
-      dedicated: 2.2
+    // Update dynamic labels
+    const updatePlatformLabels = (platform: string) => {
+      if (platform === 'youtube') {
+        if (labelFollowersText) labelFollowersText.textContent = 'Subscriber Count';
+        if (labelViewsText) labelViewsText.textContent = 'Average Video Views';
+        if (descFollowers) descFollowers.textContent = 'Total YouTube channel subscribers.';
+        followersInput.placeholder = 'Enter subscribers';
+      } else {
+        if (labelFollowersText) labelFollowersText.textContent = 'Follower Count';
+        if (labelViewsText) labelViewsText.textContent = 'Average Views (Optional)';
+        if (descFollowers) descFollowers.textContent = `Total ${platform === 'tiktok' ? 'TikTok' : 'Instagram'} followers.`;
+        followersInput.placeholder = 'Enter followers';
+      }
     };
 
-    submitBtn.addEventListener('click', () => {
-      // Inputs
-      const platformSelect = document.getElementById('platform') as HTMLSelectElement;
-      const followersInput = document.getElementById('followers') as HTMLInputElement;
-      const engagementInput = document.getElementById('engagement') as HTMLInputElement;
-      const nicheSelect = document.getElementById('niche') as HTMLSelectElement;
-      const formatSelect = document.getElementById('format') as HTMLSelectElement;
+    // Calculate rates
+    const calculateRates = () => {
+      const followersRaw = parseFloat(followersInput.value);
+      const viewsRaw = viewsInput ? parseFloat(viewsInput.value) : 0;
 
-      const platform = platformSelect.value;
-      const followers = parseFloat(followersInput.value);
-      const engagement = parseFloat(engagementInput.value);
-      const niche = nicheSelect.value;
-      const format = formatSelect.value;
+      // Validate inputs
+      const followers = isNaN(followersRaw) ? 0 : Math.max(0, followersRaw);
+      const views = isNaN(viewsRaw) ? 0 : Math.max(0, viewsRaw);
 
-      if (!followers || !engagement) {
-        alert("Please fill out follower counts and post engagement values.");
+      if (followers <= 0) {
+        if (resultsEmpty) resultsEmpty.classList.remove('hidden');
+        if (resultsActive) resultsActive.classList.add('hidden');
         return;
       }
 
-      // Base Rates calculation
-      let baseRate = 0;
-      if (platform === 'instagram') {
-        // IG base: roughly $10 per 1k followers
-        baseRate = followers * 0.01;
-      } else if (platform === 'tiktok') {
-        // TikTok base: roughly $6 per 1k followers
-        baseRate = followers * 0.006;
-      } else if (platform === 'youtube') {
-        // YT base is highly view-dependent, base on views: $25 per 1k views
-        baseRate = engagement * 0.025;
+      if (resultsEmpty) resultsEmpty.classList.add('hidden');
+      if (resultsActive) resultsActive.classList.remove('hidden');
+
+      const formatVal = formatSelect.value;
+      let calculatedRate = 0;
+
+      // Platform specific calculation models
+      if (currentPlatform === 'instagram') {
+        let basePerK = 11; // Static post baseline: $11/1k followers
+        if (formatVal === 'reel') basePerK = 15;
+        else if (formatVal === 'carousel') basePerK = 13;
+        else if (formatVal === 'story') basePerK = 5.5;
+
+        if (views > 0 && formatVal === 'reel') {
+          // Blend 50% follower rate + 50% view CPM ($35 CPM on Reel views)
+          const followerShare = (followers / 1000) * basePerK;
+          const viewShare = (views / 1000) * 35;
+          calculatedRate = (followerShare * 0.5) + (viewShare * 0.5);
+        } else {
+          calculatedRate = (followers / 1000) * basePerK;
+        }
+
+        // Project floor
+        const floor = formatVal === 'story' ? 25 : 45;
+        calculatedRate = Math.max(floor, calculatedRate);
+
+      } else if (currentPlatform === 'tiktok') {
+        let basePerK = 8; // Single video baseline: $8/1k followers
+        if (formatVal === 'series') basePerK = 15;
+
+        if (views > 0) {
+          // Blend 50% follower rate + 50% view CPM ($22 CPM on TikTok views)
+          const followerShare = (followers / 1000) * basePerK;
+          const viewShare = (views / 1000) * 22;
+          calculatedRate = (followerShare * 0.5) + (viewShare * 0.5);
+        } else {
+          calculatedRate = (followers / 1000) * basePerK;
+        }
+
+        calculatedRate = Math.max(40, calculatedRate);
+
+      } else if (currentPlatform === 'youtube') {
+        // YouTube CPM model
+        let cpmRate = 35; // Integrated mid-roll
+        if (formatVal === 'dedicated') cpmRate = 75;
+        else if (formatVal === 'short') cpmRate = 20;
+
+        if (views > 0) {
+          calculatedRate = (views / 1000) * cpmRate;
+        } else {
+          // If no views entered, assume healthy 10% view-ratio of subscribers
+          const estimatedViews = followers * 0.10;
+          calculatedRate = (estimatedViews / 1000) * cpmRate;
+        }
+
+        const floor = formatVal === 'short' ? 60 : 120;
+        calculatedRate = Math.max(floor, calculatedRate);
       }
 
-      // Adjust based on multipliers
-      const nMult = nicheMultipliers[niche] || 1.0;
-      const fMult = formatMultipliers[format] || 1.0;
-
-      // Engagement adjustments
-      let eMult = 1.0;
-      if (platform === 'instagram' || platform === 'tiktok') {
-        // calculate engagement percentage
-        const engRate = (engagement / followers) * 100;
-        const avgEng = platform === 'instagram' ? 2.5 : 4.0;
-        
-        if (engRate > avgEng) {
-          eMult = Math.min(1.5, 1.0 + (engRate - avgEng) * 0.1);
-        } else {
-          eMult = Math.max(0.6, 1.0 - (avgEng - engRate) * 0.15);
-        }
-      } else {
-        // YouTube: view/follower health
-        const viewRatio = engagement / followers;
-        if (viewRatio > 0.15) {
-          eMult = Math.min(1.5, 1.0 + (viewRatio - 0.15) * 2);
-        } else {
-          eMult = Math.max(0.6, 1.0 - (0.15 - viewRatio) * 3);
-        }
+      // Audience Tier Dampening for high numbers (>100K, >500K)
+      if (followers > 500000) {
+        const factor = Math.pow(followers / 500000, 0.90);
+        calculatedRate = (calculatedRate / (followers / 500000)) * factor;
+      } else if (followers > 100000) {
+        const factor = Math.pow(followers / 100000, 0.95);
+        calculatedRate = (calculatedRate / (followers / 100000)) * factor;
       }
 
-      // Calculate final rate
-      const finalRate = baseRate * nMult * fMult * eMult;
-      
-      const lowRange = Math.round(finalRate * 0.8);
-      const highRange = Math.round(finalRate * 1.25);
-      const medianRate = Math.round(finalRate);
+      // Round calculations
+      const recommended = Math.round(calculatedRate);
+      const minimum = Math.round(recommended * 0.75);
+      const premium = Math.round(recommended * 1.30);
 
-      // Tier detection
-      let tier = "Nano";
-      if (followers >= 1000000) tier = "Mega / Elite";
-      else if (followers >= 100000) tier = "Macro";
-      else if (followers >= 50000) tier = "Mid-tier";
-      else if (followers >= 10000) tier = "Micro";
+      // Determine Creator Tier
+      let tier = 'Nano-Creator';
+      if (followers >= 1000000) tier = 'Mega / Celebrity';
+      else if (followers >= 500000) tier = 'Macro-Creator';
+      else if (followers >= 50000) tier = 'Mid-Tier Creator';
+      else if (followers >= 10000) tier = 'Micro-Creator';
 
-      // CPM calculation (rate per 1k views or followers)
-      const denominator = platform === 'youtube' ? engagement : followers;
-      const cpm = denominator > 0 ? (medianRate / denominator) * 1000 : 0;
+      // Format names for display
+      const platformDisplay = currentPlatform === 'tiktok' ? 'TikTok' : currentPlatform === 'youtube' ? 'YouTube' : 'Instagram';
+      const selectedOption = formatSelect.options[formatSelect.selectedIndex];
+      const formatDisplay = selectedOption ? selectedOption.text.split('(')[0].trim() : 'Post';
 
-      // Update UI
-      if (resRange) resRange.textContent = `$${lowRange.toLocaleString()} - $${highRange.toLocaleString()}`;
-      if (resMedian) resMedian.textContent = `$${medianRate.toLocaleString()}`;
-      if (resCpm) resCpm.textContent = `$${cpm.toFixed(2)}`;
-      if (resTier) resTier.textContent = tier;
+      // Update UI numbers
+      if (valMinRate) valMinRate.textContent = `$${minimum.toLocaleString()}`;
+      if (valRecRate) valRecRate.textContent = `$${recommended.toLocaleString()}`;
+      if (valMaxRate) valMaxRate.textContent = `$${premium.toLocaleString()}`;
 
-      // Pitch Template Generation
-      const nicheName = nicheSelect.options[nicheSelect.selectedIndex].text.split('(')[0].trim();
-      const formatName = formatSelect.options[formatSelect.selectedIndex].text.split('(')[0].trim();
-      
-      let pitchText = `Hi [Brand Manager Name],
+      // Update UI badges
+      if (badgePlatformName) badgePlatformName.textContent = platformDisplay;
+      if (badgeFormatName) badgeFormatName.textContent = formatDisplay;
+      if (badgeCreatorTier) badgeCreatorTier.textContent = tier;
 
-I hope you're having a great week!
+      // Update Explanation sentence
+      if (resExplanationText) {
+        const audienceMetricName = currentPlatform === 'youtube' ? 'subscribers' : 'followers';
+        const viewsSnippet = views > 0 ? ` and <strong>${views.toLocaleString()} average views</strong>` : '';
+        resExplanationText.innerHTML = `Estimated sponsorship rate for an <strong>${platformDisplay} ${formatDisplay}</strong> with <strong>${followers.toLocaleString()} ${audienceMetricName}</strong>${viewsSnippet}.`;
+      }
+    };
 
-My name is [Your Name], and I'm a content creator in the ${nicheName} space on ${platform.charAt(0).toUpperCase() + platform.slice(1)}, where I have built a dedicated community of ${followers.toLocaleString()} followers.
+    // Platform switcher tab click handlers
+    platformButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        platformButtons.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
 
-I've been following [Brand Name] and love your recent campaign for [Product/Event]. My audience is highly engaged with topics regarding ${nicheName.toLowerCase()}, and I see a perfect fit for a collaboration. For reference, my posts average ${engagement.toLocaleString()} ${platform === 'youtube' ? 'views' : 'engagements'} per piece, yielding high-impact conversions.
-
-I would love to pitch a collaboration featuring a ${formatName.toLowerCase()} on my channel.
-
-Let me know if you would like me to send over my complete media kit. Looking forward to discussing how we can work together!
-
-Best regards,
-[Your Name]
-[Your Social Link]`;
-
-      if (resPitch) resPitch.value = pitchText;
-
-      // Show Results
-      if (emptyState) emptyState.classList.add('hidden');
-      if (contentState) contentState.classList.remove('hidden');
-
-      // Scroll to Results
-      setTimeout(() => {
-        const resultsBox = document.getElementById('results-container');
-        if (resultsBox) {
-          const headerOffset = 90;
-          const elementPosition = resultsBox.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-        }
-      }, 50);
+        currentPlatform = (btn as HTMLElement).dataset.platform || 'instagram';
+        updateFormatDropdown(currentPlatform);
+        updatePlatformLabels(currentPlatform);
+        calculateRates();
+      });
     });
 
-    if (copyBtn && resPitch) {
-      copyBtn.addEventListener('click', () => {
-        resPitch.select();
-        navigator.clipboard.writeText(resPitch.value)
-          .then(() => {
-            const originalText = copyBtn.textContent;
-            copyBtn.textContent = "Copied!";
-            copyBtn.style.backgroundColor = "var(--color-success)";
-            setTimeout(() => {
-              copyBtn.textContent = originalText;
-              copyBtn.style.backgroundColor = "";
-            }, 2000);
-          })
-          .catch(() => {
-            alert("Failed to copy text. Please select and copy manually.");
-          });
+    // Real-time input listeners
+    [followersInput, viewsInput].forEach(inp => {
+      if (inp) {
+        inp.addEventListener('input', calculateRates);
+        inp.addEventListener('change', calculateRates);
+      }
+    });
+
+    if (formatSelect) {
+      formatSelect.addEventListener('change', calculateRates);
+    }
+
+    // Reset button handler
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        followersInput.value = '25000';
+        if (viewsInput) viewsInput.value = '4500';
+
+        // Reset to Instagram
+        platformButtons.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        const igBtn = document.querySelector('[data-platform="instagram"]');
+        if (igBtn) {
+          igBtn.classList.add('active');
+          igBtn.setAttribute('aria-pressed', 'true');
+        }
+
+        currentPlatform = 'instagram';
+        updateFormatDropdown('instagram');
+        updatePlatformLabels('instagram');
+        calculateRates();
       });
     }
+
+    // Copy rates handler
+    if (btnCopyRates) {
+      btnCopyRates.addEventListener('click', () => {
+        const platformDisplay = currentPlatform === 'tiktok' ? 'TikTok' : currentPlatform === 'youtube' ? 'YouTube' : 'Instagram';
+        const selectedOption = formatSelect.options[formatSelect.selectedIndex];
+        const formatDisplay = selectedOption ? selectedOption.text.split('(')[0].trim() : 'Post';
+        const followers = parseInt(followersInput.value || '0', 10).toLocaleString();
+        const minRate = valMinRate?.textContent || '$0';
+        const recRate = valRecRate?.textContent || '$0';
+        const maxRate = valMaxRate?.textContent || '$0';
+
+        const copyText = `${platformDisplay} ${formatDisplay} Sponsorship Rates:
+• Audience: ${followers} ${currentPlatform === 'youtube' ? 'Subscribers' : 'Followers'}
+• Recommended Rate: ${recRate}
+• Minimum Floor: ${minRate}
+• Premium Rate: ${maxRate}
+
+Estimated via CreatorsFeel Influencer Rate Calculator: https://creatorsfeel.com/tools/influencer-rate-calculator`;
+
+        navigator.clipboard.writeText(copyText).then(() => {
+          const label = document.getElementById('copy-rates-label');
+          if (label) label.textContent = 'Copied to Clipboard!';
+          btnCopyRates.style.borderColor = '#10b981';
+          btnCopyRates.style.color = '#10b981';
+
+          setTimeout(() => {
+            if (label) label.textContent = 'Copy Estimated Rates';
+            btnCopyRates.style.borderColor = '';
+            btnCopyRates.style.color = '';
+          }, 2000);
+        });
+      });
+    }
+
+    // Initial run
+    updateFormatDropdown('instagram');
+    updatePlatformLabels('instagram');
+    calculateRates();
   };
 
   setupCalculator();

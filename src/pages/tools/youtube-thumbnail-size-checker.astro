@@ -103,7 +103,7 @@ const faqs = [
           
           <!-- Verdict Status Banner -->
           <div class="verdict-banner" id="verdict-banner">
-            <span class="verdict-icon" id="verdict-icon">✅</span>
+            <span class="verdict-icon" id="verdict-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#10b981; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg></span>
             <div class="verdict-text-wrap">
               <strong class="verdict-title" id="verdict-title">Perfect YouTube Thumbnail Sizing!</strong>
               <span class="verdict-desc" id="verdict-desc">Your thumbnail matches all YouTube 1280x720, 16:9, and 2 MB upload specifications.</span>
@@ -1003,27 +1003,27 @@ const faqs = [
 
         if (!isSizeOk) {
           verdictBanner.classList.add('danger-verdict');
-          verdictIcon.textContent = '❌';
+          verdictIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#ef4444; margin-right:6px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
           verdictTitle.textContent = 'File Exceeds 2 MB Upload Limit!';
           verdictDesc.textContent = `Your file size is ${sizeDisplayStr}. YouTube will reject custom thumbnail uploads larger than 2 MB. Please compress your image.`;
         } else if (!isMinResOk) {
           verdictBanner.classList.add('danger-verdict');
-          verdictIcon.textContent = '❌';
+          verdictIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#ef4444; margin-right:6px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
           verdictTitle.textContent = 'Resolution Below Minimum (640px)!';
           verdictDesc.textContent = `Your thumbnail width is ${w}px. YouTube requires thumbnails to be at least 640 pixels wide.`;
         } else if (!isExact169) {
           verdictBanner.classList.add('warning-verdict');
-          verdictIcon.textContent = '⚠️';
+          verdictIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#f59e0b; margin-right:6px;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
           verdictTitle.textContent = 'Non-Standard Aspect Ratio!';
           verdictDesc.textContent = `Your thumbnail aspect ratio is ${ratioStr} instead of standard 16:9. YouTube will display black letterbox bars on the sides.`;
         } else if (isIdealRes && isSizeOk) {
           verdictBanner.classList.add('success-verdict');
-          verdictIcon.textContent = '✅';
+          verdictIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#10b981; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>`;
           verdictTitle.textContent = 'Perfect YouTube Thumbnail Sizing!';
           verdictDesc.textContent = 'Your graphic matches YouTube\'s official 1280x720 dimensions, 16:9 aspect ratio, and 2 MB file size specifications.';
         } else {
           verdictBanner.classList.add('success-verdict');
-          verdictIcon.textContent = '✅';
+          verdictIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#10b981; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>`;
           verdictTitle.textContent = 'Valid 16:9 YouTube Thumbnail!';
           verdictDesc.textContent = `Your image matches the 16:9 aspect ratio and is within YouTube\'s file size limit. Recommended dimensions are 1280 x 720 px.`;
         }

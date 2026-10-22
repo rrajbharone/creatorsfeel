@@ -1,1353 +1,1973 @@
 ---
-import ToolLayout from '../../layouts/ToolLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const faqs = [
   {
-    question: "What is a Content Creator Rate Calculator and how does it work?",
-    answer: "A Content Creator Rate Calculator is a professional financial estimating tool designed for freelance creators, videographers, photographers, copywriters, and UGC specialists. It calculates project quotes using two industry-standard methodologies: an Hourly/Project Labor model (accounting for pre-production, shooting, editing, expenses, and revisions) and a Deliverables Package model (accounting for asset volume discounts and commercial paid usage licensing)."
+    question: "How do content creators determine their sponsored content rates?",
+    answer: "Content creators determine sponsorship rates by evaluating four core factors: audience size (followers or subscribers), content production complexity (scripting, filming, and editing time), average verified views, and commercial usage rights. Industry benchmarks typically start at $10 to $25 per 1,000 followers on Instagram and TikTok, or $30 to $80+ CPM on long-form YouTube integrations, adjusted for creator engagement and niche demand."
   },
   {
-    question: "How do I calculate my freelance content creator hourly rate?",
-    answer: "To calculate your hourly rate, determine your desired annual personal take-home income, add annual business overhead expenses (software, camera gear, insurance, accounting) and a 25% to 30% self-employment tax buffer. Then divide that total by your realistic annual billable hours (typically 1,000 to 1,200 billable hours per year, as roughly 40% of your time is spent on non-billable administration and marketing)."
+    question: "What is the standard price per post for micro-creators?",
+    answer: "Micro-creators (10,000 to 50,000 followers) generally command between $150 and $600 per sponsored Instagram Reel or TikTok video for organic posting. For long-form YouTube integrations, micro-creators often bill between $400 and $1,500 depending on average video view volume and niche specialization."
   },
   {
-    question: "What is the standard price for User-Generated Content (UGC) videos?",
-    answer: "Standard baseline rates for a single 30-to-60-second UGC video range between $150 and $350 for beginner to intermediate creators with organic usage. For experienced creators delivering concept ideation, professional lighting, hooks, and 90-day paid ad whitelisting rights, UGC rates typically range from $400 to $1,000+ per video."
+    question: "Why do YouTube creator rates differ from Instagram and TikTok rates?",
+    answer: "YouTube integrations command significantly higher fees because YouTube videos are evergreen assets indexed by Google and YouTube search. Unlike ephemeral social feed posts that peak within 24 to 72 hours, a YouTube sponsorship continues generating views, brand impressions, and affiliate conversions for months or years after publication."
   },
   {
-    question: "Why should creators charge extra for commercial paid ad usage rights?",
-    answer: "Organic posting fees cover content shared to an existing audience or organic brand feed. When a brand runs your content as a paid targeted advertisement (Meta Ads, TikTok Spark Ads), they generate direct revenue and scale impressions from your likeness and creative work. Charging an additional 20% to 75%+ usage licensing fee compensates you for the commercial value generated."
+    question: "How do average video views impact brand sponsorship quotes?",
+    answer: "Modern marketing agencies and brand managers prioritize verified average views over vanity follower counts. A creator with 25,000 followers who consistently generates 15,000 views on short-form video can rightfully negotiate rates near or above creators with 100,000 followers whose average views have dropped below 5,000."
   },
   {
-    question: "How should creators handle project revisions and scope creep?",
-    answer: "Standard creator agreements should include one round of minor revisions (e.g., minor audio tweaks or caption adjustments). Extra revision rounds or major script changes requested after filming should carry a dedicated revision surcharge (standardly $50 to $150 per round or your standard hourly rate) to protect your schedule."
+    question: "Should creators charge extra for commercial ad usage rights or whitelisting?",
+    answer: "Yes, absolutely. Organic post rates cover publishing sponsored content solely to your own audience. If a brand requests paid advertising rights (Meta ad whitelisting or TikTok Spark Ads), they are running paid media behind your likeness to scale commercial reach. Standard agreements apply an additional 25% to 75%+ licensing surcharge per 30 to 90 days of paid usage."
   },
   {
-    question: "What is the difference between hourly pricing and package-based pricing?",
-    answer: "Hourly pricing charges clients for the exact time spent scripting, shooting, and editing, making it ideal for consulting or complex post-production. Package-based pricing charges a fixed fee per asset bundle (e.g., 3 short-form videos and 5 photos), providing clients with predictable costs and allowing creators to earn higher effective hourly rates through efficient workflows."
-  },
-  {
-    question: "How much of a deposit should creators require before starting work?",
-    answer: "Professional creators should always require a 50% non-refundable upfront deposit upon contract signing before beginning pre-production, with the remaining 50% balance due upon delivery of the watermarked final draft prior to releasing raw unwatermarked assets."
-  },
-  {
-    question: "How can creators transition from one-off projects to monthly retainers?",
-    answer: "Creators can propose recurring monthly packages (e.g., 4 dedicated short-form videos and 8 photos per month for a 3-to-6-month commitment) at a 10% to 15% bundle discount compared to one-off pricing. This gives the brand consistent content velocity while providing the creator with predictable monthly recurring revenue."
+    question: "How can creators negotiate higher rates and avoid underpricing their creative work?",
+    answer: "To avoid underpricing, creators should present tiered packages (e.g., Good, Better, Best options) that bundle multiple formats, such as a Reel paired with a Story set or cross-posting to TikTok. Back up your pricing with analytics screenshots showing audience retention, high-purchasing-power audience locations, and past campaign case studies demonstrating click-throughs and conversions."
   }
 ];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'Content Creator Rate Calculator', item: '/tools/content-creator-rate-calculator' }
+];
+
+const origin = Astro.site ? Astro.site.origin : "https://creatorsfeel.com";
+const canonicalUrl = new URL(Astro.url.pathname, origin).href;
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${canonicalUrl}#application`,
+      "name": "Content Creator Rate Calculator",
+      "url": canonicalUrl,
+      "operatingSystem": "All",
+      "applicationCategory": "BusinessApplication",
+      "description": "Free Content Creator Rate Calculator. Estimate minimum, recommended, and premium sponsorship pricing for Instagram, TikTok, and YouTube creators.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonicalUrl}#faq`,
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    }
+  ]
+};
 ---
 
-<ToolLayout
-  title="Content Creator Rate Calculator - Freelance Pricing & Quote Estimator"
-  description="Calculate your freelance content creator rates, UGC pricing, and project quotes. Free online calculator for hourly labor pricing or deliverables package quotes."
-  toolName="Content Creator Rate Calculator"
-  toolDescription="Generate custom content creator pricing. Toggle between Hourly/Project labor calculations or Deliverables Package structures to build professional quotes."
-  category="Calculators"
+<BaseLayout
+  title="Content Creator Rate Calculator - Sponsor Pricing Estimator"
+  description="Free Content Creator Rate Calculator. Estimate minimum, recommended, and premium sponsorship pricing for Instagram, TikTok, and YouTube creators."
+  canonicalUrl={canonicalUrl}
+  breadcrumbs={breadcrumbs}
   faqs={faqs}
 >
-  <div slot="calculator" class="calc-card glass">
-    <!-- Calculator Mode selector tabs -->
-    <div class="calculator-mode-selector" role="tablist" aria-label="Pricing Model">
-      <button type="button" class="mode-tab active" data-mode="hourly" role="tab" aria-selected="true" aria-controls="calc-form-container">
-        <span>Hourly / Project Rate</span>
-      </button>
-      <button type="button" class="mode-tab" data-mode="package" role="tab" aria-selected="false" aria-controls="calc-form-container">
-        <span>Deliverables Package</span>
-      </button>
-    </div>
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify(softwareSchema)} />
 
-    <div class="calc-grid" id="calc-form-container">
-      <!-- Input fields -->
-      <form class="calc-form" id="creator-rate-form" onsubmit="return false;">
-        <input type="hidden" id="active-mode" value="hourly" />
-
-        <!-- Hourly Mode Inputs -->
-        <div id="inputs-hourly-box" class="inputs-group">
-          <div class="form-row-2">
-            <div class="form-group">
-              <div class="label-header">
-                <label for="hourly-rate" class="icon-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                  </svg>
-                  Target Hourly Rate ($)
-                </label>
-              </div>
-              <input type="number" id="hourly-rate" class="form-input" placeholder="e.g., 50" min="10" step="1" required />
-            </div>
-
-            <div class="form-group">
-              <div class="label-header">
-                <label for="hours-pre" class="icon-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                  </svg>
-                  Pre-Prod Hours (Scripting, Prep)
-                </label>
-              </div>
-              <input type="number" id="hours-pre" class="form-input" placeholder="e.g., 2" min="0" step="0.5" value="1" />
-            </div>
-          </div>
-
-          <div class="form-row-2">
-            <div class="form-group">
-              <div class="label-header">
-                <label for="hours-production" class="icon-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316A2.192 2.192 0 0 0 14.53 4H9.47c-.527 0-1.026.262-1.332.712l-.822 1.316Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z" />
-                  </svg>
-                  Production Hours (Filming, Shooting)
-                </label>
-              </div>
-              <input type="number" id="hours-production" class="form-input" placeholder="e.g., 4" min="0" step="0.5" value="2" />
-            </div>
-
-            <div class="form-group">
-              <div class="label-header">
-                <label for="hours-post" class="icon-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
-                  </svg>
-                  Post-Prod Hours (Editing, Audio)
-                </label>
-              </div>
-              <input type="number" id="hours-post" class="form-input" placeholder="e.g., 3" min="0" step="0.5" value="2" />
-            </div>
-          </div>
-
-          <div class="form-row-2">
-            <div class="form-group">
-              <div class="label-header">
-                <label for="project-expenses" class="icon-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5h16.5M4.5 19.5h15M12 6.75v10.5m-3.75-3h7.5" />
-                  </svg>
-                  Direct Expenses ($) (Props, Travel)
-                </label>
-              </div>
-              <input type="number" id="project-expenses" class="form-input" placeholder="e.g., 50" min="0" step="1" value="0" />
-            </div>
-
-            <div class="form-group">
-              <div class="label-header">
-                <label for="revision-rounds" class="icon-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                  </svg>
-                  Total Revisions (First 1 Free)
-                </label>
-              </div>
-              <input type="number" id="revision-rounds" class="form-input" placeholder="e.g., 2" min="1" step="1" value="1" />
-            </div>
-          </div>
+  <div class="tool-page-wrapper">
+    
+    <!-- 1. HERO SECTION (Centered Max-Width 820px) -->
+    <header class="tool-hero-section">
+      <div class="container hero-inner">
+        
+        <!-- Breadcrumbs at top -->
+        <div class="hero-breadcrumbs">
+          <Breadcrumbs items={breadcrumbs} />
         </div>
 
-        <!-- Deliverables Package Mode Inputs (Hidden by default) -->
-        <div id="inputs-package-box" class="inputs-group hidden">
-          <div class="form-row-2">
-            <div class="form-group">
-              <div class="label-header">
-                <label for="package-videos" class="icon-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
+        <!-- Pill Badge with SVG Icon (Zero Emojis) -->
+        <div class="hero-badge">
+          <span class="badge-icon-tool">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tool-svg" aria-hidden="true">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </span>
+          <span class="badge-title">Creator Sponsorship & Media Kit Pricing</span>
+          <span class="badge-pill-free">Free Tool</span>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="hero-headline">
+          Content Creator <span class="gradient-text">Rate Calculator</span>
+        </h1>
+
+        <!-- Short Description -->
+        <p class="hero-desc">
+          Estimate realistic sponsored content rates for Instagram, TikTok, and YouTube in seconds. Calculate minimum, recommended, and premium sponsorship pricing.
+        </p>
+
+        <!-- Feature Chips Row (Zero Emojis - Clean SVG Icons) -->
+        <div class="hero-features-row">
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Instant Rate Quotes
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            Instagram, TikTok & YouTube
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+            3-Tier Pricing Range
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            One-Click Copy
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. MAIN TOOL SECTION (Container Max-Width 940px) -->
+    <section class="tool-main-section" aria-label="Content Creator Rate Calculator Interface">
+      <div class="container tool-card-container">
+        
+        <!-- The Prominent SaaS Tool Card -->
+        <div class="saas-tool-card">
+          
+          <!-- Card Top Bar: Platform Selector -->
+          <div class="card-header-bar">
+            <div class="platform-meta">
+              <span class="platform-title">Social Media Platform</span>
+              <span class="platform-sub-text">Choose the platform for your sponsored content</span>
+            </div>
+
+            <!-- Platform Switcher Tabs -->
+            <div class="platform-tabs-row" role="radiogroup" aria-label="Select social media platform">
+              <button
+                type="button"
+                class="platform-tab active"
+                id="btn-platform-instagram"
+                data-platform="instagram"
+                aria-pressed="true"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="platform-icon" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+                <span>Instagram</span>
+              </button>
+
+              <button
+                type="button"
+                class="platform-tab"
+                id="btn-platform-tiktok"
+                data-platform="tiktok"
+                aria-pressed="false"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="platform-icon" aria-hidden="true">
+                  <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+                </svg>
+                <span>TikTok</span>
+              </button>
+
+              <button
+                type="button"
+                class="platform-tab"
+                id="btn-platform-youtube"
+                data-platform="youtube"
+                aria-pressed="false"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="platform-icon" aria-hidden="true">
+                  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                </svg>
+                <span>YouTube</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Form Inputs Grid -->
+          <div class="calculator-inputs-grid">
+            
+            <!-- Field 1: Followers / Subscribers (Required) -->
+            <div class="input-field-group">
+              <div class="field-label-row">
+                <label for="calc-followers" class="field-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                  <span id="label-followers-text">Follower Count</span>
+                  <span class="badge-tag-required">Required</span>
+                </label>
+              </div>
+              <div class="input-wrapper">
+                <input
+                  type="number"
+                  id="calc-followers"
+                  class="styled-input"
+                  placeholder="Enter follower or subscriber count"
+                  min="1"
+                  max="100000000"
+                  value="25000"
+                  aria-describedby="desc-followers"
+                />
+              </div>
+              <p class="field-helper-text" id="desc-followers">
+                Total followers or subscribers on your selected channel or profile.
+              </p>
+            </div>
+
+            <!-- Field 2: Content Type (Dropdown based on selected platform) -->
+            <div class="input-field-group">
+              <div class="field-label-row">
+                <label for="calc-content-type" class="field-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
+                    <line x1="7" y1="2" x2="7" y2="22"/>
+                    <line x1="17" y1="2" x2="17" y2="22"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                  </svg>
+                  <span>Content Format</span>
+                  <span class="badge-tag-required">Required</span>
+                </label>
+              </div>
+              <div class="select-wrapper">
+                <select id="calc-content-type" class="styled-input styled-select" aria-label="Select content format">
+                  <!-- Injected via JavaScript based on platform -->
+                </select>
+                <div class="select-chevron-box" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron-svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+              <p class="field-helper-text" id="desc-content-type">
+                Format and production scope required for this campaign deliverable.
+              </p>
+            </div>
+
+            <!-- Field 3: Average Views (Optional) -->
+            <div class="input-field-group full-width-field">
+              <div class="field-label-row">
+                <label for="calc-avg-views" class="field-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  </svg>
+                  <span>Average Video Views</span>
+                  <span class="badge-tag-optional">Optional</span>
+                </label>
+              </div>
+              <div class="input-wrapper">
+                <input
+                  type="number"
+                  id="calc-avg-views"
+                  class="styled-input"
+                  placeholder="Enter typical views per post"
+                  min="0"
+                  max="100000000"
+                  value="4500"
+                  aria-describedby="desc-avg-views"
+                />
+              </div>
+              <p class="field-helper-text" id="desc-avg-views">
+                Typical views per video. Leave blank or enter 0 to calculate using follower benchmarks only.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Card Actions Strip: Live Status & Reset -->
+          <div class="card-actions-strip">
+            <div class="live-status-wrap">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="live-text">Live Calculation Active</span>
+            </div>
+            <button type="button" class="btn-reset-minimal" id="btn-reset-form" title="Reset inputs to default sample values">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="reset-svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+              </svg>
+              <span>Reset</span>
+            </button>
+          </div>
+
+          <!-- Divider -->
+          <div class="card-divider"></div>
+
+          <!-- Results Section -->
+          <div class="results-wrapper">
+            
+            <!-- Empty Results State (Hidden by default) -->
+            <div class="empty-results-box hidden" id="box-empty-results">
+              <div class="empty-icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="empty-svg" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+              <strong class="empty-title">Enter Valid Audience Metrics</strong>
+              <p class="empty-sub">Please enter a follower or subscriber count greater than zero to view estimated sponsorship rates.</p>
+            </div>
+
+            <!-- Active Results Container -->
+            <div class="active-results-box" id="box-active-results">
+              
+              <!-- Results Header Bar -->
+              <div class="results-header-bar">
+                <div class="platform-result-badge">
+                  <span id="badge-platform-name">Instagram</span>
+                  <span class="bullet-divider">&bull;</span>
+                  <span id="badge-format-name">Reel</span>
+                </div>
+                <span class="tier-pill" id="badge-creator-tier">Micro-Creator</span>
+              </div>
+
+              <!-- 3 ESSENTIAL RESULT CARDS (Clean Minimal SaaS Style) -->
+              <div class="rates-result-grid">
+                
+                <!-- Card 1: Estimated Minimum Rate (Floor) -->
+                <div class="rate-card rate-card-min">
+                  <div class="rate-card-header">
+                    <span class="rate-card-label">Minimum Rate</span>
+                    <span class="rate-badge-tag tag-gray">Floor</span>
+                  </div>
+                  <div class="rate-card-value min-value" id="val-min-rate">$285</div>
+                  <div class="rate-card-sub">Lowest acceptable quote</div>
+                </div>
+
+                <!-- Card 2: Recommended Rate (The Hero Card) -->
+                <div class="rate-card rate-card-hero">
+                  <div class="rate-card-header">
+                    <span class="rate-card-label">Recommended Rate</span>
+                    <span class="rate-badge-tag tag-brand">Media Kit Quote</span>
+                  </div>
+                  <div class="rate-card-value hero-value" id="val-rec-rate">$380</div>
+                  <div class="rate-card-sub">Standard starting quote for brands</div>
+                </div>
+
+                <!-- Card 3: Estimated Premium Rate (Ceiling) -->
+                <div class="rate-card rate-card-max">
+                  <div class="rate-card-header">
+                    <span class="rate-card-label">Premium Rate</span>
+                    <span class="rate-badge-tag tag-purple">High Demand</span>
+                  </div>
+                  <div class="rate-card-value max-value" id="val-max-rate">$495</div>
+                  <div class="rate-card-sub">Rush turnaround or peak Q4 rate</div>
+                </div>
+
+              </div>
+
+              <!-- Context & Explanation Card -->
+              <div class="results-explanation-card">
+                <div class="explanation-title-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="exp-svg" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                  </svg>
+                  <strong class="exp-heading">Estimate Breakdown & Guidance</strong>
+                </div>
+
+                <p class="exp-summary" id="res-explanation-text">
+                  Estimated sponsorship rate for an <strong>Instagram Reel</strong> with <strong>25,000 followers</strong> and <strong>4,500 average views</strong>.
+                </p>
+
+                <p class="exp-disclaimer">
+                  <strong>Notice:</strong> Rates are sensible market estimates based on follower volume, verifiable views, and content production format. Actual sponsor compensation varies by content niche, audience location, engagement health, and brand negotiation. These figures represent pricing guidelines, not guaranteed earnings.
+                </p>
+              </div>
+
+              <!-- Action: One-Click Copy Rates Button -->
+              <div class="results-action-row">
+                <button type="button" id="btn-copy-rates" class="btn-copy-rates" title="Copy estimated rates to clipboard">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="copy-svg" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                  <span id="copy-rates-label">Copy Estimated Rates</span>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. COMPREHENSIVE EDITORIAL & SEO CONTENT (Max-Width 940px) -->
+    <section class="tool-content-section" aria-label="Content Creator Pricing Guide and Best Practices">
+      <div class="container content-inner-container">
+        
+        <!-- Editorial Articles & Guidelines Card -->
+        <div class="content-card">
+          
+          <div class="editorial-block">
+            <span class="content-pill">Creator Economics Guide</span>
+            
+            <h2>What Is a Content Creator Rate Calculator and How Does It Work?</h2>
+            <p>
+              A <strong>Content Creator Rate Calculator</strong> is an objective financial planning tool designed to help digital creators, influencers, and videographers establish fair, professional pricing for sponsored brand collaborations. Instead of pulling arbitrary figures from thin air, accepting lowball offers, or worrying about overpricing yourself out of consideration, a <strong>content creator pricing calculator</strong> evaluates your platform, audience tier, format complexity, and verified view velocity to formulate a transparent, defensible pricing range.
+            </p>
+            <p>
+              Whether you are a nano-creator landing your first paid campaign, a micro-influencer creating media kit rate cards, or an established creator pitching multi-deliverable packages, this tool provides clear financial benchmarks. By estimating minimum (floor), recommended (media kit standard), and premium (rush or high-demand) rates, creators gain the confidence needed to negotiate professional partnerships.
+            </p>
+
+            <h2>How Creator Pricing Estimates Work: Platform, Format, and Views</h2>
+            <p>
+              Accurate <strong>content creator rates</strong> cannot be determined through a single vanity metric. In our calculator, three core operational variables interact to establish your fair market valuation:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Audience Scale (Followers or Subscribers):</strong> Establishes your foundational creator tier (Nano, Micro, Mid-tier, Macro, or Mega) and potential gross distribution ceiling.</li>
+              <li><strong>Social Media Platform:</strong> Pricing benchmarks vary across networks because each platform utilizes distinct recommendation algorithms, content shelf-lives, and user purchase conversion rates.</li>
+              <li><strong>Content Format Complexity:</strong> Deliverables requiring multi-stage concept scripting, lighting, studio audio, and advanced post-production (such as a 10-minute long-form YouTube integration or an episodic vertical video) naturally command higher compensation than single static photos or 24-hour Story sets.</li>
+              <li><strong>Average Video Views:</strong> Modern advertiser budgets prioritize verified view volume over dormant follower counts. Factoring in average views provides an accurate reflection of active, engaged human attention.</li>
+            </ul>
+            <p>
+              For example, consider two creators who both have 30,000 followers. Creator A publishes static images that reach only 1,200 accounts, while Creator B regularly generates 12,000 views on short-form video. When average views are included, Creator B delivers tenfold greater active advertiser impressions and rightfully justifies higher <strong>social media creator rates</strong>.
+            </p>
+
+            <h2>Instagram vs. TikTok vs. YouTube: Why Sponsorship Rates Differ</h2>
+            <p>
+              Understanding how commercial valuations differ between networks helps creators pitch brand partnerships effectively:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Instagram Creator Rates:</strong> Instagram remains a leading commercial hub for direct-to-consumer (DTC) products, beauty, fashion, fitness, and lifestyle brands. High-retention vertical Reels command premium pricing because Instagram's recommendation algorithm distributes Reels beyond existing followers. Multi-slide carousels also perform strongly for educational content, whereas static posts offer steady visual catalog placement.</li>
+              <li><strong>TikTok Creator Rates:</strong> TikTok delivers unmatched short-term virality, allowing high-quality videos to achieve rapid organic reach. However, because content consumption is fast-paced and individual video shelf-life is relatively brief, baseline <strong>TikTok influencer rates</strong> per follower are typically slightly lower than Instagram or YouTube. When a creator demonstrates consistent 5-figure view counts, their valuation scales rapidly through view-based pricing.</li>
+              <li><strong>YouTube Creator Rates:</strong> YouTube commands the highest CPM benchmarks ($30 to $80+ per 1,000 views) in creator marketing. YouTube videos are evergreen assets indexed by Google and YouTube search engines, meaning a dedicated sponsor review or mid-roll integration can continue generating impressions, clicks, and affiliate sales for months or years after publishing. You can explore channel earnings with our <a href="/tools/youtube-earnings-calculator">YouTube Earnings Calculator</a> and <a href="/tools/youtube-cpm-calculator">YouTube CPM Calculator</a>.</li>
+            </ul>
+
+            <h2>Followers vs. Verified Views: Why Modern Brands Buy Attention</h2>
+            <p>
+              When evaluating <strong>how much should I charge as a content creator</strong>, creators must distinguish between four fundamental audience metrics:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Follower Count:</strong> The total number of accounts subscribed to your profile. While useful for broad tier categorization, follower count does not guarantee active eyeballs.</li>
+              <li><strong>Reach and Impressions:</strong> Reach represents the unique individual accounts that viewed your post, while impressions count the total number of times your content appeared on screens.</li>
+              <li><strong>Average Views:</strong> The verified count of completed video impressions. For short-form and long-form video sponsorships, average views represent the most defensible metric when negotiating rates.</li>
+              <li><strong>Engagement Health:</strong> The proportion of viewers who actively interact through likes, comments, shares, saves, and link taps. You can measure your interaction ratios with our <a href="/tools/instagram-engagement-calculator">Instagram Engagement Calculator</a> and <a href="/tools/tiktok-engagement-calculator">TikTok Engagement Calculator</a>.</li>
+            </ul>
+
+            <h2>Factors That Increase or Decrease Content Creator Rates</h2>
+            <p>
+              A base rate covers publishing standard sponsored content organically to your existing audience. When quoting brand deals, apply surcharges for these commercial scope additions:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Commercial Paid Usage Rights (Ad Whitelisting):</strong> When a brand runs your post as a paid digital advertisement (Meta Ads or TikTok Spark Ads), they scale impressions and sales using your likeness. Creators standardly bill an extra 30% to 75%+ licensing surcharge per 30 to 90 days of paid usage. You can calculate standalone content assets with our <a href="/tools/ugc-pricing-calculator">UGC Pricing Calculator</a>.</li>
+              <li><strong>Category Exclusivity:</strong> If a brand requests that you refrain from partnering with direct competitors in your niche for 30, 60, or 90 days, never grant exclusivity for free. Exclusivity restricts your future earnings, so industry-standard contracts add a 25% to 50%+ surcharge on top of the base deliverable fee.</li>
+              <li><strong>Rush Turnaround Surcharges:</strong> Standard production timelines require 10 to 14 business days. If a brand requests finished video assets within 48 to 72 hours, add a 25% to 50% rush fee to accommodate schedule disruption.</li>
+              <li><strong>Raw Footage & Whitelabel Rights:</strong> If the brand requests unedited B-roll footage or full copyright buyout, charge an additional commercial fee reflecting the long-term utility of the creative assets.</li>
+            </ul>
+
+            <h2>How Creators Can Confidently Negotiate Brand Deals and Avoid Underpricing</h2>
+            <p>
+              When brands reach out with collaboration inquiries, follow these proven negotiation strategies:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Avoid Stating Your Minimum Rate First:</strong> When asked for your rates, provide a media kit or quote your recommended rate. Quoting your absolute floor leaves zero room for negotiation and anchors the brand's perception at the lowest possible value.</li>
+              <li><strong>Offer 3 Tiered Deliverable Packages:</strong> Instead of quoting a single post, pitch three packages (e.g., Package 1: One Reel; Package 2: One Reel + Two Stories + Link in Bio; Package 3: Two Reels + Cross-post to TikTok). Brands almost always choose the middle option, increasing your average deal size.</li>
+              <li><strong>Tie Pricing to Value and Audience Trust:</strong> Emphasize your audience alignment, retention metrics, and past campaign performance rather than just follower counts. If you are planning channel subscriber growth, track milestones using our <a href="/tools/youtube-subscriber-growth-calculator">YouTube Subscriber Growth Calculator</a>.</li>
+              <li><strong>Evaluate Total Campaign Profitability:</strong> Calculate production overhead, equipment depreciation, and time spent using our comprehensive <a href="/tools/brand-deal-calculator">Brand Deal Calculator</a> to ensure your campaigns generate healthy operating margins.</li>
+            </ul>
+
+            <h2>Why Calculator Estimates Differ from Actual Sponsorship Offers</h2>
+            <p>
+              While an <strong>influencer pricing calculator</strong> provides reliable market benchmarks, actual contract compensation varies based on real-world negotiation dynamics:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Niche and Commercial Purchase Intent:</strong> Creators in finance, B2B software, enterprise tech, and real estate command 2x to 4x higher sponsorships than general comedy or entertainment creators because their audience has significantly higher purchasing power.</li>
+              <li><strong>Audience Geographic Distribution:</strong> An audience concentrated in Tier-1 consumer markets (US, UK, Canada, Australia) commands premium rates from direct-to-consumer sponsors compared to audiences in emerging regions.</li>
+              <li><strong>Quarterly Marketing Budgets:</strong> Brand marketing budgets fluctuate dramatically throughout the fiscal year. Q4 (holiday shopping season: October through December) features peak advertiser demand and premium sponsorship pricing, whereas January often brings lower baseline budgets.</li>
+            </ul>
+          </div>
+
+          <!-- High-Value Search FAQs Section -->
+          <div class="faq-card-section">
+            <span class="content-pill">Frequently Asked Questions</span>
+            <h3 class="faq-section-title">Content Creator Rate FAQs</h3>
+            <p class="faq-section-sub">
+              Clear, practical answers about creator pricing, rate negotiations, and brand deal structures.
+            </p>
+
+            <div class="faq-accordion-wrap">
+              {faqs.map(faq => (
+                <details class="faq-accordion-item">
+                  <summary class="faq-summary">
+                    <span class="faq-question-text">{faq.question}</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-chevron" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <div class="faq-body">
+                    <p>{faq.answer}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+
+          <!-- Related Tools Strip within Content Card (Clean Inline SVGs) -->
+          <div class="related-tools-block">
+            <div class="related-header-row">
+              <div>
+                <span class="content-pill">More Sponsorship & Creator Tools</span>
+                <h3 class="related-title">Explore Related Creator Pricing Utilities</h3>
+              </div>
+              <a href="/tools" class="view-all-tools-btn">View All Tools &rarr;</a>
+            </div>
+
+            <div class="related-tools-grid">
+              <a href="/tools/influencer-rate-calculator" class="tool-recommend-card">
+                <div class="recommend-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="recommend-svg" aria-hidden="true">
+                    <line x1="12" y1="1" x2="12" y2="23"/>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                  </svg>
+                </div>
+                <div class="recommend-body">
+                  <h4 class="recommend-name">Influencer Rate Calculator</h4>
+                  <p class="recommend-desc">Calculate sponsored post rates for Instagram, TikTok, and YouTube creators.</p>
+                </div>
+              </a>
+
+              <a href="/tools/brand-deal-calculator" class="tool-recommend-card">
+                <div class="recommend-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="recommend-svg" aria-hidden="true">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                  </svg>
+                </div>
+                <div class="recommend-body">
+                  <h4 class="recommend-name">Brand Deal Calculator</h4>
+                  <p class="recommend-desc">Calculate sponsorship quotes, production overhead, and campaign profit margins.</p>
+                </div>
+              </a>
+
+              <a href="/tools/ugc-pricing-calculator" class="tool-recommend-card">
+                <div class="recommend-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="recommend-svg" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
                   </svg>
-                  Number of Videos
-                </label>
-              </div>
-              <input type="number" id="package-videos" class="form-input" placeholder="e.g., 2" min="0" step="1" value="0" />
-            </div>
+                </div>
+                <div class="recommend-body">
+                  <h4 class="recommend-name">UGC Pricing Calculator</h4>
+                  <p class="recommend-desc">Price user-generated content video deliverables, raw footage, and ad rights.</p>
+                </div>
+              </a>
 
-            <div class="form-group">
-              <div class="label-header">
-                <label for="package-photos" class="icon-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316A2.192 2.192 0 0 0 14.53 4H9.47c-.527 0-1.026.262-1.332.712l-.822 1.316Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z" />
+              <a href="/tools/youtube-earnings-calculator" class="tool-recommend-card">
+                <div class="recommend-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="recommend-svg" aria-hidden="true">
+                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
                   </svg>
-                  Number of Photos
-                </label>
-              </div>
-              <input type="number" id="package-photos" class="form-input" placeholder="e.g., 5" min="0" step="1" value="0" />
+                </div>
+                <div class="recommend-body">
+                  <h4 class="recommend-name">YouTube Earnings Calculator</h4>
+                  <p class="recommend-desc">Estimate monthly and annual YouTube AdSense revenue based on views and RPM.</p>
+                </div>
+              </a>
             </div>
           </div>
 
-          <div class="form-row-2">
-            <div class="form-group">
-              <div class="label-header">
-                <label for="package-copy" class="icon-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                  </svg>
-                  Number of Articles/Copy
-                </label>
-              </div>
-              <input type="number" id="package-copy" class="form-input" placeholder="e.g., 1" min="0" step="1" value="0" />
-            </div>
-
-            <div class="form-group">
-              <div class="label-header">
-                <label for="package-usage" class="icon-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="field-icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                  </svg>
-                  Usage Rights Licensing
-                </label>
-              </div>
-              <select id="package-usage" class="form-input">
-                <option value="none" selected>Organic Usage Only (Free)</option>
-                <option value="ad_30">30-Day Paid Ad Rights (+20%)</option>
-                <option value="ad_90">90-Day Paid Ad Rights (+40%)</option>
-                <option value="ad_365">365-Day Paid Ad Rights (+75%)</option>
-                <option value="ad_perpetual">Perpetual Ad Rights (+150%)</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Base Rate configuration overrides -->
-          <div class="toggle-group" style="margin-top: 1rem; border-top: 1px dashed var(--color-border); padding-top: 1rem;">
-            <label class="checkbox-container">
-              <input type="checkbox" id="toggle-custom-rates" />
-              <span class="checkbox-label">Override Default Asset Rates</span>
-            </label>
-          </div>
-
-          <div id="custom-rates-box" class="form-row-2 hidden" style="margin-top: 1rem;">
-            <div class="form-group">
-              <label for="custom-video-rate" class="checkbox-label">Video Base ($)</label>
-              <input type="number" id="custom-video-rate" class="form-input" placeholder="Default 150" min="10" />
-            </div>
-            <div class="form-group">
-              <label for="custom-photo-rate" class="checkbox-label">Photo Base ($)</label>
-              <input type="number" id="custom-photo-rate" class="form-input" placeholder="Default 75" min="10" />
-            </div>
-          </div>
         </div>
 
-        <div class="form-actions">
-          <button type="button" id="calc-submit-btn" class="calc-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 18px; height: 18px;">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-            Calculate Creator Rate
-          </button>
-          <button type="button" id="calc-reset-btn" class="calc-btn-secondary" style="width: 100%;">Reset Form</button>
-        </div>
-      </form>
-
-      <!-- Outputs Display -->
-      <div class="calc-results" id="results-wrapper">
-        <div class="empty-state text-center" id="res-empty-box">
-          <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 11.708 1.32l-.042.02a.75.75 0 01-.707-1.32zm0-4.5l.041-.02a.75.75 0 11.708 1.32l-.042.02a.75.75 0 01-.707-1.32zM12 6.75v10.5M8.25 18.75h7.5" />
-          </svg>
-          <h3>Awaiting Price Parameters</h3>
-          <p class="text-muted">Select your calculation model, input hours or deliverables, then click Calculate to review quotes.</p>
-        </div>
-
-        <div class="results-active hidden" id="res-active-box">
-          <div class="rate-range-box">
-            <h4 class="rate-label">Estimated Rate Quote</h4>
-            <div class="rate-range" id="res-total-val">$0.00</div>
-            <div class="grade-badge grade-low" id="res-range-val">$0 - $0 range</div>
-          </div>
-
-          <div class="breakdown-box">
-            <h4 class="breakdown-title">Itemized Price Breakdown</h4>
-            <div class="breakdown-list" id="res-breakdown-container">
-              <!-- Rendered dynamically via JavaScript -->
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
+    </section>
+
   </div>
-
-  <div slot="about" class="editorial-content">
-    <h2>The Complete Guide to Content Creator Rates & Freelance Pricing</h2>
-    <p>
-      In the modern digital economy, content creation has evolved from an informal side-hustle into a high-demand professional service. From User-Generated Content (UGC) specialists and freelance video editors to brand photographers, graphic designers, and social media strategists, businesses increasingly rely on external creators to fuel their marketing funnels.
-    </p>
-    <p>
-      However, one of the greatest obstacles freelance creators encounter is knowing <strong>how to calculate their creator rates</strong>. Underpricing leads to exhaustion, unpaid administrative hours, and financial instability. Conversely, quoting arbitrary numbers without a clear line-item rationale can cause prospective clients to hesitate or walk away.
-    </p>
-    <p>
-      Our <strong>Content Creator Rate Calculator</strong> provides an objective, mathematical pricing framework. Whether you bill by the hour for custom production and editing or quote flat-rate deliverable packages with built-in volume discounts and paid ad licensing, this tool helps you establish profitable rates and quote clients with confidence.
-    </p>
-
-    <div class="callout-box">
-      <div class="callout-title">
-        <span>💡</span> Campaign Strategy & Rate Pitching
-      </div>
-      <p style="margin: 0; font-size: 0.95rem;">
-        Looking to pitch high-ticket retainers and build irresistible media kits? Explore our companion strategic guide: <a href="/blog/content-creator-rate-calculator-guide">Content Creator Pricing Guides & Campaign Negotiation Strategies</a>.
-      </p>
-    </div>
-
-    <h2>Different Pricing Models Used by Content Creators</h2>
-    <p>
-      Professional creators use various commercial pricing models depending on project complexity, asset type, and client relationship:
-    </p>
-
-    <div class="step-guide">
-      <div class="step-item">
-        <h3>1. Hourly Labor Pricing</h3>
-        <p>
-          You charge a fixed rate for each hour dedicated to the project. This model is best for open-ended creative tasks where the exact scope is unpredictable—such as long-form video editing, copywriting, channel consulting, and ongoing technical production.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>2. Per-Deliverable / Flat-Fee Asset Pricing</h3>
-        <p>
-          You charge a flat price per completed asset (e.g., $150 per short-form vertical video or $75 per edited product photo). Brands often prefer this model because it provides fixed budgetary certainty regardless of how long production takes.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>3. Deliverables Package Bundling</h3>
-        <p>
-          Combining multiple assets into structured bundles (e.g., 3 TikTok videos + 10 product photos). Bundling incentivizes clients to commit to larger production orders while allowing creators to offer volume discounts (10% to 20%) that reward batch shooting efficiency.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>4. Monthly Retainer Agreements</h3>
-        <p>
-          A long-term contract where the client pays a fixed monthly fee in exchange for a guaranteed volume of deliverables (e.g., 4 videos and 8 photos per month on a 3-to-6-month agreement). Retainers provide creators with stable recurring revenue while saving brands the friction of ongoing creator sourcing.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>5. User-Generated Content (UGC) vs Influencer Posting</h3>
-        <p>
-          <strong>UGC Creation:</strong> You produce high-converting assets exclusively for the brand to use on their official channels or paid ad campaigns (no requirement to post to your personal social channels).<br />
-          <strong>Influencer Sponsorship:</strong> You charge for both the content creation AND distribution access to your established personal audience.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>6. Performance-Based & Hybrid Retainers</h3>
-        <p>
-          A hybrid compensation structure that pairs a baseline production fee with milestone performance bonuses (e.g., $1,000 base + $250 bonus if a video exceeds 50,000 views or a 10% affiliate commission on tracked sales).
-        </p>
-      </div>
-    </div>
-
-    <h2>Key Factors That Influence Content Creator Rates</h2>
-    <p>
-      Your market rate is determined by several core variables:
-    </p>
-
-    <div class="table-responsive-wrapper">
-      <table class="content-table">
-        <thead>
-          <tr>
-            <th>Influencing Factor</th>
-            <th>Pricing Impact</th>
-            <th>Industry Benchmark / Best Practice</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Production Quality & Gear</strong></td>
-            <td>Higher Baseline Rates</td>
-            <td>4K cinema/mirrorless cameras, professional lighting rigs, and studio audio justify 1.5x to 2x higher rates than basic smartphone recording.</td>
-          </tr>
-          <tr>
-            <td><strong>Creator Experience & Portfolio</strong></td>
-            <td>Premium Authority Multiplier</td>
-            <td>Proven track records with high-converting hooks and established case studies allow creators to charge premium rates ($500+ per video).</td>
-          </tr>
-          <tr>
-            <td><strong>Content Niche & Buyer Intent</strong></td>
-            <td>High-LTV Multipliers</td>
-            <td>Specialized niches (B2B SaaS, Finance, Tech, Medical Skincare) pay higher rates due to large customer lifetime values compared to general entertainment.</td>
-          </tr>
-          <tr>
-            <td><strong>Commercial Paid Ad Usage Rights</strong></td>
-            <td><strong>+20% to +150% Surcharge</strong></td>
-            <td>Licensing content for paid social advertising (Meta Ads / TikTok Spark Ads) must be billed as an extra line item based on duration (30/90/365 days).</td>
-          </tr>
-          <tr>
-            <td><strong>Expedited Turnaround (Rush Fees)</strong></td>
-            <td><strong>+25% to +50% Surcharge</strong></td>
-            <td>Projects requiring delivery in under 48 to 72 hours should carry a rush fee to compensate for disrupted production schedules.</td>
-          </tr>
-          <tr>
-            <td><strong>Project Revisions</strong></td>
-            <td>Fixed Surcharge Beyond Free Round</td>
-            <td>One round of minor edits should be included; additional rounds or major script pivots must be billed at $50 to $100+ per round.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h2>How This Content Creator Rate Calculator Works</h2>
-    <p>
-      Our calculator features two distinct calculation engines built around standard freelance accounting frameworks:
-    </p>
-
-    <h3>Mode 1: Hourly / Project Labor Model</h3>
-    <p>
-      This model breaks down your production labor across the three essential phases of content creation:
-    </p>
-    <div class="formula-box">
-      Labor Subtotal = (Pre-Production Hours + Production Hours + Post-Production Hours) × Target Hourly Rate
-      <br />
-      Revision Surcharge = Max(0, Total Revisions - 1) × $50.00
-      <br />
-      Total Project Quote = Labor Subtotal + Direct Expenses + Revision Surcharge
-    </div>
-
-    <h3>Mode 2: Deliverables Package Model</h3>
-    <p>
-      This model calculates asset bundling with automatic volume discounts and commercial usage licensing:
-    </p>
-    <div class="formula-box">
-      Gross Asset Total = (Videos × Video Rate) + (Photos × Photo Rate) + (Articles × Article Rate)
-      <br />
-      Volume Discount = 10% (2–3 items) | 15% (4–5 items) | 20% (6+ items)
-      <br />
-      Discounted Subtotal = Gross Asset Total × (1 - Volume Discount)
-      <br />
-      Paid Ad Usage Premium = Discounted Subtotal × Usage Rate (30-day: +20%, 90-day: +40%, 365-day: +75%, Perpetual: +150%)
-      <br />
-      Total Package Quote = Discounted Subtotal + Paid Ad Usage Premium
-    </div>
-
-    <h2>Step-by-Step Guide: How to Use the Calculator Effectively</h2>
-    <p>
-      Follow this simple step-by-step workflow to generate an accurate price quote:
-    </p>
-
-    <div class="step-guide">
-      <div class="step-item">
-        <h3>Step 1: Choose Your Calculation Mode</h3>
-        <p>
-          Click the tab at the top for <strong>Hourly / Project Rate</strong> (best for consulting, editing, and custom labor) or <strong>Deliverables Package</strong> (best for quoting specific quantities of videos, photos, and copy).
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>Step 2: Enter Labor Hours or Deliverable Quantities</h3>
-        <p>
-          <em>In Hourly Mode:</em> Input your target hourly rate, estimated pre-production hours (concepting/scripting), filming hours, and editing hours.<br />
-          <em>In Package Mode:</em> Enter the exact quantity of videos, photos, or written articles requested by the brand.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>Step 3: Factor in Expenses & Revisions</h3>
-        <p>
-          <em>In Hourly Mode:</em> Input direct out-of-pocket expenses (props, travel, studio rentals) and the total number of revision rounds requested.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>Step 4: Configure Commercial Usage Licensing</h3>
-        <p>
-          <em>In Package Mode:</em> Select the usage rights duration from the dropdown menu (Organic Only, 30-Day, 90-Day, 365-Day, or Perpetual Paid Ad Rights).
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>Step 5: Optional - Custom Asset Rate Overrides</h3>
-        <p>
-          Check the <strong>Override Default Asset Rates</strong> box if you wish to adjust baseline asset rates ($150 for video, $75 for photos) to match your custom rate sheet.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>Step 6: Review the Itemized Breakdown</h3>
-        <p>
-          Click <strong>Calculate Creator Rate</strong> to generate a complete itemized quote and review your suggested pricing range ($\pm15\%$ variance) to present to the client.
-        </p>
-      </div>
-    </div>
-
-    <h2>Realistic Rate Calculation Scenarios</h2>
-    <p>
-      To understand how these formulas apply in practice, review these four real-world creator pricing scenarios:
-    </p>
-
-    <div class="step-guide">
-      <div class="step-item">
-        <h3>Scenario A: Beginner UGC Creator (3 Short-Form TikTok/Reels with 90-Day Ad Rights)</h3>
-        <p><strong>Deliverables:</strong> 3 Vertical Video Ads | <strong>Usage:</strong> 90-Day Paid Ad Whitelisting</p>
-        <ul>
-          <li><strong>Gross Asset Value:</strong> 3 Videos × $150.00 = $450.00</li>
-          <li><strong>Volume Discount:</strong> 10% Batch Discount on 3 items = -$45.00</li>
-          <li><strong>Discounted Subtotal:</strong> $405.00</li>
-          <li><strong>Paid Ad Licensing:</strong> +40% for 90-day ad usage = +$162.00</li>
-          <li><strong>Total Quote:</strong> <strong>$567.00</strong> (Suggested Range: <strong>$480 – $650</strong>)</li>
-        </ul>
-      </div>
-
-      <div class="step-item">
-        <h3>Scenario B: Freelance Video Editor (Dedicated Long-Form YouTube Edit)</h3>
-        <p><strong>Labor:</strong> 2 hrs Prep/Review + 6 hrs Video Editing/Color + 2 Revision Rounds @ $60.00/hr</p>
-        <ul>
-          <li><strong>Labor Cost:</strong> 8 Total Hours × $60.00/hr = $480.00</li>
-          <li><strong>Revision Surcharge:</strong> (2 rounds - 1 free) × $50.00 = +$50.00</li>
-          <li><strong>Plugin & Asset Expenses:</strong> $50.00</li>
-          <li><strong>Total Project Quote:</strong> <strong>$580.00</strong> (Suggested Range: <strong>$495 – $665</strong>)</li>
-        </ul>
-      </div>
-
-      <div class="step-item">
-        <h3>Scenario C: Commercial Photographer (Product Photoshoot Bundle with Annual Ad Rights)</h3>
-        <p><strong>Deliverables:</strong> 10 Edited High-Res Product Photos + 2 Short-Form Videos | <strong>Usage:</strong> 365-Day Paid Ad Rights</p>
-        <ul>
-          <li><strong>Gross Asset Value:</strong> (10 Photos × $75) + (2 Videos × $150) = $1,050.00</li>
-          <li><strong>Volume Discount:</strong> 20% Discount for 12 total items = -$210.00</li>
-          <li><strong>Discounted Subtotal:</strong> $840.00</li>
-          <li><strong>Paid Ad Licensing:</strong> +75% for 365-day commercial ad rights = +$630.00</li>
-          <li><strong>Total Quote:</strong> <strong>$1,470.00</strong> (Suggested Range: <strong>$1,250 – $1,690</strong>)</li>
-        </ul>
-      </div>
-
-      <div class="step-item">
-        <h3>Scenario D: Pro Creator Monthly Social Retainer Package</h3>
-        <p><strong>Deliverables:</strong> 4 Videos + 8 Photos per month on a 3-month contract | <strong>Usage:</strong> 30-Day Rolling Ad Rights</p>
-        <ul>
-          <li><strong>Gross Asset Value:</strong> (4 Videos × $150) + (8 Photos × $75) = $1,200.00</li>
-          <li><strong>Volume Discount:</strong> 20% Retainer Discount for 12 items = -$240.00</li>
-          <li><strong>Discounted Subtotal:</strong> $960.00</li>
-          <li><strong>Paid Ad Licensing:</strong> +20% for 30-day monthly ad rights = +$192.00</li>
-          <li><strong>Monthly Retainer Fee:</strong> <strong>$1,152.00 / month</strong> (Total Contract Value: <strong>$3,456.00</strong>)</li>
-        </ul>
-      </div>
-    </div>
-
-    <h3>Creator Experience & Asset Pricing Benchmark Matrix</h3>
-    <div class="table-responsive-wrapper">
-      <table class="content-table">
-        <thead>
-          <tr>
-            <th>Experience Level</th>
-            <th>Hourly Labor Rate</th>
-            <th>Single Short-Form Video (UGC)</th>
-            <th>Product Photo Set (5 Photos)</th>
-            <th>Monthly Retainer (4 Vids + Photos)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Beginner / Junior Creator</strong></td>
-            <td>$25 – $45 / hr</td>
-            <td>$100 – $200</td>
-            <td>$150 – $300</td>
-            <td>$600 – $1,000 / mo</td>
-          </tr>
-          <tr>
-            <td><strong>Intermediate Creator</strong></td>
-            <td>$50 – $85 / hr</td>
-            <td>$200 – $400</td>
-            <td>$300 – $600</td>
-            <td>$1,000 – $2,200 / mo</td>
-          </tr>
-          <tr>
-            <td><strong>Senior / Pro Specialist</strong></td>
-            <td>$90 – $150+ / hr</td>
-            <td>$400 – $800</td>
-            <td>$600 – $1,200</td>
-            <td>$2,200 – $5,000+ / mo</td>
-          </tr>
-          <tr>
-            <td><strong>High-End Commercial Agency</strong></td>
-            <td>$175 – $300+ / hr</td>
-            <td>$800 – $2,500+</td>
-            <td>$1,200 – $3,500+</td>
-            <td>$5,000 – $15,000+ / mo</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h2>Pro Tips to Set Your Rates & Avoid Undercharging</h2>
-    <p>
-      To build a profitable, sustainable freelance business, implement these proven pricing principles:
-    </p>
-
-    <div class="step-guide">
-      <div class="step-item">
-        <h3>1. Calculate Your Real Billable Hours</h3>
-        <p>
-          A full-time freelancer does not work 40 billable hours per week. Roughly 30% to 40% of your working hours are spent on non-billable tasks (pitching clients, sending invoices, administrative emails, and taxes). Base your target hourly calculations on 20 to 25 billable hours per week.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>2. Build in a 30% Tax and Overhead Buffer</h3>
-        <p>
-          As an independent contractor, you are responsible for self-employment taxes, healthcare, paid time off, and business subscriptions. Always add a minimum 30% margin on top of your personal living wage target.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>3. Always Present Tiered Proposals (Good / Better / Best)</h3>
-        <p>
-          When submitting proposals, present three structured tiers (e.g., <em>Tier 1: 1 Video ($200)</em> | <em>Tier 2: 3 Videos + 5 Photos ($550)</em> | <em>Tier 3: 5 Videos + 15 Photos + 90-Day Ad Rights ($1,100)</em>). Tiering anchors your value and empowers clients to select higher-value packages.
-        </p>
-      </div>
-
-      <div class="step-item">
-        <h3>4. Charge Separately for Raw Footage and Project Files</h3>
-        <p>
-          Never include unedited B-roll or raw project files (.PRPROJ, .FCPX) in your standard rate. If a brand wants raw footage ownership to repurpose future ads, charge a 50% to 100% buyout fee.
-        </p>
-      </div>
-    </div>
-
-    <h2>Common Mistakes Creators Make While Pricing Services</h2>
-    <p>
-      Avoid these costly pricing errors that drain freelance profitability:
-    </p>
-
-    <div class="callout-box warning">
-      <div class="callout-title">
-        <span>⚠️</span> Critical Freelance Pitfalls
-      </div>
-      <p style="margin: 0; font-size: 0.95rem;">
-        Avoid these common operational mistakes to safeguard your margins and prevent creative burnout.
-      </p>
-    </div>
-
-    <ul>
-      <li><strong>Pricing Exclusively on Filming Time:</strong> Forgetting to account for hours spent scripting hooks, storyboarding, prop sourcing, color grading, and client communication.</li>
-      <li><strong>Granting Perpetual Paid Ad Rights for Free:</strong> Allowing brands to use your face and video in commercial paid ads forever without ongoing licensing compensation.</li>
-      <li><strong>Allowing Unlimited Revision Rounds:</strong> Failing to specify revision limits in contracts, leading to endless feedback loops and doubled project hours.</li>
-      <li><strong>Starting Work Without an Upfront Deposit:</strong> Delivering finished assets before collecting a 50% upfront payment, exposing yourself to non-payment risk.</li>
-      <li><strong>Discounting Rates Without Reducing Scope:</strong> Lowering your quote when a client pushes back without removing deliverables, which devalues your baseline rates.</li>
-    </ul>
-
-    <h2>Best Practices for Presenting & Negotiating Rates with Brands</h2>
-    <p>
-      Follow these professional standards when communicating with brands:
-    </p>
-    <ol>
-      <li><strong>Use Clean Itemized Proposals:</strong> Send professional PDF quotes outlining exactly what is included: asset count, video aspect ratios (9:16 vs 16:9), resolution, revision limits, and usage licensing terms.</li>
-      <li><strong>Negotiate Deliverables Instead of Price:</strong> If a client's budget is lower than your quote, reduce the deliverables to match their budget (e.g., <em>'I can accommodate your $500 budget by providing 2 videos instead of 3.'</em>).</li>
-      <li><strong>Require Signed Agreements Before Production:</strong> Always use a written Scope of Work (SOW) agreement that clearly defines deadlines, payment milestones, cancellation fees, and usage rights expiration dates.</li>
-    </ol>
-  </div>
-</ToolLayout>
+</BaseLayout>
 
 <style>
-  /* Enforce rounded corners on the entire tool card and give it clean outer padding */
-  .calc-card {
-    padding: 2.5rem !important;
-    border-radius: 24px !important;
-    box-sizing: border-box;
-    max-width: 100%;
-  }
-
-  .calculator-mode-selector {
+  /* =========================================================
+     PAGE WRAPPER & HERO SECTION (Centered Max-Width 820px)
+     ========================================================= */
+  .tool-page-wrapper {
+    width: 100%;
+    min-height: 100vh;
     display: flex;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-    background: var(--color-bg-alt);
-    padding: 0.35rem;
-    border-radius: 12px;
-    border: 1px solid var(--color-border);
+    flex-direction: column;
+    overflow-x: hidden;
   }
 
-  .mode-tab {
-    flex: 1;
+  .tool-hero-section {
+    padding-top: clamp(2rem, 5vw, 3.5rem);
+    padding-bottom: clamp(1.5rem, 3.5vw, 2.5rem);
+    background: linear-gradient(180deg, rgba(99, 102, 241, 0.04) 0%, rgba(248, 250, 252, 0) 100%);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
     text-align: center;
-    padding: 0.6rem 0.5rem;
-    font-size: 0.88rem;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 820px;
+    margin: 0 auto;
+    padding-left: clamp(1rem, 3vw, 2rem);
+    padding-right: clamp(1rem, 3vw, 2rem);
+    box-sizing: border-box;
+  }
+
+  .hero-breadcrumbs {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    border: 1px solid #e0e7ff;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+    font-size: 0.8rem;
     font-weight: 600;
+    color: var(--color-text, #0f172a);
+    margin-bottom: 1.25rem;
+    user-select: none;
+  }
+
+  .badge-icon-tool {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: var(--color-brand, #4f46e5);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tool-svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .badge-title {
+    color: var(--color-text, #0f172a);
+  }
+
+  .badge-pill-free {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 9999px;
+    background: #ecfdf5;
+    color: #059669;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .hero-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-desc {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--color-text-muted, #64748b);
+    max-width: 640px;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .hero-features-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .feature-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
     border-radius: 8px;
-    border: none;
-    background: transparent;
-    color: var(--color-text-muted);
-    cursor: pointer;
-    transition: all var(--transition-fast);
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #475569);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   }
 
-  .mode-tab:hover {
-    color: var(--color-text);
+  .chip-svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-brand, #4f46e5);
+    flex-shrink: 0;
   }
 
-  .mode-tab.active {
-    background: var(--color-bg);
-    color: var(--color-brand);
-    box-shadow: var(--shadow-sm);
+  /* =========================================================
+     2. MAIN TOOL SECTION (Centered Max-Width 940px)
+     ========================================================= */
+  .tool-main-section {
+    padding-top: clamp(1.5rem, 4vw, 2.5rem);
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+    background: var(--color-bg, #f8fafc);
   }
 
-  .calc-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.25rem;
-    max-width: 100%;
+  .tool-card-container {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
   }
 
-  .calc-form {
+  .saas-tool-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(99, 102, 241, 0.03);
+    padding: clamp(1.25rem, 3.5vw, 2.25rem);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    max-width: 100%;
-    box-sizing: border-box;
+    transition: background 0.2s ease, border-color 0.2s ease;
   }
 
-  .form-row-2 {
+  /* Header Platform Selector Bar */
+  .card-header-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  @media (min-width: 680px) {
+    .card-header-bar {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .platform-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .platform-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .platform-sub-text {
+    font-size: 0.775rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .platform-tabs-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .platform-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.85rem;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid var(--color-border, #e2e8f0);
+    color: var(--color-text, #0f172a);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .platform-tab:hover {
+    border-color: #cbd5e1;
+    background: #f1f5f9;
+  }
+
+  .platform-tab.active {
+    background: #ffffff;
+    border-color: var(--color-brand, #4f46e5);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.15), 0 0 0 1px var(--color-brand, #4f46e5);
+    color: var(--color-brand, #4f46e5);
+  }
+
+  .platform-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  /* Form Inputs */
+  .calculator-inputs-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.25rem;
   }
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    max-width: 100%;
-    box-sizing: border-box;
+  @media (min-width: 600px) {
+    .calculator-inputs-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .full-width-field {
+      grid-column: span 2;
+    }
   }
 
-  .label-header {
+  .input-field-group {
     display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .field-label-row {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.25rem;
   }
 
-  .icon-label {
-    display: flex;
+  .field-label {
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    color: var(--color-text);
+    color: var(--color-text, #0f172a);
+  }
+
+  .label-svg {
+    width: 15px;
+    height: 15px;
+    color: var(--color-brand, #4f46e5);
+  }
+
+  .badge-tag-required {
+    font-size: 0.675rem;
+    font-weight: 700;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--color-brand, #4f46e5);
+    text-transform: uppercase;
+  }
+
+  .badge-tag-optional {
+    font-size: 0.675rem;
+    font-weight: 600;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    background: #f1f5f9;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .styled-input {
+    width: 100%;
+    padding: 0.65rem 0.95rem;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
     font-size: 0.95rem;
-  }
-
-  .field-icon {
-    width: 18px;
-    height: 18px;
-    color: var(--color-brand);
-    flex-shrink: 0;
-  }
-
-  select.form-input {
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 1.25rem;
-    padding-right: 2.5rem !important;
-    cursor: pointer;
-  }
-
-  /* Checkbox controls */
-  .checkbox-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .checkbox-container input {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--color-brand);
-  }
-
-  .checkbox-label {
-    font-size: 0.88rem;
     font-weight: 600;
-    color: var(--color-text);
-  }
-
-  .form-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  .calc-btn-secondary {
-    height: 48px;
-    background: transparent;
-    border: 1.5px solid var(--color-border);
-    color: var(--color-text);
-    font-weight: 600;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-  }
-
-  .calc-btn-secondary:hover {
-    border-color: var(--color-text-muted);
-    background: var(--color-bg-alt);
-  }
-
-  .calc-results {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 380px;
-    padding: 2.25rem;
-    border-radius: 20px !important;
-    background: var(--color-bg-alt);
-    border: 1px solid var(--color-border);
-    gap: 1.75rem;
+    color: var(--color-text, #0f172a);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
     box-sizing: border-box;
-    max-width: 100%;
+    outline: none;
   }
 
-  .empty-state {
+  .styled-input:focus {
+    border-color: var(--color-brand, #4f46e5);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  }
+
+  .select-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .styled-select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 2.25rem;
+    cursor: pointer;
+  }
+
+  .select-chevron-box {
+    position: absolute;
+    right: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+  }
+
+  .chevron-svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .field-helper-text {
+    font-size: 0.775rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Actions Strip */
+  .card-actions-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-top: 0.25rem;
+  }
+
+  .live-status-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: #065f46;
+    background: #ecfdf5;
+    padding: 0.3rem 0.65rem;
+    border-radius: 9999px;
+    border: 1px solid #a7f3d0;
+  }
+
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+    display: inline-block;
+  }
+
+  .btn-reset-minimal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-reset-minimal:hover {
+    color: var(--color-text, #0f172a);
+    background: #f8fafc;
+    border-color: #cbd5e1;
+  }
+
+  .reset-svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .card-divider {
+    height: 1px;
+    background: var(--color-border, #e2e8f0);
+    width: 100%;
+    margin: 0.25rem 0;
+  }
+
+  /* Results Section */
+  .results-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .empty-results-box {
+    text-align: center;
+    padding: 2.5rem 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    justify-content: center;
+    background: #f8fafc;
+    border-radius: 18px;
+    border: 1px dashed #cbd5e1;
   }
 
-  .empty-icon {
+  .empty-results-box.hidden,
+  .active-results-box.hidden {
+    display: none;
+  }
+
+  .empty-icon-circle {
     width: 48px;
     height: 48px;
-    color: var(--color-text-muted);
-  }
-
-  .results-active {
+    border-radius: 50%;
+    background: #eef2ff;
+    color: var(--color-brand, #4f46e5);
     display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .rate-range-box {
-    text-align: center;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    padding: 1.5rem;
-    border-radius: var(--radius-md);
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    box-sizing: border-box;
-    width: 100%;
-  }
-
-  .rate-label {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.5rem;
-  }
-
-  .rate-range {
-    font-size: clamp(1.8rem, 4.5vw, 3rem);
-    font-weight: 800;
-    color: var(--color-brand);
-    line-height: 1.1;
+    justify-content: center;
     margin-bottom: 0.75rem;
   }
 
-  .grade-badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-    border-radius: var(--radius-full);
-    text-transform: uppercase;
+  .empty-svg {
+    width: 22px;
+    height: 22px;
   }
 
-  .grade-low {
-    background: rgba(99, 102, 241, 0.1);
-    color: var(--color-brand);
-  }
-
-  .breakdown-box {
-    width: 100%;
-  }
-
-  .breakdown-title {
+  .empty-title {
     font-size: 0.95rem;
     font-weight: 700;
-    margin-bottom: 1rem;
-    color: var(--color-text);
+    color: var(--color-text, #0f172a);
+    margin-bottom: 0.35rem;
   }
 
-  .breakdown-list {
+  .empty-sub {
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #64748b);
+    max-width: 420px;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .active-results-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .results-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .platform-result-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .bullet-divider {
+    color: #94a3b8;
+  }
+
+  .tier-pill {
+    font-size: 0.725rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    background: #eef2ff;
+    color: var(--color-brand, #4f46e5);
+    border: 1px solid #c7d2fe;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  /* Rates Result Grid */
+  .rates-result-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 600px) {
+    .rates-result-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .rate-card {
+    border-radius: 18px;
+    padding: 1.25rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .rate-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .rate-card-label {
+    font-size: 0.775rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .rate-badge-tag {
+    font-size: 0.675rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .tag-gray {
+    background: #f1f5f9;
+    color: #475569;
+  }
+
+  .tag-brand {
+    background: #eef2ff;
+    color: #4f46e5;
+  }
+
+  .tag-purple {
+    background: #faf5ff;
+    color: #7e22ce;
+  }
+
+  .rate-card-value {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  .min-value {
+    color: #475569;
+  }
+
+  .hero-value {
+    color: var(--color-brand, #4f46e5);
+  }
+
+  .max-value {
+    color: #7e22ce;
+  }
+
+  .rate-card-sub {
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .rate-card-hero {
+    border-color: #c7d2fe;
+    box-shadow: 0 4px 18px rgba(99, 102, 241, 0.08);
+    background: linear-gradient(180deg, #ffffff 0%, rgba(99, 102, 241, 0.02) 100%);
+  }
+
+  /* Explanation Card */
+  .results-explanation-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.15rem 1.25rem;
+    border-radius: 16px;
+    background: #f8fafc;
+    border: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .explanation-title-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .exp-svg {
+    width: 15px;
+    height: 15px;
+    color: var(--color-brand, #4f46e5);
+  }
+
+  .exp-heading {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .exp-summary {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-text, #334155);
+    margin: 0;
+  }
+
+  .exp-disclaimer {
+    font-size: 0.775rem;
+    line-height: 1.5;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* Copy Button Row */
+  .results-action-row {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn-copy-rates {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    color: var(--color-text, #0f172a);
+    font-size: 0.825rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-copy-rates:hover {
+    background: #f8fafc;
+    border-color: #818cf8;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+  }
+
+  .copy-svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  /* =========================================================
+     3. CONTENT & SEO GUIDE SECTION (Centered Max-Width 940px)
+     ========================================================= */
+  .tool-content-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+    background: var(--color-bg, #f8fafc);
+  }
+
+  .content-inner-container {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .content-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 24px;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .content-pill {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #4f46e5);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  .editorial-block h2 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 2rem 0 0.85rem 0;
+  }
+
+  .editorial-block h2:first-of-type {
+    margin-top: 0;
+  }
+
+  .editorial-block p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text, #334155);
+    margin: 0 0 1.25rem 0;
+  }
+
+  .editorial-block p strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  .editorial-block a {
+    color: var(--color-brand, #4f46e5);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  .editorial-block a:hover {
+    color: #4338ca;
+  }
+
+  .styled-list {
+    margin: 0 0 1.5rem 1.25rem;
+    padding: 0;
+    color: var(--color-text, #334155);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .styled-list li {
+    margin-bottom: 0.65rem;
+  }
+
+  .styled-list strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  /* FAQs Section */
+  .faq-card-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    border-top: 1px solid var(--color-border, #e2e8f0);
+    padding-top: 2rem;
+  }
+
+  .faq-section-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.3rem, 3vw, 1.6rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0;
+  }
+
+  .faq-section-sub {
+    font-size: 0.9rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .faq-accordion-wrap {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
   }
 
-  .breakdown-item {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
+  .faq-accordion-item {
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    background: #f8fafc;
+    overflow: hidden;
+    transition: all 0.2s ease;
   }
 
-  .breakdown-label {
-    color: var(--color-text-muted);
+  .faq-accordion-item:hover {
+    border-color: #cbd5e1;
   }
 
-  .breakdown-val {
-    font-weight: 600;
-    color: var(--color-text);
+  .faq-accordion-item[open] {
+    background: #ffffff;
+    border-color: #c7d2fe;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.05);
   }
 
-  /* Step guide styling */
-  .step-guide {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    margin: 1.5rem 0;
-  }
-
-  .step-item {
-    background: var(--color-bg-alt);
-    border: 1px solid var(--color-border);
-    padding: 1.35rem;
-    border-radius: var(--radius-md);
-  }
-
-  .step-item h3 {
-    margin-top: 0 !important;
-    font-size: 1.15rem;
-    color: var(--color-brand);
-    margin-bottom: 0.5rem;
-  }
-
-  .step-item p {
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-  }
-
-  .step-item ul {
-    margin-bottom: 0 !important;
-    margin-left: 1.25rem !important;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-
-  .formula-box {
-    background: var(--color-bg-alt);
-    padding: 1.25rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    margin: 1.25rem 0;
-    font-family: monospace;
-    font-size: clamp(0.85rem, 3.2vw, 1.05rem);
-    text-align: center;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    color: var(--color-brand);
-    font-weight: 600;
-    line-height: 1.8;
-  }
-
-  /* Responsive Table Styling */
-  .table-responsive-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin: 1.5rem 0;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-card);
-  }
-
-  .content-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 0.92rem;
-    min-width: 520px;
-  }
-
-  .content-table th {
-    background: var(--color-bg-alt);
-    color: var(--color-text);
-    font-weight: 700;
-    padding: 0.85rem 1rem;
-    border-bottom: 1px solid var(--color-border);
-    white-space: nowrap;
-  }
-
-  .content-table td {
-    padding: 0.85rem 1rem;
-    border-bottom: 1px solid var(--color-border);
-    color: var(--color-text-muted);
-    line-height: 1.5;
-  }
-
-  .content-table tr:last-child td {
-    border-bottom: none;
-  }
-
-  .content-table tr:hover td {
-    background: rgba(99, 102, 241, 0.03);
-    color: var(--color-text);
-  }
-
-  /* Callout box styling */
-  .callout-box {
-    margin: 1.5rem 0;
-    background: var(--color-bg-alt);
-    padding: 1.25rem 1.5rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    border-left: 4px solid var(--color-brand);
-  }
-
-  .callout-box.tip {
-    border-left-color: #10b981;
-    background: rgba(16, 185, 129, 0.05);
-  }
-
-  .callout-box.warning {
-    border-left-color: #f59e0b;
-    background: rgba(245, 158, 11, 0.05);
-  }
-
-  .callout-title {
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--color-text);
-    margin-bottom: 0.5rem;
+  .faq-summary {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-text, #0f172a);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand, #4f46e5);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 0.75rem;
+  }
+
+  .faq-accordion-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-body {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+  }
+
+  .faq-body p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* Related Tools Grid */
+  .related-tools-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-top: 1px solid var(--color-border, #e2e8f0);
+    padding-top: 2rem;
+  }
+
+  .related-header-row {
+    display: flex;
+    flex-direction: column;
     gap: 0.5rem;
   }
 
-  .hidden {
-    display: none !important;
+  @media (min-width: 600px) {
+    .related-header-row {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
   }
 
-  /* Slotted editorial heading spacing fixes */
-  .editorial-content :global(h2) {
-    margin-top: 2.25rem;
-    margin-bottom: 0.85rem;
-    font-size: 1.55rem;
-    font-weight: 800;
-    color: var(--color-text);
-    letter-spacing: -0.02em;
-  }
-
-  .editorial-content :global(h3) {
-    margin-top: 1.75rem;
-    margin-bottom: 0.65rem;
-    font-size: 1.25rem;
+  .related-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.2rem, 2.5vw, 1.4rem);
     font-weight: 700;
-    color: var(--color-text);
+    color: var(--color-text, #0f172a);
+    margin: 0;
   }
 
-  .editorial-content :global(p) {
-    color: var(--color-text-muted);
-    margin-bottom: 1.15rem;
-    line-height: 1.75;
-    font-size: 0.98rem;
+  .view-all-tools-btn {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-brand, #4f46e5);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    white-space: nowrap;
   }
 
-  .editorial-content :global(code) {
-    background: var(--color-bg-alt);
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.88em;
-    border: 1px solid var(--color-border);
-    color: var(--color-brand);
+  .view-all-tools-btn:hover {
+    color: #4338ca;
+    text-decoration: underline;
   }
 
-  /* Responsive Mobile Overrides */
-  @media (max-width: 767px) {
-    .calc-card {
-      padding: 1.25rem !important;
-      border-radius: 18px !important;
-    }
-
-    .form-actions {
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .calc-results {
-      padding: 0 !important;
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      gap: 1.5rem !important;
-      margin-top: 0.5rem !important;
-      min-height: auto;
-    }
-
-    .breakdown-box {
-      border-bottom: 1px dashed var(--color-border) !important;
-      padding-bottom: 1rem !important;
-    }
-
-    .rate-range-box {
-      background: transparent !important;
-      border: none !important;
-      padding: 0 !important;
-      border-radius: 0 !important;
-      box-shadow: none !important;
-      width: 100% !important;
-      border-bottom: 1px dashed var(--color-border) !important;
-      padding-bottom: 1rem !important;
-      align-items: center !important;
-    }
-
-    .content-table {
-      font-size: 0.85rem;
-    }
-
-    .content-table th, 
-    .content-table td {
-      padding: 0.7rem 0.75rem;
-    }
+  .related-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
-  @media (min-width: 768px) {
-    .form-row-2 {
+  @media (min-width: 600px) {
+    .related-tools-grid {
       grid-template-columns: 1fr 1fr;
     }
   }
 
-  @media (min-width: 1024px) {
-    .calc-grid {
-      grid-template-columns: 1.2fr 1fr;
-      align-items: start;
-      gap: 2.5rem;
+  .tool-recommend-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1rem 1.15rem;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .tool-recommend-card:hover {
+    background: #ffffff;
+    border-color: #c7d2fe;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .recommend-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #4f46e5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .recommend-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .recommend-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .recommend-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0;
+    transition: color 0.2s ease;
+  }
+
+  .tool-recommend-card:hover .recommend-name {
+    color: var(--color-brand, #4f46e5);
+  }
+
+  .recommend-desc {
+    font-size: 0.775rem;
+    line-height: 1.4;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* =========================================================
+     DARK MODE PARITY (:global([data-theme="dark"]))
+     ========================================================= */
+  :global([data-theme="dark"]) .tool-hero-section {
+    background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(32, 33, 36, 0) 100%);
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .hero-badge {
+    background: #2B2D30;
+    border-color: #41444A;
+    color: #F1F3F4;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  :global([data-theme="dark"]) .feature-chip {
+    background: #2B2D30;
+    border-color: #41444A;
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .tool-main-section,
+  :global([data-theme="dark"]) .tool-content-section {
+    background: #202124;
+  }
+
+  :global([data-theme="dark"]) .saas-tool-card,
+  :global([data-theme="dark"]) .content-card {
+    background: #2B2D30;
+    border-color: #41444A;
+    box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px #41444A;
+  }
+
+  :global([data-theme="dark"]) .card-header-bar,
+  :global([data-theme="dark"]) .card-divider,
+  :global([data-theme="dark"]) .faq-card-section,
+  :global([data-theme="dark"]) .related-tools-block {
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .platform-title,
+  :global([data-theme="dark"]) .field-label,
+  :global([data-theme="dark"]) .platform-result-badge,
+  :global([data-theme="dark"]) .exp-heading,
+  :global([data-theme="dark"]) .editorial-block h2,
+  :global([data-theme="dark"]) .editorial-block p strong,
+  :global([data-theme="dark"]) .styled-list strong,
+  :global([data-theme="dark"]) .faq-section-title,
+  :global([data-theme="dark"]) .faq-summary,
+  :global([data-theme="dark"]) .related-title,
+  :global([data-theme="dark"]) .recommend-name {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .platform-sub-text,
+  :global([data-theme="dark"]) .field-helper-text,
+  :global([data-theme="dark"]) .rate-card-label,
+  :global([data-theme="dark"]) .rate-card-sub,
+  :global([data-theme="dark"]) .exp-disclaimer,
+  :global([data-theme="dark"]) .editorial-block p,
+  :global([data-theme="dark"]) .styled-list,
+  :global([data-theme="dark"]) .faq-section-sub,
+  :global([data-theme="dark"]) .faq-body p,
+  :global([data-theme="dark"]) .recommend-desc {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .btn-reset-minimal,
+  :global([data-theme="dark"]) .styled-input,
+  :global([data-theme="dark"]) .platform-tab,
+  :global([data-theme="dark"]) .rate-card,
+  :global([data-theme="dark"]) .results-explanation-card,
+  :global([data-theme="dark"]) .btn-copy-rates,
+  :global([data-theme="dark"]) .faq-accordion-item,
+  :global([data-theme="dark"]) .tool-recommend-card {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .styled-input {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .platform-tab.active {
+    background: #2B2D30;
+    border-color: #818cf8;
+    color: #818cf8;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.2), 0 0 0 1px #818cf8;
+  }
+
+  :global([data-theme="dark"]) .rate-card-hero {
+    background: linear-gradient(180deg, #26282b 0%, rgba(99, 102, 241, 0.05) 100%);
+    border-color: #6366f1;
+  }
+
+  :global([data-theme="dark"]) .min-value {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .faq-accordion-item[open] {
+    background: #26282b;
+    border-color: #6366f1;
+  }
+
+  :global([data-theme="dark"]) .btn-reset-minimal:hover,
+  :global([data-theme="dark"]) .btn-copy-rates:hover {
+    background: #2B2D30;
+    border-color: #555861;
+  }
+
+  /* =========================================================
+     RESPONSIVE BREAKPOINTS (320px to 940px)
+     ========================================================= */
+  @media (max-width: 600px) {
+    .platform-tabs-row {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.35rem;
+    }
+
+    .platform-tab {
+      padding: 0.45rem 0.4rem;
+      font-size: 0.775rem;
+    }
+
+    .platform-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    .results-action-row {
+      justify-content: stretch;
+    }
+
+    .btn-copy-rates {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .hero-features-row {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .feature-chip {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .platform-tabs-row {
+      grid-template-columns: 1fr;
     }
   }
 </style>
 
 <script>
-  const setupCreatorCalculator = () => {
-    // Mode selector tabs
-    const modeTabs = document.querySelectorAll('.mode-tab');
-    const activeModeInput = document.getElementById('active-mode') as HTMLInputElement;
+  function initContentCreatorRateCalculator() {
+    const btnInstagram = document.getElementById('btn-platform-instagram');
+    const btnTiktok = document.getElementById('btn-platform-tiktok');
+    const btnYoutube = document.getElementById('btn-platform-youtube');
 
-    // Inputs groups references
-    const hourlyGroup = document.getElementById('inputs-hourly-box');
-    const packageGroup = document.getElementById('inputs-package-box');
+    const inputFollowers = document.getElementById('calc-followers');
+    const labelFollowersText = document.getElementById('label-followers-text');
+    const descFollowers = document.getElementById('desc-followers');
+    const selectContentType = document.getElementById('calc-content-type');
+    const inputAvgViews = document.getElementById('calc-avg-views');
+    const btnReset = document.getElementById('btn-reset-form');
 
-    // Hourly Fields
-    const hourlyRateInput = document.getElementById('hourly-rate') as HTMLInputElement;
-    const preHoursInput = document.getElementById('hours-pre') as HTMLInputElement;
-    const prodHoursInput = document.getElementById('hours-production') as HTMLInputElement;
-    const postHoursInput = document.getElementById('hours-post') as HTMLInputElement;
-    const expensesInput = document.getElementById('project-expenses') as HTMLInputElement;
-    const revisionsInput = document.getElementById('revision-rounds') as HTMLInputElement;
+    const boxEmptyResults = document.getElementById('box-empty-results');
+    const boxActiveResults = document.getElementById('box-active-results');
 
-    // Package Fields
-    const videosInput = document.getElementById('package-videos') as HTMLInputElement;
-    const photosInput = document.getElementById('package-photos') as HTMLInputElement;
-    const copyInput = document.getElementById('package-copy') as HTMLInputElement;
-    const usageSelect = document.getElementById('package-usage') as HTMLSelectElement;
+    const badgePlatformName = document.getElementById('badge-platform-name');
+    const badgeFormatName = document.getElementById('badge-format-name');
+    const badgeCreatorTier = document.getElementById('badge-creator-tier');
 
-    // Custom asset rates toggler
-    const toggleCustomRates = document.getElementById('toggle-custom-rates') as HTMLInputElement;
-    const customRatesBox = document.getElementById('custom-rates-box');
-    const customVideoInput = document.getElementById('custom-video-rate') as HTMLInputElement;
-    const customPhotoInput = document.getElementById('custom-photo-rate') as HTMLInputElement;
+    const valMinRate = document.getElementById('val-min-rate');
+    const valRecRate = document.getElementById('val-rec-rate');
+    const valMaxRate = document.getElementById('val-max-rate');
+    const resExplanationText = document.getElementById('res-explanation-text');
 
-    // Buttons
-    const submitBtn = document.getElementById('calc-submit-btn');
-    const resetBtn = document.getElementById('calc-reset-btn');
+    const btnCopyRates = document.getElementById('btn-copy-rates');
+    const copyRatesLabel = document.getElementById('copy-rates-label');
 
-    // Outputs
-    const emptyBox = document.getElementById('res-empty-box');
-    const activeBox = document.getElementById('res-active-box');
+    if (!inputFollowers || !selectContentType) return;
 
-    const totalVal = document.getElementById('res-total-val');
-    const rangeVal = document.getElementById('res-range-val');
-    const breakdownContainer = document.getElementById('res-breakdown-container');
+    let currentPlatform = 'instagram';
 
-    // Mode tab toggle logic
-    modeTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        modeTabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
+    const formatOptions = {
+      instagram: [
+        { value: 'reel', label: 'Instagram Reel (Vertical Video)', multiplier: 1.25 },
+        { value: 'feed_post', label: 'Static Feed Post (Single Photo)', multiplier: 1.0 },
+        { value: 'carousel', label: 'Multi-Slide Carousel Post', multiplier: 1.15 },
+        { value: 'story_set', label: 'Instagram Story Set (3 Frames with Link)', multiplier: 0.50 }
+      ],
+      tiktok: [
+        { value: 'video', label: 'Sponsored TikTok Video (15-60s)', multiplier: 1.0 },
+        { value: 'series', label: 'Multi-Part Series Video (2-Part)', multiplier: 1.45 },
+        { value: 'ambassador', label: 'Brand Ambassador Video Deliverable', multiplier: 1.25 }
+      ],
+      youtube: [
+        { value: 'integration_60s', label: '60-Second Video Integration (Mid-roll)', multiplier: 1.0 },
+        { value: 'dedicated', label: 'Dedicated Sponsored Video (Full 8-15 Mins)', multiplier: 2.2 },
+        { value: 'youtube_short', label: 'YouTube Short (Vertical Video)', multiplier: 0.60 }
+      ]
+    };
 
-        const mode = tab.getAttribute('data-mode') || 'hourly';
-        if (activeModeInput) activeModeInput.value = mode;
-
-        if (mode === 'hourly') {
-          hourlyGroup?.classList.remove('hidden');
-          packageGroup?.classList.add('hidden');
-        } else {
-          hourlyGroup?.classList.add('hidden');
-          packageGroup?.classList.remove('hidden');
-        }
-
-        resetCalculator(false);
+    function updateFormatDropdown() {
+      if (!selectContentType) return;
+      const opts = formatOptions[currentPlatform] || formatOptions.instagram;
+      selectContentType.innerHTML = '';
+      opts.forEach(opt => {
+        const el = document.createElement('option');
+        el.value = opt.value;
+        el.textContent = opt.label;
+        selectContentType.appendChild(el);
       });
-    });
+    }
 
-    // Custom asset rates box visibility toggler
-    toggleCustomRates?.addEventListener('change', () => {
-      if (toggleCustomRates.checked) {
-        customRatesBox?.classList.remove('hidden');
-      } else {
-        customRatesBox?.classList.add('hidden');
-        if (customVideoInput) customVideoInput.value = '';
-        if (customPhotoInput) customPhotoInput.value = '';
-      }
-    });
+    function setPlatform(platform) {
+      currentPlatform = platform;
 
-    const calculateCreatorRate = () => {
-      const mode = activeModeInput?.value || 'hourly';
-      let totalCost = 0;
-      let breakdownHtml = "";
+      [btnInstagram, btnTiktok, btnYoutube].forEach(btn => {
+        if (!btn) return;
+        const matches = btn.getAttribute('data-platform') === platform;
+        btn.classList.toggle('active', matches);
+        btn.setAttribute('aria-pressed', matches ? 'true' : 'false');
+      });
 
-      if (mode === 'hourly') {
-        const rate = parseFloat(hourlyRateInput?.value) || 0;
-        const preHrs = parseFloat(preHoursInput?.value) || 0;
-        const prodHrs = parseFloat(prodHoursInput?.value) || 0;
-        const postHrs = parseFloat(postHoursInput?.value) || 0;
-        const expenses = parseFloat(expensesInput?.value) || 0;
-        const revisions = parseInt(revisionsInput?.value) || 1;
-
-        if (rate <= 0) {
-          return alert("Please enter a target hourly rate.");
+      if (labelFollowersText && descFollowers) {
+        if (platform === 'youtube') {
+          labelFollowersText.textContent = 'Subscriber Count';
+          descFollowers.textContent = 'Total subscribers subscribed to your YouTube channel.';
+        } else {
+          labelFollowersText.textContent = 'Follower Count';
+          descFollowers.textContent = `Total followers on your ${platform === 'instagram' ? 'Instagram' : 'TikTok'} profile.`;
         }
+      }
 
-        const totalHrs = preHrs + prodHrs + postHrs;
-        const laborCost = totalHrs * rate;
+      updateFormatDropdown();
+      calculateRates();
+    }
 
-        // Revision surcharge rules: First round free, extra rounds are $50/round
-        const revisionFee = Math.max(0, revisions - 1) * 50;
+    if (btnInstagram) btnInstagram.addEventListener('click', () => setPlatform('instagram'));
+    if (btnTiktok) btnTiktok.addEventListener('click', () => setPlatform('tiktok'));
+    if (btnYoutube) btnYoutube.addEventListener('click', () => setPlatform('youtube'));
 
-        totalCost = laborCost + expenses + revisionFee;
+    function getCreatorTier(count) {
+      if (count < 10000) return 'Nano-Creator';
+      if (count < 50000) return 'Micro-Creator';
+      if (count < 500000) return 'Mid-Tier Creator';
+      if (count < 1000000) return 'Macro-Creator';
+      return 'Elite Creator';
+    }
 
-        breakdownHtml = `
-          <div class="breakdown-item">
-            <span class="breakdown-label">Pre-Production Prep (${preHrs} hrs):</span>
-            <span class="breakdown-val">$${(preHrs * rate).toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
-          </div>
-          <div class="breakdown-item">
-            <span class="breakdown-label">Production labor (${prodHrs} hrs):</span>
-            <span class="breakdown-val">$${(prodHrs * rate).toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
-          </div>
-          <div class="breakdown-item">
-            <span class="breakdown-label">Post-Production Labor (${postHrs} hrs):</span>
-            <span class="breakdown-val">$${(postHrs * rate).toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
-          </div>
-          <div class="breakdown-item">
-            <span class="breakdown-label">Direct Project Expenses:</span>
-            <span class="breakdown-val">$${expenses.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
-          </div>
-          <div class="breakdown-item">
-            <span class="breakdown-label">Revision Surcharges (${revisions} rounds):</span>
-            <span class="breakdown-val">$${revisionFee.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
-          </div>
-        `;
-      } else {
-        const qtyVids = parseInt(videosInput?.value) || 0;
-        const qtyPhotos = parseInt(photosInput?.value) || 0;
-        const qtyCopy = parseInt(copyInput?.value) || 0;
-        const usageMode = usageSelect?.value || 'none';
+    function calculateRates() {
+      const audienceCount = parseFloat(inputFollowers ? inputFollowers.value : '0');
+      const avgViews = parseFloat(inputAvgViews ? inputAvgViews.value : '0');
 
-        if (qtyVids === 0 && qtyPhotos === 0 && qtyCopy === 0) {
-          return alert("Please enter at least one deliverable item quantity.");
+      if (isNaN(audienceCount) || audienceCount <= 0) {
+        if (boxActiveResults) boxActiveResults.classList.add('hidden');
+        if (boxEmptyResults) boxEmptyResults.classList.remove('hidden');
+        return;
+      }
+
+      if (boxEmptyResults) boxEmptyResults.classList.add('hidden');
+      if (boxActiveResults) boxActiveResults.classList.remove('hidden');
+
+      const opts = formatOptions[currentPlatform] || formatOptions.instagram;
+      const selectedValue = selectContentType ? selectContentType.value : '';
+      const matchedFormat = opts.find(o => o.value === selectedValue) || opts[0];
+      const formatMultiplier = matchedFormat.multiplier;
+
+      let baseQuote = 0;
+
+      if (currentPlatform === 'instagram') {
+        const followerRate = (audienceCount / 1000) * 11.5;
+        if (avgViews > 0) {
+          const viewRate = (avgViews / 1000) * 35.0;
+          baseQuote = (followerRate * 0.45) + (viewRate * 0.55);
+        } else {
+          baseQuote = followerRate;
         }
-
-        // Base values
-        const defaultVidRate = 150;
-        const defaultPhotoRate = 75;
-        const defaultCopyRate = 100;
-
-        const baseVidRate = (toggleCustomRates?.checked && parseFloat(customVideoInput?.value) > 0) 
-          ? parseFloat(customVideoInput?.value) : defaultVidRate;
-        const basePhotoRate = (toggleCustomRates?.checked && parseFloat(customPhotoInput?.value) > 0)
-          ? parseFloat(customPhotoInput?.value) : defaultPhotoRate;
-
-        const rawSubtotal = (qtyVids * baseVidRate) + (qtyPhotos * basePhotoRate) + (qtyCopy * defaultCopyRate);
-
-        // Volume discounts rules:
-        const totalQty = qtyVids + qtyPhotos + qtyCopy;
-        let discountRate = 0;
-        if (totalQty >= 6) discountRate = 0.20;
-        else if (totalQty >= 4) discountRate = 0.15;
-        else if (totalQty >= 2) discountRate = 0.10;
-
-        const discountAmount = rawSubtotal * discountRate;
-        const discountedSubtotal = rawSubtotal - discountAmount;
-
-        // Licensing Rights modifier rules:
-        let usageRate = 0;
-        if (usageMode === 'ad_30') usageRate = 0.20;
-        else if (usageMode === 'ad_90') usageRate = 0.40;
-        else if (usageMode === 'ad_365') usageRate = 0.75;
-        else if (usageMode === 'ad_perpetual') usageRate = 1.50;
-
-        const usageFee = discountedSubtotal * usageRate;
-        totalCost = discountedSubtotal + usageFee;
-
-        breakdownHtml = `
-          <div class="breakdown-item">
-            <span class="breakdown-label">Deliverables Subtotal:</span>
-            <span class="breakdown-val">$${rawSubtotal.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
-          </div>
-          <div class="breakdown-item">
-            <span class="breakdown-label">Quantity Bundle Savings:</span>
-            <span class="breakdown-val" style="color: var(--color-success)">-${discountRate > 0 ? `-$${discountAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} (${discountRate * 100}%)` : '$0.00'}</span>
-          </div>
-          <div class="breakdown-item">
-            <span class="breakdown-label">Paid Ads Usage Licensing:</span>
-            <span class="breakdown-val">+$${usageFee.toLocaleString(undefined, {minimumFractionDigits: 2})} (${usageRate * 100}%)</span>
-          </div>
-        `;
+        baseQuote *= formatMultiplier;
+      } else if (currentPlatform === 'tiktok') {
+        const followerRate = (audienceCount / 1000) * 8.5;
+        if (avgViews > 0) {
+          const viewRate = (avgViews / 1000) * 28.0;
+          baseQuote = (followerRate * 0.40) + (viewRate * 0.60);
+        } else {
+          baseQuote = followerRate;
+        }
+        baseQuote *= formatMultiplier;
+      } else if (currentPlatform === 'youtube') {
+        const subRate = (audienceCount / 1000) * 22.0;
+        if (avgViews > 0) {
+          const viewRate = (avgViews / 1000) * 45.0;
+          baseQuote = (subRate * 0.35) + (viewRate * 0.65);
+        } else {
+          baseQuote = subRate;
+        }
+        baseQuote *= formatMultiplier;
       }
 
-      const lowRange = Math.round(totalCost * 0.9);
-      const highRange = Math.round(totalCost * 1.1);
+      const rec = Math.max(35, Math.round(baseQuote / 5) * 5);
+      const min = Math.max(25, Math.round((rec * 0.75) / 5) * 5);
+      const max = Math.max(45, Math.round((rec * 1.30) / 5) * 5);
 
-      // Render Outputs
-      if (emptyBox) emptyBox.classList.add('hidden');
-      if (activeBox) activeBox.classList.remove('hidden');
+      if (valRecRate) valRecRate.textContent = `$${rec.toLocaleString('en-US')}`;
+      if (valMinRate) valMinRate.textContent = `$${min.toLocaleString('en-US')}`;
+      if (valMaxRate) valMaxRate.textContent = `$${max.toLocaleString('en-US')}`;
 
-      if (totalVal) totalVal.textContent = `$${Math.round(totalCost).toLocaleString()}`;
-      if (rangeVal) rangeVal.textContent = `$${lowRange.toLocaleString()} - $${highRange.toLocaleString()} project range`;
-      if (breakdownContainer) breakdownContainer.innerHTML = breakdownHtml;
+      const platformLabel = currentPlatform === 'instagram' ? 'Instagram' : currentPlatform === 'tiktok' ? 'TikTok' : 'YouTube';
+      const countLabel = currentPlatform === 'youtube' ? 'subscribers' : 'followers';
+      const tier = getCreatorTier(audienceCount);
 
-      // Smooth scroll to the results section
-      const resultsWrapper = document.getElementById('results-wrapper');
-      if (resultsWrapper) {
-        resultsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (badgePlatformName) badgePlatformName.textContent = platformLabel;
+      if (badgeFormatName) badgeFormatName.textContent = matchedFormat.label.split('(')[0].trim();
+      if (badgeCreatorTier) badgeCreatorTier.textContent = tier;
+
+      if (resExplanationText) {
+        if (avgViews > 0) {
+          resExplanationText.innerHTML = `Estimated sponsorship rate for a <strong>${platformLabel} ${matchedFormat.label.split('(')[0].trim()}</strong> with <strong>${audienceCount.toLocaleString('en-US')} ${countLabel}</strong> and <strong>${avgViews.toLocaleString('en-US')} average views</strong>.`;
+        } else {
+          resExplanationText.innerHTML = `Estimated sponsorship rate for a <strong>${platformLabel} ${matchedFormat.label.split('(')[0].trim()}</strong> based on <strong>${audienceCount.toLocaleString('en-US')} ${countLabel}</strong>.`;
+        }
       }
-    };
+    }
 
-    const resetCalculator = (clearInputs = true) => {
-      if (clearInputs) {
-        if (hourlyRateInput) hourlyRateInput.value = '';
-        if (preHoursInput) preHoursInput.value = '1';
-        if (prodHoursInput) prodHoursInput.value = '2';
-        if (postHoursInput) postHoursInput.value = '2';
-        if (expensesInput) expensesInput.value = '0';
-        if (revisionsInput) revisionsInput.value = '1';
+    inputFollowers.addEventListener('input', calculateRates);
+    selectContentType.addEventListener('change', calculateRates);
+    if (inputAvgViews) inputAvgViews.addEventListener('input', calculateRates);
 
-        if (videosInput) videosInput.value = '0';
-        if (photosInput) photosInput.value = '0';
-        if (copyInput) copyInput.value = '0';
-        if (usageSelect) usageSelect.selectedIndex = 0;
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        if (inputFollowers) inputFollowers.value = '25000';
+        if (inputAvgViews) inputAvgViews.value = '4500';
+        setPlatform('instagram');
+      });
+    }
 
-        if (toggleCustomRates) toggleCustomRates.checked = false;
-        customRatesBox?.classList.add('hidden');
-        if (customVideoInput) customVideoInput.value = '';
-        if (customPhotoInput) customPhotoInput.value = '';
-      }
+    if (btnCopyRates && copyRatesLabel) {
+      btnCopyRates.addEventListener('click', async () => {
+        const platformLabel = currentPlatform === 'instagram' ? 'Instagram' : currentPlatform === 'tiktok' ? 'TikTok' : 'YouTube';
+        const formatText = selectContentType ? selectContentType.options[selectContentType.selectedIndex].text : '';
+        const rec = valRecRate ? valRecRate.textContent : '$0';
+        const min = valMinRate ? valMinRate.textContent : '$0';
+        const max = valMaxRate ? valMaxRate.textContent : '$0';
 
-      if (emptyBox) emptyBox.classList.remove('hidden');
-      if (activeBox) activeBox.classList.add('hidden');
-    };
+        const summaryText = `Content Creator Rate Estimate (${platformLabel}):\n` +
+          `• Deliverable: ${formatText}\n` +
+          `• Recommended Rate: ${rec}\n` +
+          `• Minimum Floor: ${min}\n` +
+          `• Premium Rate: ${max}\n` +
+          `Estimated with CreatorsFeel Content Creator Rate Calculator: https://creatorsfeel.com/tools/content-creator-rate-calculator`;
 
-    submitBtn?.addEventListener('click', calculateCreatorRate);
-    resetBtn?.addEventListener('click', () => resetCalculator(true));
-  };
+        try {
+          await navigator.clipboard.writeText(summaryText);
+          const original = copyRatesLabel.textContent;
+          copyRatesLabel.textContent = 'Copied to Clipboard!';
+          setTimeout(() => {
+            copyRatesLabel.textContent = original;
+          }, 2000);
+        } catch {
+          // Fallback
+        }
+      });
+    }
 
-  setupCreatorCalculator();
-  document.addEventListener('astro:after-swap', setupCreatorCalculator);
+    // Initialize with default platform
+    setPlatform('instagram');
+  }
+
+  // Handle both DOMContentLoaded and Astro view transitions
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContentCreatorRateCalculator);
+  } else {
+    initContentCreatorRateCalculator();
+  }
+
+  document.addEventListener('astro:after-swap', initContentCreatorRateCalculator);
 </script>

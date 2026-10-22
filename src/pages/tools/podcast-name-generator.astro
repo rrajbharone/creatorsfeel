@@ -47,7 +47,7 @@ const faqs = [
               </svg>
               Topic or Seed Keyword
             </label>
-            <input type="text" id="seed-input" class="form-input" placeholder="e.g. tech, true crime, mindset" value="tech" />
+            <input type="text" id="seed-input" class="form-input" placeholder="Enter podcast niche or keywords..." value="tech" />
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
@@ -98,7 +98,7 @@ const faqs = [
                 The Tech Chronicles
               </span>
               <span style="font-size: 0.72rem; color: #b3b3b3;">Hosted by Creators Feel</span>
-              <span style="font-size: 0.68rem; color: #6366f1; font-weight: 700; margin-top: 2px;">⭐ 4.9 (128 ratings)</span>
+              <span style="font-size: 0.68rem; color: #6366f1; font-weight: 700; margin-top: 2px;">4.9 (128 ratings)</span>
             </div>
           </div>
 
@@ -141,7 +141,7 @@ const faqs = [
     <h2>Podcast Name Generator: Craft Memorable Audio & Show Titles</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
-        🎙️ <strong>Want to master show naming and audio SEO?</strong> Read our comprehensive <a href="/blog/podcast-name-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Podcast Show Naming Guide</a> to craft high-recall titles for Spotify and Apple Podcasts.
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg> <strong>Want to master show naming and audio SEO?</strong> Read our comprehensive <a href="/blog/podcast-name-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Podcast Show Naming Guide</a> to craft high-recall titles for Spotify and Apple Podcasts.
       </p>
     </div>
 
@@ -188,12 +188,12 @@ const faqs = [
     </p>
     <p>
       <strong>Calculation Process:</strong><br />
-      ✦ Base prefix: `"The"` $\rightarrow$ <strong>3 characters</strong>.<br />
-      ✦ Seed keyword: `"Tech"` $\rightarrow$ <strong>4 characters</strong>.<br />
-      ✦ Niche noun: `"Chronicles"` $\rightarrow$ <strong>10 characters</strong>.<br />
-      ✦ Format suffix: `"Show"` $\rightarrow$ <strong>4 characters</strong>.<br />
-      ✦ Combined output: `"The Tech Chronicles Show"` $\rightarrow$ <strong>24 characters</strong>.<br />
-      ✦ Player Display Safe Check: `24 <= 30 characters` (compliant).
+      • Base prefix: `"The"` $\rightarrow$ <strong>3 characters</strong>.<br />
+      • Seed keyword: `"Tech"` $\rightarrow$ <strong>4 characters</strong>.<br />
+      • Niche noun: `"Chronicles"` $\rightarrow$ <strong>10 characters</strong>.<br />
+      • Format suffix: `"Show"` $\rightarrow$ <strong>4 characters</strong>.<br />
+      • Combined output: `"The Tech Chronicles Show"` $\rightarrow$ <strong>24 characters</strong>.<br />
+      • Player Display Safe Check: `24 <= 30 characters` (compliant).
     </p>
     <p>
       The generated show title is 24 characters long, which fits cleanly on Spotify and Apple Podcasts player screens without truncation.
@@ -621,7 +621,7 @@ const faqs = [
       navigator.clipboard.writeText(titleVal).then(() => {
         const btn = chip.querySelector('.chip-btn') as HTMLElement;
         if (btn) {
-          btn.textContent = 'Copied! ✓';
+          btn.textContent = "Copied!";
           setTimeout(() => {
             btn.textContent = 'Copy';
           }, 1200);

@@ -85,7 +85,7 @@ const breadcrumbs = [
               Total Campaign Spend ($)
             </label>
           </div>
-          <input type="number" id="campaign-cost" class="form-input" placeholder="e.g., 250" min="0.01" step="0.01" required />
+          <input type="number" id="campaign-cost" class="form-input" placeholder="0" min="0.01" step="0.01" required />
           <span class="input-helper">The total budget allocated or spent on the ad campaign or promotion.</span>
         </div>
 
@@ -98,7 +98,7 @@ const breadcrumbs = [
               Target CPE ($)
             </label>
           </div>
-          <input type="number" id="cpe-rate" class="form-input" placeholder="e.g., 0.25" min="0.001" step="0.001" />
+          <input type="number" id="cpe-rate" class="form-input" placeholder="0" min="0.001" step="0.001" />
           <span class="input-helper">The cost per engagement (CPE) rate you want to pay or analyze.</span>
         </div>
 
@@ -128,31 +128,31 @@ const breadcrumbs = [
               Total Engagements
             </label>
           </div>
-          <input type="number" id="total-engagements" class="form-input" placeholder="e.g., 2000" min="1" step="1" required />
+          <input type="number" id="total-engagements" class="form-input" placeholder="0" min="1" step="1" required />
           <span class="input-helper">The aggregate interactions recorded across posts or ads.</span>
         </div>
 
         <!-- Breakdown input panel -->
         <div id="breakdown-inputs-group" class="hidden" style="display: none; flex-direction: column; gap: 1.25rem;">
           <div class="form-group">
-            <label for="breakdown-likes" class="icon-label">👍 Likes / Reactions</label>
-            <input type="number" id="breakdown-likes" class="form-input" placeholder="e.g., 1000" min="0" value="0" />
+            <label for="breakdown-likes" class="icon-label">Likes / Reactions</label>
+            <input type="number" id="breakdown-likes" class="form-input" placeholder="0" min="0" value="0" />
           </div>
           <div class="form-group">
-            <label for="breakdown-comments" class="icon-label">💬 Comments</label>
-            <input type="number" id="breakdown-comments" class="form-input" placeholder="e.g., 200" min="0" value="0" />
+            <label for="breakdown-comments" class="icon-label">Comments</label>
+            <input type="number" id="breakdown-comments" class="form-input" placeholder="0" min="0" value="0" />
           </div>
           <div class="form-group">
-            <label for="breakdown-shares" class="icon-label">🔗 Shares / Retweets</label>
-            <input type="number" id="breakdown-shares" class="form-input" placeholder="e.g., 150" min="0" value="0" />
+            <label for="breakdown-shares" class="icon-label">Shares / Retweets</label>
+            <input type="number" id="breakdown-shares" class="form-input" placeholder="0" min="0" value="0" />
           </div>
           <div class="form-group">
-            <label for="breakdown-clicks" class="icon-label">🖱️ Link Clicks</label>
-            <input type="number" id="breakdown-clicks" class="form-input" placeholder="e.g., 500" min="0" value="0" />
+            <label for="breakdown-clicks" class="icon-label">Link Clicks</label>
+            <input type="number" id="breakdown-clicks" class="form-input" placeholder="0" min="0" value="0" />
           </div>
           <div class="form-group">
-            <label for="breakdown-saves" class="icon-label">💾 Saves / Bookmarks</label>
-            <input type="number" id="breakdown-saves" class="form-input" placeholder="e.g., 150" min="0" value="0" />
+            <label for="breakdown-saves" class="icon-label">Saves / Bookmarks</label>
+            <input type="number" id="breakdown-saves" class="form-input" placeholder="0" min="0" value="0" />
           </div>
         </div>
 
@@ -234,7 +234,7 @@ const breadcrumbs = [
 
     <div class="callout-box">
       <div class="callout-title">
-        <span>💡</span> Campaign Strategy & Optimization
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg> Campaign Strategy & Optimization
       </div>
       <p style="margin: 0; font-size: 0.95rem;">
         Looking to lower ad acquisition costs and scale creative performance? Read our in-depth strategy guide: <a href="/blog/cost-per-engagement-calculator-guide">Cost Per Engagement Metrics & Campaign ROI Optimizations</a>.
@@ -585,7 +585,7 @@ const breadcrumbs = [
 
     <div class="callout-box warning">
       <div class="callout-title">
-        <span>⚠️</span> Critical Metric Pitfalls
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#f59e0b; margin-right:6px;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Critical Metric Pitfalls
       </div>
       <p style="margin: 0; font-size: 0.95rem;">
         Avoid these analytical mistakes to ensure accurate reporting and sound budget allocation.

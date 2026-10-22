@@ -11,7 +11,7 @@ const faqs = [
     question:
       "Can I use special symbols and custom fonts in Discord server names?",
     answer:
-      "Yes, Discord supports standard Unicode symbols (like ✧, ✦, 🪐, 🎮) and special math/alphanumeric font styles in server names. Our tool formats these automatically.",
+      "Yes, Discord supports standard symbols and special math/alphanumeric font styles in server names. Our tool formats these automatically.",
   },
   {
     question: "Are emojis allowed in a Discord server name?",
@@ -68,7 +68,7 @@ const faqs = [
               type="text"
               id="seed-input"
               class="form-input"
-              placeholder="e.g. lounge, nexus, guild"
+              placeholder="Enter server theme or keywords..."
               value="lounge"
             />
           </div>
@@ -102,7 +102,7 @@ const faqs = [
                 class="form-input"
                 style="height: 48px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; color: var(--color-text);"
               >
-                <option value="symbols">Aesthetic Symbols (✧, ✦)</option>
+                <option value="symbols">Aesthetic Symbols (Stars & Dots)</option>
                 <option value="clean">Clean (Text Only)</option>
                 <option value="spaces">Space Separated (L o u n g e)</option>
                 <option value="font">Special Font Styles (𝔘𝔫𝔦𝔠𝔬𝔡𝔢)</option>
@@ -171,7 +171,7 @@ const faqs = [
               <span
                 id="mockup-server-name"
                 style="font-size: 0.88rem; font-weight: 800; color: #ffffff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 4px;"
-                >✦ lounge ✦</span
+                >• lounge •</span
               >
               <svg
                 style="width: 18px; height: 18px; color: #b9bbbe; flex-shrink: 0;"
@@ -215,7 +215,7 @@ const faqs = [
               <div
                 style="display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 4px; cursor: pointer;"
               >
-                <span>🔊</span>
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand);"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></span>
                 <span>Voice Lounge</span>
               </div>
             </div>
@@ -271,7 +271,7 @@ const faqs = [
       style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);"
     >
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        🦋 <strong
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg> <strong
           >Looking to audit bio templates or write custom profile layouts?</strong
         > Try our free <a
           href="/tools/discord-bio-generator"
@@ -361,7 +361,7 @@ const faqs = [
     <ul>
       <li>
         <strong>Style Matching:</strong> Maps specific prefixes and suffixes related
-        to your niche (e.g. adding `.gg/` or `🎮` for gaming, and `✦`, `✧`, or `✿`
+        to your niche (e.g. adding `.gg/` for gaming, and symbols
         for aesthetic chill zones).
       </li>
       <li>
@@ -383,19 +383,19 @@ const faqs = [
     </p>
     <p>
       <strong>Calculation Process:</strong><br />
-      ✦ Base name: `"Haven"` $\rightarrow$ <strong>5 characters</strong>.<br />
-      ✦ Niche suffix: `"Cafe"` $\rightarrow$ <strong>4 characters</strong>.<br
+      • Base name: `"Haven"` $\rightarrow$ <strong>5 characters</strong>.<br />
+      • Niche suffix: `"Cafe"` $\rightarrow$ <strong>4 characters</strong>.<br
       />
-      ✦ Aesthetic symbols: `"✦"` (prefix) and `"✦"` (suffix) $\rightarrow$ <strong
+      • Aesthetic symbols: `"•"` (prefix) and `"•"` (suffix) $\rightarrow$ <strong
         >4 characters</strong
       > (with spaces).<br />
-      ✦ Combined output: `"✦ Haven Cafe ✦"` $\rightarrow$ <strong
+      • Combined output: `"• Haven Cafe •"` $\rightarrow$ <strong
         >14 characters</strong
       >.<br />
-      ✦ Character limit check: `14 < 300 characters`.
+      • Character limit check: `14 < 300 characters`.
     </p>
     <p>
-      The generated server name is `✦ Haven Cafe ✦`. It complies with Discord's
+      The generated server name is `• Haven Cafe •`. It complies with Discord's
       rules.
     </p>
 
@@ -431,15 +431,15 @@ const faqs = [
       </li>
       <li>
         <strong>Aesthetic Community Owners:</strong> Designing soft, cozy, and aesthetic
-        server themes (e.g. `✦ cozy tea lounge ✦`).
+        server themes (e.g. `• cozy tea lounge •`).
       </li>
       <li>
         <strong>Anime Fan Clubs:</strong> Exploring Japanese or Otaku-themed name
-        variations (e.g. `Akihabara | Anime Nexus 🪐`).
+        variations (e.g. `Akihabara | Anime Nexus`).
       </li>
       <li>
         <strong>Study Group Moderators:</strong> Building clean, professional study
-        grids (e.g. `Computer Science Study Hub 📚`).
+        grids (e.g. `Computer Science Study Hub`).
       </li>
     </ul>
   </div>
@@ -721,7 +721,7 @@ const faqs = [
           "guild",
           "hub",
         ],
-        decorators: ["🎮", "🏆", "⚡", "🔥"],
+        decorators: ["•", "▪", "–", "•"],
       },
       community: {
         prefixes: [
@@ -746,7 +746,7 @@ const faqs = [
           "square",
           "corner",
         ],
-        decorators: ["💬", "👋", "🌍", "🏠"],
+        decorators: ["•", "▪", "–", "•"],
       },
       aesthetic: {
         prefixes: [
@@ -772,7 +772,7 @@ const faqs = [
           "oasis",
           "haze",
         ],
-        decorators: ["✦", "✧", "✿", "🪐", "☁️"],
+        decorators: ["•", "▪", "–", "•"],
       },
       anime: {
         prefixes: [
@@ -797,7 +797,7 @@ const faqs = [
           "world",
           "otaku",
         ],
-        decorators: ["🪐", "🌸", "🦊", "🎋"],
+        decorators: ["•", "▪", "–", "◆"],
       },
       study: {
         prefixes: [
@@ -822,7 +822,7 @@ const faqs = [
           "room",
           "study",
         ],
-        decorators: ["📚", "💻", "💡", "📈"],
+        decorators: ["•", "▪", "–", "◆"],
       },
     };
 
@@ -1066,7 +1066,7 @@ const faqs = [
       navigator.clipboard.writeText(name).then(() => {
         const btn = chip.querySelector(".chip-btn") as HTMLElement;
         if (btn) {
-          btn.textContent = "Copied! ✓";
+          btn.textContent = "Copied!";
           setTimeout(() => {
             btn.textContent = "Copy";
           }, 1200);

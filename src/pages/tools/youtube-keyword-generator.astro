@@ -47,7 +47,7 @@ const faqs = [
               </svg>
               Topic or Seed Keyword
             </label>
-            <input type="text" id="seed-input" class="form-input" placeholder="e.g. gaming PC build, AI video editing" value="gaming PC build" />
+            <input type="text" id="seed-input" class="form-input" placeholder="Enter seed keyword or topic..." value="gaming PC build" />
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
@@ -165,7 +165,7 @@ const faqs = [
     <h2>YouTube Keyword Generator: Research High-Ranking Video Keywords</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
-        🏷️ <strong>Need tags for your upload metadata?</strong> Try our free <a href="/tools/youtube-tag-generator" style="color: var(--color-brand); text-decoration: underline;">YouTube Tag Generator</a> to generate copy-paste tags for your channel.
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg> <strong>Need tags for your upload metadata?</strong> Try our free <a href="/tools/youtube-tag-generator" style="color: var(--color-brand); text-decoration: underline;">YouTube Tag Generator</a> to generate copy-paste tags for your channel.
       </p>
     </div>
 
@@ -216,8 +216,8 @@ const faqs = [
     </p>
     <p>
       <strong>Target Keyword:</strong> `"how to build a gaming PC for beginners"`<br />
-      ✦ <strong>Search Volume Index (SVI):</strong> `85 / 100` (High search demand)<br />
-      ✦ <strong>Competition Score (CS):</strong> `32 / 100` (Low creator competition)
+      • <strong>Search Volume Index (SVI):</strong> `85 / 100` (High search demand)<br />
+      • <strong>Competition Score (CS):</strong> `32 / 100` (Low creator competition)
     </p>
     <p>
       <strong>Formula:</strong><br />
@@ -723,7 +723,7 @@ const faqs = [
       navigator.clipboard.writeText(phraseVal).then(() => {
         const btn = card.querySelector('.chip-btn') as HTMLElement;
         if (btn) {
-          btn.textContent = 'Copied! ✓';
+          btn.textContent = "Copied!";
           setTimeout(() => {
             btn.textContent = 'Copy Keyword';
           }, 1200);

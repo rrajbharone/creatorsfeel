@@ -62,7 +62,7 @@ const faqs = [
               </span>
               <span id="char-badge" style="background: var(--color-brand); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">0 / 300 Chars</span>
             </label>
-            <textarea id="value-input" class="form-input" style="height: 180px; resize: none; line-height: 1.5; font-size: 0.95rem;" placeholder="Start typing here... Emojis, links, and hashtags are supported."></textarea>
+            <textarea id="value-input" class="form-input" style="height: 180px; resize: none; line-height: 1.5; font-size: 0.95rem;" placeholder="Start typing or paste your post here..."></textarea>
           </div>
 
           <!-- Visual Progress Bar -->
@@ -70,21 +70,7 @@ const faqs = [
             <div id="progress-bar-fill" style="width: 0%; height: 100%; background: var(--color-brand); transition: all var(--transition-fast);"></div>
           </div>
 
-          <!-- Quick Emoji Panel -->
-          <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.25rem;">
-            <span style="font-size: 0.65rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Quick Insert Emojis:</span>
-            <div class="emoji-selector-panel" id="emoji-picker-container">
-              <button type="button" class="emoji-btn">📌</button>
-              <button type="button" class="emoji-btn">✨</button>
-              <button type="button" class="emoji-btn">🦋</button>
-              <button type="button" class="emoji-btn">💡</button>
-              <button type="button" class="emoji-btn">🔥</button>
-              <button type="button" class="emoji-btn">👀</button>
-              <button type="button" class="emoji-btn">🚀</button>
-              <button type="button" class="emoji-btn">👇</button>
-              <button type="button" class="emoji-btn">💯</button>
-            </div>
-          </div>
+          
 
           <!-- Actions -->
           <div class="form-actions">
@@ -187,7 +173,7 @@ const faqs = [
 
     <div class="callout-box">
       <div class="callout-title">
-        <span>🦋</span> Strategy Deep Dive
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg> Strategy Deep Dive
       </div>
       <p style="margin: 0; font-size: 0.95rem;">
         Looking to grow your following and master custom algorithm feeds? Read our comprehensive strategy guide: <a href="/blog/bluesky-character-counter-guide">Bluesky Character Limits & Thread Optimization Strategies</a>.
@@ -299,7 +285,7 @@ const faqs = [
       <div class="step-item">
         <h3>Step 2: Add Visual Emojis with One Click</h3>
         <p>
-          Use the <strong>Quick Insert Emoji Panel</strong> below the text area to drop popular engagement emojis (📌, ✨, 🦋, 💡, 🔥, 👀, 🚀, 👇, 💯) directly into your cursor position without opening external virtual keyboards.
+          Format your post text directly in the editor with hashtags, links, and line breaks.
         </p>
       </div>
 
@@ -348,7 +334,7 @@ const faqs = [
         <h3>Formula 1: The 'Hook + Value + CTA' Framework</h3>
         <p><strong>Structure:</strong> Intriguing statement $\rightarrow$ Core benefit or insight $\rightarrow$ Actionable link or question.</p>
         <p style="font-family: monospace; font-size: 0.9rem; background: var(--color-bg); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--color-border); color: var(--color-text);">
-          "Most creators overcomplicate SEO.<br /><br />Here are 3 quick fixes that doubled our organic reach:<br />1. Target commercial intent<br />2. Fix mobile layout speeds<br />3. Add descriptive alt text<br /><br />Full breakdown: yoursite.com 🚀"
+          "Most creators overcomplicate SEO.<br /><br />Here are 3 quick fixes that doubled our organic reach:<br />1. Target commercial intent<br />2. Fix mobile layout speeds<br />3. Add descriptive alt text<br /><br />Full breakdown: yoursite.com"
         </p>
         <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0;">Character Count: ~245 characters | Buffer Remaining: 55 characters</p>
       </div>
@@ -357,7 +343,7 @@ const faqs = [
         <h3>Formula 2: The Contrarian Perspective</h3>
         <p><strong>Structure:</strong> Challenge conventional wisdom $\rightarrow$ Explain why $\rightarrow$ Invite dialogue.</p>
         <p style="font-family: monospace; font-size: 0.9rem; background: var(--color-bg); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--color-border); color: var(--color-text);">
-          "Unpopular opinion: Posting 5 times a day is hurting your growth.<br /><br />On Bluesky, one well-timed, thoughtful post in a dedicated custom feed will outperform a dozen low-effort updates.<br /><br />Quality > Volume. What's your take? 👇"
+          "Unpopular opinion: Posting 5 times a day is hurting your growth.<br /><br />On Bluesky, one well-timed, thoughtful post in a dedicated custom feed will outperform a dozen low-effort updates.<br /><br />Quality > Volume. What's your take?"
         </p>
         <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0;">Character Count: ~252 characters | Buffer Remaining: 48 characters</p>
       </div>
@@ -366,7 +352,7 @@ const faqs = [
         <h3>Formula 3: The Curated Resource Drop</h3>
         <p><strong>Structure:</strong> Announce curated collection $\rightarrow$ List items with emojis $\rightarrow$ Bookmark prompt.</p>
         <p style="font-family: monospace; font-size: 0.9rem; background: var(--color-bg); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--color-border); color: var(--color-text);">
-          "5 free tools every remote writer needs today:<br /><br />✨ Hemingway App (Clarity)<br />✨ CreatorsFeel (Character Counts)<br />✨ Unsplash (Visuals)<br />✨ Notion (Outlines)<br />✨ LanguageTool (Grammar)<br /><br />Bookmark this post for your next writing session! 📌"
+          "5 free tools every remote writer needs today:<br /><br />• Hemingway App (Clarity)<br />• CreatorsFeel (Character Counts)<br />• Unsplash (Visuals)<br />• Notion (Outlines)<br />• LanguageTool (Grammar)<br /><br />Bookmark this post for your next writing session!"
         </p>
         <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0;">Character Count: ~268 characters | Buffer Remaining: 32 characters</p>
       </div>
@@ -375,7 +361,7 @@ const faqs = [
         <h3>Formula 4: The Micro-Case Study</h3>
         <p><strong>Structure:</strong> The baseline problem $\rightarrow$ The action taken $\rightarrow$ The tangible result.</p>
         <p style="font-family: monospace; font-size: 0.9rem; background: var(--color-bg); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--color-border); color: var(--color-text);">
-          "We tested two different opening hooks across 50 posts on Bluesky:<br /><br />• Generic headlines: 1.2% engagement<br />• Question-led hooks: 4.8% engagement<br /><br />Curiosity sparks conversations. Ask questions that invite readers to share their stories. 💡"
+          "We tested two different opening hooks across 50 posts on Bluesky:<br /><br />• Generic headlines: 1.2% engagement<br />• Question-led hooks: 4.8% engagement<br /><br />Curiosity sparks conversations. Ask questions that invite readers to share their stories."
         </p>
         <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0;">Character Count: ~262 characters | Buffer Remaining: 38 characters</p>
       </div>
@@ -388,7 +374,7 @@ const faqs = [
 
     <div class="callout-box warning">
       <div class="callout-title">
-        <span>⚠️</span> Pitfalls That Hurt Reach and Engagement
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#f59e0b; margin-right:6px;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pitfalls That Hurt Reach and Engagement
       </div>
       <p style="margin: 0; font-size: 0.95rem;">
         Bluesky users value authentic discussion over automated broadcasting. Steer clear of spammy formatting and excessive promotional tactics.
@@ -419,7 +405,7 @@ const faqs = [
       When your insights cannot be contained within a single post, turn your idea into a multi-part thread:
     </p>
     <ul>
-      <li><strong>Post 1 (The Hook):</strong> Devote the entire 300 characters to a compelling hook that promises a specific outcome or reveals an exciting premise. Conclude with a clear indication that more follows (e.g., <em>'A quick breakdown 🧵👇'</em>).</li>
+      <li><strong>Post 1 (The Hook):</strong> Devote the entire 300 characters to a compelling hook that promises a specific outcome or reveals an exciting premise. Conclude with a clear indication that more follows (e.g., <em>'A quick breakdown below'</em>).</li>
       <li><strong>Middle Posts (The Substance):</strong> Deliver one standalone insight per 300-character segment. Make sure each reply can stand on its own merit if reposted individually.</li>
       <li><strong>Final Post (The Wrap-Up):</strong> Summarize the main takeaway, provide your resource link, and invite readers to repost the first post or share their perspectives.</li>
     </ul>
@@ -956,7 +942,7 @@ const faqs = [
       
       navigator.clipboard.writeText(text).then(() => {
         const originalText = copyBtn.textContent;
-        copyBtn.textContent = 'Post Copied! ✓';
+        copyBtn.textContent = "Post Copied!";
         setTimeout(() => {
           copyBtn.textContent = originalText;
         }, 1500);

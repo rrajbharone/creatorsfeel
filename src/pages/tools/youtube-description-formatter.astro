@@ -75,7 +75,7 @@ Subscribe to channel youtube.com/c/creatorsfeel
               </label>
               <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
                 <input type="checkbox" id="bullets-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
-                Replace Hyphen/Dot Lists with Emojis (📌, ✅, 👉)
+                Format Hyphen/Dot Lists with Standard Bullets
               </label>
               <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text);">
                 <input type="checkbox" id="links-check" checked style="accent-color: var(--color-brand); width: 16px; height: 16px;" />
@@ -160,7 +160,7 @@ Subscribe to channel youtube.com/c/creatorsfeel
     <h2>YouTube Description Formatter: Optimize Video Metadata & Layouts</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
-        🏷️ <strong>Need tag ideas to match your formatted description?</strong> Try our free <a href="/tools/youtube-tag-generator" style="color: var(--color-brand); text-decoration: underline;">YouTube Tag Generator</a> to generate copy-paste tags for your channel.
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg> <strong>Need tag ideas to match your formatted description?</strong> Try our free <a href="/tools/youtube-tag-generator" style="color: var(--color-brand); text-decoration: underline;">YouTube Tag Generator</a> to generate copy-paste tags for your channel.
       </p>
     </div>
 
@@ -175,7 +175,7 @@ Subscribe to channel youtube.com/c/creatorsfeel
     </p>
     <ul>
       <li><strong>Timestamp Parser:</strong> Detects time codes (e.g. `01:15` or `4:30`) and ensures they format cleanly on new lines so they become clickable chapter markers. If your video is over-optimized, you can check keyword balance using our <a href="/tools/youtube-keyword-density-checker">YouTube Keyword Density Checker</a>.</li>
-      <li><strong>Emoji Bullet Replacement:</strong> Replaces plain hyphens (`-`) or asterisks (`*`) in lists with standardized, visually appealing emojis (like 📌, ✅, 👉) to increase readability in feeds.</li>
+      <li><strong>Bullet Replacement:</strong> Replaces plain hyphens (`-`) or asterisks (`*`) in lists with clean typographic bullets to increase readability in feeds.</li>
       <li><strong>Link Cleanser:</strong> Scans text for plain domains (e.g. `creatorsfeel.com`) and prefixes them with `https://` to guarantee they become active hyperlinks.</li>
       <li><strong>Spacing Normalizer:</strong> Removes redundant line breaks and extra blank spaces to maintain a clean layout.</li>
     </ul>
@@ -473,7 +473,7 @@ Subscribe to channel youtube.com/c/creatorsfeel
       // 2. Process list bullet points
       if (formatBullets) {
         let bulletIdx = 0;
-        const bulletEmojis = ['📌', '✅', '👉', '✨', '⚡'];
+        const bulletEmojis = ['•', '▪', '▫', '–', '→'];
         lines = lines.map(line => {
           if (line.trim().startsWith('-') || line.trim().startsWith('*')) {
             const cleanText = line.replace(/^[\s\-*]+/, '').trim();
@@ -564,7 +564,7 @@ Subscribe to channel youtube.com/c/creatorsfeel
 
       navigator.clipboard.writeText(formattedText).then(() => {
         if (copyBtn) {
-          copyBtn.textContent = 'Copied! ✓';
+          copyBtn.textContent = 'Copied!';
           setTimeout(() => {
             copyBtn.textContent = 'Copy Formatted Text';
           }, 1500);

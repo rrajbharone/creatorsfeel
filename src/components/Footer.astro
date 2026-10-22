@@ -1,254 +1,345 @@
 ---
 const currentYear = new Date().getFullYear();
 
-const footerLinks = [
-  {
-    title: 'Popular Tools',
-    links: [
-      { label: 'Instagram Engagement Calculator', href: '/tools/instagram-engagement-calculator' },
-      { label: 'Influencer Rate Calculator', href: '/tools/influencer-rate-calculator' },
-      { label: 'YouTube Title Checker', href: '/tools/youtube-title-length-checker' }
-    ]
-  },
-  {
-    title: 'Resources',
-    links: [
-      { label: 'Tools Directory', href: '/tools' },
-      { label: 'Blog & Insights', href: '/blog' },
-      { label: 'About Us', href: '/about' },
-      { label: 'Contact Us', href: '/contact' }
-    ]
-  },
-  {
-    title: 'Legal',
-    links: [
-      { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'Terms of Service', href: '/terms' },
-      { label: 'Disclaimer', href: '/disclaimer' }
-    ]
-  }
+const navLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'All Tools', href: '/tools' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'About', href: '/about' }
+];
+
+const legalLinks = [
+  { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Terms of Use', href: '/terms' }
 ];
 ---
 
 <footer class="footer">
-  <div class="container footer-grid">
-    <div class="footer-brand-column">
-      <a href="/" class="footer-logo" aria-label="CreatorsFeel Home">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" class="logo-icon" aria-hidden="true">
-          <defs>
-            <linearGradient id="footer-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="var(--color-brand)" />
-              <stop offset="100%" stop-color="#a855f7" />
-            </linearGradient>
-          </defs>
-          <path d="M4 16h4l2-6 3 12 2-8 2 2h3" stroke="url(#footer-logo-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M20 11v10l8-5-8-5z" fill="url(#footer-logo-grad)" stroke="url(#footer-logo-grad)" stroke-width="1.5" stroke-linejoin="round" />
-        </svg>
-        <span class="logo-accent">Creators</span><span>Feel</span>
-      </a>
-      <p class="brand-desc text-muted">
-        Premium analytics and marketing tools for modern creators. Optimize your engagement, check titles, estimate pricing, and scale your brand.
-      </p>
-      <div class="social-links">
-        <a href="https://twitter.com/creatorsfeel" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter">
-          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+  <div class="container footer-container">
+    <!-- Main Footer Area -->
+    <div class="footer-main-row">
+      <!-- Brand & Description -->
+      <div class="footer-brand-col">
+        <a href="/" class="footer-logo" aria-label="CreatorsFeel Home">
+          <div class="logo-mark" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" class="logo-icon">
+              <defs>
+                <linearGradient id="footer-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#6366f1" />
+                  <stop offset="50%" stop-color="#4f46e5" />
+                  <stop offset="100%" stop-color="#3b82f6" />
+                </linearGradient>
+              </defs>
+              <path d="M4 16h4l2-6 3 12 2-8 2 2h3" stroke="url(#footer-logo-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M20 11v10l8-5-8-5z" fill="url(#footer-logo-grad)" stroke="url(#footer-logo-grad)" stroke-width="1.5" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <span class="logo-text">Creators<span class="logo-bold">Feel</span></span>
         </a>
-        <a href="https://instagram.com/creatorsfeel" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
-          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-        </a>
+        <p class="footer-brand-desc">
+          Free creator-focused tools, calculators, and resources designed to help YouTubers, influencers, and digital creators optimize their workflow, create better content, and grow faster.
+        </p>
+      </div>
+
+      <!-- Navigation & Socials on Right -->
+      <div class="footer-nav-col">
+        <!-- Navigation Links -->
+        <nav class="footer-nav" aria-label="Footer Navigation">
+          {navLinks.map(link => (
+            <a href={link.href} class="footer-nav-link">{link.label}</a>
+          ))}
+        </nav>
+
+        <!-- Social Icons: Exactly 3 (YouTube, Instagram, X) -->
+        <div class="footer-social-links" aria-label="Social Media">
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="YouTube">
+            <svg class="social-svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </a>
+          <a href="https://instagram.com/creatorsfeel" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Instagram">
+            <svg class="social-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
+          <a href="https://twitter.com/creatorsfeel" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="X (formerly Twitter)">
+            <svg class="social-svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
 
-    {footerLinks.map(column => (
-      <div class="footer-column">
-        <h4 class="footer-column-title">{column.title}</h4>
-        <nav class="footer-links-list" aria-label={`${column.title} links`}>
-          {column.links.map(link => (
-            <a href={link.href} class="footer-link">{link.label}</a>
-          ))}
-        </nav>
-      </div>
-    ))}
-  </div>
+    <!-- Divider Line -->
+    <div class="footer-divider" />
 
-  <div class="footer-bottom">
-    <div class="container footer-bottom-container">
-      <p class="copyright text-muted">&copy; {currentYear} CreatorsFeel. Built for the next generation of social media professionals.</p>
-      <p class="disclosure text-muted">Disclaimer: CreatorsFeel is an independent platform and is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Instagram, YouTube, TikTok, or Meta.</p>
+    <!-- Bottom Row: Copyright and Legal -->
+    <div class="footer-bottom-row">
+      <p class="copyright">&copy; {currentYear} CreatorsFeel. All rights reserved.</p>
+      <div class="legal-links">
+        {legalLinks.map((link, idx) => (
+          <>
+            <a href={link.href} class="legal-link">{link.label}</a>
+            {idx < legalLinks.length - 1 && <span class="legal-separator">•</span>}
+          </>
+        ))}
+      </div>
     </div>
   </div>
 </footer>
 
 <style>
   .footer {
-    background: var(--color-bg-alt);
-    border-top: 1px solid var(--color-border);
-    padding-top: var(--space-xl);
-    margin-top: auto;
+    background: #0f172a; /* Dark navy */
+    color: #94a3b8;
+    padding-top: clamp(2.5rem, 5vw, 3.5rem);
+    padding-bottom: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
   }
 
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-    padding-bottom: var(--space-xl);
-  }
-
-  .footer-brand-column {
+  .footer-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-left: clamp(1rem, 3vw, 2rem);
+    padding-right: clamp(1rem, 3vw, 2rem);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 1rem;
+    gap: 2rem;
+  }
+
+  /* Main Row */
+  .footer-main-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .footer-main-row {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  /* Brand Column */
+  .footer-brand-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    max-width: 440px;
   }
 
   .footer-logo {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: var(--color-text);
     display: flex;
     align-items: center;
     gap: 8px;
-  }
-
-  .logo-icon {
-    width: 28px;
-    height: 28px;
+    text-decoration: none;
     flex-shrink: 0;
   }
 
-  .logo-accent {
-    background: var(--gradient-brand);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .brand-desc {
-    max-width: 360px;
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-
-  .social-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 0.5rem;
-    justify-content: center;
-  }
-
-  .social-link {
+  .logo-mark {
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-muted);
-    transition: all var(--transition-normal);
   }
 
-  .social-link:hover {
-    color: var(--color-brand);
-    border-color: var(--color-brand);
-    background: var(--color-bg-card);
+  .logo-icon {
+    width: 26px;
+    height: 26px;
+    display: block;
+  }
+
+  .logo-text {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+  }
+
+  .logo-bold {
+    color: #ffffff;
+    font-weight: 800;
+  }
+
+  .footer-brand-desc {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #94a3b8;
+    margin: 0;
+  }
+
+  /* Nav Column */
+  .footer-nav-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  @media (min-width: 768px) {
+    .footer-nav-col {
+      align-items: flex-end;
+    }
+  }
+
+  /* Center Nav */
+  .footer-nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem clamp(1rem, 2.5vw, 2rem);
+  }
+
+  .footer-nav-link {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .footer-nav-link:hover {
+    color: #ffffff;
+  }
+
+  /* Social Links: 3 icons */
+  .footer-social-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .social-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    transition: all 0.2s ease;
+  }
+
+  .social-icon-btn:hover {
+    color: #ffffff;
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.4);
     transform: translateY(-2px);
   }
 
-  .social-icon {
-    width: 18px;
-    height: 18px;
+  .social-svg {
+    width: 17px;
+    height: 17px;
   }
 
-  .footer-column {
-    text-align: center;
+  /* Divider */
+  .footer-divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
   }
 
-  .footer-column-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 1.25rem;
-    color: var(--color-text);
-  }
-
-  .footer-links-list {
+  /* Bottom Row */
+  .footer-bottom-row {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.825rem;
+    color: #64748b;
+  }
+
+  @media (min-width: 640px) {
+    .footer-bottom-row {
+      flex-direction: row;
+    }
+  }
+
+  .copyright {
+    margin: 0;
+  }
+
+  .legal-links {
+    display: flex;
     align-items: center;
     gap: 0.75rem;
   }
 
-  .footer-link {
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-    transition: color var(--transition-fast), transform var(--transition-fast);
+  .legal-link {
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.15s ease;
   }
 
-  .footer-link:hover {
-    color: var(--color-text);
-    transform: translateX(2px);
+  .legal-link:hover {
+    color: #cbd5e1;
   }
 
-  .footer-bottom {
-    border-top: 1px solid var(--color-border);
-    padding-top: var(--space-md);
-    padding-bottom: var(--space-md);
-    background: var(--color-bg);
+  .legal-separator {
+    color: #475569;
   }
 
-  .footer-bottom-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 1rem;
+  /* =========================================================
+     DARK MODE OVERRIDES (Refined Gray Theme: #181A1B)
+     ========================================================= */
+  :global([data-theme="dark"]) .footer {
+    background: #181A1B;
+    border-top: 1px solid #41444A;
+    color: #B8BEC7;
   }
 
-  .copyright {
-    font-size: 0.85rem;
+  :global([data-theme="dark"]) .footer-brand-desc {
+    color: #B8BEC7;
   }
 
-  .disclosure {
-    font-size: 0.75rem;
-    line-height: 1.5;
-    text-align: center;
+  :global([data-theme="dark"]) .footer-nav-link {
+    color: #B8BEC7;
   }
 
-  /* Responsive Rules */
-  @media (min-width: 768px) {
-    .footer-grid {
-      grid-template-columns: 2fr repeat(3, 1fr);
-      gap: 2rem;
-    }
+  :global([data-theme="dark"]) .footer-nav-link:hover {
+    color: #F1F3F4;
+  }
 
-    .footer-brand-column {
-      align-items: flex-start;
-      text-align: left;
-    }
+  :global([data-theme="dark"]) .social-icon-btn {
+    background: #2B2D30;
+    border-color: #41444A;
+    color: #B8BEC7;
+  }
 
-    .social-links {
-      justify-content: flex-start;
-    }
+  :global([data-theme="dark"]) .social-icon-btn:hover {
+    background: rgba(99, 102, 241, 0.25);
+    border-color: #818cf8;
+    color: #FFFFFF;
+  }
 
-    .footer-column {
-      text-align: left;
-    }
+  :global([data-theme="dark"]) .footer-divider {
+    background: #41444A;
+  }
 
-    .footer-links-list {
-      align-items: flex-start;
-    }
+  :global([data-theme="dark"]) .footer-bottom-row {
+    color: #B8BEC7;
+  }
 
-    .footer-bottom-container {
-      align-items: flex-start;
-      text-align: left;
-    }
+  :global([data-theme="dark"]) .legal-link {
+    color: #B8BEC7;
+  }
 
-    .disclosure {
-      text-align: justify;
-    }
+  :global([data-theme="dark"]) .legal-link:hover {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .legal-separator {
+    color: #5A5E66;
   }
 </style>

@@ -47,7 +47,7 @@ const faqs = [
               </svg>
               Profile @Handle
             </label>
-            <input type="text" id="handle-input" class="form-input" placeholder="e.g. baking_creator" value="creators_feel" />
+            <input type="text" id="handle-input" class="form-input" placeholder="Enter username or handle..." value="creators_feel" />
           </div>
 
           <!-- Video Topic/Description -->
@@ -58,7 +58,7 @@ const faqs = [
               </svg>
               What is your video about? (Topic)
             </label>
-            <input type="text" id="value-input" class="form-input" placeholder="e.g. chocolate chip cookies recipe" value="easy chocolate cake recipe" required />
+            <input type="text" id="value-input" class="form-input" placeholder="Enter video topic or recipe..." value="easy chocolate cake recipe" required />
           </div>
 
           <!-- Call to Action -->
@@ -69,7 +69,7 @@ const faqs = [
               </svg>
               Call to Action (CTA)
             </label>
-            <input type="text" id="cta-input" class="form-input" placeholder="e.g. comment cake for the link 👇" value="save this for your weekend baking 👇" />
+            <input type="text" id="cta-input" class="form-input" placeholder="Enter call to action..." value="save this for your weekend baking below" />
           </div>
 
           <!-- Tone Selection -->
@@ -123,11 +123,11 @@ const faqs = [
           <div style="position: absolute; left: 15px; bottom: 15px; right: 55px; z-index: 2; color: white; display: flex; flex-direction: column; gap: 0.35rem; text-align: left;">
             <span style="font-weight: 800; font-size: 0.9rem;" id="mockup-handle-display">@creators_feel</span>
             <div style="font-size: 0.8rem; line-height: 1.4; max-height: 120px; overflow: hidden; word-break: break-word;">
-              <p id="mockup-bio-text" style="margin: 0; display: inline; color: #fff;">Easy chocolate cake recipe! Save this for your weekend baking 👇 #cake #recipe #baking</p>
+              <p id="mockup-bio-text" style="margin: 0; display: inline; color: #fff;">Easy chocolate cake recipe! Save this for your weekend baking below #cake #recipe #baking</p>
               <span id="mockup-see-more" class="hidden" style="color: #bbb; font-weight: 700; margin-left: 0.25rem; cursor: pointer;">... see more</span>
             </div>
             <span style="font-size: 0.72rem; color: #aaa; display: flex; align-items: center; gap: 0.25rem; margin-top: 0.25rem;">
-              🎵 <span id="mockup-sound-display">creators_feel • Original Sound</span>
+              <span id="mockup-sound-display">creators_feel • Original Sound</span>
             </span>
           </div>
         </div>
@@ -149,18 +149,7 @@ const faqs = [
           <!-- Quick Curated Emoji Picker Drawer -->
           <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem;">
             <span style="font-size: 0.65rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Click to insert emoji:</span>
-            <div class="emoji-selector-panel" id="emoji-picker-container">
-              <button type="button" class="emoji-btn">👇</button>
-              <button type="button" class="emoji-btn">📈</button>
-              <button type="button" class="emoji-btn">✨</button>
-              <button type="button" class="emoji-btn">🎂</button>
-              <button type="button" class="emoji-btn">🍪</button>
-              <button type="button" class="emoji-btn">🔥</button>
-              <button type="button" class="emoji-btn">⬇️</button>
-              <button type="button" class="emoji-btn">💡</button>
-              <button type="button" class="emoji-btn">👀</button>
-              <button type="button" class="emoji-btn">🙌</button>
-            </div>
+            
           </div>
 
           <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
@@ -180,7 +169,7 @@ const faqs = [
                 <span class="opt-label">Option A (Witty & Hooky)</span>
                 <span id="opt-1-badge" class="opt-badge">0 / 4000</span>
               </div>
-              <p id="opt-1-val" class="opt-text">This easy chocolate cake recipe is dangerous. Save this for your weekend baking 👇 #cake #recipe #baking</p>
+              <p id="opt-1-val" class="opt-text">This easy chocolate cake recipe is dangerous. Save this for your weekend baking below #cake #recipe #baking</p>
               <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
                 <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-1-val">Load to Sandbox</button>
                 <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-1-val">Copy</button>
@@ -193,7 +182,7 @@ const faqs = [
                 <span class="opt-label">Option B (Educational & Value)</span>
                 <span id="opt-2-badge" class="opt-badge">0 / 4000</span>
               </div>
-              <p id="opt-2-val" class="opt-text">How to make an easy chocolate cake recipe. Save this for your weekend baking 👇 #baking #recipe #cook</p>
+              <p id="opt-2-val" class="opt-text">How to make an easy chocolate cake recipe. Save this for your weekend baking below #baking #recipe #cook</p>
               <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
                 <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-2-val">Load to Sandbox</button>
                 <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-2-val">Copy</button>
@@ -206,7 +195,7 @@ const faqs = [
                 <span class="opt-label">Option C (Minimalist Aesthetic)</span>
                 <span id="opt-3-badge" class="opt-badge">0 / 4000</span>
               </div>
-              <p id="opt-3-val" class="opt-text">easy chocolate cake recipe 🍰✨ | Save this for your weekend baking 👇 #cake #cook</p>
+              <p id="opt-3-val" class="opt-text">easy chocolate cake recipe | Save this for your weekend baking below #cake #cook</p>
               <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
                 <button type="button" class="load-sandbox-btn mock-btn-mini" data-target="opt-3-val">Load to Sandbox</button>
                 <button type="button" class="copy-direct-btn mock-btn-mini secondary" data-target="opt-3-val">Copy</button>
@@ -222,7 +211,7 @@ const faqs = [
     <h2>TikTok Caption Generator: Write Search-Optimized Video Copy</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        ✍️ <strong>Looking to optimize your video reach?</strong> Read our comprehensive strategy guide on <a href="/blog/tiktok-caption-generator-guide" style="color: var(--color-brand); text-decoration: underline;">TikTok Caption Ideas & Character Limit Optimization</a> to learn how to structure hook copy, position keywords, and boost discoverability.
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg> <strong>Looking to optimize your video reach?</strong> Read our comprehensive strategy guide on <a href="/blog/tiktok-caption-generator-guide" style="color: var(--color-brand); text-decoration: underline;">TikTok Caption Ideas & Character Limit Optimization</a> to learn how to structure hook copy, position keywords, and boost discoverability.
       </p>
     </div>
 
@@ -265,14 +254,14 @@ const faqs = [
     </p>
     <p>
       <strong>Input Values:</strong><br />
-      ✦ Video Topic: "easy chocolate cake recipe"<br />
-      ✦ Call to Action: "save this for your weekend baking 👇"
+      • Video Topic: "easy chocolate cake recipe"<br />
+      • Call to Action: "save this for your weekend baking below"
     </p>
     <p>
       <strong>Draft Layout Option:</strong><br />
-      "Easy chocolate cake recipe! Save this for your weekend baking 👇 #cake #recipe #baking"<br />
-      ✦ Total Character Count: <strong>92 characters</strong>.<br />
-      ✦ Truncation Preview: Since the character count is below 100 characters, it will display fully on standard screens without being truncated behind the "... see more" link, ensuring the hook and CTA are immediately visible!
+      "Easy chocolate cake recipe! Save this for your weekend baking below #cake #recipe #baking"<br />
+      • Total Character Count: <strong>92 characters</strong>.<br />
+      • Truncation Preview: Since the character count is below 100 characters, it will display fully on standard screens without being truncated behind the "... see more" link, ensuring the hook and CTA are immediately visible!
     </p>
 
     <h3>Who Should Use This Tool?</h3>
@@ -656,16 +645,16 @@ const faqs = [
       let options = ['', '', ''];
 
       if (tone === 'Educational') {
-        options[0] = `Here is how to make an ${val}. Save this for your weekend baking 👇 #baking #recipe #cook`;
-        options[1] = `Everything you need to know about ${val} 💡. ${cta} #baking #cake #recipe`;
-        options[2] = `Step-by-step: ${val.toUpperCase()} 🍰. ${cta} #recipe #cake`;
+        options[0] = `Here is how to make an ${val}. Save this for your weekend baking below #baking #recipe #cook`;
+        options[1] = `Everything you need to know about ${val} . ${cta} #baking #cake #recipe`;
+        options[2] = `Step-by-step: ${val.toUpperCase()} . ${cta} #recipe #cake`;
       } else if (tone === 'Witty') {
         options[0] = `This ${val} is dangerous. ${cta} #cake #recipe #baking`;
         options[1] = `Making ${val} is my therapy. ${cta} #cake #baking #hobby`;
-        options[2] = `If you aren't making ${val}, what are you doing? 😂 ${cta} #recipe`;
+        options[2] = `If you aren't making ${val}, what are you doing? ${cta} #recipe`;
       } else { // Minimal / Aesthetic
-        options[0] = `${val} 💫 | ${cta} #baking #recipe`;
-        options[1] = `slow morning making ${val} 🍰 • ${cta} #cake #aesthetic`;
+        options[0] = `${val} | ${cta} #baking #recipe`;
+        options[1] = `slow morning making ${val} • ${cta} #cake #aesthetic`;
         options[2] = `minimal ${val} recipe • ${cta} #recipe`;
       }
 
@@ -743,7 +732,7 @@ const faqs = [
 
         navigator.clipboard.writeText(text).then(() => {
           const originalText = btn.textContent;
-          btn.textContent = 'Copied! ✓';
+          btn.textContent = "Copied!";
           setTimeout(() => {
             btn.textContent = originalText;
           }, 1500);
@@ -758,7 +747,7 @@ const faqs = [
       
       navigator.clipboard.writeText(text).then(() => {
         const originalText = copyActiveBtn.textContent;
-        copyActiveBtn.textContent = 'Copied to Clipboard! ✓';
+        copyActiveBtn.textContent = "Copied to Clipboard!";
         setTimeout(() => {
           copyActiveBtn.textContent = originalText;
         }, 1500);

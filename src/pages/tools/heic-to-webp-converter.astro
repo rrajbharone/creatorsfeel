@@ -117,7 +117,7 @@ const faqs = [
           
           <!-- Verdict Status Banner -->
           <div class="verdict-banner success-verdict" id="verdict-banner">
-            <span class="verdict-icon" id="verdict-icon">✅</span>
+            <span class="verdict-icon" id="verdict-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#10b981; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg></span>
             <div class="verdict-text-wrap">
               <strong class="verdict-title" id="verdict-title">Successfully Converted to WebP!</strong>
               <span class="verdict-desc" id="verdict-desc">Your image was processed locally with WebP compression.</span>
@@ -985,7 +985,7 @@ const faqs = [
 
       try {
         // Show converting status
-        showStatusVerdict('⏳ Processing HEIC Photo...', 'Converting your HEIC image to WebP format in browser...');
+        showStatusVerdict('Processing HEIC Photo...', 'Converting your HEIC image to WebP format in browser...');
 
         let imageElement: HTMLImageElement;
 
@@ -1098,7 +1098,7 @@ const faqs = [
     function showStatusVerdict(title: string, desc: string) {
       if (verdictBanner && verdictTitle && verdictDesc && verdictIcon) {
         verdictBanner.className = 'verdict-banner';
-        verdictIcon.textContent = '🔄';
+        verdictIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>`;
         verdictTitle.textContent = title;
         verdictDesc.textContent = desc;
       }
@@ -1107,7 +1107,7 @@ const faqs = [
     function showSuccessVerdict(title: string, desc: string) {
       if (verdictBanner && verdictTitle && verdictDesc && verdictIcon) {
         verdictBanner.className = 'verdict-banner success-verdict';
-        verdictIcon.textContent = '✅';
+        verdictIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#10b981; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>`;
         verdictTitle.textContent = title;
         verdictDesc.textContent = desc;
       }
@@ -1116,7 +1116,7 @@ const faqs = [
     function showErrorVerdict(title: string, desc: string) {
       if (verdictBanner && verdictTitle && verdictDesc && verdictIcon) {
         verdictBanner.className = 'verdict-banner danger-verdict';
-        verdictIcon.textContent = '⚠️';
+        verdictIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#f59e0b; margin-right:6px;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
         verdictTitle.textContent = title;
         verdictDesc.textContent = desc;
       }

@@ -1,969 +1,2872 @@
 ---
-import ToolLayout from '../../layouts/ToolLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const faqs = [
   {
     question: "What is the recommended number of hashtags per tweet on Twitter/X?",
-    answer: "Twitter officially recommends using no more than 1 to 2 relevant hashtags per tweet. Tweets with 1 or 2 hashtags receive up to 21% higher engagement than tweets with 3 or more hashtags."
+    answer: "Twitter/X officially recommends using no more than 1 to 2 relevant hashtags per tweet. Platform analytics show that tweets with 1 or 2 hashtags receive up to 21% higher engagement, while posts with 3 or more hashtags experience an average 17% drop in engagement."
   },
   {
-    question: "Is there a hard character or hashtag limit on Twitter?",
-    answer: "There is no separate 'hashtag limit' on Twitter, but all hashtags and their '#' symbols count directly against your 280-character limit (or 25,000 characters for X Premium)."
+    question: "How does the Twitter Hashtag Counter distinguish between total and unique hashtags?",
+    answer: "Total hashtags count every hashtag occurrence detected in your text, including repeated tags. Unique hashtags filter out repeats to count each distinct tag only once. Identifying duplicate hashtags helps you save character allowance and avoid triggering spam flags."
   },
   {
-    question: "Should I place hashtags in the middle or end of my tweet?",
-    answer: "Placing hashtags at the end of your tweet or integrating them naturally into sentences improves readability. Avoid grouping 5+ hashtags together at the top of your post."
+    question: "Do hashtags guarantee higher impressions or engagement on X?",
+    answer: "No. Hashtags categorize your post for search indexes and algorithmic interest feeds, but they do not guarantee impressions or viral reach. Strong copywriting, visual media, posting timing, and conversational replies have a much greater impact on overall post performance."
   },
   {
-    question: "Why should I use CamelCase for Twitter hashtags?",
-    answer: "Using CamelCase (capitalizing the first letter of each word in a hashtag, like #SocialMediaMarketing) makes hashtags accessible to screen readers and far easier for humans to read."
+    question: "Why should creators use CamelCase when writing hashtags?",
+    answer: "Using CamelCase (capitalizing the first letter of each word in a hashtag, like #SocialMediaStrategy) is essential for accessibility. It allows screen-reader software to pronounce each word separately for visually impaired users and makes multi-word tags far easier for humans to read."
   },
   {
     question: "Can punctuation or special symbols be used in Twitter hashtags?",
-    answer: "No. Twitter hashtags cannot contain spaces, punctuation marks, hyphens, periods, or symbols like $, %, or !. Using punctuation automatically terminates the hashtag at that character."
+    answer: "No. Twitter hashtags cannot contain spaces, punctuation marks, hyphens, periods, or symbols like $, %, or !. Using punctuation automatically terminates the hashtag at that character. Furthermore, pure numeric tags (like #2026) are not hyperlinked by X's parser."
   },
   {
-    question: "Do hashtags increase retweets and impressions on X?",
-    answer: "Yes, targeted niche hashtags help X's recommendation engine categorize your tweet and surface it in search results and topic feeds, increasing organic impressions."
+    question: "How do hashtags impact my 280-character limit on X?",
+    answer: "Every character in a hashtag—including the '#' symbol itself—counts directly against your standard 280-character allowance (or 25,000 characters for X Premium). Keeping hashtag usage to 1–2 focused tags preserves critical character space for your core message and clickable links."
   }
 ];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'Twitter Hashtag Counter', item: '/tools/twitter-hashtag-counter' }
+];
+
+const origin = Astro.site ? Astro.site.origin : "https://creatorsfeel.com";
+const canonicalUrl = new URL(Astro.url.pathname, origin).href;
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${canonicalUrl}#application`,
+      "name": "Twitter Hashtag Counter",
+      "url": canonicalUrl,
+      "operatingSystem": "All",
+      "applicationCategory": "WritingApplication",
+      "description": "Free Twitter Hashtag Counter. Count hashtags, detect duplicate tags, check character limits, and optimize post density for X in real time.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonicalUrl}#faq`,
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    }
+  ]
+};
 ---
 
-<ToolLayout
+<BaseLayout
   title="Twitter Hashtag Counter - X Hashtag Count & Density Checker"
   description="Free Twitter Hashtag Counter. Count, extract, and audit hashtags in your tweets and X posts in real time. Optimize hashtag density for maximum reach."
-  toolName="Twitter Hashtag Counter"
-  toolDescription="Count and extract hashtags from your tweets, verify recommended hashtag limits, and audit character impacts on X."
-  category="Writing Tools"
+  canonicalUrl={canonicalUrl}
+  breadcrumbs={breadcrumbs}
   faqs={faqs}
 >
-  <!-- Main Calculator Interface -->
-  <div slot="calculator" class="calc-card glass">
+  <!-- Schema structured markup injected in head -->
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify(softwareSchema)} />
+
+  <div class="tool-page-wrapper">
     
-    <!-- 2-Column Desktop Grid -->
-    <div class="calc-grid">
-      
-      <!-- Left Column: Input Editor & Action Buttons -->
-      <form class="calc-form" id="counter-form" onsubmit="return false;">
-        <div class="form-group">
-          <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem;">
-            <label for="tweet-input" class="input-label" style="margin: 0;">Draft Your Tweet / Paste Hashtag List</label>
-            <!-- Quick Format Buttons -->
-            <div class="format-toolbar" style="display: flex; gap: 0.25rem; flex-wrap: wrap;">
-              <button type="button" class="format-btn" id="btn-uppercase" title="Convert to ALL CAPS">UPPERCASE</button>
-              <button type="button" class="format-btn" id="btn-lowercase" title="Convert to lowercase">lowercase</button>
-              <button type="button" class="format-btn" id="btn-titlecase" title="Convert to Title Case">Title Case</button>
-              <button type="button" class="format-btn" id="btn-cleanspace" title="Trim extra spaces">Clean Spacing</button>
+    <!-- 1. HERO SECTION WITH SUBTLE GRADIENT GLOW -->
+    <header class="tool-hero-section">
+      <div class="container hero-inner">
+        
+        <!-- Breadcrumbs at top -->
+        <div class="hero-breadcrumbs">
+          <Breadcrumbs items={breadcrumbs} />
+        </div>
+
+        <!-- Pill Badge with X Icon -->
+        <div class="hero-badge">
+          <span class="badge-icon-x">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="x-svg" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </span>
+          <span class="badge-title">Twitter / X Growth Suite</span>
+          <span class="badge-pill-free">Free Tool</span>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="hero-headline">
+          Twitter <span class="gradient-text">Hashtag Counter</span>
+        </h1>
+
+        <!-- Short Description -->
+        <p class="hero-desc">
+          Audit tweet hashtag count, detect duplicate tags, and optimize your post density in real time according to Twitter/X's official recommendation guidelines.
+        </p>
+
+        <!-- Feature Chips Row (Zero Emojis - Clean SVG Icons) -->
+        <div class="hero-features-row">
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Real-Time Counting
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35" />
+            </svg>
+            Duplicate Tag Detection
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            1–2 Tag Density Scorer
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            One-Click Copy
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. MAIN TOOL SECTION -->
+    <section class="tool-main-section" aria-label="Twitter Hashtag Counter Interface">
+      <div class="container tool-card-container">
+        
+        <!-- The Prominent SaaS Tool Card -->
+        <div class="saas-tool-card">
+          
+          <!-- Card Header Bar: Platform Indicator & Mode Selector -->
+          <div class="card-header-bar">
+            <div class="platform-indicator">
+              <div class="platform-avatar">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="avatar-svg" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </div>
+              <div class="platform-meta">
+                <span class="platform-title">Tweet Audit Mode</span>
+                <span class="platform-limit-text" id="platform-limit-text">
+                  Standard Account: <strong>280 chars</strong>
+                </span>
+              </div>
+            </div>
+
+            <!-- Mode Switcher Tabs -->
+            <div class="mode-tabs-wrap" role="group" aria-label="Select tweet character limit">
+              <button type="button" class="mode-tab active" id="tab-standard" aria-pressed="true">
+                Standard (280)
+              </button>
+              <button type="button" class="mode-tab" id="tab-premium" aria-pressed="false">
+                X Premium (25K)
+              </button>
             </div>
           </div>
-          <textarea 
-            id="tweet-input" 
-            class="editor-textarea" 
-            placeholder="Type or paste your tweet text or hashtag list here... e.g., #SocialMedia #Marketing #ContentCreator"
-            rows="8"
-          ></textarea>
+
+          <!-- Input Area -->
+          <div class="editor-block">
+            <div class="editor-header">
+              <label for="tweet-input" class="editor-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Draft Your Tweet or Paste Hashtag List
+              </label>
+              <div class="editor-quick-tools">
+                <button type="button" class="quick-btn" id="btn-clean-spacing" title="Remove extra spaces & clean line breaks">
+                  Clean Spacing
+                </button>
+                <button type="button" class="quick-btn" id="btn-paste" title="Paste text from clipboard">
+                  Paste
+                </button>
+              </div>
+            </div>
+
+            <div class="textarea-container">
+              <textarea
+                id="tweet-input"
+                class="main-textarea"
+                placeholder="Type or paste your text / hashtags list here"
+                rows="6"
+                aria-label="Tweet text or hashtag input"
+              ></textarea>
+            </div>
+
+            <!-- Real-time Character Progress Bar -->
+            <div class="progress-meter-box" aria-hidden="true">
+              <div class="progress-meter-track">
+                <div class="progress-meter-fill" id="progress-meter-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <!-- Actions Row: Copy Tweet, Copy Hashtags, Clear -->
+            <div class="editor-actions-row">
+              <div class="actions-left-cluster">
+                <button type="button" id="btn-copy-tweet" class="btn-action-primary">
+                  <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  <span id="copy-tweet-label">Copy Full Tweet</span>
+                </button>
+
+                <button type="button" id="btn-copy-hashtags" class="btn-action-secondary">
+                  <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                  </svg>
+                  <span id="copy-hashtags-label">Copy Hashtags</span>
+                </button>
+              </div>
+
+              <button type="button" id="btn-clear" class="btn-action-clear" title="Clear text and reset counts">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                <span>Clear All</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Hashtag Density Recommendation Banner (Zero Emojis - Clean SVGs) -->
+          <div class="density-status-banner status-neutral" id="density-status-banner">
+            <div class="density-icon-wrap" id="density-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="status-svg">
+                <circle cx="11" cy="11" r="7" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35" />
+              </svg>
+            </div>
+            <div class="density-text-content">
+              <div class="density-title-row">
+                <strong class="density-title" id="density-title">No Hashtags Detected</strong>
+                <span class="density-badge" id="density-badge">Awaiting Input</span>
+              </div>
+              <p class="density-desc" id="density-desc">
+                Twitter officially recommends using <strong>1 to 2 relevant hashtags</strong> per tweet. Posts with 1–2 hashtags achieve up to 21% higher engagement without triggering algorithmic spam filters.
+              </p>
+            </div>
+          </div>
+
+          <!-- 4 VIVID, DISTINCT COLORFUL RESULT CARDS (Clean SVG Icons) -->
+          <div class="vivid-result-grid">
+            
+            <!-- Card 1: Total Hashtags (Purple / Indigo Accent) -->
+            <div class="stat-card stat-purple">
+              <div class="stat-top-bar">
+                <div class="stat-icon-circle purple-circle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="circle-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                  </svg>
+                </div>
+                <span class="stat-badge-tag badge-purple-tag" id="badge-total-tags">Total</span>
+              </div>
+              <div class="stat-number-display purple-number" id="val-total-hashtags">0</div>
+              <div class="stat-label-text">Total Hashtags</div>
+              <div class="stat-sub-info" id="sub-hashtags-detail">0 occurrences detected</div>
+            </div>
+
+            <!-- Card 2: Unique Hashtags (Rose / Pink Accent) -->
+            <div class="stat-card stat-pink">
+              <div class="stat-top-bar">
+                <div class="stat-icon-circle pink-circle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="circle-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                  </svg>
+                </div>
+                <span class="stat-badge-tag badge-pink-tag" id="badge-unique-tags">Unique</span>
+              </div>
+              <div class="stat-number-display pink-number" id="val-unique-hashtags">0</div>
+              <div class="stat-label-text">Unique Hashtags</div>
+              <div class="stat-sub-info" id="sub-unique-detail">0 duplicate(s)</div>
+            </div>
+
+            <!-- Card 3: Character Count (Sky / Blue Accent) -->
+            <div class="stat-card stat-blue">
+              <div class="stat-top-bar">
+                <div class="stat-icon-circle blue-circle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="circle-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 7V4h16v3M9 20h6M12 4v16" />
+                  </svg>
+                </div>
+                <span class="stat-badge-tag badge-blue-tag" id="badge-limit-display">Limit: 280</span>
+              </div>
+              <div class="stat-number-display blue-number" id="val-characters">0</div>
+              <div class="stat-label-text">Characters</div>
+              <div class="stat-sub-info" id="sub-char-detail">X-weighted: 0 chars</div>
+            </div>
+
+            <!-- Card 4: Remaining Characters (Emerald / Green Accent) -->
+            <div class="stat-card stat-emerald" id="card-remaining">
+              <div class="stat-top-bar">
+                <div class="stat-icon-circle emerald-circle" id="circle-remaining">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="circle-svg" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3" />
+                  </svg>
+                </div>
+                <span class="stat-badge-tag badge-emerald-tag" id="badge-remaining-status">Safe</span>
+              </div>
+              <div class="stat-number-display emerald-number" id="val-remaining">280</div>
+              <div class="stat-label-text">Remaining</div>
+              <div class="stat-sub-info" id="sub-remaining-detail">280 characters left</div>
+            </div>
+
+          </div>
+
+          <!-- Secondary Analysis Strip -->
+          <div class="secondary-analytics-strip">
+            <div class="analytics-item">
+              <span class="analytics-label">Word Count:</span>
+              <strong class="analytics-val" id="val-words">0</strong>
+            </div>
+            <div class="analytics-sep"></div>
+            <div class="analytics-item">
+              <span class="analytics-label">Hashtag Characters:</span>
+              <strong class="analytics-val" id="val-hashtag-chars">0 chars</strong>
+            </div>
+            <div class="analytics-sep"></div>
+            <div class="analytics-item">
+              <span class="analytics-label">Hashtag Share:</span>
+              <strong class="analytics-val" id="val-hashtag-share">0%</strong>
+            </div>
+            <div class="analytics-sep"></div>
+            <div class="analytics-item">
+              <span class="analytics-label">Avg Tag Length:</span>
+              <strong class="analytics-val" id="val-avg-tag-len">0 chars</strong>
+            </div>
+          </div>
+
+          <!-- Detected Hashtags Showcase (Modern Chips & Badges) -->
+          <div class="detected-hashtags-section">
+            <div class="detected-section-header">
+              <div class="section-title-wrap">
+                <h3 class="section-title-text">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                  </svg>
+                  Detected Hashtags & Occurrence Audit
+                </h3>
+                <span class="pill-counter" id="detected-pill-counter">0 tags detected</span>
+              </div>
+              <button type="button" class="btn-copy-unique-only" id="btn-copy-unique" style="display: none;">
+                Copy Unique Only
+              </button>
+            </div>
+
+            <div class="hashtags-list-wrapper">
+              <!-- Empty State without dummy text or sample hashtags -->
+              <div class="empty-hashtags-box" id="empty-hashtags-box">
+                <div class="empty-icon-circle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="empty-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                  </svg>
+                </div>
+                <h4 class="empty-box-title">No hashtags detected in your draft</h4>
+                <p class="empty-box-sub">
+                  Enter or paste your text or hashtags in the input box above to audit hashtag counts and density.
+                </p>
+              </div>
+
+              <!-- Populated Dynamic Grid of Modern Hashtag Chips -->
+              <div class="hashtag-chips-grid" id="hashtag-chips-grid" style="display: none;"></div>
+            </div>
+          </div>
+
         </div>
-
-        <!-- Prominent Action Buttons Row -->
-        <div class="main-actions-row">
-          <button type="button" id="btn-copy-hashtags" class="calc-btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-            </svg>
-            <span id="copy-hashtags-text">Copy Hashtags</span>
-          </button>
-          <button type="button" id="btn-clear" class="calc-btn-secondary">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-            </svg>
-            Clear All
-          </button>
-        </div>
-      </form>
-
-      <!-- Right Column: Live Results & Hashtag Analysis -->
-      <div class="calc-results" id="results-wrapper">
-        
-        <!-- Optimal Hashtag Limit Status Card -->
-        <div class="hashtag-status-card status-neutral" id="hashtag-status-card">
-          <div class="status-header-row">
-            <span class="status-badge-icon" id="status-icon">🔍</span>
-            <strong class="status-badge-title" id="status-title">No Hashtags Detected</strong>
-          </div>
-          <p class="status-desc-text" id="status-desc">
-            Twitter best practice recommends using 1 to 2 targeted hashtags per tweet for maximum reach and engagement.
-          </p>
-        </div>
-
-        <!-- 8 Metric Cards Grid -->
-        <div class="metrics-grid">
-          <div class="metric-card highlight-card">
-            <span class="metric-value" id="count-hashtags">0</span>
-            <span class="metric-label">Total Hashtags</span>
-            <span class="metric-sub text-muted">Hashtag count</span>
-          </div>
-
-          <div class="metric-card highlight-card">
-            <span class="metric-value" id="count-unique">0</span>
-            <span class="metric-label">Unique Hashtags</span>
-            <span class="metric-sub text-muted">Deduplicated</span>
-          </div>
-
-          <div class="metric-card">
-            <span class="metric-value" id="count-hashtag-chars">0</span>
-            <span class="metric-label">Hashtag Characters</span>
-            <span class="metric-sub text-muted">Length used by #</span>
-          </div>
-
-          <div class="metric-card">
-            <span class="metric-value" id="count-remaining">280</span>
-            <span class="metric-label">Allowance Left</span>
-            <span class="metric-sub text-muted">280 char limit</span>
-          </div>
-
-          <div class="metric-card">
-            <span class="metric-value" id="count-words">0</span>
-            <span class="metric-label">Total Words</span>
-            <span class="metric-sub text-muted">Draft word count</span>
-          </div>
-
-          <div class="metric-card">
-            <span class="metric-value" id="count-chars">0</span>
-            <span class="metric-label">Standard Chars</span>
-            <span class="metric-sub text-muted">Raw count</span>
-          </div>
-
-          <div class="metric-card">
-            <span class="metric-value" id="count-x-weighted">0</span>
-            <span class="metric-label">X-Weighted Chars</span>
-            <span class="metric-sub text-muted">t.co & emoji weights</span>
-          </div>
-
-          <div class="metric-card">
-            <span class="metric-value" id="count-avg-length">0</span>
-            <span class="metric-label">Avg Tag Length</span>
-            <span class="metric-sub text-muted">Chars / hashtag</span>
-          </div>
-        </div>
-
-        <!-- Extracted Hashtags Tag List Box -->
-        <div class="extracted-tags-box">
-          <div class="tags-header">
-            <span class="tags-title">Extracted Hashtags</span>
-            <span class="tags-count-badge" id="extracted-count-badge">0 tags</span>
-          </div>
-          <div class="tags-container" id="extracted-tags-list">
-            <span class="tags-empty-text">No hashtags found yet. Type hashtags starting with # above.</span>
-          </div>
-        </div>
-
       </div>
-
-    </div>
-  </div>
-
-  <!-- Editorial & SEO Content Slot -->
-  <div slot="about" class="editorial-content">
-    <section class="editorial-section">
-      
-      <h2>What Is a Twitter Hashtag Counter?</h2>
-      <p>
-        A <strong>Twitter Hashtag Counter</strong> (or X Hashtag Counter) is a specialized social media tool designed to extract, count, and audit hashtags used in tweets, threads, and X posts.
-      </p>
-      <p>
-        While hashtags remain one of the most powerful discovery mechanisms on Twitter, overusing them can harm post reach. Our Twitter Hashtag Counter provides real-time counts of total hashtags, unique hashtags, hashtag character usage, and feed density ratings to help creators land in the optimal 1-to-2 hashtag window.
-      </p>
-
-      <h2>How Does a Twitter Hashtag Counter Work?</h2>
-      <p>
-        Our counter processes your draft using a regex extraction parser designed specifically for Twitter syntax:
-      </p>
-      <ul>
-        <li><strong>Hashtag Extraction:</strong> Identifies strings starting with the <code>#</code> symbol followed by alphanumeric characters and underscores (e.g., <code>#SocialMedia</code>, <code>#Web3</code>).</li>
-        <li><strong>Deduplication Audit:</strong> Separates duplicate hashtags to show your net unique topic tags.</li>
-        <li><strong>Character Impact Measurement:</strong> Measures how many characters your hashtags consume from your 280-character tweet allowance.</li>
-        <li><strong>Density Rating:</strong> Evaluates your hashtag count against Twitter's official engagement recommendations.</li>
-      </ul>
-
-      <h2>Twitter Hashtag Limits and Best Practices</h2>
-      <p>
-        Technically, Twitter allows you to include as many hashtags as will fit into your character limit. However, Twitter's official research guidelines state that <strong>1 to 2 hashtags per tweet is the optimal limit</strong>.
-      </p>
-
-      <div class="table-responsive">
-        <table class="editorial-table">
-          <thead>
-            <tr>
-              <th>Hashtag Count</th>
-              <th>Engagement Impact</th>
-              <th>Status & Recommendation</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>1 to 2 Hashtags</strong></td>
-              <td>+21% Higher Engagement</td>
-              <td>✅ <strong>Optimal:</strong> Maximum reach and retweets without looking like spam.</td>
-            </tr>
-            <tr>
-              <td><strong>3 to 4 Hashtags</strong></td>
-              <td>-17% Engagement Drop</td>
-              <td>⚠️ <strong>Moderate:</strong> Acceptable for event live-tweeting, but dilutes focus.</td>
-            </tr>
-            <tr>
-              <td><strong>5+ Hashtags</strong></td>
-              <td>-50% Engagement Drop</td>
-              <td>🚫 <strong>Over-Hashtagged:</strong> Looks like spam and triggers algorithmic suppression.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2>How to Count Hashtags on Twitter/X</h2>
-      <p>
-        To audit your hashtags before publishing, follow these steps:
-      </p>
-      <ol>
-        <li><strong>Paste Your Draft:</strong> Copy your tweet text into the editor above.</li>
-        <li><strong>Review Total vs. Unique Tags:</strong> Ensure you aren't repeating identical hashtags.</li>
-        <li><strong>Check Hashtag Density:</strong> Verify that your hashtag count sits comfortably at 1 or 2 tags.</li>
-        <li><strong>Copy Hashtags or Full Tweet:</strong> Click <strong>Copy Hashtags</strong> to extract tags for cross-posting, or <strong>Copy Full Tweet</strong> to paste into X.</li>
-      </ol>
-
-      <h2>Why Hashtag Count Matters</h2>
-      <p>
-        On Twitter, hashtag density directly influences user psychology and recommendation algorithms:
-      </p>
-      <ul>
-        <li><strong>Prevents Visual Clutter:</strong> Tweets cluttered with 10 hashtags look low-quality and get skipped on mobile feeds.</li>
-        <li><strong>Improves Search Categorization:</strong> 1 or 2 focused hashtags help Twitter's algorithm categorize your topic accurately for topic feeds.</li>
-        <li><strong>Preserves Character Budget:</strong> Every hashtag takes away characters that could be spent on a strong hook, detail, or call-to-action.</li>
-      </ul>
-
-      <h2>How to Use Hashtags Effectively</h2>
-      <p>
-        Maximize the discovery potential of your hashtags with these proven tips:
-      </p>
-      <ol>
-        <li>
-          <strong>Use CamelCase for Accessibility:</strong> Capitalize the first letter of each word (e.g., <code>#DigitalMarketing</code> instead of <code>#digitalmarketing</code>) so screen readers can pronounce words correctly.
-        </li>
-        <li>
-          <strong>Place Hashtags at the End or Within Copy:</strong> Integrate hashtags naturally into sentences or append them neatly at the bottom of your tweet.
-        </li>
-        <li>
-          <strong>Combine Character & Word Audits:</strong> Keep your total tweet copy within character limits using our <a href="/tools/twitter-character-counter">Twitter Character Counter</a> and <a href="/tools/twitter-post-word-counter">Twitter Post Word Counter</a>.
-        </li>
-        <li>
-          <strong>Track Engagement Velocity:</strong> Measure how your tweets perform using our <a href="/tools/twitter-engagement-calculator">Twitter Engagement Calculator</a>.
-        </li>
-        <li>
-          <strong>Cross-Post to Other Channels:</strong> Adapt your hashtags for other platforms using our <a href="/tools/instagram-hashtag-counter">Instagram Hashtag Counter</a> or format post text with our <a href="/tools/linkedin-post-formatter">LinkedIn Post Formatter</a>.
-        </li>
-      </ol>
-
-      <h2>Common Twitter Hashtag Mistakes</h2>
-      <ul>
-        <li><strong>Using Spaces or Punctuation:</strong> Adding spaces or punctuation (e.g., <code>#social media</code> or <code>#web3.0</code>) breaks the hashtag link.</li>
-        <li><strong>Using Super Broad Tags:</strong> Tags like <code>#happy</code> or <code>#today</code> are too noisy; use niche tags like <code>#SaaSGrowth</code> instead.</li>
-        <li><strong>Using Too Many Hashtags:</strong> Stuffing 5+ hashtags into a 280-character tweet reduces retweets significantly.</li>
-      </ul>
-
-      <h2>Explore More Free Creator Tools on CreatorsFeel</h2>
-      <div class="internal-links-grid">
-        <a href="/tools/twitter-character-counter" class="tool-link-card glass">
-          <div class="tool-link-title">Twitter Character Counter</div>
-          <div class="tool-link-desc">Audit tweet character limits, t.co link shortening weights, and emoji counts in real time.</div>
-        </a>
-        <a href="/tools/twitter-post-word-counter" class="tool-link-card glass">
-          <div class="tool-link-title">Twitter Post Word Counter</div>
-          <div class="tool-link-desc">Count words, characters, t.co URLs, and emojis in your tweets and X Premium posts.</div>
-        </a>
-        <a href="/tools/twitter-engagement-calculator" class="tool-link-card glass">
-          <div class="tool-link-title">Twitter Engagement Calculator</div>
-          <div class="tool-link-desc">Measure your Twitter engagement rate based on likes, retweets, replies, and followers.</div>
-        </a>
-        <a href="/tools/instagram-hashtag-counter" class="tool-link-card glass">
-          <div class="tool-link-title">Instagram Hashtag Counter</div>
-          <div class="tool-link-desc">Count and extract Instagram hashtags while auditing the 30-hashtag maximum limit.</div>
-        </a>
-        <a href="/tools/linkedin-post-formatter" class="tool-link-card glass">
-          <div class="tool-link-title">LinkedIn Post Formatter</div>
-          <div class="tool-link-desc">Format social media posts with bold, italic, and bulleted Unicode text styles.</div>
-        </a>
-      </div>
-
     </section>
+
+    <!-- 3. CONTENT & SEO GUIDE SECTION -->
+    <section class="tool-content-section" aria-label="Twitter Hashtag Guide and Best Practices">
+      <div class="container content-inner-container">
+        
+        <!-- Editorial Articles & Guidelines Card -->
+        <div class="content-card">
+          
+          <div class="editorial-block">
+            <span class="content-pill">Platform Optimization Guide</span>
+            
+            <h2>What Is a Twitter Hashtag Counter and How Does It Work?</h2>
+            <p>
+              A <strong>Twitter Hashtag Counter</strong> is a specialized social media utility engineered to extract, count, and audit hashtags within tweets, threads, and curated hashtag lists in real time. Rather than manually counting hash symbols or risking character overflows before hitting publish, creators, marketers, and social media managers use an online <strong>hashtag counter</strong> to evaluate hashtag frequency, detect duplicate entries, and audit post density against official Twitter/X platform recommendations.
+            </p>
+            <p>
+              The tool parses raw input text using X's exact syntactic parsing rules: identifying every string starting with the <code>#</code> symbol followed by alphanumeric characters and underscores, while properly disregarding non-clickable punctuation, spaces, or pure numbers. Simultaneously, it measures your total character count, remaining character allowance under both standard (280 characters) and X Premium (25,000 characters) limits, and provides real-time density guidance to ensure your tweets remain clean, readable, and algorithmically friendly.
+            </p>
+
+            <h2>Counting Hashtags in Post Drafts vs. Curated Hashtag Lists</h2>
+            <p>
+              Our <strong>Twitter hashtag checker</strong> accommodates two essential social media content creation workflows:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Auditing Tweet Drafts and Threads:</strong> Paste your completed tweet or thread copy directly into the editor to evaluate how hashtags fit alongside your message. The tool analyzes your character footprint, remaining space, and total hashtag density, ensuring your tags do not crowd out your core message.</li>
+              <li><strong>Analyzing Raw Hashtag Lists:</strong> Paste a batch of researched hashtags collected during <strong>social media content planning</strong>. The <strong>hashtag list counter</strong> instantly breaks down total tag volume, isolates individual tags into manageable visual chips, and displays exact occurrence frequencies so you can prune redundant keywords before scheduling.</li>
+            </ul>
+
+            <h2>Total Hashtag Occurrences vs. Unique Hashtags</h2>
+            <p>
+              A vital capability of our <strong>hashtag count tool</strong> is the clear distinction between total hashtag occurrences and unique hashtags:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Total Hashtags:</strong> Represents every single instance of a hashtag detected in your input. If you mention <code>#CreatorEconomy</code> three separate times, the counter registers three total tags.</li>
+              <li><strong>Unique Hashtags:</strong> Measures distinct, individual tags after filtering out repeats.</li>
+            </ul>
+            <p>
+              On fast-paced networks like X, repeating the same hashtag multiple times within a 280-character post consumes valuable character allowance without delivering extra discovery benefits. Repeating identical tags can also trigger automated spam filters that suppress post reach. By comparing total occurrences against unique counts, you can immediately identify duplicate tags, click the <em>Clean Spacing</em> action, and copy a deduplicated hashtag list with a single click.
+            </p>
+
+            <h2>Why Hashtag Counting Matters for Social Media Content Planning</h2>
+            <p>
+              While platforms like Instagram allow up to 30 hashtags per post, X operates under fundamentally different discovery dynamics. Research conducted by Twitter/X indicates that <strong>tweets with 1 to 2 relevant hashtags achieve up to 21% higher engagement</strong> (likes, retweets, and link clicks) than posts with three or more hashtags.
+            </p>
+
+            <div class="table-card-wrapper">
+              <table class="benchmark-table">
+                <thead>
+                  <tr>
+                    <th>Hashtags per Tweet</th>
+                    <th>Engagement Impact</th>
+                    <th>Algorithm Verdict</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="row-optimal">
+                    <td><strong>1 to 2 Hashtags</strong></td>
+                    <td><span class="metric-positive">+21% Retweets & Clicks</span></td>
+                    <td><span class="badge-table table-success">Optimal</span> Maximum reach and clean presentation.</td>
+                  </tr>
+                  <tr class="row-moderate">
+                    <td><strong>3 to 4 Hashtags</strong></td>
+                    <td><span class="metric-neutral">-17% Engagement Drop</span></td>
+                    <td><span class="badge-table table-warning">Moderate</span> Acceptable for live events; dilutes focus.</td>
+                  </tr>
+                  <tr class="row-danger">
+                    <td><strong>5+ Hashtags</strong></td>
+                    <td><span class="metric-negative">-50% Engagement Suppression</span></td>
+                    <td><span class="badge-table table-danger">Over-Limit</span> Flagged as spammy by recommendation engine.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p>
+              When you exceed three hashtags on X, engagement drops by an average of 17%, and cramming five or more hashtags into a post often leads to algorithmic suppression as the feed categorizes the content as low-quality spam. Tracking your hashtag count helps you strike the optimal balance: giving the recommendation algorithm enough context to index your topic while preserving a natural, professional reading experience for your followers.
+            </p>
+
+            <h2>Choosing Relevant Hashtags for X (Formerly Twitter)</h2>
+            <p>
+              An effective <strong>hashtag strategy for X</strong> focuses on topic relevance and community alignment rather than sheer volume:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Focus on Niche Relevance:</strong> Targeted, specific tags like <code>#SaaSMarketing</code> or <code>#IndieHacker</code> connect you directly with interested industry peers, whereas overly broad tags like <code>#Marketing</code> or <code>#Business</code> are flooded with thousands of automated bot tweets every minute.</li>
+              <li><strong>Tap into Live Events and Industry Trends:</strong> Use official event tags when participating in conferences, product launches, or trending Twitter Spaces to enter ongoing public conversations.</li>
+              <li><strong>Anchor Branded Campaigns:</strong> Establish a unique, recognizable brand hashtag for community contests, product updates, or customer support threads.</li>
+              <li><strong>Limit to High-Intent Tags:</strong> Select only the one or two tags that directly summarize your tweet's central takeaway.</li>
+            </ul>
+
+            <h2>Avoiding Irrelevant, Repetitive, and Excessive Hashtags</h2>
+            <p>
+              A common mistake among newer creators is treating hashtags as generic search keywords. Stuffing multiple disconnected hashtags into a tweet—such as tagging <code>#AI</code>, <code>#Crypto</code>, and <code>#Growth</code> on a post solely about graphic design—confuses the platform's categorization engine and alienates readers.
+            </p>
+            <p>
+              Excessive hashtags clutter your feed presentation, create visual noise, and dilute your primary call-to-action (CTA). If your goal is driving clicks to an external article or landing page, keep hashtag usage minimal so users focus on your clickable link. You can audit character and word usage across your copy using our <a href="/tools/twitter-character-counter">Twitter Character Counter</a> and <a href="/tools/twitter-post-word-counter">Twitter Post Word Counter</a>.
+            </p>
+
+            <h2>How Hashtags Support Discoverability Without Guaranteeing Reach</h2>
+            <p>
+              It is crucial to recognize that hashtags are organizational tools, not silver bullets for viral success. On modern X, hashtags serve two primary functions:
+            </p>
+            <ol class="styled-numbered-list">
+              <li><strong>Topic Indexing:</strong> Helping X's neural recommendation algorithms categorize your tweet into topic clusters and related interest feeds.</li>
+              <li><strong>Search and Discovery:</strong> Allowing users searching for specific terms or event tags to surface your post in chronologically sorted or top search tabs.</li>
+            </ol>
+            <p>
+              However, hashtags alone cannot compensate for uninspiring hooks, unformatted copy, or lack of audience engagement. While hashtags support discoverability, actual post performance depends on audience retention, conversational replies, and genuine engagement velocity. You can evaluate your profile's interaction health using our <a href="/tools/twitter-engagement-calculator">Twitter Engagement Calculator</a>.
+            </p>
+
+            <h2>Reviewing Hashtag Frequency and Organizing Hashtag Banks</h2>
+            <p>
+              Incorporating a <strong>hashtag frequency checker</strong> into your publishing workflow ensures consistency across recurring campaigns. By auditing tag frequency, you avoid over-indexing on repetitive terms across consecutive posts. When planning monthly editorial themes using our <a href="/tools/social-media-calendar-generator">Social Media Calendar Generator</a>, marketers build and organize vetted hashtag banks categorized by topic, campaign, and content pillar.
+            </p>
+
+            <h2>Common Hashtag Formatting Mistakes to Avoid</h2>
+            <p>
+              Hashtags rely on strict syntactic parsing rules. Avoid these common formatting pitfalls:
+            </p>
+            <div class="tip-card-box">
+              <div class="tip-item">
+                <strong>1. Spaces Inside Tags:</strong>
+                <p>Adding a space terminates the hashtag immediately. For instance, typing <code>#Social Media</code> creates a hyperlink only for <code>#Social</code>, leaving <em>Media</em> as plain unlinked text.</p>
+              </div>
+              <div class="tip-item">
+                <strong>2. Punctuation and Special Symbols:</strong>
+                <p>Characters like hyphens, apostrophes, commas, exclamation marks, and currency signs break hashtags. Typing <code>#Creator's</code> or <code>#Top-Tier</code> terminates the tag at the punctuation mark.</p>
+              </div>
+              <div class="tip-item">
+                <strong>3. Pure Numbers:</strong>
+                <p>While hashtags can contain numbers alongside letters (such as <code>#Web3</code> or <code>#Q4Goals</code>), tags containing numbers alone (like <code>#2026</code>) do not hyperlink on X because the parser treats them as numeric values.</p>
+              </div>
+              <div class="tip-item">
+                <strong>4. Neglecting CamelCase Accessibility:</strong>
+                <p>Always capitalize the first letter of each word in multi-word hashtags (like <code>#ContentStrategy</code>). CamelCase ensures screen readers for visually impaired users pronounce each word distinctly while drastically improving legibility for all readers.</p>
+              </div>
+            </div>
+
+            <h2>How Creators and Marketers Use Hashtag Counters in Daily Workflows</h2>
+            <p>
+              Content creators and social media teams rely on our <strong>social media hashtag tool</strong> for daily publishing quality assurance. Before scheduling content, copywriters verify that hashtag counts remain in the 1–2 optimal zone and that character limits are preserved.
+            </p>
+            <p>
+              When cross-posting campaigns to multiple networks, creators verify differing tag requirements across channels. For instance, you can audit Instagram tag allowances with our <a href="/tools/instagram-hashtag-counter">Instagram Hashtag Counter</a>, generate Threads tags with our <a href="/tools/threads-hashtag-generator">Threads Hashtag Generator</a>, or format B2B updates with our <a href="/tools/linkedin-post-formatter">LinkedIn Post Formatter</a>.
+            </p>
+
+            <h2>Practical Tips for Readable Posts and Pre-Publish Reviews</h2>
+            <p>
+              Before publishing your tweet or scheduling a thread, perform a quick three-step review:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Integrate or Append:</strong> Either weave your hashtag naturally into the sentence structure (for example, <em>"Sharing our top #Productivity tips..."</em>) or append 1–2 tags neatly at the very end of your post.</li>
+              <li><strong>Maintain Whitespace:</strong> Leave a clean line break between your main message and your trailing hashtags to keep your post visually uncluttered on mobile screens.</li>
+              <li><strong>Verify Link Character Weights:</strong> Ensure that adding hashtags has not pushed your tweet past the 280-character limit, keeping in mind that Twitter's <code>t.co</code> shortener assigns exactly 23 characters to every URL regardless of its raw length.</li>
+            </ul>
+
+            <h2>Limitations of Hashtag Counting vs. Performance Tracking</h2>
+            <p>
+              A <strong>hashtag count tool</strong> provides syntactic auditing: it verifies how many tags exist, flags duplicates, measures character consumption, and checks against recommended density guidelines. It does not measure impressions, calculate click-through rates, or predict viral reach. Successful social media strategy combines careful pre-publishing audits with post-launch analytics, refining your hashtag selection over time based on real community interactions.
+            </p>
+          </div>
+
+          <!-- FAQ Accordion -->
+          <div class="faq-accordion-section">
+            <span class="content-pill">Got Questions?</span>
+            <h2 class="faq-section-title">Frequently Asked Questions</h2>
+            <div class="faq-accordion-list">
+              {faqs.map(faq => (
+                <details class="faq-accordion-item">
+                  <summary class="faq-summary">
+                    <span class="faq-question-text">{faq.question}</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-chevron" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <div class="faq-body">
+                    <p>{faq.answer}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+
+          <!-- Related Tools Grid (Clean Inline SVGs) -->
+          <div class="related-tools-block">
+            <div class="related-header-row">
+              <div>
+                <span class="content-pill">More Creator Tools</span>
+                <h3 class="related-title">Explore Related Twitter & Creator Tools</h3>
+              </div>
+              <a href="/tools" class="view-all-tools-btn">View All Tools &rarr;</a>
+            </div>
+
+            <div class="related-tools-grid">
+              <a href="/tools/twitter-character-counter" class="tool-recommend-card">
+                <div class="recommend-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="recommend-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 7V4h16v3M9 20h6M12 4v16" />
+                  </svg>
+                </div>
+                <div class="recommend-body">
+                  <h4 class="recommend-name">Twitter Character Counter</h4>
+                  <p class="recommend-desc">Audit tweet character limits, t.co link shortening weights, and emoji counts in real time.</p>
+                </div>
+              </a>
+              <a href="/tools/twitter-post-word-counter" class="tool-recommend-card">
+                <div class="recommend-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="recommend-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <div class="recommend-body">
+                  <h4 class="recommend-name">Twitter Post Word Counter</h4>
+                  <p class="recommend-desc">Count words, characters, t.co URLs, and emojis in your tweets and X Premium posts.</p>
+                </div>
+              </a>
+              <a href="/tools/twitter-engagement-calculator" class="tool-recommend-card">
+                <div class="recommend-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="recommend-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <div class="recommend-body">
+                  <h4 class="recommend-name">Twitter Engagement Calculator</h4>
+                  <p class="recommend-desc">Measure your Twitter engagement rate based on likes, retweets, replies, and followers.</p>
+                </div>
+              </a>
+              <a href="/tools/instagram-hashtag-counter" class="tool-recommend-card">
+                <div class="recommend-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="recommend-svg" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01" />
+                  </svg>
+                </div>
+                <div class="recommend-body">
+                  <h4 class="recommend-name">Instagram Hashtag Counter</h4>
+                  <p class="recommend-desc">Count and extract Instagram hashtags while auditing the 30-hashtag maximum limit.</p>
+                </div>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
   </div>
-</ToolLayout>
+</BaseLayout>
 
 <style>
-  /* Base Card Container */
-  .calc-card {
-    padding: clamp(1.25rem, 3vw, 2.25rem);
-    border-radius: var(--radius-lg);
-    max-width: 100%;
+  /* =========================================================
+     PAGE WRAPPER & HERO SECTION (Soft Gradient Glow)
+     ========================================================= */
+  .tool-page-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  .tool-hero-section {
+    background: var(--hero-bg-gradient, radial-gradient(ellipse 80% 50% at 50% -10%, rgba(99, 102, 241, 0.12), transparent 70%), linear-gradient(180deg, #f8faff 0%, #ffffff 100%));
+    border-bottom: 1px solid var(--color-border-subtle, #edf2f9);
+    padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
+    padding-bottom: clamp(2rem, 4vw, 3.5rem);
+    text-align: center;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 820px;
+    margin: 0 auto;
+    padding-left: clamp(1rem, 3vw, 2rem);
+    padding-right: clamp(1rem, 3vw, 2rem);
     box-sizing: border-box;
   }
 
-  /* 2-Column Grid Layout */
-  .calc-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.5rem;
+  .hero-breadcrumbs {
     width: 100%;
-  }
-
-  @media (min-width: 992px) {
-    .calc-grid {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      align-items: start;
-    }
-  }
-
-  /* Left Form & Editor */
-  .calc-form {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
+    justify-content: center;
+    margin-bottom: 1rem;
   }
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-  }
-
-  .input-label {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-text);
-  }
-
-  .editor-textarea {
-    width: 100%;
-    min-height: 220px;
-    padding: 1rem;
-    font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.5;
-    color: var(--color-text);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    outline: none;
-    resize: vertical;
-    box-sizing: border-box;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-  }
-
-  .editor-textarea:focus {
-    border-color: var(--color-brand);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-  }
-
-  .format-btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-alt);
-    color: var(--color-text-muted);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-  }
-
-  .format-btn:hover {
-    border-color: var(--color-brand);
-    color: var(--color-brand);
-  }
-
-  /* Prominent Main Action Buttons Row */
-  .main-actions-row {
-    display: flex;
-    gap: 0.75rem;
-    width: 100%;
-    margin-top: 0.5rem;
-  }
-
-  .calc-btn-primary {
-    flex: 2;
-    min-height: 48px;
-    padding: 0.75rem 1.25rem;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #ffffff;
-    background: var(--gradient-brand);
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
+  .hero-badge {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 0.5rem;
-    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
-  }
-
-  .calc-btn-primary:hover {
-    opacity: 0.95;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
-  }
-
-  .calc-btn-secondary {
-    flex: 1;
-    min-height: 48px;
-    padding: 0.75rem 1rem;
-    font-size: 0.95rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    border: 1px solid #e0e7ff;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+    font-size: 0.8rem;
     font-weight: 600;
-    color: var(--color-text);
-    background: var(--color-bg-alt);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    transition: all var(--transition-fast);
+    color: var(--color-text, #0f172a);
+    margin-bottom: 1.25rem;
+    user-select: none;
   }
 
-  .calc-btn-secondary:hover {
-    border-color: var(--color-border-hover);
-    background: var(--color-bg);
-  }
-
-  .btn-svg {
+  .badge-icon-x {
     width: 18px;
     height: 18px;
-  }
-
-  /* Right Column: Results Panel */
-  .calc-results {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    width: 100%;
-  }
-
-  /* Optimal Hashtag Status Card */
-  .hashtag-status-card {
-    padding: 1rem 1.1rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-alt);
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    transition: all var(--transition-fast);
-  }
-
-  .hashtag-status-card.status-optimal {
-    border-color: rgba(16, 185, 129, 0.4);
-    background: rgba(16, 185, 129, 0.08);
-  }
-
-  .hashtag-status-card.status-warning {
-    border-color: rgba(217, 119, 6, 0.4);
-    background: rgba(217, 119, 6, 0.08);
-  }
-
-  .hashtag-status-card.status-danger {
-    border-color: rgba(220, 38, 38, 0.4);
-    background: rgba(220, 38, 38, 0.08);
-  }
-
-  .status-header-row {
+    border-radius: 4px;
+    background: #0f172a;
+    color: #ffffff;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-  }
-
-  .status-badge-icon {
-    font-size: 1.1rem;
-  }
-
-  .status-badge-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-text);
-  }
-
-  .status-desc-text {
-    font-size: 0.825rem;
-    color: var(--color-text-muted);
-    margin: 0;
-    line-height: 1.4;
-  }
-
-  /* 8 Metric Cards Grid */
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-  }
-
-  .metric-card {
-    padding: 0.8rem 0.6rem;
-    text-align: center;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-alt);
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    transition: border-color var(--transition-fast);
+    padding: 2.5px;
+    box-sizing: border-box;
   }
 
-  .metric-card:hover {
-    border-color: var(--color-border-hover);
+  .x-svg {
+    width: 100%;
+    height: 100%;
   }
 
-  .metric-card.highlight-card {
-    background: rgba(99, 102, 241, 0.06);
-    border-color: rgba(99, 102, 241, 0.3);
-  }
-
-  .metric-value {
-    font-size: 1.3rem;
-    font-weight: 800;
-    font-family: var(--font-heading);
-    color: var(--color-brand);
-    line-height: 1.1;
-  }
-
-  .metric-label {
-    font-size: 0.75rem;
+  .badge-pill-free {
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+    font-size: 0.7rem;
     font-weight: 700;
-    color: var(--color-text);
-    margin-top: 0.2rem;
+    padding: 0.1rem 0.45rem;
+    border-radius: 9999px;
   }
 
-  .metric-sub {
-    font-size: 0.65rem;
-    color: var(--color-text-muted);
-    margin-top: 0.1rem;
+  .hero-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(2rem, 5.5vw, 3.25rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    margin: 0 0 1rem 0;
+    max-width: 720px;
   }
 
-  /* Extracted Hashtags Box */
-  .extracted-tags-box {
-    padding: 1rem 1.1rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-alt);
+  .gradient-text {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-desc {
+    font-size: clamp(0.95rem, 2.5vw, 1.125rem);
+    color: var(--color-text-muted, #64748b);
+    line-height: 1.6;
+    margin: 0 0 1.5rem 0;
+    max-width: 640px;
+  }
+
+  .hero-features-row {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 0.6rem;
   }
 
-  .tags-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .tags-title {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: var(--color-text);
-  }
-
-  .tags-count-badge {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--color-brand);
-  }
-
-  .tags-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    min-height: 48px;
-    align-items: center;
-  }
-
-  .tag-pill {
+  .feature-chip {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
-    padding: 0.3rem 0.6rem;
-    border-radius: var(--radius-sm);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #e2e8f0;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: #475569;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  }
+
+  .chip-svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-brand, #4f46e5);
+    flex-shrink: 0;
+  }
+
+  /* =========================================================
+     2. MAIN TOOL SECTION & SAAS CARD
+     ========================================================= */
+  .tool-main-section {
+    padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+    background: var(--color-bg, #f8fafc);
+  }
+
+  .tool-card-container {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .saas-tool-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 24px;
+    box-shadow: 0 20px 45px -15px rgba(99, 102, 241, 0.08), 0 0 0 1px rgba(226, 232, 240, 0.6);
+    padding: clamp(1.25rem, 3.5vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box;
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  /* Card Header Bar */
+  .card-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .platform-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .platform-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+    color: var(--color-brand, #4f46e5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .avatar-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .platform-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .platform-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.975rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .platform-limit-text {
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .platform-limit-text strong {
+    color: var(--color-brand, #4f46e5);
+  }
+
+  /* Mode Switcher Tabs */
+  .mode-tabs-wrap {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-bg, #f1f5f9);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 12px;
+    padding: 3px;
+    gap: 3px;
+  }
+
+  .mode-tab {
+    padding: 0.45rem 0.95rem;
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--color-brand);
+    border-radius: 9px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted, #64748b);
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: all 0.15s ease;
+    white-space: nowrap;
   }
 
-  .tag-pill:hover {
-    border-color: var(--color-brand);
-    background: rgba(99, 102, 241, 0.1);
+  .mode-tab:hover {
+    color: var(--color-text, #0f172a);
   }
 
-  .tags-empty-text {
-    font-size: 0.825rem;
-    color: var(--color-text-muted);
-  }
-
-  /* Editorial Content Styles */
-  .editorial-section {
-    padding-top: 1.5rem;
-  }
-
-  .editorial-section h2 {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  .editorial-section p {
-    margin-bottom: 1.25rem;
-    color: var(--color-text);
-  }
-
-  .editorial-section ul, .editorial-section ol {
-    margin-bottom: 1.5rem;
-    padding-left: 1.5rem;
-  }
-
-  .editorial-section li {
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
-  }
-
-  .editorial-section code {
-    background: var(--color-bg-alt);
-    padding: 0.15rem 0.4rem;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--color-border);
-    font-size: 0.875rem;
-  }
-
-  .table-responsive {
-    overflow-x: auto;
-    margin: 1.5rem 0;
-  }
-
-  .editorial-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-    text-align: left;
-  }
-
-  .editorial-table th, .editorial-table td {
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--color-border);
-  }
-
-  .editorial-table th {
-    background: var(--color-bg-alt);
+  .mode-tab.active {
+    background: var(--color-bg-card, #ffffff);
+    color: var(--color-brand, #4f46e5);
     font-weight: 700;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   }
 
-  .editorial-table tr:nth-child(even) {
-    background: var(--color-bg-alt);
+  /* Editor Block */
+  .editor-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
-  .faq-editorial-list p {
-    margin-bottom: 1rem;
-    background: var(--color-bg-alt);
-    padding: 0.85rem 1rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
+  .editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
-  .internal-links-grid {
+  .editor-label {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .label-svg {
+    width: 17px;
+    height: 17px;
+    color: var(--color-brand, #4f46e5);
+    flex-shrink: 0;
+  }
+
+  .editor-quick-tools {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .quick-btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-bg, #f8fafc);
+    color: var(--color-text-muted, #64748b);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .quick-btn:hover {
+    border-color: var(--color-brand, #4f46e5);
+    color: var(--color-brand, #4f46e5);
+    background: #eef2ff;
+  }
+
+  .textarea-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .main-textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 1.1rem 1.25rem;
+    font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text, #0f172a);
+    background: var(--color-bg-card, #ffffff);
+    border: 1.5px solid var(--color-border, #cbd5e1);
+    border-radius: 16px;
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .main-textarea:focus {
+    border-color: var(--color-brand, #4f46e5);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18);
+  }
+
+  /* Progress Meter */
+  .progress-meter-box {
+    width: 100%;
+    margin-top: -0.25rem;
+  }
+
+  .progress-meter-track {
+    width: 100%;
+    height: 5px;
+    background: var(--color-border, #e2e8f0);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .progress-meter-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1 0%, #3b82f6 100%);
+    border-radius: 9999px;
+    transition: width 0.15s ease, background-color 0.15s ease;
+  }
+
+  .progress-meter-fill.meter-warn {
+    background: #f59e0b;
+  }
+
+  .progress-meter-fill.meter-danger {
+    background: #ef4444;
+  }
+
+  /* Editor Actions Row */
+  .editor-actions-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  .actions-left-cluster {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .btn-action-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.65rem 1.35rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    user-select: none;
+  }
+
+  .btn-action-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
+    opacity: 0.96;
+  }
+
+  .btn-action-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-brand, #4f46e5);
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .btn-action-secondary:hover {
+    background: rgba(99, 102, 241, 0.16);
+    border-color: var(--color-brand, #4f46e5);
+    transform: translateY(-1px);
+  }
+
+  .btn-action-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+    background: transparent;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .btn-action-clear:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.06);
+  }
+
+  .action-icon {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+  }
+
+  /* Density Status Banner */
+  .density-status-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 1.1rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-bg, #f8fafc);
+    transition: all 0.2s ease;
+  }
+
+  .density-icon-wrap {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  :global(.status-svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .density-text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .density-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .density-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .density-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.1rem 0.5rem;
+    border-radius: 9999px;
+    background: rgba(100, 116, 139, 0.1);
+    color: #475569;
+  }
+
+  .density-desc {
+    margin: 0;
+    font-size: 0.825rem;
+    color: var(--color-text-muted, #64748b);
+    line-height: 1.5;
+  }
+
+  .density-status-banner.status-optimal {
+    border-color: rgba(16, 185, 129, 0.35);
+    background: rgba(16, 185, 129, 0.08);
+  }
+  .density-status-banner.status-optimal .density-badge {
+    background: rgba(16, 185, 129, 0.2);
+    color: #059669;
+  }
+
+  .density-status-banner.status-warning {
+    border-color: rgba(245, 158, 11, 0.35);
+    background: rgba(245, 158, 11, 0.08);
+  }
+  .density-status-banner.status-warning .density-badge {
+    background: rgba(245, 158, 11, 0.2);
+    color: #d97706;
+  }
+
+  .density-status-banner.status-danger {
+    border-color: rgba(239, 68, 68, 0.35);
+    background: rgba(239, 68, 68, 0.08);
+  }
+  .density-status-banner.status-danger .density-badge {
+    background: rgba(239, 68, 68, 0.2);
+    color: #dc2626;
+  }
+
+  /* =========================================================
+     4 VIVID, DISTINCT COLORFUL RESULT CARDS
+     ========================================================= */
+  .vivid-result-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-top: 1.25rem;
+    gap: 0.85rem;
   }
 
-  @media (min-width: 640px) {
-    .internal-links-grid {
+  @media (min-width: 480px) {
+    .vivid-result-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  .tool-link-card {
-    display: block;
-    padding: 1.1rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    text-decoration: none;
-    color: inherit;
-    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  @media (min-width: 820px) {
+    .vivid-result-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
-  .tool-link-card:hover {
+  .stat-card {
+    border-radius: 18px;
+    padding: 1.15rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    min-width: 0;
+  }
+
+  .stat-card:hover {
     transform: translateY(-2px);
-    border-color: var(--color-brand);
+    box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.08);
   }
 
-  .tool-link-title {
+  .stat-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.35rem;
+  }
+
+  .stat-icon-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .circle-svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .stat-badge-tag {
+    font-size: 0.675rem;
     font-weight: 700;
-    color: var(--color-brand);
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    white-space: nowrap;
+  }
+
+  .stat-number-display {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.85rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+
+  .stat-label-text {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .stat-sub-info {
+    font-size: 0.725rem;
+    color: var(--color-text-muted, #64748b);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* COLOR 1: Purple / Indigo */
+  .stat-purple {
+    background: linear-gradient(145deg, #ffffff 0%, rgba(99, 102, 241, 0.06) 100%);
+    border: 1.5px solid rgba(99, 102, 241, 0.22);
+  }
+  .purple-circle {
+    background: rgba(99, 102, 241, 0.12);
+    color: #4f46e5;
+  }
+  .badge-purple-tag {
+    background: rgba(99, 102, 241, 0.1);
+    color: #4f46e5;
+  }
+  .purple-number {
+    color: #4f46e5;
+  }
+
+  /* COLOR 2: Rose / Pink */
+  .stat-pink {
+    background: linear-gradient(145deg, #ffffff 0%, rgba(244, 63, 94, 0.06) 100%);
+    border: 1.5px solid rgba(244, 63, 94, 0.22);
+  }
+  .pink-circle {
+    background: rgba(244, 63, 94, 0.12);
+    color: #e11d48;
+  }
+  .badge-pink-tag {
+    background: rgba(244, 63, 94, 0.1);
+    color: #e11d48;
+  }
+  .pink-number {
+    color: #e11d48;
+  }
+
+  /* COLOR 3: Sky / Blue */
+  .stat-blue {
+    background: linear-gradient(145deg, #ffffff 0%, rgba(14, 165, 233, 0.06) 100%);
+    border: 1.5px solid rgba(14, 165, 233, 0.22);
+  }
+  .blue-circle {
+    background: rgba(14, 165, 233, 0.12);
+    color: #0284c7;
+  }
+  .badge-blue-tag {
+    background: rgba(14, 165, 233, 0.1);
+    color: #0284c7;
+  }
+  .blue-number {
+    color: #0284c7;
+  }
+
+  /* COLOR 4: Emerald / Green */
+  .stat-emerald {
+    background: linear-gradient(145deg, #ffffff 0%, rgba(16, 185, 129, 0.06) 100%);
+    border: 1.5px solid rgba(16, 185, 129, 0.22);
+  }
+  .emerald-circle {
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+  }
+  .badge-emerald-tag {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+  }
+  .emerald-number {
+    color: #059669;
+  }
+
+  /* Emerald State Overrides (Warning / Over Limit) */
+  .stat-emerald.state-warn {
+    border-color: rgba(245, 158, 11, 0.35);
+    background: linear-gradient(145deg, #ffffff 0%, rgba(245, 158, 11, 0.06) 100%);
+  }
+  .stat-emerald.state-warn .emerald-number {
+    color: #d97706;
+  }
+  .stat-emerald.state-warn .badge-emerald-tag {
+    background: rgba(245, 158, 11, 0.15);
+    color: #d97706;
+  }
+
+  .stat-emerald.state-danger {
+    border-color: rgba(239, 68, 68, 0.35);
+    background: linear-gradient(145deg, #ffffff 0%, rgba(239, 68, 68, 0.06) 100%);
+  }
+  .stat-emerald.state-danger .emerald-number {
+    color: #dc2626;
+  }
+  .stat-emerald.state-danger .badge-emerald-tag {
+    background: rgba(239, 68, 68, 0.15);
+    color: #dc2626;
+  }
+
+  /* Secondary Analytics Strip */
+  .secondary-analytics-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0.85rem 1.25rem;
+    border-radius: 14px;
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .analytics-item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.825rem;
+  }
+
+  .analytics-label {
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .analytics-val {
+    color: var(--color-text, #0f172a);
+    font-weight: 700;
+  }
+
+  .analytics-sep {
+    width: 1px;
+    height: 16px;
+    background: var(--color-border, #cbd5e1);
+  }
+
+  @media (max-width: 580px) {
+    .analytics-sep {
+      display: none;
+    }
+    .secondary-analytics-strip {
+      justify-content: flex-start;
+      gap: 0.5rem 1.25rem;
+    }
+  }
+
+  /* Detected Hashtags Section */
+  .detected-hashtags-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding-top: 0.5rem;
+  }
+
+  .detected-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .section-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-title-text {
+    margin: 0;
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .title-svg {
+    width: 17px;
+    height: 17px;
+    color: var(--color-brand, #4f46e5);
+    flex-shrink: 0;
+  }
+
+  .pill-counter {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-brand, #4f46e5);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.15rem 0.55rem;
+    border-radius: 9999px;
+  }
+
+  .btn-copy-unique-only {
+    font-size: 0.775rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--color-brand, #4f46e5);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-copy-unique-only:hover {
+    background: rgba(99, 102, 241, 0.16);
+    border-color: var(--color-brand, #4f46e5);
+  }
+
+  /* Empty Hashtags Box */
+  .empty-hashtags-box {
+    padding: 2.25rem 1.5rem;
+    text-align: center;
+    border-radius: 16px;
+    border: 1.5px dashed var(--color-border, #cbd5e1);
+    background: var(--color-bg, #f8fafc);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .empty-icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #4f46e5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 0.35rem;
   }
 
-  .tool-link-desc {
-    font-size: 0.825rem;
-    color: var(--color-text-muted);
-    line-height: 1.4;
+  .empty-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .empty-box-title {
+    margin: 0;
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .empty-box-sub {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-muted, #64748b);
+    max-width: 460px;
+    line-height: 1.5;
+  }
+
+  /* Hashtag Chips Grid */
+  .hashtag-chips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 0.65rem;
+  }
+
+  :global(.modern-chip-card) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 0.95rem;
+    border-radius: 12px;
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+    min-width: 0;
+  }
+
+  :global(.modern-chip-card:hover) {
+    border-color: var(--color-brand, #4f46e5);
+    background: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+  }
+
+  :global(.chip-left) {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-width: 0;
+  }
+
+  :global(.chip-text) {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-brand, #4f46e5);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global(.chip-right) {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  :global(.chip-count-badge) {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    color: var(--color-text-muted, #64748b);
+  }
+
+  :global(.chip-count-badge.is-repeated) {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.4);
+    color: #d97706;
+  }
+
+  :global(.chip-len-badge) {
+    font-size: 0.675rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  :global(.chip-copy-svg) {
+    width: 14px;
+    height: 14px;
+    opacity: 0.6;
+    transition: opacity 0.15s ease;
+  }
+
+  :global(.modern-chip-card:hover .chip-copy-svg) {
+    opacity: 1;
+  }
+
+  /* =========================================================
+     3. CONTENT & SEO GUIDE SECTION
+     ========================================================= */
+  .tool-content-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+    background: var(--color-bg, #f8fafc);
+  }
+
+  .content-inner-container {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .content-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 24px;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .content-pill {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #4f46e5);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  .editorial-block h2 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 1.5rem 0 0.85rem 0;
+  }
+
+  .editorial-block h2:first-of-type {
+    margin-top: 0;
+  }
+
+  .editorial-block p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text, #334155);
+    margin: 0 0 1.25rem 0;
+  }
+
+  .styled-list, .styled-numbered-list {
+    margin: 0 0 1.5rem 0;
+    padding-left: 1.35rem;
+    color: var(--color-text, #334155);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .styled-list li, .styled-numbered-list li {
+    margin-bottom: 0.5rem;
+  }
+
+  .editorial-block code {
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--color-brand, #4f46e5);
+    padding: 0.15rem 0.4rem;
+    border-radius: 5px;
+    font-size: 0.875rem;
+  }
+
+  .editorial-block a {
+    color: var(--color-brand, #4f46e5);
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  /* Benchmark Table */
+  .table-card-wrapper {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 16px;
+    border: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .benchmark-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    text-align: left;
+    min-width: 500px;
+  }
+
+  .benchmark-table th, .benchmark-table td {
+    padding: 0.9rem 1.15rem;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .benchmark-table th {
+    background: var(--color-bg, #f8fafc);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .benchmark-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .metric-positive {
+    font-weight: 700;
+    color: #059669;
+  }
+
+  .metric-neutral {
+    font-weight: 700;
+    color: #d97706;
+  }
+
+  .metric-negative {
+    font-weight: 700;
+    color: #dc2626;
+  }
+
+  .badge-table {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-right: 0.35rem;
+  }
+
+  .table-success {
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+  }
+
+  .table-warning {
+    background: rgba(245, 158, 11, 0.12);
+    color: #d97706;
+  }
+
+  .table-danger {
+    background: rgba(239, 68, 68, 0.12);
+    color: #dc2626;
+  }
+
+  /* Tip Card Box (Matching Influencer Rate Calculator) */
+  .tip-card-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .tip-item {
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    padding: 1.15rem 1.25rem;
+  }
+
+  .tip-item strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--color-text, #0f172a);
+    margin-bottom: 0.35rem;
+  }
+
+  .tip-item p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #64748b);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* FAQ Accordion */
+  .faq-accordion-section {
+    border-top: 1px solid var(--color-border, #e2e8f0);
+    padding-top: 2.5rem;
+  }
+
+  .faq-section-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 1.25rem 0;
+  }
+
+  .faq-accordion-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .faq-accordion-item {
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.15s ease;
+  }
+
+  .faq-accordion-item:hover {
+    border-color: var(--color-brand, #4f46e5);
+  }
+
+  .faq-summary {
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text, #0f172a);
+    user-select: none;
+    list-style: none;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand, #4f46e5);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .faq-accordion-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-body {
+    padding: 0 1.25rem 1.15rem;
+    color: var(--color-text-muted, #64748b);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .faq-body p {
+    margin: 0;
+  }
+
+  /* Related Tools Block */
+  .related-tools-block {
+    border-top: 1px solid var(--color-border, #e2e8f0);
+    padding-top: 2.5rem;
+  }
+
+  .related-header-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .related-title {
+    margin: 0;
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .view-all-tools-btn {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-brand, #4f46e5);
+    text-decoration: none;
+    transition: transform 0.15s ease;
+  }
+
+  .view-all-tools-btn:hover {
+    transform: translateX(2px);
+  }
+
+  .related-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .related-tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-recommend-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1.15rem;
+    border-radius: 16px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-bg, #f8fafc);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.15s ease;
+  }
+
+  .tool-recommend-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brand, #4f46e5);
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.08);
+  }
+
+  .recommend-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #4f46e5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .recommend-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .recommend-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .recommend-name {
+    margin: 0;
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-brand, #4f46e5);
+  }
+
+  .recommend-desc {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #64748b);
+    line-height: 1.45;
+  }
+
+  /* =========================================================
+     4. REFINED GRAY DARK THEME (#202124 / #181A1B / #2B2D30 / #303238)
+     ========================================================= */
+  :global([data-theme="dark"]) .tool-hero-section {
+    background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(99, 102, 241, 0.15), transparent 70%), linear-gradient(180deg, #181A1B 0%, #202124 100%);
+    border-bottom-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .hero-badge {
+    background: #2B2D30;
+    border-color: #41444A;
+    color: #F1F3F4;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  :global([data-theme="dark"]) .hero-headline {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .gradient-text {
+    background: linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  :global([data-theme="dark"]) .hero-desc {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .feature-chip {
+    background: #2B2D30;
+    border-color: #41444A;
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .chip-svg {
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .tool-main-section {
+    background: #202124;
+  }
+
+  :global([data-theme="dark"]) .saas-tool-card {
+    background: #2B2D30;
+    border-color: #41444A;
+    box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.5), 0 0 0 1px #36383E;
+  }
+
+  :global([data-theme="dark"]) .card-header-bar {
+    border-bottom-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .platform-avatar {
+    background: rgba(99, 102, 241, 0.2);
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .platform-title {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .platform-limit-text {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .platform-limit-text strong {
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .mode-tabs-wrap {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .mode-tab {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .mode-tab:hover {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .mode-tab.active {
+    background: #2B2D30;
+    color: #818cf8;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+
+  :global([data-theme="dark"]) .editor-label {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .label-svg {
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .quick-btn {
+    background: #303238;
+    border-color: #41444A;
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .quick-btn:hover {
+    border-color: #818cf8;
+    color: #818cf8;
+    background: rgba(99, 102, 241, 0.15);
+  }
+
+  :global([data-theme="dark"]) .main-textarea {
+    background: #303238;
+    border-color: #41444A;
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .main-textarea:focus {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.22);
+  }
+
+  :global([data-theme="dark"]) .progress-meter-track {
+    background: #41444A;
+  }
+
+  :global([data-theme="dark"]) .btn-action-secondary {
+    background: rgba(99, 102, 241, 0.18);
+    border-color: rgba(99, 102, 241, 0.4);
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .btn-action-secondary:hover {
+    background: rgba(99, 102, 241, 0.28);
+    border-color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .btn-action-clear {
+    border-color: #41444A;
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .btn-action-clear:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.12);
+  }
+
+  :global([data-theme="dark"]) .density-status-banner {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .density-title {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .density-desc {
+    color: #B8BEC7;
+  }
+
+  /* Dark mode result cards */
+  :global([data-theme="dark"]) .stat-purple {
+    background: linear-gradient(145deg, #2B2D30 0%, rgba(99, 102, 241, 0.15) 100%);
+    border-color: rgba(129, 140, 248, 0.35);
+  }
+  :global([data-theme="dark"]) .purple-circle {
+    background: rgba(99, 102, 241, 0.25);
+    color: #818cf8;
+  }
+  :global([data-theme="dark"]) .badge-purple-tag {
+    background: rgba(99, 102, 241, 0.2);
+    color: #818cf8;
+  }
+  :global([data-theme="dark"]) .purple-number {
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .stat-pink {
+    background: linear-gradient(145deg, #2B2D30 0%, rgba(244, 63, 94, 0.15) 100%);
+    border-color: rgba(251, 113, 133, 0.35);
+  }
+  :global([data-theme="dark"]) .pink-circle {
+    background: rgba(244, 63, 94, 0.25);
+    color: #fb7185;
+  }
+  :global([data-theme="dark"]) .badge-pink-tag {
+    background: rgba(244, 63, 94, 0.2);
+    color: #fb7185;
+  }
+  :global([data-theme="dark"]) .pink-number {
+    color: #fb7185;
+  }
+
+  :global([data-theme="dark"]) .stat-blue {
+    background: linear-gradient(145deg, #2B2D30 0%, rgba(14, 165, 233, 0.15) 100%);
+    border-color: rgba(56, 189, 248, 0.35);
+  }
+  :global([data-theme="dark"]) .blue-circle {
+    background: rgba(14, 165, 233, 0.25);
+    color: #38bdf8;
+  }
+  :global([data-theme="dark"]) .badge-blue-tag {
+    background: rgba(14, 165, 233, 0.2);
+    color: #38bdf8;
+  }
+  :global([data-theme="dark"]) .blue-number {
+    color: #38bdf8;
+  }
+
+  :global([data-theme="dark"]) .stat-emerald {
+    background: linear-gradient(145deg, #2B2D30 0%, rgba(16, 185, 129, 0.15) 100%);
+    border-color: rgba(52, 211, 153, 0.35);
+  }
+  :global([data-theme="dark"]) .emerald-circle {
+    background: rgba(16, 185, 129, 0.25);
+    color: #34d399;
+  }
+  :global([data-theme="dark"]) .badge-emerald-tag {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+  }
+  :global([data-theme="dark"]) .emerald-number {
+    color: #34d399;
+  }
+
+  :global([data-theme="dark"]) .stat-label-text {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .stat-sub-info {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .secondary-analytics-strip {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .analytics-label {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .analytics-val {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .analytics-sep {
+    background: #41444A;
+  }
+
+  :global([data-theme="dark"]) .section-title-text {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .title-svg {
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .pill-counter {
+    background: rgba(99, 102, 241, 0.2);
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .btn-copy-unique-only {
+    background: #202124;
+    border-color: #41444A;
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .btn-copy-unique-only:hover {
+    background: #303238;
+    border-color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .empty-hashtags-box {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .empty-box-title {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .empty-box-sub {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .modern-chip-card {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .modern-chip-card:hover {
+    background: #303238;
+    border-color: #818cf8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  :global([data-theme="dark"]) .chip-text {
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .chip-count-badge {
+    background: #2B2D30;
+    border-color: #41444A;
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .chip-len-badge {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .tool-content-section {
+    background: #202124;
+  }
+
+  :global([data-theme="dark"]) .content-card {
+    background: #2B2D30;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .editorial-block h2,
+  :global([data-theme="dark"]) .faq-section-title,
+  :global([data-theme="dark"]) .related-title,
+  :global([data-theme="dark"]) .faq-summary {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .editorial-block p,
+  :global([data-theme="dark"]) .styled-list,
+  :global([data-theme="dark"]) .styled-numbered-list,
+  :global([data-theme="dark"]) .faq-body {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .editorial-block code {
+    background: #202124;
+    border-color: #41444A;
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .table-card-wrapper {
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .benchmark-table th {
+    background: #202124;
+    color: #F1F3F4;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .benchmark-table td {
+    border-color: #41444A;
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .tip-item {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .tip-item strong {
+    color: #F1F3F4;
+  }
+
+  :global([data-theme="dark"]) .tip-item p {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .faq-accordion-item {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .faq-accordion-item:hover {
+    border-color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .faq-chevron {
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .faq-section-title,
+  :global([data-theme="dark"]) .related-tools-block {
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .tool-recommend-card {
+    background: #202124;
+    border-color: #41444A;
+  }
+
+  :global([data-theme="dark"]) .tool-recommend-card:hover {
+    background: #303238;
+    border-color: #818cf8;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  }
+
+  :global([data-theme="dark"]) .recommend-icon {
+    background: rgba(99, 102, 241, 0.2);
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .recommend-name {
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .recommend-desc {
+    color: #B8BEC7;
+  }
+
+  :global([data-theme="dark"]) .view-all-tools-btn {
+    color: #818cf8;
   }
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  function setupTwitterHashtagCounter() {
     const tweetInput = document.getElementById('tweet-input') as HTMLTextAreaElement | null;
-
-    // Formatting Toolbar Buttons
-    const btnUppercase = document.getElementById('btn-uppercase');
-    const btnLowercase = document.getElementById('btn-lowercase');
-    const btnTitlecase = document.getElementById('btn-titlecase');
-    const btnCleanspace = document.getElementById('btn-cleanspace');
-    const btnCopyHashtags = document.getElementById('btn-copy-hashtags');
-    const copyHashtagsTextSpan = document.getElementById('copy-hashtags-text');
-    const btnClear = document.getElementById('btn-clear');
-
-    // Status Card Elements
-    const hashtagStatusCard = document.getElementById('hashtag-status-card');
-    const statusIcon = document.getElementById('status-icon');
-    const statusTitle = document.getElementById('status-title');
-    const statusDesc = document.getElementById('status-desc');
-
-    // 8 Metric Count Displays
-    const countHashtags = document.getElementById('count-hashtags');
-    const countUnique = document.getElementById('count-unique');
-    const countHashtagChars = document.getElementById('count-hashtag-chars');
-    const countRemaining = document.getElementById('count-remaining');
-    const countWords = document.getElementById('count-words');
-    const countChars = document.getElementById('count-chars');
-    const countXWeighted = document.getElementById('count-x-weighted');
-    const countAvgLength = document.getElementById('count-avg-length');
-
-    // Extracted Tags List Container
-    const extractedTagsList = document.getElementById('extracted-tags-list');
-    const extractedCountBadge = document.getElementById('extracted-count-badge');
-
     if (!tweetInput) return;
 
-    // Twitter hashtag extraction regex: matches # followed by unicode word chars (letters, digits, underscores)
-    const hashtagRegex = /#[\p{L}\p{N}_]+/gu;
-    const urlRegex = /https?:\/\/[^\s]+/g;
-    const emojiRegex = /[\u{1F300}-\u{1F9FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E6}-\u{1F1FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1FA70}-\u{1FAFF}]/gu;
+    if (tweetInput.getAttribute('data-counter-ready')) return;
+    tweetInput.setAttribute('data-counter-ready', 'true');
 
-    // Calculate Twitter X-Weighted Character Count
+    // Controls
+    const tabStandard = document.getElementById('tab-standard');
+    const tabPremium = document.getElementById('tab-premium');
+    const platformLimitText = document.getElementById('platform-limit-text');
+    const badgeLimitDisplay = document.getElementById('badge-limit-display');
+
+    // Quick helpers
+    const btnCleanSpacing = document.getElementById('btn-clean-spacing');
+    const btnPaste = document.getElementById('btn-paste');
+
+    // Action buttons
+    const btnCopyTweet = document.getElementById('btn-copy-tweet');
+    const copyTweetLabel = document.getElementById('copy-tweet-label');
+    const btnCopyHashtags = document.getElementById('btn-copy-hashtags');
+    const copyHashtagsLabel = document.getElementById('copy-hashtags-label');
+    const btnClear = document.getElementById('btn-clear');
+    const btnCopyUnique = document.getElementById('btn-copy-unique');
+
+    // Progress bar
+    const progressMeterFill = document.getElementById('progress-meter-fill');
+
+    // Density banner
+    const densityStatusBanner = document.getElementById('density-status-banner');
+    const densityIcon = document.getElementById('density-icon');
+    const densityTitle = document.getElementById('density-title');
+    const densityBadge = document.getElementById('density-badge');
+    const densityDesc = document.getElementById('density-desc');
+
+    // 4 Vivid Result Displays
+    const valTotalHashtags = document.getElementById('val-total-hashtags');
+    const subHashtagsDetail = document.getElementById('sub-hashtags-detail');
+
+    const valUniqueHashtags = document.getElementById('val-unique-hashtags');
+    const subUniqueDetail = document.getElementById('sub-unique-detail');
+
+    const valCharacters = document.getElementById('val-characters');
+    const subCharDetail = document.getElementById('sub-char-detail');
+
+    const cardRemaining = document.getElementById('card-remaining');
+    const circleRemaining = document.getElementById('circle-remaining');
+    const badgeRemainingStatus = document.getElementById('badge-remaining-status');
+    const valRemaining = document.getElementById('val-remaining');
+    const subRemainingDetail = document.getElementById('sub-remaining-detail');
+
+    // Secondary Analytics
+    const valWords = document.getElementById('val-words');
+    const valHashtagChars = document.getElementById('val-hashtag-chars');
+    const valHashtagShare = document.getElementById('val-hashtag-share');
+    const valAvgTagLen = document.getElementById('val-avg-tag-len');
+
+    // Hashtags list
+    const detectedPillCounter = document.getElementById('detected-pill-counter');
+    const emptyHashtagsBox = document.getElementById('empty-hashtags-box');
+    const hashtagChipsGrid = document.getElementById('hashtag-chips-grid');
+
+    // SVG icon templates for dynamic state rendering (Zero Emojis)
+    const svgSearch = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="status-svg"><circle cx="11" cy="11" r="7" /><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35" /></svg>`;
+    const svgCheck = `<svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" class="status-svg"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
+    const svgWarn = `<svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" class="status-svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>`;
+    const svgDanger = `<svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" class="status-svg"><circle cx="12" cy="12" r="9" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 9l-6 6m0-6l6 6" /></svg>`;
+    const svgClock = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="circle-svg"><circle cx="12" cy="12" r="9" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3" /></svg>`;
+    const svgCopy = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-copy-svg"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>`;
+    const svgCopiedCheck = `<svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" class="chip-copy-svg"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
+
+    // Default limit: 280 characters
+    let currentLimit = 280;
+
+    // Strict Twitter Hashtag Regex
+    const hashtagRegex = /(?:^|[^\p{L}\p{N}_])#([\p{L}\p{N}_]*[\p{L}_][\p{L}\p{N}_]*)/gu;
+    const urlRegex = /https?:\/\/[^\s]+/gi;
+    const emojiRegex = /[\p{Extended_Pictographic}\u{1F3FB}-\u{1F3FF}\u{1F9B0}-\u{1F9B3}]/gu;
+
+    function extractHashtags(text: string): string[] {
+      if (!text) return [];
+      const matches: string[] = [];
+      let m: RegExpExecArray | null;
+      hashtagRegex.lastIndex = 0;
+      while ((m = hashtagRegex.exec(text)) !== null) {
+        matches.push('#' + m[1]);
+      }
+      return matches;
+    }
+
     function calculateXWeightedLength(text: string): number {
       if (!text) return 0;
-      let parsed = text.replace(urlRegex, 'x'.repeat(23));
-      let length = Array.from(parsed).length;
-      const emojiMatches = text.match(emojiRegex);
-      if (emojiMatches) {
-        length += emojiMatches.length;
+      const textWithUrlsReplaced = text.replace(urlRegex, 'x'.repeat(23));
+      let length = 0;
+      for (const char of textWithUrlsReplaced) {
+        if (char.match(emojiRegex)) {
+          length += 2;
+        } else {
+          length += 1;
+        }
       }
       return length;
     }
 
-    // Main Live Metric Calculation Engine
-    function updateMetrics() {
-      const rawText = tweetInput?.value || '';
+    interface UniqueHashtag {
+      display: string;
+      count: number;
+      length: number;
+    }
 
-      // 1. Extract Hashtags
-      const hashtagMatches = rawText.match(hashtagRegex) || [];
-      const totalHashtagsCount = hashtagMatches.length;
+    function getUniqueHashtags(tags: string[]): UniqueHashtag[] {
+      const map = new Map<string, UniqueHashtag>();
+      tags.forEach(tag => {
+        const lower = tag.toLowerCase();
+        if (!map.has(lower)) {
+          map.set(lower, { display: tag, count: 0, length: Array.from(tag).length });
+        }
+        map.get(lower)!.count++;
+      });
+      return Array.from(map.values());
+    }
 
-      // 2. Unique Hashtags
-      const uniqueHashtagsSet = new Set(hashtagMatches.map(t => t.toLowerCase()));
-      const uniqueHashtagsCount = uniqueHashtagsSet.size;
+    function updateAllCounts() {
+      const rawText = tweetInput ? tweetInput.value : '';
 
-      // 3. Hashtag Characters Total
+      // 1. Hashtags
+      const hashtagMatches = extractHashtags(rawText);
+      const totalHashtags = hashtagMatches.length;
+      const uniqueHashtags = getUniqueHashtags(hashtagMatches);
+      const uniqueCount = uniqueHashtags.length;
+      const duplicateCount = totalHashtags - uniqueCount;
+
       const hashtagCharsSum = hashtagMatches.reduce((acc, tag) => acc + Array.from(tag).length, 0);
+      const rawChars = Array.from(rawText).length;
+      const avgTagLen = totalHashtags > 0 ? (hashtagCharsSum / totalHashtags).toFixed(1) : '0';
+      const hashtagSharePct = rawChars > 0 ? Math.min(100, Math.round((hashtagCharsSum / rawChars) * 100)) : 0;
 
-      // 4. Average Hashtag Length
-      const avgLength = totalHashtagsCount > 0 ? (hashtagCharsSum / totalHashtagsCount).toFixed(1) : '0';
-
-      // 5. Total Words
-      const trimmedText = rawText.trim();
-      const words = trimmedText ? trimmedText.split(/\s+/).filter(Boolean).length : 0;
-
-      // 6. Standard Characters
-      const charsWithSpaces = Array.from(rawText).length;
-
-      // 7. X-Weighted Characters
+      // 2. Character weights & Remaining
       const xWeightedChars = calculateXWeightedLength(rawText);
+      const remainingAllowance = currentLimit - xWeightedChars;
+      const progressPct = Math.min(100, Math.round((xWeightedChars / currentLimit) * 100));
 
-      // 8. Remaining Allowance (280 limit)
-      const remainingAllowance = 280 - xWeightedChars;
+      // 3. Words
+      const trimmed = rawText.trim();
+      const wordsCount = trimmed ? trimmed.split(/\s+/).filter(Boolean).length : 0;
 
-      // Update Metric Displays
-      if (countHashtags) countHashtags.textContent = totalHashtagsCount.toLocaleString();
-      if (countUnique) countUnique.textContent = uniqueHashtagsCount.toLocaleString();
-      if (countHashtagChars) countHashtagChars.textContent = hashtagCharsSum.toLocaleString();
-      if (countRemaining) {
-        countRemaining.textContent = remainingAllowance >= 0 ? remainingAllowance.toLocaleString() : `-${Math.abs(remainingAllowance).toLocaleString()}`;
-        countRemaining.style.color = remainingAllowance < 0 ? 'var(--color-danger)' : 'var(--color-brand)';
+      // Update Card 1: Total Hashtags
+      if (valTotalHashtags) valTotalHashtags.textContent = totalHashtags.toLocaleString();
+      if (subHashtagsDetail) {
+        subHashtagsDetail.textContent = totalHashtags === 0 
+          ? '0 occurrences detected' 
+          : `${totalHashtags} total hashtag occurrence(s)`;
       }
-      if (countWords) countWords.textContent = words.toLocaleString();
-      if (countChars) countChars.textContent = charsWithSpaces.toLocaleString();
-      if (countXWeighted) countXWeighted.textContent = xWeightedChars.toLocaleString();
-      if (countAvgLength) countAvgLength.textContent = avgLength;
 
-      // Update Hashtag Density Rating Status Card
-      updateHashtagStatus(totalHashtagsCount);
+      // Update Card 2: Unique Hashtags
+      if (valUniqueHashtags) valUniqueHashtags.textContent = uniqueCount.toLocaleString();
+      if (subUniqueDetail) {
+        subUniqueDetail.textContent = duplicateCount > 0 
+          ? `${duplicateCount} repeated tag(s)` 
+          : 'All tags are unique';
+      }
 
-      // Update Extracted Tags Pill Display
-      updateExtractedTagsDisplay(hashtagMatches);
+      // Update Card 3: Characters
+      if (valCharacters) valCharacters.textContent = rawChars.toLocaleString();
+      if (subCharDetail) {
+        subCharDetail.textContent = `X-weighted: ${xWeightedChars.toLocaleString()} / ${currentLimit.toLocaleString()}`;
+      }
+
+      // Update Card 4: Remaining
+      if (valRemaining && cardRemaining && badgeRemainingStatus && subRemainingDetail && circleRemaining) {
+        cardRemaining.classList.remove('state-warn', 'state-danger');
+
+        if (remainingAllowance >= 0) {
+          valRemaining.textContent = remainingAllowance.toLocaleString();
+          subRemainingDetail.textContent = `${remainingAllowance.toLocaleString()} characters left`;
+
+          if (remainingAllowance <= (currentLimit === 280 ? 20 : 100)) {
+            cardRemaining.classList.add('state-warn');
+            badgeRemainingStatus.textContent = 'Tight';
+            circleRemaining.innerHTML = svgWarn;
+          } else {
+            badgeRemainingStatus.textContent = 'Safe';
+            circleRemaining.innerHTML = svgClock;
+          }
+        } else {
+          valRemaining.textContent = `-${Math.abs(remainingAllowance).toLocaleString()}`;
+          subRemainingDetail.textContent = `${Math.abs(remainingAllowance).toLocaleString()} chars over limit!`;
+          cardRemaining.classList.add('state-danger');
+          badgeRemainingStatus.textContent = 'Over Limit';
+          circleRemaining.innerHTML = svgDanger;
+        }
+      }
+
+      // Secondary analytics
+      if (valWords) valWords.textContent = wordsCount.toLocaleString();
+      if (valHashtagChars) valHashtagChars.textContent = `${hashtagCharsSum.toLocaleString()} chars`;
+      if (valHashtagShare) valHashtagShare.textContent = `${hashtagSharePct}%`;
+      if (valAvgTagLen) valAvgTagLen.textContent = `${avgTagLen} chars`;
+
+      // Progress bar fill
+      if (progressMeterFill) {
+        progressMeterFill.style.width = `${progressPct}%`;
+        progressMeterFill.className = 'progress-meter-fill';
+        if (remainingAllowance < 0) {
+          progressMeterFill.classList.add('meter-danger');
+        } else if (progressPct >= 85) {
+          progressMeterFill.classList.add('meter-warn');
+        }
+      }
+
+      // Density banner
+      updateDensityBanner(totalHashtags, remainingAllowance);
+
+      // Hashtag chips
+      renderHashtagChips(uniqueHashtags, totalHashtags);
     }
 
-    // Update Status Rating Box based on Hashtag Count
-    function updateHashtagStatus(count: number) {
-      if (!hashtagStatusCard || !statusIcon || !statusTitle || !statusDesc) return;
+    function updateDensityBanner(tagCount: number, remainingChars: number) {
+      if (!densityStatusBanner || !densityIcon || !densityTitle || !densityBadge || !densityDesc) return;
 
-      hashtagStatusCard.className = 'hashtag-status-card';
+      densityStatusBanner.className = 'density-status-banner';
 
-      if (count === 0) {
-        hashtagStatusCard.classList.add('status-neutral');
-        statusIcon.textContent = '🔍';
-        statusTitle.textContent = 'No Hashtags Detected';
-        statusDesc.textContent = 'Twitter best practice recommends using 1 to 2 targeted hashtags per tweet for maximum reach and engagement.';
-      } else if (count >= 1 && count <= 2) {
-        hashtagStatusCard.classList.add('status-optimal');
-        statusIcon.textContent = '✅';
-        statusTitle.textContent = `Optimal Hashtag Range (${count} ${count === 1 ? 'Hashtag' : 'Hashtags'})`;
-        statusDesc.textContent = 'Great job! Using 1 to 2 relevant hashtags per tweet maximizes retweets and discoverability without triggering spam filters.';
-      } else if (count >= 3 && count <= 4) {
-        hashtagStatusCard.classList.add('status-warning');
-        statusIcon.textContent = '⚠️';
-        statusTitle.textContent = `Moderate Hashtag Usage (${count} Hashtags)`;
-        statusDesc.textContent = 'Using 3 to 4 hashtags slightly reduces engagement rates on Twitter. Consider trimming down to the top 1 or 2 most relevant tags.';
-      } else {
-        hashtagStatusCard.classList.add('status-danger');
-        statusIcon.textContent = '🚫';
-        statusTitle.textContent = `Over-Hashtagged (${count} Hashtags)`;
-        statusDesc.textContent = 'Using 5+ hashtags significantly reduces tweet engagement and makes your post look spammy. Keep hashtags to 1-2 targeted topics.';
-      }
-    }
-
-    // Render Extracted Hashtags as Interactive Pills
-    function updateExtractedTagsDisplay(tags: string[]) {
-      if (!extractedTagsList || !extractedCountBadge) return;
-
-      if (extractedCountBadge) extractedCountBadge.textContent = `${tags.length} ${tags.length === 1 ? 'tag' : 'tags'}`;
-
-      if (tags.length === 0) {
-        extractedTagsList.innerHTML = '<span class="tags-empty-text">No hashtags found yet. Type hashtags starting with # above.</span>';
+      if (remainingChars < 0) {
+        densityStatusBanner.classList.add('status-danger');
+        densityIcon.innerHTML = svgDanger;
+        densityTitle.textContent = `Character Limit Exceeded (-${Math.abs(remainingChars)} chars)`;
+        densityBadge.textContent = 'Over Limit';
+        densityDesc.textContent = `Your tweet exceeds the ${currentLimit.toLocaleString()}-character allowance for this mode. Trim your copy before publishing on X.`;
         return;
       }
 
-      // Deduplicate tags for clean pill list
-      const uniqueTags = Array.from(new Set(tags));
-      extractedTagsList.innerHTML = '';
+      if (tagCount === 0) {
+        densityStatusBanner.classList.add('status-neutral');
+        densityIcon.innerHTML = svgSearch;
+        densityTitle.textContent = 'No Hashtags Detected';
+        densityBadge.textContent = 'Awaiting Input';
+        densityDesc.textContent = 'Twitter officially recommends using 1 to 2 relevant hashtags per tweet. Posts with 1–2 hashtags achieve up to 21% higher engagement without looking spammy.';
+      } else if (tagCount >= 1 && tagCount <= 2) {
+        densityStatusBanner.classList.add('status-optimal');
+        densityIcon.innerHTML = svgCheck;
+        densityTitle.textContent = `Optimal Range: ${tagCount} ${tagCount === 1 ? 'Hashtag' : 'Hashtags'}`;
+        densityBadge.textContent = 'Peak Reach';
+        densityDesc.textContent = 'Great balance! Research shows 1-2 focused hashtags maximize retweets and organic impressions without cluttering the feed.';
+      } else if (tagCount >= 3 && tagCount <= 4) {
+        densityStatusBanner.classList.add('status-warning');
+        densityIcon.innerHTML = svgWarn;
+        densityTitle.textContent = `Moderate Hashtag Usage (${tagCount} Hashtags)`;
+        densityBadge.textContent = 'Moderate';
+        densityDesc.textContent = '3 to 4 hashtags can dilute tweet focus and may decrease retweets by ~17%. Consider keeping only your 1-2 highest-impact hashtags.';
+      } else {
+        densityStatusBanner.classList.add('status-danger');
+        densityIcon.innerHTML = svgDanger;
+        densityTitle.textContent = `Over-Hashtagged (${tagCount} Hashtags)`;
+        densityBadge.textContent = 'Suppression Risk';
+        densityDesc.textContent = 'Using 5 or more hashtags triggers algorithmic suppression and looks spammy on mobile feeds. Prune down to 1-2 targeted niche hashtags.';
+      }
+    }
 
-      uniqueTags.forEach(tag => {
-        const pill = document.createElement('span');
-        pill.className = 'tag-pill';
-        pill.title = 'Click to copy hashtag';
-        pill.innerHTML = `<span>${tag}</span><small>📋</small>`;
-        pill.addEventListener('click', () => {
-          navigator.clipboard.writeText(tag).then(() => {
-            const originalText = pill.innerHTML;
-            pill.innerHTML = `<span>Copied!</span>`;
+    function renderHashtagChips(uniqueList: UniqueHashtag[], totalCount: number) {
+      if (!detectedPillCounter || !emptyHashtagsBox || !hashtagChipsGrid || !btnCopyUnique) return;
+
+      detectedPillCounter.textContent = `${totalCount} total • ${uniqueList.length} unique`;
+
+      if (uniqueList.length === 0) {
+        emptyHashtagsBox.style.display = 'flex';
+        hashtagChipsGrid.style.display = 'none';
+        btnCopyUnique.style.display = 'none';
+        hashtagChipsGrid.innerHTML = '';
+        return;
+      }
+
+      emptyHashtagsBox.style.display = 'none';
+      hashtagChipsGrid.style.display = 'grid';
+      btnCopyUnique.style.display = 'inline-block';
+      hashtagChipsGrid.innerHTML = '';
+
+      uniqueList.forEach(item => {
+        const chip = document.createElement('div');
+        chip.className = 'modern-chip-card';
+        chip.title = `Click to copy ${item.display}`;
+
+        const isRepeated = item.count > 1;
+        const countBadgeClass = isRepeated ? 'chip-count-badge is-repeated' : 'chip-count-badge';
+        const countBadgeText = isRepeated ? `${item.count}× REPEATED` : `${item.count}×`;
+
+        chip.innerHTML = `
+          <div class="chip-left">
+            <span class="chip-text">${escapeHtml(item.display)}</span>
+          </div>
+          <div class="chip-right">
+            <span class="${countBadgeClass}">${countBadgeText}</span>
+            <span class="chip-len-badge">${item.length}c</span>
+            <span class="chip-copy-icon-wrap" aria-hidden="true">${svgCopy}</span>
+          </div>
+        `;
+
+        chip.addEventListener('click', () => {
+          navigator.clipboard.writeText(item.display).then(() => {
+            const originalHtml = chip.innerHTML;
+            chip.innerHTML = `
+              <div class="chip-left">
+                <span class="chip-text" style="color: #10b981;">Copied!</span>
+              </div>
+              <div class="chip-right">
+                <span class="chip-count-badge" style="color: #10b981; border-color: rgba(16, 185, 129, 0.4);">${svgCopiedCheck}</span>
+              </div>
+            `;
             setTimeout(() => {
-              pill.innerHTML = originalText;
-            }, 1500);
+              chip.innerHTML = originalHtml;
+            }, 1400);
           });
         });
-        extractedTagsList.appendChild(pill);
+
+        hashtagChipsGrid.appendChild(chip);
       });
     }
 
-    // Attach Event Listeners to Input
+    function escapeHtml(str: string): string {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    // Input listeners
     ['input', 'change', 'keyup'].forEach(evt => {
-      tweetInput.addEventListener(evt, updateMetrics);
+      tweetInput.addEventListener(evt, updateAllCounts);
     });
 
-    // Toolbar Action 1: UPPERCASE
-    if (btnUppercase) {
-      btnUppercase.addEventListener('click', () => {
-        if (!tweetInput) return;
-        tweetInput.value = tweetInput.value.toUpperCase();
-        updateMetrics();
+    // Mode Switcher: Standard (280) vs X Premium (25K)
+    if (tabStandard && tabPremium) {
+      tabStandard.addEventListener('click', () => {
+        currentLimit = 280;
+        tabStandard.classList.add('active');
+        tabStandard.setAttribute('aria-pressed', 'true');
+        tabPremium.classList.remove('active');
+        tabPremium.setAttribute('aria-pressed', 'false');
+        if (platformLimitText) {
+          platformLimitText.innerHTML = 'Standard Account: <strong>280 chars</strong>';
+        }
+        if (badgeLimitDisplay) badgeLimitDisplay.textContent = 'Limit: 280';
+        updateAllCounts();
+      });
+
+      tabPremium.addEventListener('click', () => {
+        currentLimit = 25000;
+        tabPremium.classList.add('active');
+        tabPremium.setAttribute('aria-pressed', 'true');
+        tabStandard.classList.remove('active');
+        tabStandard.setAttribute('aria-pressed', 'false');
+        if (platformLimitText) {
+          platformLimitText.innerHTML = 'X Premium Account: <strong>25,000 chars</strong>';
+        }
+        if (badgeLimitDisplay) badgeLimitDisplay.textContent = 'Limit: 25K';
+        updateAllCounts();
       });
     }
 
-    // Toolbar Action 2: lowercase
-    if (btnLowercase) {
-      btnLowercase.addEventListener('click', () => {
-        if (!tweetInput) return;
-        tweetInput.value = tweetInput.value.toLowerCase();
-        updateMetrics();
-      });
-    }
-
-    // Toolbar Action 3: Title Case
-    if (btnTitlecase) {
-      btnTitlecase.addEventListener('click', () => {
-        if (!tweetInput) return;
-        tweetInput.value = tweetInput.value.replace(/\w\S*/g, (txt) => {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-        updateMetrics();
-      });
-    }
-
-    // Toolbar Action 4: Clean Spacing
-    if (btnCleanspace) {
-      btnCleanspace.addEventListener('click', () => {
-        if (!tweetInput) return;
-        tweetInput.value = tweetInput.value
-          .split('\n')
-          .map(line => line.replace(/[ \t]+/g, ' ').trim())
-          .join('\n');
-        updateMetrics();
-      });
-    }
-
-    // Toolbar Action 5: Copy Hashtags
-    if (btnCopyHashtags) {
-      btnCopyHashtags.addEventListener('click', () => {
-        if (!tweetInput) return;
-        const hashtagMatches = tweetInput.value.match(hashtagRegex) || [];
-        if (hashtagMatches.length === 0) {
-          if (copyHashtagsTextSpan) copyHashtagsTextSpan.textContent = 'No Hashtags!';
+    // Action 1: Copy Full Tweet
+    if (btnCopyTweet && copyTweetLabel) {
+      btnCopyTweet.addEventListener('click', () => {
+        const text = tweetInput.value;
+        if (!text.trim()) {
+          const original = copyTweetLabel.textContent;
+          copyTweetLabel.textContent = 'Tweet is empty!';
           setTimeout(() => {
-            if (copyHashtagsTextSpan) copyHashtagsTextSpan.textContent = 'Copy Hashtags';
-          }, 2000);
+            copyTweetLabel.textContent = original;
+          }, 1600);
           return;
         }
 
-        const hashtagsString = Array.from(new Set(hashtagMatches)).join(' ');
-        navigator.clipboard.writeText(hashtagsString).then(() => {
-          if (copyHashtagsTextSpan) copyHashtagsTextSpan.textContent = 'Copied Hashtags!';
+        navigator.clipboard.writeText(text).then(() => {
+          const original = copyTweetLabel.textContent;
+          copyTweetLabel.textContent = 'Copied Tweet!';
           setTimeout(() => {
-            if (copyHashtagsTextSpan) copyHashtagsTextSpan.textContent = 'Copy Hashtags';
-          }, 2000);
+            copyTweetLabel.textContent = original;
+          }, 1600);
         });
       });
     }
 
-    // Toolbar Action 6: Clear All
+    // Action 2: Copy Hashtags Only
+    if (btnCopyHashtags && copyHashtagsLabel) {
+      btnCopyHashtags.addEventListener('click', () => {
+        const text = tweetInput.value;
+        const matches = extractHashtags(text);
+        if (matches.length === 0) {
+          const original = copyHashtagsLabel.textContent;
+          copyHashtagsLabel.textContent = 'No tags to copy!';
+          setTimeout(() => {
+            copyHashtagsLabel.textContent = original;
+          }, 1600);
+          return;
+        }
+
+        const tagsString = matches.join(' ');
+        navigator.clipboard.writeText(tagsString).then(() => {
+          const original = copyHashtagsLabel.textContent;
+          copyHashtagsLabel.textContent = `Copied ${matches.length} Tags!`;
+          setTimeout(() => {
+            copyHashtagsLabel.textContent = original;
+          }, 1600);
+        });
+      });
+    }
+
+    // Action 3: Copy Unique Hashtags
+    if (btnCopyUnique) {
+      btnCopyUnique.addEventListener('click', () => {
+        const text = tweetInput.value;
+        const matches = extractHashtags(text);
+        const unique = getUniqueHashtags(matches);
+        if (unique.length === 0) return;
+
+        const uniqueString = unique.map(u => u.display).join(' ');
+        navigator.clipboard.writeText(uniqueString).then(() => {
+          const original = btnCopyUnique.textContent;
+          btnCopyUnique.textContent = 'Copied Unique!';
+          setTimeout(() => {
+            btnCopyUnique.textContent = original;
+          }, 1600);
+        });
+      });
+    }
+
+    // Action 4: Clear All
     if (btnClear) {
       btnClear.addEventListener('click', () => {
-        if (!tweetInput) return;
         tweetInput.value = '';
-        updateMetrics();
+        updateAllCounts();
         tweetInput.focus();
       });
     }
 
-    // Initial calculation on page load
-    updateMetrics();
-  });
+    // Action 5: Clean Spacing
+    if (btnCleanSpacing) {
+      btnCleanSpacing.addEventListener('click', () => {
+        tweetInput.value = tweetInput.value
+          .split('\n')
+          .map(line => line.replace(/[ \t]+/g, ' ').trim())
+          .join('\n')
+          .trim();
+        updateAllCounts();
+      });
+    }
+
+    // Action 6: Paste Text
+    if (btnPaste) {
+      btnPaste.addEventListener('click', async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (text) {
+            tweetInput.value = text;
+            updateAllCounts();
+          }
+        } catch (e) {
+          tweetInput.focus();
+        }
+      });
+    }
+
+    // Initial calculation
+    updateAllCounts();
+  }
+
+  // Setup on page load and view transitions
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupTwitterHashtagCounter);
+  } else {
+    setupTwitterHashtagCounter();
+  }
+
+  document.addEventListener('astro:after-swap', setupTwitterHashtagCounter);
 </script>

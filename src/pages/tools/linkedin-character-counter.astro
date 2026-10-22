@@ -100,7 +100,7 @@ const faqs = [
 
         <!-- Truncation Fold Audit Callout -->
         <div class="fold-audit-box" id="fold-audit-box">
-          <span class="fold-icon" id="fold-icon">💡</span>
+          <span class="fold-icon" id="fold-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>
           <div class="fold-details">
             <strong id="fold-title">Above the Fold (Hook Stage)</strong>
             <p id="fold-desc">On mobile and desktop feeds, LinkedIn truncates your post after ~140–210 characters with a "...see more" button. Make sure your hook grabs attention within the first 140 characters!</p>
@@ -237,7 +237,7 @@ const faqs = [
 
       <h2>Unicode Character Counting: Emojis and Special Formatting</h2>
       <p>
-        Not all characters are processed equally in modern web text. Standard ASCII characters (A-Z, 0-9) take 1 code unit, but emojis (such as 🚀, 💡, 👨‍💻) and special Unicode formatted bold/italic text use multi-byte sequences.
+        Not all characters are processed equally in modern web text. Standard ASCII characters (A-Z, 0-9) take 1 code unit, but special symbols, multi-byte glyphs, and Unicode formatted bold/italic text use multi-byte sequences.
       </p>
       <p>
         Basic string length calculations (like JavaScript's <code>.length</code>) often count a single multi-byte emoji as 2 to 7 characters, causing inaccuracies. Our counter uses Unicode-aware grapheme cluster segmentation (<code>Intl.Segmenter</code>) to ensure every emoji and special symbol is counted accurately as a single visual character.
@@ -823,68 +823,68 @@ const faqs = [
       if (currentLimit === 3000) {
         // LinkedIn Post Truncation Rules (~140-210 chars)
         if (totalChars === 0) {
-          foldIcon.textContent = '💡';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>`;
           foldTitle.textContent = 'Above the Fold (Hook Stage)';
           foldDesc.textContent = 'On mobile and desktop feeds, LinkedIn truncates your post after ~140–210 characters with a "...see more" button. Make sure your hook grabs attention within the first 140 characters!';
         } else if (totalChars <= 140) {
-          foldIcon.textContent = '✅';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#10b981; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>`;
           foldTitle.textContent = 'Fully Visible Hook (Under 140 Chars)';
           foldDesc.textContent = 'Your draft fits completely within the initial un-truncated view on both mobile and desktop feeds!';
         } else if (totalChars <= 210) {
-          foldIcon.textContent = '👁️';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand);"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`;
           foldTitle.textContent = 'Desktop Visible Fold (~140–210 Chars)';
           foldDesc.textContent = 'Your post is fully visible on desktop feeds, but mobile users will see a "...see more" button after line 3.';
         } else if (totalChars <= 3000) {
-          foldIcon.textContent = '📄';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand);"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>`;
           foldTitle.textContent = 'Expanded Post View (Over 210 Chars)';
           foldDesc.textContent = 'Your post will display a "...see more" button. Ensure your opening 140 characters contain your core hook to drive clicks!';
         } else {
-          foldIcon.textContent = '⚠️';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#f59e0b; margin-right:6px;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
           foldTitle.textContent = 'Exceeds Official 3,000 Limit!';
           foldDesc.textContent = 'Your text exceeds LinkedIn\'s maximum 3,000 character limit for posts. Trim text before publishing.';
         }
       } else if (currentLimit === 220) {
         // Headline Rules
         if (totalChars <= 150) {
-          foldIcon.textContent = '✅';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#10b981; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>`;
           foldTitle.textContent = 'Mobile Optimized Headline';
           foldDesc.textContent = 'Fits comfortably on both mobile devices and desktop profile headers.';
         } else if (totalChars <= 220) {
-          foldIcon.textContent = '📱';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand);"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><line x1="12" x2="12.01" y1="18" y2="18"/></svg>`;
           foldTitle.textContent = 'Desktop Headline Length';
           foldDesc.textContent = 'Headline fits within the 220-character limit, but may wrap or truncate on smaller mobile screens.';
         } else {
-          foldIcon.textContent = '⚠️';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#f59e0b; margin-right:6px;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
           foldTitle.textContent = 'Exceeds 220 Character Limit!';
           foldDesc.textContent = 'LinkedIn profile headlines cannot exceed 220 characters.';
         }
       } else if (currentLimit === 2600) {
         // About Summary Rules
         if (totalChars <= 300) {
-          foldIcon.textContent = '👁️';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand);"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`;
           foldTitle.textContent = 'Above the About Fold';
           foldDesc.textContent = 'Visible immediately on your profile without readers clicking "...see more".';
         } else if (totalChars <= 2600) {
-          foldIcon.textContent = '📑';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand);"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>`;
           foldTitle.textContent = 'Full Summary Length';
           foldDesc.textContent = 'Great depth for recruiter keywords and achievements. Readers will click "...see more" to read full details.';
         } else {
-          foldIcon.textContent = '⚠️';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#f59e0b; margin-right:6px;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
           foldTitle.textContent = 'Exceeds 2,600 Character Limit!';
           foldDesc.textContent = 'LinkedIn About summaries cannot exceed 2,600 characters.';
         }
       } else {
         // Article Title Rules
         if (totalChars <= 70) {
-          foldIcon.textContent = '✅';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#10b981; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>`;
           foldTitle.textContent = 'Optimal Title Length';
           foldDesc.textContent = 'Title fits cleanly without wrapping in search results and email notifications.';
         } else if (totalChars <= 100) {
-          foldIcon.textContent = '📌';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand);"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>`;
           foldTitle.textContent = 'Long Article Title';
           foldDesc.textContent = 'Fits within the 100-character limit, but may wrap on mobile screens.';
         } else {
-          foldIcon.textContent = '⚠️';
+          foldIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#f59e0b; margin-right:6px;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
           foldTitle.textContent = 'Exceeds 100 Character Limit!';
           foldDesc.textContent = 'LinkedIn article titles cannot exceed 100 characters.';
         }

@@ -1,971 +1,2629 @@
 ---
-import ToolLayout from '../../layouts/ToolLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const faqs = [
   {
-    question: "How much does TikTok pay per 1,000 views?",
-    answer: "TikTok's Creator Fund pays approximately $0.02–$0.04 per 1,000 views. The TikTok Creator Rewards Program (for videos over 1 minute) pays significantly more — around $0.40–$1.00 per 1,000 views. Earnings vary by niche, audience location, video length, and completion rate."
+    question: "How much does TikTok pay per 1,000 views in 2026?",
+    answer: "Under the TikTok Creator Rewards Program (which replaced the legacy Creator Fund for videos longer than 1 minute), creators typically earn between $0.40 and $1.20 per 1,000 qualified views, averaging around $0.75 RPM. Top-performing niches such as personal finance, technology, and business targeting Tier-1 countries (US, UK, Canada, Australia) can command $1.50 to $2.00+ RPM, while general entertainment in mixed global regions averages $0.30 to $0.60."
   },
   {
-    question: "What is TikTok CPM and how does it affect earnings?",
-    answer: "CPM (Cost Per Mille) is the amount advertisers pay per 1,000 ad impressions. As a creator, your effective CPM typically ranges from $0.02 to $0.05 on the Creator Fund. High-value niches like finance, software, and health can command higher CPMs from brand deals, often $10–$50+ per 1,000 views."
+    question: "What is the difference between total views and qualified views on TikTok?",
+    answer: "Total views represent every single playback recorded on your video, including quick scrolls, looped plays, and non-FYP traffic. Qualified views—the only views monetized by the Creator Rewards Program—require the viewer to watch for at least 5 continuous seconds, arrive from the 'For You' feed, be unique per viewer per 24-hour period, and watch an original video that is at least 60 seconds long. Typically, 40% to 70% of total views count as qualified."
   },
   {
-    question: "Are these TikTok earnings estimates accurate?",
-    answer: "These estimates are directional ranges based on publicly reported Creator Fund and Creator Rewards Program payout data. Actual earnings depend heavily on your account's region, niche, video watch time, and the specific monetization programs you are enrolled in."
+    question: "What are the exact requirements to join the TikTok Creator Rewards Program?",
+    answer: "To qualify for the TikTok Creator Rewards Program, your account must have at least 10,000 followers, have accumulated at least 100,000 authentic video views within the past 30 days, be based in an eligible country (such as the United States, United Kingdom, France, Germany, Japan, South Korea, or Brazil), be owned by an individual at least 18 years old, and maintain good standing with community guidelines."
   },
   {
-    question: "What TikTok monetization programs are included in this calculator?",
-    answer: "The calculator estimates earnings from TikTok's Creator Fund and Creator Rewards Program. It does not include brand deal income or TikTok LIVE gifts, which can significantly increase total earnings for creators with large followings."
+    question: "How much money does 1 million views make on TikTok?",
+    answer: "For 1,000,000 total views with a typical 60% qualification rate (600,000 qualified views), a creator with an average $0.75 RPM earns approximately $450. Depending on geographic audience concentration and watch completion rates, payout for 1 million total views typically ranges between $240 (at a conservative $0.40 RPM) and $960+ (at a high $1.60 RPM). If 100% of views are qualified, 1 million views yields $750 at standard rates."
   },
   {
-    question: "How many views do I need to make money on TikTok?",
-    answer: "To join the TikTok Creator Fund you need at least 10,000 followers and 100,000 video views in the past 30 days. For the Creator Rewards Program you need at least 10,000 followers and videos must be over 1 minute long. A creator averaging 100,000 views per video with 10 posts per month can realistically earn $20–$400+ monthly from platform programs alone."
+    question: "Can you make money on TikTok without having 10,000 followers?",
+    answer: "Yes. While TikTok's Creator Rewards Program requires 10,000 followers, creators can monetize immediately with fewer followers through TikTok Shop affiliate commissions (in regions with zero or low follower thresholds), brand sponsorships (especially User Generated Content/UGC deals), driving traffic to digital products or external storefronts, and receiving virtual gifts during LIVE broadcasts once live streaming is unlocked."
   },
   {
-    question: "Does engagement rate affect TikTok earnings?",
-    answer: "Yes. A higher engagement rate signals quality content to the algorithm, leading to more FYP distribution, higher view counts, and better ad CPMs. Creators with 5%+ engagement rates tend to attract higher-paying brand deals."
+    question: "How do TikTok earnings compare to YouTube AdSense earnings?",
+    answer: "YouTube long-form videos pay significantly higher rates—typically $2.00 to $12.00+ RPM compared to TikTok's $0.40 to $1.20 RPM—because YouTube serves multiple long-form mid-roll advertisements and has a mature auction system. However, TikTok views are often much easier to accumulate rapidly through the algorithmic For You page. YouTube Shorts pay comparable or slightly lower rates ($0.04 to $0.15 RPM) compared to TikTok's 1-minute+ Creator Rewards."
   }
 ];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'TikTok Money Calculator', item: '/tools/tiktok-money-calculator' }
+];
+
+const origin = Astro.site ? Astro.site.origin : "https://creatorsfeel.com";
+const canonicalUrl = new URL(Astro.url.pathname, origin).href;
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": `${canonicalUrl}#application`,
+  "name": "TikTok Money Calculator",
+  "url": canonicalUrl,
+  "operatingSystem": "All",
+  "applicationCategory": "BusinessApplication",
+  "description": "Free TikTok Money Calculator. Estimate monthly and yearly TikTok Creator Rewards earnings and brand sponsorship income based on video views, qualified views, and RPM.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0.00",
+    "priceCurrency": "USD"
+  }
+};
 ---
 
-<ToolLayout
-  title="TikTok Money Calculator - Estimate Your TikTok Earnings"
-  description="Free TikTok Money Calculator. Estimate your monthly TikTok earnings based on views, post frequency, and CPM. Instant results, no login required."
-  toolName="TikTok Money Calculator"
-  toolDescription="Estimate your monthly TikTok earnings from views and post frequency. See a realistic min–max earnings range based on Creator Fund and Creator Rewards data."
-  category="Calculators"
+<BaseLayout
+  title="TikTok Money Calculator - Estimate TikTok Earnings & Creator RPM"
+  description="Free TikTok Money Calculator. Estimate your monthly and yearly TikTok Creator Rewards earnings and brand deal income from video views, qualified view rates, and RPM."
+  canonicalUrl={canonicalUrl}
+  breadcrumbs={breadcrumbs}
   faqs={faqs}
 >
-  <div slot="calculator" class="calc-card glass">
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify(softwareSchema)} />
 
-    <div class="calc-grid">
+  <div class="tool-page-wrapper">
 
-      <!-- Left: Inputs -->
-      <div class="calc-form">
+    <!-- 1. HERO SECTION (Centered Max-Width 820px) -->
+    <header class="tool-hero-section">
+      <div class="container hero-inner">
 
-        <div class="form-group">
-          <label for="avg-views" class="input-label">
-            Average Views Per Video
-            <span class="label-hint">Your typical views per post</span>
-          </label>
-          <input
-            type="number"
-            id="avg-views"
-            class="calc-input"
-            placeholder="e.g. 50000"
-            min="0"
-            value="50000"
-          />
+        <!-- Breadcrumbs at top -->
+        <div class="hero-breadcrumbs">
+          <Breadcrumbs items={breadcrumbs} />
         </div>
 
-        <div class="form-group">
-          <label for="videos-per-month" class="input-label">
-            Videos Posted Per Month
-            <span class="label-hint">How many videos you publish monthly</span>
-          </label>
-          <input
-            type="number"
-            id="videos-per-month"
-            class="calc-input"
-            placeholder="e.g. 15"
-            min="0"
-            value="15"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="video-length" class="input-label">
-            Typical Video Length
-            <span class="label-hint">Longer videos qualify for Creator Rewards Program</span>
-          </label>
-          <select id="video-length" class="calc-input">
-            <option value="short">Under 1 minute (Creator Fund rates)</option>
-            <option value="long" selected>1 minute or longer (Creator Rewards rates)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="engagement-rate" class="input-label">
-            Engagement Rate
-            <span class="label-hint">Likes + comments + shares ÷ views × 100</span>
-          </label>
-          <select id="engagement-rate" class="calc-input">
-            <option value="low">Below 3% — Low engagement</option>
-            <option value="average" selected>3%–6% — Average engagement</option>
-            <option value="high">6%–12% — High engagement</option>
-            <option value="viral">12%+ — Viral / exceptional</option>
-          </select>
-        </div>
-
-        <button type="button" id="btn-calculate" class="calc-btn-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-svg">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33" />
-          </svg>
-          Calculate Earnings
-        </button>
-
-      </div>
-
-      <!-- Right: Results -->
-      <div class="calc-results">
-
-        <!-- Empty State -->
-        <div class="empty-state" id="empty-state">
-          <div class="empty-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33" />
+        <!-- Pill Badge with SVG Icon (Zero Emojis) -->
+        <div class="hero-badge">
+          <span class="badge-icon-tool">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tool-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
-          </div>
-          <strong>Enter your stats to see your earnings estimate</strong>
-          <p>Fill in your average views and posting frequency on the left, then click Calculate Earnings.</p>
+          </span>
+          <span class="badge-title">TikTok Creator Rewards &amp; Revenue Analytics</span>
+          <span class="badge-pill-free">Free Tool</span>
         </div>
 
-        <!-- Results Box -->
-        <div class="results-box" id="results-box" style="display:none;">
+        <!-- Main Headline -->
+        <h1 class="hero-headline">
+          TikTok Money <span class="gradient-text">Calculator</span>
+        </h1>
 
-          <!-- Monthly Range Banner -->
-          <div class="earnings-banner">
-            <div class="earnings-banner-label">Estimated Monthly Earnings</div>
-            <div class="earnings-range">
-              <span class="range-min" id="range-min">$0</span>
-              <span class="range-dash">–</span>
-              <span class="range-max" id="range-max">$0</span>
+        <!-- Short Description -->
+        <p class="hero-desc">
+          Estimate your monthly and annual TikTok Creator Rewards earnings and brand sponsorship income. Model qualified view rates, RPM tiers, and multi-currency projections with transparent math.
+        </p>
+
+        <!-- Feature Chips Row (Zero Emojis - Clean SVG Icons) -->
+        <div class="hero-features-row">
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Creator Rewards Model
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2" />
+            </svg>
+            Qualified Views Filter
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Sponsorship Estimates
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802" />
+            </svg>
+            Multi-Currency Support
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. MAIN TOOL SECTION (Container Max-Width 940px) -->
+    <section class="tool-main-section" aria-label="TikTok Money Calculator Interface">
+      <div class="container tool-card-container">
+
+        <!-- The Prominent SaaS Tool Card -->
+        <div class="saas-tool-card">
+
+          <!-- Card Header Bar: Mode Switcher & Controls -->
+          <div class="card-header-bar">
+            <div class="mode-switcher-wrap" role="tablist" aria-label="Calculation Mode">
+              <button
+                type="button"
+                class="mode-tab active"
+                id="tab-mode-rewards"
+                data-mode="rewards"
+                role="tab"
+                aria-selected="true"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tab-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <span>Creator Rewards (Views &amp; RPM)</span>
+              </button>
+
+              <button
+                type="button"
+                class="mode-tab"
+                id="tab-mode-sponsorships"
+                data-mode="sponsorships"
+                role="tab"
+                aria-selected="false"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tab-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+                <span>Brand Deals &amp; Sponsorships</span>
+              </button>
             </div>
-            <div class="earnings-banner-sub" id="earnings-sub">From TikTok platform programs</div>
+
+            <!-- Currency & Reset Cluster -->
+            <div class="header-controls-cluster">
+              <div class="currency-select-wrap">
+                <label for="calc-currency" class="sr-only">Currency</label>
+                <select id="calc-currency" class="currency-select" aria-label="Select currency">
+                  <option value="USD" selected>USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="GBP">GBP (£)</option>
+                  <option value="CAD">CAD (CA$)</option>
+                  <option value="AUD">AUD (A$)</option>
+                  <option value="INR">INR (₹)</option>
+                </select>
+              </div>
+
+              <button type="button" class="btn-reset-tool" id="btn-reset" title="Reset calculator inputs">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="reset-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+                <span>Reset</span>
+              </button>
+            </div>
           </div>
 
-          <!-- Metric Cards -->
-          <div class="metrics-grid">
-            <div class="metric-card">
-              <span class="metric-value" id="res-total-views">0</span>
-              <span class="metric-label">Monthly Views</span>
-            </div>
-            <div class="metric-card">
-              <span class="metric-value" id="res-per-video">$0</span>
-              <span class="metric-label">Est. Per Video</span>
-            </div>
-            <div class="metric-card">
-              <span class="metric-value" id="res-cpm-used">$0.03</span>
-              <span class="metric-label">CPM Applied</span>
-            </div>
-            <div class="metric-card">
-              <span class="metric-value" id="res-engagement-label">Average</span>
-              <span class="metric-label">Engagement Tier</span>
+          <!-- ============================================== -->
+          <!-- MODE 1: CREATOR REWARDS (VIEWS & RPM) -->
+          <!-- ============================================== -->
+          <div class="form-inputs-container" id="form-mode-rewards">
+            <div class="calculator-inputs-grid">
+
+              <!-- Input 1: Monthly Video Views -->
+              <div class="input-field-group">
+                <div class="field-label-row">
+                  <label for="input-monthly-views" class="field-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.573 16.49 16.638 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                    <span>Total Monthly Video Views</span>
+                  </label>
+                  <span class="field-badge-required">Required</span>
+                </div>
+                <div class="input-wrapper">
+                  <input
+                    type="number"
+                    id="input-monthly-views"
+                    class="styled-number-input"
+                    placeholder="Enter monthly video views"
+                    value="150000"
+                    min="0"
+                    step="5000"
+                    aria-describedby="desc-monthly-views"
+                  />
+                </div>
+                <p class="field-helper-text" id="desc-monthly-views">
+                  Total views across all your TikTok uploads in a month (e.g., 10 videos × 15,000 views = 150,000).
+                </p>
+              </div>
+
+              <!-- Input 2: Estimated RPM per 1,000 Views -->
+              <div class="input-field-group">
+                <div class="field-label-row">
+                  <label for="input-rpm" class="field-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <span>Estimated RPM (<span class="currency-symbol-label">$</span> per 1,000 views)</span>
+                  </label>
+                  <span class="field-badge-optional">Editable</span>
+                </div>
+                <div class="input-wrapper">
+                  <span class="input-prefix currency-symbol-label" aria-hidden="true">$</span>
+                  <input
+                    type="number"
+                    id="input-rpm"
+                    class="styled-number-input has-prefix"
+                    placeholder="0.75"
+                    value="0.75"
+                    min="0.01"
+                    step="0.05"
+                    aria-describedby="desc-rpm"
+                  />
+                </div>
+                <!-- Quick Preset Chips -->
+                <div class="preset-chips-row" role="group" aria-label="RPM Quick Presets">
+                  <span class="preset-label">Presets:</span>
+                  <button type="button" class="preset-chip" data-rpm="0.40" title="Conservative rate for general global entertainment">
+                    Conservative (0.40)
+                  </button>
+                  <button type="button" class="preset-chip active" data-rpm="0.75" title="Average TikTok Creator Rewards RPM">
+                    Average (0.75)
+                  </button>
+                  <button type="button" class="preset-chip" data-rpm="1.20" title="High RPM for finance, tech, business or US audience">
+                    High (1.20)
+                  </button>
+                </div>
+                <p class="field-helper-text" id="desc-rpm">
+                  Net earnings per 1,000 qualified views on videos 1-minute or longer in Creator Rewards.
+                </p>
+              </div>
+
+              <!-- Input 3: Qualified Views Percentage -->
+              <div class="input-field-group full-width-field">
+                <div class="field-label-row">
+                  <label for="input-qualified-rate" class="field-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                    </svg>
+                    <span>Estimated Qualified Views Rate: <span id="label-qualified-rate" class="rate-highlight">60%</span></span>
+                  </label>
+                  <span class="field-badge-optional">Adjustable</span>
+                </div>
+                <div class="slider-wrapper">
+                  <input
+                    type="range"
+                    id="input-qualified-rate"
+                    class="styled-range-slider"
+                    min="20"
+                    max="100"
+                    step="5"
+                    value="60"
+                    aria-describedby="desc-qualified-rate"
+                  />
+                  <div class="slider-ticks">
+                    <span>20% (Low)</span>
+                    <span>60% (Typical)</span>
+                    <span>100% (All Eligible)</span>
+                  </div>
+                </div>
+                <p class="field-helper-text" id="desc-qualified-rate">
+                  TikTok only pays on views lasting at least 5 seconds from the For You page on videos over 1 minute. Most creators see 50%–70% qualified. Set to 100% if your views are already pre-filtered.
+                </p>
+              </div>
+
             </div>
           </div>
 
-          <!-- Brand Deal Bonus Note -->
-          <div class="brand-note" id="brand-note">
-            <span class="brand-note-icon">💡</span>
-            <div>
-              <strong>Add brand deal income:</strong> Creators at your view level typically charge <span id="brand-deal-range">$200–$1,500</span> per sponsored post. Total monthly potential: <span id="brand-total-range" class="brand-highlight">$200–$2,000</span>.
+          <!-- ============================================== -->
+          <!-- MODE 2: BRAND DEALS & SPONSORSHIPS -->
+          <!-- ============================================== -->
+          <div class="form-inputs-container" id="form-mode-sponsorships" style="display: none;">
+            <div class="calculator-inputs-grid">
+
+              <!-- Input S1: Average Views per Video -->
+              <div class="input-field-group">
+                <div class="field-label-row">
+                  <label for="input-spon-views" class="field-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.573 16.49 16.638 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                    <span>Average Views Per Video</span>
+                  </label>
+                  <span class="field-badge-required">Required</span>
+                </div>
+                <div class="input-wrapper">
+                  <input
+                    type="number"
+                    id="input-spon-views"
+                    class="styled-number-input"
+                    placeholder="e.g. 50000"
+                    value="50000"
+                    min="1000"
+                    step="5000"
+                    aria-describedby="desc-spon-views"
+                  />
+                </div>
+                <p class="field-helper-text" id="desc-spon-views">
+                  Median organic views across your recent 10–20 standard TikTok uploads.
+                </p>
+              </div>
+
+              <!-- Input S2: Sponsored Posts Per Month -->
+              <div class="input-field-group">
+                <div class="field-label-row">
+                  <label for="input-spon-deals-count" class="field-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                    </svg>
+                    <span>Sponsored Posts / Month</span>
+                  </label>
+                  <span class="field-badge-optional">Editable</span>
+                </div>
+                <div class="input-wrapper">
+                  <input
+                    type="number"
+                    id="input-spon-deals-count"
+                    class="styled-number-input"
+                    placeholder="2"
+                    value="2"
+                    min="1"
+                    max="30"
+                    step="1"
+                    aria-describedby="desc-spon-deals"
+                  />
+                </div>
+                <p class="field-helper-text" id="desc-spon-deals">
+                  How many dedicated or integrated sponsored videos you plan to publish monthly.
+                </p>
+              </div>
+
+              <!-- Input S3: Content Niche Tier -->
+              <div class="input-field-group full-width-field">
+                <div class="field-label-row">
+                  <label for="select-spon-niche" class="field-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="label-svg" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
+                    </svg>
+                    <span>Content Niche &amp; Commercial Intent</span>
+                  </label>
+                </div>
+                <div class="select-wrapper">
+                  <select id="select-spon-niche" class="styled-select" aria-label="Select sponsorship niche">
+                    <option value="tier1" selected>High Commercial Intent (Finance, Tech, SaaS, B2B, Health) — $18–$35 CPM</option>
+                    <option value="tier2">Medium Commercial Intent (Beauty, Fashion, Fitness, Food, Travel) — $10–$20 CPM</option>
+                    <option value="tier3">Broad Entertainment (Comedy, Gaming, Memes, Dance, Vlogs) — $5–$12 CPM</option>
+                  </select>
+                  <div class="select-chevron-box" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron-svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+                <p class="field-helper-text">
+                  Advertisers pay premium sponsorship rates for niches with direct purchase and lead-conversion intent.
+                </p>
+              </div>
+
             </div>
           </div>
 
-          <!-- Reset Button -->
-          <button type="button" id="btn-reset" class="btn-reset">Reset Calculator</button>
+          <!-- Divider -->
+          <div class="card-divider"></div>
+
+          <!-- ============================================== -->
+          <!-- 4 ESSENTIAL RESULT CARDS -->
+          <!-- ============================================== -->
+          <div class="results-display-area" aria-live="polite">
+            
+            <div class="results-header-row">
+              <h2 class="results-title">Estimated TikTok Earnings</h2>
+              <div class="results-live-indicator">
+                <span class="live-dot" aria-hidden="true"></span>
+                <span>Live Projection</span>
+              </div>
+            </div>
+
+            <!-- Primary Metric Cards Grid -->
+            <div class="results-grid-four">
+              
+              <!-- Card 1: Estimated Monthly Earnings (Highlighted) -->
+              <div class="result-metric-card highlight-card">
+                <div class="metric-top-row">
+                  <span class="metric-title" id="title-res-primary">Estimated Monthly Earnings</span>
+                  <div class="metric-icon-badge" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="metric-svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="metric-primary-value" id="res-monthly-earnings">$67.50</div>
+                <p class="metric-sub-label" id="res-monthly-sub">Based on 90,000 qualified views at $0.75 RPM</p>
+              </div>
+
+              <!-- Card 2: Estimated Annual Earnings -->
+              <div class="result-metric-card">
+                <div class="metric-top-row">
+                  <span class="metric-title" id="title-res-secondary">Estimated Yearly Earnings</span>
+                  <div class="metric-icon-badge" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="metric-svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="metric-primary-value" id="res-yearly-earnings">$810.00</div>
+                <p class="metric-sub-label">Projected 12-month platform revenue</p>
+              </div>
+
+              <!-- Card 3: Qualified Views or Per Sponsored Post -->
+              <div class="result-metric-card">
+                <div class="metric-top-row">
+                  <span class="metric-title" id="title-res-tertiary">Monetized Qualified Views</span>
+                  <div class="metric-icon-badge" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="metric-svg">
+                      <circle cx="12" cy="12" r="10" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="metric-primary-value" id="res-tertiary-val">90,000</div>
+                <p class="metric-sub-label" id="res-tertiary-sub">60% of 150,000 monthly views</p>
+              </div>
+
+              <!-- Card 4: Effective RPM Applied / Rate -->
+              <div class="result-metric-card">
+                <div class="metric-top-row">
+                  <span class="metric-title" id="title-res-quaternary">Applied Creator RPM</span>
+                  <div class="metric-icon-badge" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="metric-svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="metric-primary-value" id="res-quaternary-val">$0.75</div>
+                <p class="metric-sub-label" id="res-quaternary-sub">Net payout per 1,000 qualified views</p>
+              </div>
+
+            </div>
+
+            <!-- Benchmark Scenarios Strip (Creator Rewards Mode) -->
+            <div class="benchmark-strip" id="benchmark-strip-rewards">
+              <div class="benchmark-strip-title">Payout Benchmarks at Current RPM (<span id="bm-current-rpm">$0.75</span>):</div>
+              <div class="benchmark-grid">
+                <div class="benchmark-item">
+                  <span class="bm-label">10K Qualified Views</span>
+                  <span class="bm-value" id="bm-10k">$7.50</span>
+                </div>
+                <div class="benchmark-item">
+                  <span class="bm-label">50K Qualified Views</span>
+                  <span class="bm-value" id="bm-50k">$37.50</span>
+                </div>
+                <div class="benchmark-item">
+                  <span class="bm-label">100K Qualified Views</span>
+                  <span class="bm-value" id="bm-100k">$75.00</span>
+                </div>
+                <div class="benchmark-item">
+                  <span class="bm-label">1M Qualified Views</span>
+                  <span class="bm-value highlight-bm" id="bm-1m">$750.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mathematical Breakdown Card & Action -->
+            <div class="calculation-breakdown-card">
+              <div class="breakdown-content">
+                <div class="breakdown-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="info-svg">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="16" x2="12" y2="12" />
+                    <line x1="12" y1="8" x2="12.01" y2="8" />
+                  </svg>
+                </div>
+                <div class="breakdown-text-wrap">
+                  <div class="breakdown-title">Calculation Breakdown</div>
+                  <div class="breakdown-detail" id="calculation-formula-text">
+                    Formula: (90,000 qualified views ÷ 1,000) × $0.75 RPM = <strong>$67.50 monthly earnings</strong>. Annual projection: $67.50 × 12 = <strong>$810.00 yearly</strong>.
+                  </div>
+                </div>
+              </div>
+
+              <!-- One-Click Copy Button -->
+              <button type="button" class="btn-copy-summary" id="btn-copy-summary" title="Copy calculation summary to clipboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="copy-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+                </svg>
+                <span id="copy-summary-label">Copy Estimate</span>
+              </button>
+            </div>
+
+          </div>
 
         </div>
       </div>
-
-    </div>
-  </div>
-
-  <!-- About / SEO Content -->
-  <div slot="about" class="editorial-content">
-    <section class="editorial-section">
-
-      <h2>How Much Can You Actually Earn on TikTok?</h2>
-      <p>
-        TikTok earnings are one of the most misunderstood topics in the creator economy. You see headlines about creators making thousands of dollars a month, and you wonder: is that realistic for me? The honest answer is — it depends heavily on the monetization programs you use, your video length, your niche, and your audience's location.
-      </p>
-      <p>
-        This guide breaks down exactly how TikTok pays creators, what the real CPM numbers look like, and what you can do to meaningfully increase your monthly income from the platform.
-      </p>
-
-      <h2>How the TikTok Creator Fund and Creator Rewards Program Work</h2>
-      <p>
-        TikTok introduced the <strong>Creator Fund</strong> in 2020 as the platform's first direct payment program for creators. It pays eligible creators based on video views, but the rates are notoriously low — typically between <strong>$0.02 and $0.04 per 1,000 views</strong>. That means a video with 1 million views might earn you just $20 to $40 directly from the fund.
-      </p>
-      <p>
-        In 2023, TikTok launched the <strong>Creator Rewards Program</strong> (formerly called the Creativity Program Beta) as a direct replacement — and upgrade — to the original Creator Fund. The payout rates are dramatically better: creators report earning between <strong>$0.40 and $1.00 per 1,000 views</strong> for qualifying videos. That's 10 to 25 times more per view than the original program.
-      </p>
-      <p>
-        The key requirement for Creator Rewards is that your videos must be <strong>at least 1 minute long</strong> and meet TikTok's originality and quality standards. Repurposed content, duets, and stitches generally do not qualify for full Creator Rewards payouts.
-      </p>
-
-      <h3>Eligibility Requirements</h3>
-      <p>To join either program, your account must meet these minimum thresholds:</p>
-      <ul>
-        <li>Be at least 18 years old</li>
-        <li>Have a minimum of <strong>10,000 followers</strong></li>
-        <li>Have accumulated at least <strong>100,000 video views in the last 30 days</strong></li>
-        <li>Be based in an eligible country (US, UK, Germany, France, Japan, South Korea, and Brazil are currently included)</li>
-        <li>Have a personal account in good standing (no violations)</li>
-      </ul>
-
-      <h2>TikTok CPM Rates: What Do Creators Actually Get Paid?</h2>
-      <p>
-        CPM stands for Cost Per Mille, which is the amount earned per 1,000 views. Here is how TikTok's effective CPM breaks down by program and context:
-      </p>
-      <div class="table-responsive">
-        <table class="editorial-table">
-          <thead>
-            <tr>
-              <th>Program</th>
-              <th>CPM Range</th>
-              <th>High-Value Niches</th>
-              <th>Low-Value Niches</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Creator Fund</strong></td>
-              <td>$0.02 – $0.04</td>
-              <td>Up to $0.06</td>
-              <td>$0.01 – $0.02</td>
-            </tr>
-            <tr>
-              <td><strong>Creator Rewards Program</strong></td>
-              <td>$0.40 – $1.00</td>
-              <td>Up to $1.50+</td>
-              <td>$0.20 – $0.40</td>
-            </tr>
-            <tr>
-              <td><strong>Brand Deal (Sponsored Post)</strong></td>
-              <td>$10 – $50+ per 1K views</td>
-              <td>Finance, SaaS, Health</td>
-              <td>General lifestyle</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p>
-        It is worth noting that TikTok does not pay a fixed CPM — the actual rate fluctuates daily based on advertiser demand, seasonality (Q4 rates are higher), and your content's performance metrics such as watch time and completion rate.
-      </p>
-
-      <h2>Factors That Affect Your TikTok Earnings</h2>
-      <p>
-        Two creators with identical view counts can earn very different amounts. Here is what actually determines your TikTok income:
-      </p>
-
-      <h3>1. Video Length</h3>
-      <p>
-        This is the single biggest factor. Short videos under 60 seconds are locked into the original Creator Fund rates. Videos over 1 minute qualify for the Creator Rewards Program, which can pay 10–25x more per view. If you are still posting 15–30 second clips and wondering why earnings are disappointing, this is likely why.
-      </p>
-
-      <h3>2. Watch Time and Completion Rate</h3>
-      <p>
-        TikTok's algorithm and payout system reward videos that hold viewer attention. A 90-second video where 70% of viewers watch to the end signals high-quality content and earns more than a 90-second video with a 20% completion rate. Focus on hooks, pacing, and storytelling to keep viewers watching.
-      </p>
-
-      <h3>3. Audience Location</h3>
-      <p>
-        Advertisers pay significantly more to reach audiences in the United States, United Kingdom, Australia, and Canada. A creator whose audience is primarily based in the US will earn noticeably more per 1,000 views than a creator with an equivalent view count but an audience concentrated in lower-CPC markets. You cannot fully control this, but targeting English-language content naturally attracts higher-value audiences.
-      </p>
-
-      <h3>4. Content Niche</h3>
-      <p>
-        Finance, technology, software, health, fitness, education, and business are high-CPM niches because advertisers in those sectors have larger budgets and pay more per impression. Entertainment and comedy content tends to have lower CPMs — though it can drive very high view volumes that compensate through scale.
-      </p>
-
-      <h3>5. Engagement Rate</h3>
-      <p>
-        TikTok rewards highly engaging content with broader For You Page distribution. More distribution means more views, which directly increases earnings. Additionally, brands offering sponsorships look at engagement rates when deciding what to pay — a creator with 50,000 views and 8% engagement will command higher brand deal rates than one with 50,000 views and 1% engagement.
-      </p>
-
-      <h3>6. Originality and Content Quality</h3>
-      <p>
-        TikTok's Creator Rewards Program explicitly penalizes or excludes content that is duplicated, repurposed from other platforms, or low-effort. Original, well-produced content scores higher on TikTok's quality assessment and earns more from the program.
-      </p>
-
-      <h2>Realistic Earnings Examples by View Level</h2>
-      <p>
-        To ground the numbers in reality, here are monthly earnings estimates for creators at different view levels using the Creator Rewards Program (1-minute+ videos):
-      </p>
-      <div class="table-responsive">
-        <table class="editorial-table">
-          <thead>
-            <tr>
-              <th>Avg. Views Per Video</th>
-              <th>Videos/Month</th>
-              <th>Monthly Views</th>
-              <th>Est. Monthly Earnings</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>10,000</td>
-              <td>15</td>
-              <td>150,000</td>
-              <td>$60 – $150</td>
-            </tr>
-            <tr>
-              <td>50,000</td>
-              <td>15</td>
-              <td>750,000</td>
-              <td>$300 – $750</td>
-            </tr>
-            <tr>
-              <td>200,000</td>
-              <td>20</td>
-              <td>4,000,000</td>
-              <td>$1,600 – $4,000</td>
-            </tr>
-            <tr>
-              <td>500,000</td>
-              <td>20</td>
-              <td>10,000,000</td>
-              <td>$4,000 – $10,000</td>
-            </tr>
-            <tr>
-              <td>1,000,000+</td>
-              <td>20</td>
-              <td>20,000,000+</td>
-              <td>$8,000 – $20,000+</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p>
-        These figures are from the Creator Rewards Program. If you are on the original Creator Fund, divide these numbers by roughly 15 to 20 to get a realistic estimate.
-      </p>
-
-      <h2>All the Ways to Make Money on TikTok</h2>
-      <p>
-        Platform-based earnings are just one piece of the TikTok income puzzle. Smart creators combine multiple revenue streams:
-      </p>
-
-      <h3>TikTok Creator Fund / Creator Rewards Program</h3>
-      <p>Direct per-view payments from TikTok. Best for creators focused on long-form, original content. This is what our calculator estimates.</p>
-
-      <h3>TikTok LIVE Gifts</h3>
-      <p>
-        During live streams, followers can send virtual gifts purchased with TikTok coins. Creators convert these gifts into Diamonds, which are redeemable for real money. TikTok takes approximately 50% of the value. Popular LIVE creators can earn $500 to $5,000+ per month from gifts alone, completely separate from video view earnings.
-      </p>
-
-      <h3>TikTok Series</h3>
-      <p>
-        The Series feature lets creators paywall exclusive content behind a one-time purchase fee (ranging from $0.99 to $189.99 per series). This is ideal for educators, coaches, and niche experts who can package deep-dive content for a paying audience.
-      </p>
-
-      <h3>TikTok Shop (Creator Affiliate)</h3>
-      <p>
-        TikTok Shop allows creators to tag products in their videos and earn a commission (typically 5–20%) on every sale generated through their content. This is one of the fastest-growing income streams on the platform, with top creators earning thousands of dollars monthly purely from affiliate commissions without any formal brand deal.
-      </p>
-
-      <h3>Brand Deals and Sponsored Content</h3>
-      <p>
-        Brand sponsorships are where serious TikTok money is made. Brands pay creators directly to feature their products or services in videos. Typical rates based on average view counts:
-      </p>
-      <ul>
-        <li><strong>5,000–20,000 avg views:</strong> $50–$200 per post</li>
-        <li><strong>20,000–100,000 avg views:</strong> $200–$800 per post</li>
-        <li><strong>100,000–500,000 avg views:</strong> $800–$3,500 per post</li>
-        <li><strong>500,000+ avg views:</strong> $3,500–$15,000+ per post</li>
-      </ul>
-
-      <h3>Driving Traffic to External Businesses</h3>
-      <p>
-        Many of TikTok's highest earners use the platform primarily as a traffic channel — driving followers to a course, coaching program, newsletter, Etsy shop, or SaaS product. A creator with 100,000 views per video can generate significant revenue without relying on TikTok's direct payments at all.
-      </p>
-
-      <h2>Common Myths About TikTok Earnings — Debunked</h2>
-
-      <h3>Myth: "More followers = more money"</h3>
-      <p>
-        <strong>Reality:</strong> TikTok's payment programs are entirely view-based, not follower-based. A creator with 500,000 followers but 5,000 views per video earns less than a creator with 50,000 followers averaging 200,000 views per video. Focus on content quality and distribution, not follower count.
-      </p>
-
-      <h3>Myth: "Going viral makes you rich"</h3>
-      <p>
-        <strong>Reality:</strong> A single viral video with 10 million views on the Creator Fund earns roughly $200–$400. That is meaningful, but not life-changing. Sustainable TikTok income comes from consistent volume — dozens of videos generating solid views every month, not one lucky hit.
-      </p>
-
-      <h3>Myth: "TikTok pays the same as YouTube"</h3>
-      <p>
-        <strong>Reality:</strong> YouTube pays creators significantly more per view through its AdSense program — typically $1–$10 RPM for most niches, compared to TikTok's Creator Rewards range of $0.40–$1.00 RPM. YouTube also benefits from search-based longevity, meaning videos continue earning for years. TikTok videos have a shorter earning window.
-      </p>
-
-      <h3>Myth: "You need millions of followers to earn real money"</h3>
-      <p>
-        <strong>Reality:</strong> A creator with 25,000 highly engaged followers in a niche like personal finance or software can earn more than a general creator with 500,000 followers through brand deals, TikTok Shop commissions, and converting followers to paying customers outside the platform.
-      </p>
-
-      <h2>How to Use This TikTok Money Calculator Effectively</h2>
-      <p>
-        To get the most accurate estimate from this tool, follow these steps:
-      </p>
-      <ol>
-        <li><strong>Calculate your real average views:</strong> Look at your last 15–20 videos in TikTok Analytics and take the mean view count. Exclude any outlier viral videos that are not representative of your typical performance.</li>
-        <li><strong>Use your actual posting frequency:</strong> If you currently post 8 videos per month, enter 8 — not your goal of 20. The calculator is for estimating current earnings, not aspirational ones.</li>
-        <li><strong>Select the correct video length:</strong> This is the most impactful setting. If most of your videos are under 60 seconds, choose "Under 1 minute." If you consistently post tutorials, vlogs, or storytelling content over 60 seconds, choose "1 minute or longer."</li>
-        <li><strong>Choose an honest engagement tier:</strong> Check TikTok Analytics for your average like, comment, and share rates. If you are unsure, "Average (3–6%)" is a safe starting point for most creators.</li>
-        <li><strong>Review the brand deal estimate:</strong> The calculator also shows a realistic brand deal income range based on your view level. Use this to understand how much additional income is realistically available to you through sponsorships.</li>
-      </ol>
-      <p>
-        Remember, these figures are estimates based on reported Creator Rewards Program payout data. Actual earnings may be higher or lower depending on TikTok's current advertiser demand, your specific content quality score, and seasonal factors.
-      </p>
-
-      <h2>Tips to Increase Your TikTok Earnings</h2>
-      <ul>
-        <li><strong>Switch to longer videos:</strong> Moving from sub-60-second clips to 1–3 minute videos and joining the Creator Rewards Program is the single highest-ROI change most creators can make.</li>
-        <li><strong>Post consistently in a niche:</strong> The algorithm rewards accounts with a clear content identity. Pick 1–2 topics and go deep rather than posting about everything.</li>
-        <li><strong>Optimize your first 3 seconds:</strong> TikTok's algorithm tracks whether viewers stay or scroll away in the first few seconds. A strong, specific hook dramatically improves completion rates and therefore CPM.</li>
-        <li><strong>Use the TikTok Creator Marketplace:</strong> This is TikTok's official platform for connecting creators with brand deals. Completing your profile and keeping it updated puts you in front of brands actively looking for creators in your niche.</li>
-        <li><strong>Promote your TikTok Shop link:</strong> If you are in an eligible region, add shoppable products to your videos and earn affiliate commissions without needing a single brand relationship.</li>
-        <li><strong>Analyze what works:</strong> Use TikTok's built-in analytics to track which videos perform above your average. Double down on those formats, topics, and structures.</li>
-      </ul>
-
-      <h2>Explore More TikTok Creator Tools</h2>
-      <div class="internal-links-grid">
-        <a href="/tools/tiktok-engagement-calculator" class="tool-link-card glass">
-          <div class="tool-link-title">TikTok Engagement Calculator</div>
-          <div class="tool-link-desc">Calculate your exact TikTok engagement rate by followers or views.</div>
-        </a>
-        <a href="/tools/tiktok-hook-generator" class="tool-link-card glass">
-          <div class="tool-link-title">TikTok Hook Generator</div>
-          <div class="tool-link-desc">Generate high-retention opening hooks for your TikTok videos.</div>
-        </a>
-        <a href="/tools/tiktok-caption-generator" class="tool-link-card glass">
-          <div class="tool-link-title">TikTok Caption Generator</div>
-          <div class="tool-link-desc">Create engaging captions with relevant hashtags for TikTok posts.</div>
-        </a>
-        <a href="/tools/tiktok-bio-generator" class="tool-link-card glass">
-          <div class="tool-link-title">TikTok Bio Generator</div>
-          <div class="tool-link-desc">Write a compelling TikTok profile bio that converts profile visitors.</div>
-        </a>
-        <a href="/tools/instagram-money-calculator" class="tool-link-card glass">
-          <div class="tool-link-title">Instagram Money Calculator</div>
-          <div class="tool-link-desc">Estimate your Instagram earnings from posts, Reels, and brand deals.</div>
-        </a>
-      </div>
-
     </section>
+
+    <!-- 3. EDITORIAL ARTICLE SECTION (Centered Max-Width 940px) -->
+    <article class="editorial-content-section" aria-label="Comprehensive Guide to TikTok Earnings and Creator Rewards">
+      <div class="container editorial-inner">
+
+        <!-- Section 1: Introduction & How the Tool Works -->
+        <section class="editorial-block">
+          <h2>What Is a TikTok Money Calculator and How Does It Work?</h2>
+          <p>
+            A <strong>TikTok Money Calculator</strong> is an analytical tool built for creators, marketers, and digital entrepreneurs to estimate potential earnings from TikTok's official monetization programs and brand partnerships. While third-party social media estimates often rely on vague formulas or outdated data, this calculator models the exact mathematics used by TikTok's <strong>Creator Rewards Program</strong> (formerly known as the Creativity Program Beta) alongside realistic brand sponsorship benchmarks.
+          </p>
+          <p>
+            TikTok monetization differs fundamentally from platforms like YouTube or traditional blog advertising. TikTok does not pay creators simply for collecting raw impressions. Instead, revenue sharing is calculated based on <strong>qualified video views</strong> and your account's specific <strong>RPM (Revenue Per Mille)</strong>. By entering your estimated monthly views, adjusting for the percentage of views that meet TikTok's strict watch-duration thresholds, and applying your verified or estimated RPM, you can forecast your net take-home earnings with practical precision.
+          </p>
+          <p>
+            Whether you are evaluating whether to join the Creator Rewards Program, setting monthly income goals, or preparing pitch decks for sponsored brand collaborations using our <a href="/tools/influencer-rate-calculator">Influencer Rate Calculator</a> and <a href="/tools/content-creator-rate-calculator">Content Creator Rate Calculator</a>, this calculator eliminates guesswork so you can treat your TikTok channel like a sustainable business.
+          </p>
+        </section>
+
+        <!-- Section 2: Creator Rewards vs Legacy Creator Fund -->
+        <section class="editorial-block">
+          <h2>How TikTok Pays Creators: Creator Rewards vs. The Legacy Creator Fund</h2>
+          <p>
+            To understand modern TikTok earnings, creators must understand the historic transition from the original Creator Fund to today's Creator Rewards Program. When TikTok launched the Creator Fund in 2020, it operated on a static pool of funds divided among millions of participating creators. This resulted in notoriously meager payouts—typically averaging between <strong>$0.02 and $0.04 per 1,000 views</strong>. At those rates, a viral video racking up 1,000,000 views earned a creator merely $20 to $40, creating widespread creator dissatisfaction.
+          </p>
+          <p>
+            In response, TikTok overhauled its monetization architecture, fully retiring the Creator Fund in major regions in favor of the <strong>Creator Rewards Program</strong>. The new program was designed with two core objectives: encouraging creators to produce longer, higher-retention videos (over 1 minute in length) and distributing ad revenue dynamically based on video quality, audience engagement, and advertiser search intent.
+          </p>
+          <p>
+            Under the Creator Rewards Program, payouts skyrocketed by a factor of 10x to 25x. Creators regularly report earning between <strong>$0.40 and $1.20 per 1,000 qualified views</strong>, with top-tier educational, financial, and tech channels reaching <strong>$1.50 to $2.50+ RPM</strong>. However, the program introduced rigorous eligibility standards that every creator must satisfy before earning a single dollar.
+          </p>
+
+          <div class="callout-box">
+            <div class="callout-header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="callout-svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Creator Rewards Program Eligibility Checklist</span>
+            </div>
+            <ul class="callout-list">
+              <li><strong>Minimum Follower Count:</strong> You must have at least 10,000 authentic followers.</li>
+              <li><strong>30-Day Video Views:</strong> You must have accumulated at least 100,000 authentic video views within the trailing 30 days.</li>
+              <li><strong>Minimum Video Length:</strong> Only original videos with a duration of <strong>at least 60 seconds (1 minute)</strong> qualify for monetization.</li>
+              <li><strong>Age &amp; Account Standing:</strong> The account holder must be at least 18 years of age, maintain an account in good standing with zero community guideline strikes, and reside in an eligible territory (e.g., United States, United Kingdom, France, Germany, Japan, South Korea, or Brazil).</li>
+              <li><strong>Strict Content Originality:</strong> Duets, Stitches, screen recordings, movie clip re-uploads, and AI content scraped without meaningful commentary are disqualified.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Section 3: The Mathematical Formula -->
+        <section class="editorial-block">
+          <h2>The Mathematical Formula: How TikTok Earnings Are Calculated</h2>
+          <p>
+            Calculating your TikTok Creator Rewards income follows a straightforward mathematical formula based on your qualified views and your effective RPM:
+          </p>
+          
+          <div class="formula-display-container">
+            <div class="formula-equation">
+              <code>Estimated Monthly Earnings = (Total Monthly Views × Qualified Rate % ÷ 1,000) × RPM</code>
+            </div>
+            <p class="formula-caption">
+              Where Qualified Views represents views lasting at least 5 seconds from the For You feed, and RPM is your net payout per 1,000 qualified views.
+            </p>
+          </div>
+
+          <p>
+            To illustrate how RPM tiers and view volume interact, the table below provides transparent earnings estimates across different monthly traffic levels, assuming a standard 60% qualified view rate:
+          </p>
+
+          <div class="table-responsive">
+            <table class="editorial-data-table">
+              <thead>
+                <tr>
+                  <th>Total Monthly Views</th>
+                  <th>Qualified Views (60%)</th>
+                  <th>Conservative RPM ($0.40)</th>
+                  <th>Typical RPM ($0.75)</th>
+                  <th>High RPM ($1.20)</th>
+                  <th>Annual Projection (Typical)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>10,000</strong></td>
+                  <td>6,000</td>
+                  <td>$2.40</td>
+                  <td>$4.50</td>
+                  <td>$7.20</td>
+                  <td>$54.00</td>
+                </tr>
+                <tr>
+                  <td><strong>50,000</strong></td>
+                  <td>30,000</td>
+                  <td>$12.00</td>
+                  <td>$22.50</td>
+                  <td>$36.00</td>
+                  <td>$270.00</td>
+                </tr>
+                <tr>
+                  <td><strong>100,000</strong></td>
+                  <td>60,000</td>
+                  <td>$24.00</td>
+                  <td>$45.00</td>
+                  <td>$72.00</td>
+                  <td>$540.00</td>
+                </tr>
+                <tr>
+                  <td><strong>500,000</strong></td>
+                  <td>300,000</td>
+                  <td>$120.00</td>
+                  <td>$225.00</td>
+                  <td>$360.00</td>
+                  <td>$2,700.00</td>
+                </tr>
+                <tr>
+                  <td><strong>1,000,000</strong></td>
+                  <td>600,000</td>
+                  <td>$240.00</td>
+                  <td>$450.00</td>
+                  <td>$720.00</td>
+                  <td>$5,400.00</td>
+                </tr>
+                <tr>
+                  <td><strong>5,000,000</strong></td>
+                  <td>3,000,000</td>
+                  <td>$1,200.00</td>
+                  <td>$2,250.00</td>
+                  <td>$3,600.00</td>
+                  <td>$27,000.00</td>
+                </tr>
+                <tr>
+                  <td><strong>10,000,000</strong></td>
+                  <td>6,000,000</td>
+                  <td>$2,400.00</td>
+                  <td>$4,500.00</td>
+                  <td>$7,200.00</td>
+                  <td>$54,000.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-footnote">
+            *Note: Projections assume organic 1-minute+ videos meeting all Creator Rewards originality and watch-duration criteria. If 100% of your views are pre-qualified, actual earnings will scale proportionally higher.
+          </p>
+        </section>
+
+        <!-- Section 4: Total Views vs Qualified Views -->
+        <section class="editorial-block">
+          <h2>Total Views vs. Qualified Views: Why You Don't Get Paid for Every Play</h2>
+          <p>
+            The single most common misunderstanding among new TikTok creators is assuming that every view displayed on their public profile translates into money. When your video counter reads 1,000,000 views, TikTok's payment algorithm does not multiply 1,000,000 by your RPM. Instead, it filters out all non-qualifying views.
+          </p>
+          <p>
+            According to TikTok's official Creator Rewards documentation, a view is monetized only when it satisfies all of the following conditions:
+          </p>
+          <ul>
+            <li><strong>Minimum 5-Second Watch Time:</strong> The viewer must watch at least 5 continuous seconds of the video. If a user swipes away after 2 or 3 seconds, that view is counted toward your public analytics counter, but pays $0.00.</li>
+            <li><strong>Origination from the 'For You' Feed:</strong> The view must originate from algorithmic recommendation on the For You page (FYP). Views coming from personal profile browsing, search result clicks, embedded links on external websites, or direct video sharing typically do not qualify for direct Creator Rewards payouts.</li>
+            <li><strong>Unique Viewer Rule:</strong> Views are counted per unique user within a 24-hour period. If an enthusiastic fan watches your video four times in a row, only the first view is counted as a qualified monetized playback.</li>
+            <li><strong>Video Length Mandate:</strong> The video must be at least 1 minute (60 seconds) in duration. Videos that are 58 or 59 seconds long receive zero monetization through Creator Rewards, regardless of how many millions of views they register.</li>
+            <li><strong>Original Content Verification:</strong> Videos flagged for containing copyrighted commercial music without licensing, or identified as duplicate footage from movies, TV broadcasts, or other creators, are stripped of monetization eligibility.</li>
+          </ul>
+          <p>
+            For healthy accounts creating high-retention content, approximately <strong>50% to 70% of total views</strong> successfully qualify. If your content suffers from weak opening hooks or high immediate drop-offs, your qualification rate might dip below 30%, noticeably depressing your take-home revenue.
+          </p>
+        </section>
+
+        <!-- Section 5: Key Factors Affecting Your TikTok RPM -->
+        <section class="editorial-block">
+          <h2>Key Factors That Determine Your Personal TikTok RPM</h2>
+          <p>
+            Why does one creator earn $0.35 per 1,000 qualified views while another creator in a different category earns $1.85? TikTok's monetization system is auction-driven; advertisers bid to place their campaigns in front of specific audience segments. The following four factors exert the greatest influence on your channel's RPM:
+          </p>
+          
+          <h3>1. Viewer Geographic Location (Audience Demographics)</h3>
+          <p>
+            Advertisers pay significantly higher CPMs to reach consumers with high disposable income. Audiences in Tier-1 countries—specifically the United States, United Kingdom, Canada, Australia, and parts of Western Europe—command the highest advertising bids. If 80% of your viewership resides in the United States, your RPM will likely hover between $0.80 and $1.50+. Conversely, if your audience is primarily concentrated in developing markets where digital ad inventory is cheaper, your RPM may average between $0.15 and $0.40.
+          </p>
+
+          <h3>2. Content Niche and Commercial Intent</h3>
+          <p>
+            Not all video topics carry equal commercial value. Niches where advertisers sell high-ticket products or high-margin services—such as personal finance, B2B software, investing, real estate, cryptocurrency, digital marketing, and luxury health—yield substantially higher RPMs. Brands in these categories are willing to pay top dollar to reach prospective buyers. In contrast, broad entertainment, viral meme accounts, gaming compilations, and lip-sync videos attract lower advertising bids because viewer purchase intent is diffuse.
+          </p>
+
+          <h3>3. Average Watch Time and Video Completion Rate</h3>
+          <p>
+            TikTok's ranking and monetization algorithms heavily penalize content that fails to retain viewer interest. A 2-minute video with a 65% completion rate demonstrates exceptional audience satisfaction. TikTok rewards this performance not only with wider algorithmic distribution on the For You page, but also with premium ad placement, which elevates your effective RPM. Developing strong 3-second opening hooks, eliminating dead air, and structuring your storytelling to keep viewers glued to the screen are essential strategies for boosting your RPM.
+          </p>
+
+          <h3>4. Search Intent and Search Query Alignment</h3>
+          <p>
+            TikTok has rapidly evolved into a primary search engine for Gen Z and millennial consumers. Videos that rank for specific, high-intent search terms (e.g., "best budgeting apps 2026" or "how to edit reels in Premiere Pro") attract targeted, contextual advertising. TikTok's Creator Rewards algorithm awards higher payout weightings to videos that satisfy user search intent, often pushing RPMs well above baseline entertainment rates.
+          </p>
+        </section>
+
+        <!-- Section 6: Beyond Views: All Ways to Make Money on TikTok -->
+        <section class="editorial-block">
+          <h2>Beyond Creator Rewards: All Monetization Channels on TikTok</h2>
+          <p>
+            While the Creator Rewards Program provides predictable passive income from video views, relying solely on platform view payouts leaves substantial money on the table. Full-time creators treat TikTok view revenue as a baseline foundation while building a diversified portfolio across several high-margin monetization channels:
+          </p>
+
+          <div class="monetization-grid">
+            <div class="monetization-card">
+              <div class="monetization-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+              </div>
+              <h3>1. Brand Deals &amp; Sponsored Posts</h3>
+              <p>
+                Brand integrations represent the largest single revenue source for most mid-tier and macro creators. Instead of earning $0.75 per 1,000 views from TikTok, sponsors frequently pay $10 to $40+ per 1,000 views for a dedicated product showcase. You can model your baseline sponsorship quotes using our <a href="/tools/influencer-rate-calculator">Influencer Rate Calculator</a> and benchmark against YouTube ad splits using our <a href="/tools/youtube-cpm-calculator">YouTube CPM Calculator</a>.
+              </p>
+            </div>
+
+            <div class="monetization-card">
+              <div class="monetization-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25c-.669 0-1.189-.578-1.119-1.243l1.263-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+              </div>
+              <h3>2. TikTok Shop Creator Affiliate</h3>
+              <p>
+                TikTok Shop has transformed creator e-commerce. Creators can showcase physical products in their videos and earn 5% to 20%+ commissions on every verified sale completed through the in-app checkout. Top affiliate creators frequently earn $3,000 to $20,000+ monthly purely from commissions without having to fulfill inventory or manage customer service.
+              </p>
+            </div>
+
+            <div class="monetization-card">
+              <div class="monetization-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75A2.25 2.25 0 001.5 12v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+              </div>
+              <h3>3. User Generated Content (UGC)</h3>
+              <p>
+                If you excel at producing crisp, engaging vertical video but have not yet hit the 10,000 follower threshold for Creator Rewards, you can produce content directly for brands to use in their paid TikTok ad campaigns. UGC creators typically charge $150 to $600 per video. Explore baseline pricing structures with our dedicated <a href="/tools/ugc-pricing-calculator">UGC Pricing Calculator</a>.
+              </p>
+            </div>
+
+            <div class="monetization-card">
+              <div class="monetization-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H4.5a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                </svg>
+              </div>
+              <h3>4. LIVE Gifts &amp; Subscriptions</h3>
+              <p>
+                Broadcasting live on TikTok allows followers to purchase virtual coins and send animated gifts. Creators convert these gifts into "Diamonds," which can be cashed out directly for fiat currency via PayPal or bank transfer. While TikTok takes an approximate 50% platform cut on gift coins, consistent LIVE streamers with active communities generate $500 to $5,000+ monthly.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 7: How to Check Your Actual RPM in TikTok Studio -->
+        <section class="editorial-block">
+          <h2>How to Find Your Real RPM and Qualified Views in TikTok Studio</h2>
+          <p>
+            If you are already enrolled in the Creator Rewards Program, you should calibrate this calculator using your account's empirical historical data rather than guessing. Follow these steps to find your exact numbers:
+          </p>
+          <ol>
+            <li><strong>Open the TikTok Mobile App:</strong> Navigate to your profile tab in the bottom right corner of the screen.</li>
+            <li><strong>Access Creator Tools:</strong> Tap the three-line hamburger menu icon in the top right corner and select <strong>Creator tools</strong> (or <strong>TikTok Studio</strong>).</li>
+            <li><strong>Select Creator Rewards Program:</strong> Under the "Monetization" heading, tap <strong>Creator Rewards Program</strong>.</li>
+            <li><strong>Inspect Your Dashboard:</strong> Here, TikTok displays your total estimated rewards for the selected date range, your <strong>Average RPM</strong>, and your total <strong>Qualified Views</strong>.</li>
+            <li><strong>Check Individual Video Analytics:</strong> Tap on any individual 1-minute+ video to see its specific qualification percentage, watch time retention curve, viewer geography breakdown, and video-specific RPM.</li>
+          </ol>
+          <p>
+            Once you note your average RPM (e.g., $0.84) and your qualification percentage (e.g., 62%), enter those exact figures into this calculator to forecast next month's earnings based on your planned upload schedule. You can also evaluate how audience growth compounds over time with our <a href="/tools/youtube-earnings-calculator">YouTube Earnings Calculator</a>.
+          </p>
+        </section>
+
+        <!-- Section 8: Common Estimation Mistakes & Limitations -->
+        <section class="editorial-block">
+          <h2>Common Estimation Mistakes and Calculator Limitations</h2>
+          <p>
+            To maintain realistic expectations for your digital content business, keep these three common pitfalls in mind when reviewing earnings projections:
+          </p>
+          <ul>
+            <li><strong>Assuming 100% of Views Qualify:</strong> Never multiply your total public view count by your RPM without factoring in drop-off. If you post fast-scrolling 15-second clips, your Creator Rewards earnings will be exactly $0.00 because videos under 60 seconds do not qualify.</li>
+            <li><strong>Comparing TikTok RPM Directly to YouTube AdSense:</strong> YouTube long-form videos regularly deliver $4.00 to $15.00+ RPM because YouTube displays mid-roll video commercials, bumper ads, and banner units on videos that average 8 to 20 minutes in duration. TikTok videos, being shorter and experiencing rapid swipe consumption, naturally generate lower per-view rates, though TikTok's algorithmic discovery enables much faster view accumulation.</li>
+            <li><strong>Ignoring Seasonality in Digital Ad Spend:</strong> Advertising rates fluctuate significantly throughout the calendar year. In January and February (Q1), brands slash their marketing budgets after the holidays, causing TikTok RPMs to drop by 20% to 40%. Conversely, during the fourth quarter (Q4, October through December), advertiser bidding surges for Black Friday and Christmas, creating an annual peak in creator earnings.</li>
+          </ul>
+        </section>
+
+      </div>
+    </article>
+
+    <!-- 4. FREQUENTLY ASKED QUESTIONS SECTION (Centered Max-Width 940px) -->
+    <section class="tool-faq-section" aria-label="Frequently Asked Questions">
+      <div class="container faq-inner">
+        <div class="faq-header-wrap">
+          <h2 class="faq-headline">Frequently Asked Questions</h2>
+          <p class="faq-subhead">Everything you need to know about calculating TikTok earnings and Creator Rewards.</p>
+        </div>
+
+        <div class="faq-accordion-wrap">
+          {faqs.map((faq) => (
+            <details class="faq-accordion-item">
+              <summary class="faq-summary">
+                <span class="faq-question-text">{faq.question}</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-chevron" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+              </summary>
+              <div class="faq-body">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. RELATED TOOLS BLOCK (4 Cards, Centered Max-Width 940px) -->
+    <section class="related-tools-section" aria-label="Related Creator Tools">
+      <div class="container related-inner">
+        <div class="related-header-wrap">
+          <h2 class="related-headline">Explore More Creator Tools</h2>
+          <p class="related-subhead">Pair this TikTok calculator with our suite of analytics and rate estimation tools.</p>
+        </div>
+
+        <div class="related-tools-grid">
+          <!-- Card 1: TikTok Engagement Calculator -->
+          <a href="/tools/tiktok-engagement-calculator" class="related-tool-card">
+            <div class="tool-card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">TikTok Engagement Calculator</h3>
+              <p class="tool-card-desc">Measure your true engagement rate by views and followers to negotiate higher sponsorship payouts.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+              </svg>
+            </div>
+          </a>
+
+          <!-- Card 2: Influencer Rate Calculator -->
+          <a href="/tools/influencer-rate-calculator" class="related-tool-card">
+            <div class="tool-card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Influencer Rate Calculator</h3>
+              <p class="tool-card-desc">Calculate fair market sponsorship rates for TikTok, Instagram, and YouTube brand partnerships.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+              </svg>
+            </div>
+          </a>
+
+          <!-- Card 3: YouTube Earnings Calculator -->
+          <a href="/tools/youtube-earnings-calculator" class="related-tool-card">
+            <div class="tool-card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.573 16.49 16.638 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">YouTube Earnings Calculator</h3>
+              <p class="tool-card-desc">Forecast monthly and annual YouTube AdSense income from channel views and creator RPM.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+              </svg>
+            </div>
+          </a>
+
+          <!-- Card 4: UGC Pricing Calculator -->
+          <a href="/tools/ugc-pricing-calculator" class="related-tool-card">
+            <div class="tool-card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25c-.669 0-1.189-.578-1.119-1.243l1.263-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">UGC Pricing Calculator</h3>
+              <p class="tool-card-desc">Price user-generated content packages, video hooks, whitelisting rights, and organic deliverables.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+              </svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
   </div>
-
-</ToolLayout>
-
-
+</BaseLayout>
 
 <style>
-  .calc-card {
-    padding: clamp(1.25rem, 3vw, 2.25rem);
-    border-radius: var(--radius-lg);
-  }
-
-  .calc-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.75rem;
-  }
-
-  @media (min-width: 900px) {
-    .calc-grid {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      align-items: start;
-    }
-  }
-
-  /* Form */
-  .calc-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.15rem;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-
-  .input-label {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: var(--color-text);
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-  }
-
-  .label-hint {
-    font-size: 0.75rem;
-    font-weight: 400;
-    color: var(--color-text-muted);
-  }
-
-  .calc-input {
+  /* ==========================================================================
+     GLOBAL TOOL PAGE WRAPPER & LAYOUT SYSTEM
+     ========================================================================== */
+  .tool-page-wrapper {
     width: 100%;
-    padding: 0.7rem 0.9rem;
-    font-size: 0.95rem;
-    color: var(--color-text);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    outline: none;
-    box-sizing: border-box;
-    transition: border-color var(--transition-fast);
-    -webkit-appearance: none;
-    appearance: none;
+    overflow-x: hidden;
+    padding-bottom: 5rem;
   }
 
-  .calc-input:focus {
-    border-color: var(--color-brand);
-  }
-
-  .calc-btn-primary {
+  .container {
     width: 100%;
-    min-height: 48px;
-    padding: 0.75rem 1.25rem;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #fff;
-    background: var(--gradient-brand);
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
+    max-width: 940px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(1rem, 3vw, 2rem);
+    padding-right: clamp(1rem, 3vw, 2rem);
+  }
+
+  /* ==========================================================================
+     1. HERO SECTION (Centered Max-Width 820px)
+     ========================================================================== */
+  .tool-hero-section {
+    padding-top: clamp(2rem, 5vw, 3.5rem);
+    padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+    text-align: center;
+  }
+
+  .hero-inner {
+    max-width: 820px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-breadcrumbs {
+    margin-bottom: 1.25rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-brand, #6366f1);
+    margin-bottom: 1.25rem;
+    transition: transform 0.2s ease;
+  }
+
+  .badge-icon-tool {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    transition: opacity var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
-    box-shadow: 0 4px 12px rgba(99,102,241,0.25);
-    margin-top: 0.25rem;
   }
 
-  .calc-btn-primary:hover {
-    opacity: 0.94;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(99,102,241,0.35);
+  .tool-svg {
+    width: 16px;
+    height: 16px;
   }
 
-  .btn-svg {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-  }
-
-  /* Results */
-  .calc-results {
-    width: 100%;
-  }
-
-  /* Empty State */
-  .empty-state {
-    min-height: 320px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    text-align: center;
-    padding: 2rem 1.5rem;
-    border: 1px dashed var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-bg-alt);
-    color: var(--color-text-muted);
-  }
-
-  .empty-state strong {
-    color: var(--color-text);
-    font-size: 0.95rem;
-  }
-
-  .empty-state p {
-    font-size: 0.85rem;
-    max-width: 280px;
-    margin: 0;
-    line-height: 1.5;
-  }
-
-  .empty-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: rgba(99,102,241,0.1);
-    color: var(--color-brand);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .empty-icon svg {
-    width: 26px;
-    height: 26px;
-  }
-
-  /* Results Box */
-  .results-box {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  /* Earnings Banner */
-  .earnings-banner {
-    padding: 1.5rem 1.25rem;
-    border-radius: var(--radius-md);
-    background: var(--gradient-brand);
-    color: #fff;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.35rem;
-  }
-
-  .earnings-banner-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    opacity: 0.85;
+  .badge-pill-free {
+    padding: 0.15rem 0.45rem;
+    border-radius: 9999px;
+    background: var(--color-brand, #6366f1);
+    color: #ffffff;
+    font-size: 0.6875rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
 
-  .earnings-range {
+  .hero-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(2rem, 4.5vw, 2.85rem);
+    font-weight: 800;
+    line-height: 1.18;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-desc {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--color-text-muted, #64748b);
+    margin: 0 0 1.75rem 0;
+    max-width: 680px;
+  }
+
+  .hero-features-row {
     display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
+    gap: 0.65rem;
   }
 
-  .range-min, .range-max {
-    font-size: clamp(1.75rem, 5vw, 2.5rem);
-    font-weight: 900;
-    font-family: var(--font-heading);
-    line-height: 1;
+  .feature-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--color-text, #334155);
   }
 
-  .range-dash {
-    font-size: 1.5rem;
-    font-weight: 400;
-    opacity: 0.7;
+  .chip-svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-brand, #6366f1);
+    flex-shrink: 0;
   }
 
-  .earnings-banner-sub {
-    font-size: 0.78rem;
-    opacity: 0.8;
+  /* ==========================================================================
+     2. MAIN TOOL SECTION & SAAS TOOL CARD
+     ========================================================================== */
+  .tool-main-section {
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
   }
 
-  /* Metric Cards */
-  .metrics-grid {
+  .tool-card-container {
+    max-width: 940px;
+  }
+
+  .saas-tool-card {
+    background: var(--color-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 20px;
+    padding: clamp(1.25rem, 3.5vw, 2.25rem);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 20px 40px -15px rgba(99, 102, 241, 0.04);
+  }
+
+  /* Header Bar with Mode Switcher & Controls */
+  .card-header-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 680px) {
+    .card-header-bar {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .mode-switcher-wrap {
+    display: inline-flex;
+    background: var(--color-bg-alt, #f8fafc);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    gap: 4px;
+  }
+
+  .mode-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.95rem;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mode-tab:hover {
+    color: var(--color-text, #0f172a);
+  }
+
+  .mode-tab.active {
+    background: var(--color-card, #ffffff);
+    color: var(--color-brand, #6366f1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    font-weight: 700;
+  }
+
+  .tab-svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+
+  .header-controls-cluster {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .currency-select-wrap {
+    position: relative;
+  }
+
+  .currency-select {
+    padding: 0.45rem 0.85rem;
+    border-radius: 10px;
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text, #0f172a);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .currency-select:focus {
+    border-color: var(--color-brand, #6366f1);
+  }
+
+  .btn-reset-tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 10px;
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-reset-tool:hover {
+    color: var(--color-text, #0f172a);
+    background: var(--color-card, #ffffff);
+    border-color: #cbd5e1;
+  }
+
+  .reset-svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Form Inputs Grid */
+  .calculator-inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .calculator-inputs-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .full-width-field {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .input-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .field-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .field-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .label-svg {
+    width: 16px;
+    height: 16px;
+    color: var(--color-brand, #6366f1);
+    flex-shrink: 0;
+  }
+
+  .field-badge-required {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: #4f46e5;
+    background: #eef2ff;
+    padding: 0.15rem 0.45rem;
+    border-radius: 6px;
+  }
+
+  .field-badge-optional {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+    background: var(--color-bg-alt, #f8fafc);
+    padding: 0.15rem 0.45rem;
+    border-radius: 6px;
+  }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text-muted, #64748b);
+    pointer-events: none;
+  }
+
+  .styled-number-input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-bg, #ffffff);
+    color: var(--color-text, #0f172a);
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.15s ease;
+    box-sizing: border-box;
+  }
+
+  .styled-number-input.has-prefix {
+    padding-left: 2rem;
+  }
+
+  .styled-number-input:focus {
+    border-color: var(--color-brand, #6366f1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .field-helper-text {
+    font-size: 0.775rem;
+    line-height: 1.45;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* Preset Chips */
+  .preset-chips-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.2rem;
+  }
+
+  .preset-label {
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .preset-chip {
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--color-text, #334155);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .preset-chip:hover {
+    background: #eef2ff;
+    border-color: #c7d2fe;
+    color: #4f46e5;
+  }
+
+  .preset-chip.active {
+    background: var(--color-brand, #6366f1);
+    border-color: var(--color-brand, #6366f1);
+    color: #ffffff;
+  }
+
+  /* Slider Styling */
+  .slider-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .styled-range-slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 9999px;
+    background: var(--color-border, #e2e8f0);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    margin: 0.5rem 0;
+  }
+
+  .styled-range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-brand, #6366f1);
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  .styled-range-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  .slider-ticks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .rate-highlight {
+    color: var(--color-brand, #6366f1);
+  }
+
+  /* Styled Select */
+  .select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .styled-select {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-bg, #ffffff);
+    color: var(--color-text, #0f172a);
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: all 0.15s ease;
+  }
+
+  .styled-select:focus {
+    border-color: var(--color-brand, #6366f1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .select-chevron-box {
+    position: absolute;
+    right: 1rem;
+    pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .chevron-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Divider */
+  .card-divider {
+    height: 1px;
+    background: var(--color-border, #e2e8f0);
+    margin: 1.75rem 0;
+  }
+
+  /* ==========================================================================
+     RESULTS DISPLAY AREA & 4 METRIC CARDS
+     ========================================================================== */
+  .results-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .results-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0;
+  }
+
+  .results-live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: #059669;
+    background: #ecfdf5;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    border: 1px solid #a7f3d0;
+  }
+
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  }
+
+  /* 4 Metric Cards Grid */
+  .results-grid-four {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (min-width: 580px) {
+    .results-grid-four {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 860px) {
+    .results-grid-four {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .result-metric-card {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+
+  .result-metric-card:hover {
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+  }
+
+  .result-metric-card.highlight-card {
+    background: linear-gradient(145deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.04) 100%);
+    border: 1.5px solid rgba(99, 102, 241, 0.35);
+  }
+
+  .metric-top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .metric-title {
+    font-size: 0.775rem;
+    font-weight: 700;
+    color: var(--color-text-muted, #64748b);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+  }
+
+  .metric-icon-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .metric-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .metric-primary-value {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  .highlight-card .metric-primary-value {
+    color: var(--color-brand, #4f46e5);
+  }
+
+  .metric-sub-label {
+    font-size: 0.725rem;
+    line-height: 1.4;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* Benchmark Strip */
+  .benchmark-strip {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    padding: 0.95rem 1.15rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .benchmark-strip-title {
+    font-size: 0.775rem;
+    font-weight: 700;
+    color: var(--color-text-muted, #64748b);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.65rem;
+  }
+
+  .benchmark-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 0.65rem;
   }
 
-  .metric-card {
-    padding: 0.85rem 0.75rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-alt);
+  @media (min-width: 600px) {
+    .benchmark-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .benchmark-item {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 0.2rem;
+    gap: 0.15rem;
+    background: var(--color-card, #ffffff);
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-border, #e2e8f0);
   }
 
-  .metric-value {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--color-brand);
-    font-family: var(--font-heading);
-    line-height: 1.1;
-  }
-
-  .metric-label {
-    font-size: 0.72rem;
+  .bm-label {
+    font-size: 0.7rem;
     font-weight: 600;
-    color: var(--color-text-muted);
+    color: var(--color-text-muted, #64748b);
   }
 
-  /* Brand Deal Note */
-  .brand-note {
+  .bm-value {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+  }
+
+  .bm-value.highlight-bm {
+    color: var(--color-brand, #6366f1);
+  }
+
+  /* Calculation Breakdown & Copy Button */
+  .calculation-breakdown-card {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
     display: flex;
-    gap: 0.75rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  @media (min-width: 680px) {
+    .calculation-breakdown-card {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .breakdown-content {
+    display: flex;
     align-items: flex-start;
-    padding: 0.9rem 1rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-alt);
-    font-size: 0.85rem;
-    color: var(--color-text);
-    line-height: 1.5;
+    gap: 0.75rem;
   }
 
-  .brand-note-icon {
-    font-size: 1.1rem;
+  .breakdown-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--color-brand, #6366f1);
     flex-shrink: 0;
-    margin-top: 0.05rem;
+    margin-top: 0.15rem;
   }
 
-  .brand-highlight {
+  .info-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .breakdown-title {
+    font-size: 0.8rem;
     font-weight: 700;
-    color: var(--color-brand);
+    color: var(--color-text, #0f172a);
+    margin-bottom: 0.15rem;
   }
 
-  .btn-reset {
-    width: 100%;
-    padding: 0.6rem 1rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-text-muted);
-    background: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+  .breakdown-detail {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .breakdown-detail strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  .btn-copy-summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1.15rem;
+    border-radius: 10px;
+    background: var(--color-brand, #6366f1);
+    color: #ffffff;
+    border: none;
+    font-size: 0.8125rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    white-space: nowrap;
+    transition: all 0.15s ease;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.25);
   }
 
-  .btn-reset:hover {
-    color: var(--color-text);
-    border-color: var(--color-border-hover);
+  .btn-copy-summary:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(99, 102, 241, 0.35);
   }
 
-  /* Editorial Content Section */
-  .editorial-section {
-    padding-top: 1.5rem;
+  .copy-svg {
+    width: 15px;
+    height: 15px;
   }
 
-  .editorial-section h2 {
-    margin-top: 2.75rem;
-    margin-bottom: 1.15rem;
-    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  /* ==========================================================================
+     3. EDITORIAL ARTICLE SECTION (Centered Max-Width 940px)
+     ========================================================================== */
+  .editorial-content-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .editorial-inner {
+    max-width: 940px;
+  }
+
+  .editorial-block {
+    margin-bottom: 3rem;
+  }
+
+  .editorial-block h2 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 2.7vw, 1.85rem);
     font-weight: 800;
-    line-height: 1.3;
-    color: var(--color-text);
+    color: var(--color-text, #0f172a);
+    line-height: 1.25;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.015em;
   }
 
-  .editorial-section h2:first-of-type {
-    margin-top: 1rem;
-  }
-
-  .editorial-section h3 {
-    margin-top: 2.25rem;
-    margin-bottom: 0.85rem;
-    font-size: clamp(1.1rem, 2vw, 1.35rem);
+  .editorial-block h3 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.1rem, 2.2vw, 1.3rem);
     font-weight: 700;
+    color: var(--color-text, #0f172a);
     line-height: 1.35;
-    color: var(--color-text);
+    margin: 1.75rem 0 0.65rem 0;
   }
 
-  .editorial-section h4 {
-    margin-top: 1.75rem;
-    margin-bottom: 0.65rem;
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1.4;
-    color: var(--color-text);
-  }
-
-  .editorial-section p {
-    margin-top: 0;
-    margin-bottom: 1.35rem;
-    color: var(--color-text);
+  .editorial-block p {
+    font-size: clamp(0.925rem, 1.8vw, 1rem);
     line-height: 1.75;
+    color: var(--color-text, #334155);
+    margin: 0 0 1.25rem 0;
   }
 
-  .editorial-section ul, .editorial-section ol {
-    margin-top: 0.5rem;
-    margin-bottom: 1.6rem;
-    padding-left: 1.5rem;
+  .editorial-block p strong {
+    color: var(--color-text, #0f172a);
   }
 
-  .editorial-section li {
+  .editorial-block a {
+    color: var(--color-brand, #6366f1);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+
+  .editorial-block a:hover {
+    color: #4f46e5;
+  }
+
+  .editorial-block ul, .editorial-block ol {
+    margin: 0 0 1.5rem 0;
+    padding-left: 1.35rem;
+  }
+
+  .editorial-block li {
+    font-size: clamp(0.925rem, 1.8vw, 1rem);
+    line-height: 1.7;
+    color: var(--color-text, #334155);
     margin-bottom: 0.65rem;
-    line-height: 1.65;
   }
 
-  .editorial-section strong {
-    color: var(--color-text);
+  .editorial-block li strong {
+    color: var(--color-text, #0f172a);
   }
 
-  .table-responsive {
-    overflow-x: auto;
+  /* Callout Box */
+  .callout-box {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-left: 4px solid var(--color-brand, #6366f1);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
     margin: 1.75rem 0;
   }
 
-  .editorial-table {
+  .callout-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin-bottom: 0.75rem;
+  }
+
+  .callout-svg {
+    width: 20px;
+    height: 20px;
+    color: var(--color-brand, #6366f1);
+  }
+
+  .callout-list {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  /* Formula Container */
+  .formula-display-container {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    padding: 1.25rem;
+    text-align: center;
+    margin: 1.5rem 0;
+  }
+
+  .formula-equation code {
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+    font-weight: 700;
+    color: var(--color-brand, #6366f1);
+    background: transparent;
+    font-family: monospace;
+  }
+
+  .formula-caption {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0.5rem 0 0 0 !important;
+  }
+
+  /* Editorial Data Table */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 14px;
+    border: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.88rem;
+    font-size: 0.875rem;
     text-align: left;
+    white-space: nowrap;
   }
 
-  .editorial-table th, .editorial-table td {
-    padding: 0.7rem 1rem;
-    border: 1px solid var(--color-border);
-  }
-
-  .editorial-table th {
-    background: var(--color-bg-alt);
+  .editorial-data-table th {
+    background: var(--color-bg-alt, #f8fafc);
+    padding: 0.85rem 1rem;
     font-weight: 700;
+    color: var(--color-text, #0f172a);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
   }
 
-  .editorial-table tr:nth-child(even) td {
-    background: var(--color-bg-alt);
+  .editorial-data-table td {
+    padding: 0.85rem 1rem;
+    color: var(--color-text, #334155);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
   }
 
-  .internal-links-grid {
+  .editorial-data-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .editorial-data-table tr:hover td {
+    background: var(--color-bg-alt, #f8fafc);
+  }
+
+  .table-footnote {
+    font-size: 0.775rem;
+    color: var(--color-text-muted, #64748b);
+    font-style: italic;
+    margin-top: -0.75rem !important;
+  }
+
+  /* Monetization 4-Grid */
+  .monetization-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-top: 1.25rem;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
   }
 
-  @media (min-width: 600px) {
-    .internal-links-grid {
+  @media (min-width: 640px) {
+    .monetization-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  .tool-link-card {
-    display: block;
-    padding: 1.1rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
+  .monetization-card {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .monetization-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .monetization-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .monetization-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .monetization-card p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  /* ==========================================================================
+     4. FAQ SECTION (Centered Max-Width 940px)
+     ========================================================================== */
+  .tool-faq-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .faq-inner {
+    max-width: 940px;
+  }
+
+  .faq-header-wrap {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .faq-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .faq-subhead {
+    font-size: 0.95rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .faq-accordion-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .faq-accordion-item {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+
+  .faq-accordion-item:hover {
+    border-color: #cbd5e1;
+  }
+
+  .faq-accordion-item[open] {
+    background: var(--color-card, #ffffff);
+    border-color: #c7d2fe;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.05);
+  }
+
+  .faq-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.15rem 1.35rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-text, #0f172a);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand, #6366f1);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 0.75rem;
+  }
+
+  .faq-accordion-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-body {
+    padding: 0 1.35rem 1.35rem 1.35rem;
+  }
+
+  .faq-body p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* ==========================================================================
+     5. RELATED TOOLS SECTION (4 Cards, Centered Max-Width 940px)
+     ========================================================================== */
+  .related-tools-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    border-top: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .related-inner {
+    max-width: 940px;
+  }
+
+  .related-header-wrap {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .related-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .related-subhead {
+    font-size: 0.95rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .related-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 600px) {
+    .related-tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .related-tool-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--color-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem;
     text-decoration: none;
     color: inherit;
-    transition: transform var(--transition-fast), border-color var(--transition-fast);
+    transition: all 0.2s ease;
   }
 
-  .tool-link-card:hover {
+  .related-tool-card:hover {
+    border-color: var(--color-brand, #6366f1);
     transform: translateY(-2px);
-    border-color: var(--color-brand);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.08);
   }
 
-  .tool-link-title {
+  .tool-card-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .related-tool-card:hover .tool-card-icon-box {
+    transform: scale(1.08);
+  }
+
+  .tool-card-icon-box svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .tool-card-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tool-card-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.975rem;
     font-weight: 700;
-    color: var(--color-brand);
-    margin-bottom: 0.3rem;
-    font-size: 0.95rem;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
   }
 
-  .tool-link-desc {
-    font-size: 0.82rem;
-    color: var(--color-text-muted);
-    line-height: 1.4;
+  .tool-card-desc {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tool-card-arrow {
+    width: 20px;
+    height: 20px;
+    color: var(--color-text-muted, #64748b);
+    flex-shrink: 0;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .related-tool-card:hover .tool-card-arrow {
+    color: var(--color-brand, #6366f1);
+    transform: translateX(3px);
+  }
+
+  .tool-card-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ==========================================================================
+     DARK THEME SUPPORT (:global([data-theme="dark"]))
+     ========================================================================== */
+  :global([data-theme="dark"]) .saas-tool-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+  }
+
+  :global([data-theme="dark"]) .card-header-bar,
+  :global([data-theme="dark"]) .card-divider,
+  :global([data-theme="dark"]) .tool-faq-section,
+  :global([data-theme="dark"]) .related-tools-section,
+  :global([data-theme="dark"]) .table-responsive,
+  :global([data-theme="dark"]) .editorial-data-table th,
+  :global([data-theme="dark"]) .editorial-data-table td {
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .mode-switcher-wrap {
+    background: #0f172a;
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .mode-tab.active {
+    background: #1e293b;
+    color: #818cf8;
+  }
+
+  :global([data-theme="dark"]) .currency-select,
+  :global([data-theme="dark"]) .btn-reset-tool {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f1f5f9;
+  }
+
+  :global([data-theme="dark"]) .styled-number-input,
+  :global([data-theme="dark"]) .styled-select {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f8fafc;
+  }
+
+  :global([data-theme="dark"]) .preset-chip {
+    background: #0f172a;
+    border-color: #334155;
+    color: #cbd5e1;
+  }
+
+  :global([data-theme="dark"]) .preset-chip.active {
+    background: #6366f1;
+    color: #ffffff;
+    border-color: #6366f1;
+  }
+
+  :global([data-theme="dark"]) .result-metric-card {
+    background: #0f172a;
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .result-metric-card.highlight-card {
+    background: linear-gradient(145deg, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.08) 100%);
+    border-color: rgba(99, 102, 241, 0.5);
+  }
+
+  :global([data-theme="dark"]) .highlight-card .metric-primary-value {
+    color: #a5b4fc;
+  }
+
+  :global([data-theme="dark"]) .benchmark-strip,
+  :global([data-theme="dark"]) .calculation-breakdown-card,
+  :global([data-theme="dark"]) .callout-box,
+  :global([data-theme="dark"]) .formula-display-container,
+  :global([data-theme="dark"]) .monetization-card,
+  :global([data-theme="dark"]) .faq-accordion-item {
+    background: #0f172a;
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .benchmark-item {
+    background: #1e293b;
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .editorial-data-table th {
+    background: #0f172a;
+    color: #f8fafc;
+  }
+
+  :global([data-theme="dark"]) .editorial-data-table tr:hover td {
+    background: #0f172a;
+  }
+
+  :global([data-theme="dark"]) .faq-accordion-item[open] {
+    background: #1e293b;
+    border-color: #4f46e5;
+  }
+
+  :global([data-theme="dark"]) .related-tool-card {
+    background: #1e293b;
+    border-color: #334155;
   }
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const btnCalculate = document.getElementById('btn-calculate');
+  function initTikTokMoneyCalculator() {
+    // Mode Switcher Elements
+    const tabRewards = document.getElementById('tab-mode-rewards');
+    const tabSponsorships = document.getElementById('tab-mode-sponsorships');
+    const formRewards = document.getElementById('form-mode-rewards');
+    const formSponsorships = document.getElementById('form-mode-sponsorships');
+    const benchmarkStrip = document.getElementById('benchmark-strip-rewards');
+
+    // Controls
+    const selectCurrency = document.getElementById('calc-currency');
     const btnReset = document.getElementById('btn-reset');
-    const emptyState = document.getElementById('empty-state');
-    const resultsBox = document.getElementById('results-box');
+    const btnCopySummary = document.getElementById('btn-copy-summary');
+    const copySummaryLabel = document.getElementById('copy-summary-label');
 
-    const inputViews = document.getElementById('avg-views') as HTMLInputElement | null;
-    const inputVideos = document.getElementById('videos-per-month') as HTMLInputElement | null;
-    const selectLength = document.getElementById('video-length') as HTMLSelectElement | null;
-    const selectEngagement = document.getElementById('engagement-rate') as HTMLSelectElement | null;
+    // Mode 1 Inputs
+    const inputMonthlyViews = document.getElementById('input-monthly-views');
+    const inputRpm = document.getElementById('input-rpm');
+    const inputQualifiedRate = document.getElementById('input-qualified-rate');
+    const labelQualifiedRate = document.getElementById('label-qualified-rate');
+    const presetChips = document.querySelectorAll('.preset-chip');
 
-    const elRangeMin = document.getElementById('range-min');
-    const elRangeMax = document.getElementById('range-max');
-    const elSub = document.getElementById('earnings-sub');
-    const elTotalViews = document.getElementById('res-total-views');
-    const elPerVideo = document.getElementById('res-per-video');
-    const elCpmUsed = document.getElementById('res-cpm-used');
-    const elEngLabel = document.getElementById('res-engagement-label');
-    const elBrandRange = document.getElementById('brand-deal-range');
-    const elBrandTotal = document.getElementById('brand-total-range');
+    // Mode 2 Inputs
+    const inputSponViews = document.getElementById('input-spon-views');
+    const inputSponDealsCount = document.getElementById('input-spon-deals-count');
+    const selectSponNiche = document.getElementById('select-spon-niche');
 
-    // CPM ranges per program type (per 1,000 views, in USD)
-    const cpmRanges = {
-      short: { min: 0.020, max: 0.040 }, // Creator Fund
-      long:  { min: 0.400, max: 1.000 }, // Creator Rewards Program
+    // Result Metric Elements
+    const titleResPrimary = document.getElementById('title-res-primary');
+    const valMonthlyEarnings = document.getElementById('res-monthly-earnings');
+    const subMonthlyDetail = document.getElementById('res-monthly-sub');
+
+    const titleResSecondary = document.getElementById('title-res-secondary');
+    const valYearlyEarnings = document.getElementById('res-yearly-earnings');
+
+    const titleResTertiary = document.getElementById('title-res-tertiary');
+    const valTertiary = document.getElementById('res-tertiary-val');
+    const subTertiary = document.getElementById('res-tertiary-sub');
+
+    const titleResQuaternary = document.getElementById('title-res-quaternary');
+    const valQuaternary = document.getElementById('res-quaternary-val');
+    const subQuaternary = document.getElementById('res-quaternary-sub');
+
+    // Benchmarks
+    const bmCurrentRpm = document.getElementById('bm-current-rpm');
+    const bm10k = document.getElementById('bm-10k');
+    const bm50k = document.getElementById('bm-50k');
+    const bm100k = document.getElementById('bm-100k');
+    const bm1m = document.getElementById('bm-1m');
+
+    // Formula text
+    const calcFormulaText = document.getElementById('calculation-formula-text');
+
+    let currentMode = 'rewards'; // 'rewards' | 'sponsorships'
+
+    const currencyConfig = {
+      USD: { symbol: '$', rate: 1.0 },
+      EUR: { symbol: '€', rate: 0.92 },
+      GBP: { symbol: '£', rate: 0.79 },
+      CAD: { symbol: 'CA$', rate: 1.36 },
+      AUD: { symbol: 'A$', rate: 1.52 },
+      INR: { symbol: '₹', rate: 83.5 }
     };
 
-    // Engagement multiplier on CPM (higher engagement = slightly higher effective CPM)
-    const engMult: Record<string, { label: string; mult: number }> = {
-      low:     { label: 'Low (<3%)',      mult: 0.80 },
-      average: { label: 'Average (3–6%)', mult: 1.00 },
-      high:    { label: 'High (6–12%)',   mult: 1.25 },
-      viral:   { label: 'Viral (12%+)',   mult: 1.60 },
-    };
-
-    // Brand deal ranges (per sponsored post, USD) based on average views
-    function brandDealRange(avgViews: number): { min: number; max: number } {
-      if (avgViews < 10_000)  return { min: 50,   max: 200  };
-      if (avgViews < 50_000)  return { min: 150,  max: 600  };
-      if (avgViews < 200_000) return { min: 500,  max: 2000 };
-      if (avgViews < 1_000_000) return { min: 1500, max: 6000 };
-      return { min: 5000, max: 20000 };
+    function formatNumber(num) {
+      if (isNaN(num) || !isFinite(num)) return '0';
+      return Math.round(num).toLocaleString('en-US');
     }
 
-    function formatMoney(val: number): string {
-      if (val < 1) return '<$1';
-      if (val >= 1000) return '$' + (val / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-      return '$' + Math.round(val).toLocaleString();
+    function formatCurrency(amount, currKey) {
+      if (isNaN(amount) || !isFinite(amount)) amount = 0;
+      const conf = currencyConfig[currKey] || currencyConfig.USD;
+      const formatted = amount.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      return `${conf.symbol}${formatted}`;
     }
 
-    function formatViews(val: number): string {
-      if (val >= 1_000_000) return (val / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
-      if (val >= 1_000) return (val / 1_000).toFixed(0) + 'K';
-      return val.toLocaleString();
+    function updateCurrencyLabels() {
+      const currKey = selectCurrency ? selectCurrency.value : 'USD';
+      const conf = currencyConfig[currKey] || currencyConfig.USD;
+      const labels = document.querySelectorAll('.currency-symbol-label');
+      labels.forEach((el) => {
+        el.textContent = conf.symbol;
+      });
     }
 
     function calculate() {
-      const avgViews = parseFloat(inputViews?.value || '0');
-      const videosPerMonth = parseFloat(inputVideos?.value || '0');
-      const videoLength = selectLength?.value || 'long';
-      const engKey = selectEngagement?.value || 'average';
+      const currKey = selectCurrency ? selectCurrency.value : 'USD';
+      const conf = currencyConfig[currKey] || currencyConfig.USD;
 
-      if (!avgViews || !videosPerMonth || avgViews < 0 || videosPerMonth < 0) {
-        alert('Please enter valid positive numbers for views and video count.');
-        return;
+      if (currentMode === 'rewards') {
+        let totalViews = parseFloat(inputMonthlyViews ? inputMonthlyViews.value : '0') || 0;
+        let rpm = parseFloat(inputRpm ? inputRpm.value : '0') || 0;
+        let qualifiedRate = parseFloat(inputQualifiedRate ? inputQualifiedRate.value : '60') || 60;
+
+        if (totalViews < 0) totalViews = 0;
+        if (rpm < 0) rpm = 0;
+        if (qualifiedRate < 1) qualifiedRate = 1;
+        if (qualifiedRate > 100) qualifiedRate = 100;
+
+        const qualifiedViews = totalViews * (qualifiedRate / 100);
+        const monthlyEarnings = (qualifiedViews / 1000) * rpm;
+        const yearlyEarnings = monthlyEarnings * 12;
+
+        // Benchmarks at current RPM
+        const val10k = (10000 / 1000) * rpm;
+        const val50k = (50000 / 1000) * rpm;
+        const val100k = (100000 / 1000) * rpm;
+        const val1m = (1000000 / 1000) * rpm;
+
+        // Card 1
+        if (titleResPrimary) titleResPrimary.textContent = 'Estimated Monthly Earnings';
+        if (valMonthlyEarnings) valMonthlyEarnings.textContent = formatCurrency(monthlyEarnings, currKey);
+        if (subMonthlyDetail) {
+          subMonthlyDetail.textContent = `Based on ${formatNumber(qualifiedViews)} qualified views at ${conf.symbol}${rpm.toFixed(2)} RPM`;
+        }
+
+        // Card 2
+        if (titleResSecondary) titleResSecondary.textContent = 'Estimated Yearly Earnings';
+        if (valYearlyEarnings) valYearlyEarnings.textContent = formatCurrency(yearlyEarnings, currKey);
+
+        // Card 3
+        if (titleResTertiary) titleResTertiary.textContent = 'Monetized Qualified Views';
+        if (valTertiary) valTertiary.textContent = formatNumber(qualifiedViews);
+        if (subTertiary) subTertiary.textContent = `${qualifiedRate}% of ${formatNumber(totalViews)} monthly views`;
+
+        // Card 4
+        if (titleResQuaternary) titleResQuaternary.textContent = 'Applied Creator RPM';
+        if (valQuaternary) valQuaternary.textContent = `${conf.symbol}${rpm.toFixed(2)}`;
+        if (subQuaternary) subQuaternary.textContent = `Net payout per 1,000 qualified views (${currKey})`;
+
+        // Benchmarks
+        if (bmCurrentRpm) bmCurrentRpm.textContent = `${conf.symbol}${rpm.toFixed(2)}`;
+        if (bm10k) bm10k.textContent = formatCurrency(val10k, currKey);
+        if (bm50k) bm50k.textContent = formatCurrency(val50k, currKey);
+        if (bm100k) bm100k.textContent = formatCurrency(val100k, currKey);
+        if (bm1m) bm1m.textContent = formatCurrency(val1m, currKey);
+
+        // Formula text
+        if (calcFormulaText) {
+          calcFormulaText.innerHTML = `Formula: (${formatNumber(qualifiedViews)} qualified views ÷ 1,000) × ${conf.symbol}${rpm.toFixed(2)} RPM = <strong>${formatCurrency(monthlyEarnings, currKey)} monthly earnings</strong>. Annual projection: ${formatCurrency(monthlyEarnings, currKey)} × 12 = <strong>${formatCurrency(yearlyEarnings, currKey)} yearly</strong>.`;
+        }
+
+      } else {
+        // Sponsorship Mode
+        let sponViews = parseFloat(inputSponViews ? inputSponViews.value : '0') || 0;
+        let dealsCount = parseFloat(inputSponDealsCount ? inputSponDealsCount.value : '1') || 1;
+        const nicheTier = selectSponNiche ? selectSponNiche.value : 'tier1';
+
+        if (sponViews < 0) sponViews = 0;
+        if (dealsCount < 0) dealsCount = 0;
+
+        // Estimated sponsorship CPM per niche tier
+        let sponCpm = 25.0; // Tier 1: $25 CPM average ($18-$35)
+        if (nicheTier === 'tier2') sponCpm = 15.0; // Tier 2: $15 CPM ($10-$20)
+        if (nicheTier === 'tier3') sponCpm = 8.0;  // Tier 3: $8 CPM ($5-$12)
+
+        const ratePerPost = (sponViews / 1000) * sponCpm;
+        const monthlySponEarnings = ratePerPost * dealsCount;
+        const yearlySponEarnings = monthlySponEarnings * 12;
+
+        // Card 1
+        if (titleResPrimary) titleResPrimary.textContent = 'Est. Monthly Brand Deals';
+        if (valMonthlyEarnings) valMonthlyEarnings.textContent = formatCurrency(monthlySponEarnings, currKey);
+        if (subMonthlyDetail) {
+          subMonthlyDetail.textContent = `Based on ${dealsCount} sponsored posts @ ${formatCurrency(ratePerPost, currKey)} / post`;
+        }
+
+        // Card 2
+        if (titleResSecondary) titleResSecondary.textContent = 'Annual Sponsorship Potential';
+        if (valYearlyEarnings) valYearlyEarnings.textContent = formatCurrency(yearlySponEarnings, currKey);
+
+        // Card 3
+        if (titleResTertiary) titleResTertiary.textContent = 'Est. Rate Per Sponsored Post';
+        if (valTertiary) valTertiary.textContent = formatCurrency(ratePerPost, currKey);
+        if (subTertiary) subTertiary.textContent = `For ~${formatNumber(sponViews)} average video views`;
+
+        // Card 4
+        if (titleResQuaternary) titleResQuaternary.textContent = 'Benchmark Sponsor CPM';
+        if (valQuaternary) valQuaternary.textContent = `${conf.symbol}${sponCpm.toFixed(2)}`;
+        if (subQuaternary) subQuaternary.textContent = `Advertiser rate per 1,000 views (${currKey})`;
+
+        // Formula text
+        if (calcFormulaText) {
+          calcFormulaText.innerHTML = `Sponsorship Model: (${formatNumber(sponViews)} views ÷ 1,000) × ${conf.symbol}${sponCpm.toFixed(2)} CPM = <strong>${formatCurrency(ratePerPost, currKey)} per post</strong>. At ${dealsCount} posts/mo: <strong>${formatCurrency(monthlySponEarnings, currKey)} monthly</strong> (${formatCurrency(yearlySponEarnings, currKey)} yearly).`;
+        }
       }
-
-      const totalViews = avgViews * videosPerMonth;
-      const { min: cpmMin, max: cpmMax } = cpmRanges[videoLength as 'short' | 'long'];
-      const { label: engLabel, mult } = engMult[engKey] || engMult.average;
-
-      const effectiveCpmMin = cpmMin * mult;
-      const effectiveCpmMax = cpmMax * mult;
-
-      const earningsMin = (totalViews / 1000) * effectiveCpmMin;
-      const earningsMax = (totalViews / 1000) * effectiveCpmMax;
-      const perVideoMin = (avgViews / 1000) * effectiveCpmMin;
-      const perVideoMax = (avgViews / 1000) * effectiveCpmMax;
-      const avgCpm = ((effectiveCpmMin + effectiveCpmMax) / 2);
-
-      const brand = brandDealRange(avgViews);
-      const brandMonthlyMin = brand.min; // 1 deal per month conservative
-      const brandMonthlyMax = brand.max * 2; // up to 2 deals
-
-      // Update DOM
-      if (elRangeMin) elRangeMin.textContent = formatMoney(earningsMin);
-      if (elRangeMax) elRangeMax.textContent = formatMoney(earningsMax);
-      if (elSub) elSub.textContent = videoLength === 'long' ? 'From TikTok Creator Rewards Program' : 'From TikTok Creator Fund';
-      if (elTotalViews) elTotalViews.textContent = formatViews(totalViews);
-      if (elPerVideo) elPerVideo.textContent = `${formatMoney(perVideoMin)}–${formatMoney(perVideoMax)}`;
-      if (elCpmUsed) elCpmUsed.textContent = `$${effectiveCpmMin.toFixed(2)}–$${effectiveCpmMax.toFixed(2)}`;
-      if (elEngLabel) elEngLabel.textContent = engLabel;
-      if (elBrandRange) elBrandRange.textContent = `${formatMoney(brand.min)}–${formatMoney(brand.max)}`;
-      if (elBrandTotal) elBrandTotal.textContent = `${formatMoney(earningsMin + brandMonthlyMin)}–${formatMoney(earningsMax + brandMonthlyMax)}`;
-
-      // Show results
-      if (emptyState) emptyState.style.display = 'none';
-      if (resultsBox) resultsBox.style.display = 'flex';
     }
 
-    function reset() {
-      if (inputViews) inputViews.value = '50000';
-      if (inputVideos) inputVideos.value = '15';
-      if (selectLength) selectLength.value = 'long';
-      if (selectEngagement) selectEngagement.value = 'average';
-      if (emptyState) emptyState.style.display = 'flex';
-      if (resultsBox) resultsBox.style.display = 'none';
+    // Switch calculation mode
+    function setMode(mode) {
+      currentMode = mode;
+      if (mode === 'rewards') {
+        if (tabRewards) {
+          tabRewards.classList.add('active');
+          tabRewards.setAttribute('aria-selected', 'true');
+        }
+        if (tabSponsorships) {
+          tabSponsorships.classList.remove('active');
+          tabSponsorships.setAttribute('aria-selected', 'false');
+        }
+        if (formRewards) formRewards.style.display = 'block';
+        if (formSponsorships) formSponsorships.style.display = 'none';
+        if (benchmarkStrip) benchmarkStrip.style.display = 'block';
+      } else {
+        if (tabSponsorships) {
+          tabSponsorships.classList.add('active');
+          tabSponsorships.setAttribute('aria-selected', 'true');
+        }
+        if (tabRewards) {
+          tabRewards.classList.remove('active');
+          tabRewards.setAttribute('aria-selected', 'false');
+        }
+        if (formRewards) formRewards.style.display = 'none';
+        if (formSponsorships) formSponsorships.style.display = 'block';
+        if (benchmarkStrip) benchmarkStrip.style.display = 'none';
+      }
+      calculate();
     }
 
-    if (btnCalculate) btnCalculate.addEventListener('click', calculate);
-    if (btnReset) btnReset.addEventListener('click', reset);
+    if (tabRewards) {
+      tabRewards.addEventListener('click', () => setMode('rewards'));
+    }
+    if (tabSponsorships) {
+      tabSponsorships.addEventListener('click', () => setMode('sponsorships'));
+    }
 
-    // Auto-calculate on load with defaults
+    // Slider sync with label
+    if (inputQualifiedRate && labelQualifiedRate) {
+      inputQualifiedRate.addEventListener('input', () => {
+        labelQualifiedRate.textContent = `${inputQualifiedRate.value}%`;
+        calculate();
+      });
+    }
+
+    // Live update listeners
+    if (inputMonthlyViews) inputMonthlyViews.addEventListener('input', calculate);
+    if (inputRpm) inputRpm.addEventListener('input', calculate);
+    if (inputSponViews) inputSponViews.addEventListener('input', calculate);
+    if (inputSponDealsCount) inputSponDealsCount.addEventListener('input', calculate);
+    if (selectSponNiche) selectSponNiche.addEventListener('change', calculate);
+
+    if (selectCurrency) {
+      selectCurrency.addEventListener('change', () => {
+        updateCurrencyLabels();
+        calculate();
+      });
+    }
+
+    // Preset chips
+    presetChips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        presetChips.forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active');
+        const rpmVal = chip.getAttribute('data-rpm');
+        if (inputRpm && rpmVal) {
+          inputRpm.value = rpmVal;
+          calculate();
+        }
+      });
+    });
+
+    // Reset button
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        if (inputMonthlyViews) inputMonthlyViews.value = '150000';
+        if (inputRpm) inputRpm.value = '0.75';
+        if (inputQualifiedRate) {
+          inputQualifiedRate.value = '60';
+          if (labelQualifiedRate) labelQualifiedRate.textContent = '60%';
+        }
+        if (inputSponViews) inputSponViews.value = '50000';
+        if (inputSponDealsCount) inputSponDealsCount.value = '2';
+        if (selectSponNiche) selectSponNiche.value = 'tier1';
+        if (selectCurrency) selectCurrency.value = 'USD';
+
+        presetChips.forEach((c) => {
+          if (c.getAttribute('data-rpm') === '0.75') {
+            c.classList.add('active');
+          } else {
+            c.classList.remove('active');
+          }
+        });
+
+        updateCurrencyLabels();
+        setMode('rewards');
+      });
+    }
+
+    // Copy Summary Action
+    if (btnCopySummary && copySummaryLabel) {
+      btnCopySummary.addEventListener('click', async () => {
+        const currKey = selectCurrency ? selectCurrency.value : 'USD';
+        const conf = currencyConfig[currKey] || currencyConfig.USD;
+        let summaryText = '';
+
+        if (currentMode === 'rewards') {
+          const views = inputMonthlyViews ? inputMonthlyViews.value : '0';
+          const rpm = inputRpm ? inputRpm.value : '0.75';
+          const qualRate = inputQualifiedRate ? inputQualifiedRate.value : '60';
+          const monthly = valMonthlyEarnings ? valMonthlyEarnings.textContent : '$0.00';
+          const yearly = valYearlyEarnings ? valYearlyEarnings.textContent : '$0.00';
+
+          summaryText = `TikTok Creator Rewards Projection (${currKey}):\n` +
+            `• Monthly Views: ${formatNumber(parseFloat(views))}\n` +
+            `• Qualified Views Rate: ${qualRate}%\n` +
+            `• Estimated RPM: ${conf.symbol}${parseFloat(rpm).toFixed(2)} per 1K qualified views\n` +
+            `• Estimated Monthly Earnings: ${monthly}\n` +
+            `• Estimated Yearly Earnings: ${yearly}\n` +
+            `Calculated with CreatorsFeel TikTok Money Calculator: https://creatorsfeel.com/tools/tiktok-money-calculator`;
+        } else {
+          const sponViews = inputSponViews ? inputSponViews.value : '0';
+          const deals = inputSponDealsCount ? inputSponDealsCount.value : '2';
+          const perPost = valTertiary ? valTertiary.textContent : '$0.00';
+          const monthly = valMonthlyEarnings ? valMonthlyEarnings.textContent : '$0.00';
+          const yearly = valYearlyEarnings ? valYearlyEarnings.textContent : '$0.00';
+
+          summaryText = `TikTok Sponsorship Projection (${currKey}):\n` +
+            `• Average Views / Video: ${formatNumber(parseFloat(sponViews))}\n` +
+            `• Sponsored Posts / Month: ${deals}\n` +
+            `• Rate Per Sponsored Post: ${perPost}\n` +
+            `• Estimated Monthly Sponsorships: ${monthly}\n` +
+            `• Estimated Yearly Sponsorships: ${yearly}\n` +
+            `Calculated with CreatorsFeel TikTok Money Calculator: https://creatorsfeel.com/tools/tiktok-money-calculator`;
+        }
+
+        try {
+          await navigator.clipboard.writeText(summaryText);
+          const original = copySummaryLabel.textContent;
+          copySummaryLabel.textContent = 'Copied to Clipboard!';
+          setTimeout(() => {
+            copySummaryLabel.textContent = original;
+          }, 2000);
+        } catch {
+          // Fallback
+        }
+      });
+    }
+
+    // Initial Execution
+    updateCurrencyLabels();
     calculate();
-  });
+  }
+
+  // Handle both standard DOM load and Astro View Transitions
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTikTokMoneyCalculator);
+  } else {
+    initTikTokMoneyCalculator();
+  }
+
+  document.addEventListener('astro:after-swap', initTikTokMoneyCalculator);
 </script>

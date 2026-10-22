@@ -47,7 +47,7 @@ const faqs = [
               </svg>
               Topic or Subject
             </label>
-            <input type="text" id="seed-input" class="form-input" placeholder="e.g. mechanical keyboards, productivity hacks" value="mechanical keyboards" />
+            <input type="text" id="seed-input" class="form-input" placeholder="Enter post topic or keywords..." value="mechanical keyboards" />
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
@@ -163,7 +163,7 @@ const faqs = [
     <h2>Reddit Title Generator: Write Catchy Headers for Top Subreddits</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
-        📚 <strong>Want to learn the strategy behind virality?</strong> Read our comprehensive <a href="/blog/reddit-title-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Reddit Title Writing Guide</a> to write high-engagement posts that reach the front page.
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand);"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg> <strong>Want to learn the strategy behind virality?</strong> Read our comprehensive <a href="/blog/reddit-title-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Reddit Title Writing Guide</a> to write high-engagement posts that reach the front page.
       </p>
     </div>
 
@@ -212,11 +212,11 @@ const faqs = [
     </p>
     <p>
       <strong>Calculation Process:</strong><br />
-      ✦ Prefix text: `"TIL that"` $\rightarrow$ <strong>8 characters</strong>.<br />
-      ✦ Base fact hook: `"mechanical keyboards can increase typing speed and comfort"` $\rightarrow$ <strong>60 characters</strong>.<br />
-      ✦ Emojis: `"⌨️✨"` $\rightarrow$ <strong>4 characters</strong>.<br />
-      ✦ Combined output: `"TIL that mechanical keyboards can increase typing speed and comfort ⌨️✨"` $\rightarrow$ <strong>72 characters</strong>.<br />
-      ✦ Character limit check: `72 < 300 characters` (fully compliant).
+      • Prefix text: `"TIL that"` $\rightarrow$ <strong>8 characters</strong>.<br />
+      • Base fact hook: `"mechanical keyboards can increase typing speed and comfort"` $\rightarrow$ <strong>60 characters</strong>.<br />
+      • Suffix: `"[Guide]"` $\rightarrow$ <strong>4 characters</strong>.<br />
+      • Combined output: `"TIL that mechanical keyboards can increase typing speed and comfort [Guide]"` $\rightarrow$ <strong>72 characters</strong>.<br />
+      • Character limit check: `72 < 300 characters` (fully compliant).
     </p>
     <p>
       The generated title is 72 characters long, which is well within Reddit's 300-character limit and fits perfectly in desktop and mobile feeds.
@@ -498,7 +498,7 @@ const faqs = [
           `If you could change one thing about the history of`,
           `What is the most underrated aspect of`
         ],
-        emojis: ['🤔', '❓', '💭', '😮'],
+        emojis: ['', '', '', ''],
         subreddit: 'r/AskReddit'
       },
       til: {
@@ -509,7 +509,7 @@ const faqs = [
           `about the psychological benefits of using custom tactile`,
           `that manufacturing processes for have changed drastically`
         ],
-        emojis: ['🧠', '📚', '💡', '🧐'],
+        emojis: ['', '', '', ''],
         subreddit: 'r/todayilearned'
       },
       oc: {
@@ -520,7 +520,7 @@ const faqs = [
           `Step-by-step assembly guide for my new project`,
           `Rate my customized setup from 1 to 10!`
         ],
-        emojis: ['✨', '🛠️', '📸', '🔥'],
+        emojis: ['', '', '', ''],
         subreddit: 'r/gaming'
       },
       discussion: {
@@ -531,7 +531,7 @@ const faqs = [
           `The ultimate guide to building and scaling your`,
           `Why most newcomers fail when starting out with`
         ],
-        emojis: ['💬', '🗣️', '📊', '📈'],
+        emojis: ['', '', '', ''],
         subreddit: 'r/technology'
       },
       funny: {
@@ -542,7 +542,7 @@ const faqs = [
           `How to successfully hide your hobby purchases from family`,
           `When you buy a premium set but still type at 30 WPM`
         ],
-        emojis: ['🫠', '💀', '🤡', '😭'],
+        emojis: ['', '', '', ''],
         subreddit: 'r/memes'
       }
     };
@@ -720,7 +720,7 @@ const faqs = [
       navigator.clipboard.writeText(titleVal).then(() => {
         const btn = chip.querySelector('.chip-btn') as HTMLElement;
         if (btn) {
-          btn.textContent = 'Copied! ✓';
+          btn.textContent = "Copied!";
           setTimeout(() => {
             btn.textContent = 'Copy';
           }, 1200);

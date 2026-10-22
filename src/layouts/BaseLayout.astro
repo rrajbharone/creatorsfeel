@@ -13,6 +13,7 @@ interface Props {
   canonicalUrl?: string;
   breadcrumbs?: { name: string; item: string }[];
   faqs?: { question: string; answer: string }[];
+  hideGlow?: boolean;
 }
 
 const {
@@ -22,7 +23,8 @@ const {
   type = 'website',
   canonicalUrl,
   breadcrumbs = [],
-  faqs = []
+  faqs = [],
+  hideGlow = false
 } = Astro.props;
 ---
 
@@ -75,7 +77,7 @@ const {
     </script>
   </head>
   <body>
-    <div class="glow-bg"></div>
+    {!hideGlow && <div class="glow-bg"></div>}
     <Header />
     <main id="main-content">
       <slot />

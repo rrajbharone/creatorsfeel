@@ -1,0 +1,65 @@
+---
+// Creator Illustration matching the reference image composition and colors
+---
+
+<div class="hero-illustration-wrapper" aria-hidden="true">
+  <picture>
+    <source srcset="/images/hero-creator@2x.webp 2x, /images/hero-creator.webp 1x" type="image/webp" />
+    <img
+      src="/images/hero-creator.webp"
+      alt="Creator wearing purple hoodie working on laptop with camera, studio plant, and social media tools"
+      width="980"
+      height="624"
+      class="hero-creator-img"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </picture>
+</div>
+
+<style>
+  .hero-illustration-wrapper {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    user-select: none;
+  }
+
+  .hero-creator-img {
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 16px 36px rgba(79, 70, 229, 0.09));
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  :global([data-theme="dark"]) .hero-creator-img {
+    filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.45)) drop-shadow(0 4px 14px rgba(99, 102, 241, 0.15));
+  }
+
+  @media (hover: hover) {
+    .hero-creator-img:hover {
+      transform: translateY(-3px) scale(1.005);
+    }
+  }
+
+  @media (max-width: 960px) {
+    .hero-illustration-wrapper {
+      max-width: 480px;
+      margin-top: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-illustration-wrapper {
+      max-width: 360px;
+    }
+  }
+</style>

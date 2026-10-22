@@ -52,7 +52,7 @@ const faqs = [
             <textarea 
               id="title-input" 
               class="title-textarea" 
-              placeholder="e.g., How I Built a $10K/Month Business in 90 Days 🚀 (Step-by-Step Guide)"
+              placeholder="Enter YouTube video title..."
               rows="3"
               aria-describedby="title-help-note"
             ></textarea>
@@ -104,7 +104,7 @@ const faqs = [
 
         <!-- Helpful Explanatory Note -->
         <div class="help-note-box" id="title-help-note">
-          <div class="note-icon">💡</div>
+          <div class="note-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></div>
           <div class="note-text">
             <strong>YouTube Technical Limit vs. Recommended Length:</strong> YouTube allows up to <strong>100 characters</strong> in a title, but titles longer than <strong>50–60 characters</strong> are usually cut off (truncated) on mobile and desktop search feeds. Focus on placing your primary hook and main keywords in the first 50 characters!
           </div>
@@ -173,7 +173,7 @@ const faqs = [
           <!-- Desktop Preview Mockup -->
           <div class="mockup-card">
             <div class="mockup-header">
-              <span class="device-icon">💻</span>
+              <span class="device-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle;"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg></span>
               <span class="mockup-label">Desktop Search & Recommendations</span>
             </div>
             <div class="yt-desktop-item">
@@ -191,7 +191,7 @@ const faqs = [
           <!-- Mobile App Preview Mockup -->
           <div class="mockup-card">
             <div class="mockup-header">
-              <span class="device-icon">📱</span>
+              <span class="device-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle;"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><line x1="12" x2="12.01" y1="18" y2="18"/></svg></span>
               <span class="mockup-label">Mobile App Feed Snippet</span>
             </div>
             <div class="yt-mobile-item">
@@ -282,7 +282,7 @@ const faqs = [
           <strong>Punctuation & Special Symbols:</strong> Symbols like pipes (<code>|</code>), dashes (<code>-</code>), brackets (<code>[ ]</code>), and parentheses (<code>( )</code>) count as individual characters. They are helpful for separating keywords and series titles.
         </li>
         <li>
-          <strong>Emojis:</strong> Emojis (e.g. 🚀, 🔥, 👨‍💻) are essential visual tools for boosting CTR. Standard emojis count as 1 character in Unicode grapheme segmenters, but complex emojis (like flags or emojis with skin tone modifiers) consist of multiple code points joined by Zero Width Joiners (ZWJ). Our counter uses native <code>Intl.Segmenter</code> technology to ensure emojis are accurately counted.
+          <strong>Emojis:</strong> Emojis and icons are visual tools for boosting CTR. Standard Unicode symbols visual tools for boosting CTR. Standard emojis count as 1 character in Unicode grapheme segmenters, but complex emojis (like flags or emojis with skin tone modifiers) consist of multiple code points joined by Zero Width Joiners (ZWJ). Our counter uses native <code>Intl.Segmenter</code> technology to ensure emojis are accurately counted.
         </li>
       </ul>
 
@@ -374,7 +374,7 @@ const faqs = [
               <td>Strong keywords, but tail might truncate on mobile feeds.</td>
             </tr>
             <tr>
-              <td><code>Edit YouTube Videos 2x Faster in Premiere Pro (2026) 🎬</code></td>
+              <td><code>Edit YouTube Videos 2x Faster in Premiere Pro (2026)</code></td>
               <td>58</td>
               <td><span class="badge-green">Good Length</span></td>
               <td>Perfect! High CTR hook, target keywords, emoji, and zero truncation.</td>

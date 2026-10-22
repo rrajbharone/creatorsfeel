@@ -48,7 +48,7 @@ const faqs = [
               </svg>
               Board Niche / Topic
             </label>
-            <input type="text" id="value-input" class="form-input" placeholder="e.g. boho bedroom, vegan snacks" value="boho bedroom" required />
+            <input type="text" id="value-input" class="form-input" placeholder="Enter board topic or theme..." value="boho bedroom" required />
           </div>
 
           <!-- Category Selection -->
@@ -137,7 +137,7 @@ const faqs = [
     <h2>Pinterest Board Name Generator: Build Search-Optimized Visual Boards</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        📌 <strong>Looking to drive targeted traffic to your boards?</strong> Read our comprehensive strategy guide on <a href="/blog/pinterest-keyword-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Pinterest Keyword Research & SEO Strategy</a> to learn how to research high-traffic modifiers, layout board descriptions, and organize pins.
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg> <strong>Looking to drive targeted traffic to your boards?</strong> Read our comprehensive strategy guide on <a href="/blog/pinterest-keyword-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Pinterest Keyword Research & SEO Strategy</a> to learn how to research high-traffic modifiers, layout board descriptions, and organize pins.
       </p>
     </div>
 
@@ -184,10 +184,10 @@ const faqs = [
     </p>
     <p>
       <strong>Generated Variations:</strong><br />
-      ✦ Aesthetic Style: `"Boho Bedroom Decor Aesthetic"` (28 characters) $\rightarrow$ <strong>Safe</strong><br />
-      ✦ DIY Style: `"DIY Boho Bedroom Ideas & Tutorials"` (34 characters) $\rightarrow$ <strong>Safe</strong><br />
-      ✦ Shop Style: `"Boho Bedroom Furniture To Shop"` (30 characters) $\rightarrow$ <strong>Safe</strong><br />
-      ✦ Broad Style: `"Boho Bedroom Interior Design"` (28 characters) $\rightarrow$ <strong>Safe</strong>
+      • Aesthetic Style: `"Boho Bedroom Decor Aesthetic"` (28 characters) $\rightarrow$ <strong>Safe</strong><br />
+      • DIY Style: `"DIY Boho Bedroom Ideas & Tutorials"` (34 characters) $\rightarrow$ <strong>Safe</strong><br />
+      • Shop Style: `"Boho Bedroom Furniture To Shop"` (30 characters) $\rightarrow$ <strong>Safe</strong><br />
+      • Broad Style: `"Boho Bedroom Interior Design"` (28 characters) $\rightarrow$ <strong>Safe</strong>
     </p>
     <p>
       Each generated name fits well within the 50-character limit, ensuring it displays fully in search results and on mobile devices.
@@ -461,15 +461,15 @@ const faqs = [
           const row = document.createElement('div');
           row.className = 'name-item-row';
           row.innerHTML = `
-            <span>📌 ${name}</span>
-            <button type="button" class="copy-row-btn">📋 Copy</button>
+            <span>${name}</span>
+            <button type="button" class="copy-row-btn">Copy</button>
           `;
           
           row.querySelector('.copy-row-btn')?.addEventListener('click', (e) => {
             navigator.clipboard.writeText(name).then(() => {
               const btn = e.target as HTMLButtonElement;
               const originalText = btn.textContent;
-              btn.textContent = 'Copied! ✓';
+              btn.textContent = "Copied!";
               btn.style.background = 'var(--color-brand)';
               btn.style.color = 'white';
               setTimeout(() => {
@@ -508,7 +508,7 @@ const faqs = [
       const copyText = generatedNames.join('\n');
       navigator.clipboard.writeText(copyText).then(() => {
         const originalText = copyAllBtn.textContent;
-        copyAllBtn.textContent = 'All Copied! ✓';
+        copyAllBtn.textContent = 'All Copied!';
         setTimeout(() => {
           copyAllBtn.textContent = originalText;
         }, 1500);

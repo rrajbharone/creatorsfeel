@@ -47,7 +47,7 @@ const faqs = [
               </svg>
               Seed Keyword / Topic
             </label>
-            <input type="text" id="value-input" class="form-input" placeholder="e.g. baking recipes, diy room decor" value="diy room decor" required />
+            <input type="text" id="value-input" class="form-input" placeholder="Enter search query or topic..." value="diy room decor" required />
           </div>
 
           <!-- Category Selection -->
@@ -121,7 +121,7 @@ const faqs = [
     <h2>Pinterest Keyword Generator: Optimize Pin Titles & Board SEO</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        📌 <strong>Looking to audit keyword optimization for your Pins?</strong> Read our comprehensive strategy guide on <a href="/blog/pinterest-keyword-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Pinterest Keyword Research & SEO Strategy</a> to learn how to find trending search terms, plan titles, and structure descriptions.
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand);"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg> <strong>Looking to audit keyword optimization for your Pins?</strong> Read our comprehensive strategy guide on <a href="/blog/pinterest-keyword-generator-guide" style="color: var(--color-brand); text-decoration: underline;">Pinterest Keyword Research & SEO Strategy</a> to learn how to find trending search terms, plan titles, and structure descriptions.
       </p>
     </div>
 
@@ -162,15 +162,15 @@ const faqs = [
     </p>
     <p>
       <strong>Input Parameters:</strong><br />
-      ✦ Topic: "diy room decor"<br />
-      ✦ Base Description: "Simple and budget-friendly ideas to transform your bedroom on a weekend." (83 characters)
+      • Topic: "diy room decor"<br />
+      • Base Description: "Simple and budget-friendly ideas to transform your bedroom on a weekend." (83 characters)
     </p>
     <p>
       <strong>Hashtags Budget Allocation:</strong><br />
-      ✦ Generated tags: `#diyhomedecor #bedroommakeover #roomdecor #diydecor`<br />
-      ✦ Tags character weight: <strong>55 characters</strong>.<br />
-      ✦ Total Description character length: `83 + 55 = 138 characters`.<br />
-      ✦ Pinterest Limit Check: Since 138 is under the 500 character limit, the text will display cleanly without getting cropped. The 4 hashtags fall within the recommended 2-5 tag limit.
+      • Generated tags: `#diyhomedecor #bedroommakeover #roomdecor #diydecor`<br />
+      • Tags character weight: <strong>55 characters</strong>.<br />
+      • Total Description character length: `83 + 55 = 138 characters`.<br />
+      • Pinterest Limit Check: Since 138 is under the 500 character limit, the text will display cleanly without getting cropped. The 4 hashtags fall within the recommended 2-5 tag limit.
     </p>
 
     <h3>Who Should Use This Tool?</h3>
@@ -431,7 +431,7 @@ const faqs = [
           const chip = document.createElement('span');
           chip.className = 'keyword-chip';
           chip.innerHTML = `
-            <span>📌</span>
+            <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand);"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg></span>
             <span>${kw}</span>
           `;
           keywordsList.appendChild(chip);
@@ -462,7 +462,7 @@ const faqs = [
       const copyText = generatedKeywords.join('\n');
       navigator.clipboard.writeText(copyText).then(() => {
         const originalText = copyAllBtn.textContent;
-        copyAllBtn.textContent = 'Keywords Copied! ✓';
+        copyAllBtn.textContent = 'Keywords Copied!';
         setTimeout(() => {
           copyAllBtn.textContent = originalText;
         }, 1500);

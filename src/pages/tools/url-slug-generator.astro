@@ -67,7 +67,7 @@ const faqs = [
               </svg>
               Page Title or Input Text
             </label>
-            <input type="text" id="value-input" class="form-input" placeholder="e.g. 10 Easy Tips to Improve SEO in 2026!" value="10 Easy Tips to Improve SEO in 2026!" required />
+            <input type="text" id="value-input" class="form-input" placeholder="Enter article or page title..." value="10 Easy Tips to Improve SEO in 2026!" required />
           </div>
 
           <!-- Separator Type -->
@@ -163,7 +163,7 @@ const faqs = [
     <h2>URL Slug Generator: How to Create Clean, SEO-Friendly URLs</h2>
     <div class="strategy-callout">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem;">
-        🔗 <strong>Looking to dive deeper into URL architecture?</strong> Read our comprehensive strategy guide on <a href="/blog/url-slug-generator-guide">URL Slugs & SEO Best Practices</a> to discover directory structures, 301 redirection rules, and permalink management.
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> <strong>Looking to dive deeper into URL architecture?</strong> Read our comprehensive strategy guide on <a href="/blog/url-slug-generator-guide">URL Slugs & SEO Best Practices</a> to discover directory structures, 301 redirection rules, and permalink management.
       </p>
     </div>
 
@@ -954,7 +954,7 @@ const faqs = [
       navigator.clipboard.writeText(text).then(() => {
         if (copyBtnText) {
           const originalText = copyBtnText.textContent;
-          copyBtnText.textContent = 'Copied to Clipboard! ✓';
+          copyBtnText.textContent = 'Copied to Clipboard!';
           setTimeout(() => {
             copyBtnText.textContent = originalText;
           }, 2000);

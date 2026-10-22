@@ -47,7 +47,7 @@ const faqs = [
               </svg>
               Name, Brand, or Keyword
             </label>
-            <input type="text" id="seed-input" class="form-input" placeholder="e.g. alex, creator, fit, tech" value="alex" />
+            <input type="text" id="seed-input" class="form-input" placeholder="Enter brand name or keywords..." value="alex" />
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
@@ -111,7 +111,7 @@ const faqs = [
           <!-- Top Platform Badge Bar -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #1f2937; padding-bottom: 0.5rem;">
             <span style="font-size: 0.72rem; font-weight: 800; color: #6366f1; text-transform: uppercase; display: flex; align-items: center; gap: 4px;">
-              ✨ Verified Creator Profile
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg> Verified Creator Profile
             </span>
             <span id="mockup-platform-tag" style="font-size: 0.68rem; background: #374151; color: #e5e7eb; padding: 2px 8px; border-radius: 10px; font-weight: 700;">
               Universal
@@ -179,7 +179,7 @@ const faqs = [
     <h2>Social Media Handle Generator: Build Consistent Cross-Platform Usernames</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
-        📸 <strong>Looking for Instagram-specific handle ideas?</strong> Try our free <a href="/tools/instagram-username-generator" style="color: var(--color-brand); text-decoration: underline;">Instagram Username Generator</a> to audit 30-character limits and bio layouts.
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> <strong>Looking for Instagram-specific handle ideas?</strong> Try our free <a href="/tools/instagram-username-generator" style="color: var(--color-brand); text-decoration: underline;">Instagram Username Generator</a> to audit 30-character limits and bio layouts.
       </p>
     </div>
 
@@ -686,7 +686,7 @@ const faqs = [
       navigator.clipboard.writeText(handleVal).then(() => {
         const btn = chip.querySelector('.chip-btn') as HTMLElement;
         if (btn) {
-          btn.textContent = 'Copied! ✓';
+          btn.textContent = "Copied!";
           setTimeout(() => {
             btn.textContent = 'Copy Handle';
           }, 1200);

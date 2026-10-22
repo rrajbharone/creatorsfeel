@@ -77,7 +77,7 @@ const faqs = [
           <textarea 
             id="vtt-input" 
             class="editor-textarea" 
-            placeholder="Paste WebVTT subtitle text here (e.g. WEBVTT \n\n 1 \n 00:00:01.000 --> 00:00:04.000 ...)"
+            placeholder="Paste your WebVTT subtitle text here..."
             rows="8"
           >WEBVTT
 
@@ -108,7 +108,7 @@ Learn how to convert WebVTT (.vtt) subtitles to SubRip (.srt) format.</textarea>
         
         <!-- Status Verdict Banner -->
         <div class="verdict-banner success-verdict" id="verdict-banner">
-          <span class="verdict-icon" id="verdict-icon">✅</span>
+          <span class="verdict-icon" id="verdict-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#10b981; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg></span>
           <div class="verdict-text-wrap">
             <strong class="verdict-title" id="verdict-title">Ready to Convert WebVTT Subtitles!</strong>
             <span class="verdict-desc" id="verdict-desc">Subtitles will be converted to standard SubRip (.srt) format.</span>
@@ -1063,7 +1063,7 @@ Learn how to convert WebVTT (.vtt) subtitles to SubRip (.srt) format.</textarea>
     function showSuccessVerdict(title: string, desc: string) {
       if (verdictBanner && verdictTitle && verdictDesc && verdictIcon) {
         verdictBanner.className = 'verdict-banner success-verdict';
-        verdictIcon.textContent = '✅';
+        verdictIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#10b981; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>`;
         verdictTitle.textContent = title;
         verdictDesc.textContent = desc;
       }
@@ -1072,7 +1072,7 @@ Learn how to convert WebVTT (.vtt) subtitles to SubRip (.srt) format.</textarea>
     function showErrorVerdict(title: string, desc: string) {
       if (verdictBanner && verdictTitle && verdictDesc && verdictIcon) {
         verdictBanner.className = 'verdict-banner danger-verdict';
-        verdictIcon.textContent = '❌';
+        verdictIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:#ef4444; margin-right:6px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
         verdictTitle.textContent = title;
         verdictDesc.textContent = desc;
       }

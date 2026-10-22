@@ -47,20 +47,20 @@ const faqs = [
               </svg>
               Podcast Show Title
             </label>
-            <input type="text" id="show-title-input" class="form-input" placeholder="e.g. The Tech Chronicles, Mindset Uncut" value="The Tech Chronicles" />
+            <input type="text" id="show-title-input" class="form-input" placeholder="Enter podcast name..." value="The Tech Chronicles" />
           </div>
 
           <!-- Topic / Episode Summary Input -->
           <div class="form-group">
             <label for="topic-input" class="icon-label">Topic or Episode Summary</label>
-            <input type="text" id="topic-input" class="form-input" placeholder="e.g. AI tools and automation strategies" value="AI tools and automation strategies" />
+            <input type="text" id="topic-input" class="form-input" placeholder="Enter episode topic or theme..." value="AI tools and automation strategies" />
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
             <!-- Target Audience Input -->
             <div class="form-group">
               <label for="audience-input" class="icon-label">Target Audience</label>
-              <input type="text" id="audience-input" class="form-input" style="height: 48px;" placeholder="e.g. creators, developers" value="creators & tech fans" />
+              <input type="text" id="audience-input" class="form-input" style="height: 48px;" placeholder="Enter target audience..." value="creators & tech fans" />
             </div>
 
             <!-- Tone Select -->
@@ -145,7 +145,7 @@ const faqs = [
     <h2>Podcast Description Generator: Write Search-Optimized Show Notes</h2>
     <div style="margin: 1.5rem 0; background: var(--color-bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); border-left: 4px solid var(--color-brand);">
       <p style="margin: 0; font-weight: 600; font-size: 0.95rem; line-height: 1.5;">
-        🎙️ <strong>Looking to generate catchy podcast show titles?</strong> Use our free <a href="/tools/podcast-name-generator" style="color: var(--color-brand); text-decoration: underline;">Podcast Name Generator</a> to craft high-recall show titles for Apple Podcasts and Spotify.
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-icon" style="display:inline-block; vertical-align:middle; color:var(--color-brand); margin-right:6px;"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg> <strong>Looking to generate catchy podcast show titles?</strong> Use our free <a href="/tools/podcast-name-generator" style="color: var(--color-brand); text-decoration: underline;">Podcast Name Generator</a> to craft high-recall show titles for Apple Podcasts and Spotify.
       </p>
     </div>
 
@@ -480,8 +480,8 @@ const faqs = [
       const baseTemplates = templatesByTone[tone] || templatesByTone['conversational'];
       const generatedSet = new Set<string>();
 
-      const timestampsBlock = `\n\n📌 Episode Timestamps:\n00:00 - Introduction & Highlights\n04:15 - Deep Dive into ${topic}\n18:30 - Key Takeaways for ${audience}\n28:00 - Q&A and Wrap Up`;
-      const ctaBlock = `\n\n⭐ Enjoying the show? Please leave us a 5-star review on Apple Podcasts and Spotify, and subscribe for weekly episodes!`;
+      const timestampsBlock = `\n\nEpisode Timestamps:\n00:00 - Introduction & Highlights\n04:15 - Deep Dive into ${topic}\n18:30 - Key Takeaways for ${audience}\n28:00 - Q&A and Wrap Up`;
+      const ctaBlock = `\n\nEnjoying the show? Please leave us a 5-star review on Apple Podcasts and Spotify, and subscribe for weekly episodes!`;
 
       let iterations = 0;
       while (generatedSet.size < 40 && iterations < 200) {
@@ -593,7 +593,7 @@ const faqs = [
       navigator.clipboard.writeText(rawText).then(() => {
         const btn = card.querySelector('.chip-btn') as HTMLElement;
         if (btn) {
-          btn.textContent = 'Copied! ✓';
+          btn.textContent = "Copied!";
           setTimeout(() => {
             btn.textContent = 'Copy Show Notes';
           }, 1200);
