@@ -1,0 +1,2779 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const faqs = [
+  {
+    question: "How is domain age calculated using public RDAP registration data?",
+    answer: "Domain age is calculated by determining the exact elapsed calendar time between the domain's official creation timestamp (reported as eventAction: 'registration' by the authoritative top-level domain registry via the Registration Data Access Protocol) and the current date at runtime. Our tool computes completed calendar years, remaining months, remaining days, and total elapsed calendar days in UTC to prevent timezone skew."
+  },
+  {
+    question: "What is RDAP and how does it differ from traditional port 43 WHOIS?",
+    answer: "The Registration Data Access Protocol (RDAP) is the modern, standardized successor to legacy port 43 WHOIS developed by the Internet Engineering Task Force (IETF) and mandated by ICANN. Unlike traditional WHOIS, which returns unstructured, free-form text that varies wildly between registrars, RDAP delivers standardized, machine-readable JSON over secure HTTPS, supports internationalized domain names (IDNs) via Punycode, and provides verifiable event timestamps."
+  },
+  {
+    question: "Does an older domain automatically rank higher in Google search results?",
+    answer: "No. Google representatives have repeatedly clarified that raw domain registration age is not a direct ranking factor. While older domains often rank well, their search performance is driven by accumulated backlink equity, historical topical authority, crawl depth, and long-standing user trust rather than the calendar age alone. A ten-year-old domain with thin content will not outrank a high-quality six-month-old website."
+  },
+  {
+    question: "Why does an established company or website show a recent domain registration date?",
+    answer: "When a domain lapses, expires, is deleted, or is transferred through certain ccTLD registries, the registry may reset the creation date to the moment the domain was re-registered. If an established brand rebranded, migrated from an old domain, or acquired a dropped domain, RDAP reports only the current active registration lifecycle on file with the authoritative registry."
+  },
+  {
+    question: "Can I check the registration age of subdomains and internationalized domains?",
+    answer: "Yes. In DNS, registries only manage and record lifecycle records for registered root domains (such as example.com or example.co.uk), not individual subdomains (such as blog.example.com). When you enter a subdomain, our tool identifies the registered root domain, explains the hierarchy, and queries the authoritative registry. Internationalized domain names (IDNs) containing accents or non-Latin characters are automatically converted to their ASCII Punycode representation (e.g., xn--...) as required by RDAP standards."
+  },
+  {
+    question: "Why do some country-code domains (ccTLDs) not return registration data?",
+    answer: "While ICANN mandates RDAP support for all generic top-level domains (gTLDs such as .com, .net, .org, .dev), country-code top-level domains (ccTLDs such as .de, .so, or .ch) are operated by sovereign national registries that are not bound by ICANN registry contracts. Some ccTLD registries have not yet deployed public RDAP endpoints or do not advertise them in the official IANA DNS bootstrap registry."
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'Domain Age Checker', item: '/tools/domain-age-checker' }
+];
+
+const origin = Astro.site ? Astro.site.origin : "https://creatorsfeel.com";
+const canonicalUrl = new URL(Astro.url.pathname, origin).href;
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": `${canonicalUrl}#application`,
+  "name": "Domain Age Checker",
+  "url": canonicalUrl,
+  "applicationCategory": "SEOApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Free online Domain Age Checker. Lookup verified domain registration dates, calendar age, expiration dates, and lifecycle events using official IANA public RDAP data."
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${canonicalUrl}#faq`,
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+---
+
+<BaseLayout
+  title="Domain Age Checker – Check Domain Registration Date & Age Online | CreatorsFeel"
+  description="Check any domain's verified registration date and exact age using authoritative public RDAP data. Calculate domain age in years, months, and days with zero guesswork."
+  canonical={canonicalUrl}
+>
+  <!-- Schema structured markup injected in head -->
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify(softwareSchema)} />
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify(faqSchema)} />
+
+  <div class="tool-page-wrapper">
+    
+    <!-- 1. HERO SECTION WITH SUBTLE GRADIENT GLOW -->
+    <header class="tool-hero-section">
+      <div class="container hero-inner">
+        
+        <!-- Breadcrumbs at top -->
+        <div class="hero-breadcrumbs">
+          <Breadcrumbs items={breadcrumbs} />
+        </div>
+
+        <!-- Pill Badge with Globe Icon -->
+        <div class="hero-badge">
+          <span class="badge-icon-globe">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="globe-svg" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" />
+            </svg>
+          </span>
+          <span class="badge-title">SEO &amp; Domain Intelligence Suite</span>
+          <span class="badge-pill-free">Free RDAP Tool</span>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="hero-headline">
+          Domain <span class="gradient-text">Age Checker</span>
+        </h1>
+
+        <!-- Short Description -->
+        <p class="hero-desc">
+          Lookup verified domain registration dates, exact calendar age, expiration dates, and authoritative lifecycle events directly from official IANA and ICANN RDAP registries.
+        </p>
+
+        <!-- Feature Chips Row (Zero Emojis - Clean SVG Icons) -->
+        <div class="hero-features-row">
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+            </svg>
+            Official IANA RDAP Data
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+            Exact Years, Months &amp; Days
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Updated &amp; Expiration Dates
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-3.036l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+            </svg>
+            Subdomain &amp; IDN Support
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. MAIN TOOL SECTION -->
+    <section class="tool-main-section" aria-label="Domain Age Checker Tool">
+      <div class="container tool-card-container">
+        
+        <!-- The Prominent SaaS Tool Card -->
+        <div class="saas-tool-card">
+          
+          <!-- Card Header Bar: Protocol Indicator & Data Origin -->
+          <div class="card-header-bar">
+            <div class="protocol-indicator">
+              <div class="protocol-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="avatar-svg" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" />
+                </svg>
+              </div>
+              <div class="protocol-meta">
+                <span class="protocol-title">Authoritative RDAP Registry Protocol</span>
+                <span class="protocol-subtext">Direct IANA DNS bootstrap resolution (RFC 9083)</span>
+              </div>
+            </div>
+
+            <div class="protocol-status-badge">
+              <span class="status-indicator-dot"></span>
+              <span class="status-indicator-text">Real-Time Registry Lookup</span>
+            </div>
+          </div>
+
+          <!-- Tool Input Interface -->
+          <form id="domain-lookup-form" class="lookup-form-wrap" onsubmit="return false;">
+            <div class="input-field-group">
+              <label for="domain-input" class="field-label">
+                <span class="label-text">Domain Name or URL</span>
+                <span class="label-helper">Enter any domain or URL (e.g., example.com, https://google.com/search, café.com)</span>
+              </label>
+
+              <div class="domain-input-box">
+                <div class="input-prefix-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="search-input-svg">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                </div>
+                <input 
+                  type="text" 
+                  id="domain-input" 
+                  class="domain-text-input" 
+                  placeholder="e.g. google.com or https://wikipedia.org" 
+                  autocomplete="off" 
+                  spellcheck="false"
+                  required
+                />
+                <button type="button" id="btn-clear-input" class="btn-input-clear hidden" title="Clear input" aria-label="Clear domain input">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="clear-svg" aria-hidden="true">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quick Preset Domain Chips -->
+            <div class="sample-domains-bar">
+              <span class="sample-label">Try popular domains:</span>
+              <div class="sample-chips-wrap">
+                <button type="button" class="sample-chip-btn" data-sample="google.com">google.com</button>
+                <button type="button" class="sample-chip-btn" data-sample="wikipedia.org">wikipedia.org</button>
+                <button type="button" class="sample-chip-btn" data-sample="cloudflare.net">cloudflare.net</button>
+                <button type="button" class="sample-chip-btn" data-sample="react.dev">react.dev</button>
+                <button type="button" class="sample-chip-btn" data-sample="cira.ca">cira.ca</button>
+              </div>
+            </div>
+
+            <!-- Action Buttons Row -->
+            <div class="action-buttons-row">
+              <button type="submit" id="btn-submit-lookup" class="btn-action-primary">
+                <span class="btn-icon-wrap" id="btn-icon-container">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="action-btn-svg" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                </span>
+                <span id="btn-text-label">Check Domain Age</span>
+              </button>
+
+              <button type="button" id="btn-reset-tool" class="btn-action-reset">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="reset-btn-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span>Reset</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- In-Flight Loading State -->
+          <div id="lookup-loading-box" class="lookup-loading-state hidden" aria-live="polite">
+            <div class="loading-spinner-ring"></div>
+            <div class="loading-text-wrap">
+              <h3 class="loading-heading">Querying Public RDAP Registry...</h3>
+              <p class="loading-subtext" id="loading-status-message">Matching top-level domain against official IANA bootstrap data...</p>
+            </div>
+          </div>
+
+          <!-- Error Alert Banner -->
+          <div id="lookup-error-banner" class="alert-box-error hidden" role="alert" aria-live="assertive">
+            <div class="alert-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="alert-svg" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+            </div>
+            <div class="alert-content-wrap">
+              <h4 class="alert-title" id="error-banner-title">Lookup Notice</h4>
+              <p class="alert-message" id="error-banner-desc">An error occurred during domain resolution.</p>
+            </div>
+          </div>
+
+          <!-- Subdomain Explanation Notice (Conditional) -->
+          <div id="subdomain-notice-banner" class="subdomain-notice-box hidden" role="note">
+            <div class="notice-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="notice-svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+              </svg>
+            </div>
+            <div class="notice-text-wrap">
+              <h4 class="notice-heading">Subdomain Query Notice</h4>
+              <p class="notice-p">
+                You entered <strong id="notice-input-host">sub.example.com</strong>. Domain registries exclusively record registration lifecycles for root registered domains. The verified registration data below corresponds to the authoritative apex domain: <strong id="notice-root-host">example.com</strong>.
+              </p>
+            </div>
+          </div>
+
+          <!-- RESULTS CONTAINER (Revealed upon successful lookup) -->
+          <div id="lookup-results-container" class="results-container hidden" aria-live="polite">
+            
+            <!-- Result Highlight Hero Card -->
+            <div class="result-hero-card">
+              <div class="result-hero-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hero-check-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Verified RDAP Registration Record</span>
+              </div>
+              
+              <h2 class="result-domain-title" id="res-display-domain">example.com</h2>
+              
+              <div class="result-primary-age" id="res-primary-age-badge">
+                25 Years, 4 Months, 12 Days Old
+              </div>
+
+              <p class="result-secondary-summary" id="res-secondary-summary">
+                Registered on <strong>October 15, 1998</strong> (9,250 total days elapsed)
+              </p>
+            </div>
+
+            <!-- 4-Stat Metric Cards Grid -->
+            <div class="vivid-result-grid">
+              
+              <!-- Card 1: Calendar Age -->
+              <div class="stat-card card-blue">
+                <div class="stat-top-bar">
+                  <div class="stat-icon-circle bg-blue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="circle-svg" aria-hidden="true">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                      <line x1="16" y1="2" x2="16" y2="6" />
+                      <line x1="8" y1="2" x2="8" y2="6" />
+                      <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                  </div>
+                  <span class="stat-badge-tag tag-blue">Calendar Age</span>
+                </div>
+                <div class="stat-number-display" id="stat-calendar-years">0 Years</div>
+                <div class="stat-label-text">Domain Age</div>
+                <div class="stat-sub-info" id="stat-calendar-months-days">0 Months, 0 Days</div>
+              </div>
+
+              <!-- Card 2: Total Elapsed Days -->
+              <div class="stat-card card-purple">
+                <div class="stat-top-bar">
+                  <div class="stat-icon-circle bg-purple">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="circle-svg" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <span class="stat-badge-tag tag-purple">Elapsed Time</span>
+                </div>
+                <div class="stat-number-display" id="stat-total-days">0</div>
+                <div class="stat-label-text">Total Days</div>
+                <div class="stat-sub-info">Consecutive active days</div>
+              </div>
+
+              <!-- Card 3: Registration Date -->
+              <div class="stat-card card-green">
+                <div class="stat-top-bar">
+                  <div class="stat-icon-circle bg-green">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="circle-svg" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <span class="stat-badge-tag tag-green">Creation Event</span>
+                </div>
+                <div class="stat-number-display stat-date-text" id="stat-reg-date">N/A</div>
+                <div class="stat-label-text">Registration Date</div>
+                <div class="stat-sub-info" id="stat-reg-utc">UTC timestamp</div>
+              </div>
+
+              <!-- Card 4: Expiration Date -->
+              <div class="stat-card card-amber">
+                <div class="stat-top-bar">
+                  <div class="stat-icon-circle bg-amber">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="circle-svg" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                    </svg>
+                  </div>
+                  <span class="stat-badge-tag tag-amber">Renewal Event</span>
+                </div>
+                <div class="stat-number-display stat-date-text" id="stat-exp-date">N/A</div>
+                <div class="stat-label-text">Expiration Date</div>
+                <div class="stat-sub-info" id="stat-exp-sub">Registry renewal deadline</div>
+              </div>
+
+            </div>
+
+            <!-- Detailed Technical Registry Table -->
+            <div class="tech-metadata-block">
+              <div class="metadata-header-bar">
+                <h3 class="metadata-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="meta-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                  </svg>
+                  Authoritative RDAP Technical Specifications
+                </h3>
+                <span class="meta-pill-rfc">RFC 9083 Compliant</span>
+              </div>
+
+              <div class="table-responsive">
+                <table class="metadata-data-table">
+                  <tbody>
+                    <tr>
+                      <th scope="row">Queried Hostname</th>
+                      <td id="meta-queried-host" class="mono-text">example.com</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Registered Apex Domain</th>
+                      <td id="meta-apex-domain" class="mono-text">example.com</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Authoritative RDAP Service</th>
+                      <td id="meta-rdap-service" class="break-all mono-text">https://rdap.verisign.com/com/v1/</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Registration Timestamp (UTC)</th>
+                      <td id="meta-reg-timestamp" class="mono-text">1997-09-15T04:00:00Z</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Last Updated / Changed Date</th>
+                      <td id="meta-updated-timestamp" class="mono-text">Not reported by registry</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Registry Expiration Date</th>
+                      <td id="meta-exp-timestamp" class="mono-text">Not reported by registry</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Sponsoring Registrar</th>
+                      <td id="meta-registrar-name">Not disclosed in public RDAP entity record</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Domain Status Flags</th>
+                      <td id="meta-domain-status" class="status-tags-cell">
+                        <span class="status-tag">Active</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Authoritative Nameservers</th>
+                      <td id="meta-nameservers" class="mono-text">None reported</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Registration History Transparency Disclaimer -->
+            <div class="disclaimer-callout-card">
+              <div class="disclaimer-header">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="disc-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                </svg>
+                <h4>Important Registration Lifecycle Limitations</h4>
+              </div>
+              <p>
+                <strong>Current Registration vs. Historical Inception:</strong> RDAP returns the registration date recorded by the relevant top-level domain registry for the active lifecycle. If a domain previously expired, was auctioned, or was dropped and later re-registered, the registration date shown above reflects the current registration period rather than its first historical creation date. Furthermore, registration age is strictly an indicator of domain reservation and is distinct from website age, operational business longevity, or SEO link equity.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. EDITORIAL ARTICLE SECTION (Centered Max-Width 940px) -->
+    <article class="editorial-content-section" aria-label="Complete Guide to Domain Age, RDAP Protocols, and Search Engine Optimization">
+      <div class="container editorial-inner">
+
+        <!-- Section 1: Introduction -->
+        <section class="editorial-block">
+          <h2>What Is a Domain Age Checker and How Does It Work?</h2>
+          <p>
+            A <strong>Domain Age Checker</strong> is an online network investigation tool that determines the exact calendar age of a website domain name by querying its authoritative registry records. Whenever a person, startup, or enterprise registers a web address (such as <code>creatorsfeel.com</code>), the managing registry logs a cryptographic creation timestamp establishing when the domain was first leased.
+          </p>
+          <p>
+            Our tool connects directly to the Internet Assigned Numbers Authority (IANA) DNS bootstrap registry to identify the authoritative registry server for your specific top-level domain (TLD). It then executes a standardized lookup via the Registration Data Access Protocol (RDAP), parses the validated <code>registration</code> event, and performs high-precision calendar arithmetic to calculate the domain's age in completed years, months, and days.
+          </p>
+          <p>
+            Whether you are conducting website due diligence before acquiring a digital asset, auditing competitor backlink profiles, or verifying business credibility, pairing this domain age lookup with our <a href="/tools/url-slug-generator">URL Slug Generator</a>, <a href="/tools/meta-description-length-checker">Meta Description Length Checker</a>, and <a href="/tools/cpm-calculator">CPM Calculator</a> gives you an edge in search marketing.
+          </p>
+        </section>
+
+        <!-- Section 2: RDAP vs Traditional Port 43 WHOIS -->
+        <section class="editorial-block">
+          <h2>How Public RDAP Replaces Traditional Port 43 WHOIS</h2>
+          <p>
+            For more than three decades, internet practitioners relied on the legacy WHOIS protocol (RFC 3912), operating over TCP port 43. While revolutionary in the 1980s, legacy WHOIS suffered from severe technical limitations: responses were delivered as unstructured plain text with no standard formatting, internationalized domain names (IDNs) frequently broke character encodings, and registries offered zero standardized authentication or rate limiting.
+          </p>
+          <p>
+            In response, the Internet Engineering Task Force (IETF) and ICANN developed the <strong>Registration Data Access Protocol (RDAP)</strong> (RFC 7480, RFC 7481, RFC 9082, and RFC 9083). RDAP delivers significant structural advantages over legacy WHOIS:
+          </p>
+
+          <div class="table-responsive">
+            <table class="editorial-data-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Modern RDAP (RFC 9083)</th>
+                  <th>Legacy Port 43 WHOIS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Data Format</strong></td>
+                  <td>Standardized, machine-readable JSON structure</td>
+                  <td>Unstructured, inconsistent plain ASCII text</td>
+                </tr>
+                <tr>
+                  <td><strong>Transport Protocol</strong></td>
+                  <td>Secure HTTPS with TLS encryption (Port 443)</td>
+                  <td>Unencrypted raw TCP socket (Port 43)</td>
+                </tr>
+                <tr>
+                  <td><strong>Registry Bootstrap</strong></td>
+                  <td>Centralized IANA bootstrap registry (data.iana.org)</td>
+                  <td>Hardcoded third-party WHOIS server lists</td>
+                </tr>
+                <tr>
+                  <td><strong>Multilingual Support</strong></td>
+                  <td>Native UTF-8 and automatic IDN Punycode parsing</td>
+                  <td>Unpredictable character encoding and ASCII clipping</td>
+                </tr>
+                <tr>
+                  <td><strong>Access Controls &amp; Privacy</strong></td>
+                  <td>Fine-grained GDPR/CCPA redacted data delivery</td>
+                  <td>All-or-nothing text scraping vulnerability</td>
+                </tr>
+                <tr>
+                  <td><strong>Event Categorization</strong></td>
+                  <td>Explicit <code>eventAction</code> tags (registration, expiration)</td>
+                  <td>Ambiguous text strings ("Created", "Registered", "Date")</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Section 3: How Domain Age Is Calculated -->
+        <section class="editorial-block">
+          <h2>How Domain Age Is Calculated: Accurate Calendar Arithmetic</h2>
+          <p>
+            Calculating the true age of a domain requires far more than subtracting two Unix timestamps or dividing total seconds by 365. Standard calendar months fluctuate between 28, 29, 30, and 31 days, and leap years introduce extra calendar days that distort rough approximations.
+          </p>
+          <p>
+            Our <strong>domain age calculator</strong> adheres to strict date arithmetic principles:
+          </p>
+          <ul>
+            <li><strong>UTC Date Normalization:</strong> Registries record timestamps in Coordinated Universal Time (UTC) using ISO 8601 formatting (e.g., <code>1997-09-15T04:00:00Z</code>). We compute elapsed time using consistent date-only UTC boundaries, ensuring that local browser timezones in Tokyo, London, or New York never yield contradictory ages.</li>
+            <li><strong>Calendar Borrowing Arithmetic:</strong> When calculating remaining months and days, if the current calendar day is earlier than the registration day, the algorithm decrements one month and borrows the exact number of days in the preceding calendar month. This guarantees that month-end boundaries and February leap years are handled with mathematical precision.</li>
+            <li><strong>Total Elapsed Calendar Days:</strong> Alongside the human-readable breakdown of years, months, and days, our tool computes the total elapsed calendar days. This metric provides an absolute, continuous benchmark for programmatic comparison and asset valuation.</li>
+          </ul>
+        </section>
+
+        <!-- Section 4: Lifecycle Dates Breakdown -->
+        <section class="editorial-block">
+          <h2>Registration Date vs. Last-Updated Date vs. Expiration Date</h2>
+          <p>
+            One of the most frequent mistakes creators and marketers make is conflating different registry timestamps. An RDAP record contains multiple distinct event markers:
+          </p>
+
+          <div class="lifecycle-grid">
+            <div class="lifecycle-card">
+              <div class="lifecycle-badge badge-green">Creation</div>
+              <h3>Registration Date (eventAction: "registration")</h3>
+              <p>
+                The exact moment the domain was leased from the registry. This is the sole authoritative timestamp used to compute domain age. It marks the beginning of the domain's current active lifecycle.
+              </p>
+            </div>
+
+            <div class="lifecycle-card">
+              <div class="lifecycle-badge badge-blue">Modification</div>
+              <h3>Last Updated Date (eventAction: "last changed")</h3>
+              <p>
+                The timestamp of the most recent administrative modification. This updates whenever nameservers change, DNSSEC keys rotate, registrar transfers complete, or contact details update. It should never be confused with domain age.
+              </p>
+            </div>
+
+            <div class="lifecycle-card">
+              <div class="lifecycle-badge badge-amber">Renewal</div>
+              <h3>Expiration Date (eventAction: "expiration")</h3>
+              <p>
+                The deadline by which the domain registrant must renew their lease with the registrar. Domains can be renewed for up to 10 years in advance. An expiration date set far in the future often indicates enterprise stability.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 5: Why Domain Age Is Not Website Age -->
+        <section class="editorial-block">
+          <h2>Why Domain Age Is Not the Same as Website Age</h2>
+          <p>
+            It is crucial to understand that <strong>domain age</strong> and <strong>website age</strong> are fundamentally different concepts:
+          </p>
+          <ul>
+            <li><strong>Domain Age:</strong> Represents the continuous duration for which a specific alphanumeric string has been reserved in a top-level domain registry. A domain can sit completely parked, unused, or resolve to a registrar placeholder page for a decade without hosting a single page of content.</li>
+            <li><strong>Website Age:</strong> Represents the continuous duration for which an active, crawlable, and indexable website has been publicly accessible on that domain. A website launched yesterday on a 15-year-old domain has a website age of only 24 hours.</li>
+            <li><strong>Business Age:</strong> Many centuries-old enterprises (such as banks founded in the 1800s) have domains registered in the late 1990s. Conversely, modern startups frequently rebrand onto legacy domains acquired via aftermarket domain brokers.</li>
+          </ul>
+        </section>
+
+        <!-- Section 6: Expired and Re-Registered Domains -->
+        <section class="editorial-block">
+          <h2>The Impact of Expired and Re-Registered Domains</h2>
+          <p>
+            When evaluating domains for purchase or SEO due diligence, be aware of the "drop-catch" and expiration cycle. When a registrant fails to pay renewal fees, the domain enters a 45-day auto-renew grace period, followed by a 30-day redemption period, and a 5-day pending-delete phase before being released back to the general public.
+          </p>
+          <p>
+            If a domain was originally registered in 2005, expired in 2018, and was re-registered by a new owner in 2021, the authoritative RDAP registry will report <strong>2021</strong> as the registration date. The registry record is completely wiped and re-initialized upon deletion. Always cross-reference RDAP registration dates with historical web archives (such as the Wayback Machine) and historical backlink tools to detect whether a domain experienced multi-year gaps in registration.
+          </p>
+        </section>
+
+        <!-- Section 7: Does Domain Age Help SEO Rankings? -->
+        <section class="editorial-block">
+          <h2>Does an Older Domain Automatically Rank Better on Google?</h2>
+          <p>
+            A persistent myth in the search engine optimization industry is that Google's core ranking algorithm inherently rewards older domains with higher search visibility. Google Search Advocate John Mueller has repeatedly debunked this claim:
+          </p>
+          <blockquote>
+            <p>
+              "No, domain age does not help SEO. A domain registered in 2002 does not receive preferential search ranking treatment simply because of its registration date."
+            </p>
+          </blockquote>
+          <p>
+            Why, then, do older domains frequently occupy top search positions across competitive queries? The explanation lies in <em>correlation, not causation</em>:
+          </p>
+          <ul>
+            <li><strong>Accumulated Backlink Profiles:</strong> A domain operating for 10 years has had a decade to earn organic editorial citations, high-authority press mentions, and natural industry backlinks that drive PageRank.</li>
+            <li><strong>Established Topical Authority:</strong> Long-standing websites have published hundreds or thousands of high-quality articles, thoroughly covering their topical cluster.</li>
+            <li><strong>Brand Equity and Search Demand:</strong> Recognized domains benefit from substantial direct navigational search volume (users typing their brand name into Google), which signals strong user satisfaction.</li>
+            <li><strong>User Engagement Signals:</strong> Established platforms typically enjoy stable conversion rates, return visitor cohorts, and low bounce rates.</li>
+          </ul>
+        </section>
+
+        <!-- Section 8: Website Due Diligence Guide -->
+        <section class="editorial-block">
+          <h2>How to Use Domain Age for Website Due Diligence</h2>
+          <p>
+            When conducting due diligence for business partnerships, online acquisitions, or link audits, use our <strong>domain registration age checker</strong> as part of a systematic verification protocol:
+          </p>
+          <ol>
+            <li><strong>Verify Corporate Identity:</strong> If an e-commerce website claims to have been "serving customers since 2012" but its RDAP registration date is three weeks ago, proceed with extreme caution. Rapid mismatch between marketing claims and registry records is a hallmark of online fraud.</li>
+            <li><strong>Inspect Registrar &amp; Registry Source:</strong> Review the authoritative RDAP service and sponsoring registrar. Established brands typically maintain registrations through institutional corporate registrars (e.g., MarkMonitor, CSC Corporate Domains) with security locking flags enabled.</li>
+            <li><strong>Audit Domain Status Flags:</strong> Look for EPP status flags such as <code>clientTransferProhibited</code>, <code>serverDeleteProhibited</code>, and <code>clientUpdateProhibited</code>. These security flags protect high-value domain names against unauthorized hijacking.</li>
+            <li><strong>Check Expiration Horizon:</strong> Legitimate web businesses usually renew domain names several years into the future. A domain expiring in 30 days that has never been renewed beyond a 1-year registration increment may indicate a temporary or churn-and-burn affiliate site.</li>
+            <li><strong>Inspect Content Optimization:</strong> Audit the domain's on-page search assets using our <a href="/tools/image-dimensions-checker">Image Dimensions Checker</a> and URL structure tools.</li>
+          </ol>
+        </section>
+
+      </div>
+    </article>
+
+    <!-- 4. FREQUENTLY ASKED QUESTIONS SECTION (Centered Max-Width 940px) -->
+    <section class="tool-faq-section" aria-label="Frequently Asked Questions">
+      <div class="container faq-inner">
+        <div class="faq-header-wrap">
+          <h2 class="faq-headline">Frequently Asked Questions</h2>
+          <p class="faq-subhead">Everything you need to know about domain age, RDAP registry lookup, and SEO implications.</p>
+        </div>
+
+        <div class="faq-accordion-wrap">
+          {faqs.map((faq) => (
+            <details class="faq-accordion-item">
+              <summary class="faq-summary">
+                <span class="faq-question-text">{faq.question}</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-chevron" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+              </summary>
+              <div class="faq-body">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. RELATED TOOLS SECTION (4 Cards, Centered Max-Width 940px) -->
+    <section class="related-tools-section" aria-label="Related Creator and SEO Tools">
+      <div class="container related-inner">
+        <div class="related-header-wrap">
+          <h2 class="related-headline">Explore Related Tools</h2>
+          <p class="related-subhead">Complement your domain research with our suite of search optimization and web asset utilities.</p>
+        </div>
+
+        <div class="related-tools-grid">
+          
+          <a href="/tools/url-slug-generator" class="related-tool-card">
+            <div class="tool-card-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rel-icon-svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-3.036l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">URL Slug Generator</h3>
+              <p class="tool-card-desc">Generate clean, search-friendly URL slugs for website pages and blog posts.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+
+          <a href="/tools/meta-description-length-checker" class="related-tool-card">
+            <div class="tool-card-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rel-icon-svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Meta Description Length Checker</h3>
+              <p class="tool-card-desc">Audit SEO meta description length and pixel widths against Google desktop and mobile SERPs.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+
+          <a href="/tools/image-dimensions-checker" class="related-tool-card">
+            <div class="tool-card-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rel-icon-svg" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Image Dimensions Checker</h3>
+              <p class="tool-card-desc">Inspect image resolution, aspect ratio, file size, and responsive web display dimensions.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+
+          <a href="/tools/cpm-calculator" class="related-tool-card">
+            <div class="tool-card-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rel-icon-svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">CPM Calculator</h3>
+              <p class="tool-card-desc">Calculate advertising cost per mille, total impressions, and media campaign budgets.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  /* ==========================================================================
+     1. HERO SECTION STYLES
+     ========================================================================== */
+  .tool-page-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    background: var(--color-bg, #f8fafc);
+  }
+
+  .tool-hero-section {
+    padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
+    padding-bottom: clamp(1.25rem, 3vw, 2rem);
+    text-align: center;
+    background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+  }
+
+  .hero-inner {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .hero-breadcrumbs {
+    margin-bottom: 1.25rem;
+    align-self: flex-start;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text, #0f172a);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    margin-bottom: 1rem;
+  }
+
+  .badge-icon-globe {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-brand, #2563eb);
+  }
+
+  .globe-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .badge-pill-free {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--color-brand, #2563eb);
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.725rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.85rem 0;
+    max-width: 780px;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-desc {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--color-text-muted, #64748b);
+    max-width: 680px;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .hero-features-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .feature-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #475569);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  }
+
+  .chip-svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-brand, #2563eb);
+    flex-shrink: 0;
+  }
+
+  /* ==========================================================================
+     2. MAIN TOOL SECTION & SAAS CARD
+     ========================================================================== */
+  .tool-main-section {
+    padding-top: clamp(1rem, 3vw, 2rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .tool-card-container {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .saas-tool-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 24px;
+    box-shadow: 0 20px 45px -15px rgba(37, 99, 235, 0.08), 0 0 0 1px rgba(226, 232, 240, 0.6);
+    padding: clamp(1.25rem, 3.5vw, 2.25rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box;
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  /* Card Header Bar */
+  .card-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .protocol-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .protocol-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(99, 102, 241, 0.12) 100%);
+    color: var(--color-brand, #2563eb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .avatar-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .protocol-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .protocol-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .protocol-subtext {
+    font-size: 0.775rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .protocol-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.3rem 0.75rem;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 9999px;
+  }
+
+  .status-indicator-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+  }
+
+  .status-indicator-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #059669;
+  }
+
+  /* Form Elements */
+  .lookup-form-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  .input-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .field-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .label-text {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .label-helper {
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .domain-input-box {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-prefix-icon {
+    position: absolute;
+    left: 1.1rem;
+    color: var(--color-text-muted, #94a3b8);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-input-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .domain-text-input {
+    width: 100%;
+    height: 52px;
+    padding: 0 2.85rem 0 3rem;
+    font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
+    font-size: 1rem;
+    color: var(--color-text, #0f172a);
+    background: var(--color-bg, #f8fafc);
+    border: 1.5px solid var(--color-border, #cbd5e1);
+    border-radius: 14px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .domain-text-input:focus {
+    border-color: var(--color-brand, #2563eb);
+    background: var(--color-bg-card, #ffffff);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  }
+
+  .btn-input-clear {
+    position: absolute;
+    right: 0.85rem;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(148, 163, 184, 0.2);
+    color: var(--color-text-muted, #475569);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .btn-input-clear:hover {
+    background: rgba(148, 163, 184, 0.35);
+  }
+
+  .clear-svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Sample Domains Row */
+  .sample-domains-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .sample-label {
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .sample-chips-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .sample-chip-btn {
+    padding: 0.25rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: var(--font-mono, monospace);
+    border-radius: 8px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-bg, #f1f5f9);
+    color: var(--color-text, #334155);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .sample-chip-btn:hover {
+    border-color: var(--color-brand, #2563eb);
+    color: var(--color-brand, #2563eb);
+    background: rgba(37, 99, 235, 0.08);
+  }
+
+  /* Action Buttons Row */
+  .action-buttons-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-top: 0.25rem;
+  }
+
+  .btn-action-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 48px;
+    padding: 0.75rem 1.75rem;
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  }
+
+  .btn-action-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+    opacity: 0.96;
+  }
+
+  .btn-action-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .action-btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .btn-action-reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+    background: transparent;
+    border: 1px solid var(--color-border, #cbd5e1);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-action-reset:hover {
+    border-color: #94a3b8;
+    color: var(--color-text, #0f172a);
+    background: var(--color-bg, #f1f5f9);
+  }
+
+  .reset-btn-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* In-Flight Loading State */
+  .lookup-loading-state {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+  }
+
+  .loading-spinner-ring {
+    width: 36px;
+    height: 36px;
+    border: 3.5px solid rgba(37, 99, 235, 0.15);
+    border-top-color: var(--color-brand, #2563eb);
+    border-radius: 50%;
+    animation: cf-spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes cf-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loading-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .loading-heading {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .loading-subtext {
+    margin: 0;
+    font-size: 0.825rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  /* Alerts */
+  .alert-box-error {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: #fef2f2;
+    border: 1px solid #fee2e2;
+    border-radius: 16px;
+  }
+
+  .alert-icon-wrap {
+    color: #dc2626;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .alert-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .alert-content-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .alert-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #991b1b;
+  }
+
+  .alert-message {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: #7f1d1d;
+  }
+
+  /* Subdomain Notice Box */
+  .subdomain-notice-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1rem 1.25rem;
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+    border-radius: 14px;
+  }
+
+  .notice-icon-wrap {
+    color: #2563eb;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .notice-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .notice-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .notice-heading {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #1e40af;
+  }
+
+  .notice-p {
+    margin: 0;
+    font-size: 0.825rem;
+    line-height: 1.5;
+    color: #1e3a8a;
+  }
+
+  /* ==========================================================================
+     RESULTS PRESENTATION
+     ========================================================================== */
+  .results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: cf-fade-in 0.25s ease-out;
+  }
+
+  @keyframes cf-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Hero Result Card */
+  .result-hero-card {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.07) 0%, rgba(99, 102, 241, 0.07) 100%);
+    border: 1.5px solid rgba(37, 99, 235, 0.25);
+    border-radius: 20px;
+    padding: clamp(1.25rem, 3.5vw, 2rem);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .result-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.75rem;
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .hero-check-svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .result-domain-title {
+    margin: 0.25rem 0 0 0;
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 3.2vw, 2rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    word-break: break-all;
+  }
+
+  .result-primary-age {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.5rem, 4vw, 2.35rem);
+    font-weight: 900;
+    color: var(--color-brand, #2563eb);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .result-secondary-summary {
+    margin: 0;
+    font-size: 0.925rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .result-secondary-summary strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  /* 4-Card Vivid Grid */
+  .vivid-result-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  @media (min-width: 480px) {
+    .vivid-result-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 820px) {
+    .vivid-result-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .stat-card {
+    border-radius: 18px;
+    padding: 1.25rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    min-width: 0;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Card Colors */
+  .card-blue {
+    background: #f0f7ff;
+    border: 1px solid #cce3fe;
+  }
+  .card-purple {
+    background: #fbf5ff;
+    border: 1px solid #ebd4ff;
+  }
+  .card-green {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+  }
+  .card-amber {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+  }
+
+  .stat-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.35rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-icon-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .circle-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .bg-blue { background: #dbeafe; color: #1d4ed8; }
+  .bg-purple { background: #f3e8ff; color: #7e22ce; }
+  .bg-green { background: #dcfce7; color: #15803d; }
+  .bg-amber { background: #fef3c7; color: #b45309; }
+
+  .stat-badge-tag {
+    font-size: 0.675rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    white-space: nowrap;
+  }
+
+  .tag-blue { background: #dbeafe; color: #1e40af; }
+  .tag-purple { background: #f3e8ff; color: #6b21a8; }
+  .tag-green { background: #dcfce7; color: #166534; }
+  .tag-amber { background: #fef3c7; color: #92400e; }
+
+  .stat-number-display {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.55rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--color-text, #0f172a);
+    word-break: break-word;
+  }
+
+  .stat-date-text {
+    font-size: 1.1rem;
+    line-height: 1.3;
+  }
+
+  .stat-label-text {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .stat-sub-info {
+    font-size: 0.725rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  /* Technical Metadata Block */
+  .tech-metadata-block {
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 18px;
+    padding: 1.25rem;
+  }
+
+  .metadata-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .metadata-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .meta-svg {
+    width: 17px;
+    height: 17px;
+    color: var(--color-brand, #2563eb);
+  }
+
+  .meta-pill-rfc {
+    font-size: 0.725rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #cbd5e1);
+    color: var(--color-text-muted, #475569);
+  }
+
+  .metadata-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    text-align: left;
+  }
+
+  .metadata-data-table th {
+    width: 32%;
+    min-width: 170px;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #475569);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    background: transparent;
+  }
+
+  .metadata-data-table td {
+    padding: 0.75rem 1rem;
+    color: var(--color-text, #0f172a);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    word-break: break-word;
+  }
+
+  .metadata-data-table tr:last-child th,
+  .metadata-data-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .mono-text {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8125rem;
+  }
+
+  .break-all {
+    word-break: break-all;
+  }
+
+  .status-tags-cell {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .status-tag {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.725rem;
+    font-weight: 600;
+    background: rgba(37, 99, 235, 0.08);
+    color: var(--color-brand, #2563eb);
+    border: 1px solid rgba(37, 99, 235, 0.2);
+  }
+
+  /* Disclaimer Callout */
+  .disclaimer-callout-card {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 16px;
+    padding: 1.15rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .disclaimer-header {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #92400e;
+  }
+
+  .disc-svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+  }
+
+  .disclaimer-header h4 {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #92400e;
+  }
+
+  .disclaimer-callout-card p {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: #78350f;
+  }
+
+  /* ==========================================================================
+     3. EDITORIAL ARTICLE SECTION (Centered Max-Width 940px)
+     ========================================================================== */
+  .editorial-content-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .editorial-inner {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .editorial-block {
+    margin-bottom: 3rem;
+  }
+
+  .editorial-block h2 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 2.7vw, 1.85rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    line-height: 1.25;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.015em;
+  }
+
+  .editorial-block h3 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    line-height: 1.35;
+    margin: 1.75rem 0 0.65rem 0;
+  }
+
+  .editorial-block p {
+    font-size: clamp(0.925rem, 1.8vw, 1rem);
+    line-height: 1.75;
+    color: var(--color-text, #334155);
+    margin: 0 0 1.25rem 0;
+  }
+
+  .editorial-block p strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  .editorial-block a {
+    color: var(--color-brand, #2563eb);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+
+  .editorial-block a:hover {
+    color: #1d4ed8;
+  }
+
+  .editorial-block ul, .editorial-block ol {
+    margin: 0 0 1.5rem 0;
+    padding-left: 1.35rem;
+  }
+
+  .editorial-block li {
+    font-size: clamp(0.925rem, 1.8vw, 1rem);
+    line-height: 1.7;
+    color: var(--color-text, #334155);
+    margin-bottom: 0.65rem;
+  }
+
+  .editorial-block li strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  .editorial-block blockquote {
+    margin: 1.5rem 0;
+    padding: 1.15rem 1.5rem;
+    border-left: 4px solid var(--color-brand, #2563eb);
+    background: var(--color-bg, #f8fafc);
+    border-radius: 0 14px 14px 0;
+    font-style: italic;
+  }
+
+  .editorial-block blockquote p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-text, #1e293b);
+  }
+
+  /* Editorial Data Table */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 14px;
+    border: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .editorial-data-table th {
+    background: var(--color-bg-alt, #f8fafc);
+    padding: 0.85rem 1rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table td {
+    padding: 0.85rem 1rem;
+    color: var(--color-text, #334155);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .editorial-data-table tr:hover td {
+    background: var(--color-bg-alt, #f8fafc);
+  }
+
+  /* Lifecycle 3-Card Grid */
+  .lifecycle-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .lifecycle-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .lifecycle-card {
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .lifecycle-badge {
+    align-self: flex-start;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    font-size: 0.725rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .badge-green { background: #dcfce7; color: #166534; }
+  .badge-blue { background: #dbeafe; color: #1e40af; }
+  .badge-amber { background: #fef3c7; color: #92400e; }
+
+  .lifecycle-card h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .lifecycle-card p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* ==========================================================================
+     4. FAQ SECTION (Centered Max-Width 940px)
+     ========================================================================== */
+  .tool-faq-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .faq-inner {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .faq-header-wrap {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .faq-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .faq-subhead {
+    font-size: 0.95rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .faq-accordion-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .faq-accordion-item {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .faq-accordion-item:hover {
+    border-color: #cbd5e1;
+  }
+
+  .faq-accordion-item[open] {
+    border-color: var(--color-brand, #2563eb);
+    box-shadow: 0 4px 15px -3px rgba(37, 99, 235, 0.08);
+  }
+
+  .faq-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.15rem 1.35rem;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.975rem;
+    color: var(--color-text, #0f172a);
+    user-select: none;
+    list-style: none;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand, #2563eb);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 0.75rem;
+  }
+
+  .faq-accordion-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-body {
+    padding: 0 1.35rem 1.35rem 1.35rem;
+  }
+
+  .faq-body p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* ==========================================================================
+     5. RELATED TOOLS SECTION (4 Cards, Centered Max-Width 940px)
+     ========================================================================== */
+  .related-tools-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(3rem, 6vw, 4.5rem);
+    border-top: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .related-inner {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .related-header-wrap {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .related-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .related-subhead {
+    font-size: 0.95rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .related-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 600px) {
+    .related-tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .related-tool-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .related-tool-card:hover {
+    border-color: var(--color-brand, #2563eb);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.08);
+  }
+
+  .tool-card-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--color-brand, #2563eb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .related-tool-card:hover .tool-card-icon-box {
+    transform: scale(1.08);
+  }
+
+  .rel-icon-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tool-card-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tool-card-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.975rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+  }
+
+  .tool-card-desc {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tool-card-arrow {
+    width: 20px;
+    height: 20px;
+    color: var(--color-text-muted, #94a3b8);
+    flex-shrink: 0;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .related-tool-card:hover .tool-card-arrow {
+    color: var(--color-brand, #2563eb);
+    transform: translateX(3px);
+  }
+
+  .tool-card-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ==========================================================================
+     DARK THEME SUPPORT (:global([data-theme="dark"]))
+     ========================================================================== */
+  :global([data-theme="dark"]) .saas-tool-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+  }
+
+  :global([data-theme="dark"]) .card-header-bar,
+  :global([data-theme="dark"]) .tool-faq-section,
+  :global([data-theme="dark"]) .related-tools-section,
+  :global([data-theme="dark"]) .table-responsive,
+  :global([data-theme="dark"]) .editorial-data-table th,
+  :global([data-theme="dark"]) .editorial-data-table td,
+  :global([data-theme="dark"]) .metadata-data-table th,
+  :global([data-theme="dark"]) .metadata-data-table td {
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .tech-metadata-block,
+  :global([data-theme="dark"]) .lookup-loading-state,
+  :global([data-theme="dark"]) .lifecycle-card,
+  :global([data-theme="dark"]) .editorial-block blockquote,
+  :global([data-theme="dark"]) .faq-accordion-item {
+    background: #0f172a;
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .domain-text-input {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f8fafc;
+  }
+
+  :global([data-theme="dark"]) .domain-text-input:focus {
+    background: #1e293b;
+    border-color: #3b82f6;
+  }
+
+  :global([data-theme="dark"]) .sample-chip-btn {
+    background: #0f172a;
+    border-color: #334155;
+    color: #cbd5e1;
+  }
+
+  :global([data-theme="dark"]) .btn-action-reset {
+    background: #0f172a;
+    border-color: #334155;
+    color: #cbd5e1;
+  }
+
+  :global([data-theme="dark"]) .meta-pill-rfc,
+  :global([data-theme="dark"]) .feature-chip,
+  :global([data-theme="dark"]) .hero-badge {
+    background: #1e293b;
+    border-color: #334155;
+    color: #cbd5e1;
+  }
+
+  :global([data-theme="dark"]) .editorial-data-table th,
+  :global([data-theme="dark"]) .editorial-data-table tr:hover td {
+    background: #0f172a;
+  }
+
+  :global([data-theme="dark"]) .related-tool-card {
+    background: #1e293b;
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .card-blue {
+    background: rgba(30, 58, 138, 0.25);
+    border-color: rgba(59, 130, 246, 0.4);
+  }
+  :global([data-theme="dark"]) .card-purple {
+    background: rgba(88, 28, 135, 0.25);
+    border-color: rgba(147, 51, 234, 0.4);
+  }
+  :global([data-theme="dark"]) .card-green {
+    background: rgba(20, 83, 45, 0.25);
+    border-color: rgba(34, 197, 94, 0.4);
+  }
+  :global([data-theme="dark"]) .card-amber {
+    background: rgba(120, 53, 15, 0.25);
+    border-color: rgba(245, 158, 11, 0.4);
+  }
+
+  :global([data-theme="dark"]) .result-hero-card {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%);
+    border-color: rgba(59, 130, 246, 0.4);
+  }
+
+  :global([data-theme="dark"]) .subdomain-notice-box {
+    background: rgba(30, 58, 138, 0.3);
+    border-color: rgba(59, 130, 246, 0.4);
+  }
+  :global([data-theme="dark"]) .notice-heading {
+    color: #93c5fd;
+  }
+  :global([data-theme="dark"]) .notice-p {
+    color: #bfdbfe;
+  }
+
+  :global([data-theme="dark"]) .disclaimer-callout-card {
+    background: rgba(120, 53, 15, 0.2);
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+  :global([data-theme="dark"]) .disclaimer-header h4 {
+    color: #fde68a;
+  }
+  :global([data-theme="dark"]) .disclaimer-callout-card p {
+    color: #fef3c7;
+  }
+
+  :global([data-theme="dark"]) .alert-box-error {
+    background: rgba(127, 29, 29, 0.25);
+    border-color: rgba(239, 68, 68, 0.35);
+  }
+  :global([data-theme="dark"]) .alert-title {
+    color: #fca5a5;
+  }
+  :global([data-theme="dark"]) .alert-message {
+    color: #fecaca;
+  }
+
+  /* Utility */
+  .hidden {
+    display: none !important;
+  }
+</style>
+
+<script>
+  // Known second-level public suffixes for apex registered domain resolution
+  const TWO_PART_SUFFIXES = new Set([
+    'co.uk', 'org.uk', 'me.uk', 'gov.uk', 'ac.uk', 'net.uk', 'ltd.uk', 'plc.uk',
+    'com.au', 'net.au', 'org.au', 'edu.au', 'gov.au',
+    'co.nz', 'org.nz', 'net.nz',
+    'co.za', 'org.za',
+    'co.in', 'net.in', 'org.in', 'gen.in', 'ind.in',
+    'com.br', 'net.br', 'org.br',
+    'co.jp', 'ne.jp', 'or.jp',
+    'com.sg', 'org.sg',
+    'com.mx', 'org.mx',
+    'com.tw', 'org.tw'
+  ]);
+
+  // Comprehensive static fallback dictionary for top TLDs (RFC 9083 compliance)
+  const FALLBACK_REGISTRY: Record<string, string> = {
+    'com': 'https://rdap.verisign.com/com/v1/',
+    'net': 'https://rdap.verisign.com/net/v1/',
+    'org': 'https://rdap.publicinterestregistry.org/rdap/',
+    'io': 'https://rdap.identitydigital.services/rdap/',
+    'co': 'https://rdap.identitydigital.services/rdap/',
+    'me': 'https://rdap.identitydigital.services/rdap/',
+    'info': 'https://rdap.identitydigital.services/rdap/',
+    'biz': 'https://rdap.identitydigital.services/rdap/',
+    'mobi': 'https://rdap.identitydigital.services/rdap/',
+    'pro': 'https://rdap.identitydigital.services/rdap/',
+    'dev': 'https://pubapi.registry.google/rdap/',
+    'app': 'https://pubapi.registry.google/rdap/',
+    'page': 'https://pubapi.registry.google/rdap/',
+    'how': 'https://pubapi.registry.google/rdap/',
+    'soy': 'https://pubapi.registry.google/rdap/',
+    'xyz': 'https://rdap.centralnic.com/',
+    'online': 'https://rdap.centralnic.com/',
+    'site': 'https://rdap.centralnic.com/',
+    'store': 'https://rdap.centralnic.com/',
+    'tech': 'https://rdap.centralnic.com/',
+    'website': 'https://rdap.centralnic.com/',
+    'space': 'https://rdap.centralnic.com/',
+    'fun': 'https://rdap.centralnic.com/',
+    'icu': 'https://rdap.centralnic.com/',
+    'uk': 'https://rdap.nominet.uk/uk/',
+    'ca': 'https://rdap.cira.ca/',
+    'fr': 'https://rdap.afnic.fr/',
+    'in': 'https://rdap.registry.in/',
+    'eu': 'https://rdap.eurid.eu/',
+    'nl': 'https://rdap.sidn.nl/',
+    'ai': 'https://rdap.identitydigital.services/rdap/',
+    'tv': 'https://rdap.verisign.com/tv/v1/',
+    'cc': 'https://rdap.verisign.com/cc/v1/',
+    'us': 'https://rdap.nic.us/'
+  };
+
+  interface RdapEvent {
+    eventAction: string;
+    eventDate: string;
+  }
+
+  interface RdapEntity {
+    roles?: string[];
+    handle?: string;
+    vcardArray?: any[];
+  }
+
+  interface RdapResponse {
+    ldhName?: string;
+    status?: string[];
+    events?: RdapEvent[];
+    entities?: RdapEntity[];
+    nameservers?: Array<{ ldhName?: string }>;
+    errorCode?: number;
+    title?: string;
+    description?: string[];
+  }
+
+  let ianaBootstrapData: { services: Array<[string[], string[]]> } | null = null;
+  let activeAbortController: AbortController | null = null;
+
+  async function loadIanaBootstrap(): Promise<{ services: Array<[string[], string[]]> } | null> {
+    if (ianaBootstrapData) return ianaBootstrapData;
+
+    // Check sessionStorage cache
+    try {
+      const cached = sessionStorage.getItem('cf_iana_rdap_dns_v1');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed && Array.isArray(parsed.services) && parsed.services.length > 0) {
+          ianaBootstrapData = parsed;
+          return ianaBootstrapData;
+        }
+      }
+    } catch (_) {}
+
+    // Fetch official IANA bootstrap registry
+    try {
+      const res = await fetch('https://data.iana.org/rdap/dns.json', { cache: 'default' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data.services)) {
+          ianaBootstrapData = data;
+          try {
+            sessionStorage.setItem('cf_iana_rdap_dns_v1', JSON.stringify(data));
+          } catch (_) {}
+          return ianaBootstrapData;
+        }
+      }
+    } catch (err) {
+      console.warn('Live IANA bootstrap lookup unavailable, using fallback registry map', err);
+    }
+
+    return null;
+  }
+
+  function resolveAuthoritativeRdapUrl(tldSuffix: string, bootstrap: { services: Array<[string[], string[]]> } | null): string | null {
+    const cleanTld = tldSuffix.toLowerCase();
+
+    // 1. Check IANA bootstrap services using longest-suffix matching
+    if (bootstrap && Array.isArray(bootstrap.services)) {
+      for (const service of bootstrap.services) {
+        const [suffixes, urls] = service;
+        if (Array.isArray(suffixes) && suffixes.includes(cleanTld)) {
+          // Prefer HTTPS URL
+          const httpsUrl = urls.find(u => u.startsWith('https://')) || urls[0];
+          if (httpsUrl) {
+            return httpsUrl.endsWith('/') ? httpsUrl : httpsUrl + '/';
+          }
+        }
+      }
+    }
+
+    // 2. Check fallback registry dictionary
+    if (FALLBACK_REGISTRY[cleanTld]) {
+      const fbUrl = FALLBACK_REGISTRY[cleanTld];
+      return fbUrl.endsWith('/') ? fbUrl : fbUrl + '/';
+    }
+
+    return null;
+  }
+
+  function normalizeDomainInput(rawInput: string): { 
+    valid: boolean; 
+    error?: string; 
+    inputHost: string; 
+    registeredDomain: string; 
+    tld: string; 
+    isSubdomain: boolean 
+  } {
+    let clean = rawInput.trim();
+    if (!clean) {
+      return { valid: false, error: 'Please enter a domain name to check.', inputHost: '', registeredDomain: '', tld: '', isSubdomain: false };
+    }
+
+    // Strip scheme, paths, query, fragments
+    try {
+      if (!clean.includes('://') && !clean.startsWith('//')) {
+        clean = 'http://' + clean;
+      }
+      const parsedUrl = new URL(clean);
+      clean = parsedUrl.hostname.toLowerCase();
+    } catch (_) {
+      // Clean manually if URL constructor fails on unconventional input
+      clean = clean.replace(/^[a-zA-Z]+:\/\//, '').split('/')[0].split('?')[0].split('#')[0].toLowerCase();
+    }
+
+    // Remove trailing dot if present
+    if (clean.endsWith('.')) clean = clean.slice(0, -1);
+
+    // Reject IP addresses (IPv4 & IPv6)
+    const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
+    if (ipv4Regex.test(clean) || clean.includes(':')) {
+      return { valid: false, error: 'IP addresses do not have domain registration records. Please enter a domain name (e.g., example.com).', inputHost: clean, registeredDomain: '', tld: '', isSubdomain: false };
+    }
+
+    // Reject localhost and local/private networks
+    if (clean === 'localhost' || clean.endsWith('.local') || clean.endsWith('.internal') || clean.endsWith('.test') || clean.endsWith('.example') || clean.endsWith('.invalid')) {
+      return { valid: false, error: 'Local and internal hostnames cannot be resolved via public RDAP registries.', inputHost: clean, registeredDomain: '', tld: '', isSubdomain: false };
+    }
+
+    // Ensure valid domain format with at least one dot
+    if (!clean.includes('.') || clean.startsWith('.') || clean.endsWith('.')) {
+      return { valid: false, error: 'Please enter a valid domain name with an extension (e.g., example.com or bbc.co.uk).', inputHost: clean, registeredDomain: '', tld: '', isSubdomain: false };
+    }
+
+    const parts = clean.split('.');
+
+    // Determine apex registered domain
+    let tld = parts[parts.length - 1];
+    let registeredDomain = clean;
+    let isSubdomain = false;
+
+    // Check for two-part suffix (e.g. bbc.co.uk)
+    if (parts.length >= 3) {
+      const candidateTwoPart = parts.slice(parts.length - 2).join('.');
+      if (TWO_PART_SUFFIXES.has(candidateTwoPart)) {
+        tld = parts[parts.length - 1]; // In IANA bootstrap, Nominet registers 'uk'
+        registeredDomain = parts.slice(parts.length - 3).join('.');
+        isSubdomain = parts.length > 3;
+      } else {
+        registeredDomain = parts.slice(parts.length - 2).join('.');
+        isSubdomain = parts.length > 2;
+      }
+    } else if (parts.length === 2) {
+      registeredDomain = clean;
+      isSubdomain = false;
+    }
+
+    return {
+      valid: true,
+      inputHost: clean,
+      registeredDomain,
+      tld,
+      isSubdomain
+    };
+  }
+
+  function calculateAge(regIsoString: string): { 
+    valid: boolean; 
+    error?: string; 
+    years: number; 
+    months: number; 
+    days: number; 
+    totalDays: number;
+    regFormatted: string;
+    regIso: string;
+  } {
+    const regDate = new Date(regIsoString);
+    if (isNaN(regDate.getTime())) {
+      return { valid: false, error: 'The registration date returned by RDAP is invalid or unreadable.', years: 0, months: 0, days: 0, totalDays: 0, regFormatted: '', regIso: '' };
+    }
+
+    const now = new Date();
+
+    const regYear = regDate.getUTCFullYear();
+    const regMonth = regDate.getUTCMonth();
+    const regDay = regDate.getUTCDate();
+
+    const nowYear = now.getUTCFullYear();
+    const nowMonth = now.getUTCMonth();
+    const nowDay = now.getUTCDate();
+
+    const utcReg = Date.UTC(regYear, regMonth, regDay);
+    const utcNow = Date.UTC(nowYear, nowMonth, nowDay);
+    const totalDays = Math.floor((utcNow - utcReg) / (1000 * 60 * 60 * 24));
+
+    if (totalDays < 0) {
+      return { valid: false, error: 'The registration timestamp is reported in the future by the registry.', years: 0, months: 0, days: 0, totalDays: 0, regFormatted: '', regIso: '' };
+    }
+
+    let years = nowYear - regYear;
+    let months = nowMonth - regMonth;
+    let days = nowDay - regDay;
+
+    if (days < 0) {
+      months -= 1;
+      // Days in previous month
+      const prevMonthDays = new Date(Date.UTC(nowYear, nowMonth, 0)).getUTCDate();
+      days += prevMonthDays;
+    }
+
+    if (months < 0) {
+      years -= 1;
+      months += 12;
+    }
+
+    const monthsNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const fullMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    const regFormatted = `${fullMonths[regMonth]} ${regDay}, ${regYear}`;
+
+    return {
+      valid: true,
+      years,
+      months,
+      days,
+      totalDays,
+      regFormatted,
+      regIso: regDate.toISOString()
+    };
+  }
+
+  function formatDateUtc(isoString: string): string {
+    const d = new Date(isoString);
+    if (isNaN(d.getTime())) return 'Not reported';
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+  }
+
+  function initDomainAgeChecker() {
+    const form = document.getElementById('domain-lookup-form') as HTMLFormElement | null;
+    const input = document.getElementById('domain-input') as HTMLInputElement | null;
+    const clearBtn = document.getElementById('btn-clear-input') as HTMLButtonElement | null;
+    const submitBtn = document.getElementById('btn-submit-lookup') as HTMLButtonElement | null;
+    const btnText = document.getElementById('btn-text-label') as HTMLSpanElement | null;
+    const resetBtn = document.getElementById('btn-reset-tool') as HTMLButtonElement | null;
+    
+    const loadingBox = document.getElementById('lookup-loading-box');
+    const loadingStatus = document.getElementById('loading-status-message');
+    const errorBanner = document.getElementById('lookup-error-banner');
+    const errorTitle = document.getElementById('error-banner-title');
+    const errorDesc = document.getElementById('error-banner-desc');
+    const subdomainBox = document.getElementById('subdomain-notice-banner');
+    const noticeInputHost = document.getElementById('notice-input-host');
+    const noticeRootHost = document.getElementById('notice-root-host');
+    
+    const resultsContainer = document.getElementById('lookup-results-container');
+    const sampleBtns = document.querySelectorAll('.sample-chip-btn');
+
+    if (!form || !input) return;
+
+    function showError(title: string, desc: string) {
+      if (errorTitle) errorTitle.textContent = title;
+      if (errorDesc) errorDesc.textContent = desc;
+      errorBanner?.classList.remove('hidden');
+      resultsContainer?.classList.add('hidden');
+      subdomainBox?.classList.add('hidden');
+    }
+
+    function hideError() {
+      errorBanner?.classList.add('hidden');
+    }
+
+    function resetUI() {
+      hideError();
+      subdomainBox?.classList.add('hidden');
+      resultsContainer?.classList.add('hidden');
+      loadingBox?.classList.add('hidden');
+      if (input) input.value = '';
+      clearBtn?.classList.add('hidden');
+      if (submitBtn) submitBtn.disabled = false;
+      if (btnText) btnText.textContent = 'Check Domain Age';
+      if (activeAbortController) {
+        activeAbortController.abort();
+        activeAbortController = null;
+      }
+    }
+
+    // Input text changes -> manage clear button visibility
+    input.addEventListener('input', () => {
+      if (input.value.trim().length > 0) {
+        clearBtn?.classList.remove('hidden');
+      } else {
+        clearBtn?.classList.add('hidden');
+      }
+    });
+
+    clearBtn?.addEventListener('click', () => {
+      input.value = '';
+      clearBtn.classList.add('hidden');
+      input.focus();
+    });
+
+    resetBtn?.addEventListener('click', resetUI);
+
+    // Preset sample domain chips
+    sampleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const domain = btn.getAttribute('data-sample');
+        if (domain && input) {
+          input.value = domain;
+          clearBtn?.classList.remove('hidden');
+          runLookup(domain);
+        }
+      });
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      runLookup(input.value);
+    });
+
+    async function runLookup(rawQuery: string) {
+      hideError();
+      subdomainBox?.classList.add('hidden');
+      resultsContainer?.classList.add('hidden');
+
+      const norm = normalizeDomainInput(rawQuery);
+      if (!norm.valid) {
+        showError('Invalid Domain Format', norm.error || 'Please enter a valid domain name.');
+        return;
+      }
+
+      // Abort previous in-flight request if any
+      if (activeAbortController) {
+        activeAbortController.abort();
+      }
+      activeAbortController = new AbortController();
+      const signal = activeAbortController.signal;
+
+      // Update button state & show loading
+      if (submitBtn) submitBtn.disabled = true;
+      if (btnText) btnText.textContent = 'Querying Registry...';
+      loadingBox?.classList.remove('hidden');
+      if (loadingStatus) loadingStatus.textContent = `Resolving IANA RDAP registry for .${norm.tld}...`;
+
+      try {
+        // Step 1: Load IANA DNS Bootstrap registry
+        const bootstrap = await loadIanaBootstrap();
+
+        // Step 2: Match TLD to Authoritative RDAP Service URL
+        const rdapBaseUrl = resolveAuthoritativeRdapUrl(norm.tld, bootstrap);
+        if (!rdapBaseUrl) {
+          throw new Error(`The top-level domain '.${norm.tld}' is not listed in the IANA RDAP registry. Many ccTLDs and legacy registries have not yet deployed public RDAP endpoints.`);
+        }
+
+        if (loadingStatus) {
+          loadingStatus.textContent = `Connecting to ${new URL(rdapBaseUrl).hostname}...`;
+        }
+
+        // Step 3: Query authoritative RDAP endpoint for registered apex domain
+        const endpointUrl = `${rdapBaseUrl}domain/${encodeURIComponent(norm.registeredDomain)}`;
+
+        // Set a 10s fetch timeout
+        const timeoutId = setTimeout(() => {
+          activeAbortController?.abort();
+        }, 10000);
+
+        let res: Response;
+        try {
+          res = await fetch(endpointUrl, {
+            headers: { 'Accept': 'application/rdap+json, application/json' },
+            signal
+          });
+        } catch (fetchErr: any) {
+          clearTimeout(timeoutId);
+          if (fetchErr.name === 'AbortError') {
+            throw new Error(`Connection timed out while querying the authoritative RDAP server (${new URL(rdapBaseUrl).hostname}). The registry server may be experiencing high load.`);
+          }
+          throw new Error(`Network failure or browser security policy prevented connecting to ${rdapBaseUrl}. Please verify your connection or try again.`);
+        }
+        clearTimeout(timeoutId);
+
+        // Handle HTTP response codes
+        if (res.status === 404) {
+          throw new Error(`Domain not found. '${norm.registeredDomain}' does not exist in the authoritative .${norm.tld} RDAP database or is currently available for registration.`);
+        } else if (res.status === 429) {
+          throw new Error(`Rate limit exceeded by authoritative RDAP service (${new URL(rdapBaseUrl).hostname}). Please wait a minute before querying again.`);
+        } else if (res.status >= 500) {
+          throw new Error(`The authoritative RDAP registry (${new URL(rdapBaseUrl).hostname}) encountered an internal server error (HTTP ${res.status}).`);
+        } else if (!res.ok) {
+          throw new Error(`RDAP query failed with HTTP status ${res.status} from ${new URL(rdapBaseUrl).hostname}.`);
+        }
+
+        // Step 4: Parse RDAP response JSON
+        const rdapData: RdapResponse = await res.json();
+
+        // Step 5: Locate registration event
+        const events = Array.isArray(rdapData.events) ? rdapData.events : [];
+        const regEvent = events.find(e => e.eventAction && e.eventAction.toLowerCase() === 'registration');
+
+        if (!regEvent || !regEvent.eventDate) {
+          throw new Error(`The authoritative registry returned domain records for '${norm.registeredDomain}', but omitted a verified 'registration' creation timestamp.`);
+        }
+
+        // Step 6: Accurate calendar age calculation
+        const ageResult = calculateAge(regEvent.eventDate);
+        if (!ageResult.valid) {
+          throw new Error(ageResult.error || 'Unable to calculate domain age from registration date.');
+        }
+
+        // Extract optional lifecycle events
+        const expEvent = events.find(e => e.eventAction && e.eventAction.toLowerCase() === 'expiration');
+        const updatedEvent = events.find(e => e.eventAction && (e.eventAction.toLowerCase() === 'last changed' || e.eventAction.toLowerCase() === 'last update'));
+
+        // Extract registrar name
+        let registrarName = 'Not disclosed in public RDAP record';
+        if (Array.isArray(rdapData.entities)) {
+          const regEntity = rdapData.entities.find(ent => ent.roles && ent.roles.includes('registrar'));
+          if (regEntity) {
+            if (Array.isArray(regEntity.vcardArray) && regEntity.vcardArray[1]) {
+              const fnEntry = regEntity.vcardArray[1].find((item: any) => item[0] === 'fn');
+              if (fnEntry && fnEntry[3]) {
+                registrarName = fnEntry[3];
+              }
+            }
+            if (registrarName === 'Not disclosed in public RDAP record' && regEntity.handle) {
+              registrarName = regEntity.handle;
+            }
+          }
+        }
+
+        // Step 7: Populate UI
+        loadingBox?.classList.add('hidden');
+
+        // Subdomain notice if user entered a subdomain
+        if (norm.isSubdomain) {
+          if (noticeInputHost) noticeInputHost.textContent = norm.inputHost;
+          if (noticeRootHost) noticeRootHost.textContent = norm.registeredDomain;
+          subdomainBox?.classList.remove('hidden');
+        } else {
+          subdomainBox?.classList.add('hidden');
+        }
+
+        // Hero result card
+        const resDisplayDomain = document.getElementById('res-display-domain');
+        const resPrimaryAge = document.getElementById('res-primary-age-badge');
+        const resSecondary = document.getElementById('res-secondary-summary');
+
+        if (resDisplayDomain) resDisplayDomain.textContent = norm.registeredDomain;
+        if (resPrimaryAge) {
+          const ageParts = [];
+          if (ageResult.years > 0) ageParts.push(`${ageResult.years} ${ageResult.years === 1 ? 'Year' : 'Years'}`);
+          if (ageResult.months > 0) ageParts.push(`${ageResult.months} ${ageResult.months === 1 ? 'Month' : 'Months'}`);
+          ageParts.push(`${ageResult.days} ${ageResult.days === 1 ? 'Day' : 'Days'}`);
+          resPrimaryAge.textContent = `${ageParts.join(', ')} Old`;
+        }
+        if (resSecondary) {
+          resSecondary.innerHTML = `Registered on <strong>${ageResult.regFormatted}</strong> (${ageResult.totalDays.toLocaleString()} total days elapsed)`;
+        }
+
+        // Stat cards
+        const statYears = document.getElementById('stat-calendar-years');
+        const statMonthsDays = document.getElementById('stat-calendar-months-days');
+        const statTotalDays = document.getElementById('stat-total-days');
+        const statRegDate = document.getElementById('stat-reg-date');
+        const statRegUtc = document.getElementById('stat-reg-utc');
+        const statExpDate = document.getElementById('stat-exp-date');
+        const statExpSub = document.getElementById('stat-exp-sub');
+
+        if (statYears) statYears.textContent = `${ageResult.years} ${ageResult.years === 1 ? 'Year' : 'Years'}`;
+        if (statMonthsDays) statMonthsDays.textContent = `${ageResult.months} Mo, ${ageResult.days} Days`;
+        if (statTotalDays) statTotalDays.textContent = ageResult.totalDays.toLocaleString();
+        if (statRegDate) statRegDate.textContent = formatDateUtc(regEvent.eventDate);
+        if (statRegUtc) statRegUtc.textContent = `UTC: ${regEvent.eventDate.split('T')[0]}`;
+        
+        if (expEvent && expEvent.eventDate) {
+          if (statExpDate) statExpDate.textContent = formatDateUtc(expEvent.eventDate);
+          if (statExpSub) statExpSub.textContent = `Expires ${expEvent.eventDate.split('T')[0]}`;
+        } else {
+          if (statExpDate) statExpDate.textContent = 'Not Reported';
+          if (statExpSub) statExpSub.textContent = 'Private or omitted by registry';
+        }
+
+        // Metadata Table
+        const metaQueried = document.getElementById('meta-queried-host');
+        const metaApex = document.getElementById('meta-apex-domain');
+        const metaService = document.getElementById('meta-rdap-service');
+        const metaRegTime = document.getElementById('meta-reg-timestamp');
+        const metaUpdatedTime = document.getElementById('meta-updated-timestamp');
+        const metaExpTime = document.getElementById('meta-exp-timestamp');
+        const metaRegistrar = document.getElementById('meta-registrar-name');
+        const metaStatus = document.getElementById('meta-domain-status');
+        const metaNs = document.getElementById('meta-nameservers');
+
+        if (metaQueried) metaQueried.textContent = norm.inputHost;
+        if (metaApex) metaApex.textContent = norm.registeredDomain;
+        if (metaService) metaService.textContent = rdapBaseUrl;
+        if (metaRegTime) metaRegTime.textContent = regEvent.eventDate;
+        if (metaUpdatedTime) metaUpdatedTime.textContent = updatedEvent ? updatedEvent.eventDate : 'Not reported by registry';
+        if (metaExpTime) metaExpTime.textContent = expEvent ? expEvent.eventDate : 'Not reported by registry';
+        if (metaRegistrar) metaRegistrar.textContent = registrarName;
+
+        // Status tags
+        if (metaStatus) {
+          metaStatus.innerHTML = '';
+          const statusList = Array.isArray(rdapData.status) && rdapData.status.length > 0 ? rdapData.status : ['active'];
+          statusList.forEach(st => {
+            const span = document.createElement('span');
+            span.className = 'status-tag';
+            span.textContent = st;
+            metaStatus.appendChild(span);
+          });
+        }
+
+        // Nameservers
+        if (metaNs) {
+          if (Array.isArray(rdapData.nameservers) && rdapData.nameservers.length > 0) {
+            const nsList = rdapData.nameservers.map(ns => ns.ldhName).filter(Boolean);
+            metaNs.textContent = nsList.length > 0 ? nsList.join(', ') : 'None reported';
+          } else {
+            metaNs.textContent = 'None reported by registry';
+          }
+        }
+
+        resultsContainer?.classList.remove('hidden');
+
+      } catch (err: any) {
+        loadingBox?.classList.add('hidden');
+        showError('Registration Lookup Notice', err.message || 'An unexpected error occurred while querying RDAP registration data.');
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+        if (btnText) btnText.textContent = 'Check Domain Age';
+        activeAbortController = null;
+      }
+    }
+  }
+
+  initDomainAgeChecker();
+  document.addEventListener('astro:after-swap', initDomainAgeChecker);
+</script>

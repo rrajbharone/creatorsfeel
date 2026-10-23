@@ -1,0 +1,2893 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const faqs = [
+  {
+    question: "What is the Instagram Reels safe zone and why is it important?",
+    answer: "The Instagram Reels safe zone is the central visual area of a vertical 9:16 video (1080 × 1920 pixels) that remains completely unobstructed by Instagram's native user interface elements. When viewers watch Reels, Instagram overlays a top navigation header, a right-side interaction bar (like, comment, share, audio buttons), and a bottom metadata block (username, caption, and audio title). Keeping critical text, subtitles, faces, and brand logos inside the safe area prevents the platform UI from covering your content and hurting viewer retention."
+  },
+  {
+    question: "What are the exact dimensions and aspect ratio for Instagram Reels in 2026?",
+    answer: "Instagram Reels are rendered natively in a 9:16 vertical aspect ratio at 1080 × 1920 pixels. However, Reels appear on three distinct surfaces: fullscreen 9:16 in the Reels tab (1080 × 1920), 4:5 portrait crop in the algorithmic Home Feed (1080 × 1350 pixels), and 1:1 square crop in your profile grid (1080 × 1080 pixels). Important headlines and cover focal points should sit within the central 1080 × 1080 pixel square to display correctly everywhere."
+  },
+  {
+    question: "Where should I place text, closed captions, and calls to action in a Reel?",
+    answer: "Position all on-screen text, animated subtitles, product tags, and calls to action inside the central content safe zone: at least 270 pixels from the top, 420 pixels from the bottom, 65 pixels from the left edge, and 170 pixels from the right edge. Placing subtitles in the lower 20% of the screen causes them to collide directly with your username and caption, making them unreadable."
+  },
+  {
+    question: "What is the difference between the 9:16 Reels view, 4:5 feed preview, and 1:1 profile grid?",
+    answer: "The 9:16 view is the immersive fullscreen playback mode (1080 × 1920). When your Reel appears on follower home feeds, Instagram crops 285 pixels off the top and 285 pixels off the bottom to display it in 4:5 ratio (1080 × 1350). In your profile grid, Instagram crops 420 pixels from both top and bottom to create a 1:1 square thumbnail (1080 × 1080). Our tool visually displays all three crop boundaries so your cover art and text look intentional on every screen."
+  },
+  {
+    question: "Why does text look perfectly centered in my editing app but covered on Instagram?",
+    answer: "Most video editing apps (like CapCut, Premiere Pro, and Canva) default to the mathematical center of the entire 1080 × 1920 frame. However, because Instagram's bottom interface takes up approximately 22% of the screen height and the right action column occupies roughly 16% of the screen width, the true visual safe center is shifted slightly upward and to the left. Using an interactive Reels safe zone preview tool ensures your layout accounts for Instagram's asymmetrical interface."
+  },
+  {
+    question: "Can I download and import this safe zone guide into CapCut, Premiere Pro, or Canva?",
+    answer: "Yes! Our tool provides a dedicated 'Download Transparent 9:16 Template' action. You can download the 1080 × 1920 PNG overlay with transparent background and drop it directly onto the top track of your editing timeline in CapCut, Adobe Premiere, Final Cut Pro, or Canva to visually align text before rendering."
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'Instagram Reels Safe Zone Checker', item: '/tools/instagram-reels-safe-zone-checker' }
+];
+
+const origin = Astro.site ? Astro.site.origin : "https://creatorsfeel.com";
+const canonicalUrl = new URL(Astro.url.pathname, origin).href;
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": `${canonicalUrl}#application`,
+  "name": "Instagram Reels Safe Zone Checker",
+  "url": canonicalUrl,
+  "operatingSystem": "All",
+  "applicationCategory": "DesignApplication",
+  "description": "Free Instagram Reels Safe Zone Checker. Preview your Reel covers and video frames with realistic Instagram UI overlays, 4:5 feed crop guides, and 1:1 profile grid templates.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0.00",
+    "priceCurrency": "USD"
+  }
+};
+---
+
+<BaseLayout
+  title="Instagram Reels Safe Zone Checker - Test Text & UI Overlays Free"
+  description="Free Instagram Reels Safe Zone Checker. Preview Reels text safe areas, UI overlays, 4:5 feed crop, and 1:1 profile grid guides. Download 9:16 templates."
+  canonicalUrl={canonicalUrl}
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+>
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify(softwareSchema)} />
+
+  <div class="tool-page-wrapper">
+
+    <!-- 1. HERO SECTION (Centered Max-Width 820px) -->
+    <header class="tool-hero-section">
+      <div class="container hero-inner">
+
+        <!-- Breadcrumbs at top -->
+        <div class="hero-breadcrumbs">
+          <Breadcrumbs items={breadcrumbs} />
+        </div>
+
+        <!-- Pill Badge with SVG Icon (Zero Emojis) -->
+        <div class="hero-badge">
+          <span class="badge-icon-tool">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tool-svg" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </span>
+          <span class="badge-title">Instagram Reels Design &amp; Layout Optimizer</span>
+          <span class="badge-pill-free">Free Tool</span>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="hero-headline">
+          Instagram Reels <span class="gradient-text">Safe Zone Checker</span>
+        </h1>
+
+        <!-- Short Description -->
+        <p class="hero-desc">
+          Test your Reel covers and video frames against Instagram's interface overlays, 4:5 home feed crops, and 1:1 profile grid templates. Ensure text, faces, and subtitles are never covered.
+        </p>
+
+        <!-- Feature Chips Row (Zero Emojis - Clean SVG Icons) -->
+        <div class="hero-features-row">
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 4.5v15m6-15v15m-10.875 0h17.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125Z" />
+            </svg>
+            9:16 Fullscreen Safe Guide
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 9h18M9 21V9"/>
+            </svg>
+            4:5 Feed &amp; 1:1 Grid Crops
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5" />
+            </svg>
+            Realistic Instagram UI Mockup
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+            Download PNG Guides
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. MAIN TOOL SECTION (Container Max-Width 940px) -->
+    <section class="tool-main-section" aria-label="Instagram Reels Safe Zone Checker Interface">
+      <div class="container tool-card-container">
+
+        <!-- The Prominent SaaS Tool Card -->
+        <div class="saas-tool-card">
+
+          <!-- Card Header Bar -->
+          <div class="card-header-bar">
+            <div class="header-title-cluster">
+              <div class="card-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 4.5v15m6-15v15m-10.875 0h17.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125Z" />
+                </svg>
+              </div>
+              <div>
+                <h2 class="card-title-text">Reels Safe Zone Studio</h2>
+                <span class="card-sub-text">Workflow: Upload Media → Preview Safe Zones → Adjust Guides → Download</span>
+              </div>
+            </div>
+
+            <div class="header-controls-cluster">
+              <div class="live-status-pill">
+                <span class="live-pulse-dot" aria-hidden="true"></span>
+                <span>Client-Side Active</span>
+              </div>
+              <button type="button" class="btn-reset-tool" id="btn-reset-tool" title="Reset image and guides">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="reset-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Main Interactive Studio Layout (2-Column Grid on Desktop) -->
+          <div class="studio-workspace-grid">
+
+            <!-- LEFT COLUMN: CONTROLS & SETTINGS -->
+            <div class="studio-controls-column">
+              
+              <!-- Upload Box -->
+              <div class="control-card-block">
+                <div class="block-title-row">
+                  <span class="block-title">1. Upload Reel Cover or Frame</span>
+                  <span class="block-badge">Image or Video</span>
+                </div>
+
+                <div class="dropzone-box" id="dropzone" tabindex="0" role="button" aria-label="Upload Reel cover image or video">
+                  <input type="file" id="media-file-input" class="hidden-file-input" accept="image/png,image/jpeg,image/webp,video/mp4,video/webm,video/quicktime,.png,.jpg,.jpeg,.webp,.mp4,.webm,.mov" />
+                  
+                  <div class="dropzone-prompt" id="dropzone-prompt">
+                    <div class="upload-icon-circle" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="upload-svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                      </svg>
+                    </div>
+                    <strong class="dropzone-prompt-text">Click to browse or drop file here</strong>
+                    <span class="dropzone-sub-text">PNG, JPG, WebP, or MP4 (First frame extracted locally)</span>
+                  </div>
+
+                  <div class="loaded-file-indicator" id="loaded-file-indicator" style="display: none;">
+                    <div class="loaded-meta-info">
+                      <span class="loaded-filename" id="label-filename">reel_cover.png</span>
+                      <span class="loaded-specs" id="label-dimensions">1080 × 1920 • 9:16</span>
+                    </div>
+                    <button type="button" class="btn-change-file" id="btn-change-file">Change File</button>
+                  </div>
+                </div>
+
+                <!-- Sample Presets Row -->
+                <div class="sample-presets-wrap">
+                  <span class="sample-presets-label">Or test with demo templates:</span>
+                  <div class="sample-buttons-row">
+                    <button type="button" class="btn-sample-preset active" data-sample="creator">
+                      Talking Head
+                    </button>
+                    <button type="button" class="btn-sample-preset" data-sample="product">
+                      E-Commerce Reel
+                    </button>
+                    <button type="button" class="btn-sample-preset" data-sample="quote">
+                      Quote Card
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Overlay Guides Toggles -->
+              <div class="control-card-block">
+                <div class="block-title-row">
+                  <span class="block-title">2. Guide &amp; Overlay Toggles</span>
+                </div>
+
+                <div class="toggle-switches-list">
+                  
+                  <label class="toggle-switch-item">
+                    <div class="toggle-text-group">
+                      <span class="toggle-main-label">Recommended Safe Zone Box</span>
+                      <span class="toggle-sub-label">Green boundary cleared of all UI interference</span>
+                    </div>
+                    <input type="checkbox" id="toggle-safe-zone" checked class="custom-toggle-input" />
+                    <span class="toggle-slider"></span>
+                  </label>
+
+                  <label class="toggle-switch-item">
+                    <div class="toggle-text-group">
+                      <span class="toggle-main-label">Instagram UI Overlay Mockup</span>
+                      <span class="toggle-sub-label">Like/comment buttons, caption, and audio info</span>
+                    </div>
+                    <input type="checkbox" id="toggle-insta-ui" checked class="custom-toggle-input" />
+                    <span class="toggle-slider"></span>
+                  </label>
+
+                  <label class="toggle-switch-item">
+                    <div class="toggle-text-group">
+                      <span class="toggle-main-label">4:5 Feed &amp; 1:1 Profile Crop Guides</span>
+                      <span class="toggle-sub-label">Home feed (1080×1350) and profile grid (1080×1080) lines</span>
+                    </div>
+                    <input type="checkbox" id="toggle-crop-lines" checked class="custom-toggle-input" />
+                    <span class="toggle-slider"></span>
+                  </label>
+
+                  <label class="toggle-switch-item">
+                    <div class="toggle-text-group">
+                      <span class="toggle-main-label">Rule-of-Thirds Grid</span>
+                      <span class="toggle-sub-label">Photographic 3×3 visual alignment lines</span>
+                    </div>
+                    <input type="checkbox" id="toggle-grid-thirds" class="custom-toggle-input" />
+                    <span class="toggle-slider"></span>
+                  </label>
+
+                </div>
+              </div>
+
+              <!-- Editable Margins Accordion / Slider Panel -->
+              <div class="control-card-block">
+                <div class="block-title-row">
+                  <span class="block-title">3. Adjustable Safe Zone Margins</span>
+                  <button type="button" class="btn-reset-margins" id="btn-reset-margins" title="Restore recommended Meta safe zone percentages">
+                    Reset Defaults
+                  </button>
+                </div>
+
+                <div class="margins-sliders-grid">
+                  
+                  <div class="slider-field-group">
+                    <div class="slider-label-row">
+                      <span>Top Margin (Header):</span>
+                      <span class="slider-val" id="val-margin-top">14% (~270px)</span>
+                    </div>
+                    <input type="range" id="slider-margin-top" min="5" max="25" step="1" value="14" class="custom-range" />
+                  </div>
+
+                  <div class="slider-field-group">
+                    <div class="slider-label-row">
+                      <span>Bottom Margin (Caption &amp; Audio):</span>
+                      <span class="slider-val" id="val-margin-bottom">22% (~420px)</span>
+                    </div>
+                    <input type="range" id="slider-margin-bottom" min="10" max="35" step="1" value="22" class="custom-range" />
+                  </div>
+
+                  <div class="slider-field-group">
+                    <div class="slider-label-row">
+                      <span>Right Margin (Interaction Icons):</span>
+                      <span class="slider-val" id="val-margin-right">16% (~170px)</span>
+                    </div>
+                    <input type="range" id="slider-margin-right" min="8" max="26" step="1" value="16" class="custom-range" />
+                  </div>
+
+                  <div class="slider-field-group">
+                    <div class="slider-label-row">
+                      <span>Left Margin:</span>
+                      <span class="slider-val" id="val-margin-left">6% (~65px)</span>
+                    </div>
+                    <input type="range" id="slider-margin-left" min="2" max="15" step="1" value="6" class="custom-range" />
+                  </div>
+
+                </div>
+
+                <!-- Media Fit Mode -->
+                <div class="fit-mode-row">
+                  <span class="fit-label">Media Scaling:</span>
+                  <div class="fit-radio-group">
+                    <label class="fit-radio-label">
+                      <input type="radio" name="scale-mode" value="cover" checked id="scale-cover" />
+                      <span>Fill 9:16 Canvas (Cover)</span>
+                    </label>
+                    <label class="fit-radio-label">
+                      <input type="radio" name="scale-mode" value="contain" id="scale-contain" />
+                      <span>Fit Proportions (Letterbox)</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Export / Download Actions -->
+              <div class="control-card-block action-buttons-block">
+                <button type="button" class="btn-download-primary" id="btn-download-preview">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="action-btn-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                  </svg>
+                  <span>Download Preview with Guides (PNG)</span>
+                </button>
+
+                <button type="button" class="btn-download-secondary" id="btn-download-template">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="action-btn-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span>Download Transparent 9:16 Overlay Template</span>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: PHONE MOCKUP PREVIEW STAGE -->
+            <div class="studio-preview-column">
+              <div class="phone-mockup-wrapper">
+                
+                <!-- Phone Mockup Frame (Realistic 9:16 Ratio) -->
+                <div class="phone-frame-container" id="phone-stage">
+                  
+                  <!-- Canvas Layer where user media is drawn -->
+                  <canvas id="preview-canvas" width="1080" height="1920" class="stage-canvas"></canvas>
+
+                  <!-- Dynamic SVG Safe Zone Overlay Layer -->
+                  <div class="stage-overlay-layer" id="overlay-layer">
+                    
+                    <!-- 1. Safe Zone Box (Green boundary) -->
+                    <div class="safe-zone-box" id="guide-safe-box">
+                      <span class="safe-zone-tag" aria-hidden="true">Content Safe Area</span>
+                    </div>
+
+                    <!-- 2. 4:5 Feed Crop Line Guide (1080 × 1350) -->
+                    <div class="crop-guide-45" id="guide-45-crop" aria-hidden="true">
+                      <span class="crop-tag-45">4:5 Home Feed Crop (1080 × 1350)</span>
+                    </div>
+
+                    <!-- 3. 1:1 Profile Grid Crop Guide (1080 × 1080) -->
+                    <div class="crop-guide-11" id="guide-11-crop" aria-hidden="true">
+                      <span class="crop-tag-11">1:1 Profile Grid Thumbnail (1080 × 1080)</span>
+                    </div>
+
+                    <!-- 4. Rule of Thirds Grid -->
+                    <div class="grid-thirds-overlay" id="guide-thirds" style="display: none;" aria-hidden="true">
+                      <div class="third-line v1"></div>
+                      <div class="third-line v2"></div>
+                      <div class="third-line h1"></div>
+                      <div class="third-line h2"></div>
+                    </div>
+
+                    <!-- 5. Realistic Instagram UI Mockup Elements -->
+                    <div class="instagram-ui-mockup" id="insta-ui-elements" aria-hidden="true">
+                      
+                      <!-- Top Bar -->
+                      <div class="insta-top-bar">
+                        <div class="insta-top-left">
+                          <span class="insta-reels-title">Reels</span>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="insta-chevron-svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                          </svg>
+                        </div>
+                        <div class="insta-top-right">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="top-icon-svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316A2.192 2.192 0 0 0 14.53 4H9.47c-.527 0-1.026.262-1.332.712l-.822 1.316Z" />
+                          </svg>
+                        </div>
+                      </div>
+
+                      <!-- Right Interaction Column -->
+                      <div class="insta-right-column">
+                        <!-- Like -->
+                        <div class="ui-action-item">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ui-icon-svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                          </svg>
+                          <span class="ui-metric-label">84.2K</span>
+                        </div>
+
+                        <!-- Comment -->
+                        <div class="ui-action-item">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ui-icon-svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.693 9-8.25s-4.03-8.25-9-8.25S3 7.443 3 12c0 2.104.859 4.023 2.273 5.48L4.5 21l3.75-1.5c1.1.256 2.27.375 3.75.375Z" />
+                          </svg>
+                          <span class="ui-metric-label">1,240</span>
+                        </div>
+
+                        <!-- Share -->
+                        <div class="ui-action-item">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ui-icon-svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                          </svg>
+                          <span class="ui-metric-label">14.6K</span>
+                        </div>
+
+                        <!-- More -->
+                        <div class="ui-action-item">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ui-icon-svg">
+                            <circle cx="12" cy="12" r="1.5" />
+                            <circle cx="12" cy="5" r="1.5" />
+                            <circle cx="12" cy="19" r="1.5" />
+                          </svg>
+                        </div>
+
+                        <!-- Audio Disc -->
+                        <div class="ui-disc-box">
+                          <div class="disc-circle"></div>
+                        </div>
+                      </div>
+
+                      <!-- Bottom Caption & Profile Area -->
+                      <div class="insta-bottom-area">
+                        <div class="insta-profile-row">
+                          <div class="insta-avatar-mock"></div>
+                          <span class="insta-username-text">@creatorhandle</span>
+                          <span class="insta-follow-btn">Follow</span>
+                        </div>
+                        <p class="insta-caption-mock">
+                          How to design Instagram Reels that never get cut off by the UI... <span class="caption-more">more</span>
+                        </p>
+                        <div class="insta-audio-row">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="audio-note-svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" />
+                          </svg>
+                          <span class="audio-title-text">Original Audio - Creator Audio Track</span>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <!-- Legend Strip below Mockup -->
+                <div class="preview-legend-strip">
+                  <div class="legend-item">
+                    <span class="legend-dot green-dot"></span>
+                    <span>Safe Content Area</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot blue-dot"></span>
+                    <span>4:5 Home Feed Crop</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot purple-dot"></span>
+                    <span>1:1 Profile Grid Crop</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot gray-dot"></span>
+                    <span>Instagram UI Obstruction</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. EDITORIAL ARTICLE SECTION (Centered Max-Width 940px) -->
+    <article class="editorial-content-section" aria-label="Comprehensive Guide to Instagram Reels Safe Zones and Text Placement">
+      <div class="container editorial-inner">
+
+        <!-- Section 1: Introduction -->
+        <section class="editorial-block">
+          <h2>What Is an Instagram Reels Safe Zone Checker?</h2>
+          <p>
+            An <strong>Instagram Reels Safe Zone Checker</strong> is a visual design and layout verification tool that allows creators, social media managers, and video editors to test video frames and cover artwork against Instagram's dynamic interface overlays. While standard video editors display your clip in a clean, unobstructed 9:16 rectangle (1080 × 1920 pixels), the actual Instagram app overlays interactive icons, username tags, caption text, and navigation bars directly on top of your video.
+          </p>
+          <p>
+            If key subtitles, promotional discounts, headline typography, or human faces land beneath these native interface elements, viewers cannot read or engage with them. Using an online <strong>Reels safe zone tool</strong> ensures your messaging is placed where it is guaranteed to be seen, boosting video completion rates, click-throughs, and follower conversion.
+          </p>
+          <p>
+            Before exporting your final render, pair this safe zone preview with our <a href="/tools/video-compressor-for-reels">Video Compressor for Reels</a> to prevent upload blur, extract sharp thumbnail stills with our <a href="/tools/video-frame-grabber">Video Frame Grabber</a>, and optimize your captions with our <a href="/tools/instagram-caption-character-counter">Instagram Caption Character Counter</a>.
+          </p>
+        </section>
+
+        <!-- Section 2: Why Safe Zones Matter -->
+        <section class="editorial-block">
+          <h2>Why Safe Zones Matter for Instagram Reels Performance</h2>
+          <p>
+            On Instagram, viewer drop-off happens within the first three seconds. If your opening text hook is partially concealed behind the Reels audio disc, obscured by your profile handle, or chopped in half by the 4:5 feed crop, viewers swipe away immediately. Adhering to the <strong>Instagram Reels safe area</strong> provides three distinct competitive advantages:
+          </p>
+          <ul>
+            <li><strong>Maximum Subtitle Readability:</strong> Over 70% of social media users browse videos with audio muted. When automatic captions or animated subtitles stay inside the green safe boundary, silent viewers can follow your narrative effortlessly.</li>
+            <li><strong>Seamless Profile Grid Thumbnails:</strong> When visitors browse your profile grid, Instagram crops 9:16 Reels into 1:1 squares (1080 × 1080). Keeping your primary title inside the square center guarantees that your profile grid looks polished and professional without amputated titles.</li>
+            <li><strong>Algorithmic Retention Signals:</strong> The Instagram recommendation algorithm tracks average watch duration and completion percentage. Unobstructed, easy-to-read typography holds attention longer, signaling high content quality to the algorithm.</li>
+          </ul>
+        </section>
+
+        <!-- Section 3: The Three Instagram Viewing Surfaces -->
+        <section class="editorial-block">
+          <h2>The Three Instagram Viewing Surfaces: 9:16 vs. 4:5 vs. 1:1</h2>
+          <p>
+            One of the most confusing aspects of designing for Reels is that your single video file is displayed in three completely different aspect ratios across the Instagram application:
+          </p>
+
+          <div class="table-responsive">
+            <table class="editorial-data-table">
+              <thead>
+                <tr>
+                  <th>Viewing Surface</th>
+                  <th>Aspect Ratio</th>
+                  <th>Pixel Dimensions</th>
+                  <th>Where It Appears &amp; Cropping Behavior</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Fullscreen Reels Tab</strong></td>
+                  <td><strong>9:16 Vertical</strong></td>
+                  <td>1080 × 1920 px</td>
+                  <td>Full vertical screen in the dedicated Reels feed and Stories viewer. Subject to top, right, and bottom UI obstruction.</td>
+                </tr>
+                <tr>
+                  <td><strong>Home Feed Scroll</strong></td>
+                  <td><strong>4:5 Portrait</strong></td>
+                  <td>1080 × 1350 px</td>
+                  <td>In the scrollable home feed, Instagram trims 285px off the top and 285px off the bottom. Critical text must sit inside this 1350px window.</td>
+                </tr>
+                <tr>
+                  <td><strong>Profile Grid Thumbnail</strong></td>
+                  <td><strong>1:1 Square</strong></td>
+                  <td>1080 × 1080 px</td>
+                  <td>In your 3-column account profile grid, Instagram cuts 420px off the top and 420px off the bottom, displaying only the exact center square.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-footnote">
+            *Pro-Tip: Designing your primary visual hook inside the central 1080 × 1080 square ensures perfect presentation across all three surfaces.
+          </p>
+        </section>
+
+        <!-- Section 4: Instagram UI Obstruction Zones Breakdown -->
+        <section class="editorial-block">
+          <h2>Dissecting Instagram UI Obstruction Zones</h2>
+          <p>
+            To master <strong>Instagram Reels text placement</strong>, you must understand exactly where the app's native user interface sits:
+          </p>
+
+          <div class="obstruction-grid">
+            <div class="obstruction-card">
+              <div class="obstruction-header">
+                <h3>Top Header Zone (~270 px)</h3>
+                <span class="obstruction-badge">Top ~14%</span>
+              </div>
+              <p>
+                Contains the system status bar (time, battery, Wi-Fi), the "Reels" back button, and the camera/search icon. Never position titles or logos higher than 270px from the top edge.
+              </p>
+            </div>
+
+            <div class="obstruction-card">
+              <div class="obstruction-header">
+                <h3>Right Engagement Column (~170 px)</h3>
+                <span class="obstruction-badge">Right ~16%</span>
+              </div>
+              <p>
+                Houses the like heart, comment bubble, direct message share paper airplane, three-dots menu, and the spinning audio disc. Avoid placing text or focal faces within 170px of the right screen edge.
+              </p>
+            </div>
+
+            <div class="obstruction-card">
+              <div class="obstruction-header">
+                <h3>Bottom Metadata Zone (~420 px)</h3>
+                <span class="obstruction-badge">Bottom ~22%</span>
+              </div>
+              <p>
+                Displays your account avatar, @username, blue verification badge, follow CTA, caption preview, and scrolling audio track marquee. Subtitles placed in this zone are completely illegible.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 5: Common Safe Zone Mistakes -->
+        <section class="editorial-block">
+          <h2>5 Common Reels Safe Zone Mistakes and How to Avoid Them</h2>
+          <p>
+            Even seasoned content creators regularly make layout mistakes that hurt their reach, watch time, and click-through rates. Here are the five most frequent pitfalls and how to steer clear of them:
+          </p>
+          <ul>
+            <li><strong>Placing Auto-Captions at the Bottom Center:</strong> Third-party auto-caption apps and AI generators frequently default subtitle placement to the bottom 10% to 15% of the screen. Always nudge your subtitle track upward in your editor timeline so it rests roughly 25% to 35% above the bottom edge. This ensures complete clearance above the creator username, caption text, and audio track banner.</li>
+            <li><strong>Ignoring the 1:1 Profile Grid Cutoff:</strong> If your Reel cover contains headline text near the top or bottom of the 9:16 frame, your profile grid will display chopped words like "OW TO GROW" instead of "HOW TO GROW ON INSTAGRAM". Always verify that your thumbnail focal point and headline fit squarely inside the central 1080 × 1080 pixel box.</li>
+            <li><strong>Stretching Wide Headlines to the Right Margin:</strong> Keep headlines compact and centered. While full-width headlines look fine in desktop editors, Instagram's right-hand action column (like, comment, share, and audio disc) will overlap and obscure the rightmost 2 to 3 words on mobile devices. Keep headline width under 780 pixels.</li>
+            <li><strong>Assuming All Smartphone Screens Are Identical:</strong> Older iPhones use a standard 16:9 ratio (such as iPhone SE and iPhone 8), while modern flagship devices feature taller 19.5:9 or 20:9 displays (iPhone 15 Pro, Samsung Galaxy S24 Ultra). Furthermore, modern devices have rounded screen corners and dynamic island/notch cutouts. Maintaining a comfortable safety buffer around all four margins accommodates varying hardware display shapes.</li>
+            <li><strong>Using Low-Contrast Subtitles Without Outlines:</strong> White text over bright video backgrounds disappears even inside the safe zone. Always apply a 3px to 4px dark stroke outline, a subtle drop shadow, or a translucent dark background pill behind on-screen text to guarantee legibility across dynamic video scenes.</li>
+          </ul>
+        </section>
+
+        <!-- Section 6: How to Use Transparent Overlays in Video Editors -->
+        <section class="editorial-block">
+          <h2>How to Use Transparent Safe Zone Overlays in Video Editors</h2>
+          <p>
+            Our tool allows you to download a pixel-perfect, transparent 1080 × 1920 PNG overlay containing exact safe zone and crop guides. You can drop this guide directly into your favorite editing software timeline to verify text and element placement before you render:
+          </p>
+          <div class="workflow-steps-grid">
+            <div class="workflow-step-card">
+              <span class="workflow-step-number">1</span>
+              <h3>CapCut (Mobile &amp; Desktop)</h3>
+              <p>
+                Import your video onto the main track. Tap <strong>Overlay</strong> &gt; <strong>Add Overlay</strong> and select the downloaded transparent PNG. Drag the overlay clip across the entire length of your video timeline. Align your animated captions and stickers strictly inside the green safe area, then delete or hide the overlay track right before exporting.
+              </p>
+            </div>
+            <div class="workflow-step-card">
+              <span class="workflow-step-number">2</span>
+              <h3>Adobe Premiere Pro</h3>
+              <p>
+                Create a vertical 1080 × 1920 sequence (9:16 aspect ratio). Drag the transparent safe zone PNG onto the highest video track (e.g., <strong>V3</strong> or <strong>V4</strong>). Lock the track so it doesn't accidentally move while you edit. When your captions, callouts, and keyframed graphics are aligned, toggle the track eyeball icon off to hide the overlay before queuing your render in Media Encoder.
+              </p>
+            </div>
+            <div class="workflow-step-card">
+              <span class="workflow-step-number">3</span>
+              <h3>Final Cut Pro</h3>
+              <p>
+                Set your project format to <strong>Vertical</strong> (1080 × 1920). Drag the safe zone PNG as a connected clip above your primary storyline. Position text titles and lower-thirds inside the recommended boundaries. Press <strong>V</strong> to disable the overlay clip prior to master export.
+              </p>
+            </div>
+            <div class="workflow-step-card">
+              <span class="workflow-step-number">4</span>
+              <h3>Canva</h3>
+              <p>
+                Create an <strong>Instagram Reel</strong> design (1080 × 1920 px). Upload the transparent PNG guide into your Canva Uploads folder and stretch it to cover the entire canvas. Lock the image position. Lay out your text hooks, stickers, and brand elements inside the safe lines, then delete the guide image before downloading your MP4.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 7: Typography & Caption Best Practices -->
+        <section class="editorial-block">
+          <h2>Typography Best Practices for High-Retention Vertical Video</h2>
+          <p>
+            Capturing and holding attention in the Instagram Reels feed requires strategic typography choices that maximize instant readability on small mobile screens:
+          </p>
+          <ul>
+            <li><strong>Optimal Font Size:</strong> At full 1080 × 1920 resolution, primary text hooks should measure between 60pt and 80pt, while ongoing subtitle text should stay between 44pt and 54pt. Anything smaller than 40pt becomes difficult to read on 6-inch mobile screens without straining.</li>
+            <li><strong>Word Chunking (1 to 3 Words Per Screen):</strong> Research shows fast, synchronized 1 to 3 word subtitle chunks maintain dramatically higher visual momentum than multi-line sentence paragraphs. Keep animated subtitle cards concise so viewers absorb the message in real time without cognitive friction.</li>
+            <li><strong>Clean, Heavy Sans-Serif Typefaces:</strong> Choose bold, high-legibility typefaces such as Montserrat, Futura Bold, Inter, or The Bold Font. Avoid delicate script, thin handwriting, or overly condensed typefaces that blur during mobile video compression.</li>
+            <li><strong>Strategic Color Accents:</strong> Use high-contrast color highlights (such as vibrant yellow `#FACC15` or electric green `#22C55E` against white text) on core emotional trigger words. This guides the viewer's eye and emphasizes the central takeaway of each sentence.</li>
+          </ul>
+        </section>
+
+        <!-- Section 8: Pre-Publishing Checklist -->
+        <section class="editorial-block">
+          <h2>Pre-Publishing Safe Zone Checklist for Content Creators</h2>
+          <ol>
+            <li><strong>Upload Frame into Safe Zone Checker:</strong> Drop a representative video frame into this tool and verify that all text, faces, and graphics sit inside the green safe boundary.</li>
+            <li><strong>Check 4:5 Feed Preview:</strong> Toggle the 4:5 guide to ensure your headline hook is fully visible in the algorithmic home feed scroll before viewers tap to expand fullscreen.</li>
+            <li><strong>Check 1:1 Profile Crop:</strong> Ensure the cover focal point and title are centered within the 1080 × 1080 square so your account grid looks immaculate.</li>
+            <li><strong>Confirm Adequate Margin Buffer:</strong> Leave at least 65px on the left and 170px on the right to prevent overlap with the native Instagram engagement column and edge rounding.</li>
+            <li><strong>Export Clean 9:16 Video:</strong> Ensure your video is rendered in crisp 1080 × 1920 resolution at 30 or 60 fps with high bitrate settings.</li>
+            <li><strong>Test Sponsored Rates &amp; Metrics:</strong> Monetizing brand collaborations? Benchmark your pricing with our <a href="/tools/instagram-story-reel-calculator">Instagram Story &amp; Reel Rate Calculator</a> and audit your account engagement using our <a href="/tools/instagram-engagement-calculator">Instagram Engagement Calculator</a>.</li>
+          </ol>
+        </section>
+
+      </div>
+    </article>
+
+    <!-- 4. FREQUENTLY ASKED QUESTIONS SECTION (Centered Max-Width 940px) -->
+    <section class="tool-faq-section" aria-label="Frequently Asked Questions">
+      <div class="container faq-inner">
+        <div class="faq-header-wrap">
+          <h2 class="faq-headline">Frequently Asked Questions</h2>
+          <p class="faq-subhead">Everything you need to know about Instagram Reels safe zones, dimensions, and text placement.</p>
+        </div>
+
+        <div class="faq-accordion-wrap">
+          {faqs.map((faq) => (
+            <details class="faq-accordion-item">
+              <summary class="faq-summary">
+                <span class="faq-question-text">{faq.question}</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-chevron" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+              </summary>
+              <div class="faq-body">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. RELATED TOOLS BLOCK (4 Cards, Centered Max-Width 940px) -->
+    <section class="related-tools-section" aria-label="Related Creator Tools">
+      <div class="container related-inner">
+        <div class="related-header-wrap">
+          <h2 class="related-headline">Explore More Instagram Creator Tools</h2>
+          <p class="related-subhead">Pair this Reels safe zone preview tool with our suite of social media optimization utilities.</p>
+        </div>
+
+        <div class="related-tools-grid">
+          <!-- Card 1: Video Compressor for Reels -->
+          <a href="/tools/video-compressor-for-reels" class="related-tool-card">
+            <div class="tool-card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Video Compressor for Reels</h3>
+              <p class="tool-card-desc">Reduce video file size for Instagram Reels without losing crisp 1080p visual quality.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+              </svg>
+            </div>
+          </a>
+
+          <!-- Card 2: Video Frame Grabber -->
+          <a href="/tools/video-frame-grabber" class="related-tool-card">
+            <div class="tool-card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Video Frame Grabber</h3>
+              <p class="tool-card-desc">Extract full-resolution still photos and cover thumbnails from MP4, WebM, and MOV videos.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+              </svg>
+            </div>
+          </a>
+
+          <!-- Card 3: Instagram Story & Reel Rate Calculator -->
+          <a href="/tools/instagram-story-reel-calculator" class="related-tool-card">
+            <div class="tool-card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Instagram Story &amp; Reel Calculator</h3>
+              <p class="tool-card-desc">Calculate fair market rates for sponsored Instagram Reels, Story slides, and brand packages.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+              </svg>
+            </div>
+          </a>
+
+          <!-- Card 4: Instagram Caption Character Counter -->
+          <a href="/tools/instagram-caption-character-counter" class="related-tool-card">
+            <div class="tool-card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Instagram Caption Character Counter</h3>
+              <p class="tool-card-desc">Optimize Reel captions and hashtags against Instagram's 2,200 character limit.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+              </svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  /* ==========================================================================
+     GLOBAL TOOL PAGE WRAPPER & LAYOUT SYSTEM
+     ========================================================================== */
+  .tool-page-wrapper {
+    width: 100%;
+    overflow-x: hidden;
+    padding-bottom: 5rem;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 940px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(1rem, 3vw, 2rem);
+    padding-right: clamp(1rem, 3vw, 2rem);
+  }
+
+  /* ==========================================================================
+     1. HERO SECTION (Centered Max-Width 820px)
+     ========================================================================== */
+  .tool-hero-section {
+    padding-top: clamp(2rem, 5vw, 3.5rem);
+    padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+    text-align: center;
+  }
+
+  .hero-inner {
+    max-width: 820px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-breadcrumbs {
+    margin-bottom: 1.25rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-brand, #6366f1);
+    margin-bottom: 1.25rem;
+  }
+
+  .badge-icon-tool {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tool-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .badge-pill-free {
+    padding: 0.15rem 0.45rem;
+    border-radius: 9999px;
+    background: var(--color-brand, #6366f1);
+    color: #ffffff;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(2rem, 4.5vw, 2.85rem);
+    font-weight: 800;
+    line-height: 1.18;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-desc {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--color-text-muted, #64748b);
+    margin: 0 0 1.75rem 0;
+    max-width: 680px;
+  }
+
+  .hero-features-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+  }
+
+  .feature-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--color-text, #334155);
+  }
+
+  .chip-svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-brand, #6366f1);
+    flex-shrink: 0;
+  }
+
+  /* ==========================================================================
+     2. MAIN TOOL SECTION & SAAS TOOL CARD
+     ========================================================================== */
+  .tool-main-section {
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .tool-card-container {
+    max-width: 940px;
+  }
+
+  .saas-tool-card {
+    background: var(--color-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 20px;
+    padding: clamp(1.25rem, 3.5vw, 2.25rem);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 20px 40px -15px rgba(99, 102, 241, 0.04);
+  }
+
+  /* Header Bar */
+  .card-header-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 680px) {
+    .card-header-bar {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .header-title-cluster {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .card-icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .title-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .card-title-text {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0;
+  }
+
+  .card-sub-text {
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .header-controls-cluster {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .live-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: #059669;
+    background: #ecfdf5;
+    padding: 0.3rem 0.65rem;
+    border-radius: 9999px;
+    border: 1px solid #a7f3d0;
+  }
+
+  .live-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  }
+
+  .btn-reset-tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-reset-tool:hover {
+    color: var(--color-text, #0f172a);
+    background: var(--color-card, #ffffff);
+    border-color: #cbd5e1;
+  }
+
+  .reset-svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Studio Workspace Grid */
+  .studio-workspace-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  @media (min-width: 768px) {
+    .studio-workspace-grid {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+  }
+
+  /* Control Column Blocks */
+  .studio-controls-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .control-card-block {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .block-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .block-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .block-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-brand, #6366f1);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+  }
+
+  .btn-reset-margins {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-brand, #6366f1);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Dropzone Box */
+  .dropzone-box {
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    background: var(--color-card, #ffffff);
+    padding: 1.25rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .dropzone-box:hover,
+  .dropzone-box:focus-visible,
+  .dropzone-box.dragover {
+    border-color: var(--color-brand, #6366f1);
+    background: rgba(99, 102, 241, 0.03);
+  }
+
+  .hidden-file-input {
+    display: none;
+  }
+
+  .dropzone-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .upload-icon-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.15rem;
+  }
+
+  .upload-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .dropzone-prompt-text {
+    font-size: 0.875rem;
+    color: var(--color-text, #0f172a);
+  }
+
+  .dropzone-sub-text {
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .loaded-file-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    text-align: left;
+  }
+
+  .loaded-meta-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    overflow: hidden;
+  }
+
+  .loaded-filename {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 240px;
+  }
+
+  .loaded-specs {
+    font-size: 0.725rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .btn-change-file {
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-brand, #6366f1);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  /* Sample Presets */
+  .sample-presets-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .sample-presets-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .sample-buttons-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .btn-sample-preset {
+    padding: 0.25rem 0.65rem;
+    border-radius: 8px;
+    background: var(--color-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text, #334155);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-sample-preset:hover {
+    border-color: var(--color-brand, #6366f1);
+    color: var(--color-brand, #6366f1);
+  }
+
+  .btn-sample-preset.active {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: var(--color-brand, #6366f1);
+    color: var(--color-brand, #6366f1);
+    font-weight: 700;
+  }
+
+  /* Toggle Switches */
+  .toggle-switches-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .toggle-switch-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding: 0.35rem 0;
+  }
+
+  .toggle-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding-right: 1rem;
+  }
+
+  .toggle-main-label {
+    font-size: 0.825rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .toggle-sub-label {
+    font-size: 0.725rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .custom-toggle-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .toggle-slider {
+    width: 38px;
+    height: 22px;
+    background: #cbd5e1;
+    border-radius: 9999px;
+    position: relative;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .toggle-slider::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  }
+
+  .custom-toggle-input:checked + .toggle-slider {
+    background: var(--color-brand, #6366f1);
+  }
+
+  .custom-toggle-input:checked + .toggle-slider::after {
+    transform: translateX(16px);
+  }
+
+  /* Margins Sliders */
+  .margins-sliders-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .slider-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .slider-label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--color-text, #0f172a);
+  }
+
+  .slider-val {
+    color: var(--color-brand, #6366f1);
+    font-weight: 700;
+  }
+
+  .custom-range {
+    width: 100%;
+    height: 6px;
+    border-radius: 9999px;
+    background: #e2e8f0;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  }
+
+  .custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-brand, #6366f1);
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+
+  /* Fit Mode Radio Group */
+  .fit-mode-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .fit-label {
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--color-text, #0f172a);
+  }
+
+  .fit-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .fit-radio-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.775rem;
+    color: var(--color-text, #334155);
+    cursor: pointer;
+  }
+
+  /* Action Buttons Block */
+  .action-buttons-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .btn-download-primary {
+    width: 100%;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    background: var(--color-brand, #6366f1);
+    color: #ffffff;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+
+  .btn-download-primary:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .btn-download-secondary {
+    width: 100%;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+    border-radius: 12px;
+    background: var(--color-card, #ffffff);
+    color: var(--color-text, #0f172a);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-download-secondary:hover {
+    background: var(--color-bg-alt, #f8fafc);
+    border-color: #cbd5e1;
+  }
+
+  .action-btn-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ==========================================================================
+     PHONE MOCKUP PREVIEW STAGE (RIGHT COLUMN)
+     ========================================================================== */
+  .studio-preview-column {
+    display: flex;
+    justify-content: center;
+  }
+
+  .phone-mockup-wrapper {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Realistic 9:16 Mockup Frame */
+  .phone-frame-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #0f172a;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.35), 0 0 0 10px #1e293b, 0 0 0 11px rgba(255, 255, 255, 0.1);
+  }
+
+  .stage-canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Overlay Guides Layer */
+  .stage-overlay-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  /* 1. Safe Zone Box (Configurable Margins) */
+  .safe-zone-box {
+    position: absolute;
+    top: 14%;
+    bottom: 22%;
+    left: 6%;
+    right: 16%;
+    border: 2px solid #10b981;
+    background: rgba(16, 185, 129, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.3);
+    transition: all 0.1s ease-out;
+  }
+
+  .safe-zone-tag {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    padding: 2px 6px;
+    background: #10b981;
+    color: #ffffff;
+    font-size: 0.625rem;
+    font-weight: 700;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  /* 2. 4:5 Crop Line Guide (Top/Bottom Cutoff) */
+  .crop-guide-45 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 14.84%; /* (1920 - 1350) / 2 / 1920 = ~14.84% */
+    bottom: 14.84%;
+    border-top: 1.5px dashed #3b82f6;
+    border-bottom: 1.5px dashed #3b82f6;
+  }
+
+  .crop-tag-45 {
+    position: absolute;
+    bottom: 4px;
+    left: 6px;
+    padding: 2px 5px;
+    background: rgba(59, 130, 246, 0.85);
+    color: #ffffff;
+    font-size: 0.58rem;
+    font-weight: 600;
+    border-radius: 3px;
+  }
+
+  /* 3. 1:1 Profile Crop Guide */
+  .crop-guide-11 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 21.875%; /* (1920 - 1080) / 2 / 1920 = ~21.875% */
+    bottom: 21.875%;
+    border-top: 1.5px dashed #a855f7;
+    border-bottom: 1.5px dashed #a855f7;
+  }
+
+  .crop-tag-11 {
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    padding: 2px 5px;
+    background: rgba(168, 85, 247, 0.85);
+    color: #ffffff;
+    font-size: 0.58rem;
+    font-weight: 600;
+    border-radius: 3px;
+  }
+
+  /* 4. Rule of Thirds */
+  .grid-thirds-overlay {
+    position: absolute;
+    inset: 0;
+  }
+
+  .third-line {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .third-line.v1 { top: 0; bottom: 0; left: 33.33%; width: 1px; }
+  .third-line.v2 { top: 0; bottom: 0; left: 66.66%; width: 1px; }
+  .third-line.h1 { left: 0; right: 0; top: 33.33%; height: 1px; }
+  .third-line.h2 { left: 0; right: 0; top: 66.66%; height: 1px; }
+
+  /* 5. Instagram UI Mockup Elements */
+  .instagram-ui-mockup {
+    position: absolute;
+    inset: 0;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.75rem 0.65rem;
+    background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 15%, transparent 75%, rgba(0,0,0,0.5) 100%);
+  }
+
+  .insta-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .insta-top-left {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .insta-reels-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  .insta-chevron-svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .top-icon-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Right Column */
+  .insta-right-column {
+    position: absolute;
+    right: 0.65rem;
+    bottom: 4.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .ui-action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  .ui-icon-svg {
+    width: 22px;
+    height: 22px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+  }
+
+  .ui-metric-label {
+    font-size: 0.625rem;
+    font-weight: 600;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
+  }
+
+  .ui-disc-box {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    border: 2px solid #ffffff;
+    background: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.25rem;
+  }
+
+  .disc-circle {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ec4899;
+  }
+
+  /* Bottom Area */
+  .insta-bottom-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    max-width: 78%;
+  }
+
+  .insta-profile-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .insta-avatar-mock {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f59e0b, #ec4899);
+    border: 1.5px solid #ffffff;
+  }
+
+  .insta-username-text {
+    font-size: 0.775rem;
+    font-weight: 700;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
+  }
+
+  .insta-follow-btn {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 6px;
+  }
+
+  .insta-caption-mock {
+    font-size: 0.725rem;
+    line-height: 1.35;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
+  }
+
+  .caption-more {
+    opacity: 0.7;
+  }
+
+  .insta-audio-row {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .audio-note-svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .audio-title-text {
+    font-size: 0.625rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.9;
+  }
+
+  /* Legend Strip */
+  .preview-legend-strip {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.65rem;
+    font-size: 0.7rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .green-dot { background: #10b981; }
+  .blue-dot { background: #3b82f6; }
+  .purple-dot { background: #a855f7; }
+  .gray-dot { background: #94a3b8; }
+
+  /* ==========================================================================
+     3. EDITORIAL ARTICLE SECTION (Centered Max-Width 940px)
+     ========================================================================== */
+  .editorial-content-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .editorial-inner {
+    max-width: 940px;
+  }
+
+  .editorial-block {
+    margin-bottom: 3rem;
+  }
+
+  .editorial-block h2 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 2.7vw, 1.85rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    line-height: 1.25;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.015em;
+  }
+
+  .editorial-block h3 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    line-height: 1.35;
+    margin: 1.75rem 0 0.65rem 0;
+  }
+
+  .editorial-block p {
+    font-size: clamp(0.925rem, 1.8vw, 1rem);
+    line-height: 1.75;
+    color: var(--color-text, #334155);
+    margin: 0 0 1.25rem 0;
+  }
+
+  .editorial-block p strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  .editorial-block a {
+    color: var(--color-brand, #6366f1);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+
+  .editorial-block a:hover {
+    color: #4f46e5;
+  }
+
+  .editorial-block ul, .editorial-block ol {
+    margin: 0 0 1.5rem 0;
+    padding-left: 1.35rem;
+  }
+
+  .editorial-block li {
+    font-size: clamp(0.925rem, 1.8vw, 1rem);
+    line-height: 1.7;
+    color: var(--color-text, #334155);
+    margin-bottom: 0.65rem;
+  }
+
+  .editorial-block li strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  /* Editorial Data Table */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 14px;
+    border: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .editorial-data-table th {
+    background: var(--color-bg-alt, #f8fafc);
+    padding: 0.85rem 1rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table td {
+    padding: 0.85rem 1rem;
+    color: var(--color-text, #334155);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .editorial-data-table tr:hover td {
+    background: var(--color-bg-alt, #f8fafc);
+  }
+
+  .table-footnote {
+    font-size: 0.775rem;
+    color: var(--color-text-muted, #64748b);
+    font-style: italic;
+    margin-top: -0.75rem !important;
+  }
+
+  /* Obstruction 3-Grid */
+  .obstruction-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .obstruction-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .obstruction-card {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .obstruction-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .obstruction-header h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .obstruction-badge {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 6px;
+    background: var(--color-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    color: #dc2626;
+  }
+
+  .obstruction-card p {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* Workflow Steps Grid */
+  .workflow-steps-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  @media (min-width: 640px) {
+    .workflow-steps-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .workflow-step-card {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .workflow-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--color-brand, #6366f1);
+    color: #ffffff;
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  .workflow-step-card h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .workflow-step-card p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* ==========================================================================
+     4. FAQ SECTION (Centered Max-Width 940px)
+     ========================================================================== */
+  .tool-faq-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .faq-inner {
+    max-width: 940px;
+  }
+
+  .faq-header-wrap {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .faq-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .faq-subhead {
+    font-size: 0.95rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .faq-accordion-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .faq-accordion-item {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+
+  .faq-accordion-item:hover {
+    border-color: #cbd5e1;
+  }
+
+  .faq-accordion-item[open] {
+    background: var(--color-card, #ffffff);
+    border-color: #c7d2fe;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.05);
+  }
+
+  .faq-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.15rem 1.35rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-text, #0f172a);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand, #6366f1);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 0.75rem;
+  }
+
+  .faq-accordion-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-body {
+    padding: 0 1.35rem 1.35rem 1.35rem;
+  }
+
+  .faq-body p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* ==========================================================================
+     5. RELATED TOOLS SECTION (4 Cards, Centered Max-Width 940px)
+     ========================================================================== */
+  .related-tools-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    border-top: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .related-inner {
+    max-width: 940px;
+  }
+
+  .related-header-wrap {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .related-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .related-subhead {
+    font-size: 0.95rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .related-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 600px) {
+    .related-tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .related-tool-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--color-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .related-tool-card:hover {
+    border-color: var(--color-brand, #6366f1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.08);
+  }
+
+  .tool-card-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .related-tool-card:hover .tool-card-icon-box {
+    transform: scale(1.08);
+  }
+
+  .tool-card-icon-box svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .tool-card-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tool-card-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.975rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+  }
+
+  .tool-card-desc {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tool-card-arrow {
+    width: 20px;
+    height: 20px;
+    color: var(--color-text-muted, #64748b);
+    flex-shrink: 0;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .related-tool-card:hover .tool-card-arrow {
+    color: var(--color-brand, #6366f1);
+    transform: translateX(3px);
+  }
+
+  .tool-card-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ==========================================================================
+     DARK THEME SUPPORT (:global([data-theme="dark"]))
+     ========================================================================== */
+  :global([data-theme="dark"]) .saas-tool-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+  }
+
+  :global([data-theme="dark"]) .card-header-bar,
+  :global([data-theme="dark"]) .tool-faq-section,
+  :global([data-theme="dark"]) .related-tools-section,
+  :global([data-theme="dark"]) .table-responsive,
+  :global([data-theme="dark"]) .editorial-data-table th,
+  :global([data-theme="dark"]) .editorial-data-table td,
+  :global([data-theme="dark"]) .fit-mode-row {
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .control-card-block,
+  :global([data-theme="dark"]) .obstruction-card,
+  :global([data-theme="dark"]) .workflow-step-card,
+  :global([data-theme="dark"]) .faq-accordion-item {
+    background: #0f172a;
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .dropzone-box,
+  :global([data-theme="dark"]) .btn-sample-preset,
+  :global([data-theme="dark"]) .btn-download-secondary {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+  }
+
+  :global([data-theme="dark"]) .btn-reset-tool,
+  :global([data-theme="dark"]) .btn-change-file {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f1f5f9;
+  }
+
+  :global([data-theme="dark"]) .editorial-data-table th {
+    background: #0f172a;
+    color: #f8fafc;
+  }
+
+  :global([data-theme="dark"]) .editorial-data-table tr:hover td {
+    background: #0f172a;
+  }
+
+  :global([data-theme="dark"]) .faq-accordion-item[open] {
+    background: #1e293b;
+    border-color: #4f46e5;
+  }
+
+  :global([data-theme="dark"]) .related-tool-card {
+    background: #1e293b;
+    border-color: #334155;
+  }
+</style>
+
+<script>
+  function initInstagramReelsSafeZoneChecker() {
+    // Canvas & Stage Elements
+    const canvas = document.getElementById('preview-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Overlay Elements
+    const guideSafeBox = document.getElementById('guide-safe-box');
+    const guide45Crop = document.getElementById('guide-45-crop');
+    const guide11Crop = document.getElementById('guide-11-crop');
+    const guideThirds = document.getElementById('guide-thirds');
+    const instaUiElements = document.getElementById('insta-ui-elements');
+
+    // Controls
+    const dropzone = document.getElementById('dropzone');
+    const mediaInput = document.getElementById('media-file-input');
+    const dropzonePrompt = document.getElementById('dropzone-prompt');
+    const loadedFileIndicator = document.getElementById('loaded-file-indicator');
+    const labelFilename = document.getElementById('label-filename');
+    const labelDimensions = document.getElementById('label-dimensions');
+    const btnChangeFile = document.getElementById('btn-change-file');
+    const btnResetTool = document.getElementById('btn-reset-tool');
+    const samplePresetBtns = document.querySelectorAll('.btn-sample-preset');
+
+    // Toggle Checkboxes
+    const toggleSafeZone = document.getElementById('toggle-safe-zone');
+    const toggleInstaUi = document.getElementById('toggle-insta-ui');
+    const toggleCropLines = document.getElementById('toggle-crop-lines');
+    const toggleGridThirds = document.getElementById('toggle-grid-thirds');
+
+    // Sliders
+    const sliderTop = document.getElementById('slider-margin-top');
+    const sliderBottom = document.getElementById('slider-margin-bottom');
+    const sliderRight = document.getElementById('slider-margin-right');
+    const sliderLeft = document.getElementById('slider-margin-left');
+
+    const valTop = document.getElementById('val-margin-top');
+    const valBottom = document.getElementById('val-margin-bottom');
+    const valRight = document.getElementById('val-margin-right');
+    const valLeft = document.getElementById('val-margin-left');
+
+    const btnResetMargins = document.getElementById('btn-reset-margins');
+    const scaleRadios = document.querySelectorAll('input[name="scale-mode"]');
+
+    // Download Buttons
+    const btnDownloadPreview = document.getElementById('btn-download-preview');
+    const btnDownloadTemplate = document.getElementById('btn-download-template');
+
+    // State Variables
+    let currentImage = new Image();
+    let isDefaultSample = true;
+    let sampleType = 'creator';
+    let scaleMode = 'cover'; // 'cover' | 'contain'
+    let mediaBlobUrl = null;
+
+    // Default Margins (%)
+    const DEFAULTS = { top: 14, bottom: 22, right: 16, left: 6 };
+
+    // Built-in high-res procedural demo graphics
+    function generateDemoCanvas(type) {
+      const offscreen = document.createElement('canvas');
+      offscreen.width = 1080;
+      offscreen.height = 1920;
+      const offCtx = offscreen.getContext('2d');
+      if (!offCtx) return offscreen;
+
+      if (type === 'creator') {
+        // Talking Head Creator Demo
+        const grad = offCtx.createLinearGradient(0, 0, 1080, 1920);
+        grad.addColorStop(0, '#1e1b4b');
+        grad.addColorStop(0.5, '#312e81');
+        grad.addColorStop(1, '#0f172a');
+        offCtx.fillStyle = grad;
+        offCtx.fillRect(0, 0, 1080, 1920);
+
+        // Studio lighting glow
+        const rad = offCtx.createRadialGradient(540, 720, 50, 540, 720, 600);
+        rad.addColorStop(0, 'rgba(129, 140, 248, 0.35)');
+        rad.addColorStop(1, 'rgba(0,0,0,0)');
+        offCtx.fillStyle = rad;
+        offCtx.fillRect(0, 0, 1080, 1920);
+
+        // Creator Head Silhouette
+        offCtx.fillStyle = '#4338ca';
+        offCtx.beginPath();
+        offCtx.arc(540, 700, 220, 0, Math.PI * 2);
+        offCtx.fill();
+        offCtx.beginPath();
+        offCtx.ellipse(540, 1200, 420, 320, 0, 0, Math.PI * 2);
+        offCtx.fill();
+
+        // Sample Text Hook (Demonstrating perfect safe zone positioning)
+        offCtx.fillStyle = '#ffffff';
+        offCtx.font = 'bold 64px Outfit, sans-serif';
+        offCtx.textAlign = 'center';
+        offCtx.fillText('HOW TO SCALE REELS', 540, 380);
+        offCtx.font = '600 42px Outfit, sans-serif';
+        offCtx.fillStyle = '#cbd5e1';
+        offCtx.fillText('Without Getting Text Covered by UI', 540, 450);
+
+        // Subtitle Hook inside 1:1 grid
+        offCtx.fillStyle = '#fbbf24';
+        offCtx.font = 'bold 50px Outfit, sans-serif';
+        offCtx.fillText('Keep Focal Point in 1:1 Center', 540, 1050);
+
+      } else if (type === 'product') {
+        // E-Commerce Product Reel
+        const grad = offCtx.createLinearGradient(0, 0, 1080, 1920);
+        grad.addColorStop(0, '#831843');
+        grad.addColorStop(0.5, '#be185d');
+        grad.addColorStop(1, '#500724');
+        offCtx.fillStyle = grad;
+        offCtx.fillRect(0, 0, 1080, 1920);
+
+        // Product Box Mockup
+        offCtx.fillStyle = '#fce7f3';
+        offCtx.beginPath();
+        offCtx.roundRect(320, 680, 440, 560, 24);
+        offCtx.fill();
+
+        // Ribbon
+        offCtx.fillStyle = '#db2777';
+        offCtx.fillRect(480, 680, 120, 560);
+
+        // Top Hook
+        offCtx.fillStyle = '#ffffff';
+        offCtx.font = '800 70px Outfit, sans-serif';
+        offCtx.textAlign = 'center';
+        offCtx.fillText('SUMMER DROP 2026', 540, 390);
+
+        // Price badge in safe area
+        offCtx.fillStyle = '#ffffff';
+        offCtx.font = 'bold 44px Outfit, sans-serif';
+        offCtx.fillText('Special 30% Off Launch', 540, 460);
+
+      } else {
+        // Aesthetic Quote Card
+        const grad = offCtx.createLinearGradient(0, 0, 1080, 1920);
+        grad.addColorStop(0, '#042f2e');
+        grad.addColorStop(0.5, '#0f766e');
+        grad.addColorStop(1, '#115e59');
+        offCtx.fillStyle = grad;
+        offCtx.fillRect(0, 0, 1080, 1920);
+
+        offCtx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+        offCtx.beginPath();
+        offCtx.roundRect(140, 560, 800, 800, 32);
+        offCtx.fill();
+        offCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        offCtx.lineWidth = 2;
+        offCtx.stroke();
+
+        offCtx.fillStyle = '#ffffff';
+        offCtx.font = 'italic 52px serif';
+        offCtx.textAlign = 'center';
+        offCtx.fillText('"Consistency beats talent', 540, 920);
+        offCtx.fillText('when talent refuses to post."', 540, 1000);
+
+        offCtx.font = '600 36px Outfit, sans-serif';
+        offCtx.fillStyle = '#a7f3d0';
+        offCtx.fillText('@dailyquotes', 540, 1140);
+      }
+
+      return offscreen;
+    }
+
+    function renderStage() {
+      ctx.clearRect(0, 0, 1080, 1920);
+
+      // Draw background / image
+      if (currentImage && currentImage.complete && currentImage.naturalWidth > 0) {
+        const iw = currentImage.naturalWidth;
+        const ih = currentImage.naturalHeight;
+        const cw = 1080;
+        const ch = 1920;
+
+        if (scaleMode === 'cover') {
+          const imgRatio = iw / ih;
+          const canvasRatio = cw / ch;
+          let renderW = cw;
+          let renderH = ch;
+          let offsetX = 0;
+          let offsetY = 0;
+
+          if (imgRatio > canvasRatio) {
+            renderW = ch * imgRatio;
+            offsetX = (cw - renderW) / 2;
+          } else {
+            renderH = cw / imgRatio;
+            offsetY = (ch - renderH) / 2;
+          }
+          ctx.drawImage(currentImage, offsetX, offsetY, renderW, renderH);
+        } else {
+          // Contain (letterbox)
+          ctx.fillStyle = '#0f172a';
+          ctx.fillRect(0, 0, cw, ch);
+          const imgRatio = iw / ih;
+          const canvasRatio = cw / ch;
+          let renderW = cw;
+          let renderH = ch;
+          let offsetX = 0;
+          let offsetY = 0;
+
+          if (imgRatio > canvasRatio) {
+            renderH = cw / imgRatio;
+            offsetY = (ch - renderH) / 2;
+          } else {
+            renderW = ch * imgRatio;
+            offsetX = (cw - renderW) / 2;
+          }
+          ctx.drawImage(currentImage, offsetX, offsetY, renderW, renderH);
+        }
+      }
+
+      updateOverlays();
+    }
+
+    function updateOverlays() {
+      const topPct = parseFloat(sliderTop ? sliderTop.value : '14');
+      const bottomPct = parseFloat(sliderBottom ? sliderBottom.value : '22');
+      const rightPct = parseFloat(sliderRight ? sliderRight.value : '16');
+      const leftPct = parseFloat(sliderLeft ? sliderLeft.value : '6');
+
+      // Update text labels
+      if (valTop) valTop.textContent = `${topPct}% (~${Math.round(1920 * (topPct / 100))}px)`;
+      if (valBottom) valBottom.textContent = `${bottomPct}% (~${Math.round(1920 * (bottomPct / 100))}px)`;
+      if (valRight) valRight.textContent = `${rightPct}% (~${Math.round(1080 * (rightPct / 100))}px)`;
+      if (valLeft) valLeft.textContent = `${leftPct}% (~${Math.round(1080 * (leftPct / 100))}px)`;
+
+      // Apply margins to Safe Zone Box
+      if (guideSafeBox) {
+        guideSafeBox.style.top = `${topPct}%`;
+        guideSafeBox.style.bottom = `${bottomPct}%`;
+        guideSafeBox.style.right = `${rightPct}%`;
+        guideSafeBox.style.left = `${leftPct}%`;
+        guideSafeBox.style.display = (toggleSafeZone && toggleSafeZone.checked) ? 'block' : 'none';
+      }
+
+      // 4:5 and 1:1 crops
+      const showCrops = toggleCropLines && toggleCropLines.checked;
+      if (guide45Crop) guide45Crop.style.display = showCrops ? 'block' : 'none';
+      if (guide11Crop) guide11Crop.style.display = showCrops ? 'block' : 'none';
+
+      // Rule of Thirds
+      if (guideThirds) {
+        guideThirds.style.display = (toggleGridThirds && toggleGridThirds.checked) ? 'block' : 'none';
+      }
+
+      // Instagram UI Mockup
+      if (instaUiElements) {
+        instaUiElements.style.display = (toggleInstaUi && toggleInstaUi.checked) ? 'flex' : 'none';
+      }
+    }
+
+    function loadSample(type) {
+      sampleType = type;
+      isDefaultSample = true;
+      const demoCanvas = generateDemoCanvas(type);
+      currentImage.src = demoCanvas.toDataURL('image/png');
+      currentImage.onload = () => {
+        renderStage();
+        if (dropzonePrompt) dropzonePrompt.style.display = 'flex';
+        if (loadedFileIndicator) loadedFileIndicator.style.display = 'none';
+      };
+    }
+
+    function handleFileSelection(file) {
+      if (!file) return;
+
+      const isVideo = file.type.startsWith('video/') || /\.(mp4|webm|mov)$/i.test(file.name);
+      const isImage = file.type.startsWith('image/') || /\.(png|jpe?g|webp)$/i.test(file.name);
+
+      if (!isVideo && !isImage) {
+        alert('Please upload an image (PNG, JPG, WebP) or video file (MP4, WebM, MOV).');
+        return;
+      }
+
+      isDefaultSample = false;
+      samplePresetBtns.forEach(b => b.classList.remove('active'));
+
+      if (labelFilename) labelFilename.textContent = file.name;
+
+      if (mediaBlobUrl) {
+        URL.revokeObjectURL(mediaBlobUrl);
+      }
+      mediaBlobUrl = URL.createObjectURL(file);
+
+      if (isImage) {
+        currentImage.src = mediaBlobUrl;
+        currentImage.onload = () => {
+          if (labelDimensions) {
+            labelDimensions.textContent = `${currentImage.naturalWidth} × ${currentImage.naturalHeight} • ${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+          }
+          if (dropzonePrompt) dropzonePrompt.style.display = 'none';
+          if (loadedFileIndicator) loadedFileIndicator.style.display = 'flex';
+          renderStage();
+        };
+      } else {
+        // Video Frame Extraction
+        const vid = document.createElement('video');
+        vid.src = mediaBlobUrl;
+        vid.muted = true;
+        vid.playsInline = true;
+        vid.currentTime = 0.1; // Seek to early keyframe
+        vid.onloadeddata = () => {
+          const vCanvas = document.createElement('canvas');
+          vCanvas.width = vid.videoWidth || 1080;
+          vCanvas.height = vid.videoHeight || 1920;
+          const vCtx = vCanvas.getContext('2d');
+          if (vCtx) {
+            vCtx.drawImage(vid, 0, 0, vCanvas.width, vCanvas.height);
+            currentImage.src = vCanvas.toDataURL('image/png');
+            currentImage.onload = () => {
+              if (labelDimensions) {
+                labelDimensions.textContent = `${vid.videoWidth} × ${vid.videoHeight} • Video Frame`;
+              }
+              if (dropzonePrompt) dropzonePrompt.style.display = 'none';
+              if (loadedFileIndicator) loadedFileIndicator.style.display = 'flex';
+              renderStage();
+            };
+          }
+        };
+      }
+    }
+
+    // Drag and Drop Listeners
+    if (dropzone) {
+      dropzone.addEventListener('click', (e) => {
+        if (e.target && (e.target.id === 'btn-change-file' || e.target.closest('#btn-change-file'))) {
+          return;
+        }
+        if (mediaInput) mediaInput.click();
+      });
+
+      ['dragenter', 'dragover'].forEach(evt => {
+        dropzone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add('dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(evt => {
+        dropzone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove('dragover');
+        });
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files.length > 0) {
+          handleFileSelection(dt.files[0]);
+        }
+      });
+    }
+
+    if (mediaInput) {
+      mediaInput.addEventListener('change', () => {
+        if (mediaInput.files && mediaInput.files.length > 0) {
+          handleFileSelection(mediaInput.files[0]);
+        }
+      });
+    }
+
+    if (btnChangeFile) {
+      btnChangeFile.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (mediaInput) mediaInput.click();
+      });
+    }
+
+    // Sample preset click
+    samplePresetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        samplePresetBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const st = btn.getAttribute('data-sample') || 'creator';
+        loadSample(st);
+      });
+    });
+
+    // Reset Tool
+    if (btnResetTool) {
+      btnResetTool.addEventListener('click', () => {
+        if (mediaInput) mediaInput.value = '';
+        if (mediaBlobUrl) {
+          URL.revokeObjectURL(mediaBlobUrl);
+          mediaBlobUrl = null;
+        }
+        samplePresetBtns.forEach(b => b.classList.remove('active'));
+        const firstPreset = document.querySelector('.btn-sample-preset[data-sample="creator"]');
+        if (firstPreset) firstPreset.classList.add('active');
+        loadSample('creator');
+      });
+    }
+
+    // Toggle Checkboxes Listeners
+    [toggleSafeZone, toggleInstaUi, toggleCropLines, toggleGridThirds].forEach(toggle => {
+      if (toggle) toggle.addEventListener('change', updateOverlays);
+    });
+
+    // Sliders Listeners
+    [sliderTop, sliderBottom, sliderRight, sliderLeft].forEach(slider => {
+      if (slider) slider.addEventListener('input', updateOverlays);
+    });
+
+    // Reset Margins Button
+    if (btnResetMargins) {
+      btnResetMargins.addEventListener('click', () => {
+        if (sliderTop) sliderTop.value = String(DEFAULTS.top);
+        if (sliderBottom) sliderBottom.value = String(DEFAULTS.bottom);
+        if (sliderRight) sliderRight.value = String(DEFAULTS.right);
+        if (sliderLeft) sliderLeft.value = String(DEFAULTS.left);
+        updateOverlays();
+      });
+    }
+
+    // Scale Mode Radio Listeners
+    scaleRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) {
+          scaleMode = radio.value;
+          renderStage();
+        }
+      });
+    });
+
+    // =========================================================================
+    // EXPORT & DOWNLOAD CAPABILITIES
+    // =========================================================================
+    // 1. Download Composed Preview with Safe Zones (1080 × 1920 PNG)
+    if (btnDownloadPreview) {
+      btnDownloadPreview.addEventListener('click', () => {
+        const exportCanvas = document.createElement('canvas');
+        exportCanvas.width = 1080;
+        exportCanvas.height = 1920;
+        const eCtx = exportCanvas.getContext('2d');
+        if (!eCtx) return;
+
+        // Draw image layer
+        eCtx.drawImage(canvas, 0, 0);
+
+        const topPct = parseFloat(sliderTop ? sliderTop.value : '14') / 100;
+        const bottomPct = parseFloat(sliderBottom ? sliderBottom.value : '22') / 100;
+        const rightPct = parseFloat(sliderRight ? sliderRight.value : '16') / 100;
+        const leftPct = parseFloat(sliderLeft ? sliderLeft.value : '6') / 100;
+
+        const safeX = 1080 * leftPct;
+        const safeY = 1920 * topPct;
+        const safeW = 1080 * (1 - leftPct - rightPct);
+        const safeH = 1920 * (1 - topPct - bottomPct);
+
+        // Draw Safe Zone Box if enabled
+        if (toggleSafeZone && toggleSafeZone.checked) {
+          eCtx.strokeStyle = '#10b981';
+          eCtx.lineWidth = 4;
+          eCtx.strokeRect(safeX, safeY, safeW, safeH);
+
+          eCtx.fillStyle = 'rgba(16, 185, 129, 0.12)';
+          eCtx.fillRect(safeX, safeY, safeW, safeH);
+
+          eCtx.fillStyle = '#10b981';
+          eCtx.font = 'bold 24px sans-serif';
+          eCtx.fillText('CONTENT SAFE AREA', safeX + 12, safeY + 36);
+        }
+
+        // Draw 4:5 Crop if enabled (Top/Bottom 285px)
+        if (toggleCropLines && toggleCropLines.checked) {
+          eCtx.strokeStyle = '#3b82f6';
+          eCtx.lineWidth = 3;
+          eCtx.setLineDash([12, 8]);
+          eCtx.beginPath();
+          eCtx.moveTo(0, 285);
+          eCtx.lineTo(1080, 285);
+          eCtx.moveTo(0, 1635);
+          eCtx.lineTo(1080, 1635);
+          eCtx.stroke();
+
+          // 1:1 Profile Crop (Top/Bottom 420px)
+          eCtx.strokeStyle = '#a855f7';
+          eCtx.beginPath();
+          eCtx.moveTo(0, 420);
+          eCtx.lineTo(1080, 420);
+          eCtx.moveTo(0, 1500);
+          eCtx.lineTo(1080, 1500);
+          eCtx.stroke();
+          eCtx.setLineDash([]);
+        }
+
+        // Download trigger
+        const link = document.createElement('a');
+        link.download = 'instagram_reels_safe_zone_preview.png';
+        link.href = exportCanvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+
+    // 2. Download Transparent 9:16 Overlay Template (1080 × 1920 PNG)
+    if (btnDownloadTemplate) {
+      btnDownloadTemplate.addEventListener('click', () => {
+        const templateCanvas = document.createElement('canvas');
+        templateCanvas.width = 1080;
+        templateCanvas.height = 1920;
+        const tCtx = templateCanvas.getContext('2d');
+        if (!tCtx) return;
+
+        // Clear to transparent
+        tCtx.clearRect(0, 0, 1080, 1920);
+
+        // Safe Zone Box
+        const topPct = parseFloat(sliderTop ? sliderTop.value : '14') / 100;
+        const bottomPct = parseFloat(sliderBottom ? sliderBottom.value : '22') / 100;
+        const rightPct = parseFloat(sliderRight ? sliderRight.value : '16') / 100;
+        const leftPct = parseFloat(sliderLeft ? sliderLeft.value : '6') / 100;
+
+        const safeX = 1080 * leftPct;
+        const safeY = 1920 * topPct;
+        const safeW = 1080 * (1 - leftPct - rightPct);
+        const safeH = 1920 * (1 - topPct - bottomPct);
+
+        tCtx.strokeStyle = '#10b981';
+        tCtx.lineWidth = 4;
+        tCtx.strokeRect(safeX, safeY, safeW, safeH);
+
+        tCtx.fillStyle = 'rgba(16, 185, 129, 0.1)';
+        tCtx.fillRect(safeX, safeY, safeW, safeH);
+
+        tCtx.fillStyle = '#10b981';
+        tCtx.font = 'bold 28px sans-serif';
+        tCtx.fillText('CONTENT SAFE ZONE', safeX + 16, safeY + 40);
+
+        // 4:5 Crop Line Guide (Top/Bottom 285px)
+        tCtx.strokeStyle = '#3b82f6';
+        tCtx.lineWidth = 3;
+        tCtx.setLineDash([14, 8]);
+        tCtx.beginPath();
+        tCtx.moveTo(0, 285);
+        tCtx.lineTo(1080, 285);
+        tCtx.moveTo(0, 1635);
+        tCtx.lineTo(1080, 1635);
+        tCtx.stroke();
+        tCtx.fillStyle = '#3b82f6';
+        tCtx.font = 'bold 22px sans-serif';
+        tCtx.fillText('4:5 FEED CROP TOP (285px)', 16, 275);
+        tCtx.fillText('4:5 FEED CROP BOTTOM (1635px)', 16, 1665);
+
+        // 1:1 Profile Crop Guide (Top/Bottom 420px)
+        tCtx.strokeStyle = '#a855f7';
+        tCtx.beginPath();
+        tCtx.moveTo(0, 420);
+        tCtx.lineTo(1080, 420);
+        tCtx.moveTo(0, 1500);
+        tCtx.lineTo(1080, 1500);
+        tCtx.stroke();
+        tCtx.fillStyle = '#a855f7';
+        tCtx.fillText('1:1 PROFILE GRID TOP (420px)', 16, 410);
+        tCtx.fillText('1:1 PROFILE GRID BOTTOM (1500px)', 16, 1530);
+
+        const link = document.createElement('a');
+        link.download = 'instagram_reels_9x16_safe_zone_template.png';
+        link.href = templateCanvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+
+    // Initial Load
+    loadSample('creator');
+  }
+
+  // Handle both DOM load and Astro view transitions
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initInstagramReelsSafeZoneChecker);
+  } else {
+    initInstagramReelsSafeZoneChecker();
+  }
+
+  document.addEventListener('astro:after-swap', initInstagramReelsSafeZoneChecker);
+</script>

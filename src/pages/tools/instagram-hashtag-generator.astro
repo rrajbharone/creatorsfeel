@@ -1,0 +1,2576 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const faqs = [
+  {
+    question: "How does the Instagram Hashtag Generator suggest relevant tags?",
+    answer: "Our Instagram Hashtag Generator analyzes your post description, topic keywords, and selected content category. It searches for matching tags and organizes them into three distinct discovery tiers: Broad hashtags (high reach), Niche hashtags (targeted communities), and Content-Specific hashtags (closely tied to your exact post theme). When configured with a public Instagram data provider like SandBase, it incorporates verified public media counts to help you evaluate tag competition."
+  },
+  {
+    question: "How many hashtags should I use on an Instagram post or Reel?",
+    answer: "While Instagram permits up to 30 hashtags per feed post or Reel, current official creator guidance recommends focusing on 3 to 5 highly relevant, specific hashtags rather than stuffing all 30. A focused mix of 1 broad category tag, 2 niche community tags, and 2 content-specific tags signals topical relevance to Instagram's recommendation algorithms without triggering spam filters."
+  },
+  {
+    question: "What is the difference between broad, niche, and content-specific hashtags?",
+    answer: "Broad hashtags (such as #fashion or #travel) have millions of posts and provide initial broad categorization, but your content is buried within seconds. Niche hashtags (such as #sustainablefashion or #solofemaletraveler) have 50K to 500K posts, attracting dedicated communities and high-intent engagement. Content-Specific hashtags (such as #linenpantstyle or #amalficoastguide) directly describe the exact scene, product, or tutorial shown in your post."
+  },
+  {
+    question: "Does using high-volume hashtags guarantee more views and followers?",
+    answer: "No. High-volume hashtags do not guarantee reach or engagement. Because millions of users post to tags like #love or #viral simultaneously, your post is pushed out of the recent tab almost instantaneously. Algorithm discovery is driven primarily by audience watch time, saves, shares, and topical relevance. Using niche tags where your content can rank in top search results delivers significantly better organic discovery."
+  },
+  {
+    question: "Should I place hashtags in the caption or the first comment?",
+    answer: "Instagram's search team has confirmed that placing hashtags directly in the main caption delivers superior algorithmic indexing. When keywords and hashtags reside in the caption text, Instagram's natural language search algorithms can parse the complete contextual relationship between your words, helping your content appear in Explore recommendations and keyword search results."
+  },
+  {
+    question: "How do I connect live SandBase Instagram data to this tool?",
+    answer: "This tool is built with a server-side Cloudflare Pages Function at /api/instagram-hashtags. To enable live Instagram search queries and verified post counts, set your SANDBASE_API_KEY secret in your Cloudflare Pages environment variables (or in .dev.vars for local development). If the key is not set or the API is unavailable, the tool seamlessly uses our curated semantic taxonomy."
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'Instagram Hashtag Generator', item: '/tools/instagram-hashtag-generator' }
+];
+
+const origin = Astro.site ? Astro.site.origin : "https://creatorsfeel.com";
+const canonicalUrl = new URL(Astro.url.pathname, origin).href;
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": `${canonicalUrl}#application`,
+  "name": "Instagram Hashtag Generator",
+  "url": canonicalUrl,
+  "applicationCategory": "SocialMediaApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Free Instagram Hashtag Generator. Discover relevant broad, niche, and content-specific hashtags for Instagram Reels, photos, and carousels with one-click copy."
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${canonicalUrl}#faq`,
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+---
+
+<BaseLayout
+  title="Instagram Hashtag Generator – Free Relevant Tags for Reels & Posts | CreatorsFeel"
+  description="Generate relevant Instagram hashtags for Reels, photos, and carousels. Segment suggestions into broad, niche, and content-specific tags with one-click copy."
+  canonical={canonicalUrl}
+>
+  <!-- Schema structured markup injected in head -->
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify(softwareSchema)} />
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify(faqSchema)} />
+
+  <div class="tool-page-wrapper">
+    
+    <!-- 1. HERO SECTION WITH SUBTLE GRADIENT GLOW -->
+    <header class="tool-hero-section">
+      <div class="container hero-inner">
+        
+        <!-- Breadcrumbs at top -->
+        <div class="hero-breadcrumbs">
+          <Breadcrumbs items={breadcrumbs} />
+        </div>
+
+        <!-- Pill Badge with Instagram Icon -->
+        <div class="hero-badge">
+          <span class="badge-icon-insta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="insta-svg" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+          </span>
+          <span class="badge-title">Instagram Growth Suite</span>
+          <span class="badge-pill-free">Free AI Tool</span>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="hero-headline">
+          Instagram <span class="gradient-text">Hashtag Generator</span>
+        </h1>
+
+        <!-- Short Description -->
+        <p class="hero-desc">
+          Generate relevant broad, niche, and content-specific hashtags tailored to your caption, topic, and category to maximize organic reach on Instagram Reels and feed posts.
+        </p>
+
+        <!-- Feature Chips Row (Zero Emojis - Clean SVG Icons) -->
+        <div class="hero-features-row">
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+            </svg>
+            3-Tier Segmentation
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Niche &amp; Broad Balance
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            SandBase Live API Support
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            One-Click Formatted Copy
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. MAIN TOOL SECTION -->
+    <section class="tool-main-section" aria-label="Instagram Hashtag Generator Tool">
+      <div class="container tool-card-container">
+        
+        <!-- The Prominent SaaS Tool Card -->
+        <div class="saas-tool-card">
+          
+          <!-- Card Header Bar: Category Indicator & Live Badge -->
+          <div class="card-header-bar">
+            <div class="platform-indicator">
+              <div class="platform-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="avatar-svg" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </div>
+              <div class="platform-meta">
+                <span class="platform-title">Instagram Discovery Algorithm</span>
+                <span class="platform-subtext">Semantic topic matching &amp; public search data</span>
+              </div>
+            </div>
+
+            <div class="data-source-badge" id="data-status-pill">
+              <span class="status-dot"></span>
+              <span id="data-status-text">Ready for Research</span>
+            </div>
+          </div>
+
+          <!-- Tool Input Interface -->
+          <form id="hashtag-generator-form" class="generator-form-wrap" onsubmit="return false;">
+            
+            <!-- Input 1: Describe Your Post -->
+            <div class="input-field-group">
+              <label for="post-description-input" class="field-label">
+                <span class="label-text">Describe Your Post</span>
+                <span class="label-helper">Describe your post topic, scene, product, Reel, or photo theme</span>
+              </label>
+              <textarea 
+                id="post-description-input" 
+                class="form-textarea" 
+                rows="3" 
+                placeholder="Describe your post topic, scene, product, Reel, or photo theme"
+                required
+              ></textarea>
+            </div>
+
+            <!-- Two-Column Grid for Secondary Inputs -->
+            <div class="form-grid-two">
+              
+              <!-- Input 2: Main Keyword -->
+              <div class="input-field-group">
+                <label for="main-keyword-input" class="field-label">
+                  <span class="label-text">Main Keyword <span class="label-optional">(Optional)</span></span>
+                  <span class="label-helper">Focus keyword or core topic</span>
+                </label>
+                <div class="text-input-box">
+                  <input 
+                    type="text" 
+                    id="main-keyword-input" 
+                    class="form-text-input" 
+                    placeholder="Optional focus keyword or core topic"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+
+              <!-- Input 3: Content Category -->
+              <div class="input-field-group">
+                <label for="category-select" class="field-label">
+                  <span class="label-text">Content Category</span>
+                  <span class="label-helper">Choose relevant industry or theme</span>
+                </label>
+                <div class="select-wrapper">
+                  <select id="category-select" class="form-select">
+                    <option value="fashion">Fashion</option>
+                    <option value="beauty">Beauty</option>
+                    <option value="travel">Travel</option>
+                    <option value="food">Food</option>
+                    <option value="fitness">Fitness</option>
+                    <option value="photography">Photography</option>
+                    <option value="technology">Technology</option>
+                    <option value="business">Business</option>
+                    <option value="education">Education</option>
+                    <option value="lifestyle" selected>Lifestyle</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="select-arrow-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Row for Language & Number of Hashtags -->
+            <div class="form-grid-two">
+              
+              <!-- Input 4: Language -->
+              <div class="input-field-group">
+                <label for="language-select" class="field-label">
+                  <span class="label-text">Language</span>
+                  <span class="label-helper">Primary hashtag language</span>
+                </label>
+                <div class="select-wrapper">
+                  <select id="language-select" class="form-select">
+                    <option value="en" selected>English</option>
+                  </select>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="select-arrow-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Input 5: Number of Hashtags -->
+              <div class="input-field-group">
+                <label class="field-label">
+                  <span class="label-text">Number of Hashtags</span>
+                  <span class="label-helper">Suggested hashtag quantity</span>
+                </label>
+                <div class="count-pill-selector" role="radiogroup" aria-label="Number of hashtags">
+                  <button type="button" class="count-pill-btn" data-count="5">5</button>
+                  <button type="button" class="count-pill-btn" data-count="10">10</button>
+                  <button type="button" class="count-pill-btn active" data-count="15">15</button>
+                  <button type="button" class="count-pill-btn" data-count="20">20</button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Action Buttons Row -->
+            <div class="action-buttons-row">
+              <button type="submit" id="btn-generate-tags" class="btn-action-primary">
+                <span class="btn-icon-wrap" id="btn-icon-container">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="action-btn-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                  </svg>
+                </span>
+                <span id="btn-generate-label">Generate Hashtags</span>
+              </button>
+
+              <button type="button" id="btn-reset-form" class="btn-action-reset">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="reset-btn-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span>Reset</span>
+              </button>
+            </div>
+
+          </form>
+
+          <!-- In-Flight Loading Indicator -->
+          <div id="generator-loading-box" class="generator-loading-state hidden" aria-live="polite">
+            <div class="loading-spinner-ring"></div>
+            <div class="loading-text-wrap">
+              <h3 class="loading-heading">Analyzing Post &amp; Discovering Hashtags...</h3>
+              <p class="loading-subtext" id="loading-status-message">Extracting semantic keywords and matching audience discovery tiers...</p>
+            </div>
+          </div>
+
+          <!-- Error Alert Banner -->
+          <div id="generator-error-banner" class="alert-box-error hidden" role="alert" aria-live="assertive">
+            <div class="alert-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="alert-svg" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+            </div>
+            <div class="alert-content-wrap">
+              <h4 class="alert-title" id="error-banner-title">Input Notice</h4>
+              <p class="alert-message" id="error-banner-desc">Please provide a post description to generate suggestions.</p>
+            </div>
+          </div>
+
+          <!-- Live API vs Fallback Origin Callout -->
+          <div id="data-origin-notice" class="origin-notice-card hidden">
+            <div class="origin-notice-inner">
+              <div class="origin-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="origin-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                </svg>
+              </div>
+              <div class="origin-text-wrap">
+                <span class="origin-title" id="origin-notice-title">Curated Semantic Taxonomy</span>
+                <p class="origin-desc" id="origin-notice-desc">
+                  Suggestions are generated from verified category taxonomies. Configure SANDBASE_API_KEY in Cloudflare Pages environment variables to enable live public Instagram media counts.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- RESULTS CONTAINER (Revealed on generation) -->
+          <div id="generator-results-container" class="results-container hidden" aria-live="polite">
+            
+            <!-- Quick Management Toolbar -->
+            <div class="results-toolbar-bar">
+              <div class="toolbar-stats-wrap">
+                <span class="selection-counter-badge" id="selection-counter">0 Selected</span>
+                <span class="toolbar-hint">Tap any tag to toggle inclusion</span>
+              </div>
+              <div class="toolbar-actions-wrap">
+                <button type="button" id="btn-select-all" class="toolbar-btn">Select All</button>
+                <button type="button" id="btn-clear-selection" class="toolbar-btn">Clear</button>
+                <button type="button" id="btn-regenerate" class="toolbar-btn btn-regen">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="regen-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                  </svg>
+                  Regenerate
+                </button>
+              </div>
+            </div>
+
+            <!-- TIER 1: Broad Hashtags -->
+            <div class="tier-section-block" id="tier-broad-wrap">
+              <div class="tier-header-bar">
+                <div class="tier-meta-left">
+                  <span class="tier-badge badge-broad">Tier 1: Broad</span>
+                  <h3 class="tier-title">High-Reach Category Tags</h3>
+                </div>
+                <span class="tier-reach-indicator">High Competition (1M+ Posts)</span>
+              </div>
+              <div class="hashtag-chips-grid" id="chips-grid-broad"></div>
+            </div>
+
+            <!-- TIER 2: Niche Hashtags -->
+            <div class="tier-section-block" id="tier-niche-wrap">
+              <div class="tier-header-bar">
+                <div class="tier-meta-left">
+                  <span class="tier-badge badge-niche">Tier 2: Niche</span>
+                  <h3 class="tier-title">Targeted Community Tags</h3>
+                </div>
+                <span class="tier-reach-indicator">Optimal Engagement (50K–1M Posts)</span>
+              </div>
+              <div class="hashtag-chips-grid" id="chips-grid-niche"></div>
+            </div>
+
+            <!-- TIER 3: Content-Specific Hashtags -->
+            <div class="tier-section-block" id="tier-specific-wrap">
+              <div class="tier-header-bar">
+                <div class="tier-meta-left">
+                  <span class="tier-badge badge-specific">Tier 3: Specific</span>
+                  <h3 class="tier-title">Content &amp; Topic Matches</h3>
+                </div>
+                <span class="tier-reach-indicator">Laser Focused (&lt;50K Posts)</span>
+              </div>
+              <div class="hashtag-chips-grid" id="chips-grid-specific"></div>
+            </div>
+
+            <!-- COPY-READY EXPORT BOX -->
+            <div class="export-preview-box">
+              <div class="export-header-row">
+                <div class="export-title-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="export-svg" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                  </svg>
+                  <h3 class="export-title">Copy-Ready Hashtags</h3>
+                </div>
+                <span class="export-count-tag" id="export-count-label">0 tags selected</span>
+              </div>
+
+              <div class="export-textarea-wrap">
+                <textarea 
+                  id="copy-ready-textarea" 
+                  class="export-textarea" 
+                  readonly 
+                  rows="3" 
+                  aria-label="Generated hashtags formatted for copying"
+                ></textarea>
+              </div>
+
+              <div class="export-buttons-row">
+                <button type="button" id="btn-copy-selected" class="btn-copy-main">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="copy-svg" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                  </svg>
+                  <span>Copy Selected Hashtags</span>
+                </button>
+
+                <button type="button" id="btn-copy-all" class="btn-copy-secondary">
+                  <span>Copy All Suggestions</span>
+                </button>
+              </div>
+
+              <!-- Temporary Copy Confirmation Toast -->
+              <div id="copy-toast-banner" class="copy-toast hidden" role="status">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toast-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+                <span id="copy-toast-message">Hashtags copied to clipboard!</span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. EDITORIAL ARTICLE SECTION (Centered Max-Width 940px) -->
+    <article class="editorial-content-section" aria-label="Comprehensive Guide to Instagram Hashtags, Algorithms, and Organic Reach">
+      <div class="container editorial-inner">
+
+        <!-- Section 1: Introduction -->
+        <section class="editorial-block">
+          <h2>What Is an Instagram Hashtag Generator and How Does It Work?</h2>
+          <p>
+            An <strong>Instagram Hashtag Generator</strong> is a specialized social media marketing utility that transforms your post descriptions, visual themes, and topic keywords into organized sets of high-relevance hashtags. In 2026, Instagram operates as a full-fledged semantic search engine: its algorithms parse text captions, audio transcripts, image vision tokens, and hashtags to comprehend exactly what your content is about and deliver it to interested audiences.
+          </p>
+          <p>
+            Rather than randomly picking generic hashtags that get lost in millions of uploads, an effective hashtag generator segments candidates into three strategic discovery tiers: <strong>Broad category tags</strong> that establish industry context, <strong>Niche community tags</strong> that reach engaged subcultures, and <strong>Content-specific tags</strong> that describe the exact scene, tutorial, or product in your post.
+          </p>
+          <p>
+            Before posting your Reel or carousel, check your framing with our <a href="/tools/instagram-reels-safe-zone-checker">Instagram Reels Safe Zone Checker</a> to ensure text remains unobstructed, compress high-bitrate files using our <a href="/tools/video-compressor-for-reels">Video Compressor for Reels</a>, and audit your total caption length with our <a href="/tools/instagram-caption-character-counter">Instagram Caption Character Counter</a>.
+          </p>
+        </section>
+
+        <!-- Section 2: The 3-Tier Strategy Table -->
+        <section class="editorial-block">
+          <h2>The 3-Tier Instagram Hashtag Strategy</h2>
+          <p>
+            Top-performing creators and social media strategists avoid using exclusively massive hashtags (such as <code>#love</code> or <code>#fashion</code>) or exclusively tiny hashtags. Instead, they deploy a balanced 3-tier distribution:
+          </p>
+
+          <div class="table-responsive">
+            <table class="editorial-data-table">
+              <thead>
+                <tr>
+                  <th>Hashtag Tier</th>
+                  <th>Estimated Post Count</th>
+                  <th>Strategic Purpose</th>
+                  <th>Optimal Share in Post</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Tier 1: Broad Category</strong></td>
+                  <td>1,000,000+ Posts</td>
+                  <td>Signals overarching industry theme to the algorithmic topic cluster. High competition.</td>
+                  <td>1 to 2 tags</td>
+                </tr>
+                <tr>
+                  <td><strong>Tier 2: Niche Community</strong></td>
+                  <td>50,000 to 1,000,000 Posts</td>
+                  <td>Connects with active communities, sub-niches, and passionate followers. Moderate competition.</td>
+                  <td>2 to 4 tags</td>
+                </tr>
+                <tr>
+                  <td><strong>Tier 3: Content-Specific</strong></td>
+                  <td>Under 50,000 Posts</td>
+                  <td>Directly mirrors the exact subject, product, location, or technique. High ranking potential.</td>
+                  <td>2 to 3 tags</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Section 3: How to Choose Hashtags for Reels, Photos, and Carousels -->
+        <section class="editorial-block">
+          <h2>Choosing Hashtags for Reels vs. Photos vs. Carousel Posts</h2>
+          <p>
+            Different content formats serve different user behaviors on Instagram, and your hashtag strategy should adapt to how audiences consume each format:
+          </p>
+          <ul>
+            <li><strong>Instagram Reels (Discovery &amp; Watch Time):</strong> Reels are distributed primarily through the algorithmic Reels tab to users who do not follow you. Pair high-momentum niche audio with 3 to 5 hyper-specific hashtags that directly mirror the visual subject or hook of your video (e.g., <code>#quickhairtutorial</code> or <code>#coffeerecipes</code>). Avoid generic viral tags that provide zero semantic guidance to the recommendation engine.</li>
+            <li><strong>Single Feed Photos (Aesthetic &amp; Community Connection):</strong> Feed photos thrive within tight-knit communities where users actively browse tag feeds or search for visual inspiration. Leverage Tier 2 community hashtags (e.g., <code>#filmphotographic</code> or <code>#streetstylelook</code>) where dedicated photography enthusiasts engage with high-quality still imagery.</li>
+            <li><strong>Educational Carousel Posts (Saves &amp; Shares):</strong> Multi-slide carousels generate peak engagement when users bookmark them for future reference. Use resource-oriented hashtags (e.g., <code>#designsystemtips</code> or <code>#freelancetips</code>) that indicate actionable, reference-grade advice worth saving.</li>
+          </ul>
+        </section>
+
+        <!-- Section 4: Public Hashtag Data & Live Search APIs -->
+        <section class="editorial-block">
+          <h2>How Public Hashtag Data and APIs Power Smarter Research</h2>
+          <p>
+            Modern hashtag tools rely on public Instagram search endpoints (such as those provided via SandBase's public APIs) to fetch verified post counts and identify related co-occurring tags. Understanding how public data informs your research is vital:
+          </p>
+          <ul>
+            <li><strong>Media Count as a Competition Gauge:</strong> Total post counts indicate overall historical adoption. While a tag with 500,000 posts signals an active community, a tag with 50 million posts signals intense saturation. Monitoring media counts helps you avoid tags with either zero interest or insurmountable competition.</li>
+            <li><strong>Co-Occurring Hashtag Discovery:</strong> By analyzing the top public posts associated with a seed keyword, search endpoints identify clusters of related tags that creators frequently use together. This surfaces organic community jargon you might otherwise overlook.</li>
+            <li><strong>Data Limitations &amp; Changing Metrics:</strong> Public API counts represent cumulative lifetime posts, not daily posting velocity. Furthermore, Instagram frequently updates its algorithmic topic taxonomies. Use automated hashtag data as a discovery accelerator, but always verify relevance against your specific content before publishing.</li>
+          </ul>
+        </section>
+
+        <!-- Section 5: Why Popularity Alone Fails -->
+        <section class="editorial-block">
+          <h2>Why Popularity Alone Does Not Determine Hashtag Usefulness</h2>
+          <p>
+            A common misconception among beginner creators is that choosing hashtags with hundreds of millions of posts guarantees massive exposure. In reality, the opposite occurs. When a hashtag receives tens of thousands of new posts every minute:
+          </p>
+          <ul>
+            <li><strong>Instantaneous Deprecation:</strong> Your post appears in the "Recent" tab for only a split second before being buried by hundreds of incoming uploads.</li>
+            <li><strong>Low Audience Intent:</strong> Mega-popular tags like <code>#instadaily</code> or <code>#picoftheday</code> attract high volumes of automated bot accounts, follow-for-follow spam, and engagement pods rather than genuine potential clients or followers.</li>
+            <li><strong>Algorithm Dilution:</strong> Instagram's natural language processing algorithms favor contextual precision. A Reel about handmade ceramic mugs tagged with <code>#ceramics</code> and <code>#wheelthrownpottery</code> signals clear topic authority, whereas tagging it with <code>#viral</code> or <code>#explore</code> provides zero topical relevance.</li>
+          </ul>
+        </section>
+
+        <!-- Section 6: Caption vs. Comment Placement -->
+        <section class="editorial-block">
+          <h2>Caption vs. First Comment: Where Should Hashtags Live?</h2>
+          <p>
+            For years, creators debated whether placing hashtags in the first comment looked cleaner than placing them in the post caption. Instagram's official Creator account and search engineering team have resolved this debate:
+          </p>
+          <blockquote>
+            <p>
+              "For search and algorithmic discovery, place your keywords and hashtags directly in the caption text. Our search systems prioritize caption content when indexing posts for keyword search and Explore recommendations."
+            </p>
+          </blockquote>
+          <p>
+            When hashtags sit within the caption, Instagram's search models evaluate them alongside your headline and descriptive text. For aesthetic cleanliness, place your primary caption hook first, add a clean line break using our <a href="/tools/instagram-line-break-generator">Instagram Line Break Generator</a>, and place your 3 to 5 curated hashtags at the bottom.
+          </p>
+        </section>
+
+        <!-- Section 7: Avoiding Banned and Repetitive Tags -->
+        <section class="editorial-block">
+          <h2>How to Avoid Banned and Repetitive Hashtags</h2>
+          <p>
+            Instagram strictly penalizes spam behaviors that disrupt user feeds. Follow these best practices to keep your account in good standing:
+          </p>
+          <ul>
+            <li><strong>Never Copy/Paste the Exact Same Block Every Day:</strong> Reusing the exact same 30-tag text block on every post triggers Instagram's automated spam detection heuristics. Always customize your Tier 3 content-specific hashtags to match the unique elements of each individual post.</li>
+            <li><strong>Beware of Temporarily Hidden Tags:</strong> Occasionally, seemingly innocent hashtags are temporarily disabled by Instagram due to community guideline violations or severe spam. Periodically check your top tags in the Instagram search bar to verify that the top posts tab is visible.</li>
+            <li><strong>Avoid Gimmick Engagement Tags:</strong> Tags like <code>#followforfollow</code>, <code>#like4like</code>, and <code>#gainfollowers</code> attract bot networks and shadow-filter risks that hurt your genuine engagement rate. Audit your organic metrics regularly using our <a href="/tools/instagram-story-reel-calculator">Instagram Story &amp; Reel Rate Calculator</a>.</li>
+          </ul>
+        </section>
+
+        <!-- Section 8: Repeatable Research Workflow & Checklist -->
+        <section class="editorial-block">
+          <h2>A Repeatable 5-Step Instagram Hashtag Research Workflow</h2>
+          <ol>
+            <li><strong>Define the Core Topic:</strong> Write a concise sentence summarizing what makes your post unique (e.g., "Minimalist Scandinavian desk setup with mechanical keyboard").</li>
+            <li><strong>Generate 3-Tier Suggestions:</strong> Enter your description and primary keyword into our generator to extract balanced broad, niche, and specific candidates.</li>
+            <li><strong>Select 4 to 8 High-Relevance Tags:</strong> Pick 1 broad industry tag, 2 to 3 active community tags, and 2 exact descriptive tags. Quality always beats quantity.</li>
+            <li><strong>Integrate into Caption Naturally:</strong> Place your selected hashtags at the conclusion of your caption text, following your hook and call-to-action.</li>
+            <li><strong>Review Performance in Insights:</strong> Check Instagram Professional Insights under "Impressions from Hashtags" after 48 hours to identify which tags successfully delivered organic non-follower reach.</li>
+          </ol>
+        </section>
+
+      </div>
+    </article>
+
+    <!-- 4. FREQUENTLY ASKED QUESTIONS SECTION (Centered Max-Width 940px) -->
+    <section class="tool-faq-section" aria-label="Frequently Asked Questions">
+      <div class="container faq-inner">
+        <div class="faq-header-wrap">
+          <h2 class="faq-headline">Frequently Asked Questions</h2>
+          <p class="faq-subhead">Everything you need to know about Instagram hashtags, reach algorithms, and research workflows.</p>
+        </div>
+
+        <div class="faq-accordion-wrap">
+          {faqs.map((faq) => (
+            <details class="faq-accordion-item">
+              <summary class="faq-summary">
+                <span class="faq-question-text">{faq.question}</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-chevron" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+              </summary>
+              <div class="faq-body">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. RELATED TOOLS SECTION (4 Cards, Centered Max-Width 940px) -->
+    <section class="related-tools-section" aria-label="Related Instagram Tools">
+      <div class="container related-inner">
+        <div class="related-header-wrap">
+          <h2 class="related-headline">Explore Related Instagram Tools</h2>
+          <p class="related-subhead">Optimize your Reels, captions, and creator workflows with our suite of free Instagram utilities.</p>
+        </div>
+
+        <div class="related-tools-grid">
+          
+          <a href="/tools/instagram-reels-safe-zone-checker" class="related-tool-card">
+            <div class="tool-card-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rel-icon-svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M9 7.5h6a1.5 1.5 0 0 1 1.5 1.5v6a1.5 1.5 0 0 1-1.5 1.5H9a1.5 1.5 0 0 1-1.5-1.5V9A1.5 1.5 0 0 1 9 7.5Z" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Instagram Reels Safe Zone Checker</h3>
+              <p class="tool-card-desc">Preview Reels against native 9:16 UI overlays, 4:5 feed crops, and 1:1 grid cuts.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+
+          <a href="/tools/video-compressor-for-reels" class="related-tool-card">
+            <div class="tool-card-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rel-icon-svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Video Compressor for Reels</h3>
+              <p class="tool-card-desc">Compress video files to optimal Instagram Reels bitrates and sizes directly in-browser.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+
+          <a href="/tools/instagram-caption-character-counter" class="related-tool-card">
+            <div class="tool-card-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rel-icon-svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501c1.153-.086 2.294-.213 3.423-.379 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v5.78Z" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Instagram Caption Character Counter</h3>
+              <p class="tool-card-desc">Track character limits, preview truncation cutoffs, and audit hashtags for posts.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+
+          <a href="/tools/instagram-story-reel-calculator" class="related-tool-card">
+            <div class="tool-card-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rel-icon-svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Instagram Story &amp; Reel Rate Calculator</h3>
+              <p class="tool-card-desc">Estimate fair sponsorship rates for sponsored Instagram Stories, Reels, and carousels.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  /* ==========================================================================
+     1. HERO SECTION STYLES
+     ========================================================================== */
+  .tool-page-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    background: var(--color-bg, #f8fafc);
+  }
+
+  .tool-hero-section {
+    padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
+    padding-bottom: clamp(1.25rem, 3vw, 2rem);
+    text-align: center;
+    background: radial-gradient(circle at 50% 0%, rgba(236, 72, 153, 0.08) 0%, transparent 70%);
+  }
+
+  .hero-inner {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .hero-breadcrumbs {
+    margin-bottom: 1.25rem;
+    align-self: flex-start;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text, #0f172a);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    margin-bottom: 1rem;
+  }
+
+  .badge-icon-insta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-brand, #ec4899);
+  }
+
+  .insta-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .badge-pill-free {
+    background: rgba(236, 72, 153, 0.1);
+    color: var(--color-brand, #ec4899);
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.725rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.85rem 0;
+    max-width: 780px;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #6366f1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-desc {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--color-text-muted, #64748b);
+    max-width: 680px;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .hero-features-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .feature-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #475569);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  }
+
+  .chip-svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-brand, #ec4899);
+    flex-shrink: 0;
+  }
+
+  /* ==========================================================================
+     2. MAIN TOOL SECTION & SAAS CARD
+     ========================================================================== */
+  .tool-main-section {
+    padding-top: clamp(1rem, 3vw, 2rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .tool-card-container {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .saas-tool-card {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 24px;
+    box-shadow: 0 20px 45px -15px rgba(236, 72, 153, 0.08), 0 0 0 1px rgba(226, 232, 240, 0.6);
+    padding: clamp(1.25rem, 3.5vw, 2.25rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box;
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  /* Card Header Bar */
+  .card-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .platform-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .platform-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.12) 0%, rgba(139, 92, 246, 0.12) 100%);
+    color: var(--color-brand, #ec4899);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .avatar-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .platform-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .platform-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .platform-subtext {
+    font-size: 0.775rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .data-source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.3rem 0.75rem;
+    background: rgba(236, 72, 153, 0.08);
+    border: 1px solid rgba(236, 72, 153, 0.25);
+    border-radius: 9999px;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ec4899;
+    box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
+  }
+
+  #data-status-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #db2777;
+  }
+
+  /* Form Elements */
+  .generator-form-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .input-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .field-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .label-text {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .label-optional {
+    font-size: 0.775rem;
+    font-weight: 500;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .label-helper {
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .form-textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text, #0f172a);
+    background: var(--color-bg, #f8fafc);
+    border: 1.5px solid var(--color-border, #cbd5e1);
+    border-radius: 14px;
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .form-textarea:focus {
+    border-color: var(--color-brand, #ec4899);
+    background: var(--color-bg-card, #ffffff);
+    box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.15);
+  }
+
+  .form-grid-two {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 600px) {
+    .form-grid-two {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .text-input-box {
+    position: relative;
+    width: 100%;
+  }
+
+  .form-text-input {
+    width: 100%;
+    height: 46px;
+    padding: 0 1rem;
+    font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
+    font-size: 0.925rem;
+    color: var(--color-text, #0f172a);
+    background: var(--color-bg, #f8fafc);
+    border: 1.5px solid var(--color-border, #cbd5e1);
+    border-radius: 12px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .form-text-input:focus {
+    border-color: var(--color-brand, #ec4899);
+    background: var(--color-bg-card, #ffffff);
+    box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.15);
+  }
+
+  .select-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .form-select {
+    width: 100%;
+    height: 46px;
+    padding: 0 2.5rem 0 1rem;
+    font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
+    font-size: 0.925rem;
+    color: var(--color-text, #0f172a);
+    background: var(--color-bg, #f8fafc);
+    border: 1.5px solid var(--color-border, #cbd5e1);
+    border-radius: 12px;
+    outline: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .form-select:focus {
+    border-color: var(--color-brand, #ec4899);
+    box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.15);
+  }
+
+  .select-arrow-svg {
+    position: absolute;
+    right: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--color-text-muted, #64748b);
+    pointer-events: none;
+  }
+
+  /* Count Pill Selector */
+  .count-pill-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--color-bg, #f1f5f9);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 12px;
+    padding: 3px;
+    height: 46px;
+    box-sizing: border-box;
+  }
+
+  .count-pill-btn {
+    flex: 1;
+    height: 100%;
+    border: none;
+    background: transparent;
+    border-radius: 9px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-muted, #64748b);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .count-pill-btn:hover {
+    color: var(--color-text, #0f172a);
+  }
+
+  .count-pill-btn.active {
+    background: var(--color-bg-card, #ffffff);
+    color: var(--color-brand, #ec4899);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Action Buttons Row */
+  .action-buttons-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-top: 0.5rem;
+  }
+
+  .btn-action-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 48px;
+    padding: 0.75rem 1.75rem;
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(236, 72, 153, 0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  }
+
+  .btn-action-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(236, 72, 153, 0.4);
+    opacity: 0.96;
+  }
+
+  .btn-action-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .action-btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .btn-action-reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+    background: transparent;
+    border: 1px solid var(--color-border, #cbd5e1);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-action-reset:hover {
+    border-color: #94a3b8;
+    color: var(--color-text, #0f172a);
+    background: var(--color-bg, #f1f5f9);
+  }
+
+  .reset-btn-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* In-Flight Loading State */
+  .generator-loading-state {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+  }
+
+  .loading-spinner-ring {
+    width: 36px;
+    height: 36px;
+    border: 3.5px solid rgba(236, 72, 153, 0.15);
+    border-top-color: var(--color-brand, #ec4899);
+    border-radius: 50%;
+    animation: cf-spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes cf-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loading-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .loading-heading {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .loading-subtext {
+    margin: 0;
+    font-size: 0.825rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  /* Alerts */
+  .alert-box-error {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: #fef2f2;
+    border: 1px solid #fee2e2;
+    border-radius: 16px;
+  }
+
+  .alert-icon-wrap {
+    color: #dc2626;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .alert-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .alert-content-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .alert-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #991b1b;
+  }
+
+  .alert-message {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: #7f1d1d;
+  }
+
+  /* Origin Notice Card */
+  .origin-notice-card {
+    padding: 1rem 1.25rem;
+    background: rgba(236, 72, 153, 0.05);
+    border: 1px solid rgba(236, 72, 153, 0.2);
+    border-radius: 14px;
+  }
+
+  .origin-notice-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .origin-icon-box {
+    color: #ec4899;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .origin-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .origin-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .origin-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .origin-desc {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  /* ==========================================================================
+     RESULTS PRESENTATION
+     ========================================================================== */
+  .results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: cf-fade-in 0.25s ease-out;
+  }
+
+  @keyframes cf-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Toolbar */
+  .results-toolbar-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+  }
+
+  .toolbar-stats-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  .selection-counter-badge {
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: rgba(236, 72, 153, 0.1);
+    color: var(--color-brand, #ec4899);
+  }
+
+  .toolbar-hint {
+    font-size: 0.775rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .toolbar-actions-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .toolbar-btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: 1px solid var(--color-border, #cbd5e1);
+    background: var(--color-bg-card, #ffffff);
+    color: var(--color-text, #334155);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .toolbar-btn:hover {
+    border-color: var(--color-brand, #ec4899);
+    color: var(--color-brand, #ec4899);
+  }
+
+  .btn-regen {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .regen-svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Tier Section Blocks */
+  .tier-section-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .tier-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tier-meta-left {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .tier-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  .badge-broad { background: #fee2e2; color: #991b1b; }
+  .badge-niche { background: #fdf2f8; color: #9d174d; }
+  .badge-specific { background: #eff6ff; color: #1e40af; }
+
+  .tier-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .tier-reach-indicator {
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  /* Hashtag Chips Grid */
+  .hashtag-chips-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  :global(.tag-chip-card) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 12px;
+    background: var(--color-bg-card, #ffffff);
+    border: 1.5px solid var(--color-border, #e2e8f0);
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+  }
+
+  :global(.tag-chip-card:hover) {
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  }
+
+  :global(.tag-chip-card.selected) {
+    background: rgba(236, 72, 153, 0.08);
+    border-color: #ec4899;
+  }
+
+  :global(.tag-chip-checkbox) {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    border: 1.5px solid #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+  }
+
+  :global(.tag-chip-card.selected .tag-chip-checkbox) {
+    background: #ec4899;
+    border-color: #ec4899;
+  }
+
+  :global(.tag-chip-check-svg) {
+    width: 10px;
+    height: 10px;
+    color: #ffffff;
+    display: none;
+  }
+
+  :global(.tag-chip-card.selected .tag-chip-check-svg) {
+    display: block;
+  }
+
+  :global(.tag-chip-name) {
+    font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  :global(.tag-chip-count) {
+    font-size: 0.7rem;
+    color: var(--color-text-muted, #64748b);
+    background: var(--color-bg, #f1f5f9);
+    padding: 0.1rem 0.4rem;
+    border-radius: 6px;
+  }
+
+  :global(.tag-chip-card.selected .tag-chip-count) {
+    background: rgba(236, 72, 153, 0.12);
+    color: #be185d;
+  }
+
+  /* Copy-Ready Export Box */
+  .export-preview-box {
+    background: var(--color-bg, #f8fafc);
+    border: 1.5px solid var(--color-border, #e2e8f0);
+    border-radius: 20px;
+    padding: clamp(1.15rem, 3vw, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .export-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .export-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .export-svg {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand, #ec4899);
+  }
+
+  .export-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .export-count-tag {
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .export-textarea-wrap {
+    width: 100%;
+  }
+
+  .export-textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text, #0f172a);
+    background: var(--color-bg-card, #ffffff);
+    border: 1.5px solid var(--color-border, #cbd5e1);
+    border-radius: 12px;
+    outline: none;
+    resize: none;
+    box-sizing: border-box;
+  }
+
+  .export-buttons-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-copy-main {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.65rem 1.35rem;
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(236, 72, 153, 0.25);
+    transition: all 0.15s ease;
+  }
+
+  .btn-copy-main:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(236, 72, 153, 0.35);
+  }
+
+  .copy-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .btn-copy-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.65rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-brand, #ec4899);
+    background: rgba(236, 72, 153, 0.08);
+    border: 1px solid rgba(236, 72, 153, 0.25);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-copy-secondary:hover {
+    background: rgba(236, 72, 153, 0.15);
+  }
+
+  .copy-toast {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1rem;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 10px;
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: #065f46;
+    animation: cf-fade-in 0.2s ease;
+  }
+
+  .toast-svg {
+    width: 16px;
+    height: 16px;
+    color: #059669;
+  }
+
+  /* ==========================================================================
+     3. EDITORIAL ARTICLE SECTION (Centered Max-Width 940px)
+     ========================================================================== */
+  .editorial-content-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .editorial-inner {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .editorial-block {
+    margin-bottom: 3rem;
+  }
+
+  .editorial-block h2 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 2.7vw, 1.85rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    line-height: 1.25;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.015em;
+  }
+
+  .editorial-block h3 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    line-height: 1.35;
+    margin: 1.75rem 0 0.65rem 0;
+  }
+
+  .editorial-block p {
+    font-size: clamp(0.925rem, 1.8vw, 1rem);
+    line-height: 1.75;
+    color: var(--color-text, #334155);
+    margin: 0 0 1.25rem 0;
+  }
+
+  .editorial-block p strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  .editorial-block a {
+    color: var(--color-brand, #ec4899);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+
+  .editorial-block a:hover {
+    color: #be185d;
+  }
+
+  .editorial-block ul, .editorial-block ol {
+    margin: 0 0 1.5rem 0;
+    padding-left: 1.35rem;
+  }
+
+  .editorial-block li {
+    font-size: clamp(0.925rem, 1.8vw, 1rem);
+    line-height: 1.7;
+    color: var(--color-text, #334155);
+    margin-bottom: 0.65rem;
+  }
+
+  .editorial-block li strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  .editorial-block blockquote {
+    margin: 1.5rem 0;
+    padding: 1.15rem 1.5rem;
+    border-left: 4px solid var(--color-brand, #ec4899);
+    background: var(--color-bg, #f8fafc);
+    border-radius: 0 14px 14px 0;
+    font-style: italic;
+  }
+
+  .editorial-block blockquote p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-text, #1e293b);
+  }
+
+  /* Editorial Data Table */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 14px;
+    border: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .editorial-data-table th {
+    background: var(--color-bg-alt, #f8fafc);
+    padding: 0.85rem 1rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table td {
+    padding: 0.85rem 1rem;
+    color: var(--color-text, #334155);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .editorial-data-table tr:hover td {
+    background: var(--color-bg-alt, #f8fafc);
+  }
+
+  /* ==========================================================================
+     4. FAQ SECTION (Centered Max-Width 940px)
+     ========================================================================== */
+  .tool-faq-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .faq-inner {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .faq-header-wrap {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .faq-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .faq-subhead {
+    font-size: 0.95rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .faq-accordion-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .faq-accordion-item {
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .faq-accordion-item:hover {
+    border-color: #cbd5e1;
+  }
+
+  .faq-accordion-item[open] {
+    border-color: var(--color-brand, #ec4899);
+    box-shadow: 0 4px 15px -3px rgba(236, 72, 153, 0.08);
+  }
+
+  .faq-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.15rem 1.35rem;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.975rem;
+    color: var(--color-text, #0f172a);
+    user-select: none;
+    list-style: none;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand, #ec4899);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 0.75rem;
+  }
+
+  .faq-accordion-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-body {
+    padding: 0 1.35rem 1.35rem 1.35rem;
+  }
+
+  .faq-body p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* ==========================================================================
+     5. RELATED TOOLS SECTION (4 Cards, Centered Max-Width 940px)
+     ========================================================================== */
+  .related-tools-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(3rem, 6vw, 4.5rem);
+    border-top: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .related-inner {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    padding-right: clamp(0.75rem, 3vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .related-header-wrap {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .related-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .related-subhead {
+    font-size: 0.95rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .related-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 600px) {
+    .related-tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .related-tool-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--color-bg-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .related-tool-card:hover {
+    border-color: var(--color-brand, #ec4899);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(236, 72, 153, 0.08);
+  }
+
+  .tool-card-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(236, 72, 153, 0.1);
+    color: var(--color-brand, #ec4899);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .related-tool-card:hover .tool-card-icon-box {
+    transform: scale(1.08);
+  }
+
+  .rel-icon-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tool-card-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tool-card-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.975rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+  }
+
+  .tool-card-desc {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tool-card-arrow {
+    width: 20px;
+    height: 20px;
+    color: var(--color-text-muted, #94a3b8);
+    flex-shrink: 0;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .related-tool-card:hover .tool-card-arrow {
+    color: var(--color-brand, #ec4899);
+    transform: translateX(3px);
+  }
+
+  .tool-card-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ==========================================================================
+     DARK THEME SUPPORT (:global([data-theme="dark"]))
+     ========================================================================== */
+  :global([data-theme="dark"]) .saas-tool-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+  }
+
+  :global([data-theme="dark"]) .card-header-bar,
+  :global([data-theme="dark"]) .tool-faq-section,
+  :global([data-theme="dark"]) .related-tools-section,
+  :global([data-theme="dark"]) .table-responsive,
+  :global([data-theme="dark"]) .editorial-data-table th,
+  :global([data-theme="dark"]) .editorial-data-table td,
+  :global([data-theme="dark"]) .results-toolbar-bar,
+  :global([data-theme="dark"]) .export-preview-box {
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .results-toolbar-bar,
+  :global([data-theme="dark"]) .export-preview-box,
+  :global([data-theme="dark"]) .generator-loading-state,
+  :global([data-theme="dark"]) .editorial-block blockquote,
+  :global([data-theme="dark"]) .faq-accordion-item {
+    background: #0f172a;
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .form-textarea,
+  :global([data-theme="dark"]) .form-text-input,
+  :global([data-theme="dark"]) .form-select,
+  :global([data-theme="dark"]) .count-pill-selector,
+  :global([data-theme="dark"]) .export-textarea {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f8fafc;
+  }
+
+  :global([data-theme="dark"]) .form-textarea:focus,
+  :global([data-theme="dark"]) .form-text-input:focus,
+  :global([data-theme="dark"]) .form-select:focus {
+    background: #1e293b;
+    border-color: #ec4899;
+  }
+
+  :global([data-theme="dark"]) .count-pill-btn.active {
+    background: #1e293b;
+    color: #f472b6;
+  }
+
+  :global([data-theme="dark"]) .btn-action-reset {
+    background: #0f172a;
+    border-color: #334155;
+    color: #cbd5e1;
+  }
+
+  :global([data-theme="dark"]) .toolbar-btn {
+    background: #1e293b;
+    border-color: #334155;
+    color: #cbd5e1;
+  }
+
+  :global([data-theme="dark"]) :global(.tag-chip-card) {
+    background: #0f172a;
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) :global(.tag-chip-card.selected) {
+    background: rgba(236, 72, 153, 0.15);
+    border-color: #ec4899;
+  }
+
+  :global([data-theme="dark"]) :global(.tag-chip-count) {
+    background: #1e293b;
+    color: #94a3b8;
+  }
+
+  :global([data-theme="dark"]) :global(.tag-chip-card.selected .tag-chip-count) {
+    background: rgba(236, 72, 153, 0.25);
+    color: #f472b6;
+  }
+
+  :global([data-theme="dark"]) .badge-broad { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+  :global([data-theme="dark"]) .badge-niche { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+  :global([data-theme="dark"]) .badge-specific { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+
+  :global([data-theme="dark"]) .feature-chip,
+  :global([data-theme="dark"]) .hero-badge {
+    background: #1e293b;
+    border-color: #334155;
+    color: #cbd5e1;
+  }
+
+  :global([data-theme="dark"]) .editorial-data-table th,
+  :global([data-theme="dark"]) .editorial-data-table tr:hover td {
+    background: #0f172a;
+  }
+
+  :global([data-theme="dark"]) .related-tool-card {
+    background: #1e293b;
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .origin-notice-card {
+    background: rgba(236, 72, 153, 0.1);
+    border-color: rgba(236, 72, 153, 0.3);
+  }
+
+  :global([data-theme="dark"]) .alert-box-error {
+    background: rgba(127, 29, 29, 0.25);
+    border-color: rgba(239, 68, 68, 0.35);
+  }
+
+  /* Utility */
+  .hidden {
+    display: none !important;
+  }
+</style>
+
+<script>
+  // Fallback curated taxonomy for purely offline or static mode
+  const CLIENT_TAXONOMY: Record<string, { broad: string[]; niche: string[] }> = {
+    fashion: {
+      broad: ['fashion', 'style', 'ootd', 'fashionblogger', 'instafashion', 'streetwear', 'outfitoftheday', 'fashionstyle', 'stylish', 'lookbook'],
+      niche: ['sustainablefashion', 'capsulewardrobe', 'minimaliststyle', 'thriftedfashion', 'outfitinspo', 'aestheticfashion', 'vintagestreetwear', 'mensstyleguide', 'parisianchic', 'consciousfashion']
+    },
+    beauty: {
+      broad: ['beauty', 'skincare', 'makeup', 'beautytips', 'instabeauty', 'makeuplover', 'skincareroutine', 'cosmetics', 'glam', 'makeupartist'],
+      niche: ['cleanbeauty', 'kbeauty', 'skincarecommunity', 'glowingskin', 'crueltyfreebeauty', 'dewymakeup', 'glassskin', 'skincareaddict', 'barrierrepair', 'cleangirlaesthetic']
+    },
+    travel: {
+      broad: ['travel', 'wanderlust', 'travelgram', 'instatravel', 'travelblogger', 'adventure', 'explore', 'vacation', 'holiday', 'tourism'],
+      niche: ['solotravel', 'hiddenplaces', 'slowtravel', 'travelcouples', 'backpackerlife', 'budgettravel', 'offthebeatenpath', 'natureescapes', 'femaletraveler', 'postcardsfromtheworld']
+    },
+    food: {
+      broad: ['food', 'foodie', 'foodporn', 'instafood', 'foodphotography', 'delicious', 'yummy', 'dinner', 'homemade', 'cooking'],
+      niche: ['homemadecooking', 'plantbasedrecipes', 'sourdoughbread', 'easyweeknightmeals', 'mealprepsunday', 'comfortfoodie', 'cleaneatingrecipes', 'bakersofig', 'quickrecipes', 'feedfeed']
+    },
+    fitness: {
+      broad: ['fitness', 'gym', 'workout', 'fit', 'fitnessmotivation', 'bodybuilding', 'training', 'fitfam', 'health', 'lifestyle'],
+      niche: ['calisthenicsworkout', 'hyroxcommunity', 'mobilityroutine', 'strengthtraining', 'mindfulmovement', 'pilatesinstructor', 'runningcommunity', 'progressiveoverload', 'homegymlife', 'functionalfitness']
+    },
+    photography: {
+      broad: ['photography', 'photooftheday', 'photographer', 'picoftheday', 'portrait', 'streetphotography', 'landscape', 'naturephotography', 'photoshoot', 'art'],
+      niche: ['moodyports', 'filmisnotdead', 'goldenhourphotography', 'urbanstreetview', 'sonyalpha', 'fujifilmx', 'visualsofearth', 'visualstoryteller', 'cinematicphotography', 'analoguevibes']
+    },
+    technology: {
+      broad: ['technology', 'tech', 'innovation', 'gadgets', 'programming', 'coding', 'developer', 'artificialintelligence', 'software', 'techtrends'],
+      niche: ['saasgrowth', 'webdevcommunity', 'indiemaker', 'desksetupinspo', 'techtipsdaily', 'softwareengineer', 'aiartcommunity', 'buildinpublic', 'cleanarchitecture', 'technewsfeed']
+    },
+    business: {
+      broad: ['business', 'entrepreneur', 'marketing', 'success', 'smallbusiness', 'startup', 'leadership', 'motivation', 'money', 'businessowner'],
+      niche: ['digitalmarketingtips', 'freelancehustle', 'brandstrategy', 'contentcreationtips', 'solopreneurlife', 'smallbusinessgrowth', 'organicmarketing', 'creatoreconomy', 'inboundmarketing', 'socialmediastrategy']
+    },
+    education: {
+      broad: ['education', 'learning', 'knowledge', 'study', 'motivation', 'student', 'studygram', 'facts', 'school', 'learn'],
+      niche: ['studytips', 'lifelonglearning', 'notetakingaesthetic', 'languagelearning', 'productivityhacks', 'academicstudy', 'onlinecoursecreator', 'careeradvice', 'skillbuilding', 'digitalnote']
+    },
+    lifestyle: {
+      broad: ['lifestyle', 'life', 'motivation', 'inspiration', 'mindset', 'happy', 'selfcare', 'dailylife', 'positivity', 'wellness'],
+      niche: ['slowliving', 'morningroutine', 'wellnessjourney', 'intentionalcommunity', 'mindfulnesspractice', 'homedecorinspo', 'simpleliving', 'journalingcommunity', 'habittracker', 'cozyvibes']
+    },
+    other: {
+      broad: ['instagram', 'creator', 'content', 'community', 'trending', 'explorepage', 'reels', 'creative', 'viral', 'instadaily'],
+      niche: ['contentcreators', 'creatorsfeel', 'instadaily', 'digitalcreator', 'creativeprocess', 'reelsoftheday', 'visualcontent', 'aestheticfeed', 'explorepageviral', 'communitybuilding']
+    }
+  };
+
+  const STOPWORDS_SET = new Set([
+    'the','and','a','to','of','in','for','with','on','at','from','by','about','as',
+    'into','like','through','after','over','between','out','against','during','without',
+    'before','under','around','among','this','that','these','those','my','your','our',
+    'their','his','her','its','is','am','are','was','were','be','been','being','have',
+    'has','had','do','does','did','will','would','shall','should','may','might','must',
+    'can','could','new','best','great','more','most','other','some','such','no','nor',
+    'not','only','own','same','so','than','too','very','just','really','photo','reel',
+    'video','post','content','instagram','image','pic'
+  ]);
+
+  function cleanStringTag(str: string): string {
+    return str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+  }
+
+  function extractUserKeywords(text: string): string[] {
+    if (!text) return [];
+    const words = text
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, ' ')
+      .split(/\s+/)
+      .filter(w => w.length >= 3 && !STOPWORDS_SET.has(w));
+    return Array.from(new Set(words));
+  }
+
+  interface TagItem {
+    name: string;
+    countText: string;
+    isLive: boolean;
+    tier: 'broad' | 'niche' | 'specific';
+  }
+
+  function clientFallbackGenerator(description: string, keyword: string, category: string, targetCount: number) {
+    const normCat = (category || 'lifestyle').toLowerCase();
+    const tax = CLIENT_TAXONOMY[normCat] || CLIENT_TAXONOMY.other;
+    
+    const fullText = `${keyword} ${description}`.trim();
+    const tokens = extractUserKeywords(fullText);
+
+    const specificSet = new Set<string>();
+    tokens.forEach(t => {
+      const c = cleanStringTag(t);
+      if (c.length >= 3) {
+        specificSet.add(c);
+        specificSet.add(`${c}inspo`);
+      }
+    });
+
+    for (let i = 0; i < tokens.length - 1 && i < 3; i++) {
+      const pair = cleanStringTag(tokens[i] + tokens[i + 1]);
+      if (pair.length <= 25) specificSet.add(pair);
+    }
+
+    if (tokens.length > 0 && normCat !== 'other') {
+      const first = cleanStringTag(tokens[0]);
+      specificSet.add(cleanStringTag(`${normCat}${first}`));
+      specificSet.add(cleanStringTag(`${first}daily`));
+    }
+
+    const broadCount = Math.max(1, Math.round(targetCount * 0.3));
+    const specificCount = Math.max(2, Math.round(targetCount * 0.35));
+    const nicheCount = Math.max(2, targetCount - broadCount - specificCount);
+
+    const broad: TagItem[] = tax.broad.slice(0, broadCount).map(t => ({
+      name: `#${cleanStringTag(t)}`,
+      countText: 'High Reach (1M+)',
+      isLive: false,
+      tier: 'broad'
+    }));
+
+    const niche: TagItem[] = tax.niche.slice(0, nicheCount).map(t => ({
+      name: `#${cleanStringTag(t)}`,
+      countText: 'Targeted Niche (50K–1M)',
+      isLive: false,
+      tier: 'niche'
+    }));
+
+    const specArr = Array.from(specificSet);
+    let finalSpec = specArr.slice(0, specificCount);
+    if (finalSpec.length < specificCount) {
+      const extra = tax.niche.slice(nicheCount);
+      finalSpec = finalSpec.concat(extra.slice(0, specificCount - finalSpec.length));
+    }
+
+    const specific: TagItem[] = finalSpec.map(t => ({
+      name: `#${cleanStringTag(t)}`,
+      countText: 'Content Specific (<50K)',
+      isLive: false,
+      tier: 'specific'
+    }));
+
+    return {
+      success: true,
+      isLive: false,
+      source: 'Curated Knowledge Base (Client-Side Fallback)',
+      notice: 'Live SandBase API endpoint is in fallback mode. Showing verified curated suggestions.',
+      broad,
+      niche,
+      specific
+    };
+  }
+
+  function initHashtagGenerator() {
+    const form = document.getElementById('hashtag-generator-form') as HTMLFormElement | null;
+    const descInput = document.getElementById('post-description-input') as HTMLTextAreaElement | null;
+    const keyInput = document.getElementById('main-keyword-input') as HTMLInputElement | null;
+    const catSelect = document.getElementById('category-select') as HTMLSelectElement | null;
+    const generateBtn = document.getElementById('btn-generate-tags') as HTMLButtonElement | null;
+    const resetBtn = document.getElementById('btn-reset-form') as HTMLButtonElement | null;
+    const countBtns = document.querySelectorAll('.count-pill-btn');
+
+    const loadingBox = document.getElementById('generator-loading-box');
+    const loadingMessage = document.getElementById('loading-status-message');
+    const errorBanner = document.getElementById('generator-error-banner');
+    const errorDesc = document.getElementById('error-banner-desc');
+    const resultsContainer = document.getElementById('generator-results-container');
+    const originCard = document.getElementById('data-origin-notice');
+    const originTitle = document.getElementById('origin-notice-title');
+    const originDesc = document.getElementById('origin-notice-desc');
+    const statusText = document.getElementById('data-status-text');
+
+    const gridBroad = document.getElementById('chips-grid-broad');
+    const gridNiche = document.getElementById('chips-grid-niche');
+    const gridSpecific = document.getElementById('chips-grid-specific');
+
+    const selectionCounter = document.getElementById('selection-counter');
+    const exportTextarea = document.getElementById('copy-ready-textarea') as HTMLTextAreaElement | null;
+    const exportCount = document.getElementById('export-count-label');
+
+    const btnSelectAll = document.getElementById('btn-select-all');
+    const btnClearSelection = document.getElementById('btn-clear-selection');
+    const btnRegenerate = document.getElementById('btn-regenerate');
+    const btnCopySelected = document.getElementById('btn-copy-selected');
+    const btnCopyAll = document.getElementById('btn-copy-all');
+    const copyToast = document.getElementById('copy-toast-banner');
+    const copyToastMsg = document.getElementById('copy-toast-message');
+
+    if (!form || !descInput) return;
+
+    let selectedCount = 15;
+    let currentTags: TagItem[] = [];
+    let selectedSet: Set<string> = new Set();
+    let toastTimeout: any = null;
+
+    // Count selector pills
+    countBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        countBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedCount = parseInt(btn.getAttribute('data-count') || '15', 10);
+      });
+    });
+
+    function showError(msg: string) {
+      if (errorDesc) errorDesc.textContent = msg;
+      errorBanner?.classList.remove('hidden');
+      resultsContainer?.classList.add('hidden');
+      loadingBox?.classList.add('hidden');
+    }
+
+    function hideError() {
+      errorBanner?.classList.add('hidden');
+    }
+
+    function showToast(msg: string) {
+      if (copyToastMsg) copyToastMsg.textContent = msg;
+      copyToast?.classList.remove('hidden');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        copyToast?.classList.add('hidden');
+      }, 3000);
+    }
+
+    function updateExportView() {
+      const selectedList = currentTags.filter(t => selectedSet.has(t.name)).map(t => t.name);
+      const text = selectedList.join(' ');
+      if (exportTextarea) exportTextarea.value = text;
+      
+      const count = selectedList.length;
+      if (selectionCounter) selectionCounter.textContent = `${count} of ${currentTags.length} Selected`;
+      if (exportCount) exportCount.textContent = `${count} ${count === 1 ? 'tag' : 'tags'} selected`;
+    }
+
+    function renderTagChip(tag: TagItem): HTMLElement {
+      const chip = document.createElement('div');
+      chip.className = `tag-chip-card ${selectedSet.has(tag.name) ? 'selected' : ''}`;
+      chip.setAttribute('role', 'checkbox');
+      chip.setAttribute('aria-checked', selectedSet.has(tag.name) ? 'true' : 'false');
+      chip.setAttribute('tabindex', '0');
+
+      chip.innerHTML = `
+        <div class="tag-chip-checkbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="tag-chip-check-svg" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        </div>
+        <span class="tag-chip-name">${tag.name}</span>
+        <span class="tag-chip-count">${tag.countText}</span>
+      `;
+
+      chip.addEventListener('click', () => {
+        if (selectedSet.has(tag.name)) {
+          selectedSet.delete(tag.name);
+          chip.classList.remove('selected');
+          chip.setAttribute('aria-checked', 'false');
+        } else {
+          selectedSet.add(tag.name);
+          chip.classList.add('selected');
+          chip.setAttribute('aria-checked', 'true');
+        }
+        updateExportView();
+      });
+
+      chip.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          chip.click();
+        }
+      });
+
+      return chip;
+    }
+
+    function renderResults(data: any) {
+      const broad: TagItem[] = data.broad || [];
+      const niche: TagItem[] = data.niche || [];
+      const specific: TagItem[] = data.specific || [];
+
+      currentTags = [...broad, ...niche, ...specific];
+      // Select all by default
+      selectedSet = new Set(currentTags.map(t => t.name));
+
+      // Clear existing chips
+      if (gridBroad) gridBroad.innerHTML = '';
+      if (gridNiche) gridNiche.innerHTML = '';
+      if (gridSpecific) gridSpecific.innerHTML = '';
+
+      broad.forEach(t => gridBroad?.appendChild(renderTagChip(t)));
+      niche.forEach(t => gridNiche?.appendChild(renderTagChip(t)));
+      specific.forEach(t => gridSpecific?.appendChild(renderTagChip(t)));
+
+      // Data origin notice
+      originCard?.classList.remove('hidden');
+      if (data.isLive) {
+        if (originTitle) originTitle.textContent = 'SandBase Live Public Instagram Data';
+        if (originDesc) originDesc.textContent = 'Hashtags and media counts reflect verified live Instagram public query results.';
+        if (statusText) statusText.textContent = 'Live SandBase API Data';
+      } else {
+        if (originTitle) originTitle.textContent = 'Curated Semantic Taxonomy';
+        if (originDesc) originDesc.textContent = data.notice || 'Hashtags are matched using domain-specific category taxonomy and keyword parsing.';
+        if (statusText) statusText.textContent = 'Curated Fallback Engine';
+      }
+
+      updateExportView();
+      resultsContainer?.classList.remove('hidden');
+      loadingBox?.classList.add('hidden');
+    }
+
+    async function executeGeneration() {
+      hideError();
+      const desc = descInput?.value.trim() || '';
+      const kw = keyInput?.value.trim() || '';
+      const cat = catSelect?.value || 'lifestyle';
+
+      if (!desc && !kw) {
+        showError('Please provide a post description or main keyword to generate hashtags.');
+        return;
+      }
+
+      if (generateBtn) generateBtn.disabled = true;
+      loadingBox?.classList.remove('hidden');
+      resultsContainer?.classList.add('hidden');
+      if (loadingMessage) loadingMessage.textContent = 'Extracting keywords and consulting Instagram hashtag endpoints...';
+
+      try {
+        // Attempt fetch from /api/instagram-hashtags (Cloudflare Pages Function)
+        const response = await fetch('/api/instagram-hashtags', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            description: desc,
+            keyword: kw,
+            category: cat,
+            count: selectedCount
+          })
+        }).catch(() => null);
+
+        if (response && response.ok) {
+          const apiData = await response.json();
+          if (apiData && apiData.success) {
+            renderResults(apiData);
+            return;
+          }
+        }
+
+        // Seamless client-side fallback if server endpoint is unreachable (e.g. offline or static preview)
+        const fallbackData = clientFallbackGenerator(desc, kw, cat, selectedCount);
+        renderResults(fallbackData);
+
+      } catch (err: any) {
+        // Fallback to client generator on network error
+        const fallbackData = clientFallbackGenerator(desc, kw, cat, selectedCount);
+        renderResults(fallbackData);
+      } finally {
+        if (generateBtn) generateBtn.disabled = false;
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      executeGeneration();
+    });
+
+    btnRegenerate?.addEventListener('click', executeGeneration);
+
+    // Select All
+    btnSelectAll?.addEventListener('click', () => {
+      currentTags.forEach(t => selectedSet.add(t.name));
+      document.querySelectorAll('.tag-chip-card').forEach(c => {
+        c.classList.add('selected');
+        c.setAttribute('aria-checked', 'true');
+      });
+      updateExportView();
+    });
+
+    // Clear Selection
+    btnClearSelection?.addEventListener('click', () => {
+      selectedSet.clear();
+      document.querySelectorAll('.tag-chip-card').forEach(c => {
+        c.classList.remove('selected');
+        c.setAttribute('aria-checked', 'false');
+      });
+      updateExportView();
+    });
+
+    // Copy Selected
+    btnCopySelected?.addEventListener('click', async () => {
+      const selectedList = currentTags.filter(t => selectedSet.has(t.name)).map(t => t.name);
+      if (selectedList.length === 0) {
+        showToast('Please select at least one hashtag to copy.');
+        return;
+      }
+      const text = selectedList.join(' ');
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(`Copied ${selectedList.length} hashtags to clipboard!`);
+      } catch (_) {
+        if (exportTextarea) {
+          exportTextarea.select();
+          document.execCommand('copy');
+          showToast(`Copied ${selectedList.length} hashtags to clipboard!`);
+        }
+      }
+    });
+
+    // Copy All
+    btnCopyAll?.addEventListener('click', async () => {
+      const allList = currentTags.map(t => t.name);
+      if (allList.length === 0) return;
+      const text = allList.join(' ');
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(`Copied all ${allList.length} hashtags to clipboard!`);
+      } catch (_) {
+        if (exportTextarea) {
+          exportTextarea.value = text;
+          exportTextarea.select();
+          document.execCommand('copy');
+          showToast(`Copied all ${allList.length} hashtags to clipboard!`);
+        }
+      }
+    });
+
+    // Reset Form
+    resetBtn?.addEventListener('click', () => {
+      hideError();
+      form.reset();
+      resultsContainer?.classList.add('hidden');
+      originCard?.classList.add('hidden');
+      loadingBox?.classList.add('hidden');
+      if (statusText) statusText.textContent = 'Ready for Research';
+      currentTags = [];
+      selectedSet.clear();
+    });
+  }
+
+  initHashtagGenerator();
+  document.addEventListener('astro:after-swap', initHashtagGenerator);
+</script>

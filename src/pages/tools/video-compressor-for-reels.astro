@@ -1,0 +1,3022 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const faqs = [
+  {
+    question: "Why does Instagram compress my Reels and make them look blurry?",
+    answer: "Instagram automatically recompresses all uploaded videos using aggressive server-side encoding to save bandwidth and ensure rapid mobile streaming. If your original video has an excessively high bitrate (such as 50+ Mbps from a 4K camera) or non-standard dimensions, Instagram's automated transcoders compress it harshly, resulting in pixelation, color banding, and stuttering. Compressing your Reel to an optimal 1080×1920 resolution at 1.8 to 3.0 Mbps beforehand prevents Instagram's transcoders from degrading your visual quality."
+  },
+  {
+    question: "What are the recommended video specifications for Instagram Reels in 2026?",
+    answer: "According to Meta's official guidelines, the recommended specifications for Instagram Reels are: 1080 × 1920 pixels resolution (9:16 vertical aspect ratio), 30 or 60 frames per second (fps), MP4 or WebM container with H.264/VP9 video codec, AAC audio codec at 128 kbps (48 kHz stereo), a target video bitrate between 1.5 Mbps and 3.5 Mbps, and a maximum file size under 250 MB (maximum duration up to 90 seconds in the native feed or 15 minutes for uploaded videos)."
+  },
+  {
+    question: "What is the difference between High Quality, Balanced, and Smaller File compression presets?",
+    answer: "The 'High Quality' preset targets approximately 3.0 Mbps bitrate, preserving maximum sharpness and fine textures for high-detail footage with a modest 25%–35% file size reduction. The 'Balanced' preset targets approximately 1.8 Mbps, achieving the sweet spot for Instagram Reels with roughly 45%–60% file size reduction and near-lossless clarity on mobile screens. The 'Smaller File' preset targets approximately 900 Kbps, reducing file size by 65%–80% for fast uploads over slow cellular networks or strict storage limits."
+  },
+  {
+    question: "Are my uploaded videos private, and does this tool upload files to any cloud server?",
+    answer: "Your videos are 100% private and confidential. All video processing, frame rendering, and media compression execute entirely client-side inside your own web browser using HTML5 Canvas, Web Audio, and MediaRecorder APIs. Your video files, audio tracks, and personal metadata never leave your computer or smartphone, and zero bytes are transmitted to any external server."
+  },
+  {
+    question: "Why would a compressed video occasionally turn out larger than the original file?",
+    answer: "If your source video is already heavily compressed with an ultra-low bitrate (such as 500 Kbps from a WhatsApp forward or screen recording) and you select the 'High Quality' preset (targeting 3.0 Mbps), re-encoding the video at a higher target bitrate will allocate more bits per second, yielding a larger output file without improving quality. If your video is already small, choose 'Smaller File' or keep the original file as-is."
+  },
+  {
+    question: "Can I compress landscape (16:9) or square (1:1) videos for Instagram Reels?",
+    answer: "Yes. You can upload any standard aspect ratio (16:9 landscape, 1:1 square, 4:5 portrait, or 9:16 vertical). The tool allows you to preserve the original aspect ratio with reduced bitrate, or fit it cleanly into a standard 9:16 vertical frame for Reels, TikTok, and YouTube Shorts."
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Tools', item: '/tools' },
+  { name: 'Video Compressor for Reels', item: '/tools/video-compressor-for-reels' }
+];
+
+const origin = Astro.site ? Astro.site.origin : "https://creatorsfeel.com";
+const canonicalUrl = new URL(Astro.url.pathname, origin).href;
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": `${canonicalUrl}#application`,
+  "name": "Video Compressor for Reels",
+  "url": canonicalUrl,
+  "operatingSystem": "All",
+  "applicationCategory": "MultimediaApplication",
+  "description": "Free online Video Compressor for Reels. Compress MP4, MOV, and WebM videos for Instagram Reels, TikTok, and YouTube Shorts without quality loss. 100% private client-side compression.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0.00",
+    "priceCurrency": "USD"
+  }
+};
+---
+
+<BaseLayout
+  title="Video Compressor for Reels - Compress Instagram Reels Free Online"
+  description="Free online Video Compressor for Reels. Reduce video file size for Instagram Reels, TikTok, and Shorts without losing 1080p quality. 100% client-side privacy."
+  canonicalUrl={canonicalUrl}
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+>
+  <script type="application/ld+json" slot="meta" set:html={JSON.stringify(softwareSchema)} />
+
+  <div class="tool-page-wrapper">
+
+    <!-- 1. HERO SECTION (Centered Max-Width 820px) -->
+    <header class="tool-hero-section">
+      <div class="container hero-inner">
+
+        <!-- Breadcrumbs at top -->
+        <div class="hero-breadcrumbs">
+          <Breadcrumbs items={breadcrumbs} />
+        </div>
+
+        <!-- Pill Badge with SVG Icon (Zero Emojis) -->
+        <div class="hero-badge">
+          <span class="badge-icon-tool">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tool-svg" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </span>
+          <span class="badge-title">Instagram Reels &amp; Short Video Optimizer</span>
+          <span class="badge-pill-free">100% Private</span>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="hero-headline">
+          Video Compressor for <span class="gradient-text">Reels</span>
+        </h1>
+
+        <!-- Short Description -->
+        <p class="hero-desc">
+          Compress and optimize your Instagram Reels, TikTok, and YouTube Shorts videos directly in your browser. Reduce file size without losing crisp 1080p visual clarity. No server uploads.
+        </p>
+
+        <!-- Feature Chips Row (Zero Emojis - Clean SVG Icons) -->
+        <div class="hero-features-row">
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+            </svg>
+            9:16 Vertical Reel Presets
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Smart Bitrate Control
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75A2.25 2.25 0 001.5 12v6.75a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+            Zero Server Uploads
+          </span>
+          <span class="feature-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+            Instant Free Download
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. MAIN TOOL SECTION (Container Max-Width 940px) -->
+    <section class="tool-main-section" aria-label="Video Compressor for Reels Tool Interface">
+      <div class="container tool-card-container">
+
+        <!-- The Prominent SaaS Tool Card -->
+        <div class="saas-tool-card">
+
+          <!-- Card Header Bar -->
+          <div class="card-header-bar">
+            <div class="header-title-cluster">
+              <div class="card-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+                </svg>
+              </div>
+              <div>
+                <h2 class="card-title-text">Reels Video Compression Studio</h2>
+                <span class="card-sub-text">Workflow: Upload Video → Choose Settings → Compress → Download</span>
+              </div>
+            </div>
+
+            <div class="header-controls-cluster">
+              <div class="live-status-pill">
+                <span class="live-pulse-dot" aria-hidden="true"></span>
+                <span>Client-Side Active</span>
+              </div>
+              <button type="button" class="btn-reset-tool" id="btn-reset-all" title="Reset compressor inputs and video">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="reset-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 1: VIDEO UPLOAD AREA -->
+          <div class="upload-section-wrap">
+            <div class="dropzone-box" id="dropzone" tabindex="0" role="button" aria-label="Upload video file for Reels compression">
+              <input type="file" id="video-file-input" class="hidden-file-input" accept="video/mp4,video/webm,video/quicktime,video/x-m4v,video/mkv,video/*,.mp4,.mov,.webm,.m4v,.mkv" />
+              
+              <!-- Dropzone Initial Prompt -->
+              <div class="dropzone-prompt" id="dropzone-prompt">
+                <div class="upload-icon-circle" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="upload-arrow-svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                  </svg>
+                </div>
+                <h3 class="dropzone-prompt-title">Drag &amp; Drop Your Video for Reels Here</h3>
+                <p class="dropzone-prompt-sub">or <span class="browse-action-link">browse video file</span> from your device</p>
+                <div class="format-tags-row">
+                  <span class="format-tag">MP4</span>
+                  <span class="format-tag">MOV</span>
+                  <span class="format-tag">WebM</span>
+                  <span class="format-tag">9:16 Vertical &amp; Landscape</span>
+                  <span class="format-tag privacy-tag">100% Client-Side Private</span>
+                </div>
+              </div>
+
+              <!-- Uploaded Video Bar & Metadata (Shown after file selection) -->
+              <div class="loaded-video-card" id="loaded-video-card" style="display: none;">
+                <div class="video-preview-thumb-wrap">
+                  <video id="loaded-source-video" class="loaded-thumb-video" muted playsinline></video>
+                </div>
+                <div class="video-meta-content">
+                  <div class="video-meta-title-row">
+                    <span class="video-filename" id="meta-filename">my_reel.mp4</span>
+                    <button type="button" class="btn-change-video" id="btn-change-video" title="Select a different video file">
+                      Change Video
+                    </button>
+                  </div>
+                  <div class="meta-pills-cluster">
+                    <span class="meta-pill" id="pill-filesize">0 MB</span>
+                    <span class="meta-pill" id="pill-duration">00:00 Duration</span>
+                    <span class="meta-pill" id="pill-resolution">1080 × 1920</span>
+                    <span class="meta-pill highlight-pill" id="pill-aspect-ratio">9:16 Vertical Reel</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="upload-alert-box" id="upload-error-box" style="display: none;" role="alert">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="alert-svg" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+              <span id="upload-error-msg">Please upload a valid video file under 500 MB.</span>
+            </div>
+          </div>
+
+          <!-- STEP 2: COMPRESSION SETTINGS (Visible when video is loaded or configured) -->
+          <div class="settings-container-wrap" id="settings-container">
+            <div class="settings-header-row">
+              <h3 class="settings-title">Compression &amp; Reels Encoding Settings</h3>
+              <span class="settings-sub">Tailored to bypass Instagram Reels automated transcode degradation</span>
+            </div>
+
+            <div class="settings-grid">
+              
+              <!-- Setting 1: Quality Preset -->
+              <div class="setting-field-group">
+                <label for="select-preset" class="setting-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="field-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+                  </svg>
+                  <span>Compression Quality Preset</span>
+                </label>
+                <div class="styled-select-wrap">
+                  <select id="select-preset" class="styled-select">
+                    <option value="balanced" selected>Balanced (Target ~1.8 Mbps - Recommended for Reels)</option>
+                    <option value="high">High Quality (Target ~3.0 Mbps - Maximum Sharpness)</option>
+                    <option value="smaller">Smaller File (Target ~900 Kbps - Maximum Space Savings)</option>
+                  </select>
+                  <div class="select-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                </div>
+                <p class="setting-helper-text" id="helper-preset-text">
+                  Optimal 1.8 Mbps bitrate prevents Instagram's server from recompressing and introducing blur.
+                </p>
+              </div>
+
+              <!-- Setting 2: Output Resolution -->
+              <div class="setting-field-group">
+                <label for="select-resolution" class="setting-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="field-svg" aria-hidden="true">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/>
+                    <line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+                  <span>Target Output Resolution</span>
+                </label>
+                <div class="styled-select-wrap">
+                  <select id="select-resolution" class="styled-select">
+                    <option value="original" selected>Original Resolution (Preserve Dimensions)</option>
+                    <option value="1080">1080p (Full HD - Meta Recommended for Reels)</option>
+                    <option value="720">720p (HD - Fast Mobile Loading)</option>
+                    <option value="480">480p (SD - Ultra Lightweight)</option>
+                  </select>
+                  <div class="select-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                </div>
+                <p class="setting-helper-text" id="helper-resolution-text">
+                  Videos are never upscaled beyond original source dimensions to prevent artificial pixelation.
+                </p>
+              </div>
+
+              <!-- Setting 3: Audio Track Setting -->
+              <div class="setting-field-group">
+                <label for="select-audio" class="setting-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="field-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.757 3.63 8.25 4.51 8.25H6.75z" />
+                  </svg>
+                  <span>Audio Track</span>
+                </label>
+                <div class="styled-select-wrap">
+                  <select id="select-audio" class="styled-select">
+                    <option value="keep" selected>Keep Audio Track (Standard Stereo)</option>
+                    <option value="mute">Remove Audio Track (Save extra 10%–20% file size)</option>
+                  </select>
+                  <div class="select-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                </div>
+                <p class="setting-helper-text">
+                  Choose 'Remove Audio' if you plan to add trending background music directly inside the Instagram app.
+                </p>
+              </div>
+
+              <!-- Setting 4: Aspect Ratio Framing -->
+              <div class="setting-field-group">
+                <label for="select-framing" class="setting-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="field-svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                  </svg>
+                  <span>Framing for Reels</span>
+                </label>
+                <div class="styled-select-wrap">
+                  <select id="select-framing" class="styled-select">
+                    <option value="fit" selected>Keep Original Aspect Ratio (Fit without cropping)</option>
+                    <option value="crop916">Center Crop to 9:16 Vertical Reel</option>
+                  </select>
+                  <div class="select-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                </div>
+                <p class="setting-helper-text">
+                  Convert horizontal clips into full-screen 9:16 Reels or maintain letterboxed proportions.
+                </p>
+              </div>
+
+            </div>
+
+            <!-- Estimated Size Pill Box -->
+            <div class="estimate-strip-box">
+              <div class="estimate-info-group">
+                <span class="estimate-label">Estimated Output Size:</span>
+                <span class="estimate-value" id="label-estimated-size">Select or upload a video</span>
+              </div>
+              <span class="estimate-disclaimer">
+                *Estimated size is calculated from target bitrate and duration. Actual output size is confirmed upon encoding completion.
+              </span>
+            </div>
+
+            <!-- Primary Action Row -->
+            <div class="compress-actions-row">
+              <button type="button" class="btn-compress-primary" id="btn-start-compression">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="action-btn-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
+                </svg>
+                <span>Compress Video for Reels</span>
+              </button>
+            </div>
+
+            <!-- Live Progress Feedback Card (Displayed during active compression) -->
+            <div class="compression-progress-card" id="compression-progress-card" style="display: none;" aria-live="polite">
+              <div class="progress-meta-row">
+                <div class="progress-title-cluster">
+                  <span class="spinner-dot-pulse" aria-hidden="true"></span>
+                  <span class="progress-phase-title" id="progress-phase-title">Compressing video frames...</span>
+                </div>
+                <span class="progress-numeric-pct" id="progress-numeric-pct">0%</span>
+              </div>
+              
+              <div class="progress-track-bg">
+                <div class="progress-fill-bar" id="progress-fill-bar" style="width: 0%;"></div>
+              </div>
+              
+              <div class="progress-sub-info-row">
+                <span id="progress-sub-detail">Processing locally in browser canvas...</span>
+                <span id="progress-timer-detail">Elapsed: 00:00</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- STEP 3: RESULTS & DOWNLOAD SECTION -->
+          <div class="compression-results-area" id="compression-results-area" style="display: none;">
+            
+            <div class="card-divider"></div>
+
+            <!-- Success Verdict Banner -->
+            <div class="verdict-banner-success">
+              <div class="verdict-icon-circle" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="check-svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </div>
+              <div class="verdict-text-block">
+                <h3 class="verdict-heading">Reel Compressed Successfully!</h3>
+                <p class="verdict-sub">Optimized for high-retention Instagram Reels, TikTok, and YouTube Shorts playback.</p>
+              </div>
+            </div>
+
+            <!-- 4 Essential Result Metric Cards -->
+            <div class="results-grid-four">
+              
+              <!-- Card 1: Compressed Size (Highlighted) -->
+              <div class="result-metric-card highlight-card">
+                <div class="metric-top-row">
+                  <span class="metric-label-title">Compressed Size</span>
+                  <div class="metric-icon-badge" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="metric-large-value" id="res-compressed-size">0.00 MB</div>
+                <p class="metric-sub-detail" id="res-compressed-sub">Output file ready for download</p>
+              </div>
+
+              <!-- Card 2: Original Size -->
+              <div class="result-metric-card">
+                <div class="metric-top-row">
+                  <span class="metric-label-title">Original Size</span>
+                  <div class="metric-icon-badge" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                      <line x1="8" y1="21" x2="16" y2="21"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="metric-large-value" id="res-original-size">0.00 MB</div>
+                <p class="metric-sub-detail">Source input video file</p>
+              </div>
+
+              <!-- Card 3: Size Reduction -->
+              <div class="result-metric-card">
+                <div class="metric-top-row">
+                  <span class="metric-label-title">Size Reduction</span>
+                  <div class="metric-icon-badge" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="metric-large-value savings-value" id="res-savings-pct">-0%</div>
+                <p class="metric-sub-detail" id="res-savings-mb">0.00 MB saved</p>
+              </div>
+
+              <!-- Card 4: Output Specs -->
+              <div class="result-metric-card">
+                <div class="metric-top-row">
+                  <span class="metric-label-title">Output Specs</span>
+                  <div class="metric-icon-badge" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="metric-large-value" id="res-output-resolution">1080 × 1920</div>
+                <p class="metric-sub-detail" id="res-output-format">9:16 Reel • Web-Ready</p>
+              </div>
+
+            </div>
+
+            <!-- Compressed Video Player Stage -->
+            <div class="compressed-player-stage">
+              <div class="player-header-bar">
+                <span class="player-title">Compressed Video Preview</span>
+                <span class="player-tag-badge">Playback Check</span>
+              </div>
+              <div class="player-aspect-container">
+                <video id="compressed-output-player" class="output-preview-video" controls playsinline></video>
+              </div>
+            </div>
+
+            <!-- Download and Reset Action Buttons -->
+            <div class="final-actions-cluster">
+              <button type="button" class="btn-download-compressed" id="btn-download-compressed">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="action-btn-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+                <span>Download Compressed Video</span>
+              </button>
+
+              <button type="button" class="btn-compress-another" id="btn-compress-another">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="action-btn-svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+                <span>Compress Another Video</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. EDITORIAL ARTICLE SECTION (Centered Max-Width 940px) -->
+    <article class="editorial-content-section" aria-label="Comprehensive Guide to Video Compression for Instagram Reels">
+      <div class="container editorial-inner">
+
+        <!-- Section 1: Introduction -->
+        <section class="editorial-block">
+          <h2>What an Instagram Reels Video Compressor Does and Why Creators Need It</h2>
+          <p>
+            An <strong>Instagram Reels Video Compressor</strong> is a specialized multimedia optimization tool designed to reduce video file sizes while preserving the visual sharpness, color accuracy, and fluid motion demanded by modern vertical video algorithms. Creators filming in 4K or high-bitrate 1080p on smartphones and mirrorless cameras regularly produce video files between 50 MB and 500 MB for a single 30-second clip. Uploading these uncompressed files directly to social media apps often causes severe upload lag, upload failures on mobile data, and unexpectedly degraded playback. Using an <strong>online video size reducer</strong> ensures your files remain lightweight and buffer-free.
+          </p>
+          <p>
+            Instagram, TikTok, and YouTube Shorts do not deliver raw, uncompressed video to viewers. Instead, every clip uploaded to their platforms undergoes automated server-side transcoding to generate lightweight streaming renditions. When an uploaded video file exceeds Meta's internal bitrate thresholds, Instagram's compression algorithms compress the footage aggressively, causing muddy text, blurry facial details, and motion artifacts. A dedicated <strong>Instagram video size compressor</strong> helps you compress video for Instagram upload and reduce video size for Reels before posting.
+          </p>
+          <p>
+            By pre-compressing your video with our <strong>free browser-based video compressor</strong>, you control the encoding process. You deliver a clean 1080×1920 vertical video file at an optimized bitrate (1.8 to 3.0 Mbps) that sails through Instagram's automated checks without triggering harsh secondary re-encoding. As a versatile <strong>video compressor for social media</strong>, it empowers you to compress videos for TikTok and act as a reliable <strong>YouTube Shorts video compressor</strong>. Pair this tool with our <a href="/tools/video-frame-grabber">Video Frame Grabber</a> to extract sharp cover photos and our <a href="/tools/instagram-caption-character-counter">Instagram Caption Character Counter</a> to polish your accompanying descriptions.
+          </p>
+        </section>
+
+        <!-- Section 2: Step-by-Step Compression Guide -->
+        <section class="editorial-block">
+          <h2>How to Compress Video for Instagram Reels Without Losing Quality</h2>
+          <p>
+            Learning how to <strong>compress video for Instagram Reels</strong> and <strong>compress video without losing quality</strong> takes less than a minute and requires no software installation or registration:
+          </p>
+          <ol>
+            <li><strong>Select or Drag Your Video:</strong> Drop your MP4, MOV, or WebM clip into the upload zone above. This <strong>Reels video compressor</strong> immediately reads the duration, file size, aspect ratio, and resolution using your browser's native decoder.</li>
+            <li><strong>Choose Your Compression Quality Preset:</strong> Select <strong>Balanced</strong> (targeting ~1.8 Mbps, recommended for 95% of Reels), <strong>High Quality</strong> (targeting ~3.0 Mbps for detailed texture), or <strong>Smaller File</strong> (targeting ~900 Kbps for ultra-fast mobile sharing).</li>
+            <li><strong>Confirm Target Resolution:</strong> Keep <strong>Original Resolution</strong> or choose <strong>1080p (Full HD)</strong>. If your clip was filmed in 4K (2160×3840), downscaling to 1080×1920 to <strong>reduce video file size</strong> cuts bulk by over 60% with zero perceived loss on smartphone displays.</li>
+            <li><strong>Toggle Audio Track:</strong> Keep the original stereo audio track, or choose 'Remove Audio' if you plan to attach a trending sound or voiceover inside the Instagram Reels editor.</li>
+            <li><strong>Click Compress Video:</strong> Watch the live progress bar as your browser processes the video frames locally to <strong>compress MP4 video</strong> files smoothly. Once complete, inspect the playback preview and click <strong>Download Compressed Video</strong>.</li>
+          </ol>
+        </section>
+
+        <!-- Section 3: Recommended Reels Specifications -->
+        <section class="editorial-block">
+          <h2>Recommended Video Specifications for Instagram Reels in 2026</h2>
+          <p>
+            To ensure your vertical videos upload without errors and stream in maximum quality across iOS and Android feeds, adhere to Meta's verified technical recommendations:
+          </p>
+
+          <div class="table-responsive">
+            <table class="editorial-data-table">
+              <thead>
+                <tr>
+                  <th>Technical Parameter</th>
+                  <th>Recommended Standard</th>
+                  <th>Acceptable Range</th>
+                  <th>Why It Matters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Aspect Ratio</strong></td>
+                  <td><strong>9:16 Vertical</strong></td>
+                  <td>4:5 Portrait or 9:16</td>
+                  <td>Fills the entire mobile screen without black sidebars or awkward letterboxing.</td>
+                </tr>
+                <tr>
+                  <td><strong>Optimal Resolution</strong></td>
+                  <td><strong>1080 × 1920 pixels</strong></td>
+                  <td>720 × 1280 to 1080 × 1920</td>
+                  <td>Meta downsamples 4K uploads to 1080p. Pre-encoding at 1080p avoids server artifacts.</td>
+                </tr>
+                <tr>
+                  <td><strong>Target Bitrate</strong></td>
+                  <td><strong>1.8 – 3.5 Mbps</strong></td>
+                  <td>1.0 – 5.0 Mbps</td>
+                  <td>Sweet spot between razor-sharp visual clarity and rapid mobile buffer-free streaming.</td>
+                </tr>
+                <tr>
+                  <td><strong>Frame Rate (fps)</strong></td>
+                  <td><strong>30 fps or 60 fps</strong></td>
+                  <td>24, 30, or 60 fps</td>
+                  <td>Consistent frame rates prevent audio desynchronization and dropped frames during playback.</td>
+                </tr>
+                <tr>
+                  <td><strong>Video Codec &amp; Container</strong></td>
+                  <td><strong>H.264 / MP4</strong></td>
+                  <td>MP4 or WebM (VP9)</td>
+                  <td>Universal hardware decoder compatibility across all modern Apple and Android devices.</td>
+                </tr>
+                <tr>
+                  <td><strong>Audio Stream</strong></td>
+                  <td><strong>AAC, 128 kbps, 48 kHz</strong></td>
+                  <td>Stereo 96 – 192 kbps</td>
+                  <td>Provides crisp dialogue, punchy music transients, and zero phase cancellation.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-footnote">
+            *Source: Meta Developer Documentation &amp; Instagram Help Center Guidelines for Video Uploads.
+          </p>
+        </section>
+
+        <!-- Section 4: Resolution, Bitrate, Framerate & Duration -->
+        <section class="editorial-block">
+          <h2>How Resolution, Bitrate, Frame Rate, and Codec Dictate File Size</h2>
+          <p>
+            Digital video file size is governed by an exact mathematical relationship rather than arbitrary software compression. The formula determining raw file size is:
+          </p>
+
+          <div class="formula-display-container">
+            <div class="formula-equation">
+              <code>Video File Size (MB) = [Total Bitrate in kbps × Duration in seconds] ÷ (8 × 1,024)</code>
+            </div>
+            <p class="formula-caption">
+              Total Bitrate equals Video Stream Bitrate plus Audio Stream Bitrate.
+            </p>
+          </div>
+
+          <p>
+            Understanding these four core variables helps you dial in the ideal settings for any video project:
+          </p>
+          <ul>
+            <li><strong>Bitrate (Crucial Variable):</strong> Bitrate represents the volume of digital information processed per second of video. Lowering bitrate reduces file size linearly. A 60-second clip encoded at 10,000 kbps (10 Mbps) weighs roughly 75 MB, whereas that identical 60-second clip encoded at 2,000 kbps (2 Mbps) weighs only 15 MB—a dramatic 80% reduction.</li>
+            <li><strong>Resolution (Pixel Grid):</strong> A 4K video frame contains 8,294,400 pixels, whereas a 1080p frame contains 2,073,600 pixels (75% fewer pixels). When you downscale from 4K to 1080p, your video encoder requires far fewer bits to represent the scene cleanly.</li>
+            <li><strong>Frame Rate (FPS):</strong> A 60 fps video contains twice as many discrete image frames as a 30 fps video. While 60 fps delivers silky-smooth motion for high-speed sports and dancing, it requires roughly 20% to 35% higher bitrate to prevent compression macro-blocking.</li>
+            <li><strong>Encoder Codec Efficiency:</strong> Modern codecs like H.264, VP9, and AV1 utilize sophisticated inter-frame prediction (P-frames and B-frames) to store only what changes between frames rather than storing full pictures repeatedly.</li>
+          </ul>
+        </section>
+
+        <!-- Section 5: Choosing Presets -->
+        <section class="editorial-block">
+          <h2>How to Choose Between High Quality, Balanced, and Smaller File</h2>
+          <p>
+            Different content types and publishing scenarios call for different compression trade-offs:
+          </p>
+
+          <div class="preset-comparison-grid">
+            <div class="preset-card">
+              <div class="preset-card-header">
+                <h3>High Quality (~3.0 Mbps)</h3>
+                <span class="preset-badge">Fidelity Priority</span>
+              </div>
+              <p>
+                <strong>Best For:</strong> High-production fashion shoots, beauty tutorials, intricate graphic animations, and luxury product showcases where macro textures, skin tones, and subtle gradients must look pristine.
+              </p>
+              <ul class="preset-card-list">
+                <li>Target reduction: 20% to 35%</li>
+                <li>Resolution: 1080p Full HD</li>
+                <li>Zero visible compression artifacts</li>
+              </ul>
+            </div>
+
+            <div class="preset-card featured-preset">
+              <div class="preset-card-header">
+                <h3>Balanced (~1.8 Mbps)</h3>
+                <span class="preset-badge highlight">Recommended</span>
+              </div>
+              <p>
+                <strong>Best For:</strong> 95% of standard Instagram Reels, TikToks, and YouTube Shorts. Perfect for talking-head videos, vlogs, comedy sketches, fitness demonstrations, and cooking recipes.
+              </p>
+              <ul class="preset-card-list">
+                <li>Target reduction: 45% to 60%</li>
+                <li>Resolution: 1080p Full HD</li>
+                <li>Imperceptible quality difference on smartphones</li>
+              </ul>
+            </div>
+
+            <div class="preset-card">
+              <div class="preset-card-header">
+                <h3>Smaller File (~900 Kbps)</h3>
+                <span class="preset-badge">Size Priority</span>
+              </div>
+              <p>
+                <strong>Best For:</strong> Fast uploads on unstable or slow 4G cellular connections, sending video drafts via Discord, email attachments, or quick review links to clients and brand managers.
+              </p>
+              <ul class="preset-card-list">
+                <li>Target reduction: 65% to 80%</li>
+                <li>Resolution: 720p or 1080p</li>
+                <li>Smallest file size with acceptable clarity</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 6: Why Compressed Videos Can Sometimes Be Larger -->
+        <section class="editorial-block">
+          <h2>Why a Compressed Video May Sometimes Turn Out Larger than the Original</h2>
+          <p>
+            It sounds counterintuitive: you run a video through a compressor, yet the resulting file size increases. This phenomenon is well-understood in video engineering and occurs when a user re-encodes a video that was <strong>already aggressively compressed</strong> at a lower bitrate than the compressor's target preset.
+          </p>
+          <p>
+            For example, if you download a screen recording or an existing WhatsApp video clip that was already compressed to a 600 Kbps bitrate (weighing 4 MB), and you run it through our tool using the <strong>High Quality</strong> preset (which encodes at 3,000 Kbps), the encoder writes 3,000 kilobits per second of data into the output stream. The output file may expand to 15 MB without adding any genuine visual clarity.
+          </p>
+          <p>
+            To prevent this, check your source file size before compressing. If your video is already small (e.g. less than 10 MB for a 30-second clip), select the <strong>Smaller File</strong> preset or keep the original file unchanged.
+          </p>
+        </section>
+
+        <!-- Section 7: Browser-Based Privacy Benefits -->
+        <section class="editorial-block">
+          <h2>100% Client-Side Video Processing: Why Browser Privacy Matters</h2>
+          <p>
+            Most free online video converters require you to upload your personal video clips to a remote cloud server. This model introduces severe privacy risks, intellectual property concerns, and slow upload bottlenecks:
+          </p>
+          <ul>
+            <li><strong>Zero Server Uploads:</strong> Our tool processes your video completely inside your device's browser memory using native HTML5 Canvas drawing buffers and hardware-accelerated MediaRecorder encoding. Your footage never touches an external server.</li>
+            <li><strong>Protection for Unreleased Content:</strong> Whether you are editing sponsored brand deliverables under strict non-disclosure agreements (NDAs), private personal family footage, or pre-launch marketing campaigns, your media remains 100% confidential.</li>
+            <li><strong>Zero Bandwidth Waste:</strong> Because files are not sent to the cloud, you do not waste mobile cellular data uploading large raw files to a server only to download them again.</li>
+          </ul>
+        </section>
+
+        <!-- Section 8: Troubleshooting & Cross-Platform Tips -->
+        <section class="editorial-block">
+          <h2>Troubleshooting Common Processing Issues &amp; Cross-Platform Tips</h2>
+          <p>
+            When compressing short-form videos in a web browser, keep these operational guidelines in mind:
+          </p>
+          <ul>
+            <li><strong>Device Memory (RAM) Limitations:</strong> Because processing happens locally, attempting to compress very large files (over 500 MB) or long 1-hour recordings on older mobile devices may exceed browser memory caps. For optimal performance, keep clips under 3 minutes.</li>
+            <li><strong>Keep the Browser Tab Active:</strong> Modern browsers throttle background tabs to conserve battery. When starting compression, keep the CreatorsFeel tab open and active until the progress bar reaches 100%.</li>
+            <li><strong>Cross-Posting to TikTok &amp; YouTube Shorts:</strong> Videos compressed to 1080×1920 at 1.8 to 2.5 Mbps using our tool are 100% compliant with TikTok and YouTube Shorts upload specifications. You can create one universal master clip and publish it across all three platforms without re-rendering.</li>
+          </ul>
+          <p>
+            Planning your monetization strategy alongside content production? Benchmark your platform rates with our <a href="/tools/instagram-story-reel-calculator">Instagram Story &amp; Reel Rate Calculator</a>, explore brand sponsorship rates with our <a href="/tools/influencer-rate-calculator">Influencer Rate Calculator</a>, and estimate platform rewards with our <a href="/tools/tiktok-money-calculator">TikTok Money Calculator</a>.
+          </p>
+        </section>
+
+      </div>
+    </article>
+
+    <!-- 4. FREQUENTLY ASKED QUESTIONS SECTION (Centered Max-Width 940px) -->
+    <section class="tool-faq-section" aria-label="Frequently Asked Questions">
+      <div class="container faq-inner">
+        <div class="faq-header-wrap">
+          <h2 class="faq-headline">Frequently Asked Questions</h2>
+          <p class="faq-subhead">Everything you need to know about compressing video files for Instagram Reels and short-form platforms.</p>
+        </div>
+
+        <div class="faq-accordion-wrap">
+          {faqs.map((faq) => (
+            <details class="faq-accordion-item">
+              <summary class="faq-summary">
+                <span class="faq-question-text">{faq.question}</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-chevron" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+              </summary>
+              <div class="faq-body">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. RELATED TOOLS BLOCK (4 Cards, Centered Max-Width 940px) -->
+    <section class="related-tools-section" aria-label="Related Creator Tools">
+      <div class="container related-inner">
+        <div class="related-header-wrap">
+          <h2 class="related-headline">Explore More Creator Tools</h2>
+          <p class="related-subhead">Pair this Reels video compressor with our complete suite of creator utilities.</p>
+        </div>
+
+        <div class="related-tools-grid">
+          <!-- Card 1: Video Compressor -->
+          <a href="/tools/video-compressor" class="related-tool-card">
+            <div class="tool-card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Video Compressor</h3>
+              <p class="tool-card-desc">General online video compressor to reduce video file sizes for Discord, email, and websites.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+              </svg>
+            </div>
+          </a>
+
+          <!-- Card 2: Video Frame Grabber -->
+          <a href="/tools/video-frame-grabber" class="related-tool-card">
+            <div class="tool-card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Video Frame Grabber</h3>
+              <p class="tool-card-desc">Extract full-resolution still photos and cover thumbnails from MP4, WebM, and MOV videos.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+              </svg>
+            </div>
+          </a>
+
+          <!-- Card 3: Instagram Story & Reel Rate Calculator -->
+          <a href="/tools/instagram-story-reel-calculator" class="related-tool-card">
+            <div class="tool-card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Instagram Story &amp; Reel Calculator</h3>
+              <p class="tool-card-desc">Calculate fair market rates for sponsored Instagram Reels, Story slides, and brand packages.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+              </svg>
+            </div>
+          </a>
+
+          <!-- Card 4: Instagram Caption Character Counter -->
+          <a href="/tools/instagram-caption-character-counter" class="related-tool-card">
+            <div class="tool-card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+              </svg>
+            </div>
+            <div class="tool-card-content">
+              <h3 class="tool-card-title">Instagram Caption Character Counter</h3>
+              <p class="tool-card-desc">Optimize Reel captions and hashtags against Instagram's 2,200 character limit.</p>
+            </div>
+            <div class="tool-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+              </svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  /* ==========================================================================
+     GLOBAL TOOL PAGE WRAPPER & LAYOUT SYSTEM
+     ========================================================================== */
+  .tool-page-wrapper {
+    width: 100%;
+    overflow-x: hidden;
+    padding-bottom: 5rem;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 940px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(1rem, 3vw, 2rem);
+    padding-right: clamp(1rem, 3vw, 2rem);
+  }
+
+  /* ==========================================================================
+     1. HERO SECTION (Centered Max-Width 820px)
+     ========================================================================== */
+  .tool-hero-section {
+    padding-top: clamp(2rem, 5vw, 3.5rem);
+    padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+    text-align: center;
+  }
+
+  .hero-inner {
+    max-width: 820px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-breadcrumbs {
+    margin-bottom: 1.25rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-brand, #6366f1);
+    margin-bottom: 1.25rem;
+  }
+
+  .badge-icon-tool {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tool-svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .badge-pill-free {
+    padding: 0.15rem 0.45rem;
+    border-radius: 9999px;
+    background: var(--color-brand, #6366f1);
+    color: #ffffff;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(2rem, 4.5vw, 2.85rem);
+    font-weight: 800;
+    line-height: 1.18;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-desc {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--color-text-muted, #64748b);
+    margin: 0 0 1.75rem 0;
+    max-width: 680px;
+  }
+
+  .hero-features-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+  }
+
+  .feature-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--color-text, #334155);
+  }
+
+  .chip-svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-brand, #6366f1);
+    flex-shrink: 0;
+  }
+
+  /* ==========================================================================
+     2. MAIN TOOL SECTION & SAAS TOOL CARD
+     ========================================================================== */
+  .tool-main-section {
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .tool-card-container {
+    max-width: 940px;
+  }
+
+  .saas-tool-card {
+    background: var(--color-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 20px;
+    padding: clamp(1.25rem, 3.5vw, 2.25rem);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 20px 40px -15px rgba(99, 102, 241, 0.04);
+  }
+
+  /* Header Bar */
+  .card-header-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 680px) {
+    .card-header-bar {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .header-title-cluster {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .card-icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .title-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .card-title-text {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0;
+  }
+
+  .card-sub-text {
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .header-controls-cluster {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .live-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: #059669;
+    background: #ecfdf5;
+    padding: 0.3rem 0.65rem;
+    border-radius: 9999px;
+    border: 1px solid #a7f3d0;
+  }
+
+  .live-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  }
+
+  .btn-reset-tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-reset-tool:hover {
+    color: var(--color-text, #0f172a);
+    background: var(--color-card, #ffffff);
+    border-color: #cbd5e1;
+  }
+
+  .reset-svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Dropzone Styling */
+  .upload-section-wrap {
+    margin-bottom: 1.5rem;
+  }
+
+  .dropzone-box {
+    border: 2px dashed #cbd5e1;
+    border-radius: 16px;
+    background: var(--color-bg-alt, #f8fafc);
+    padding: clamp(1.5rem, 3.5vw, 2.5rem);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    position: relative;
+  }
+
+  .dropzone-box:hover,
+  .dropzone-box:focus-visible,
+  .dropzone-box.dragover {
+    border-color: var(--color-brand, #6366f1);
+    background: rgba(99, 102, 241, 0.04);
+  }
+
+  .hidden-file-input {
+    display: none;
+  }
+
+  .dropzone-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .upload-icon-circle {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+    transition: transform 0.2s ease;
+  }
+
+  .dropzone-box:hover .upload-icon-circle {
+    transform: translateY(-2px);
+  }
+
+  .upload-arrow-svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .dropzone-prompt-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0;
+  }
+
+  .dropzone-prompt-sub {
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .browse-action-link {
+    color: var(--color-brand, #6366f1);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .format-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.45rem;
+    margin-top: 0.5rem;
+  }
+
+  .format-tag {
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    background: var(--color-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .privacy-tag {
+    color: #059669;
+    border-color: #a7f3d0;
+    background: #ecfdf5;
+  }
+
+  /* Loaded Video Metadata Card */
+  .loaded-video-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    text-align: left;
+    background: var(--color-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    padding: 1.15rem;
+  }
+
+  @media (min-width: 580px) {
+    .loaded-video-card {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .video-preview-thumb-wrap {
+    width: 90px;
+    height: 120px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #0f172a;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loaded-thumb-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-meta-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    width: 100%;
+  }
+
+  .video-meta-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .video-filename {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 320px;
+  }
+
+  .btn-change-video {
+    padding: 0.3rem 0.65rem;
+    border-radius: 8px;
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-brand, #6366f1);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+  }
+
+  .btn-change-video:hover {
+    background: #eef2ff;
+    border-color: #c7d2fe;
+  }
+
+  .meta-pills-cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .meta-pill {
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text, #334155);
+  }
+
+  .highlight-pill {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #6366f1);
+    border-color: rgba(99, 102, 241, 0.25);
+  }
+
+  .upload-alert-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    margin-top: 0.75rem;
+  }
+
+  .alert-svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  /* Settings Grid */
+  .settings-container-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .settings-header-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .settings-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0;
+  }
+
+  .settings-sub {
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .settings-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+  }
+
+  @media (min-width: 640px) {
+    .settings-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .setting-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .setting-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .field-svg {
+    width: 16px;
+    height: 16px;
+    color: var(--color-brand, #6366f1);
+    flex-shrink: 0;
+  }
+
+  .styled-select-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .styled-select {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 2.25rem 0.75rem 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-bg, #ffffff);
+    color: var(--color-text, #0f172a);
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: all 0.15s ease;
+  }
+
+  .styled-select:focus {
+    border-color: var(--color-brand, #6366f1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .select-chevron {
+    position: absolute;
+    right: 0.95rem;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .select-chevron svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .setting-helper-text {
+    font-size: 0.775rem;
+    line-height: 1.4;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* Estimate Strip */
+  .estimate-strip-box {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 12px;
+    padding: 0.85rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .estimate-info-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .estimate-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .estimate-value {
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: var(--color-brand, #6366f1);
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+  }
+
+  .estimate-disclaimer {
+    font-size: 0.725rem;
+    color: var(--color-text-muted, #64748b);
+    font-style: italic;
+  }
+
+  /* Compress Button */
+  .compress-actions-row {
+    display: flex;
+    margin-top: 0.5rem;
+  }
+
+  .btn-compress-primary {
+    width: 100%;
+    min-height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 12px;
+    background: var(--color-brand, #6366f1);
+    color: #ffffff;
+    border: none;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+  }
+
+  .btn-compress-primary:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
+  }
+
+  .btn-compress-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .action-btn-svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Compression Progress Card */
+  .compression-progress-card {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    padding: 1.15rem 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .progress-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .progress-title-cluster {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .spinner-dot-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-brand, #6366f1);
+    animation: pulse 1.2s infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(0.8); opacity: 0.5; }
+    50% { transform: scale(1.3); opacity: 1; }
+  }
+
+  .progress-phase-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .progress-numeric-pct {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--color-brand, #6366f1);
+  }
+
+  .progress-track-bg {
+    width: 100%;
+    height: 8px;
+    border-radius: 9999px;
+    background: var(--color-border, #e2e8f0);
+    overflow: hidden;
+  }
+
+  .progress-fill-bar {
+    height: 100%;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #6366f1, #a855f7);
+    transition: width 0.15s linear;
+  }
+
+  .progress-sub-info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  /* Divider */
+  .card-divider {
+    height: 1px;
+    background: var(--color-border, #e2e8f0);
+    margin: 1.75rem 0;
+  }
+
+  /* STEP 3: RESULTS DISPLAY */
+  .compression-results-area {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .verdict-banner-success {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+  }
+
+  .verdict-icon-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #10b981;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .check-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .verdict-heading {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #065f46;
+    margin: 0 0 0.15rem 0;
+  }
+
+  .verdict-sub {
+    font-size: 0.8rem;
+    color: #047857;
+    margin: 0;
+  }
+
+  /* Results 4 Grid */
+  .results-grid-four {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 580px) {
+    .results-grid-four {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 860px) {
+    .results-grid-four {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .result-metric-card {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.15rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.45rem;
+  }
+
+  .result-metric-card.highlight-card {
+    background: linear-gradient(145deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.04) 100%);
+    border: 1.5px solid rgba(99, 102, 241, 0.35);
+  }
+
+  .metric-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .metric-label-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-muted, #64748b);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .metric-icon-badge {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .metric-icon-badge svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .metric-large-value {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    line-height: 1.15;
+  }
+
+  .highlight-card .metric-large-value {
+    color: var(--color-brand, #4f46e5);
+  }
+
+  .savings-value {
+    color: #059669;
+  }
+
+  .metric-sub-detail {
+    font-size: 0.725rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* Player Stage */
+  .compressed-player-stage {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .player-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.15rem;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-card, #ffffff);
+  }
+
+  .player-title {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+  }
+
+  .player-tag-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-brand, #6366f1);
+    background: rgba(99, 102, 241, 0.08);
+    padding: 0.15rem 0.45rem;
+    border-radius: 6px;
+  }
+
+  .player-aspect-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background: #0f172a;
+    max-height: 480px;
+  }
+
+  .output-preview-video {
+    max-width: 100%;
+    max-height: 440px;
+    border-radius: 8px;
+    outline: none;
+  }
+
+  /* Final Actions */
+  .final-actions-cluster {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 580px) {
+    .final-actions-cluster {
+      flex-direction: row;
+    }
+  }
+
+  .btn-download-compressed {
+    flex: 1;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    background: #059669;
+    color: #ffffff;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  }
+
+  .btn-download-compressed:hover {
+    background: #047857;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+  }
+
+  .btn-compress-another {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    background: var(--color-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    color: var(--color-text, #0f172a);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-compress-another:hover {
+    background: var(--color-bg-alt, #f8fafc);
+    border-color: #cbd5e1;
+  }
+
+  /* ==========================================================================
+     3. EDITORIAL ARTICLE SECTION (Centered Max-Width 940px)
+     ========================================================================== */
+  .editorial-content-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .editorial-inner {
+    max-width: 940px;
+  }
+
+  .editorial-block {
+    margin-bottom: 3rem;
+  }
+
+  .editorial-block h2 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 2.7vw, 1.85rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    line-height: 1.25;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.015em;
+  }
+
+  .editorial-block h3 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    line-height: 1.35;
+    margin: 1.75rem 0 0.65rem 0;
+  }
+
+  .editorial-block p {
+    font-size: clamp(0.925rem, 1.8vw, 1rem);
+    line-height: 1.75;
+    color: var(--color-text, #334155);
+    margin: 0 0 1.25rem 0;
+  }
+
+  .editorial-block p strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  .editorial-block a {
+    color: var(--color-brand, #6366f1);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+
+  .editorial-block a:hover {
+    color: #4f46e5;
+  }
+
+  .editorial-block ul, .editorial-block ol {
+    margin: 0 0 1.5rem 0;
+    padding-left: 1.35rem;
+  }
+
+  .editorial-block li {
+    font-size: clamp(0.925rem, 1.8vw, 1rem);
+    line-height: 1.7;
+    color: var(--color-text, #334155);
+    margin-bottom: 0.65rem;
+  }
+
+  .editorial-block li strong {
+    color: var(--color-text, #0f172a);
+  }
+
+  /* Formula Container */
+  .formula-display-container {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    padding: 1.25rem;
+    text-align: center;
+    margin: 1.5rem 0;
+  }
+
+  .formula-equation code {
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+    font-weight: 700;
+    color: var(--color-brand, #6366f1);
+    background: transparent;
+    font-family: monospace;
+  }
+
+  .formula-caption {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0.5rem 0 0 0 !important;
+  }
+
+  /* Editorial Data Table */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 14px;
+    border: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .editorial-data-table th {
+    background: var(--color-bg-alt, #f8fafc);
+    padding: 0.85rem 1rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table td {
+    padding: 0.85rem 1rem;
+    color: var(--color-text, #334155);
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .editorial-data-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .editorial-data-table tr:hover td {
+    background: var(--color-bg-alt, #f8fafc);
+  }
+
+  .table-footnote {
+    font-size: 0.775rem;
+    color: var(--color-text-muted, #64748b);
+    font-style: italic;
+    margin-top: -0.75rem !important;
+  }
+
+  /* Preset Comparison 3-Grid */
+  .preset-comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .preset-comparison-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .preset-card {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .preset-card.featured-preset {
+    border-color: var(--color-brand, #6366f1);
+    background: rgba(99, 102, 241, 0.03);
+    box-shadow: 0 8px 24px -8px rgba(99, 102, 241, 0.15);
+  }
+
+  .preset-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .preset-card-header h3 {
+    margin: 0;
+    font-size: 0.975rem;
+    font-weight: 700;
+  }
+
+  .preset-badge {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 6px;
+    background: var(--color-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .preset-badge.highlight {
+    background: var(--color-brand, #6366f1);
+    color: #ffffff;
+    border-color: var(--color-brand, #6366f1);
+  }
+
+  .preset-card p {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .preset-card-list {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .preset-card-list li {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    margin-bottom: 0.25rem;
+    color: var(--color-text, #0f172a);
+    font-weight: 600;
+  }
+
+  /* ==========================================================================
+     4. FAQ SECTION (Centered Max-Width 940px)
+     ========================================================================== */
+  .tool-faq-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .faq-inner {
+    max-width: 940px;
+  }
+
+  .faq-header-wrap {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .faq-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .faq-subhead {
+    font-size: 0.95rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .faq-accordion-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .faq-accordion-item {
+    background: var(--color-bg-alt, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+
+  .faq-accordion-item:hover {
+    border-color: #cbd5e1;
+  }
+
+  .faq-accordion-item[open] {
+    background: var(--color-card, #ffffff);
+    border-color: #c7d2fe;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.05);
+  }
+
+  .faq-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.15rem 1.35rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-text, #0f172a);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand, #6366f1);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 0.75rem;
+  }
+
+  .faq-accordion-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-body {
+    padding: 0 1.35rem 1.35rem 1.35rem;
+  }
+
+  .faq-body p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  /* ==========================================================================
+     5. RELATED TOOLS SECTION (4 Cards, Centered Max-Width 940px)
+     ========================================================================== */
+  .related-tools-section {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    border-top: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .related-inner {
+    max-width: 940px;
+  }
+
+  .related-header-wrap {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .related-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .related-subhead {
+    font-size: 0.95rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+  }
+
+  .related-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 600px) {
+    .related-tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .related-tool-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--color-card, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 16px;
+    padding: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .related-tool-card:hover {
+    border-color: var(--color-brand, #6366f1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.08);
+  }
+
+  .tool-card-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-brand, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .related-tool-card:hover .tool-card-icon-box {
+    transform: scale(1.08);
+  }
+
+  .tool-card-icon-box svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .tool-card-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tool-card-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.975rem;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+  }
+
+  .tool-card-desc {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tool-card-arrow {
+    width: 20px;
+    height: 20px;
+    color: var(--color-text-muted, #64748b);
+    flex-shrink: 0;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .related-tool-card:hover .tool-card-arrow {
+    color: var(--color-brand, #6366f1);
+    transform: translateX(3px);
+  }
+
+  .tool-card-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ==========================================================================
+     DARK THEME SUPPORT (:global([data-theme="dark"]))
+     ========================================================================== */
+  :global([data-theme="dark"]) .saas-tool-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+  }
+
+  :global([data-theme="dark"]) .card-header-bar,
+  :global([data-theme="dark"]) .card-divider,
+  :global([data-theme="dark"]) .player-header-bar,
+  :global([data-theme="dark"]) .tool-faq-section,
+  :global([data-theme="dark"]) .related-tools-section,
+  :global([data-theme="dark"]) .table-responsive,
+  :global([data-theme="dark"]) .editorial-data-table th,
+  :global([data-theme="dark"]) .editorial-data-table td {
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .dropzone-box {
+    background: #0f172a;
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .format-tag,
+  :global([data-theme="dark"]) .loaded-video-card,
+  :global([data-theme="dark"]) .meta-pill,
+  :global([data-theme="dark"]) .btn-reset-tool,
+  :global([data-theme="dark"]) .btn-change-video,
+  :global([data-theme="dark"]) .btn-compress-another {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f1f5f9;
+  }
+
+  :global([data-theme="dark"]) .styled-select {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f8fafc;
+  }
+
+  :global([data-theme="dark"]) .estimate-strip-box,
+  :global([data-theme="dark"]) .compression-progress-card,
+  :global([data-theme="dark"]) .result-metric-card,
+  :global([data-theme="dark"]) .compressed-player-stage,
+  :global([data-theme="dark"]) .formula-display-container,
+  :global([data-theme="dark"]) .preset-card,
+  :global([data-theme="dark"]) .faq-accordion-item {
+    background: #0f172a;
+    border-color: #334155;
+  }
+
+  :global([data-theme="dark"]) .result-metric-card.highlight-card {
+    background: linear-gradient(145deg, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.08) 100%);
+    border-color: rgba(99, 102, 241, 0.5);
+  }
+
+  :global([data-theme="dark"]) .highlight-card .metric-large-value {
+    color: #a5b4fc;
+  }
+
+  :global([data-theme="dark"]) .player-header-bar {
+    background: #1e293b;
+  }
+
+  :global([data-theme="dark"]) .editorial-data-table th {
+    background: #0f172a;
+    color: #f8fafc;
+  }
+
+  :global([data-theme="dark"]) .editorial-data-table tr:hover td {
+    background: #0f172a;
+  }
+
+  :global([data-theme="dark"]) .faq-accordion-item[open] {
+    background: #1e293b;
+    border-color: #4f46e5;
+  }
+
+  :global([data-theme="dark"]) .related-tool-card {
+    background: #1e293b;
+    border-color: #334155;
+  }
+</style>
+
+<script>
+  function initVideoCompressorForReels() {
+    // Elements
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('video-file-input');
+    const dropzonePrompt = document.getElementById('dropzone-prompt');
+    const loadedVideoCard = document.getElementById('loaded-video-card');
+    const loadedSourceVideo = document.getElementById('loaded-source-video');
+    const metaFilename = document.getElementById('meta-filename');
+    const pillFilesize = document.getElementById('pill-filesize');
+    const pillDuration = document.getElementById('pill-duration');
+    const pillResolution = document.getElementById('pill-resolution');
+    const pillAspectRatio = document.getElementById('pill-aspect-ratio');
+    const btnChangeVideo = document.getElementById('btn-change-video');
+    const uploadErrorBox = document.getElementById('upload-error-box');
+    const uploadErrorMsg = document.getElementById('upload-error-msg');
+
+    // Controls
+    const selectPreset = document.getElementById('select-preset');
+    const selectResolution = document.getElementById('select-resolution');
+    const selectAudio = document.getElementById('select-audio');
+    const selectFraming = document.getElementById('select-framing');
+    const labelEstimatedSize = document.getElementById('label-estimated-size');
+    const helperPresetText = document.getElementById('helper-preset-text');
+    const btnStartCompression = document.getElementById('btn-start-compression');
+    const btnResetAll = document.getElementById('btn-reset-all');
+
+    // Progress Elements
+    const progressCard = document.getElementById('compression-progress-card');
+    const progressPhaseTitle = document.getElementById('progress-phase-title');
+    const progressNumericPct = document.getElementById('progress-numeric-pct');
+    const progressFillBar = document.getElementById('progress-fill-bar');
+    const progressSubDetail = document.getElementById('progress-sub-detail');
+    const progressTimerDetail = document.getElementById('progress-timer-detail');
+
+    // Results Elements
+    const resultsArea = document.getElementById('compression-results-area');
+    const resCompressedSize = document.getElementById('res-compressed-size');
+    const resOriginalSize = document.getElementById('res-original-size');
+    const resSavingsPct = document.getElementById('res-savings-pct');
+    const resSavingsMb = document.getElementById('res-savings-mb');
+    const resOutputResolution = document.getElementById('res-output-resolution');
+    const resOutputFormat = document.getElementById('res-output-format');
+    const outputPlayer = document.getElementById('compressed-output-player');
+    const btnDownloadCompressed = document.getElementById('btn-download-compressed');
+    const btnCompressAnother = document.getElementById('btn-compress-another');
+
+    // State Variables
+    let currentFile = null;
+    let sourceBlobUrl = null;
+    let outputBlobUrl = null;
+    let outputDownloadName = 'reel_compressed.mp4';
+    let isProcessing = false;
+    let progressInterval = null;
+    let startTime = 0;
+
+    // Bitrate Presets in bps
+    const BITRATE_PRESETS = {
+      high: 3000000,    // 3.0 Mbps
+      balanced: 1800000,// 1.8 Mbps (Recommended for Reels)
+      smaller: 900000   // 900 Kbps
+    };
+
+    function formatBytes(bytes) {
+      if (bytes === 0 || isNaN(bytes)) return '0.00 MB';
+      const mb = bytes / (1024 * 1024);
+      return `${mb.toFixed(2)} MB`;
+    }
+
+    function formatSeconds(secs) {
+      if (isNaN(secs) || secs < 0) return '00:00';
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function showError(msg) {
+      if (uploadErrorBox && uploadErrorMsg) {
+        uploadErrorMsg.textContent = msg;
+        uploadErrorBox.style.display = 'flex';
+      }
+    }
+
+    function clearError() {
+      if (uploadErrorBox) {
+        uploadErrorBox.style.display = 'none';
+      }
+    }
+
+    function updateEstimatedSize() {
+      if (!currentFile || !loadedSourceVideo || isNaN(loadedSourceVideo.duration) || loadedSourceVideo.duration <= 0) {
+        if (labelEstimatedSize) labelEstimatedSize.textContent = 'Upload a video to calculate estimate';
+        return;
+      }
+
+      const presetKey = selectPreset ? selectPreset.value : 'balanced';
+      const targetVideoBitrate = BITRATE_PRESETS[presetKey] || 1800000;
+      const keepAudio = selectAudio ? selectAudio.value === 'keep' : true;
+      const audioBitrate = keepAudio ? 96000 : 0; // 96 kbps
+      const totalBitrateBps = targetVideoBitrate + audioBitrate;
+
+      const durationSecs = loadedSourceVideo.duration;
+      // Formula: (bits / 8) = bytes
+      const estimatedBytes = (totalBitrateBps * durationSecs) / 8;
+      const estimatedMB = estimatedBytes / (1024 * 1024);
+      const originalMB = currentFile.size / (1024 * 1024);
+      const estSavingsPct = Math.round(((originalMB - estimatedMB) / originalMB) * 100);
+
+      let savingsText = '';
+      if (estSavingsPct > 0) {
+        savingsText = ` (~${estSavingsPct}% smaller)`;
+      } else if (estSavingsPct < 0) {
+        savingsText = ' (Re-encoding source)';
+      }
+
+      if (labelEstimatedSize) {
+        labelEstimatedSize.textContent = `~${estimatedMB.toFixed(2)} MB${savingsText}`;
+      }
+    }
+
+    function handleFile(file) {
+      clearError();
+
+      if (!file) return;
+
+      // Validate video MIME type or common extensions
+      const validTypes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-m4v', 'video/mkv'];
+      const isVideo = file.type.startsWith('video/') || validTypes.includes(file.type) || /\.(mp4|mov|webm|m4v|mkv)$/i.test(file.name);
+
+      if (!isVideo) {
+        showError('Please upload a valid video file (MP4, MOV, WebM, or MKV).');
+        return;
+      }
+
+      // Memory limit sanity check (500 MB)
+      if (file.size > 500 * 1024 * 1024) {
+        showError('Video file exceeds 500 MB. To prevent browser memory exhaustion on mobile devices, please select a clip under 500 MB.');
+        return;
+      }
+
+      currentFile = file;
+
+      // Release previous source URL if any
+      if (sourceBlobUrl) {
+        URL.revokeObjectURL(sourceBlobUrl);
+      }
+      sourceBlobUrl = URL.createObjectURL(file);
+
+      // Hide results if re-uploading
+      if (resultsArea) resultsArea.style.display = 'none';
+
+      // Load metadata in hidden video element
+      if (loadedSourceVideo) {
+        loadedSourceVideo.src = sourceBlobUrl;
+        loadedSourceVideo.onloadedmetadata = () => {
+          const w = loadedSourceVideo.videoWidth || 1080;
+          const h = loadedSourceVideo.videoHeight || 1920;
+          const dur = loadedSourceVideo.duration || 0;
+
+          // Compute aspect ratio label
+          let aspectLabel = 'Standard Video';
+          const ratio = w / h;
+          if (ratio > 0.54 && ratio < 0.58) {
+            aspectLabel = '9:16 Vertical Reel (Optimal)';
+          } else if (ratio > 0.78 && ratio < 0.82) {
+            aspectLabel = '4:5 Portrait Video';
+          } else if (ratio > 0.98 && ratio < 1.02) {
+            aspectLabel = '1:1 Square Video';
+          } else if (ratio > 1.7 && ratio < 1.8) {
+            aspectLabel = '16:9 Landscape Video';
+          }
+
+          if (metaFilename) metaFilename.textContent = file.name;
+          if (pillFilesize) pillFilesize.textContent = formatBytes(file.size);
+          if (pillDuration) pillDuration.textContent = formatSeconds(dur);
+          if (pillResolution) pillResolution.textContent = `${w} × ${h}`;
+          if (pillAspectRatio) pillAspectRatio.textContent = aspectLabel;
+
+          // Adjust resolution dropdown options based on source resolution
+          if (selectResolution) {
+            const opt1080 = selectResolution.querySelector('option[value="1080"]');
+            if (opt1080) {
+              const maxDim = Math.max(w, h);
+              if (maxDim < 1080) {
+                opt1080.textContent = '1080p (Source is lower - upscaling disabled)';
+                opt1080.disabled = true;
+                if (selectResolution.value === '1080') {
+                  selectResolution.value = 'original';
+                }
+              } else {
+                opt1080.textContent = '1080p (Full HD - Meta Recommended for Reels)';
+                opt1080.disabled = false;
+              }
+            }
+          }
+
+          // Switch UI view
+          if (dropzonePrompt) dropzonePrompt.style.display = 'none';
+          if (loadedVideoCard) loadedVideoCard.style.display = 'flex';
+
+          updateEstimatedSize();
+        };
+
+        loadedSourceVideo.onerror = () => {
+          showError('Unable to read this video format in your current browser. Try converting to MP4 (H.264).');
+        };
+      }
+    }
+
+    function resetAll() {
+      currentFile = null;
+      isProcessing = false;
+
+      if (progressInterval) {
+        clearInterval(progressInterval);
+        progressInterval = null;
+      }
+
+      if (fileInput) fileInput.value = '';
+
+      if (sourceBlobUrl) {
+        URL.revokeObjectURL(sourceBlobUrl);
+        sourceBlobUrl = null;
+      }
+      if (outputBlobUrl) {
+        URL.revokeObjectURL(outputBlobUrl);
+        outputBlobUrl = null;
+      }
+
+      if (loadedSourceVideo) loadedSourceVideo.src = '';
+      if (outputPlayer) outputPlayer.src = '';
+
+      if (dropzonePrompt) dropzonePrompt.style.display = 'flex';
+      if (loadedVideoCard) loadedVideoCard.style.display = 'none';
+      if (progressCard) progressCard.style.display = 'none';
+      if (resultsArea) resultsArea.style.display = 'none';
+
+      if (btnStartCompression) {
+        btnStartCompression.disabled = false;
+        btnStartCompression.style.display = 'inline-flex';
+      }
+
+      clearError();
+      if (labelEstimatedSize) labelEstimatedSize.textContent = 'Select or upload a video';
+    }
+
+    // Drag and Drop Listeners
+    if (dropzone) {
+      dropzone.addEventListener('click', (e) => {
+        // Prevent clicking 'Change Video' from opening file picker twice
+        if (e.target && (e.target.id === 'btn-change-video' || e.target.closest('#btn-change-video'))) {
+          return;
+        }
+        if (fileInput) fileInput.click();
+      });
+
+      ['dragenter', 'dragover'].forEach((evt) => {
+        dropzone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add('dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach((evt) => {
+        dropzone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove('dragover');
+        });
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files.length > 0) {
+          handleFile(dt.files[0]);
+        }
+      });
+    }
+
+    if (fileInput) {
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files && fileInput.files.length > 0) {
+          handleFile(fileInput.files[0]);
+        }
+      });
+    }
+
+    if (btnChangeVideo) {
+      btnChangeVideo.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (fileInput) fileInput.click();
+      });
+    }
+
+    if (btnResetAll) {
+      btnResetAll.addEventListener('click', resetAll);
+    }
+
+    if (btnCompressAnother) {
+      btnCompressAnother.addEventListener('click', () => {
+        resetAll();
+        if (dropzone) dropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    }
+
+    // Settings changes update estimate
+    if (selectPreset) selectPreset.addEventListener('change', updateEstimatedSize);
+    if (selectResolution) selectResolution.addEventListener('change', updateEstimatedSize);
+    if (selectAudio) selectAudio.addEventListener('change', updateEstimatedSize);
+    if (selectFraming) selectFraming.addEventListener('change', updateEstimatedSize);
+
+    // =========================================================================
+    // HIGH-PERFORMANCE CLIENT-SIDE VIDEO COMPRESSION ENGINE
+    // =========================================================================
+    async function startCompression() {
+      if (!currentFile || !sourceBlobUrl || !loadedSourceVideo) {
+        showError('Please select or drag a video file first before compressing.');
+        return;
+      }
+
+      if (isProcessing) return;
+      isProcessing = true;
+      clearError();
+
+      // Lock UI controls
+      if (btnStartCompression) {
+        btnStartCompression.disabled = true;
+        btnStartCompression.style.display = 'none';
+      }
+      if (resultsArea) resultsArea.style.display = 'none';
+      if (progressCard) progressCard.style.display = 'flex';
+
+      // Start elapsed timer
+      startTime = Date.now();
+      if (progressInterval) clearInterval(progressInterval);
+      progressInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        if (progressTimerDetail) {
+          progressTimerDetail.textContent = `Elapsed: ${formatSeconds(elapsed)}`;
+        }
+      }, 1000);
+
+      const updateProgress = (pct, phaseText, subText) => {
+        const clamped = Math.max(0, Math.min(100, Math.round(pct)));
+        if (progressNumericPct) progressNumericPct.textContent = `${clamped}%`;
+        if (progressFillBar) progressFillBar.style.width = `${clamped}%`;
+        if (phaseText && progressPhaseTitle) progressPhaseTitle.textContent = phaseText;
+        if (subText && progressSubDetail) progressSubDetail.textContent = subText;
+      };
+
+      updateProgress(2, 'Initializing browser encoder...', 'Setting up frame buffer...');
+
+      try {
+        const video = document.createElement('video');
+        video.src = sourceBlobUrl;
+        video.crossOrigin = 'anonymous';
+        video.playsInline = true;
+        video.muted = false;
+
+        await new Promise((resolve, reject) => {
+          video.onloadedmetadata = () => resolve(true);
+          video.onerror = () => reject(new Error('Browser could not decode the source video stream.'));
+        });
+
+        const origW = video.videoWidth || 1080;
+        const origH = video.videoHeight || 1920;
+        const duration = video.duration || 1;
+
+        // Calculate Target Dimensions
+        const resChoice = selectResolution ? selectResolution.value : 'original';
+        const framingChoice = selectFraming ? selectFraming.value : 'fit';
+        let targetW = origW;
+        let targetH = origH;
+
+        if (framingChoice === 'crop916') {
+          // Force 9:16 aspect ratio
+          if (resChoice === '720') {
+            targetW = 720;
+            targetH = 1280;
+          } else if (resChoice === '480') {
+            targetW = 480;
+            targetH = 854;
+          } else {
+            targetW = 1080;
+            targetH = 1920;
+          }
+        } else {
+          // Standard proportional scale
+          if (resChoice !== 'original') {
+            const maxDim = parseInt(resChoice, 10);
+            if (origH >= origW) {
+              // Vertical or square
+              if (origH > maxDim) {
+                const ratio = origW / origH;
+                targetH = maxDim;
+                targetW = Math.round(maxDim * ratio);
+              }
+            } else {
+              // Landscape
+              if (origW > maxDim) {
+                const ratio = origH / origW;
+                targetW = maxDim;
+                targetH = Math.round(maxDim * ratio);
+              }
+            }
+          }
+        }
+
+        // Encoders require even dimensions
+        targetW = targetW - (targetW % 2);
+        targetH = targetH - (targetH % 2);
+        if (targetW < 120) targetW = 120;
+        if (targetH < 120) targetH = 120;
+
+        // Determine Bitrate
+        const presetKey = selectPreset ? selectPreset.value : 'balanced';
+        const targetVideoBitrate = BITRATE_PRESETS[presetKey] || 1800000;
+        const keepAudio = selectAudio ? selectAudio.value === 'keep' : true;
+
+        updateProgress(8, 'Configuring canvas and audio pipeline...', `Resolution: ${targetW}×${targetH}`);
+
+        // Setup Offscreen Canvas
+        const canvas = document.createElement('canvas');
+        canvas.width = targetW;
+        canvas.height = targetH;
+        const ctx = canvas.getContext('2d', { alpha: false });
+        if (!ctx) throw new Error('HTML5 Canvas 2D context creation failed.');
+
+        // 30 FPS Stream
+        const stream = canvas.captureStream(30);
+
+        // Audio Stream Integration
+        let audioContext = null;
+        let audioConnected = false;
+
+        if (keepAudio) {
+          try {
+            const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtxClass) {
+              audioContext = new AudioCtxClass();
+              if (audioContext.state === 'suspended') {
+                await audioContext.resume();
+              }
+              const sourceNode = audioContext.createMediaElementSource(video);
+              const destinationNode = audioContext.createMediaStreamDestination();
+              sourceNode.connect(destinationNode);
+              const tracks = destinationNode.stream.getAudioTracks();
+              if (tracks && tracks.length > 0) {
+                stream.addTrack(tracks[0]);
+                audioConnected = true;
+              }
+            }
+          } catch (audioErr) {
+            console.warn('Audio capture warning (falling back to video track only):', audioErr);
+          }
+        }
+
+        // Determine Best Supported MIME Type
+        let chosenMime = 'video/webm';
+        let extension = 'webm';
+
+        // Check for MP4 support (Safari, modern Chromium)
+        if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported) {
+          if (MediaRecorder.isTypeSupported('video/mp4;codecs=avc1,mp4a.40.2')) {
+            chosenMime = 'video/mp4;codecs=avc1,mp4a.40.2';
+            extension = 'mp4';
+          } else if (MediaRecorder.isTypeSupported('video/mp4')) {
+            chosenMime = 'video/mp4';
+            extension = 'mp4';
+          } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')) {
+            chosenMime = 'video/webm;codecs=vp9,opus';
+            extension = 'webm';
+          } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')) {
+            chosenMime = 'video/webm;codecs=vp8,opus';
+            extension = 'webm';
+          }
+        }
+
+        const recorderOptions = {
+          mimeType: chosenMime,
+          videoBitsPerSecond: targetVideoBitrate
+        };
+        if (audioConnected) {
+          recorderOptions.audioBitsPerSecond = 96000;
+        }
+
+        const recorder = new MediaRecorder(stream, recorderOptions);
+        const recordedChunks = [];
+
+        recorder.ondataavailable = (e) => {
+          if (e.data && e.data.size > 0) {
+            recordedChunks.push(e.data);
+          }
+        };
+
+        // Render Loop
+        let isEnded = false;
+        video.currentTime = 0;
+
+        recorder.start(100);
+        await video.play();
+
+        const renderFrame = () => {
+          if (isEnded) return;
+
+          // Handle Center Crop 9:16 or Proportional Fit
+          if (framingChoice === 'crop916' && origW / origH !== targetW / targetH) {
+            const sourceRatio = origW / origH;
+            const targetRatio = targetW / targetH;
+            let sx = 0, sy = 0, sw = origW, sh = origH;
+
+            if (sourceRatio > targetRatio) {
+              // Source is wider: crop horizontal sides
+              sw = origH * targetRatio;
+              sx = (origW - sw) / 2;
+            } else {
+              // Source is taller: crop vertical top/bottom
+              sh = origW / targetRatio;
+              sy = (origH - sh) / 2;
+            }
+            ctx.drawImage(video, sx, sy, sw, sh, 0, 0, targetW, targetH);
+          } else {
+            // Standard fill
+            ctx.drawImage(video, 0, 0, targetW, targetH);
+          }
+
+          const pct = Math.min(98, Math.round((video.currentTime / duration) * 100));
+          updateProgress(pct, `Compressing video frames... (${pct}%)`, `Encoding at ${Math.round(targetVideoBitrate / 1000)} Kbps`);
+
+          if (!video.paused && !video.ended) {
+            requestAnimationFrame(renderFrame);
+          }
+        };
+
+        requestAnimationFrame(renderFrame);
+
+        // Wait for video completion
+        await new Promise((resolve) => {
+          video.onended = () => {
+            isEnded = true;
+            recorder.stop();
+            resolve(true);
+          };
+          // Fallback timer if onended is delayed
+          setTimeout(() => {
+            if (!isEnded) {
+              isEnded = true;
+              if (recorder.state === 'recording') recorder.stop();
+              resolve(true);
+            }
+          }, (duration + 2) * 1000);
+        });
+
+        // Wait for MediaRecorder to stop
+        await new Promise((resolve) => {
+          recorder.onstop = () => resolve(true);
+        });
+
+        if (audioContext) {
+          try {
+            await audioContext.close();
+          } catch (e) {
+            // Ignore close errors
+          }
+        }
+
+        updateProgress(100, 'Finalizing output file...', 'Assembling video chunks...');
+
+        // Finalize Output Blob
+        const outputBlob = new Blob(recordedChunks, { type: chosenMime });
+
+        if (outputBlob.size === 0) {
+          throw new Error('Video compression failed to produce data. Please retry with Balanced settings.');
+        }
+
+        if (outputBlobUrl) {
+          URL.revokeObjectURL(outputBlobUrl);
+        }
+        outputBlobUrl = URL.createObjectURL(outputBlob);
+
+        // Set download name
+        const cleanName = currentFile.name.replace(/\.[^/.]+$/, '');
+        outputDownloadName = `reel_compressed_${cleanName}.${extension}`;
+
+        // Calculate Stats
+        const originalBytes = currentFile.size;
+        const compressedBytes = outputBlob.size;
+        const diffBytes = originalBytes - compressedBytes;
+        const savingsPct = Math.round((diffBytes / originalBytes) * 100);
+
+        // Populate Result Cards
+        if (resCompressedSize) resCompressedSize.textContent = formatBytes(compressedBytes);
+        if (resOriginalSize) resOriginalSize.textContent = formatBytes(originalBytes);
+        if (resOutputResolution) resOutputResolution.textContent = `${targetW} × ${targetH}`;
+        if (resOutputFormat) resOutputFormat.textContent = `${extension.toUpperCase()} • ${framingChoice === 'crop916' ? '9:16 Vertical Reel' : 'Proportional Fit'}`;
+
+        if (resSavingsPct && resSavingsMb) {
+          if (savingsPct > 0) {
+            resSavingsPct.textContent = `-${savingsPct}%`;
+            resSavingsPct.style.color = '#059669';
+            resSavingsMb.textContent = `${formatBytes(diffBytes)} saved`;
+          } else {
+            resSavingsPct.textContent = `+${Math.abs(savingsPct)}%`;
+            resSavingsPct.style.color = 'var(--color-text-muted)';
+            resSavingsMb.textContent = 'High-bitrate re-encode';
+          }
+        }
+
+        // Preview Player
+        if (outputPlayer) {
+          outputPlayer.src = outputBlobUrl;
+        }
+
+        // Stop progress timer
+        if (progressInterval) {
+          clearInterval(progressInterval);
+          progressInterval = null;
+        }
+
+        // Switch UI to Results
+        if (progressCard) progressCard.style.display = 'none';
+        if (resultsArea) {
+          resultsArea.style.display = 'flex';
+          resultsArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        isProcessing = false;
+        if (btnStartCompression) {
+          btnStartCompression.disabled = false;
+          btnStartCompression.style.display = 'inline-flex';
+        }
+
+      } catch (err) {
+        console.error('Compression failure:', err);
+        isProcessing = false;
+        if (progressInterval) {
+          clearInterval(progressInterval);
+          progressInterval = null;
+        }
+        if (progressCard) progressCard.style.display = 'none';
+        if (btnStartCompression) {
+          btnStartCompression.disabled = false;
+          btnStartCompression.style.display = 'inline-flex';
+        }
+        showError(`Compression Error: ${err.message || 'Unable to compress video. Try choosing Balanced preset or converting input to MP4.'}`);
+      }
+    }
+
+    if (btnStartCompression) {
+      btnStartCompression.addEventListener('click', startCompression);
+    }
+
+    // Download Handler
+    if (btnDownloadCompressed) {
+      btnDownloadCompressed.addEventListener('click', () => {
+        if (!outputBlobUrl) return;
+        const a = document.createElement('a');
+        a.href = outputBlobUrl;
+        a.download = outputDownloadName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    }
+  }
+
+  // Handle both DOM load and Astro view transitions
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initVideoCompressorForReels);
+  } else {
+    initVideoCompressorForReels();
+  }
+
+  document.addEventListener('astro:after-swap', initVideoCompressorForReels);
+</script>
