@@ -31,14 +31,31 @@ const {
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-VH06W9LNLJ"></script>
+    <!-- Preload Critical Self-Hosted Fonts for Immediate Text Rendering -->
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Google tag (gtag.js) - Deferred loading to eliminate long main-thread tasks -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', 'G-VH06W9LNLJ');
+      function initGtag() {
+        if (window._gtagInitialized) return;
+        window._gtagInitialized = true;
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VH06W9LNLJ';
+        document.head.appendChild(s);
+        gtag('config', 'G-VH06W9LNLJ');
+      }
+
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(initGtag, { timeout: 3000 });
+      } else {
+        window.addEventListener('load', () => setTimeout(initGtag, 1500));
+      }
     </script>
 
     <!-- SEO & Metadata -->

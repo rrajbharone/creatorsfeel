@@ -4,7 +4,12 @@
 
 <div class="hero-illustration-wrapper" aria-hidden="true">
   <picture>
-    <source srcset="/images/hero-creator@2x.webp 2x, /images/hero-creator.webp 1x" type="image/webp" />
+    <!-- Mobile Screen: 480w AVIF & WebP (max-width: 640px) -->
+    <source media="(max-width: 640px)" srcset="/images/hero-creator-480.avif" type="image/avif" />
+    <source media="(max-width: 640px)" srcset="/images/hero-creator-480.webp" type="image/webp" />
+    <!-- Desktop / Tablet Screen: AVIF & WebP (min-width: 641px) -->
+    <source media="(min-width: 641px)" srcset="/images/hero-creator-720.avif 1x, /images/hero-creator-980.avif 2x" type="image/avif" />
+    <source media="(min-width: 641px)" srcset="/images/hero-creator.webp 1x, /images/hero-creator@2x.webp 2x" type="image/webp" />
     <img
       src="/images/hero-creator.webp"
       alt="Creator wearing purple hoodie working on laptop with camera, studio plant, and social media tools"
@@ -13,7 +18,7 @@
       class="hero-creator-img"
       loading="eager"
       fetchpriority="high"
-      decoding="async"
+      decoding="sync"
     />
   </picture>
 </div>
@@ -42,6 +47,13 @@
 
   :global([data-theme="dark"]) .hero-creator-img {
     filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.45)) drop-shadow(0 4px 14px rgba(99, 102, 241, 0.15));
+  }
+
+  @media (max-width: 640px) {
+    .hero-creator-img,
+    :global([data-theme="dark"]) .hero-creator-img {
+      filter: none;
+    }
   }
 
   @media (hover: hover) {

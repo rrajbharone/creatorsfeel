@@ -1,2 +1,20 @@
 https://creatorsfeel.pages.dev/*
   X-Robots-Tag: noindex
+
+# 1. Immutable caching for fingerprinted static assets (Astro hashed bundles)
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 2. Long-term caching for static fonts, images, and icons with revalidation
+/fonts/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+/images/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+/favicon.*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# 3. HTML pages: safe revalidation so updates and deploys are immediate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+/*
+  Cache-Control: public, max-age=0, must-revalidate

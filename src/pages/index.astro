@@ -173,6 +173,11 @@ const breadcrumbs = [{ name: 'Home', item: '/' }];
   canonicalUrl="https://creatorsfeel.com"
   hideGlow={true}
 >
+  <Fragment slot="meta">
+    <link rel="preload" as="image" href="/images/hero-creator-480.avif" type="image/avif" media="(max-width: 640px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/hero-creator-720.avif" type="image/avif" media="(min-width: 641px)" fetchpriority="high" />
+  </Fragment>
+
   <!-- 1. HERO SECTION (Matching Reference) -->
   <section class="hero-section">
     <div class="container hero-container">
@@ -1585,10 +1590,21 @@ const breadcrumbs = [{ name: 'Home', item: '/' }];
     if (!input || !dropdown || !resultsContainer || !searchDataScript) return;
 
     let tools: SearchItem[] = [];
-    try {
-      tools = JSON.parse(searchDataScript.textContent || '[]');
-    } catch {
-      tools = [];
+    let toolsLoaded = false;
+    const loadTools = () => {
+      if (toolsLoaded) return;
+      toolsLoaded = true;
+      try {
+        tools = JSON.parse(searchDataScript.textContent || '[]');
+      } catch {
+        tools = [];
+      }
+    };
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadTools);
+    } else {
+      setTimeout(loadTools, 1500);
     }
 
     let selectedIndex = -1;
@@ -1752,6 +1768,7 @@ const breadcrumbs = [{ name: 'Home', item: '/' }];
     };
 
     const handleSearch = () => {
+      loadTools();
       const q = input.value.trim();
       if (!q) {
         dropdown.classList.add('hidden');
@@ -1765,6 +1782,7 @@ const breadcrumbs = [{ name: 'Home', item: '/' }];
     input.addEventListener('input', handleSearch);
 
     input.addEventListener('focus', () => {
+      loadTools();
       if (input.value.trim()) {
         handleSearch();
       }
