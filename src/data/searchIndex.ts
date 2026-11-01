@@ -188,6 +188,17 @@ export const searchIndex: SearchTool[] = [
     "keywords": "image dimensions checker image & video image tools tool media file format width height resolution pixels image size"
   },
   {
+    "title": "Image Ratio Changer",
+    "href": "/tools/image-ratio-changer",
+    "desc": "Change photo aspect ratio to 16:9, 1:1, 4:5, 9:16 with crop or fit.",
+    "badge": "Image & Video",
+    "categoryKey": "image",
+    "categoryName": "Image Tools",
+    "iconBg": "#10b981",
+    "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\" ry=\"2\"/><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M3 9h18M9 21V9\" /></svg>",
+    "keywords": "image ratio changer aspect ratio change crop to fit fit without cropping 16:9 1:1 4:5 9:16 resize photo proportions image & video image tools tool"
+  },
+  {
     "title": "Image Splitter",
     "href": "/tools/image-splitter",
     "desc": "Split images into grid tiles for Instagram.",

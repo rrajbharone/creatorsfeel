@@ -39,6 +39,7 @@ export const GET: APIRoute = async (context) => {
     '/tools/video-compressor',
     '/tools/video-compressor-for-reels',
     '/tools/image-dimensions-checker',
+    '/tools/image-ratio-changer',
     '/tools/tiktok-hook-generator',
     '/tools/image-splitter',
     '/tools/heic-to-webp-converter',
